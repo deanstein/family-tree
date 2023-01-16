@@ -9,7 +9,7 @@
 </main>
 
 <style>
-  .siblingsContainer {
+  .row {
     display: flex;
     background-color: lightgray;
   }

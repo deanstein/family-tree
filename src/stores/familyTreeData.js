@@ -33,8 +33,6 @@ const people = [
   },
 ]
 
-const siblingSets = [];
-
 familyTreeData['activePerson'] = activePerson
 familyTreeData['people'] = people
 
