@@ -1,16 +1,15 @@
 <script>
-  import familyTreeData from ".././stores/familyTreeData";
 </script>
 
 <main>
-  <div id='row' class='row'>
-    <slot></slot>
-  </div>
+	<div id="row" class="row">
+		<slot />
+	</div>
 </main>
 
 <style>
-  .row {
-    display: flex;
-    background-color: lightgray;
-  }
+	.row {
+		display: flex;
+		background-color: lightgray;
+	}
 </style>
