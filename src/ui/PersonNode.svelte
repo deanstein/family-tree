@@ -1,5 +1,7 @@
 <script>
-	export let personData = undefined;
+	export let personData;
+
+  console.log(personData)
 </script>
 
 <main>
