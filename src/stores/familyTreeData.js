@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 const familyTreeData = {};
 const defaultPerson = {
 	name: 'John Doe',
-	bithdate: 'unspecified',
+	birthdate: 'unspecified',
 	parents: [],
 	siblings: [],
 	activeSpouses: [],
@@ -13,7 +13,7 @@ const activePerson = {};
 const people = [
 	{
 		name: 'Kendall Roy',
-		bithdate: '3/15/1975',
+		birthdate: '3/15/1975',
 		parents: ['Logan Roy', 'Carolne Collingwood'],
 		siblings: ['Connor Roy', 'Roman Roy', 'Siobhan Roy'],
 		activeSpouses: ['Naomi Pierce'],
@@ -21,7 +21,7 @@ const people = [
 	},
 	{
 		name: 'Roman Roy',
-		bithdate: '3/15/1975',
+		birthdate: '3/15/1975',
 		parents: ['Logan Roy', 'Carolne Collingwood'],
 		siblings: ['Connor Roy', 'Kendall Roy', 'Siobhan Roy'],
 		activeSpouses: [],
@@ -29,7 +29,7 @@ const people = [
 	},
 	{
 		name: 'Connor Roy',
-		bithdate: '8/10/1968',
+		birthdate: '8/10/1968',
 		parents: ['Logan Roy', 'FNU LNU'],
 		siblings: ['Kendall Roy', 'Roman Roy', 'Siobhan Roy'],
 		activeSpouses: ['Willa LNU'],

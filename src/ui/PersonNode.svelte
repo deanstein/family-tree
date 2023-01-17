@@ -1,4 +1,5 @@
 <script>
+	import { slide } from 'svelte/transition';
 	import familyTreeData from '../stores/familyTreeData';
 	import { setActivePerson } from '../logic/personManagement';
 	export let personData;
@@ -15,6 +16,7 @@
 		class="person-node"
 		on:click={switchActivePerson}
 		on:keydown={switchActivePerson}
+		transition:slide
 	>
 		{personData.name}
 	</div>

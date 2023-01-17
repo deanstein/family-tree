@@ -1,21 +1,25 @@
 <script>
+	import familyTreeData from '../stores/familyTreeData';
 	import PersonNode from './PersonNode.svelte';
 	import { findPersonByName } from '../logic/personManagement';
 	export let personNodeGroupData;
 
-	// convert a name to a person if necessary
-	for (let i = 0; i < personNodeGroupData.groupMembers.length; i++) {
-		if (
-			personNodeGroupData.groupMembers[i] &&
-			typeof personNodeGroupData.groupMembers[i] === 'string' &&
-			personNodeGroupData.groupMembers[i].constructor === String
-		) {
-			personNodeGroupData.groupMembers[i] = findPersonByName(
-				personNodeGroupData.groupMembers[i],
-				true
-			);
+	familyTreeData.subscribe((currentValue) => {
+		console.log(personNodeGroupData.groupMembers);
+		// convert a name to a person if necessary
+		for (let i = 0; i < personNodeGroupData.groupMembers.length; i++) {
+			if (
+				personNodeGroupData.groupMembers[i] &&
+				typeof personNodeGroupData.groupMembers[i] === 'string' &&
+				personNodeGroupData.groupMembers[i].constructor === String
+			) {
+				personNodeGroupData.groupMembers[i] = findPersonByName(
+					personNodeGroupData.groupMembers[i],
+					true
+				);
+			}
 		}
-	}
+	});
 </script>
 
 <main>
