@@ -1,7 +1,7 @@
 <script>
 	export let personData;
 
-  console.log(personData)
+	console.log(personData);
 </script>
 
 <main>

@@ -1,16 +1,15 @@
 <script>
 	import familyTreeData from './stores/familyTreeData';
 
-  import { setActivePerson } from './logic/personManagement';
+	import { setActivePerson } from './logic/personManagement';
 
 	import PersonNode from './ui/PersonNode.svelte';
-  import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
+	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
 	import Row from './ui/Row.svelte';
 
-  if ($familyTreeData.activePerson = {})
-  {
-    setActivePerson($familyTreeData.people[0])
-  }
+	if (($familyTreeData.activePerson = {})) {
+		setActivePerson($familyTreeData.people[0]);
+	}
 </script>
 
 <main>
@@ -21,13 +20,13 @@
 
 		<div id="siblings-spouses-row" class="siblings-spouses-row">
 			<Row>
-        <PersonNode personData={$familyTreeData.activePerson}/>
-        <PersonNodeGroup personNodeGroupData={
-          {
-            groupName: 'Sibings',
-            groupMembers: $familyTreeData.activePerson.siblings
-          }
-        }/>
+				<PersonNode personData={$familyTreeData.activePerson} />
+				<PersonNodeGroup
+					personNodeGroupData={{
+						groupName: 'Sibings',
+						groupMembers: $familyTreeData.activePerson.siblings
+					}}
+				/>
 			</Row>
 		</div>
 
