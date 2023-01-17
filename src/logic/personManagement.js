@@ -17,6 +17,8 @@ export const findPersonByName = (name, bAddIfNotFound) => {
 			if (name == person.name) {
 				matchingPerson = person;
 			}
+
+			return matchingPerson;
 		});
 
 		if (matchingPerson == undefined && bAddIfNotFound) {
@@ -26,6 +28,7 @@ export const findPersonByName = (name, bAddIfNotFound) => {
 		}
 	});
 
+	console.log(matchingPerson);
 	return matchingPerson;
 };
 

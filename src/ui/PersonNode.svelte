@@ -1,9 +1,21 @@
 <script>
+	import familyTreeData from '../stores/familyTreeData';
+	import { setActivePerson } from '../logic/personManagement';
 	export let personData;
+
+	const switchActivePerson = () => {
+		setActivePerson(personData);
+		///console.log($familyTreeData.activePerson)
+	};
 </script>
 
 <main>
-	<div id="person-node" class="person-node">
+	<div
+		id="person-node"
+		class="person-node"
+		on:click={switchActivePerson}
+		on:keydown={switchActivePerson}
+	>
 		{personData.name}
 	</div>
 </main>
