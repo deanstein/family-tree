@@ -10,7 +10,7 @@ export const setActivePerson = (person) => {
 };
 
 export const findPersonByName = (name, bAddIfNotFound) => {
-	let matchingPerson = {};
+	let matchingPerson = undefined;
 
 	familyTreeData.subscribe((currentValue) => {
 		currentValue.people.forEach((person) => {
