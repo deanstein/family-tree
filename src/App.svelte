@@ -6,6 +6,7 @@
 	import PersonNode from './ui/PersonNode.svelte';
 	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
 	import Row from './ui/Row.svelte';
+	import StoreView from './ui/StoreView.svelte';
 
 	if (($familyTreeData.activePerson = {})) {
 		setActivePerson($familyTreeData.people[0]);
@@ -33,6 +34,8 @@
 		<div id="children-row" class="children-row">
 			<Row />
 		</div>
+
+		<StoreView />
 	</div>
 </main>
 

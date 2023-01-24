@@ -1,35 +1,34 @@
 import familyTreeData from '../stores/familyTreeData';
 
 export const setActivePerson = (person) => {
-	const { siblings } = person
-    const siblingsObjs = []
-	siblings.forEach(siblingId => {
-		const person = findPersonById(siblingId)
+	const { siblings } = person;
+	const siblingsObjs = [];
+	siblings.forEach((siblingId) => {
+		const person = findPersonById(siblingId);
 		if (person) {
-			siblingsObjs.push(person)
+			siblingsObjs.push(person);
 		}
-	})
+	});
 
-	console.log(siblingsObjs)
+	console.log(siblingsObjs);
 
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
-			activePerson: {...person, siblings : siblingsObjs}
+			activePerson: { ...person, siblings: siblingsObjs }
 		};
 	});
 };
 
 export const findPersonById = (id) => {
+	let person = undefined;
 
-	let person = undefined
+	familyTreeData.subscribe((currentValue) => {
+		const { people } = currentValue;
+		person = people.find((item) => item.id === id);
+	});
 
-	familyTreeData.subscribe((currentValue) => { 
-		const { people } = currentValue
-		person = people.find(item => item.id === id)
-	})
-
-	return person
+	return person;
 };
 
 export const addPersonToKnownPeople = (person) => {
