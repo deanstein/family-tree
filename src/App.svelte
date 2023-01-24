@@ -11,6 +11,8 @@
 	if (($familyTreeData.activePerson = {})) {
 		setActivePerson($familyTreeData.people[0]);
 	}
+
+	let typicalRowHeight = '30vh';
 </script>
 
 <main>
@@ -20,14 +22,14 @@
 		</div>
 
 		<div id="siblings-spouses-row" class="siblings-spouses-row">
-			<Row>
-				<PersonNode personData={$familyTreeData.activePerson} />
+			<Row numberOfColumns=3 rowHeight={typicalRowHeight}>
 				<PersonNodeGroup
 					personNodeGroupData={{
 						groupName: 'Sibings',
 						groupMembers: $familyTreeData.activePerson.siblings
 					}}
 				/>
+				<PersonNode personData={$familyTreeData.activePerson} />
 			</Row>
 		</div>
 

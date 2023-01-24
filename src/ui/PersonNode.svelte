@@ -25,8 +25,9 @@
 <style>
 	.person-node {
 		margin: 10px;
-		background-color: orange;
 		height: 150px;
 		width: 150px;
+		text-align: center;
+		background-color: orange;
 	}
 </style>
