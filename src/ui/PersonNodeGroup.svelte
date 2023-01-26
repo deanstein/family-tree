@@ -7,20 +7,36 @@
 </script>
 
 <main>
-	<div id="person-node-group" class="person-node-group">
-		{personNodeGroupData.groupName}
-		{#each personNodeGroupData.groupMembers as { person }, i}
-			<PersonNode personData={personNodeGroupData.groupMembers[i]} />
-		{/each}
+	<div id="person-node-group-outer-container" class="person-node-group-outer-container">
+		<div id='person-node-group-title' class='person-node-group-title'>{personNodeGroupData.groupName}</div>
+		<div id='person-node-group-interior-container' class='person-node-group-inner-container'>
+			{#each personNodeGroupData.groupMembers as { person }, i}
+				<PersonNode personData={personNodeGroupData.groupMembers[i]} />
+			{/each}
+		</div>
 	</div>
 </main>
 
 <style>
-	.person-node-group {
+	.person-node-group-outer-container {
+		display: block;
+		margin: 10px;
+		background-color: lightblue;
+	}
+
+	.person-node-group-inner-container {
 		display: flex;
 		margin: 10px;
 		background-color: lightblue;
-		height: 150px;
-		width: 150px;
+	}
+
+	.person-node-group-title {
+		vertical-align: middle;
+		align-items: center;
+		justify-content: center;
+		display: inline-flex;
+		width: 100%;
+		height: 4vh;
+		background-color: darkgray;
 	}
 </style>
