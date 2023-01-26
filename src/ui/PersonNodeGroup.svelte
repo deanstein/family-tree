@@ -1,6 +1,9 @@
 <script>
 	import PersonNode from './PersonNode.svelte';
-	export let personNodeGroupData;
+	export let personNodeGroupData = {
+		groupName: 'A Group of People',
+		groupMembers: ['John', 'Jane', 'Jim']
+	}
 </script>
 
 <main>

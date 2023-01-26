@@ -5,24 +5,26 @@
 
 	import PersonNode from './ui/PersonNode.svelte';
 	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
-	import Row from './ui/Row.svelte';
+	import GenerationRow from './ui/GenerationRow.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
 	if (($familyTreeData.activePerson = {})) {
 		setActivePerson($familyTreeData.people[0]);
 	}
 
-	let typicalRowHeight = '30vh';
+	let nGenerationsUp = 2;
+	let nGenerationsDown = 1;
+	let generationRowHeight = (100 / (nGenerationsDown + nGenerationsUp + 1) + 'vh');
 </script>
 
 <main>
 	<div id="tree-canvas">
 		<div id="parents-row" class="parents-row">
-			<Row />
+			<GenerationRow />
 		</div>
 
 		<div id="siblings-spouses-row" class="siblings-spouses-row">
-			<Row numberOfColumns=3 rowHeight={typicalRowHeight}>
+			<GenerationRow numberOfColumns=3 rowHeight={generationRowHeight}>
 				<PersonNodeGroup
 					personNodeGroupData={{
 						groupName: 'Sibings',
@@ -30,11 +32,11 @@
 					}}
 				/>
 				<PersonNode personData={$familyTreeData.activePerson} />
-			</Row>
+			</GenerationRow>
 		</div>
 
 		<div id="children-row" class="children-row">
-			<Row />
+			<GenerationRow />
 		</div>
 
 		<StoreView />
