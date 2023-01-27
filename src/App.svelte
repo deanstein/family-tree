@@ -20,11 +20,18 @@
 <main>
 	<div id="tree-canvas">
 		<div id="parents-row" class="parents-row">
-			<GenerationRow />
+			<GenerationRow>
+				<PersonNodeGroup
+				personNodeGroupData={{
+					groupName: 'Parents',
+					groupMembers: $familyTreeData.activePerson.parents
+				}}
+				/>
+			</GenerationRow>
 		</div>
 
 		<div id="siblings-spouses-row" class="siblings-spouses-row">
-			<GenerationRow numberOfColumns=3 rowHeight={generationRowHeight}>
+			<GenerationRow numberOfColumns={3} rowHeight={generationRowHeight}>
 				<PersonNodeGroup
 					personNodeGroupData={{
 						groupName: 'Sibings',
@@ -50,5 +57,10 @@
 
 	:global(body) {
 		margin: 0;
+	}
+
+	.tree-canvas {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

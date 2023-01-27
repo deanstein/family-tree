@@ -19,14 +19,14 @@
 
 <style>
 	.person-node-group-outer-container {
-		display: block;
+		display: flex;
+		flex-direction: column;
 		margin: 10px;
 		background-color: lightblue;
 	}
 
 	.person-node-group-inner-container {
 		display: flex;
-		margin: 10px;
 		background-color: lightblue;
 	}
 
