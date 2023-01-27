@@ -18,8 +18,8 @@
 </script>
 
 <main>
-	<div id="tree-canvas">
-		<div id="parents-row" class="parents-row">
+	<div id="tree-canvas" class='tree-canvas'>
+		<div id='parents-row"=' class='parents-row'>
 			<GenerationRow>
 				<PersonNodeGroup
 				personNodeGroupData={{
@@ -31,7 +31,7 @@
 		</div>
 
 		<div id="siblings-spouses-row" class="siblings-spouses-row">
-			<GenerationRow numberOfColumns={3} rowHeight={generationRowHeight}>
+			<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
 				<PersonNodeGroup
 					personNodeGroupData={{
 						groupName: 'Sibings',
@@ -60,7 +60,8 @@
 	}
 
 	.tree-canvas {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		gap: 2vh;
+		padding: 2vh;
 	}
 </style>
