@@ -14,18 +14,18 @@
 
 	let nGenerationsUp = 2;
 	let nGenerationsDown = 1;
-	let generationRowHeight = (100 / (nGenerationsDown + nGenerationsUp + 1) + 'vh');
+	let generationRowHeight = 100 / (nGenerationsDown + nGenerationsUp + 1) + 'vh';
 </script>
 
 <main>
-	<div id="tree-canvas" class='tree-canvas'>
-		<div id='parents-row"=' class='parents-row'>
+	<div id="tree-canvas" class="tree-canvas">
+		<div id="parents-row"=" class="parents-row">
 			<GenerationRow>
 				<PersonNodeGroup
-				personNodeGroupData={{
-					groupName: 'Parents',
-					groupMembers: $familyTreeData.activePerson.parents
-				}}
+					personNodeGroupData={{
+						groupName: 'Parents',
+						groupMembers: $familyTreeData.activePerson.parents
+					}}
 				/>
 			</GenerationRow>
 		</div>
