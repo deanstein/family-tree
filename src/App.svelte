@@ -18,42 +18,43 @@
 </script>
 
 <main>
-	<div id="tree-canvas" class="tree-canvas">
-		<div id="upper-generation-section" class="upper-generation-section">
-			<GenerationRow>
-				<div></div>
-				<PersonNodeGroup
-					personNodeGroupData={{
-						groupName: 'Parents',
-						groupMembers: $familyTreeData.activePerson.parents
-					}}
-				/>
-			</GenerationRow>
+	<div id='app-container' class='app-container'>
+		<div id="tree-canvas" class="tree-canvas">
+			<div id="upper-generation-section" class="upper-generation-section">
+				<GenerationRow>
+					<div></div>
+					<PersonNodeGroup
+						personNodeGroupData={{
+							groupName: 'Parents',
+							groupMembers: $familyTreeData.activePerson.parents
+						}}
+					/>
+				</GenerationRow>
+			</div>
+	
+			<div id="siblings-generation-section" class="siblings-generation-section">
+				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
+					<PersonNodeGroup
+						personNodeGroupData={{
+							groupName: 'Sibings',
+							groupMembers: $familyTreeData.activePerson.siblings
+						}}
+					/>
+					<PersonNode personData={$familyTreeData.activePerson} />
+				</GenerationRow>
+			</div>
+	
+			<div id="lower-generation-section" class="lower-generation-section">
+				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
+					<PersonNodeGroup
+						personNodeGroupData={{
+							groupName: 'Children',
+							groupMembers: $familyTreeData.activePerson.siblings
+						}}
+					/>
+				</GenerationRow>
+			</div>
 		</div>
-
-		<div id="siblings-generation-section" class="siblings-generation-section">
-			<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
-				<PersonNodeGroup
-					personNodeGroupData={{
-						groupName: 'Sibings',
-						groupMembers: $familyTreeData.activePerson.siblings
-					}}
-				/>
-				<PersonNode personData={$familyTreeData.activePerson} />
-			</GenerationRow>
-		</div>
-
-		<div id="lower-generation-section" class="lower-generation-section">
-			<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
-				<PersonNodeGroup
-					personNodeGroupData={{
-						groupName: 'Children',
-						groupMembers: $familyTreeData.activePerson.siblings
-					}}
-				/>
-			</GenerationRow>
-		</div>
-
 		<StoreView />
 	</div>
 </main>
@@ -66,6 +67,11 @@
 
 	:global(body) {
 		margin: 0;
+	}
+
+	.app-container {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.tree-canvas {
