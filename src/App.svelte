@@ -49,7 +49,7 @@
 					<PersonNodeGroup
 						personNodeGroupData={{
 							groupName: 'Children',
-							groupMembers: $familyTreeData.activePerson.siblings
+							groupMembers: $familyTreeData.activePerson.children
 						}}
 					/>
 				</GenerationRow>

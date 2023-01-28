@@ -9,7 +9,8 @@ const defaultPerson = {
 	parents: [],
 	siblings: [],
 	activeSpouses: [],
-	exSpouses: []
+	exSpouses: [],
+	children: []
 };
 const activePerson = {};
 const people = [
@@ -20,7 +21,8 @@ const people = [
 		parents: ['Logan Roy', 'Carolne Collingwood'],
 		siblings: [4, 3, 5],
 		activeSpouses: ['Naomi Pierce'],
-		exSpouses: ['Rava Roy']
+		exSpouses: ['Rava Roy'],
+		children: []
 	},
 	{
 		id: 3,

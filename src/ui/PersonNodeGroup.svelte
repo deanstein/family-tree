@@ -1,5 +1,6 @@
 <script>
 	import PersonNode from './PersonNode.svelte';
+	import PersonAdd from './PersonAdd.svelte';
 	export let personNodeGroupData = {
 		groupName: 'A Group of People',
 		groupMembers: ['John', 'Jane', 'Jim']
@@ -12,6 +13,9 @@
 		{personNodeGroupData.groupName}
 	</div>
 	<div id="person-node-group-interior-container" class="person-node-group-inner-container">
+		{#if personNodeGroupData.groupMembers.length == 0}
+			<PersonAdd />
+		{/if}
 		{#each personNodeGroupData.groupMembers as { person }, i}
 			<PersonNode personData={personNodeGroupData.groupMembers[i]} />
 		{/each}
