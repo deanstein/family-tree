@@ -24,9 +24,8 @@
 
 <style>
 	.person-node {
-		margin: 10px;
-		height: 150px;
-		width: 150px;
+		height: 15vh;
+		width: 15vh;
 		text-align: center;
 		background-color: orange;
 	}

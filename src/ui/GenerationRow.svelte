@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	export let rowHeight = '250px';
+	export let rowHeight = '15vh';
 	export let nColumns = 3;
 
 	const rowDynamicClass = css`
@@ -11,7 +11,7 @@
 </script>
 
 <main>
-	<div id="row" class="{rowDynamicClass} row">
+	<div class="{rowDynamicClass} row">
 		<slot />
 	</div>
 </main>
@@ -19,8 +19,9 @@
 <style>
 	.row {
 		background-color: lightgray;
-		display: grid;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		grid-gap: 2em;
-		place-items: center;
 	}
 </style>

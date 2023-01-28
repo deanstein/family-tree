@@ -29,6 +29,9 @@
 
 	.person-node-group-inner-container {
 		display: flex;
+		flex-direction: row;
+		gap: 1vh;
+		padding: 1vh;
 		background-color: lightblue;
 	}
 
@@ -38,7 +41,7 @@
 		justify-content: center;
 		display: inline-flex;
 		width: 100%;
-		height: 4vh;
+		height: 1.5em;
 		background-color: darkgray;
 	}
 </style>
