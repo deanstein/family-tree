@@ -10,11 +10,9 @@
 	`;
 </script>
 
-<main>
-	<div class="{rowDynamicClass} row">
-		<slot />
-	</div>
-</main>
+<div class="{rowDynamicClass} row">
+	<slot />
+</div>
 
 <style>
 	.row {

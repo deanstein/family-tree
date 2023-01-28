@@ -1,12 +1,10 @@
 <script>
 	import { slide } from 'svelte/transition';
-	import familyTreeData from '../stores/familyTreeData';
 	import { setActivePerson } from '../logic/personManagement';
 	export let personData;
 
 	const switchActivePerson = () => {
 		setActivePerson(personData);
-		///console.log($familyTreeData.activePerson)
 	};
 </script>
 

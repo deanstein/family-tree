@@ -2,11 +2,9 @@
 	import familyTreeData from '.././stores/familyTreeData';
 </script>
 
-<main>
-	<div id="person-node" class="person-node">
-		{$familyTreeData.people}
-	</div>
-</main>
+<div id="person-node" class="person-node">
+	{$familyTreeData.people}
+</div>
 
 <style>
 	.person-node {
