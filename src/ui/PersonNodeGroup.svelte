@@ -17,7 +17,7 @@
 			{#if personNodeGroupData.groupMembers.length == 0}
 				<PersonNodePlaceholder />
 			{/if}
-			{#each personNodeGroupData.groupMembers as { person }, i}
+			{#each personNodeGroupData.groupMembers as {  }, i}
 				<PersonNode personData={personNodeGroupData.groupMembers[i]} />
 			{/each}
 		</div>
@@ -39,14 +39,12 @@
 	.person-node-group-outer-container {
 		display: flex;
 		flex-direction: column;
-		margin: 10px;
 	}
 
 	.person-node-group-inner-container {
 		display: flex;
 		flex-direction: row;
 		gap: 1vh;
-		padding: 1vh;
 	}
 
 	.person-node-group-title {

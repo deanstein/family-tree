@@ -10,8 +10,6 @@ export const setActivePerson = (person) => {
 		}
 	});
 
-	console.log(siblingsObjs);
-
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,

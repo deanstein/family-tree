@@ -2,15 +2,13 @@
 	import { css } from '@emotion/css';
 
 	export let rowHeight = '15vh';
-	export let nColumns = 3;
 
 	const rowDynamicClass = css`
-		grid-template-columns: repeat(${nColumns}, 1fr);
-		grid-auto-rows: ${rowHeight};
+		height: ${rowHeight};
 	`;
 </script>
 
-<div class="{rowDynamicClass} row">
+<div id='row' class="{rowDynamicClass} row">
 	<slot />
 </div>
 

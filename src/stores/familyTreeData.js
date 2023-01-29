@@ -31,7 +31,8 @@ const people = [
 		parents: ['Logan Roy', 'Carolne Collingwood'],
 		siblings: ['Connor Roy', 'Kendall Roy', 'Siobhan Roy'],
 		activeSpouses: [],
-		exSpouses: ['Tabitha LNU']
+		exSpouses: ['Tabitha LNU'],
+		children: []
 	},
 	{
 		id: 4,
@@ -40,7 +41,8 @@ const people = [
 		parents: ['Logan Roy', 'FNU LNU'],
 		siblings: [2, 3, 5],
 		activeSpouses: ['Willa LNU'],
-		exSpouses: []
+		exSpouses: [],
+		children: []
 	},
 	{
 		id: 5,
@@ -49,7 +51,8 @@ const people = [
 		parents: ['Logan Roy', 'FNU LNU'],
 		siblings: ['Kendall Roy', 'Roman Roy', 'Connor Roy'],
 		activeSpouses: ['Willa LNU'],
-		exSpouses: []
+		exSpouses: [],
+		children: []
 	}
 ];
 

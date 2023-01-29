@@ -1,5 +1,8 @@
 <script>
 	import familyTreeData from './stores/familyTreeData';
+	import stylingConstants from './stores/stylingConstants';
+
+	console.log(stylingConstants.sizes.generationRowHeight);
 
 	import { setActivePerson } from './logic/personManagement';
 
@@ -11,17 +14,13 @@
 	if (($familyTreeData.activePerson = {})) {
 		setActivePerson($familyTreeData.people[0]);
 	}
-
-	let nGenerationsUp = 2;
-	let nGenerationsDown = 1;
-	let generationRowHeight = 100 / (nGenerationsDown + nGenerationsUp + 1) + 'vh';
 </script>
 
 <main>
 	<div id="app-container" class="app-container">
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-section" class="upper-generation-section">
-				<GenerationRow>
+				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div />
 					<PersonNodeGroup
 						personNodeGroupData={{
@@ -33,7 +32,7 @@
 			</div>
 
 			<div id="siblings-generation-section" class="siblings-generation-section">
-				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
+				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						personNodeGroupData={{
 							groupName: 'Sibings',
@@ -53,7 +52,7 @@
 			</div>
 
 			<div id="lower-generation-section" class="lower-generation-section">
-				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
+				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						personNodeGroupData={{
 							groupName: 'Children',
