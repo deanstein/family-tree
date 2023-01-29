@@ -18,11 +18,11 @@
 </script>
 
 <main>
-	<div id='app-container' class='app-container'>
+	<div id="app-container" class="app-container">
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-section" class="upper-generation-section">
 				<GenerationRow>
-					<div></div>
+					<div />
 					<PersonNodeGroup
 						personNodeGroupData={{
 							groupName: 'Parents',
@@ -31,7 +31,7 @@
 					/>
 				</GenerationRow>
 			</div>
-	
+
 			<div id="siblings-generation-section" class="siblings-generation-section">
 				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
 					<PersonNodeGroup
@@ -40,10 +40,18 @@
 							groupMembers: $familyTreeData.activePerson.siblings
 						}}
 					/>
-					<PersonNode personData={$familyTreeData.activePerson} />
+					<div id="active-person-container" class="active-person-container">
+						<PersonNode personData={$familyTreeData.activePerson} />
+					</div>
+					<PersonNodeGroup
+						personNodeGroupData={{
+							groupName: 'Spouses',
+							groupMembers: $familyTreeData.activePerson.siblings
+						}}
+					/>
 				</GenerationRow>
 			</div>
-	
+
 			<div id="lower-generation-section" class="lower-generation-section">
 				<GenerationRow nColumns={3} rowHeight={generationRowHeight}>
 					<PersonNodeGroup
@@ -95,5 +103,10 @@
 	.lower-generation-section {
 		display: grid;
 		width: 100vw;
+	}
+
+	.active-person-container {
+		margin-left: 5vh;
+		margin-right: 5vh;
 	}
 </style>

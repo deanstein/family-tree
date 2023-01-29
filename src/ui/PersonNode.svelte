@@ -8,23 +8,25 @@
 	};
 </script>
 
-<main>
-	<div
-		id="person-node"
-		class="person-node"
-		on:click={switchActivePerson}
-		on:keydown={switchActivePerson}
-		transition:slide
-	>
+<div
+	id="person-node"
+	class="person-node"
+	on:click={switchActivePerson}
+	on:keydown={switchActivePerson}
+	transition:slide
+>
+	<div>
 		{personData.name}
 	</div>
-</main>
+</div>
 
 <style>
 	.person-node {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		height: 15vh;
 		width: 15vh;
-		text-align: center;
 		background-color: orange;
 	}
 </style>
