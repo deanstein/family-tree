@@ -4,6 +4,10 @@ const sizes = {
     get padding() {
         return this.nPadding.toString() + 'vh';
     },
+    nPaddingNarrow: 0.5,
+    get paddingNarrow() {
+        return this.nPaddingNarrow.toString() + 'vh';
+    },
 
     nShowGenerationsUp: 2,
     nShowGenerationsDown: 2,
@@ -21,7 +25,7 @@ const sizes = {
         return this.nPersonNodeGroupHeight + 'vh';
     },
     get nPersonNodeGroupTitleHeight() {
-        return this.nPersonNodeGroupFontSize + (2 * this.nPadding);
+        return this.nPersonNodeGroupFontSize + (2 * this.nPaddingNarrow);
     } ,
     get personNodeGroupTitleHeight() {
         return (this.nPersonNodeGroupTitleHeight).toString() + 'vh';
