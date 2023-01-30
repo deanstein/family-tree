@@ -13,9 +13,13 @@
 	};
 
 	const personNodeDynamicClass = css`
+		font-size ${stylingConstants.sizes.fontSize};
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
 	`
+
+	const personNodeNameDynamicClass = css`
+		padding: ${stylingConstants.sizes.padding}`
 </script>
 
 <div
@@ -25,7 +29,7 @@
 	on:keydown={switchActivePerson}
 	transition:slide
 >
-	<div>
+	<div id='person-node-name' class='{personNodeNameDynamicClass}'>
 		{personData.name}
 	</div>
 </div>
@@ -35,6 +39,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: orange;
+		background-color: whitesmoke;
 	}
 </style>
