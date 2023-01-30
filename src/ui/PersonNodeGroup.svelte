@@ -15,28 +15,34 @@
 		gap: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
-	`
+	`;
 
 	const personNodeGroupOuterContainerDynamicClass = css`
 		height: ${stylingConstants.sizes.personNodeGroupHeight};
 		gap: ${stylingConstants.sizes.padding};
-	`
+	`;
 	const personNodeGroupTitleDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
-	`
+	`;
 </script>
 
 <div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
-	<div id="person-node-group-outer-container" class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container">
-		<div id="person-node-group-title" class="{personNodeGroupTitleDynamicClass} person-node-group-title">
+	<div
+		id="person-node-group-outer-container"
+		class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
+	>
+		<div
+			id="person-node-group-title"
+			class="{personNodeGroupTitleDynamicClass} person-node-group-title"
+		>
 			{personNodeGroupData.groupName}
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 			{#if personNodeGroupData.groupMembers.length == 0}
 				<PersonNodePlaceholder />
 			{/if}
-			{#each personNodeGroupData.groupMembers as {  }, i}
+			{#each personNodeGroupData.groupMembers as { }, i}
 				<PersonNode personData={personNodeGroupData.groupMembers[i]} />
 			{/each}
 		</div>

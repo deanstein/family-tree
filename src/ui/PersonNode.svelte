@@ -5,7 +5,6 @@
 
 	import stylingConstants from '../stores/stylingConstants';
 
-
 	export let personData;
 
 	const switchActivePerson = () => {
@@ -15,12 +14,12 @@
 	const personNodeDynamicClass = css`
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
-	`
+	`;
 
 	const personNodeNameDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		padding: ${stylingConstants.sizes.padding};
-	`
+	`;
 </script>
 
 <div
@@ -30,7 +29,7 @@
 	on:keydown={switchActivePerson}
 	transition:slide
 >
-	<div id='person-node-name' class='{personNodeNameDynamicClass}'>
+	<div id="person-node-name" class={personNodeNameDynamicClass}>
 		{personData.name}
 	</div>
 </div>

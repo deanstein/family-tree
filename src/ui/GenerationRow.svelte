@@ -8,7 +8,7 @@
 	`;
 </script>
 
-<div id='row' class="{rowDynamicClass} row">
+<div id="row" class="{rowDynamicClass} row">
 	<slot />
 </div>
 
@@ -21,9 +21,9 @@
 		grid-gap: 2em;
 
 		-webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 </style>
