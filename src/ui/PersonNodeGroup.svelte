@@ -1,4 +1,8 @@
 <script>
+	import { css } from '@emotion/css';
+
+	import stylingConstants from '../stores/stylingConstants';
+
 	import PersonNodeAddButton from './PersonNodeAddButton.svelte';
 	import PersonNodePlaceholder from './PersonNodePlaceholder.svelte';
 	import PersonNode from './PersonNode.svelte';
@@ -6,11 +10,24 @@
 		groupName: 'A Group of People',
 		groupMembers: ['John', 'Jane', 'Jim']
 	};
+
+	const personNodeGroupPlusButtonDynamicClass = css`
+		gap: ${stylingConstants.sizes.padding};
+		padding-left: ${stylingConstants.sizes.padding};
+		padding-right: ${stylingConstants.sizes.padding};
+	`
+
+	const personNodeGroupOuterContainerDynamicClass = css`
+		height: ${stylingConstants.sizes.personNodeGroupHeight}
+	`
+	const personNodeGroupTitleDynamicClass = css`
+		height: ${stylingConstants.sizes.personNodeGroupTitleHeight}
+	`
 </script>
 
-<div class="person-node-group-plus-button">
-	<div id="person-node-group-outer-container" class="person-node-group-outer-container">
-		<div id="person-node-group-title" class="person-node-group-title">
+<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
+	<div id="person-node-group-outer-container" class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container">
+		<div id="person-node-group-title" class="{personNodeGroupTitleDynamicClass} person-node-group-title">
 			{personNodeGroupData.groupName}
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
@@ -39,6 +56,7 @@
 	.person-node-group-outer-container {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 	}
 
 	.person-node-group-inner-container {
@@ -52,7 +70,6 @@
 		justify-content: center;
 		display: inline-flex;
 		width: 100%;
-		height: 1.5em;
 		background-color: darkgray;
 	}
 </style>

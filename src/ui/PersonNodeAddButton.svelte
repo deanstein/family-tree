@@ -3,13 +3,13 @@
 	import stylingConstants from '../stores/stylingConstants';
 
 	let personNodeAddButtonContainerDynamicStyle = css`
-		width: ${stylingConstants.sizes.personAddNodeSize};
-		height: ${stylingConstants.sizes.personAddNodeSize};
+		width: ${stylingConstants.sizes.personNodeAddButtonSize};
+		height: ${stylingConstants.sizes.personNodeAddButtonSize};
 	`;
 	const personNodeAddButtonDynamicStyle = css`
-		-moz-border-radius: ${stylingConstants.sizes.personAddNodeRadiusSize};
-		-webkit-border-radius: ${stylingConstants.sizes.personAddNodeRadiusSize};
-		border-radius: ${stylingConstants.sizes.personAddNodeRadiusSize};
+		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
+		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
+		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 	`;
 </script>
 

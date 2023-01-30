@@ -2,7 +2,7 @@
 	import familyTreeData from './stores/familyTreeData';
 	import stylingConstants from './stores/stylingConstants';
 
-	console.log(stylingConstants.sizes.generationRowHeight);
+	console.log(stylingConstants.sizes.nGenerationRowHeight);
 
 	import { setActivePerson } from './logic/personManagement';
 

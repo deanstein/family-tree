@@ -1,26 +1,47 @@
 const sizes = {
-    nShowGenerationsUp: 1,
-    nShowGenerationsDown: 2,
-    get generationRowHeight() {
-        return (100 / (this.nShowGenerationsUp + this.nShowGeneratinsUp + 1)).toString() + 'vh';
+    nPadding: 1,
+    get padding() {
+        return this.nPadding.toString() + 'vh';
     },
-	personNodeSizeValue: 15,
+
+    nShowGenerationsUp: 2,
+    nShowGenerationsDown: 2,
+    get nGenerationRowHeight() {
+        return 100 / (this.nShowGenerationsUp + this.nShowGenerationsUp + 1);
+    },
+    get generationRowHeight() {
+        return this.nGenerationRowHeight.toString() + 'vh';
+    },
+
+    get nPersonNodeGroupHeight() {
+        return this.nGenerationRowHeight - (2 * this.nPadding);
+    },
+    get personNodeGroupHeight() {
+        return this.nPersonNodeGroupHeight + 'vh';
+    },
+    nPersonNodeGroupTitleHeight: 1.5,
+    get personNodeGroupTitleHeight() {
+        return this.nPersonNodeGroupTitleHeight + 'vh';
+    },
+
+	get nPersonNodeSize() {
+        return this.nPersonNodeGroupHeight - this.nPersonNodeGroupTitleHeight - (2 * this.nPadding);
+    },
 	get personNodeSize() {
-		return this.personNodeSizeValue.toString() + 'vh';
+		return this.nPersonNodeSize.toString() + 'vh';
 	},
 
-	get personAddNodeSizeValue() {
-		return this.personNodeSizeValue / 4;
+	get nPersonNodeAddButtonSize() {
+		return this.nPersonNodeSize / 4;
 	},
-	get personAddNodeSize() {
-		return this.personAddNodeSizeValue.toString() + 'vh';
+	get personNodeAddButtonSize() {
+		return this.nPersonNodeAddButtonSize.toString() + 'vh';
 	},
-
-	get personAddNodeRadiusValue() {
-		return this.personAddNodeSizeValue / 2;
+	get nPersonNodeAddButtonRadius() {
+		return this.nPersonNodeAddButtonSize / 2;
 	},
-	get personAddNodeRadiusSize() {
-		return this.personAddNodeRadiusValue.toString() + 'vh';
+	get personNodeAddButtonRadius() {
+		return this.nPersonNodeAddButtonRadius.toString() + 'vh';
 	}
 };
 
