@@ -21,6 +21,7 @@
 		height: ${stylingConstants.sizes.personNodeGroupHeight}
 	`
 	const personNodeGroupTitleDynamicClass = css`
+		font-size: ${stylingConstants.sizes.fontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight}
 	`
 </script>

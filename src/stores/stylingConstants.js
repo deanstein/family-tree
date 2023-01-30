@@ -1,4 +1,9 @@
 const sizes = {
+    nFontSize: 2,
+    get fontSize() {
+        return this.nFontSize + 'vh';
+    },
+
     nPadding: 1,
     get padding() {
         return this.nPadding.toString() + 'vh';
@@ -19,9 +24,11 @@ const sizes = {
     get personNodeGroupHeight() {
         return this.nPersonNodeGroupHeight + 'vh';
     },
-    nPersonNodeGroupTitleHeight: 1.5,
+    get nPersonNodeGroupTitleHeight() {
+        return this.nFontSize + (2 * this.nPadding);
+    } ,
     get personNodeGroupTitleHeight() {
-        return this.nPersonNodeGroupTitleHeight + 'vh';
+        return (this.nPersonNodeGroupTitleHeight).toString() + 'vh';
     },
 
 	get nPersonNodeSize() {
