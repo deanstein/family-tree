@@ -1,5 +1,5 @@
 const sizes = {
-    nFontSize: 2,
+    nFontSize: 1.75,
     get fontSize() {
         return this.nFontSize + 'vh';
     },
@@ -32,7 +32,7 @@ const sizes = {
     },
 
 	get nPersonNodeSize() {
-        return this.nPersonNodeGroupHeight - this.nPersonNodeGroupTitleHeight - (2 * this.nPadding);
+        return this.nPersonNodeGroupHeight - this.nPersonNodeGroupTitleHeight - this.nPadding /*account for gap*/ - (2 * this.nPadding);
     },
 	get personNodeSize() {
 		return this.nPersonNodeSize.toString() + 'vh';

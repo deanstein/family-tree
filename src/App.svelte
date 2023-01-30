@@ -35,7 +35,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						personNodeGroupData={{
-							groupName: 'Sibings',
+							groupName: 'Siblings',
 							groupMembers: $familyTreeData.activePerson.siblings
 						}}
 					/>

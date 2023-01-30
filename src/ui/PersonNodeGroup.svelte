@@ -18,11 +18,12 @@
 	`
 
 	const personNodeGroupOuterContainerDynamicClass = css`
-		height: ${stylingConstants.sizes.personNodeGroupHeight}
+		height: ${stylingConstants.sizes.personNodeGroupHeight};
+		gap: ${stylingConstants.sizes.padding};
 	`
 	const personNodeGroupTitleDynamicClass = css`
 		font-size: ${stylingConstants.sizes.fontSize};
-		height: ${stylingConstants.sizes.personNodeGroupTitleHeight}
+		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
 	`
 </script>
 

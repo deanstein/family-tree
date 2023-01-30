@@ -13,7 +13,7 @@
 
 <div
 	id="person-add-button-container"
-	class="person-add-container"
+	class="person-add-button-container"
 >
 	<div id="person-add-button" class="{personNodeAddButtonDynamicStyle} person-add-button">
 		<div id="person-add-button-label" class="person-add-button-label">+</div>
@@ -21,6 +21,14 @@
 </div>
 
 <style>
+    .person-add-button-container {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
 	.person-add-button {
 		display: flex;
 		align-items: center;
