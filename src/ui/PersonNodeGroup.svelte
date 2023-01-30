@@ -22,7 +22,7 @@
 		gap: ${stylingConstants.sizes.padding};
 	`
 	const personNodeGroupTitleDynamicClass = css`
-		font-size: ${stylingConstants.sizes.fontSize};
+		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
 	`
 </script>

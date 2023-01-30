@@ -68,7 +68,6 @@
 
 <style>
 	:root {
-		font-size: 2vh;
 		font-family: proxima-nova, sans-serif;
 	}
 

@@ -13,12 +13,13 @@
 	};
 
 	const personNodeDynamicClass = css`
-		font-size ${stylingConstants.sizes.fontSize};
+		font-size ${stylingConstants.sizes.personNodeGroupFontSize};
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
 	`
 
 	const personNodeNameDynamicClass = css`
+		font-size: ${stylingConstants.sizes.personNodeFontSize}
 		padding: ${stylingConstants.sizes.padding}`
 </script>
 

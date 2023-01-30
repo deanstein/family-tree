@@ -1,8 +1,4 @@
 const sizes = {
-    nFontSize: 1.75,
-    get fontSize() {
-        return this.nFontSize + 'vh';
-    },
 
     nPadding: 1,
     get padding() {
@@ -25,10 +21,14 @@ const sizes = {
         return this.nPersonNodeGroupHeight + 'vh';
     },
     get nPersonNodeGroupTitleHeight() {
-        return this.nFontSize + (2 * this.nPadding);
+        return this.nPersonNodeGroupFontSize + (2 * this.nPadding);
     } ,
     get personNodeGroupTitleHeight() {
         return (this.nPersonNodeGroupTitleHeight).toString() + 'vh';
+    },
+    nPersonNodeGroupFontSize: 1.75,
+    get personNodeGroupFontSize() {
+        return this.nPersonNodeGroupFontSize + 'vh';
     },
 
 	get nPersonNodeSize() {
@@ -37,6 +37,10 @@ const sizes = {
 	get personNodeSize() {
 		return this.nPersonNodeSize.toString() + 'vh';
 	},
+    nPersonNodeFontSize: 1.50,
+    get personNodeFontSize() {
+        return this.nPersonNodeGroupFontSize + 'vh';
+    },
 
 	get nPersonNodeAddButtonSize() {
 		return this.nPersonNodeSize / 4;
