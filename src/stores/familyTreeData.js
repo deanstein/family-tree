@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
+const dataVersion = '1.0.0';
 const familyTreeData = {};
 const relationshipTypes = {
 	grandparents: {
@@ -46,10 +47,11 @@ const relationshipTypes = {
 	},
 	grandchildren: {
 		granddaughter: 'granddaughter',
-		grandson: 'grandson',
+		grandson: 'grandson'
 	}
 };
 const defaultPerson = {
+	version: dataVersion,
 	id: 0,
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',
@@ -106,6 +108,7 @@ const people = [
 	}
 ];
 
+familyTreeData['relationshipTypes'] = relationshipTypes;
 familyTreeData['defaultPerson'] = defaultPerson;
 familyTreeData['activePerson'] = activePerson;
 familyTreeData['people'] = people;

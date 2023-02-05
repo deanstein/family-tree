@@ -56,3 +56,32 @@ const tryAddSibling = (person, siblingToAdd) => {
 		});
 	}
 };
+
+function modifyObject(obj, key, value) {
+	for (var prop in obj) {
+		if (prop == key) {
+			obj[prop] = value;
+		} else if (typeof obj[prop] == 'object') {
+			modifyObject(obj[prop], key, value);
+		}
+	}
+}
+
+export function upgradePersonData(dataToMatch, dataToChange) {
+	let upgraded = false;
+	if (dataToChange?.version == undefined) {
+		dataToChange['version'] = '0.0.0';
+	}
+	if (dataToChange?.version !== dataToMatch?.version) {
+		for (const key in dataToMatch) {
+			if (!(key in dataToChange)) {
+				dataToChange[key] = typeof dataToMatch[key] === 'object' ? {} : typeof dataToMatch[key];
+				upgraded = true;
+			}
+		}
+	}
+	if (upgraded) {
+		dataToChange['version'] = dataToMatch.version;
+	}
+	return dataToChange;
+}

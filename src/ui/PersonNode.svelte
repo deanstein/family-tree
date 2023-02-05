@@ -1,14 +1,17 @@
 <script>
 	import { css } from '@emotion/css';
 	import { slide } from 'svelte/transition';
-	import { setActivePerson } from '../logic/personManagement';
+	import { setActivePerson, upgradePersonData } from '../logic/personManagement';
 
+	import familyTreeData from '../stores/familyTreeData';
 	import stylingConstants from '../stores/stylingConstants';
 
 	export let personData;
 
 	const switchActivePerson = () => {
-		setActivePerson(personData);
+		const upgradedPersonData = upgradePersonData($familyTreeData.defaultPerson, personData);
+		setActivePerson(upgradedPersonData);
+		//console.log(upgradedPersonData)
 	};
 
 	const personNodeDynamicClass = css`
