@@ -67,21 +67,33 @@ function modifyObject(obj, key, value) {
 	}
 }
 
+function deepMatchObjects(dataToMatch, dataToChange) {
+	for (var key in dataToMatch) {
+		if (!dataToChange.hasOwnProperty(key)) {
+			if (Array.isArray(dataToMatch[key])) {
+				dataToChange[key] = [];
+			} else if (typeof dataToMatch[key] === 'string') {
+				dataToChange[key] = '';
+			} else {
+				dataToChange[key] = {};
+			}
+		}
+	}
+	return dataToChange;
+  };
+
 export function upgradePersonData(dataToMatch, dataToChange) {
 	let upgraded = false;
 	if (dataToChange?.version == undefined) {
 		dataToChange['version'] = '0.0.0';
 	}
 	if (dataToChange?.version !== dataToMatch?.version) {
-		for (const key in dataToMatch) {
-			if (!(key in dataToChange)) {
-				dataToChange[key] = typeof dataToMatch[key] === 'object' ? {} : typeof dataToMatch[key];
-				upgraded = true;
-			}
-		}
+		dataToChange = deepMatchObjects(dataToMatch, dataToChange);
+		upgraded = true;
 	}
 	if (upgraded) {
 		dataToChange['version'] = dataToMatch.version;
+		console.log("Person upgraded: " + dataToChange.name)
 	}
 	return dataToChange;
 }
