@@ -82,18 +82,18 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 	return dataToChange;
   };
 
-export function upgradePersonData(dataToMatch, dataToChange) {
+export function upgradePersonData(personDataToMatch, personDataToModify) {
 	let upgraded = false;
-	if (dataToChange?.version == undefined) {
-		dataToChange['version'] = '0.0.0';
+	if (personDataToModify?.version == undefined) {
+		personDataToModify['version'] = '0.0.0';
 	}
-	if (dataToChange?.version !== dataToMatch?.version) {
-		dataToChange = deepMatchObjects(dataToMatch, dataToChange);
+	if (personDataToModify?.version !== personDataToMatch?.version) {
+		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
 		upgraded = true;
 	}
 	if (upgraded) {
-		dataToChange['version'] = dataToMatch.version;
-		console.log("Person upgraded: " + dataToChange.name)
+		personDataToModify['version'] = personDataToMatch.version;
+		console.log("Person upgraded: " + personDataToModify.name)
 	}
-	return dataToChange;
+	return personDataToModify;
 }

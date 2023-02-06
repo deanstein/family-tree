@@ -10,7 +10,6 @@
 
 	const switchActivePerson = () => {
 		const upgradedPersonData = upgradePersonData($familyTreeData.defaultPerson, personData);
-		console.log(upgradedPersonData)
 		setActivePerson(upgradedPersonData);
 	};
 
