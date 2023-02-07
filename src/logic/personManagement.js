@@ -1,10 +1,10 @@
 import familyTreeData from '../stores/familyTreeData';
 
-export const setActivePerson = (person) => {
+export const setActivePersonOld = (person) => {
 	const { siblings } = person;
 	const siblingsObjs = [];
 	siblings.forEach((siblingId) => {
-		const person = findPersonById(siblingId);
+		const person = getPersonById(siblingId);
 		if (person) {
 			siblingsObjs.push(person);
 		}
@@ -18,7 +18,30 @@ export const setActivePerson = (person) => {
 	});
 };
 
-export const findPersonById = (id) => {
+export const setActivePerson = (person) => {
+	familyTreeData.update((currentValue) => {
+		return {
+			...currentValue,
+			activePerson: person
+		};
+	});
+};
+
+export const syncActivePersonToTree = () => {
+	familyTreeData.update((currentValue) => {
+		const index = getPersonIndexByKeyValue(currentValue.people, 'id', currentValue.activePerson.id);
+		return {
+			...currentValue,
+			people: [...currentValue.people, currentValue.people[index]]
+		};
+	});
+};
+
+export const getPersonIndexByKeyValue = (array, key, value) => {
+	return array.findIndex((object) => object[key] === value);
+};
+
+export const getPersonById = (id) => {
 	let person = undefined;
 
 	familyTreeData.subscribe((currentValue) => {
@@ -28,6 +51,18 @@ export const findPersonById = (id) => {
 
 	return person;
 };
+
+// export const getOrAddPerson = (personId) => {
+// 	if (findPersonById(personId) === undefined) {
+// 		familyTreeData.update((currentValue) => {
+// 			return {
+// 				...currentValue,
+// 				people: [...currentValue.people, person]
+// 			};
+// 		});
+// 	}
+// 	return personId.id;
+// }
 
 export const addPersonToKnownPeople = (person) => {
 	familyTreeData.update((currentValue) => {
@@ -80,7 +115,7 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 		}
 	}
 	return dataToChange;
-  };
+}
 
 export function upgradePersonData(personDataToMatch, personDataToModify) {
 	let upgraded = false;
@@ -93,7 +128,7 @@ export function upgradePersonData(personDataToMatch, personDataToModify) {
 	}
 	if (upgraded) {
 		personDataToModify['version'] = personDataToMatch.version;
-		console.log("Person upgraded: " + personDataToModify.name)
+		console.log('Person upgraded: ' + personDataToModify.name);
 	}
 	return personDataToModify;
 }
