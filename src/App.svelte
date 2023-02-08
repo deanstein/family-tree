@@ -20,7 +20,7 @@
 			<div id="upper-generation-section" class="upper-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div />
-					<PersonNodeGroup
+					<PersonNodeGroup slot='row-middle-section'
 						personNodeGroupData={{
 							groupName: 'Parents',
 							groupMembers: $familyTreeData.activePerson.parents
@@ -31,16 +31,16 @@
 
 			<div id="siblings-generation-section" class="siblings-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<PersonNodeGroup
+					<PersonNodeGroup slot='row-left-section'
 						personNodeGroupData={{
 							groupName: 'Siblings',
 							groupMembers: $familyTreeData.activePerson.siblings
 						}}
 					/>
-					<div id="active-person-container" class="active-person-container">
+					<div slot='row-middle-section' id="active-person-container" class="active-person-container">
 						<PersonNode personData={$familyTreeData.activePerson} />
 					</div>
-					<PersonNodeGroup
+					<PersonNodeGroup slot='row-right-section'
 						personNodeGroupData={{
 							groupName: 'Spouses',
 							groupMembers: $familyTreeData.activePerson.spouses
@@ -51,7 +51,7 @@
 
 			<div id="lower-generation-section" class="lower-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<PersonNodeGroup
+					<PersonNodeGroup slot='row-middle-section'
 						personNodeGroupData={{
 							groupName: 'Children',
 							groupMembers: $familyTreeData.activePerson.children
