@@ -1,4 +1,7 @@
+import { each } from 'svelte/internal';
+
 import familyTreeData from '../stores/familyTreeData';
+import relationshipMap from '../stores/relationshipMap';
 
 export const setActivePersonOld = (person) => {
 	const { siblings } = person;
@@ -131,4 +134,14 @@ export function upgradePersonData(personDataToMatch, personDataToModify) {
 		console.log('Person upgraded: ' + personDataToModify.name);
 	}
 	return personDataToModify;
+}
+
+export const buildDefaultRelationshipMap = () => {
+	let newObject = {};
+	relationshipMap.subscribe((currentValue) => {
+		Object.keys(currentValue).forEach(element => {
+			newObject[element] = []
+		});
+	});
+	return newObject;
 }

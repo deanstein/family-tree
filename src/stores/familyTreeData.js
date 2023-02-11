@@ -1,28 +1,23 @@
 import { writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
+import { buildDefaultRelationshipMap } from '../logic/personManagement';
 import relationshipMap from './relationshipMap';
 
-const dataVersion = '0.4.0';
+const dataVersion = '0.5.0';
 const familyTreeData = {};
 
+const activePerson = {};
+
+let defaultRelationshipMap = buildDefaultRelationshipMap();
 const defaultPerson = {
 	version: dataVersion,
 	id: 0,
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',
 	gender: undefined,
-	greatgrandparents: [],
-	grandparents: [],
-	parents: [],
-	siblings: [],
-	spouses: [],
-	children: [],
-	grandchildren: [],
-	greatgrandchildren: []
+	relationships: defaultRelationshipMap
 };
-
-const activePerson = {};
 
 const people = [
 	{
