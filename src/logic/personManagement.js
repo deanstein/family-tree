@@ -33,9 +33,14 @@ export const setActivePerson = (person) => {
 export const syncActivePersonToTree = () => {
 	familyTreeData.update((currentValue) => {
 		const index = getPersonIndexByKeyValue(currentValue.people, 'id', currentValue.activePerson.id);
+		console.log(index);
 		return {
 			...currentValue,
-			people: [...currentValue.people, currentValue.people[index]]
+			people: [
+				...currentValue.people.slice(0, index),
+				currentValue.activePerson,
+				...currentValue.people.slice(index + 1)
+			]
 		};
 	});
 };
