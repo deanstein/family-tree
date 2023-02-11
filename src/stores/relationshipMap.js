@@ -313,27 +313,8 @@ const relationshipMap = {
 			},
 			label: '',
 		},
-		daughterinlaw: {
-			id: 'bf8b0de7-1811-4324-ba2f-c09470ba5397',
-			get inverseId() {	
-				return getChildInLawInverseId();
-			},
-			label: 'daughter-in-law',
-		},
-		soninlaw: {
-			id: '22fe3f43-105d-41e8-b512-a7edbca21f87',
-			label: 'son-in-law',
-			get inverseId() {	
-				return getChildInLawInverseId();
-			} 
-		},
-		childinlaw: {
-			id: '102206cb-3472-4fec-b1b6-008bd4cda474',
-			get inverseId() {	
-				return getChildInLawInverseId();
-			},
-			label: '',
-		},
+	},
+	stepchildren: {
 		stepdaughter: {
 			id: 'ad7010d1-55fb-4796-bd14-cab9882c7c00',
 			get inverse() {	
@@ -354,6 +335,30 @@ const relationshipMap = {
 				return getStepChildrenInverseId();
 			},
 			label: 'stepchild',
+		},
+	},
+	childrenInLaw: {
+		label: 'Children in Law',
+		daughterinlaw: {
+			id: 'bf8b0de7-1811-4324-ba2f-c09470ba5397',
+			get inverseId() {	
+				return getChildInLawInverseId();
+			},
+			label: 'daughter-in-law',
+		},
+		soninlaw: {
+			id: '22fe3f43-105d-41e8-b512-a7edbca21f87',
+			label: 'son-in-law',
+			get inverseId() {	
+				return getChildInLawInverseId();
+			} 
+		},
+		childinlaw: {
+			id: '102206cb-3472-4fec-b1b6-008bd4cda474',
+			get inverseId() {	
+				return getChildInLawInverseId();
+			},
+			label: '',
 		},
 	},
 	grandchildren: {
