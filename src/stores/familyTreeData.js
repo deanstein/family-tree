@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import relationshipMap from './relationshipMap';
 
-const dataVersion = '0.2.0';
+const dataVersion = '0.4.0';
 const familyTreeData = {};
 
 const defaultPerson = {

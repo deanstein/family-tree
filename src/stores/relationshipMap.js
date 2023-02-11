@@ -4,6 +4,7 @@ import familyTreeData from './familyTreeData';
 
 const relationshipMap = {
 	grandparentsMaternal: {
+		label: 'Maternal Grandparents',
 		grandmotherMaternal: {
 			id: `55c82287-e459-4edc-9572-6b378852ee62`,
 			get inverseId() {
@@ -27,6 +28,7 @@ const relationshipMap = {
 		}
 	},
 	grandparentsPaternal: {
+		label: 'Paternal Grandparents',
 		grandmotherPaternal: {
 			id: '0cc38bf2-aa7e-48d8-a2e3-a52de1a7fe8f',
 			get inverseId() {
@@ -50,6 +52,7 @@ const relationshipMap = {
 		}
 	},
 	parents: {
+		label: 'Parents',
 		mother: {
 			id: '645f5a03-d493-4dd3-8b9e-e41ed4983a2f',
 			get inverseId() {
@@ -71,6 +74,9 @@ const relationshipMap = {
 			},
 			label: ''
 		},
+	},
+	parentsInLaw: {
+		label: 'Parents in Law',
 		motherinlaw: {
 			id: '7042c0e5-1d70-4aa7-b59b-27299a9e54dd',
 			get inverseId() {
@@ -118,6 +124,7 @@ const relationshipMap = {
 		}
 	},
 	stepparentsPaternal: {
+		label: 'Paternal Step Parents',
 		stepmotherPaternal: {
 			id: 'bcb1fb0d-4f2b-476d-b51d-63a3fde942e8',
 			get inverseId() {
@@ -141,6 +148,7 @@ const relationshipMap = {
 		}
 	},
 	siblings: {
+		label: 'Siblings',
 		sister: {
 			id: '92441840-f709-449b-b5fa-432f167c005f',
 			get inverseId() {
@@ -162,48 +170,6 @@ const relationshipMap = {
 			},
 			label: ''
 		},
-		stepsister: {
-			id: '18d69801-1996-4e1b-a3e2-007e39005191',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
-			label: 'stepsister'
-		},
-		stepbrother: {
-			id: '6a1ff6aa-baa2-48ae-8108-37b4ef0dcceb',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
-			label: 'stepbrother'
-		},
-		stepsibling: {
-			id: 'd77914b2-9ee4-434d-baf2-8d20015a18d4',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
-			label: 'stepsibling'
-		},
-		sisterinlaw: {
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
-			id: 'e2bc7a03-4ab9-4247-9644-cdd4b7022a3e',
-			label: 'sister-in-law'
-		},
-		brotherinlaw: {
-			id: '5ade9695-43b4-423c-8028-495a962c52a9',
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
-			label: 'brother-in-law'
-		},
-		siblinginlaw: {
-			id: 'fcdca2de-1ba2-42f0-b59e-ef7de17e9a8e',
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
-			label: 'sibling-in-law'
-		}
 	},
 	halfSiblingsMaternal: {
 		halfsisterMaternal: {
@@ -251,7 +217,54 @@ const relationshipMap = {
 			label: 'half sibling'
 		}
 	},
+	stepsiblings: {
+		stepsister: {
+			id: '18d69801-1996-4e1b-a3e2-007e39005191',
+			get inverseId() {
+				return getStepSiblingInverseId();
+			},
+			label: 'stepsister'
+		},
+		stepbrother: {
+			id: '6a1ff6aa-baa2-48ae-8108-37b4ef0dcceb',
+			get inverseId() {
+				return getStepSiblingInverseId();
+			},
+			label: 'stepbrother'
+		},
+		stepsibling: {
+			id: 'd77914b2-9ee4-434d-baf2-8d20015a18d4',
+			get inverseId() {
+				return getStepSiblingInverseId();
+			},
+			label: 'stepsibling'
+		},
+	},
+	siblingsInLaw: {
+		sisterinlaw: {
+			get inverseId() {
+				return getSiblingInLawInverseId();
+			},
+			id: 'e2bc7a03-4ab9-4247-9644-cdd4b7022a3e',
+			label: 'sister-in-law'
+		},
+		brotherinlaw: {
+			id: '5ade9695-43b4-423c-8028-495a962c52a9',
+			get inverseId() {
+				return getSiblingInLawInverseId();
+			},
+			label: 'brother-in-law'
+		},
+		siblinginlaw: {
+			id: 'fcdca2de-1ba2-42f0-b59e-ef7de17e9a8e',
+			get inverseId() {
+				return getSiblingInLawInverseId();
+			},
+			label: 'sibling-in-law'
+		}
+	},
 	spouses: {
+		label: 'Spouse',
 		wife: {
 			id: '2a39b80f-d6b5-4628-8055-7e91fc305a84',
 			get inverseId() {
