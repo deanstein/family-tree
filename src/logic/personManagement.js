@@ -114,13 +114,14 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 				dataToChange[key] = '';
 			} else {
 				dataToChange[key] = {};
+				deepMatchObjects(dataToMatch[key], dataToChange[key]);
 			}
 		}
 	}
 	return dataToChange;
 }
 
-export function upgradePersonData(personDataToMatch, personDataToModify) {
+export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 	let upgraded = false;
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
@@ -136,7 +137,7 @@ export function upgradePersonData(personDataToMatch, personDataToModify) {
 	return personDataToModify;
 }
 
-export const buildDefaultRelationshipMap = () => {
+export const buildEmptyRelationships = () => {
 	let newObject = {};
 	relationshipMap.subscribe((currentValue) => {
 		Object.keys(currentValue).forEach(element => {
