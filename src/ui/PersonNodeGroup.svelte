@@ -13,14 +13,14 @@
 		groupMembers: ['John', 'Jane', 'Jim']
 	};
 
-	const getPersonDataByGroupIndex = (groupIndex) => {
+	$: getPersonDataByGroupIndex = (groupIndex) => {
 		const personIndex = getPersonIndexByKeyValue(
-			$familyTreeData.people,
-			'id',
-			personNodeGroupData.groupMembers[groupIndex]
-		);
-		return $familyTreeData.people[personIndex];
-	};
+				$familyTreeData.people,
+				'id',
+				personNodeGroupData.groupMembers[groupIndex]
+		)
+		return $familyTreeData.people[personIndex]
+	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`
 		gap: ${stylingConstants.sizes.padding};
