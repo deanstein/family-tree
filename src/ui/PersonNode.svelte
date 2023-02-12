@@ -12,7 +12,7 @@
 
 	export let personData;
 
-	const switchActivePerson = () => {
+	const personNodeOnClick = () => {
 		const upgradedPersonData = upgradePersonData($familyTreeData.defaultPerson, personData);
 		setActivePerson(upgradedPersonData);
 		syncActivePersonToTree();
@@ -32,8 +32,8 @@
 <div
 	id="person-node"
 	class="person-node {personNodeDynamicClass}"
-	on:click={switchActivePerson}
-	on:keydown={switchActivePerson}
+	on:click={personNodeOnClick}
+	on:keydown={personNodeOnClick}
 	transition:slide
 >
 	<div id="person-node-name" class={personNodeNameDynamicClass}>

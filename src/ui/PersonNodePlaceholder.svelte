@@ -3,6 +3,8 @@
 	import stylingConstants from '../stores/stylingConstants';
 	import PersonNodeAddButton from './PersonNodeAddButton.svelte';
 
+	export let relationshipId;
+
 	let personNodePlaceholderDynamicStyle = css`
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
@@ -14,7 +16,7 @@
 	id="person-node-placeholder-container"
 	class="{personNodePlaceholderDynamicStyle} person-node-placeholder-container"
 >
-	<PersonNodeAddButton />
+	<PersonNodeAddButton relationshipId={relationshipId}/>
 </div>
 
 <style>

@@ -8,6 +8,8 @@
 	import PersonNodeAddButton from './PersonNodeAddButton.svelte';
 	import PersonNodePlaceholder from './PersonNodePlaceholder.svelte';
 	import PersonNode from './PersonNode.svelte';
+
+	export let relationshipId;
 	export let personNodeGroupData = {
 		groupName: 'A Group of People',
 		groupMembers: ['John', 'Jane', 'Jim']
@@ -51,7 +53,7 @@
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 			{#if personNodeGroupData.groupMembers.length == 0}
-				<PersonNodePlaceholder />
+				<PersonNodePlaceholder relationshipId={relationshipId}/>
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
 				<PersonNode personData={getPersonDataByGroupIndex(i)} />
@@ -59,7 +61,7 @@
 		</div>
 	</div>
 	{#if personNodeGroupData.groupMembers.length > 0}
-		<PersonNodeAddButton />
+		<PersonNodeAddButton relationshipId={relationshipId}/>
 	{/if}
 </div>
 

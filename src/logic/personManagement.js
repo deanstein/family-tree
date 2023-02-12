@@ -1,25 +1,15 @@
-import { each } from 'svelte/internal';
+import {v4 as uuidv4} from 'uuid';
 
 import familyTreeData from '../stores/familyTreeData';
+
 import relationshipMap from '../stores/relationshipMap';
+import { defaultPerson } from '../stores/relationshipMap';
 
-export const setActivePersonOld = (person) => {
-	const { siblings } = person;
-	const siblingsObjs = [];
-	siblings.forEach((siblingId) => {
-		const person = getPersonById(siblingId);
-		if (person) {
-			siblingsObjs.push(person);
-		}
-	});
-
-	familyTreeData.update((currentValue) => {
-		return {
-			...currentValue,
-			activePerson: { ...person, siblings: siblingsObjs }
-		};
-	});
-};
+export const createNewPerson = () => {
+	let newPerson = defaultPerson;
+	newPerson.id = uuidv4();
+	return newPerson;
+}
 
 export const setActivePerson = (person) => {
 	familyTreeData.update((currentValue) => {
@@ -59,17 +49,15 @@ export const getPersonById = (id) => {
 	return person;
 };
 
-// export const getOrAddPerson = (personId) => {
-// 	if (findPersonById(personId) === undefined) {
-// 		familyTreeData.update((currentValue) => {
-// 			return {
-// 				...currentValue,
-// 				people: [...currentValue.people, person]
-// 			};
-// 		});
-// 	}
-// 	return personId.id;
-// }
+export const addPersonToGroup = (groupId, personId) => {
+	familyTreeData.update((currentValue) => {
+		return {
+			...currentValue,
+			...currentValue.activePerson,
+			...currentValue.activePerson.relationships[groupId].push(personId)
+		}
+	});
+};
 
 export const addPersonToKnownPeople = (person) => {
 	familyTreeData.update((currentValue) => {
@@ -139,14 +127,4 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 		console.log('Person upgraded: ' + personDataToModify.name);
 	}
 	return personDataToModify;
-}
-
-export const buildEmptyRelationships = () => {
-	let newObject = {};
-	relationshipMap.subscribe((currentValue) => {
-		Object.keys(currentValue).forEach(element => {
-			newObject[element] = []
-		});
-	});
-	return newObject;
 }

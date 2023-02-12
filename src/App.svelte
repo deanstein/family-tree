@@ -8,6 +8,7 @@
 	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
 	import GenerationRow from './ui/GenerationRow.svelte';
 	import StoreView from './ui/StoreView.svelte';
+	import relationshipMap from './stores/relationshipMap';
 
 	if (($familyTreeData.activePerson = {})) {
 		setActivePerson($familyTreeData.people[0]);
@@ -22,6 +23,7 @@
 					<div />
 					<PersonNodeGroup
 						slot="row-middle-section"
+						relationshipId={$relationshipMap.parents.id}
 						personNodeGroupData={{
 							groupName: 'Parents',
 							groupMembers: $familyTreeData.activePerson.relationships.parents
@@ -34,6 +36,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-left-section"
+						relationshipId={$relationshipMap.siblings.id}
 						personNodeGroupData={{
 							groupName: 'Siblings',
 							groupMembers: $familyTreeData.activePerson.relationships.siblings
@@ -48,6 +51,7 @@
 					</div>
 					<PersonNodeGroup
 						slot="row-right-section"
+						relationshipId={$relationshipMap.spouses.id}
 						personNodeGroupData={{
 							groupName: 'Spouses',
 							groupMembers: $familyTreeData.activePerson.relationships.spouses
@@ -60,6 +64,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-middle-section"
+						relationshipId={$relationshipMap.children.id}
 						personNodeGroupData={{
 							groupName: 'Children',
 							groupMembers: $familyTreeData.activePerson.relationships.children
