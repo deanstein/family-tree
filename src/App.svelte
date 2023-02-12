@@ -24,7 +24,7 @@
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupName: 'Parents',
-							groupMembers: $familyTreeData.activePerson.parents
+							groupMembers: $familyTreeData.activePerson.relationships.parents
 						}}
 					/>
 				</GenerationRow>
@@ -36,7 +36,7 @@
 						slot="row-left-section"
 						personNodeGroupData={{
 							groupName: 'Siblings',
-							groupMembers: $familyTreeData.activePerson.siblings
+							groupMembers: $familyTreeData.activePerson.relationships.siblings
 						}}
 					/>
 					<div
@@ -50,7 +50,7 @@
 						slot="row-right-section"
 						personNodeGroupData={{
 							groupName: 'Spouses',
-							groupMembers: $familyTreeData.activePerson.spouses
+							groupMembers: $familyTreeData.activePerson.relationships.spouses
 						}}
 					/>
 				</GenerationRow>
@@ -62,7 +62,7 @@
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupName: 'Children',
-							groupMembers: $familyTreeData.activePerson.children
+							groupMembers: $familyTreeData.activePerson.relationships.children
 						}}
 					/>
 				</GenerationRow>
