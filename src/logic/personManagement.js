@@ -63,28 +63,9 @@ export const addPersonToKnownPeople = (person) => {
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
-			people: [...currentValue.people, person]
+			...currentValue.people.push(person),
 		};
 	});
-};
-
-const tryAddSibling = (person, siblingToAdd) => {
-	let bIsAlreadySibling = false;
-
-	person.siblings.forEach((person) => {
-		if (person.name == siblingToAdd.name) {
-			bIsAlreadySibling = true;
-		}
-	});
-
-	if (!bIsAlreadySibling) {
-		familyTreeData.update((currentValue) => {
-			return {
-				...currentValue,
-				people: [...currentValue.people, person]
-			};
-		});
-	}
 };
 
 function modifyObject(obj, key, value) {

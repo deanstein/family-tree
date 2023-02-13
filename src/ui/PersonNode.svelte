@@ -7,13 +7,13 @@
 		syncActivePersonToTree
 	} from '../logic/personManagement';
 
-	import familyTreeData from '../stores/familyTreeData';
+	import { defaultPerson } from '../stores/relationshipMap';
 	import stylingConstants from '../stores/stylingConstants';
 
 	export let personData;
 
 	const personNodeOnClick = () => {
-		const upgradedPersonData = upgradePersonData($familyTreeData.defaultPerson, personData);
+		const upgradedPersonData = upgradePersonData(defaultPerson, personData);
 		setActivePerson(upgradedPersonData);
 		syncActivePersonToTree();
 	};
