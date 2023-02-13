@@ -49,11 +49,8 @@ export const getPersonById = (id) => {
 
 export const addPersonToGroup = (groupId, personId) => {
 	familyTreeData.update((currentValue) => {
-		return {
-			...currentValue,
-			...currentValue.activePerson,
-			...currentValue.activePerson.relationships[groupId].push(personId)
-		};
+		currentValue.activePerson.relationships[groupId].push(personId)
+		return currentValue;
 	});
 };
 
@@ -61,7 +58,7 @@ export const addPersonToKnownPeople = (person) => {
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
-			...currentValue.people.push(person)
+			people: [...currentValue.people, person]
 		};
 	});
 };
