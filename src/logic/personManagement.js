@@ -1,15 +1,13 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import familyTreeData from '../stores/familyTreeData';
-
-import relationshipMap from '../stores/relationshipMap';
 import { defaultPerson } from '../stores/relationshipMap';
 
 export const createNewPerson = () => {
 	let newPerson = defaultPerson;
 	newPerson.id = uuidv4();
 	return newPerson;
-}
+};
 
 export const setActivePerson = (person) => {
 	familyTreeData.update((currentValue) => {
@@ -55,7 +53,7 @@ export const addPersonToGroup = (groupId, personId) => {
 			...currentValue,
 			...currentValue.activePerson,
 			...currentValue.activePerson.relationships[groupId].push(personId)
-		}
+		};
 	});
 };
 
@@ -63,7 +61,7 @@ export const addPersonToKnownPeople = (person) => {
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
-			...currentValue.people.push(person),
+			...currentValue.people.push(person)
 		};
 	});
 };
@@ -108,4 +106,4 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 		console.log('Person upgraded: ' + personDataToModify.name);
 	}
 	return personDataToModify;
-}
+};

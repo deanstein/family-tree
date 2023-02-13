@@ -39,7 +39,7 @@
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 			{#if personNodeGroupData.groupMembers.length == 0}
-				<PersonNodePlaceholder relationshipId={relationshipId}/>
+				<PersonNodePlaceholder {relationshipId} />
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
 				<PersonNode personId={personNodeGroupData.groupMembers[i]} />
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	{#if personNodeGroupData.groupMembers.length > 0}
-		<PersonNodeAddButton relationshipId={relationshipId}/>
+		<PersonNodeAddButton {relationshipId} />
 	{/if}
 </div>
 

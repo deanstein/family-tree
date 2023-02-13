@@ -16,7 +16,7 @@
 	id="person-node-placeholder-container"
 	class="{personNodePlaceholderDynamicStyle} person-node-placeholder-container"
 >
-	<PersonNodeAddButton relationshipId={relationshipId}/>
+	<PersonNodeAddButton {relationshipId} />
 </div>
 
 <style>

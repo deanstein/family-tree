@@ -12,8 +12,8 @@ export const defaultPerson = {
 	gender: undefined,
 	relationships: () => {
 		let relationships = {};
-		Object.keys(relationshipMap).forEach(element => {
-			relationships[element] = []
+		Object.keys(relationshipMap).forEach((element) => {
+			relationships[element] = [];
 		});
 		return relationships;
 	}
@@ -93,7 +93,7 @@ const relationshipMap = {
 				return getParentInverseId();
 			},
 			label: ''
-		},
+		}
 	},
 	parentsInLaw: {
 		id: 'parentsInLaw',
@@ -193,7 +193,7 @@ const relationshipMap = {
 				return getSiblingInverseId();
 			},
 			label: ''
-		},
+		}
 	},
 	halfSiblingsMaternal: {
 		id: 'halfSiblingsMaternal',
@@ -268,7 +268,7 @@ const relationshipMap = {
 				return getStepSiblingInverseId();
 			},
 			label: 'stepsibling'
-		},
+		}
 	},
 	siblingsInLaw: {
 		label: 'Siblings-in-Law',
@@ -315,7 +315,7 @@ const relationshipMap = {
 			id: 'partner',
 			inverseId: 'partner',
 			label: 'partner'
-		},
+		}
 	},
 	exSpouses: {
 		id: 'exSpouses',

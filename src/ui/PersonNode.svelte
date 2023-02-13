@@ -2,29 +2,19 @@
 	import { css } from '@emotion/css';
 	import { slide } from 'svelte/transition';
 	import {
+		getPersonById,
 		setActivePerson,
 		upgradePersonData,
-		syncActivePersonToTree,
-		getPersonIndexByKeyValue
+		syncActivePersonToTree
 	} from '../logic/personManagement';
 
 	import { defaultPerson } from '../stores/relationshipMap';
-	import familyTreeData from '../stores/familyTreeData';
 	import stylingConstants from '../stores/stylingConstants';
 
 	export let personId;
-	let personData;
-
-	const getPersonDataById = (personId) => {
-		const personIndex = getPersonIndexByKeyValue(
-				$familyTreeData.people, 'id', personId
-		)
-		personData = $familyTreeData.people[personIndex]
-		return $familyTreeData.people[personIndex]
-	}
 
 	const personNodeOnClick = () => {
-		const upgradedPersonData = upgradePersonData(defaultPerson, personData);
+		const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(personId));
 		setActivePerson(upgradedPersonData);
 		syncActivePersonToTree();
 	};
@@ -48,7 +38,7 @@
 	transition:slide
 >
 	<div id="person-node-name" class={personNodeNameDynamicClass}>
-		{getPersonDataById(personId).name}
+		{getPersonById(personId).name}
 	</div>
 </div>
 
