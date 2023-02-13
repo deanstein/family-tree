@@ -4,21 +4,6 @@ import familyTreeData from './familyTreeData';
 
 export const dataVersion = '0.5.0';
 
-export const defaultPerson = {
-	version: dataVersion,
-	id: '0',
-	name: 'Firstname Lastname',
-	birthdate: 'unspecified',
-	gender: undefined,
-	relationships: () => {
-		let relationships = {};
-		Object.keys(relationshipMap).forEach((element) => {
-			relationships[element] = [];
-		});
-		return relationships;
-	}
-};
-
 const relationshipMap = {
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
@@ -439,6 +424,21 @@ const relationshipMap = {
 			label: 'grandchild'
 		}
 	}
+};
+
+export const defaultPerson = {
+	version: dataVersion,
+	id: '0',
+	name: 'Firstname Lastname',
+	birthdate: 'unspecified',
+	gender: 'undefined',
+	relationships: (() => {
+		let relationships = {};
+		Object.keys(relationshipMap).forEach((element) => {
+		  relationships[element] = [];
+		});
+		return relationships;
+	  })()
 };
 
 export default writable(relationshipMap);

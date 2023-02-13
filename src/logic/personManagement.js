@@ -55,11 +55,10 @@ export const addPersonToGroup = (groupId, personId) => {
 };
 
 export const addPersonToKnownPeople = (person) => {
+	console.log(person)
 	familyTreeData.update((currentValue) => {
-		return {
-			...currentValue,
-			people: [...currentValue.people, person]
-		};
+		currentValue.people.push(person);
+		return currentValue;
 	});
 };
 
