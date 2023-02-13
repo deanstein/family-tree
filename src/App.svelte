@@ -47,7 +47,7 @@
 						id="active-person-container"
 						class="active-person-container"
 					>
-						<PersonNode personData={$familyTreeData.activePerson} />
+						<PersonNode personId={$familyTreeData.activePerson.id} />
 					</div>
 					<PersonNodeGroup
 						slot="row-right-section"

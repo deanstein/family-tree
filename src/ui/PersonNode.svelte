@@ -4,13 +4,24 @@
 	import {
 		setActivePerson,
 		upgradePersonData,
-		syncActivePersonToTree
+		syncActivePersonToTree,
+		getPersonIndexByKeyValue
 	} from '../logic/personManagement';
 
 	import { defaultPerson } from '../stores/relationshipMap';
+	import familyTreeData from '../stores/familyTreeData';
 	import stylingConstants from '../stores/stylingConstants';
 
-	export let personData;
+	export let personId;
+	let personData;
+
+	const getPersonDataById = (personId) => {
+		const personIndex = getPersonIndexByKeyValue(
+				$familyTreeData.people, 'id', personId
+		)
+		personData = $familyTreeData.people[personIndex]
+		return $familyTreeData.people[personIndex]
+	}
 
 	const personNodeOnClick = () => {
 		const upgradedPersonData = upgradePersonData(defaultPerson, personData);
@@ -37,7 +48,7 @@
 	transition:slide
 >
 	<div id="person-node-name" class={personNodeNameDynamicClass}>
-		{personData.name}
+		{getPersonDataById(personId).name}
 	</div>
 </div>
 

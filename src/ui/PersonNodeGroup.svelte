@@ -1,8 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from '../stores/familyTreeData';
-	import { getPersonIndexByKeyValue } from '../logic/personManagement';
 	import stylingConstants from '../stores/stylingConstants';
 
 	import PersonNodeAddButton from './PersonNodeAddButton.svelte';
@@ -10,19 +8,7 @@
 	import PersonNode from './PersonNode.svelte';
 
 	export let relationshipId;
-	export let personNodeGroupData = {
-		groupName: 'A Group of People',
-		groupMembers: ['John', 'Jane', 'Jim']
-	};
-
-	$: getPersonDataByGroupIndex = (groupIndex) => {
-		const personIndex = getPersonIndexByKeyValue(
-				$familyTreeData.people,
-				'id',
-				personNodeGroupData.groupMembers[groupIndex]
-		)
-		return $familyTreeData.people[personIndex]
-	}
+	export let personNodeGroupData;
 
 	const personNodeGroupPlusButtonDynamicClass = css`
 		gap: ${stylingConstants.sizes.padding};
@@ -56,7 +42,7 @@
 				<PersonNodePlaceholder relationshipId={relationshipId}/>
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
-				<PersonNode personData={getPersonDataByGroupIndex(i)} />
+				<PersonNode personId={personNodeGroupData.groupMembers[i]} />
 			{/each}
 		</div>
 	</div>
