@@ -10,7 +10,7 @@
 	import StoreView from './ui/StoreView.svelte';
 	import relationshipMap from './stores/relationshipMap';
 
-	if (($familyTreeData.activePerson = {})) {
+	if ((Object.keys($familyTreeData.activePerson).length == 0)) {
 		setActivePerson($familyTreeData.people[0]);
 	}
 </script>
