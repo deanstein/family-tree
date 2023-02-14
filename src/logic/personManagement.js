@@ -4,7 +4,7 @@ import familyTreeData from '../stores/familyTreeData';
 import { defaultPerson } from '../stores/relationshipMap';
 
 export const createNewPerson = () => {
-	let newPerson = defaultPerson;
+	let newPerson = { ...defaultPerson };
 	newPerson.id = uuidv4();
 	return newPerson;
 };
@@ -44,6 +44,8 @@ export const getPersonById = (id) => {
 		person = people.find((item) => item.id === id);
 	});
 
+	console.log(id)
+	console.log('person', person)
 	return person;
 };
 
@@ -55,7 +57,6 @@ export const addPersonToGroup = (groupId, personId) => {
 };
 
 export const addPersonToKnownPeople = (person) => {
-	console.log(person)
 	familyTreeData.update((currentValue) => {
 		currentValue.people.push(person);
 		return currentValue;
@@ -89,6 +90,8 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {
+	console.log(personDataToMatch)
+	console.log(personDataToModify)
 	let upgraded = false;
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
