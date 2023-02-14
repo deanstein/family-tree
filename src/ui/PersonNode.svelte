@@ -9,14 +9,22 @@
 	} from '../logic/personManagement';
 
 	import { defaultPerson } from '../stores/relationshipMap';
+	import familyTreeData from '../stores/familyTreeData';
 	import stylingConstants from '../stores/stylingConstants';
 
 	export let personId;
 
 	const personNodeOnClick = () => {
-		const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(personId));
-		setActivePerson(upgradedPersonData);
-		syncActivePersonToTree();
+		// clicking on the active person will pull up the detailed view
+		if (personId === $familyTreeData.activePerson.id) {
+
+			// TODO: show person detail view
+
+		} else { // clicking on anyone else makes them the active person
+			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(personId));
+			setActivePerson(upgradedPersonData);
+			syncActivePersonToTree();
+		}
 	};
 
 	const personNodeDynamicClass = css`

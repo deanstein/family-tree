@@ -44,8 +44,6 @@ export const getPersonById = (id) => {
 		person = people.find((item) => item.id === id);
 	});
 
-	console.log(id)
-	console.log('person', person)
 	return person;
 };
 
@@ -90,8 +88,6 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {
-	console.log(personDataToMatch)
-	console.log(personDataToModify)
 	let upgraded = false;
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
