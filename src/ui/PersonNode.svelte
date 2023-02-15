@@ -1,6 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
-	import { slide } from 'svelte/transition';
+
+	import { quintOut } from 'svelte/easing';
+	import { crossfade } from 'svelte/transition';
+	
 	import {
 		getPersonById,
 		setActivePerson,
@@ -36,6 +39,24 @@
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		padding: ${stylingConstants.sizes.padding};
 	`;
+
+	const [send, receive] = crossfade({
+		duration: d => Math.sqrt(d * 200),
+
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+
+			return {
+				duration: 300,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
 </script>
 
 <div
@@ -43,7 +64,8 @@
 	class="person-node {personNodeDynamicClass}"
 	on:click={personNodeOnClick}
 	on:keydown={personNodeOnClick}
-	transition:slide
+	in:receive="{{key: personId}}"
+	out:send="{{key: personId}}"
 >
 	<div id="person-node-name" class={personNodeNameDynamicClass}>
 		{getPersonById(personId).name}
