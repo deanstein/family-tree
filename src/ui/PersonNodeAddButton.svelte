@@ -7,7 +7,9 @@
 	import {
 		createNewPerson,
 		addPersonIdToActivePersonGroup,
-		addPersonToKnownPeople, getDefaultRelationshipType
+		addActivePersonIdToNewPersonGroup,
+		addPersonToKnownPeople,
+		getDefaultRelationshipType
 	} from '../logic/personManagement';
 
 	export let groupId;
@@ -23,7 +25,9 @@
 	const addButtonOnClick = () => {
 		let newPerson = createNewPerson();
 		addPersonToKnownPeople(newPerson);
-		addPersonIdToActivePersonGroup(newPerson.id, groupId, getDefaultRelationshipType(relationshipMap[groupId]).id);
+		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
+		addPersonIdToActivePersonGroup(newPerson.id, groupId, defaultRelationshipType);
+		addActivePersonIdToNewPersonGroup(newPerson.id, groupId);
 	};
 </script>
 

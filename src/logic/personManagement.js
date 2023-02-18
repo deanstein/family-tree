@@ -1,10 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import familyTreeData from '../stores/familyTreeData';
-import { relationshipMap, defaultPerson, getInverseGroupId, getInverseRelationshipId } from '../stores/relationshipMap';
+import {
+	relationshipMap,
+	defaultPerson,
+	getInverseGroupId,
+	getInverseRelationshipId
+} from '../stores/relationshipMap';
 
 export const createNewPerson = () => {
-	let newPerson = { ...defaultPerson };
+	const newPerson = JSON.parse(JSON.stringify(defaultPerson)); // required to make a deep copy
 	newPerson.id = uuidv4();
 	return newPerson;
 };
@@ -34,22 +39,21 @@ export const syncActivePersonToTree = () => {
 
 function findKeyInObject(obj, key, value) {
 	for (var k in obj) {
-	  if (obj.hasOwnProperty(k)) {
-		if (k === key && obj[k] === value) {
-		  return obj;
-		} else if (typeof obj[k] === 'object') {
-		  var result = findKeyInObject(obj[k], key, value);
-		  if (result) {
-			return result;
-		  }
+		if (obj.hasOwnProperty(k)) {
+			if (k === key && obj[k] === value) {
+				return obj;
+			} else if (typeof obj[k] === 'object') {
+				var result = findKeyInObject(obj[k], key, value);
+				if (result) {
+					return result;
+				}
+			}
 		}
-	  }
 	}
 	return null;
-  }
+}
 
 export const getPersonIndexById = (personId) => {
-
 	let personIndex;
 
 	familyTreeData.subscribe((currentValue) => {
@@ -78,65 +82,69 @@ export const addPersonToKnownPeople = (person) => {
 };
 
 export const addPersonIdToActivePersonGroup = (personId, groupId, relationshipId) => {
+	familyTreeData.update((currentValue) => {
+		currentValue.activePerson.relationships[groupId].push({
+			id: personId,
+			relationshipId: relationshipId
+		});
+		return currentValue;
+	});
+};
 
-	let inverseRelationshipId = getInverseRelationshipId(groupId) 
-	let inverseGroupId = getInverseGroupId(groupId)
-	console.log(inverseGroupId)
+export const addActivePersonIdToNewPersonGroup = (personId, groupId) => {
+	familyTreeData.update((currentValue) => {
+		let inverseRelationshipId = getInverseRelationshipId(groupId);
+		let inverseGroupId = getInverseGroupId(groupId);
+		let personIndex = getPersonIndexById(personId);
+		let person = currentValue.people[personIndex];
 
-	familyTreeData.update(currentValue => {
-
-		// add the person to the active person's proper relationship group
-		currentValue.activePerson.relationships[groupId].push({id: personId, relationshipId: relationshipId})
-
-		// then do the opposite - add the active person to the person's proper relationship group
-		let inverseGroupId = getInverseGroupId(groupId)
-		let personIndex = getPersonIndexById(personId)
-		let person = currentValue.people[personIndex]
-		person.relationships[inverseGroupId].push({id: currentValue.activePerson.id, relationshipId: inverseRelationshipId})
+		person.relationships[inverseGroupId].push({
+			id: currentValue.activePerson.id,
+			relationshipId: inverseRelationshipId
+		});
 
 		return currentValue;
 	});
 };
 
 export const getGroupIdFromRelationshipId = (relationshipId) => {
-
 	let groupId;
 
 	for (let key in relationshipMap) {
-	  if (typeof relationshipMap[key] === 'object' && relationshipMap[key].id === relationshipId) {
-		groupId = relationshipMap[key].id;
-		break;
-	  }
+		if (typeof relationshipMap[key] === 'object' && relationshipMap[key].id === relationshipId) {
+			groupId = relationshipMap[key].id;
+			break;
+		}
 	}
-  
+
 	return groupId;
-}
+};
 
 function findParentKey(id, obj) {
 	for (let key in obj) {
-	  if (obj.hasOwnProperty(key)) {
-		const child = obj[key];
-		if (child.id === id) {
-		  return obj.id;
+		if (obj.hasOwnProperty(key)) {
+			const child = obj[key];
+			if (child.id === id) {
+				return obj.id;
+			}
+			if (typeof child === 'object') {
+				const result = findParentKey(id, child);
+				if (result) {
+					return result;
+				}
+			}
 		}
-		if (typeof child === 'object') {
-		  const result = findParentKey(id, child);
-		  if (result) {
-			return result;
-		  }
-		}
-	  }
 	}
 	return null;
-  }
-  export function getDefaultRelationshipType(relationshipGroup) {
+}
+export function getDefaultRelationshipType(relationshipGroup) {
 	for (const key in relationshipGroup) {
-	  if (typeof relationshipGroup[key] === 'object') {
-		return relationshipGroup[key];
-	  }
+		if (typeof relationshipGroup[key] === 'object') {
+			return relationshipGroup[key];
+		}
 	}
 	return null;
-  }
+}
 
 function modifyObject(obj, key, value) {
 	for (var prop in obj) {

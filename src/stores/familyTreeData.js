@@ -15,7 +15,11 @@ const people = [
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
-			siblings: [{id: 4, relationshipId: 'sibling'}, {id: 3, relationshipId: 'sibling'}, {id: 5, relationshipId: 'sibling'}],
+			siblings: [
+				{ id: 4, relationshipId: 'sibling' },
+				{ id: 3, relationshipId: 'sibling' },
+				{ id: 5, relationshipId: 'sibling' }
+			],
 			halfSiblingsMaternal: [],
 			halfSiblingsPaternal: [],
 			stepsiblings: [],
@@ -38,7 +42,11 @@ const people = [
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
-			siblings: [{id: 4, relationshipId: 'sibling'}, {id: 2, relationshipId: 'sibling'}, {id: 5, relationshipId: 'sibling'}],
+			siblings: [
+				{ id: 4, relationshipId: 'sibling' },
+				{ id: 2, relationshipId: 'sibling' },
+				{ id: 5, relationshipId: 'sibling' }
+			],
 			halfSiblingsMaternal: [],
 			halfSiblingsPaternal: [],
 			stepsiblings: [],
@@ -61,7 +69,11 @@ const people = [
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
-			siblings: [{id: 2, relationshipId: 'sibling'}, {id: 3, relationshipId: 'sibling'}, {id: 5, relationshipId: 'sibling'}],
+			siblings: [
+				{ id: 2, relationshipId: 'sibling' },
+				{ id: 3, relationshipId: 'sibling' },
+				{ id: 5, relationshipId: 'sibling' }
+			],
 			halfSiblingsMaternal: [],
 			halfSiblingsPaternal: [],
 			stepsiblings: [],
@@ -84,7 +96,11 @@ const people = [
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
-			siblings: [{id: 2, relationshipId: 'sibling'}, {id: 3, relationshipId: 'sibling'}, {id: 4, relationshipId: 'sibling'}],
+			siblings: [
+				{ id: 2, relationshipId: 'sibling' },
+				{ id: 3, relationshipId: 'sibling' },
+				{ id: 4, relationshipId: 'sibling' }
+			],
 			halfSiblingsMaternal: [],
 			halfSiblingsPaternal: [],
 			stepsiblings: [],
