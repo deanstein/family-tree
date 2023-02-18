@@ -7,7 +7,6 @@
 	import PersonNodePlaceholder from './PersonNodePlaceholder.svelte';
 	import PersonNode from './PersonNode.svelte';
 
-	export let defaultRelationshipId;
 	export let personNodeGroupData;
 
 	const personNodeGroupPlusButtonDynamicClass = css`
@@ -42,7 +41,7 @@
 				<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
-				<PersonNode personId={personNodeGroupData.groupMembers[i]} />
+				<PersonNode personId={personNodeGroupData.groupMembers[i].id} />
 			{/each}
 		</div>
 	</div>

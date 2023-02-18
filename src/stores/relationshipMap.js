@@ -1,6 +1,6 @@
 import familyTreeData from './familyTreeData';
 
-export const dataVersion = '0.5.0';
+export const dataVersion = '0.6.0';
 
 export const relationshipMap = {
 	grandparentsMaternal: {
@@ -291,6 +291,63 @@ export const defaultPerson = {
 	})()
 };
 
+export const getInverseGroupId = (groupId) => {
+	let inverseGroupId;
+
+	switch (groupId) {
+		case relationshipMap.grandparentsMaternal.id:
+		case relationshipMap.grandparentsPaternal.id:
+			inverseGroupId = relationshipMap.grandchildren.id
+			break;
+		case relationshipMap.parents.id:
+			inverseGroupId = relationshipMap.children.id
+			break;
+		case relationshipMap.parentsInLaw.id:
+			inverseGroupId = relationshipMap.childrenInLaw.id
+			break;
+		case relationshipMap.stepparentsMaternal.id:
+		case relationshipMap.stepparentsPaternal.id:
+			inverseGroupId = relationshipMap.stepchildren.id
+			break;
+		case relationshipMap.siblings.id:
+			inverseGroupId = relationshipMap.siblings.id
+			break;
+		case relationshipMap.halfSiblingsMaternal.id:
+			inverseGroupId = relationshipMap.halfSiblingsMaternal.id
+			break;
+		case relationshipMap.halfSiblingsPaternal.id:
+			inverseGroupId = relationshipMap.halfSiblingsPaternal.id
+			break;
+		case relationshipMap.stepsiblings.id:
+			inverseGroupId = relationshipMap.stepsiblings.id
+			break;
+		case relationshipMap.siblingsInLaw.id:
+			inverseGroupId = relationshipMap.siblingsInLaw.id
+			break;
+		case relationshipMap.spouses.id:
+			inverseGroupId = relationshipMap.spouses.id
+			break;
+		case relationshipMap.exSpouses.id:
+			inverseGroupId = relationshipMap.exSpouses.id
+			break;
+		case relationshipMap.children.id:
+			inverseGroupId = relationshipMap.parents.id
+			break;
+		case relationshipMap.childrenInLaw.id:
+			inverseGroupId = relationshipMap.parentsInLaw.id
+			break;
+		case relationshipMap.stepchildren.id:
+			inverseGroupId = relationshipMap.stepparentsMaternal.id
+			break;
+		case relationshipMap.grandchildren.id:
+			inverseGroupId = relationshipMap.grandparentsMaternal.id
+			break;
+		default:
+			return undefined;
+	}
+	return inverseGroupId;
+}
+
 export const getInverseRelationshipId = (groupId) => {
 	let inverseId = undefined;
 	familyTreeData.subscribe((familyTreeData) => {
@@ -428,6 +485,5 @@ export const getInverseRelationshipId = (groupId) => {
 				return undefined;
 		}
 	});
-	console.log(inverseId);
 	return inverseId;
 };

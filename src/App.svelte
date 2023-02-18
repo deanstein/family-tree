@@ -23,7 +23,6 @@
 					<div />
 					<PersonNodeGroup
 						slot="row-middle-section"
-						defaultRelationshipId={relationshipMap.parents.parent.id}
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
 							groupName: relationshipMap.parents.label,
@@ -37,7 +36,6 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-left-section"
-						defaultRelationshipId={relationshipMap.siblings.sibling.id}
 						personNodeGroupData={{
 							groupId: relationshipMap.siblings.id,
 							groupName: relationshipMap.siblings.label,
@@ -53,7 +51,6 @@
 					</div>
 					<PersonNodeGroup
 						slot="row-right-section"
-						defaultRelationshipId={relationshipMap.spouses.partner.id}
 						personNodeGroupData={{
 							groupId: relationshipMap.spouses.id,
 							groupName: relationshipMap.spouses.label,
@@ -67,7 +64,6 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-middle-section"
-						defaultRelationshipId={relationshipMap.children.child.id}
 						personNodeGroupData={{
 							groupId: relationshipMap.children.id,
 							groupName: relationshipMap.children.label,
