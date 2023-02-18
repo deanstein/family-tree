@@ -1,108 +1,70 @@
-import { writable } from 'svelte/store';
-
 import familyTreeData from './familyTreeData';
 
 export const dataVersion = '0.5.0';
 
-const relationshipMap = {
+export const relationshipMap = {
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
 		label: 'Maternal Grandparents',
+		grandparentMaternal: {
+			id: 'grandparentMaternal',
+			label: ''
+		},
 		grandmotherMaternal: {
 			id: `grandmotherMaternal`,
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
 			label: 'maternal grandmother'
 		},
 		grandfatherMaternal: {
 			id: 'grandfatherMaternal',
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
 			label: 'maternal grandfather'
-		},
-		grandparentMaternal: {
-			id: 'grandparentMaternal',
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
-			label: ''
 		}
 	},
 	grandparentsPaternal: {
 		id: 'grandparentsPaternal',
 		label: 'Paternal Grandparents',
+		grandparentPaternal: {
+			id: 'grandparentPaternal',
+			label: ''
+		},
 		grandmotherPaternal: {
 			id: 'grandmotherPaternal',
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
 			label: 'paternal grandmother'
 		},
 		grandfatherPaternal: {
 			id: 'grandfatherPaternal',
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
 			label: 'paternal grandfather'
-		},
-		grandparentPaternal: {
-			id: 'grandparentPaternal',
-			get inverseId() {
-				return getGrandparentInverseId();
-			},
-			label: ''
 		}
 	},
 	parents: {
 		id: 'parents',
 		label: 'Parents',
+		parent: {
+			id: 'parent',
+			label: ''
+		},
 		mother: {
 			id: 'mother',
-			get inverseId() {
-				return getParentInverseId();
-			},
 			label: 'mother'
 		},
 		father: {
 			id: 'father',
-			get inverseId() {
-				return getParentInverseId();
-			},
 			label: 'father'
-		},
-		parent: {
-			id: 'parent',
-			get inverseId() {
-				return getParentInverseId();
-			},
-			label: ''
 		}
 	},
 	parentsInLaw: {
 		id: 'parentsInLaw',
 		label: 'Parents in Law',
+		parentinlaw: {
+			id: 'parentInLaw',
+			label: ''
+		},
 		motherinlaw: {
 			id: 'motherInLaw',
-			get inverseId() {
-				return getParentInLawInverseId();
-			},
 			label: 'mother-in-law'
 		},
 		fatherinlaw: {
 			id: 'fatherInLaw',
-			get inverseId() {
-				return getParentInLawInverseId();
-			},
 			label: 'father-in-law'
-		},
-		parentinlaw: {
-			id: 'parentInLaw',
-			get inverseId() {
-				return getParentInLawInverseId();
-			},
-			label: ''
 		}
 	},
 	stepparentsMaternal: {
@@ -110,196 +72,126 @@ const relationshipMap = {
 		label: 'Maternal Step Parents',
 		stepmotherMaternal: {
 			id: 'stepmotherMaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
 			label: 'stepmother'
 		},
 		stepfatherMaternal: {
 			id: 'stepfatherMaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
 			label: 'stepfather'
 		},
 		stepparentMaternal: {
 			id: 'stepparentMaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
 			label: ''
 		}
 	},
 	stepparentsPaternal: {
 		id: 'stepparentsPaternal',
 		label: 'Paternal Step Parents',
+		stepparentPaternal: {
+			id: 'stepparentPaternal',
+			label: ''
+		},
 		stepmotherPaternal: {
 			id: 'stepmotherPaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
 			label: 'stepmother'
 		},
 		stepfatherPaternal: {
 			id: 'stepfatherPaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
 			label: 'stepfather'
-		},
-		stepparentPaternal: {
-			id: 'stepparentPaternal',
-			get inverseId() {
-				return getStepParentInverseId();
-			},
-			label: ''
 		}
 	},
 	siblings: {
 		id: 'siblings',
 		label: 'Siblings',
+		sibling: {
+			id: 'sibling',
+			label: ''
+		},
 		sister: {
 			id: 'sister',
-			get inverseId() {
-				return getSiblingInverseId();
-			},
 			label: 'sister'
 		},
 		brother: {
 			id: 'brother',
-			get inverseId() {
-				return getSiblingInverseId();
-			},
 			label: 'brother'
-		},
-		sibling: {
-			id: 'sibling',
-			get inverseId() {
-				return getSiblingInverseId();
-			},
-			label: ''
 		}
 	},
 	halfSiblingsMaternal: {
 		id: 'halfSiblingsMaternal',
 		label: 'Maternal Half Siblings',
+		halfSiblingMaternal: {
+			id: 'halfSiblingMaternal',
+			label: 'half sibling'
+		},
 		halfsisterMaternal: {
 			id: 'halfSisterMaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
 			label: 'half sister'
 		},
 		halfbrotherMaternal: {
 			id: 'halfBrotherMaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
 			label: 'half brother'
-		},
-		halfSiblingMaternal: {
-			id: 'halfSiblingMaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
-			label: 'half sibling'
 		}
 	},
 	halfSiblingsPaternal: {
 		id: 'halfSiblingsPaternal',
 		label: 'Paternal Half Siblings',
+		halfsiblingPaternal: {
+			id: 'halfSiblingPaternal',
+			label: 'half sibling'
+		},
 		halfSisterPaternal: {
 			id: 'halfSisterPaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
 			label: 'half sister'
 		},
 		halfBrotherPaternal: {
 			id: 'halfBrotherPaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
 			label: 'half brother'
-		},
-		halfsiblingPaternal: {
-			id: 'halfSiblingPaternal',
-			get inverseId() {
-				return getHalfSiblingInverseId();
-			},
-			label: 'half sibling'
 		}
 	},
 	stepsiblings: {
 		id: 'stepSiblings',
 		label: 'Step Siblings',
+		stepsibling: {
+			id: 'stepsibling',
+			label: 'stepsibling'
+		},
 		stepsister: {
 			id: 'stepsister',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
 			label: 'stepsister'
 		},
 		stepbrother: {
 			id: 'stepbrother',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
 			label: 'stepbrother'
-		},
-		stepsibling: {
-			id: 'stepsibling',
-			get inverseId() {
-				return getStepSiblingInverseId();
-			},
-			label: 'stepsibling'
 		}
 	},
 	siblingsInLaw: {
 		label: 'Siblings-in-Law',
+		siblingInLaw: {
+			id: 'siblingInLaw',
+			label: 'sibling-in-law'
+		},
 		sisterInLaw: {
 			id: 'sisterInLaw',
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
 			label: 'sister-in-law'
 		},
 		brotherInLaw: {
 			id: 'brotherInLaw',
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
 			label: 'brother-in-law'
-		},
-		siblingInLaw: {
-			id: 'siblingInLaw',
-			get inverseId() {
-				return getSiblingInLawInverseId();
-			},
-			label: 'sibling-in-law'
 		}
 	},
 	spouses: {
 		id: 'spouses',
 		label: 'Spouse',
+		partner: {
+			id: 'partner',
+			label: 'partner'
+		},
 		wife: {
 			id: 'wife',
-			get inverseId() {
-				return getSpouseInverseId();
-			},
 			label: 'wife'
 		},
 		husband: {
 			id: 'husband',
-			get inverseId() {
-				return getSpouseInverseId();
-			},
 			label: 'husband'
-		},
-		partner: {
-			id: 'partner',
-			inverseId: 'partner',
-			label: 'partner'
 		}
 	},
 	exSpouses: {
@@ -307,121 +199,78 @@ const relationshipMap = {
 		label: 'Ex-Spouses',
 		exWife: {
 			id: 'exWife',
-			get inverseId() {
-				return getExSpouseInverseId();
-			},
 			label: 'ex-wife'
 		},
 		exHusband: {
 			id: 'exHusband',
-			get inverseId() {
-				return getExSpouseInverseId();
-			},
 			label: 'ex-husband'
 		},
 		exPartner: {
 			id: 'exPartner',
-			inverseId: 'exPartner',
 			label: 'ex-partner'
 		}
 	},
 	children: {
 		id: 'children',
 		label: 'Children',
+		child: {
+			id: 'child',
+			label: ''
+		},
 		daughter: {
 			id: 'daughter',
-			get inverseId() {
-				return getChildrenInverseId();
-			},
 			label: 'daughter'
 		},
 		son: {
 			id: 'son',
-			get inverseId() {
-				return getChildrenInverseId();
-			},
 			label: 'son'
-		},
-		child: {
-			id: 'child',
-			get inverseId() {
-				return getChildrenInverseId();
-			},
-			label: ''
 		}
 	},
 	stepchildren: {
 		id: 'stepChildren',
 		label: 'Step Children',
+		stepchild: {
+			id: 'stepchild',
+			label: 'stepchild'
+		},
 		stepdaughter: {
 			id: 'stepdaughter',
-			get inverse() {
-				return getStepChildrenInverseId();
-			},
 			label: 'stepdaughter'
 		},
 		stepson: {
 			id: 'stepson',
-			get inverseId() {
-				return getStepChildrenInverseId();
-			},
 			label: 'stepson'
-		},
-		stepchild: {
-			id: 'stepchild',
-			get inverseId() {
-				return getStepChildrenInverseId();
-			},
-			label: 'stepchild'
 		}
 	},
 	childrenInLaw: {
 		id: 'childrenInLaw',
 		label: 'Children in Law',
+		childInLaw: {
+			id: 'childInLaw',
+			label: ''
+		},
 		daughterInLaw: {
 			id: 'daughterInLaw',
-			get inverseId() {
-				return getChildInLawInverseId();
-			},
 			label: 'daughter-in-law'
 		},
 		sonInLaw: {
 			id: 'sonInLaw',
-			label: 'son-in-law',
-			get inverseId() {
-				return getChildInLawInverseId();
-			}
-		},
-		childInLaw: {
-			id: 'childInLaw',
-			get inverseId() {
-				return getChildInLawInverseId();
-			},
-			label: ''
+			label: 'son-in-law'
 		}
 	},
 	grandchildren: {
 		id: 'grandchildren',
+		grandchild: {
+			id: 'grandchild',
+			label: 'grandchild'
+		},
 		granddaughter: {
 			id: 'granddaughter',
-			get inverseId() {
-				return getGrandchildrenInverseId();
-			},
 			label: 'granddaughter'
 		},
 		grandson: {
 			id: 'grandson',
-			get inverseId() {
-				return getGrandchildrenInverseId();
-			},
 			label: 'grandson'
-		},
-		grandchild: {
-			id: 'grandchild',
-			get inverseId() {
-				return getGrandchildrenInverseId();
-			},
-			label: 'grandchild'
 		}
 	}
 };
@@ -432,181 +281,153 @@ export const defaultPerson = {
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',
 	gender: 'undefined',
+	relationshipToActivePerson: 'undefined',
 	relationships: (() => {
 		let relationships = {};
 		Object.keys(relationshipMap).forEach((element) => {
-		  relationships[element] = [];
+			relationships[element] = [];
 		});
 		return relationships;
-	  })()
+	})()
 };
 
-export default writable(relationshipMap);
-
-const getGrandparentInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.grandchildren.grandson.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.grandchildren.granddaughter.id;
-		} else {
-			return relationshipMap.grandchildren.grandchild.id;
+export const getInverseRelationshipId = (groupId) => {
+	let inverseId = undefined;
+	familyTreeData.subscribe((familyTreeData) => {
+		let activePersonGender = familyTreeData.activePerson.gender;
+		switch (groupId) {
+			case relationshipMap.grandparentsMaternal.id:
+			case relationshipMap.grandparentsPaternal.id:
+				if (activePersonGender === 'male') {
+					inverseId = relationshipMap.grandchildren.grandson.id;
+				} else if (activePersonGender === 'female') {
+					inverseId = relationshipMap.grandchildren.granddaughter.id;
+				} else {
+					inverseId = relationshipMap.grandchildren.grandchild.id;
+				}
+				break;
+			case relationshipMap.parents.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.children.son.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.children.daughter.id;
+				} else {
+					inverseId = relationshipMap.children.child.id;
+				}
+				break;
+			case relationshipMap.parentsInLaw.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.children.soninlaw.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.children.daughterinlaw.id;
+				} else {
+					inverseId = relationshipMap.children.childinlaw.id;
+				}
+				break;
+			case relationshipMap.stepparentsMaternal.id:
+			case relationshipMap.stepparentsPaternal.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.children.stepson.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.children.stepdaughter.id;
+				} else {
+					inverseId = relationshipMap.children.stepchild.id;
+				}
+				break;
+			case relationshipMap.siblings.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.siblings.brother.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.siblings.sister.id;
+				} else {
+					inverseId = relationshipMap.siblings.sibling.id;
+				}
+				break;
+			case relationshipMap.halfSiblingsMaternal.id:
+			case relationshipMap.halfSiblingsPaternal.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.siblings.halfbrother.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.siblings.halfsister.id;
+				} else {
+					inverseId = relationshipMap.siblings.halfsibling.id;
+				}
+				break;
+			case relationshipMap.stepsiblings.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.siblings.stepbrother.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.siblings.stepsister.id;
+				} else {
+					inverseId = relationshipMap.siblings.stepsibling.id;
+				}
+				break;
+			case relationshipMap.siblingsInLaw.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.siblings.brotherinlaw.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.siblings.sisterinlaw.id;
+				} else {
+					inverseId = relationshipMap.siblings.siblinginlaw.id;
+				}
+				break;
+			case relationshipMap.spouses.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.spouses.husband.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.spouses.wife.id;
+				} else {
+					inverseId = relationshipMap.spouses.partner.id;
+				}
+				break;
+			case relationshipMap.exSpouses.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.spouses.exhusband.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.spouses.exwife.id;
+				} else {
+					inverseId = relationshipMap.spouses.expartner.id;
+				}
+				break;
+			case relationshipMap.children.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.parents.father.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.parents.mother.id;
+				} else {
+					inverseId = relationshipMap.parents.parent.id;
+				}
+				break;
+			case relationshipMap.childrenInLaw.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.parents.fatherinlaw.id;
+				} else if (familyTreeData.defaultPersonactivePerson.gender === 'female') {
+					inverseId = relationshipMap.parents.motherinlaw.id;
+				} else {
+					inverseId = relationshipMap.parents.parentinlaw.id;
+				}
+				break;
+			case relationshipMap.stepchildren.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.parents.stepfather.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.parents.stepmother.id;
+				} else {
+					inverseId = relationshipMap.parents.stepparent.id;
+				}
+				break;
+			case relationshipMap.grandchildren.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = undefined;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = undefined;
+				} else {
+					inverseId = undefined;
+				}
+			default:
+				return undefined;
 		}
 	});
-};
-
-const getParentInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.children.son.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.children.daughter.id;
-		} else {
-			return relationshipMap.children.child.id;
-		}
-	});
-};
-
-const getParentInLawInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.children.soninlaw.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.children.daughterinlaw.id;
-		} else {
-			return relationshipMap.children.childinlaw.id;
-		}
-	});
-};
-
-const getStepParentInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.children.stepson.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.children.stepdaughter.id;
-		} else {
-			return relationshipMap.children.stepchild.id;
-		}
-	});
-};
-
-const getSiblingInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.siblings.brother.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.siblings.sister.id;
-		} else {
-			return relationshipMap.siblings.sibling.id;
-		}
-	});
-};
-
-const getHalfSiblingInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.siblings.halfbrother.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.siblings.halfsister.id;
-		} else {
-			return relationshipMap.siblings.halfsibling.id;
-		}
-	});
-};
-
-const getStepSiblingInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.siblings.stepbrother.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.siblings.stepsister.id;
-		} else {
-			return relationshipMap.siblings.stepsibling.id;
-		}
-	});
-};
-
-const getSiblingInLawInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.siblings.brotherinlaw.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.siblings.sisterinlaw.id;
-		} else {
-			return relationshipMap.siblings.siblinginlaw.id;
-		}
-	});
-};
-
-const getSpouseInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.spouses.husband.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.spouses.wife.id;
-		} else {
-			return relationshipMap.spouses.partner.id;
-		}
-	});
-};
-
-const getExSpouseInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.spouses.exhusband.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.spouses.exwife.id;
-		} else {
-			return relationshipMap.spouses.expartner.id;
-		}
-	});
-};
-
-const getChildrenInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.parents.father.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.parents.mother.id;
-		} else {
-			return relationshipMap.parents.parent.id;
-		}
-	});
-};
-
-const getChildInLawInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.parents.fatherinlaw.id;
-		} else if (currentValue.defaultPersonactivePerson.gender === 'female') {
-			return relationshipMap.parents.motherinlaw.id;
-		} else {
-			return relationshipMap.parents.parentinlaw.id;
-		}
-	});
-};
-
-const getStepChildrenInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return relationshipMap.parents.stepfather.id;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return relationshipMap.parents.stepmother.id;
-		} else {
-			return relationshipMap.parents.stepparent.id;
-		}
-	});
-};
-
-const getGrandchildrenInverseId = () => {
-	familyTreeData.subscribe((currentValue) => {
-		if (currentValue.activePerson.gender === 'male') {
-			return undefined;
-		} else if (currentValue.activePerson.gender === 'female') {
-			return undefined;
-		} else {
-			return undefined;
-		}
-	});
+	console.log(inverseId);
+	return inverseId;
 };

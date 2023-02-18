@@ -3,7 +3,7 @@
 
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
-	
+
 	import {
 		getPersonById,
 		setActivePerson,
@@ -20,10 +20,9 @@
 	const personNodeOnClick = () => {
 		// clicking on the active person will pull up the detailed view
 		if (personId === $familyTreeData.activePerson.id) {
-
 			// TODO: show person detail view
-
-		} else { // clicking on anyone else makes them the active person
+		} else {
+			// clicking on anyone else makes them the active person
 			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(personId));
 			setActivePerson(upgradedPersonData);
 			syncActivePersonToTree();
@@ -41,7 +40,7 @@
 	`;
 
 	const [send, receive] = crossfade({
-		duration: d => Math.sqrt(d * 200),
+		duration: (d) => Math.sqrt(d * 200),
 
 		fallback(node, params) {
 			const style = getComputedStyle(node);
@@ -50,7 +49,7 @@
 			return {
 				duration: 300,
 				easing: quintOut,
-				css: t => `
+				css: (t) => `
 					transform: ${transform} scale(${t});
 					opacity: ${t}
 				`
@@ -64,8 +63,8 @@
 	class="person-node {personNodeDynamicClass}"
 	on:click={personNodeOnClick}
 	on:keydown={personNodeOnClick}
-	in:receive="{{key: personId}}"
-	out:send="{{key: personId}}"
+	in:receive={{ key: personId }}
+	out:send={{ key: personId }}
 >
 	<div id="person-node-name" class={personNodeNameDynamicClass}>
 		{getPersonById(personId).name}

@@ -8,9 +8,9 @@
 	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
 	import GenerationRow from './ui/GenerationRow.svelte';
 	import StoreView from './ui/StoreView.svelte';
-	import relationshipMap from './stores/relationshipMap';
+	import { relationshipMap } from './stores/relationshipMap';
 
-	if ((Object.keys($familyTreeData.activePerson).length == 0)) {
+	if (Object.keys($familyTreeData.activePerson).length == 0) {
 		setActivePerson($familyTreeData.people[0]);
 	}
 </script>
@@ -23,9 +23,10 @@
 					<div />
 					<PersonNodeGroup
 						slot="row-middle-section"
-						relationshipId={$relationshipMap.parents.id}
+						defaultRelationshipId={relationshipMap.parents.parent.id}
 						personNodeGroupData={{
-							groupName: 'Parents',
+							groupId: relationshipMap.parents.id,
+							groupName: relationshipMap.parents.label,
 							groupMembers: $familyTreeData.activePerson.relationships.parents
 						}}
 					/>
@@ -36,9 +37,10 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-left-section"
-						relationshipId={$relationshipMap.siblings.id}
+						defaultRelationshipId={relationshipMap.siblings.sibling.id}
 						personNodeGroupData={{
-							groupName: 'Siblings',
+							groupId: relationshipMap.siblings.id,
+							groupName: relationshipMap.siblings.label,
 							groupMembers: $familyTreeData.activePerson.relationships.siblings
 						}}
 					/>
@@ -51,9 +53,10 @@
 					</div>
 					<PersonNodeGroup
 						slot="row-right-section"
-						relationshipId={$relationshipMap.spouses.id}
+						defaultRelationshipId={relationshipMap.spouses.partner.id}
 						personNodeGroupData={{
-							groupName: 'Spouses',
+							groupId: relationshipMap.spouses.id,
+							groupName: relationshipMap.spouses.label,
 							groupMembers: $familyTreeData.activePerson.relationships.spouses
 						}}
 					/>
@@ -64,9 +67,10 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<PersonNodeGroup
 						slot="row-middle-section"
-						relationshipId={$relationshipMap.children.id}
+						defaultRelationshipId={relationshipMap.children.child.id}
 						personNodeGroupData={{
-							groupName: 'Children',
+							groupId: relationshipMap.children.id,
+							groupName: relationshipMap.children.label,
 							groupMembers: $familyTreeData.activePerson.relationships.children
 						}}
 					/>

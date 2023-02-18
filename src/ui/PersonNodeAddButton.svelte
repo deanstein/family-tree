@@ -1,17 +1,16 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from '../stores/familyTreeData';
-	import relationshipMap from '../stores/relationshipMap';
+	import { relationshipMap } from '../stores/relationshipMap';
 	import stylingConstants from '../stores/stylingConstants';
 
 	import {
 		createNewPerson,
-		addPersonToGroup,
+		addPersonIdToActivePersonGroup,
 		addPersonToKnownPeople
 	} from '../logic/personManagement';
 
-	export let relationshipId;
+	export let groupId;
 
 	const personNodeAddButtonDynamicStyle = css`
 		width: ${stylingConstants.sizes.personNodeAddButtonSize};
@@ -24,7 +23,7 @@
 	const addButtonOnClick = () => {
 		let newPerson = createNewPerson();
 		addPersonToKnownPeople(newPerson);
-		addPersonToGroup(relationshipId, newPerson.id);
+		addPersonIdToActivePersonGroup(newPerson.id, groupId, relationshipMap[groupId][0]);
 	};
 </script>
 

@@ -1,11 +1,8 @@
 import { writable } from 'svelte/store';
 
-import relationshipMap from './relationshipMap';
-
 const familyTreeData = {};
 
 const activePerson = {};
-
 const people = [
 	{
 		id: 2,

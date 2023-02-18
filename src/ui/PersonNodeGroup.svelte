@@ -7,7 +7,7 @@
 	import PersonNodePlaceholder from './PersonNodePlaceholder.svelte';
 	import PersonNode from './PersonNode.svelte';
 
-	export let relationshipId;
+	export let defaultRelationshipId;
 	export let personNodeGroupData;
 
 	const personNodeGroupPlusButtonDynamicClass = css`
@@ -39,7 +39,7 @@
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 			{#if personNodeGroupData.groupMembers.length == 0}
-				<PersonNodePlaceholder {relationshipId} />
+				<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
 				<PersonNode personId={personNodeGroupData.groupMembers[i]} />
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	{#if personNodeGroupData.groupMembers.length > 0}
-		<PersonNodeAddButton {relationshipId} />
+		<PersonNodeAddButton groupId={personNodeGroupData.groupId} />
 	{/if}
 </div>
 
