@@ -2,6 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import { relationshipMap } from '../stores/relationshipMap';
+	import uiState from '../stores/uiState';
 	import stylingConstants from '../stores/stylingConstants';
 
 	import {
@@ -28,6 +29,11 @@
 		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
 		addPersonIdToActivePersonGroup(newPerson.id, groupId, defaultRelationshipType);
 		addActivePersonIdToNewPersonGroup(newPerson.id, groupId);
+
+		uiState.update((currentValue) => {
+			currentValue.personIdForNodeEdit = newPerson.id;
+			return currentValue;
+		});
 	};
 </script>
 

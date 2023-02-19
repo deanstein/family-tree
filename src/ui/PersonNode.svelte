@@ -1,4 +1,5 @@
 <script>
+	import { getContext } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import { quintOut } from 'svelte/easing';
@@ -16,15 +17,15 @@
 	import stylingConstants from '../stores/stylingConstants';
 	import TextInput from './TextInput.svelte';
 
-	export let personId;
+	export let sPersonId;
 
 	const personNodeOnClick = () => {
 		// clicking on the active person will pull up the detailed view
-		if (personId === $familyTreeData.activePerson.id) {
+		if (sPersonId === $familyTreeData.activePerson.id) {
 			// TODO: show person detail view
 		} else {
 			// clicking on anyone else makes them the active person
-			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(personId));
+			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(sPersonId));
 			setActivePerson(upgradedPersonData);
 			syncActivePersonToTree();
 		}
@@ -64,11 +65,11 @@
 	class="person-node {personNodeDynamicClass}"
 	on:click={personNodeOnClick}
 	on:keydown={personNodeOnClick}
-	in:receive={{ key: personId }}
-	out:send={{ key: personId }}
+	in:receive={{ key: sPersonId }}
+	out:send={{ key: sPersonId }}
 >
-	<div id="person-node-name" class='person-node-name {personNodeNameDynamicClass}'>
-		<TextInput inputValue={getPersonById(personId).name}/>
+	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
+		<TextInput sInputValue={getPersonById(sPersonId).name} personId={sPersonId} />
 	</div>
 </div>
 
@@ -86,5 +87,4 @@
 		align-items: center;
 		justify-content: center;
 	}
-
 </style>

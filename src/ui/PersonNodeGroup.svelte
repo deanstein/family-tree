@@ -41,7 +41,7 @@
 				<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
 			{/if}
 			{#each personNodeGroupData.groupMembers as { }, i}
-				<PersonNode personId={personNodeGroupData.groupMembers[i].id} />
+				<PersonNode sPersonId={personNodeGroupData.groupMembers[i].id} />
 			{/each}
 		</div>
 	</div>
