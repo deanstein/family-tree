@@ -14,6 +14,7 @@
 	import { defaultPerson } from '../stores/relationshipMap';
 	import familyTreeData from '../stores/familyTreeData';
 	import stylingConstants from '../stores/stylingConstants';
+	import TextInput from './TextInput.svelte';
 
 	export let personId;
 
@@ -66,8 +67,8 @@
 	in:receive={{ key: personId }}
 	out:send={{ key: personId }}
 >
-	<div id="person-node-name" class={personNodeNameDynamicClass}>
-		{getPersonById(personId).name}
+	<div id="person-node-name" class='person-node-name {personNodeNameDynamicClass}'>
+		<TextInput inputValue={getPersonById(personId).name}/>
 	</div>
 </div>
 
@@ -78,4 +79,12 @@
 		justify-content: center;
 		background-color: whitesmoke;
 	}
+
+	.person-node-name {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
 </style>

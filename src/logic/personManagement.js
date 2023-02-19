@@ -37,22 +37,6 @@ export const syncActivePersonToTree = () => {
 	});
 };
 
-function findKeyInObject(obj, key, value) {
-	for (var k in obj) {
-		if (obj.hasOwnProperty(k)) {
-			if (k === key && obj[k] === value) {
-				return obj;
-			} else if (typeof obj[k] === 'object') {
-				var result = findKeyInObject(obj[k], key, value);
-				if (result) {
-					return result;
-				}
-			}
-		}
-	}
-	return null;
-}
-
 export const getPersonIndexById = (personId) => {
 	let personIndex;
 
@@ -120,23 +104,6 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 	return groupId;
 };
 
-function findParentKey(id, obj) {
-	for (let key in obj) {
-		if (obj.hasOwnProperty(key)) {
-			const child = obj[key];
-			if (child.id === id) {
-				return obj.id;
-			}
-			if (typeof child === 'object') {
-				const result = findParentKey(id, child);
-				if (result) {
-					return result;
-				}
-			}
-		}
-	}
-	return null;
-}
 export function getDefaultRelationshipType(relationshipGroup) {
 	for (const key in relationshipGroup) {
 		if (typeof relationshipGroup[key] === 'object') {
@@ -187,3 +154,37 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 	}
 	return personDataToModify;
 };
+
+function findParentKey(id, obj) {
+	for (let key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			const child = obj[key];
+			if (child.id === id) {
+				return obj.id;
+			}
+			if (typeof child === 'object') {
+				const result = findParentKey(id, child);
+				if (result) {
+					return result;
+				}
+			}
+		}
+	}
+	return null;
+}
+
+function findKeyInObject(obj, key, value) {
+	for (var k in obj) {
+		if (obj.hasOwnProperty(k)) {
+			if (k === key && obj[k] === value) {
+				return obj;
+			} else if (typeof obj[k] === 'object') {
+				var result = findKeyInObject(obj[k], key, value);
+				if (result) {
+					return result;
+				}
+			}
+		}
+	}
+	return null;
+}
