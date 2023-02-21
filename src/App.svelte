@@ -4,8 +4,8 @@
 
 	import { setActivePerson } from './logic/personManagement';
 
-	import PersonNode from './ui/PersonNode.svelte';
-	import PersonNodeGroup from './ui/PersonNodeGroup.svelte';
+	import PersonNode from './ui/PersonNode/PersonNode.svelte';
+	import PersonNodeGroup from './ui/NodeGroup/NodeGroup.svelte';
 	import GenerationRow from './ui/GenerationRow.svelte';
 	import StoreView from './ui/StoreView.svelte';
 	import { relationshipMap } from './stores/relationshipMap';
