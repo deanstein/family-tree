@@ -4,10 +4,8 @@
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">
-	<div id='copyright' class='footer-item'>
-		(C) JDG 2023
-	</div>
-	<div id='version' class='footer-item'>
+	<div id="copyright" class="footer-item">(C) JDG 2023</div>
+	<div id="version" class="footer-item">
 		| App: {sAppVersion} | Data: {sDataVersion}
 	</div>
 </div>

@@ -1,7 +1,7 @@
 <script>
 	import familyTreeData from '../../stores/familyTreeData';
-    import uiState from '../../stores/uiState';
-    import { getPersonIndexById } from '../../logic/personManagement';
+	import uiState from '../../stores/uiState';
+	import { getPersonIndexById } from '../../logic/personManagement';
 
 	export let sPersonId = undefined;
 	export let sInputValue;
@@ -19,13 +19,13 @@
 	const startEditText = (el) => {
 		el.focus();
 		el.select();
-	}
+	};
 
-    const onKeyDownAction = (event) => {
-        if (event.keyCode === 13) {
-            event.target.blur()
-        }
-    }
+	const onKeyDownAction = (event) => {
+		if (event.keyCode === 13) {
+			event.target.blur();
+		}
+	};
 
 	const onDoubleCLickAction = (event) => {
 		bEnabled = true;
@@ -37,15 +37,15 @@
 	};
 
 	const onBlurAction = (event) => {
-        const sCurrentInputValue = event.target.value;
+		const sCurrentInputValue = event.target.value;
 
-        familyTreeData.update(currentValue => {
-            let personIndex = getPersonIndexById(sPersonId);
-            currentValue.people[personIndex].name = sCurrentInputValue;
-            return currentValue;
-        })
+		familyTreeData.update((currentValue) => {
+			let personIndex = getPersonIndexById(sPersonId);
+			currentValue.people[personIndex].name = sCurrentInputValue;
+			return currentValue;
+		});
 
-		uiState.update(currentValue => {
+		uiState.update((currentValue) => {
 			currentValue.personIdForNodeEdit = undefined;
 			return currentValue;
 		});
@@ -54,7 +54,7 @@
 
 <div id="text-input-container" class="text-input-container">
 	<input
-        bind:value={sInputValue}
+		bind:value={sInputValue}
 		type="text"
 		id="text-input"
 		class="text-input"

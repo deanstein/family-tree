@@ -11,8 +11,8 @@
 	import StoreView from './ui/StoreView.svelte';
 	import { relationshipMap } from './stores/relationshipMap';
 
-let sAppVersion = 'v0.1.0'
-let sDataVersion = relationshipMap.sDataVersion;
+	let sAppVersion = 'v0.1.0';
+	let sDataVersion = relationshipMap.sDataVersion;
 
 	// set the initial active person as the first in the list
 	if (Object.keys($familyTreeData.activePerson).length == 0) {
@@ -78,7 +78,7 @@ let sDataVersion = relationshipMap.sDataVersion;
 				</GenerationRow>
 			</div>
 		</div>
-		<Footer sAppVersion={sAppVersion} sDataVersion={sDataVersion}/>
+		<Footer {sAppVersion} {sDataVersion} />
 		<StoreView />
 	</div>
 </main>

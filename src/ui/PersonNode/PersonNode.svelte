@@ -1,5 +1,4 @@
 <script>
-	import { getContext } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import { quintOut } from 'svelte/easing';
@@ -15,7 +14,8 @@
 	import { defaultPerson } from '../../stores/relationshipMap';
 	import familyTreeData from '../../stores/familyTreeData';
 	import stylingConstants from '../../stores/stylingConstants';
-	import TextInput from './TextInput.svelte';
+	import NodeSettingsButton from './NodeSettingsButton.svelte';
+	import TextInput from './NameInput.svelte';
 
 	export let sPersonId;
 
@@ -68,14 +68,16 @@
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}
 >
+	<NodeSettingsButton />
 	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
-		<TextInput sInputValue={getPersonById(sPersonId).name} sPersonId={sPersonId} />
+		<TextInput sInputValue={getPersonById(sPersonId).name} {sPersonId} />
 	</div>
 </div>
 
 <style>
 	.person-node {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		background-color: whitesmoke;

@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 	import stylingConstants from '../../stores/stylingConstants';
-	import PersonNodeAddButton from '../NodeGroup/NodeGroupAddButton.svelte';
+	import PersonNodeAddButton from '../NodeGroup/AddPersonButton.svelte';
 
 	export let relationshipId;
 

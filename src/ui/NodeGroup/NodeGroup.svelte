@@ -3,7 +3,7 @@
 
 	import stylingConstants from '../../stores/stylingConstants';
 
-	import PersonNodeAddButton from './NodeGroupAddButton.svelte';
+	import PersonNodeAddButton from './AddPersonButton.svelte';
 	import PersonNodePlaceholder from '../PersonNode/PersonNodePlaceholder.svelte';
 	import PersonNode from '../PersonNode/PersonNode.svelte';
 
