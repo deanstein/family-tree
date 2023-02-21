@@ -2,8 +2,8 @@ import { writable } from 'svelte/store';
 
 const uiState = {};
 
-const personIdForNodeEdit = '0';
+const sPersonIdForNodeEdit = '0';
 
-uiState['personIdForNodeEdit'] = personIdForNodeEdit;
+uiState['sPersonIdForNodeEdit'] = sPersonIdForNodeEdit;
 
 export default writable(uiState);

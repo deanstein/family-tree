@@ -69,7 +69,7 @@
 	out:send={{ key: sPersonId }}
 >
 	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
-		<TextInput sInputValue={getPersonById(sPersonId).name} personId={sPersonId} />
+		<TextInput sInputValue={getPersonById(sPersonId).name} sPersonId={sPersonId} />
 	</div>
 </div>
 

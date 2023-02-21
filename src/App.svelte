@@ -7,9 +7,14 @@
 	import PersonNode from './ui/PersonNode/PersonNode.svelte';
 	import PersonNodeGroup from './ui/NodeGroup/NodeGroup.svelte';
 	import GenerationRow from './ui/GenerationRow.svelte';
+	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 	import { relationshipMap } from './stores/relationshipMap';
 
+let sAppVersion = 'v0.1.0'
+let sDataVersion = relationshipMap.sDataVersion;
+
+	// set the initial active person as the first in the list
 	if (Object.keys($familyTreeData.activePerson).length == 0) {
 		setActivePerson($familyTreeData.people[0]);
 	}
@@ -73,6 +78,7 @@
 				</GenerationRow>
 			</div>
 		</div>
+		<Footer sAppVersion={sAppVersion} sDataVersion={sDataVersion}/>
 		<StoreView />
 	</div>
 </main>

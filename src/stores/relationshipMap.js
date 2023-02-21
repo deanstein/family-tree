@@ -1,8 +1,9 @@
 import familyTreeData from './familyTreeData';
 
-export const dataVersion = '0.6.0';
+export const sDataVersion = '0.6.1';
 
 export const relationshipMap = {
+	sDataVersion: sDataVersion,
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
 		label: 'Maternal Grandparents',
@@ -276,7 +277,7 @@ export const relationshipMap = {
 };
 
 export const defaultPerson = {
-	version: dataVersion,
+	version: sDataVersion,
 	id: '0',
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',

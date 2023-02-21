@@ -3,13 +3,13 @@
     import uiState from '../../stores/uiState';
     import { getPersonIndexById } from '../../logic/personManagement';
 
-	export let personId = undefined;
+	export let sPersonId = undefined;
 	export let sInputValue;
 
 	let bEnabled;
 
 	$: {
-		if (personId == $uiState.personIdForNodeEdit) {
+		if (sPersonId == $uiState.personIdForNodeEdit) {
 			bEnabled = true;
 		} else {
 			bEnabled = false;
@@ -40,7 +40,7 @@
         const sCurrentInputValue = event.target.value;
 
         familyTreeData.update(currentValue => {
-            let personIndex = getPersonIndexById(personId);
+            let personIndex = getPersonIndexById(sPersonId);
             currentValue.people[personIndex].name = sCurrentInputValue;
             return currentValue;
         })
