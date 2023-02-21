@@ -15,6 +15,7 @@
 	import familyTreeData from '../../stores/familyTreeData';
 	import stylingConstants from '../../stores/stylingConstants';
 	import NodeSettingsButton from './NodeSettingsButton.svelte';
+	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import TextInput from './NameInput.svelte';
 
 	export let sPersonId;
@@ -72,6 +73,7 @@
 	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
 		<TextInput sInputValue={getPersonById(sPersonId).name} {sPersonId} />
 	</div>
+	<RelationshipTypePicker />
 </div>
 
 <style>
