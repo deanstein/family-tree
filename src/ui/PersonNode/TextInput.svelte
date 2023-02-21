@@ -1,7 +1,7 @@
 <script>
-	import familyTreeData from '../stores/familyTreeData';
-    import uiState from '../stores/uiState';
-    import { getPersonIndexById } from '../logic/personManagement';
+	import familyTreeData from '../../stores/familyTreeData';
+    import uiState from '../../stores/uiState';
+    import { getPersonIndexById } from '../../logic/personManagement';
 
 	export let personId = undefined;
 	export let sInputValue;

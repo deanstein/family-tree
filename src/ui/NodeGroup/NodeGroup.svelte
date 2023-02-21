@@ -1,11 +1,11 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../stores/stylingConstants';
+	import stylingConstants from '../../stores/stylingConstants';
 
-	import PersonNodeAddButton from './PersonNodeAddButton.svelte';
-	import PersonNodePlaceholder from './PersonNodePlaceholder.svelte';
-	import PersonNode from './PersonNode.svelte';
+	import PersonNodeAddButton from './NodeGroupAddButton.svelte';
+	import PersonNodePlaceholder from '../PersonNode/PersonNodePlaceholder.svelte';
+	import PersonNode from '../PersonNode/PersonNode.svelte';
 
 	export let personNodeGroupData;
 

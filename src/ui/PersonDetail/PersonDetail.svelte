@@ -1,5 +1,5 @@
 <script>
-	import familyTreeData from '.././stores/familyTreeData';
+	import familyTreeData from '../../stores/familyTreeData';
 </script>
 
 <div id="person-node" class="person-node">

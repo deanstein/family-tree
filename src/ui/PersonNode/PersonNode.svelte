@@ -10,11 +10,11 @@
 		setActivePerson,
 		upgradePersonData,
 		syncActivePersonToTree
-	} from '../logic/personManagement';
+	} from '../../logic/personManagement';
 
-	import { defaultPerson } from '../stores/relationshipMap';
-	import familyTreeData from '../stores/familyTreeData';
-	import stylingConstants from '../stores/stylingConstants';
+	import { defaultPerson } from '../../stores/relationshipMap';
+	import familyTreeData from '../../stores/familyTreeData';
+	import stylingConstants from '../../stores/stylingConstants';
 	import TextInput from './TextInput.svelte';
 
 	export let sPersonId;
