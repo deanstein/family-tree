@@ -13,12 +13,22 @@
 
 	import { defaultPerson } from '../../stores/relationshipMap';
 	import familyTreeData from '../../stores/familyTreeData';
+	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
 	import NodeSettingsButton from './NodeSettingsButton.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import TextInput from './NameInput.svelte';
 
 	export let sPersonId;
+	export let bIsNodeInEditMode = false;
+
+	$: {
+		if (sPersonId == $uiState.personIdForNodeEdit && sPersonId != undefined) {
+			bIsNodeInEditMode = true;
+		} else {
+			bIsNodeInEditMode = false;
+		}
+	}
 
 	const personNodeOnClick = () => {
 		// clicking on the active person will pull up the detailed view
@@ -71,9 +81,13 @@
 >
 	<NodeSettingsButton />
 	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
-		<TextInput sInputValue={getPersonById(sPersonId).name} {sPersonId} />
+		<TextInput
+			sInputValue={getPersonById(sPersonId).name}
+			bEnabled={bIsNodeInEditMode}
+			{sPersonId}
+		/>
 	</div>
-	<RelationshipTypePicker />
+	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} />
 </div>
 
 <style>

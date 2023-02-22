@@ -5,16 +5,7 @@
 
 	export let sPersonId = undefined;
 	export let sInputValue;
-
-	let bEnabled;
-
-	$: {
-		if (sPersonId == $uiState.personIdForNodeEdit) {
-			bEnabled = true;
-		} else {
-			bEnabled = false;
-		}
-	}
+	export let bEnabled = false;
 
 	const startEditText = (el) => {
 		el.focus();

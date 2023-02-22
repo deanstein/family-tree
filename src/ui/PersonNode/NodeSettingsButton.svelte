@@ -2,7 +2,9 @@
 </script>
 
 <div id="settings-button-container" class="settings-button-container">
-	<button type='button' id="settings-button" class="settings-button" on:click|stopPropagation>...</button>
+	<button type="button" id="settings-button" class="settings-button" on:click|stopPropagation
+		>...</button
+	>
 </div>
 
 <style>
@@ -17,6 +19,7 @@
 		position: absolute;
 		top: 0px;
 		right: 0px;
+		border: none;
 		letter-spacing: 2px;
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
