@@ -15,6 +15,7 @@
 	import familyTreeData from '../../stores/familyTreeData';
 	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
+
 	import NodeSettingsButton from './NodeSettingsButton.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import TextInput from './NameInput.svelte';
@@ -23,7 +24,7 @@
 	export let bIsNodeInEditMode = false;
 
 	$: {
-		if (sPersonId == $uiState.personIdForNodeEdit && sPersonId != undefined) {
+		if (sPersonId == $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
@@ -43,6 +44,7 @@
 	};
 
 	const personNodeDynamicClass = css`
+		background-color: ${stylingConstants.colors.sPersonNodeColor};
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
 	`;
@@ -72,14 +74,14 @@
 </script>
 
 <div
-	id="person-node"
+	id="person-node-{sPersonId}"
 	class="person-node {personNodeDynamicClass}"
 	on:click={personNodeOnClick}
 	on:keydown={personNodeOnClick}
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}
 >
-	<NodeSettingsButton />
+	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
 	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
 		<TextInput
 			sInputValue={getPersonById(sPersonId).name}
@@ -96,7 +98,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background-color: whitesmoke;
 	}
 
 	.person-node-name {

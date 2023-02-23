@@ -1,9 +1,45 @@
 <script>
+	import { css } from '@emotion/css';
+
+	import uiState from '../../stores/uiState';
+	import stylingConstants from '../../stores/stylingConstants';
+
+	export let sPersonId;
+	export let bIsNodeInEditMode;
+
+	export const startEditingMode = () => {
+		uiState.update((currentValue) => {
+			currentValue.sPersonIdForNodeEdit = sPersonId;
+			return currentValue;
+		});
+	};
+
+	export const endEditingMode = () => {
+		uiState.update((currentValue) => {
+			currentValue.sPersonIdForNodeEdit = undefined;
+			return currentValue;
+		});
+	};
+
+	let buttonText;
+	let settingsButtonDynamicClass;
+	$: {
+		buttonText = bIsNodeInEditMode ? 'done' : '...';
+
+		settingsButtonDynamicClass = css`
+			color: ${bIsNodeInEditMode ? 'white' : 'black'};
+			background-color: ${bIsNodeInEditMode ? 'green' : stylingConstants.colors.sPersonNodeColor};
+		`;
+	}
 </script>
 
 <div id="settings-button-container" class="settings-button-container">
-	<button type="button" id="settings-button" class="settings-button" on:click|stopPropagation
-		>...</button
+	<button
+		type="button"
+		id="settings-button"
+		class="settings-button {settingsButtonDynamicClass}"
+		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : startEditingMode}
+		>{buttonText}</button
 	>
 </div>
 

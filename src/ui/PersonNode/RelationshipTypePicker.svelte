@@ -2,10 +2,11 @@
 	// @ts-nocheck
 
 	import { relationshipMap } from '../../stores/relationshipMap';
-	import uiState from '../../stores/uiState';
 
 	export let sInputValue = '';
 	export let bEnabled = false;
+
+	const onBlurAction = () => {};
 </script>
 
 <div id="relationship-type-picker-container" class="relationship-type-picker-container">
@@ -15,6 +16,7 @@
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation
+		on:blur={onBlurAction}
 		disabled={!bEnabled}
 	>
 		{#each Object.entries(relationshipMap) as [category, items]}

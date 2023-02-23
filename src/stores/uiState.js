@@ -1,9 +1,7 @@
 import { writable } from 'svelte/store';
 
-const uiState = {};
-
-const sPersonIdForNodeEdit = '0';
-
-uiState['sPersonIdForNodeEdit'] = sPersonIdForNodeEdit;
+const uiState = {
+	sPersonIdForNodeEdit: 'undefined'
+};
 
 export default writable(uiState);

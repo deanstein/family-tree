@@ -31,7 +31,7 @@
 		addActivePersonIdToNewPersonGroup(newPerson.id, groupId);
 
 		uiState.update((currentValue) => {
-			currentValue.personIdForNodeEdit = newPerson.id;
+			currentValue.sPersonIdForNodeEdit = newPerson.id;
 			return currentValue;
 		});
 	};

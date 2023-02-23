@@ -18,15 +18,6 @@
 		}
 	};
 
-	const onDoubleCLickAction = (event) => {
-		bEnabled = true;
-
-		if (event.target.disabled) {
-			event.stopPropagation();
-		} else {
-		}
-	};
-
 	const onBlurAction = (event) => {
 		const sCurrentInputValue = event.target.value;
 
@@ -35,23 +26,17 @@
 			currentValue.people[personIndex].name = sCurrentInputValue;
 			return currentValue;
 		});
-
-		uiState.update((currentValue) => {
-			currentValue.personIdForNodeEdit = undefined;
-			return currentValue;
-		});
 	};
 </script>
 
 <div id="text-input-container" class="text-input-container">
 	<input
-		bind:value={sInputValue}
 		type="text"
 		id="text-input"
 		class="text-input"
+		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onKeyDownAction}
-		on:dblclick={onDoubleCLickAction}
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 		use:startEditText

@@ -1,3 +1,7 @@
+const colors = {
+	sPersonNodeColor: 'whitesmoke'
+};
+
 const sizes = {
 	nPadding: 1,
 	get padding() {
@@ -65,6 +69,7 @@ const sizes = {
 };
 
 const stylingConstants = {
+	colors,
 	sizes
 };
 
