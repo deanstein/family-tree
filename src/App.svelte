@@ -18,10 +18,14 @@
 	if (Object.keys($familyTreeData.activePerson).length == 0) {
 		setActivePerson($familyTreeData.people[0]);
 	}
+
+	let blockContextMenu = (event) => {
+		event.preventDefault();
+	}
 </script>
 
 <main>
-	<div id="app-container" class="app-container">
+	<div id="app-container" class="app-container" on:contextmenu={blockContextMenu}>
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-section" class="upper-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
