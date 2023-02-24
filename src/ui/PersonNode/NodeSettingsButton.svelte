@@ -29,6 +29,10 @@
 		settingsButtonDynamicClass = css`
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : stylingConstants.colors.sPersonNodeColor};
+			border: 1px solid transparent;
+			:hover {
+				1px solid ${stylingConstants.colors.sActiveInputHighlightColor}
+			}
 		`;
 	}
 </script>
@@ -37,7 +41,7 @@
 	<button
 		type="button"
 		id="settings-button"
-		class="settings-button {settingsButtonDynamicClass}"
+		class="{settingsButtonDynamicClass} settings-button"
 		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : startEditingMode}
 		>{buttonText}</button
 	>

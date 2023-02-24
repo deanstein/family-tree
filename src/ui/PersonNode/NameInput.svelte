@@ -1,6 +1,9 @@
 <script>
+	import { css } from '@emotion/css';
+	
 	import familyTreeData from '../../stores/familyTreeData';
 	import uiState from '../../stores/uiState';
+	import stylingConstants from '../../stores/stylingConstants';
 	import { getPersonIndexById } from '../../logic/personManagement';
 
 	export let sPersonId = undefined;
@@ -27,13 +30,17 @@
 			return currentValue;
 		});
 	};
+
+	const textInputDynamicClass = css`
+        border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
+    `
 </script>
 
 <div id="text-input-container" class="text-input-container">
 	<input
 		type="text"
 		id="text-input"
-		class="text-input"
+		class="{textInputDynamicClass} text-input"
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onKeyDownAction}
@@ -51,10 +58,11 @@
 	.text-input {
 		width: 100%;
 		text-align: center;
+		outline: none;
 	}
 
 	.text-input:disabled {
 		background-color: white;
-		border: none;
+		border: 2px solid transparent;
 	}
 </style>

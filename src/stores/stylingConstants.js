@@ -1,5 +1,6 @@
 const colors = {
-	sPersonNodeColor: 'whitesmoke'
+	sPersonNodeColor: 'whitesmoke',
+	sActiveInputHighlightColor: '#3399ff'
 };
 
 const sizes = {

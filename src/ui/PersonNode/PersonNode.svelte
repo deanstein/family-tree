@@ -77,7 +77,7 @@
 	id="person-node-{sPersonId}"
 	class="person-node {personNodeDynamicClass}"
 	on:click={personNodeOnClick}
-	on:keydown={personNodeOnClick}
+	on:keydown|stopPropagation
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}
 >

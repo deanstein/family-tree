@@ -1,18 +1,24 @@
 <script>
 	// @ts-nocheck
+    import { css } from '@emotion/css';
 
 	import { relationshipMap } from '../../stores/relationshipMap';
+    import stylingConstants from '../../stores/stylingConstants';
 
 	export let sInputValue = '';
 	export let bEnabled = false;
 
 	const onBlurAction = () => {};
+
+    const relationshipTypePickerDynamicClass = css`
+        border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
+    `
 </script>
 
 <div id="relationship-type-picker-container" class="relationship-type-picker-container">
 	<select
 		id="options"
-		class="relationship-type-picker"
+		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation
@@ -41,7 +47,6 @@
 	}
 	.relationship-type-picker {
 		width: 100%;
-		border: 1px solid blue;
 		font-style: italic;
 	}
 	.relationship-type-picker:disabled {
@@ -49,7 +54,7 @@
 		-moz-appearance: none; /* for Firefox */
 		text-align: center;
 		appearance: none;
-		border: none;
+		border: 2px solid transparent;
 		font-style: italic;
 	}
 </style>
