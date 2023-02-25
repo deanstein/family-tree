@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import { addPersonIdToActivePersonGroup } from '../../logic/personManagement';
+	import { addOrUpdatePersonReferenceObjectInActivePersonGroup } from '../../logic/personManagement';
 
 	import relationshipMap from '../../stores/relationshipMap';
 	import stylingConstants from '../../stores/stylingConstants';
@@ -10,7 +10,7 @@
     export let sInputValue;
 
 	const onBlurAction = () => {
-        addPersonIdToActivePersonGroup(sPersonId, sInputValue)
+        addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
     };
 
 	const relationshipTypePickerDynamicClass = css`

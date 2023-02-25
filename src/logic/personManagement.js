@@ -65,23 +65,19 @@ export const addPersonToKnownPeople = (person) => {
 	});
 };
 
-export const addPersonReferenceObjectToActivePersonGroup = (sPersonId, sRelationshipId) => {
+export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
-		let personIndex = getPersonIndexById(sPersonId);
 
 		let personReferenceObject = {
 			id: sPersonId,
 			relationshipId: sRelationshipId
 		};
 
-		// get the index of the group array if this person is already represented
-		function getMatchingPersonReferenceObject(personObject) {
-			if (personObject.id === sPersonId)
-			return personObject;
-		  }
-
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(getMatchingPersonReferenceObject);
+		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(() => {
+			if (personReferenceObject.id === sPersonId)
+			return personReferenceObject;
+		});
 		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundPersonReferenceObject);
 
 		// only add if it doesn't exist yet
@@ -96,19 +92,34 @@ export const addPersonReferenceObjectToActivePersonGroup = (sPersonId, sRelation
 	});
 };
 
-export const addActivePersonReferenceObjectToNewPersonGroup = (personId, groupId) => {
+export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
 
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
 		const inverseGroupId = getInverseGroupId(groupId);
 		const personIndex = getPersonIndexById(personId);
 		const person = currentValue.people[personIndex];
-		const personRelationshipIdObject = {
+
+		const personReferenceObject = {
 			id: currentValue.activePerson.id,
 			relationshipId: inverseRelationshipId
 		};
 
-		person.relationships[inverseGroupId].push(personRelationshipIdObject);
+		const foundPersonReferenceObject = currentValue.people[personIndex].relationships[groupId].find(() => {
+			if (personReferenceObject.id === currentValue.activePerson.id)
+			return personReferenceObject;
+		});
+		const nGroupIndex = currentValue.activePerson.relationships[groupId].indexOf(foundPersonReferenceObject);
+
+		// only add if it doesn't exist yet
+		if (!foundPersonReferenceObject) {
+			currentValue.people[personIndex].relationships[inverseGroupId].push(personReferenceObject);
+		// but if it exists, update with the new relationship id
+		} else {
+			currentValue.people[personIndex].relationships[inverseGroupId][nGroupIndex].relationshipId = inverseRelationshipId;
+		}
+
+		//person.relationships[inverseGroupId].push(personReferenceObject);
 
 		return currentValue;
 	});
