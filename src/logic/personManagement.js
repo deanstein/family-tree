@@ -98,7 +98,6 @@ export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId,
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
 		const inverseGroupId = getInverseGroupId(groupId);
 		const personIndex = getPersonIndexById(personId);
-		const person = currentValue.people[personIndex];
 
 		const personReferenceObject = {
 			id: currentValue.activePerson.id,
@@ -118,8 +117,6 @@ export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId,
 		} else {
 			currentValue.people[personIndex].relationships[inverseGroupId][nGroupIndex].relationshipId = inverseRelationshipId;
 		}
-
-		//person.relationships[inverseGroupId].push(personReferenceObject);
 
 		return currentValue;
 	});
