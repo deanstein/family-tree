@@ -76,10 +76,17 @@ export const addPersonIdToActivePersonGroup = (sPersonId, sRelationshipId) => {
 
 		// get the index of the group array if this person is already represented
 		console.log(sGroupId, sRelationshipId)
-		const nGroupIndex = currentValue.people[personIndex].relationships[sGroupId].indexOf(personRelationshipIdObject)
+
+		function doesIdMatch(personObject) {
+			if (personObject.id === sPersonId)
+			return personObject;
+		  }
+
+		const foundObject = currentValue.activePerson.relationships[sGroupId].find(doesIdMatch);
+		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundObject);
 
 		// only add if it doesn't exist yet
-		if (nGroupIndex == -1) {
+		if (!foundObject) {
 			currentValue.activePerson.relationships[sGroupId].push(personRelationshipIdObject);
 		// but if it exists, update with the new relationship id
 		} else {

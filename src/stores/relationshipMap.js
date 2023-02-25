@@ -9,7 +9,7 @@ const relationshipMap = {
 		label: 'Maternal Grandparents',
 		grandparentMaternal: {
 			id: 'grandparentMaternal',
-			label: ''
+			label: 'maternal grandparent'
 		},
 		grandmotherMaternal: {
 			id: `grandmotherMaternal`,
@@ -25,7 +25,7 @@ const relationshipMap = {
 		label: 'Paternal Grandparents',
 		grandparentPaternal: {
 			id: 'grandparentPaternal',
-			label: ''
+			label: 'paternal grandparent'
 		},
 		grandmotherPaternal: {
 			id: 'grandmotherPaternal',
@@ -41,7 +41,7 @@ const relationshipMap = {
 		label: 'Parents',
 		parent: {
 			id: 'parent',
-			label: ''
+			label: 'parent'
 		},
 		mother: {
 			id: 'mother',
@@ -57,7 +57,7 @@ const relationshipMap = {
 		label: 'Parents in Law',
 		parentinlaw: {
 			id: 'parentInLaw',
-			label: ''
+			label: 'parent in law'
 		},
 		motherinlaw: {
 			id: 'motherInLaw',
@@ -81,7 +81,7 @@ const relationshipMap = {
 		},
 		stepparentMaternal: {
 			id: 'stepparentMaternal',
-			label: ''
+			label: 'maternal step-parent'
 		}
 	},
 	stepparentsPaternal: {
@@ -89,7 +89,7 @@ const relationshipMap = {
 		label: 'Paternal Step Parents',
 		stepparentPaternal: {
 			id: 'stepparentPaternal',
-			label: ''
+			label: 'paternal step-parent'
 		},
 		stepmotherPaternal: {
 			id: 'stepmotherPaternal',
@@ -105,7 +105,7 @@ const relationshipMap = {
 		label: 'Siblings',
 		sibling: {
 			id: 'sibling',
-			label: ''
+			label: 'sibling'
 		},
 		sister: {
 			id: 'sister',
@@ -216,7 +216,7 @@ const relationshipMap = {
 		label: 'Children',
 		child: {
 			id: 'child',
-			label: ''
+			label: 'child'
 		},
 		daughter: {
 			id: 'daughter',
@@ -248,7 +248,7 @@ const relationshipMap = {
 		label: 'Children in Law',
 		childInLaw: {
 			id: 'childInLaw',
-			label: ''
+			label: 'child-in-law'
 		},
 		daughterInLaw: {
 			id: 'daughterInLaw',

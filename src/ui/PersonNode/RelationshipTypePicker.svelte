@@ -7,8 +7,7 @@
 
     export let sPersonId;
 	export let bEnabled = false;
-
-    let sInputValue = '';
+    export let sInputValue;
 
 	const onBlurAction = () => {
         addPersonIdToActivePersonGroup(sPersonId, sInputValue)

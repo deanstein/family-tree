@@ -21,6 +21,7 @@
 	import TextInput from './NameInput.svelte';
 
 	export let sPersonId;
+	export let sRelationshipId;
 	export let bIsNodeInEditMode = false;
 
 	$: {
@@ -89,7 +90,7 @@
 			{sPersonId}
 		/>
 	</div>
-	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} />
+	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>
 </div>
 
 <style>
