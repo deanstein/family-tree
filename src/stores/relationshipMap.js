@@ -261,6 +261,7 @@ const relationshipMap = {
 	},
 	grandchildren: {
 		id: 'grandchildren',
+		label: 'Grandchildren',
 		grandchild: {
 			id: 'grandchild',
 			label: 'grandchild'
