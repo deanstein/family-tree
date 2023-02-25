@@ -65,29 +65,28 @@ export const addPersonToKnownPeople = (person) => {
 	});
 };
 
-export const addPersonIdToActivePersonGroup = (sPersonId, sRelationshipId) => {
+export const addPersonReferenceObjectToActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 		let personIndex = getPersonIndexById(sPersonId);
-		let personRelationshipIdObject = {
+
+		let personReferenceObject = {
 			id: sPersonId,
 			relationshipId: sRelationshipId
 		};
 
 		// get the index of the group array if this person is already represented
-		console.log(sGroupId, sRelationshipId)
-
-		function doesIdMatch(personObject) {
+		function getMatchingPersonReferenceObject(personObject) {
 			if (personObject.id === sPersonId)
 			return personObject;
 		  }
 
-		const foundObject = currentValue.activePerson.relationships[sGroupId].find(doesIdMatch);
-		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundObject);
+		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(getMatchingPersonReferenceObject);
+		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundPersonReferenceObject);
 
 		// only add if it doesn't exist yet
-		if (!foundObject) {
-			currentValue.activePerson.relationships[sGroupId].push(personRelationshipIdObject);
+		if (!foundPersonReferenceObject) {
+			currentValue.activePerson.relationships[sGroupId].push(personReferenceObject);
 		// but if it exists, update with the new relationship id
 		} else {
 			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId = sRelationshipId;
@@ -97,7 +96,7 @@ export const addPersonIdToActivePersonGroup = (sPersonId, sRelationshipId) => {
 	});
 };
 
-export const addActivePersonIdToNewPersonGroup = (personId, groupId) => {
+export const addActivePersonReferenceObjectToNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
 
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
