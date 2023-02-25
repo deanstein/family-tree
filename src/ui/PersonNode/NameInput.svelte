@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	
+
 	import familyTreeData from '../../stores/familyTreeData';
 	import stylingConstants from '../../stores/stylingConstants';
 	import { getPersonIndexById } from '../../logic/personManagement';
@@ -31,8 +31,8 @@
 	};
 
 	const textInputDynamicClass = css`
-        border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
-    `
+		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
+	`;
 </script>
 
 <div id="text-input-container" class="text-input-container">

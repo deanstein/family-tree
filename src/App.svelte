@@ -21,7 +21,7 @@
 
 	let blockContextMenu = (event) => {
 		event.preventDefault();
-	}
+	};
 </script>
 
 <main>

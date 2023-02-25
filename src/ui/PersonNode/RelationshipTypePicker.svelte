@@ -1,21 +1,19 @@
 <script>
 	// @ts-nocheck
-    import { css } from '@emotion/css';
+	import { css } from '@emotion/css';
 
-    import familyTreeData from '../../stores/familyTreeData';
+	import familyTreeData from '../../stores/familyTreeData';
 	import relationshipMap from '../../stores/relationshipMap';
-    import stylingConstants from '../../stores/stylingConstants';
+	import stylingConstants from '../../stores/stylingConstants';
 
 	export let sInputValue = '';
 	export let bEnabled = false;
 
-	const onBlurAction = () => {
+	const onBlurAction = () => {};
 
-    };
-
-    const relationshipTypePickerDynamicClass = css`
-        border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
-    `
+	const relationshipTypePickerDynamicClass = css`
+		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
+	`;
 </script>
 
 <div id="relationship-type-picker-container" class="relationship-type-picker-container">
