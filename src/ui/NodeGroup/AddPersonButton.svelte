@@ -27,7 +27,7 @@
 		let newPerson = createNewPerson();
 		addPersonToKnownPeople(newPerson);
 		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
-		addPersonIdToActivePersonGroup(newPerson.id, groupId, defaultRelationshipType);
+		addPersonIdToActivePersonGroup(newPerson.id, defaultRelationshipType);
 		addActivePersonIdToNewPersonGroup(newPerson.id, groupId);
 
 		uiState.update((currentValue) => {

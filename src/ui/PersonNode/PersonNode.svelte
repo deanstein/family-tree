@@ -89,7 +89,7 @@
 			{sPersonId}
 		/>
 	</div>
-	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} />
+	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} />
 </div>
 
 <style>

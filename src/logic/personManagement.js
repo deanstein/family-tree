@@ -65,27 +65,44 @@ export const addPersonToKnownPeople = (person) => {
 	});
 };
 
-export const addPersonIdToActivePersonGroup = (personId, groupId, relationshipId) => {
+export const addPersonIdToActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
-		currentValue.activePerson.relationships[groupId].push({
-			id: personId,
-			relationshipId: relationshipId
-		});
+		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
+		let personIndex = getPersonIndexById(sPersonId);
+		let personRelationshipIdObject = {
+			id: sPersonId,
+			relationshipId: sRelationshipId
+		};
+
+		// get the index of the group array if this person is already represented
+		console.log(sGroupId, sRelationshipId)
+		const nGroupIndex = currentValue.people[personIndex].relationships[sGroupId].indexOf(personRelationshipIdObject)
+
+		// only add if it doesn't exist yet
+		if (nGroupIndex == -1) {
+			currentValue.activePerson.relationships[sGroupId].push(personRelationshipIdObject);
+		// but if it exists, update with the new relationship id
+		} else {
+			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId = sRelationshipId;
+		}
+
 		return currentValue;
 	});
 };
 
 export const addActivePersonIdToNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
-		let inverseRelationshipId = getInverseRelationshipId(groupId);
-		let inverseGroupId = getInverseGroupId(groupId);
-		let personIndex = getPersonIndexById(personId);
-		let person = currentValue.people[personIndex];
 
-		person.relationships[inverseGroupId].push({
+		const inverseRelationshipId = getInverseRelationshipId(groupId);
+		const inverseGroupId = getInverseGroupId(groupId);
+		const personIndex = getPersonIndexById(personId);
+		const person = currentValue.people[personIndex];
+		const personRelationshipIdObject = {
 			id: currentValue.activePerson.id,
 			relationshipId: inverseRelationshipId
-		});
+		};
+
+		person.relationships[inverseGroupId].push(personRelationshipIdObject);
 
 		return currentValue;
 	});
@@ -95,9 +112,15 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 	let groupId;
 
 	for (let key in relationshipMap) {
-		if (typeof relationshipMap[key] === 'object' && relationshipMap[key].id === relationshipId) {
-			groupId = relationshipMap[key].id;
-			break;
+		if (typeof relationshipMap[key] === 'object')
+		{
+			for (let nestedKey in relationshipMap[key]) {
+				if (relationshipMap[key][nestedKey].id === relationshipId) {
+					groupId = relationshipMap[key].id;
+					console.log('here')
+					break;
+				}
+			}
 		}
 	}
 

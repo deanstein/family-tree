@@ -1,15 +1,18 @@
 <script>
-	// @ts-nocheck
 	import { css } from '@emotion/css';
+	import { addPersonIdToActivePersonGroup } from '../../logic/personManagement';
 
-	import familyTreeData from '../../stores/familyTreeData';
 	import relationshipMap from '../../stores/relationshipMap';
 	import stylingConstants from '../../stores/stylingConstants';
 
-	export let sInputValue = '';
+    export let sPersonId;
 	export let bEnabled = false;
 
-	const onBlurAction = () => {};
+    let sInputValue = '';
+
+	const onBlurAction = () => {
+        addPersonIdToActivePersonGroup(sPersonId, sInputValue)
+    };
 
 	const relationshipTypePickerDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
@@ -31,7 +34,7 @@
 				{#each Object.entries(items) as [key, value]}
 					{#if key != 'label'}
 						{#if value.label}
-							<option value={`${category}-${key}`}>{value.label}</option>
+							<option value={`${value.id}`}>{value.label}</option>
 						{/if}
 					{/if}
 				{/each}
