@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { relationshipMap } from '../../stores/relationshipMap';
+	import relationshipMap from '../../stores/relationshipMap';
 	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
 

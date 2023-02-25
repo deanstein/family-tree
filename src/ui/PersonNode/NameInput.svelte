@@ -2,7 +2,6 @@
 	import { css } from '@emotion/css';
 	
 	import familyTreeData from '../../stores/familyTreeData';
-	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
 	import { getPersonIndexById } from '../../logic/personManagement';
 

@@ -2,13 +2,16 @@
 	// @ts-nocheck
     import { css } from '@emotion/css';
 
-	import { relationshipMap } from '../../stores/relationshipMap';
+    import familyTreeData from '../../stores/familyTreeData';
+	import relationshipMap from '../../stores/relationshipMap';
     import stylingConstants from '../../stores/stylingConstants';
 
 	export let sInputValue = '';
 	export let bEnabled = false;
 
-	const onBlurAction = () => {};
+	const onBlurAction = () => {
+
+    };
 
     const relationshipTypePickerDynamicClass = css`
         border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};

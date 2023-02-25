@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import familyTreeData from '../stores/familyTreeData';
+import relationshipMap from '../stores/relationshipMap';
 import {
-	relationshipMap,
 	defaultPerson,
 	getInverseGroupId,
 	getInverseRelationshipId

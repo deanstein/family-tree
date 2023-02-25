@@ -9,7 +9,7 @@
 	import GenerationRow from './ui/GenerationRow.svelte';
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
-	import { relationshipMap } from './stores/relationshipMap';
+	import relationshipMap from './stores/relationshipMap';
 
 	let sAppVersion = 'v0.1.0';
 	let sDataVersion = relationshipMap.sDataVersion;
