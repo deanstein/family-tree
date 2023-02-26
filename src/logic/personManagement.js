@@ -69,7 +69,7 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 	familyTreeData.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
-		let personReferenceObject = {
+		const personReferenceObject = {
 			id: sPersonId,
 			relationshipId: sRelationshipId
 		};
@@ -131,7 +131,6 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 			for (let nestedKey in relationshipMap[key]) {
 				if (relationshipMap[key][nestedKey].id === relationshipId) {
 					groupId = relationshipMap[key].id;
-					console.log('here')
 					break;
 				}
 			}

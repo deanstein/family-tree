@@ -83,14 +83,18 @@
 	out:send={{ key: sPersonId }}
 >
 	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
-	<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
-		<TextInput
-			sInputValue={getPersonById(sPersonId).name}
-			bEnabled={bIsNodeInEditMode}
-			{sPersonId}
-		/>
+	<div id='person-node-content-area' class='person-node-content-area'>
+		<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
+			<TextInput
+				sInputValue={getPersonById(sPersonId).name}
+				bEnabled={bIsNodeInEditMode}
+				{sPersonId}
+			/>
+		</div>
+		{#if sPersonId !== $familyTreeData.activePerson.id}
+			<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>
+		{/if}
 	</div>
-	<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>
 </div>
 
 <style>
@@ -99,6 +103,14 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.person-node-content-area {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
 	}
 
 	.person-node-name {
