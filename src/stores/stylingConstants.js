@@ -4,7 +4,7 @@ const colors = {
 };
 
 const sizes = {
-	nPadding: 1,
+	nPadding: 0.75,
 	get padding() {
 		return this.nPadding.toString() + 'vh';
 	},

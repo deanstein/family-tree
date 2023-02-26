@@ -67,6 +67,7 @@ export const addPersonToKnownPeople = (person) => {
 
 export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
+		console.log(sPersonId, sRelationshipId)
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = {
@@ -74,8 +75,8 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 			relationshipId: sRelationshipId
 		};
 
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(() => {
-			if (personReferenceObject.id === sPersonId)
+		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find((personObject) => {
+			if (personObject.id === sPersonId)
 			return personReferenceObject;
 		});
 		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundPersonReferenceObject);
@@ -85,6 +86,7 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 			currentValue.activePerson.relationships[sGroupId].push(personReferenceObject);
 		// but if it exists, update with the new relationship id
 		} else {
+			console.log('blocked from adding')
 			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId = sRelationshipId;
 		}
 
@@ -108,7 +110,7 @@ export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId,
 			if (personReferenceObject.id === currentValue.activePerson.id)
 			return personReferenceObject;
 		});
-		const nGroupIndex = currentValue.activePerson.relationships[groupId].indexOf(foundPersonReferenceObject);
+		const nGroupIndex = currentValue.activePerson.relationships[inverseGroupId].indexOf(foundPersonReferenceObject);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {

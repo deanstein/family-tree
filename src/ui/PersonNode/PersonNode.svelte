@@ -16,6 +16,7 @@
 	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
 
+	import Avatar from './Avatar.svelte';
 	import NodeSettingsButton from './NodeSettingsButton.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import TextInput from './NameInput.svelte';
@@ -84,6 +85,7 @@
 >
 	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
 	<div id='person-node-content-area' class='person-node-content-area'>
+		<Avatar />
 		<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
 			<TextInput
 				sInputValue={getPersonById(sPersonId).name}

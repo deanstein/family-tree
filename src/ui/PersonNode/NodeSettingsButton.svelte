@@ -28,7 +28,7 @@
 
 		settingsButtonDynamicClass = css`
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
-			background-color: ${bIsNodeInEditMode ? 'green' : stylingConstants.colors.sPersonNodeColor};
+			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 1px solid transparent;
 			:hover {
 				1px solid ${stylingConstants.colors.sActiveInputHighlightColor}
