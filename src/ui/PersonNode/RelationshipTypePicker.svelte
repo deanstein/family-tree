@@ -13,12 +13,18 @@
         addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
     };
 
+	const relationshipTypePickerContainerDynamicClass = css`
+		margin-bottom: ${stylingConstants.sizes.padding};
+		padding-left: ${stylingConstants.sizes.padding};
+		padding-right: ${stylingConstants.sizes.padding};
+	`
+
 	const relationshipTypePickerDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
 	`;
 </script>
 
-<div id="relationship-type-picker-container" class="relationship-type-picker-container">
+<div id="relationship-type-picker-container" class="{relationshipTypePickerContainerDynamicClass} relationship-type-picker-container">
 	<select
 		id="options"
 		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
@@ -43,11 +49,6 @@
 </div>
 
 <style>
-	.relationship-type-picker-container {
-		margin-bottom: 1vh;
-		padding-left: 1vh;
-		padding-right: 1vh;
-	}
 	.relationship-type-picker {
 		width: 100%;
 		font-style: italic;

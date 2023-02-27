@@ -55,7 +55,7 @@
 		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : toggleSettingsFlyout}
 		>{buttonText}</button
 	>
-	<!-- on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : startEditingMode} -->
+
 	{#if showSettingsFlyout}
 		<div id='node-settings-flyout-menu' class="node-settings-flyout-menu">
 			<ul>

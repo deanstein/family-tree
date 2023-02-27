@@ -30,16 +30,21 @@
 		});
 	};
 
-	const textInputDynamicClass = css`
+	const nameInputContainerDynamicClass = css`
+		font-size: ${stylingConstants.sizes.personNodeFontSize};
+		padding: ${stylingConstants.sizes.padding};
+	`;
+
+	const nameInputDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
 	`;
 </script>
 
-<div id="text-input-container" class="text-input-container">
+<div id="name-input-container" class="{nameInputContainerDynamicClass} name-input-container">
 	<input
 		type="text"
-		id="text-input"
-		class="{textInputDynamicClass} text-input"
+		id="name-input"
+		class="{nameInputDynamicClass} name-input"
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onKeyDownAction}
@@ -50,17 +55,17 @@
 </div>
 
 <style>
-	.text-input-container {
+	.name-input-container {
 		display: flex;
 	}
 
-	.text-input {
+	.name-input {
 		width: 100%;
 		text-align: center;
 		outline: none;
 	}
 
-	.text-input:disabled {
+	.name-input:disabled {
 		background-color: white;
 		border: 2px solid transparent;
 	}

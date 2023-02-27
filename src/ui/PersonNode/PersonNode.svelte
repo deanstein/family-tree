@@ -19,7 +19,7 @@
 	import Avatar from './Avatar.svelte';
 	import NodeSettingsButton from './NodeSettingsButton.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
-	import TextInput from './NameInput.svelte';
+	import NameInput from './NameInput.svelte';
 
 	export let sPersonId;
 	export let sRelationshipId;
@@ -49,11 +49,6 @@
 		background-color: ${stylingConstants.colors.sPersonNodeColor};
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
-	`;
-
-	const personNodeNameDynamicClass = css`
-		font-size: ${stylingConstants.sizes.personNodeFontSize};
-		padding: ${stylingConstants.sizes.padding};
 	`;
 
 	const [send, receive] = crossfade({
@@ -86,13 +81,11 @@
 	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
 	<div id='person-node-content-area' class='person-node-content-area'>
 		<Avatar />
-		<div id="person-node-name" class="person-node-name {personNodeNameDynamicClass}">
-			<TextInput
-				sInputValue={getPersonById(sPersonId).name}
-				bEnabled={bIsNodeInEditMode}
-				{sPersonId}
-			/>
-		</div>
+		<NameInput
+			sInputValue={getPersonById(sPersonId).name}
+			bEnabled={bIsNodeInEditMode}
+			{sPersonId}
+		/>
 		{#if sPersonId !== $familyTreeData.activePerson.id}
 			<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>
 		{/if}
