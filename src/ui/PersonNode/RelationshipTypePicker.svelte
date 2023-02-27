@@ -53,6 +53,7 @@
 	.relationship-type-picker {
 		width: 100%;
 		font-style: italic;
+		outline: none;
 	}
 	.relationship-type-picker:disabled {
 		-webkit-appearance: none; /* for webkit-based browsers */

@@ -37,6 +37,7 @@
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 		padding-bottom: ${bIsActivePerson ? stylingConstants.sizes.padding : '0px'};
+		margin-bottom: ${bIsActivePerson ? '0px' : '-2px'};
 	`;
 
 	const nameInputDynamicClass = css`
