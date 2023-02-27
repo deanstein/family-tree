@@ -59,8 +59,8 @@
 	{#if showSettingsFlyout}
 		<div id='node-settings-flyout-menu' class="node-settings-flyout-menu">
 			<ul>
-			<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
-			<li><a on:click|stopPropagation={deletePerson}>Delete</a></li>
+				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
+				<li><a on:click|stopPropagation={deletePerson}>Remove</a></li>
 			</ul>
 		</div>
 	{/if}

@@ -6,6 +6,7 @@
 	import stylingConstants from '../../stores/stylingConstants';
 
     export let sPersonId;
+	export let bIsActivePerson = false;
 	export let bEnabled = false;
     export let sInputValue;
 

@@ -22,14 +22,23 @@
 	import NameInput from './NameInput.svelte';
 
 	export let sPersonId;
+	export let bIsActivePerson;
 	export let sRelationshipId;
 	export let bIsNodeInEditMode = false;
 
 	$: {
-		if (sPersonId == $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
+		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
+		}
+
+		if (sPersonId === $familyTreeData.activePerson.id)
+		{
+			bIsActivePerson = true;
+		}
+		else {
+			bIsActivePerson = false;
 		}
 	}
 
@@ -85,6 +94,7 @@
 			sInputValue={getPersonById(sPersonId).name}
 			bEnabled={bIsNodeInEditMode}
 			{sPersonId}
+			{bIsActivePerson}
 		/>
 		{#if sPersonId !== $familyTreeData.activePerson.id}
 			<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>

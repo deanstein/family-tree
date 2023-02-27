@@ -6,6 +6,7 @@
 	import { getPersonIndexById } from '../../logic/personManagement';
 
 	export let sPersonId = undefined;
+	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;
 
@@ -32,7 +33,10 @@
 
 	const nameInputContainerDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
-		padding: ${stylingConstants.sizes.padding};
+		padding-top: ${stylingConstants.sizes.padding};
+		padding-left: ${stylingConstants.sizes.padding};
+		padding-right: ${stylingConstants.sizes.padding};
+		padding-bottom: ${bIsActivePerson ? stylingConstants.sizes.padding : '0px'};
 	`;
 
 	const nameInputDynamicClass = css`
