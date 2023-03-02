@@ -33,11 +33,9 @@
 			bIsNodeInEditMode = false;
 		}
 
-		if (sPersonId === $familyTreeData.activePerson.id)
-		{
+		if (sPersonId === $familyTreeData.activePerson.id) {
 			bIsActivePerson = true;
-		}
-		else {
+		} else {
 			bIsActivePerson = false;
 		}
 	}
@@ -88,7 +86,7 @@
 	out:send={{ key: sPersonId }}
 >
 	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
-	<div id='person-node-content-area' class='person-node-content-area'>
+	<div id="person-node-content-area" class="person-node-content-area">
 		<Avatar />
 		<NameInput
 			sInputValue={getPersonById(sPersonId).name}
@@ -97,7 +95,11 @@
 			{bIsActivePerson}
 		/>
 		{#if sPersonId !== $familyTreeData.activePerson.id}
-			<RelationshipTypePicker bEnabled={bIsNodeInEditMode} sPersonId={sPersonId} sInputValue={sRelationshipId}/>
+			<RelationshipTypePicker
+				bEnabled={bIsNodeInEditMode}
+				{sPersonId}
+				sInputValue={sRelationshipId}
+			/>
 		{/if}
 	</div>
 </div>

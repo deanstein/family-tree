@@ -10,7 +10,7 @@
 	const startEditingMode = () => {
 		toggleSettingsFlyout();
 		setActiveNodeEditId(sPersonId);
-	}
+	};
 
 	const endEditingMode = () => {
 		unsetActiveNodeEditId();
@@ -34,11 +34,11 @@
 	let showSettingsFlyout = false;
 	const toggleSettingsFlyout = () => {
 		showSettingsFlyout = !showSettingsFlyout;
-	}
+	};
 
 	const deletePerson = () => {
 		// todo
-	}
+	};
 </script>
 
 <div id="node-settings-button-container" class="node-settings-button-container">
@@ -51,14 +51,13 @@
 	>
 
 	{#if showSettingsFlyout}
-		<div id='node-settings-flyout-menu' class="node-settings-flyout-menu">
+		<div id="node-settings-flyout-menu" class="node-settings-flyout-menu">
 			<ul>
 				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
 				<li><a on:click|stopPropagation={deletePerson}>Remove</a></li>
 			</ul>
 		</div>
 	{/if}
-
 </div>
 
 <style>

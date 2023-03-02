@@ -33,7 +33,7 @@
 			currentValue.people[personIndex].name = sName;
 			return currentValue;
 		});
-	}
+	};
 
 	const nameInputContainerDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};

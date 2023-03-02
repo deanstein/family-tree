@@ -67,7 +67,7 @@ export const addPersonToKnownPeople = (person) => {
 
 export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
-		console.log(sPersonId, sRelationshipId)
+		console.log(sPersonId, sRelationshipId);
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = {
@@ -75,19 +75,23 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 			relationshipId: sRelationshipId
 		};
 
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find((personObject) => {
-			if (personObject.id === sPersonId)
-			return personReferenceObject;
-		});
-		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(foundPersonReferenceObject);
+		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
+			(personObject) => {
+				if (personObject.id === sPersonId) return personReferenceObject;
+			}
+		);
+		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
+			foundPersonReferenceObject
+		);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {
 			currentValue.activePerson.relationships[sGroupId].push(personReferenceObject);
-		// but if it exists, update with the new relationship id
+			// but if it exists, update with the new relationship id
 		} else {
-			console.log('blocked from adding')
-			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId = sRelationshipId;
+			console.log('blocked from adding');
+			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId =
+				sRelationshipId;
 		}
 
 		return currentValue;
@@ -96,7 +100,6 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 
 export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
-
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
 		const inverseGroupId = getInverseGroupId(groupId);
 		const personIndex = getPersonIndexById(personId);
@@ -106,18 +109,22 @@ export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId,
 			relationshipId: inverseRelationshipId
 		};
 
-		const foundPersonReferenceObject = currentValue.people[personIndex].relationships[groupId].find(() => {
-			if (personReferenceObject.id === currentValue.activePerson.id)
-			return personReferenceObject;
-		});
-		const nGroupIndex = currentValue.activePerson.relationships[inverseGroupId].indexOf(foundPersonReferenceObject);
+		const foundPersonReferenceObject = currentValue.people[personIndex].relationships[groupId].find(
+			() => {
+				if (personReferenceObject.id === currentValue.activePerson.id) return personReferenceObject;
+			}
+		);
+		const nGroupIndex = currentValue.activePerson.relationships[inverseGroupId].indexOf(
+			foundPersonReferenceObject
+		);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {
 			currentValue.people[personIndex].relationships[inverseGroupId].push(personReferenceObject);
-		// but if it exists, update with the new relationship id
+			// but if it exists, update with the new relationship id
 		} else {
-			currentValue.people[personIndex].relationships[inverseGroupId][nGroupIndex].relationshipId = inverseRelationshipId;
+			currentValue.people[personIndex].relationships[inverseGroupId][nGroupIndex].relationshipId =
+				inverseRelationshipId;
 		}
 
 		return currentValue;
@@ -128,8 +135,7 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 	let groupId;
 
 	for (let key in relationshipMap) {
-		if (typeof relationshipMap[key] === 'object')
-		{
+		if (typeof relationshipMap[key] === 'object') {
 			for (let nestedKey in relationshipMap[key]) {
 				if (relationshipMap[key][nestedKey].id === relationshipId) {
 					groupId = relationshipMap[key].id;

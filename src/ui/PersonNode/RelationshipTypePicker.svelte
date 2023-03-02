@@ -6,34 +6,37 @@
 	import stylingConstants from '../../stores/stylingConstants';
 	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
-    export let sPersonId;
+	export let sPersonId;
 	export let bIsActivePerson = false;
 	export let bEnabled = false;
-    export let sInputValue;
+	export let sInputValue;
 
 	const onBlurAction = () => {
-        addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
-    };
+		addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue);
+	};
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
+			addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue);
 			unsetActiveNodeEditId();
 		}
-	}
+	};
 
 	const relationshipTypePickerContainerDynamicClass = css`
 		margin-bottom: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
-	`
+	`;
 
 	const relationshipTypePickerDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
 	`;
 </script>
 
-<div id="relationship-type-picker-container" class="{relationshipTypePickerContainerDynamicClass} relationship-type-picker-container">
+<div
+	id="relationship-type-picker-container"
+	class="{relationshipTypePickerContainerDynamicClass} relationship-type-picker-container"
+>
 	<select
 		id="options"
 		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
