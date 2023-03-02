@@ -4,6 +4,7 @@
 
 	import relationshipMap from '../../stores/relationshipMap';
 	import stylingConstants from '../../stores/stylingConstants';
+	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
     export let sPersonId;
 	export let bIsActivePerson = false;
@@ -13,6 +14,13 @@
 	const onBlurAction = () => {
         addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
     };
+
+	const onEnterKeyAction = (event) => {
+		if (event.keyCode === 13) {
+			addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue)
+			unsetActiveNodeEditId();
+		}
+	}
 
 	const relationshipTypePickerContainerDynamicClass = css`
 		margin-bottom: ${stylingConstants.sizes.padding};
@@ -31,7 +39,7 @@
 		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
 		bind:value={sInputValue}
 		on:click|stopPropagation
-		on:keydown|stopPropagation
+		on:keydown|stopPropagation={onEnterKeyAction}
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 	>

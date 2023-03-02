@@ -17,13 +17,13 @@
 	import stylingConstants from '../../stores/stylingConstants';
 
 	import Avatar from './Avatar.svelte';
-	import NodeSettingsButton from './NodeSettingsButton.svelte';
+	import NodeSettingsButton from './NodeSettings.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import NameInput from './NameInput.svelte';
 
 	export let sPersonId;
-	export let bIsActivePerson;
-	export let sRelationshipId;
+	export let bIsActivePerson = false;
+	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
 
 	$: {
@@ -42,7 +42,7 @@
 		}
 	}
 
-	const personNodeOnClick = () => {
+	const onClickPersonNodeAction = () => {
 		// clicking on the active person will pull up the detailed view
 		if (sPersonId === $familyTreeData.activePerson.id) {
 			// TODO: show person detail view
@@ -82,7 +82,7 @@
 <div
 	id="person-node-{sPersonId}"
 	class="person-node {personNodeDynamicClass}"
-	on:click={personNodeOnClick}
+	on:click={onClickPersonNodeAction}
 	on:keydown|stopPropagation
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}

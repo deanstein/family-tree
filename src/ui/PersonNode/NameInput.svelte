@@ -4,6 +4,7 @@
 	import familyTreeData from '../../stores/familyTreeData';
 	import stylingConstants from '../../stores/stylingConstants';
 	import { getPersonIndexById } from '../../logic/personManagement';
+	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
 	export let sPersonId = undefined;
 	export let bIsActivePerson = false;
@@ -15,21 +16,24 @@
 		el.select();
 	};
 
-	const onKeyDownAction = (event) => {
+	const onBlurAction = (event) => {
+		writeNameInputValueToStore(event.target.value);
+	};
+
+	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			event.target.blur();
+			writeNameInputValueToStore(event.target.value);
+			unsetActiveNodeEditId();
 		}
 	};
 
-	const onBlurAction = (event) => {
-		const sCurrentInputValue = event.target.value;
-
+	const writeNameInputValueToStore = (sName) => {
 		familyTreeData.update((currentValue) => {
 			let personIndex = getPersonIndexById(sPersonId);
-			currentValue.people[personIndex].name = sCurrentInputValue;
+			currentValue.people[personIndex].name = sName;
 			return currentValue;
 		});
-	};
+	}
 
 	const nameInputContainerDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
@@ -52,7 +56,7 @@
 		class="{nameInputDynamicClass} name-input"
 		bind:value={sInputValue}
 		on:click|stopPropagation
-		on:keydown|stopPropagation={onKeyDownAction}
+		on:keydown|stopPropagation={onEnterKeyAction}
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 		use:startEditText

@@ -1,18 +1,27 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../stores/uiState';
 	import stylingConstants from '../../stores/stylingConstants';
+	import { setActiveNodeEditId, unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let bIsNodeInEditMode;
 
-	let buttonText;
-	let nodeSettingsButtonDynamicClass;
-	$: {
-		buttonText = bIsNodeInEditMode ? 'done' : '...';
+	const startEditingMode = () => {
+		toggleSettingsFlyout();
+		setActiveNodeEditId(sPersonId);
+	}
 
-		nodeSettingsButtonDynamicClass = css`
+	const endEditingMode = () => {
+		unsetActiveNodeEditId();
+	};
+
+	let settingsButtonText;
+	let nodeSettingsButtonText;
+	$: {
+		settingsButtonText = bIsNodeInEditMode ? 'done' : '...';
+
+		nodeSettingsButtonText = css`
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 1px solid transparent;
@@ -27,21 +36,6 @@
 		showSettingsFlyout = !showSettingsFlyout;
 	}
 
-	const startEditingMode = () => {
-		showSettingsFlyout = false;
-		uiState.update((currentValue) => {
-			currentValue.sPersonIdForNodeEdit = sPersonId;
-			return currentValue;
-		});
-	};
-
-	const endEditingMode = () => {
-		uiState.update((currentValue) => {
-			currentValue.sPersonIdForNodeEdit = undefined;
-			return currentValue;
-		});
-	};
-
 	const deletePerson = () => {
 		// todo
 	}
@@ -51,9 +45,9 @@
 	<button
 		type="button"
 		id="settings-button"
-		class="{nodeSettingsButtonDynamicClass} node-settings-button"
+		class="{nodeSettingsButtonText} node-settings-button"
 		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : toggleSettingsFlyout}
-		>{buttonText}</button
+		>{settingsButtonText}</button
 	>
 
 	{#if showSettingsFlyout}
