@@ -10,6 +10,7 @@
 	export let personNodeGroupData;
 
 	const personNodeGroupPlusButtonDynamicClass = css`
+		background-color: ${stylingConstants.colors.sNodeGroupColor};
 		gap: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
@@ -60,7 +61,6 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		background-color: lightblue;
 	}
 
 	.person-node-group-outer-container {

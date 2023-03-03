@@ -24,6 +24,7 @@
 		if (event.keyCode === 13) {
 			writeNameInputValueToStore(event.target.value);
 			unsetActiveNodeEditId();
+			deselectText();
 		}
 	};
 
@@ -33,6 +34,11 @@
 			currentValue.people[personIndex].name = sName;
 			return currentValue;
 		});
+	};
+
+	let input;
+	const deselectText = () => {
+		input.selectionStart = input.selectionEnd;
 	};
 
 	const nameInputContainerDynamicClass = css`
@@ -54,6 +60,7 @@
 		type="text"
 		id="name-input"
 		class="{nameInputDynamicClass} name-input"
+		bind:this={input}
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onEnterKeyAction}

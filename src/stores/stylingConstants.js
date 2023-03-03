@@ -1,5 +1,6 @@
 const colors = {
-	sPersonNodeColor: 'whitesmoke',
+	sNodeGroupColor: 'white',
+	sPersonNodeColor: '#ececec',
 	sActiveInputHighlightColor: '#3399ff'
 };
 
