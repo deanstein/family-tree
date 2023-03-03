@@ -1,15 +1,22 @@
 <script>
 	import familyTreeData from './stores/familyTreeData';
+	import relationshipMap from './stores/relationshipMap';
+	import {
+		grandparentsCompatibleGroups,
+		parentsCompatibleGroups,
+		siblingsCompatibleGroups,
+		spouseCompatibleGroups,
+		childrenCompatibleGroups
+	} from './stores/relationshipMap';
 	import stylingConstants from './stores/stylingConstants';
 
 	import { setActivePerson } from './logic/personManagement';
 
-	import PersonNode from './ui/PersonNode/PersonNode.svelte';
-	import PersonNodeGroup from './ui/NodeGroup/NodeGroup.svelte';
 	import GenerationRow from './ui/GenerationRow.svelte';
+	import NodeGroup from './ui/NodeGroup/NodeGroup.svelte';
+	import PersonNode from './ui/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
-	import relationshipMap from './stores/relationshipMap';
 
 	let sAppVersion = 'v0.1.0';
 	let sDataVersion = relationshipMap.sDataVersion;
@@ -22,15 +29,6 @@
 	let blockContextMenu = (event) => {
 		event.preventDefault();
 	};
-
-	// specify compatible groups to show in the select element for each group
-	const { parents, stepparentsMaternal, stepparentsPaternal, parentsInLaw } = relationshipMap;
-	const parentCompatibleGroups = {
-		parents,
-		stepparentsMaternal,
-		stepparentsPaternal,
-		parentsInLaw
-	};
 </script>
 
 <main>
@@ -39,13 +37,13 @@
 			<div id="upper-generation-section" class="upper-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div />
-					<PersonNodeGroup
+					<NodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
 							groupName: relationshipMap.parents.label,
 							groupMembers: $familyTreeData.activePerson.relationships.parents,
-							compatibleGroups: parentCompatibleGroups
+							compatibleGroups: parentsCompatibleGroups
 						}}
 					/>
 				</GenerationRow>
@@ -53,12 +51,13 @@
 
 			<div id="siblings-generation-section" class="siblings-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<PersonNodeGroup
+					<NodeGroup
 						slot="row-left-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.siblings.id,
 							groupName: relationshipMap.siblings.label,
-							groupMembers: $familyTreeData.activePerson.relationships.siblings
+							groupMembers: $familyTreeData.activePerson.relationships.siblings,
+							compatibleGroups: siblingsCompatibleGroups
 						}}
 					/>
 					<div
@@ -68,12 +67,13 @@
 					>
 						<PersonNode sPersonId={$familyTreeData.activePerson.id} />
 					</div>
-					<PersonNodeGroup
+					<NodeGroup
 						slot="row-right-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.spouses.id,
 							groupName: relationshipMap.spouses.label,
-							groupMembers: $familyTreeData.activePerson.relationships.spouses
+							groupMembers: $familyTreeData.activePerson.relationships.spouses,
+							compatibleGroups: spouseCompatibleGroups
 						}}
 					/>
 				</GenerationRow>
@@ -81,12 +81,13 @@
 
 			<div id="lower-generation-section" class="lower-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<PersonNodeGroup
+					<NodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.children.id,
 							groupName: relationshipMap.children.label,
-							groupMembers: $familyTreeData.activePerson.relationships.children
+							groupMembers: $familyTreeData.activePerson.relationships.children,
+							compatibleGroups: childrenCompatibleGroups
 						}}
 					/>
 				</GenerationRow>
