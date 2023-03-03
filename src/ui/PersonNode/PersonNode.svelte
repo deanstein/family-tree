@@ -25,6 +25,7 @@
 	export let bIsActivePerson = false;
 	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
+	export let compatibleGroups = undefined;
 
 	$: {
 		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
@@ -99,6 +100,7 @@
 				bEnabled={bIsNodeInEditMode}
 				{sPersonId}
 				sInputValue={sRelationshipId}
+				{compatibleGroups}
 			/>
 		{/if}
 	</div>

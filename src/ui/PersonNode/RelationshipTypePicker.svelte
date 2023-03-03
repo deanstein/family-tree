@@ -7,9 +7,9 @@
 	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
 	export let sPersonId;
-	export let bIsActivePerson = false;
-	export let bEnabled = false;
 	export let sInputValue;
+	export let bEnabled = false;
+	export let compatibleGroups = JSON.parse(JSON.stringify(relationshipMap));
 
 	const onBlurAction = () => {
 		addOrUpdatePersonReferenceObjectInActivePersonGroup(sPersonId, sInputValue);
@@ -46,7 +46,7 @@
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 	>
-		{#each Object.entries(relationshipMap) as [category, items]}
+		{#each Object.entries(compatibleGroups) as [category, items]}
 			<optgroup label={items.label}>
 				{#each Object.entries(items) as [key, value]}
 					{#if key != 'label'}

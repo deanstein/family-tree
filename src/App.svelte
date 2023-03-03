@@ -22,6 +22,15 @@
 	let blockContextMenu = (event) => {
 		event.preventDefault();
 	};
+
+	// specify compatible groups to show in the select element for each group
+	const { parents, stepparentsMaternal, stepparentsPaternal, parentsInLaw } = relationshipMap;
+	const parentCompatibleGroups = {
+		parents,
+		stepparentsMaternal,
+		stepparentsPaternal,
+		parentsInLaw
+	};
 </script>
 
 <main>
@@ -35,7 +44,8 @@
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
 							groupName: relationshipMap.parents.label,
-							groupMembers: $familyTreeData.activePerson.relationships.parents
+							groupMembers: $familyTreeData.activePerson.relationships.parents,
+							compatibleGroups: parentCompatibleGroups
 						}}
 					/>
 				</GenerationRow>

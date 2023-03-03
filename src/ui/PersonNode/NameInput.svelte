@@ -6,7 +6,7 @@
 	import { getPersonIndexById } from '../../logic/personManagement';
 	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
 
-	export let sPersonId = undefined;
+	export let sPersonId;
 	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;

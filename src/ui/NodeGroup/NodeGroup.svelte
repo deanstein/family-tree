@@ -44,6 +44,7 @@
 				<PersonNode
 					sPersonId={personNodeGroupData.groupMembers[i].id}
 					sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
+					compatibleGroups={personNodeGroupData.compatibleGroups}
 				/>
 			{/each}
 		</div>
