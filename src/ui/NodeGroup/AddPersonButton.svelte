@@ -21,6 +21,11 @@
 		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
+		background: ${stylingConstants.colors.sNodeGroupColor};
+		:hover {
+			background-color: ${stylingConstants.colors.sHoverColor};
+		}
+
 	`;
 
 	const addButtonOnClick = () => {
@@ -62,11 +67,6 @@
 		align-items: center;
 		justify-content: center;
 		background: darkgray;
-		border: 2px dashed black;
-	}
-
-	.person-add-button:hover {
-		background-color: red;
 	}
 
 	.person-add-button-label {

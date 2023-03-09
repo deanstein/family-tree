@@ -1,7 +1,8 @@
 const colors = {
+	sHoverColor: '#50CBFC',
+	sActiveColor: '#3399ff',
 	sNodeGroupColor: 'white',
-	sPersonNodeColor: '#ececec',
-	sActiveInputHighlightColor: '#3399ff'
+	sPersonNodeColor: '#ececec'
 };
 
 const sizes = {

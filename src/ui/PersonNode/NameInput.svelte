@@ -51,7 +51,7 @@
 	`;
 
 	const nameInputDynamicClass = css`
-		border: 2px solid ${stylingConstants.colors.sActiveInputHighlightColor};
+		border: 2px solid ${stylingConstants.colors.sActiveColor};
 	`;
 </script>
 

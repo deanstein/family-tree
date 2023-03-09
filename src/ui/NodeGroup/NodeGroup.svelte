@@ -80,6 +80,7 @@
 		justify-content: center;
 		display: inline-flex;
 		width: 100%;
+		color: white;
 		background-color: darkgray;
 	}
 </style>

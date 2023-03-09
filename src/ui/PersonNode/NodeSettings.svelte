@@ -17,19 +17,27 @@
 	};
 
 	let settingsButtonText;
-	let nodeSettingsButtonText;
+	let nodeSettingsButtonTextDynamicClass;
 	$: {
 		settingsButtonText = bIsNodeInEditMode ? 'done' : '...';
 
-		nodeSettingsButtonText = css`
+		nodeSettingsButtonTextDynamicClass = css`
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
-			border: 1px solid transparent;
+			border: 2px solid transparent;
 			:hover {
-				1px solid ${stylingConstants.colors.sActiveInputHighlightColor}
-			}
+					background-color: ${stylingConstants.colors.sHoverColor};
+				}
 		`;
 	}
+
+	const nodeSettingsFlyoutDynamicClass = css`
+		a {
+			background-color: ${stylingConstants.colors.sPersonNodeColor};
+			:hover {
+				background-color: ${stylingConstants.colors.sHoverColor};
+		}
+	`;
 
 	let showSettingsFlyout = false;
 	const toggleSettingsFlyout = () => {
@@ -45,13 +53,13 @@
 	<button
 		type="button"
 		id="settings-button"
-		class="{nodeSettingsButtonText} node-settings-button"
+		class="{nodeSettingsButtonTextDynamicClass} node-settings-button"
 		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : toggleSettingsFlyout}
 		>{settingsButtonText}</button
 	>
 
 	{#if showSettingsFlyout}
-		<div id="node-settings-flyout-menu" class="node-settings-flyout-menu">
+		<div id="node-settings-flyout-menu" class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu">
 			<ul>
 				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
 				<li><a on:click|stopPropagation={deletePerson}>Remove</a></li>
@@ -91,7 +99,6 @@
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		background-color: lightgreen;
 	}
 
 	.node-settings-flyout-menu li {
@@ -104,9 +111,5 @@
 		padding: 5px;
 		text-decoration: none;
 		color: #000;
-	}
-
-	.node-settings-flyout-menu a:hover {
-		background-color: #ccc;
 	}
 </style>
