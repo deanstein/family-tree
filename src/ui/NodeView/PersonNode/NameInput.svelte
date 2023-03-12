@@ -1,10 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from '../../stores/familyTreeData';
-	import stylingConstants from '../../stores/stylingConstants';
-	import { getPersonIndexById } from '../../logic/personManagement';
-	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
+	import familyTreeData from '../../../stores/familyTreeData';
+	import stylingConstants from '../../../stores/stylingConstants';
+	import { getPersonIndexById } from '../../../logic/personManagement';
+	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let bIsActivePerson = false;

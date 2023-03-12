@@ -1,8 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../stores/stylingConstants';
-	import { setActiveNodeEditId, unsetActiveNodeEditId } from '../../logic/uiManagement.js';
+	import stylingConstants from '../../../stores/stylingConstants';
+	import { setActiveNodeEditId, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let bIsNodeInEditMode;

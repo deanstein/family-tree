@@ -12,9 +12,9 @@
 
 	import { setActivePerson } from './logic/personManagement';
 
-	import GenerationRow from './ui/GenerationRow.svelte';
-	import NodeGroup from './ui/NodeGroup/NodeGroup.svelte';
-	import PersonNode from './ui/PersonNode/PersonNode.svelte';
+	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
+	import NodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
+	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 

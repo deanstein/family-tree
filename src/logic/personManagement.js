@@ -19,20 +19,6 @@ export const setActivePerson = (person) => {
 	});
 };
 
-export const syncActivePersonToTree = () => {
-	familyTreeData.update((currentValue) => {
-		const index = getPersonIndexById(currentValue.activePerson.id);
-		return {
-			...currentValue,
-			people: [
-				...currentValue.people.slice(0, index),
-				currentValue.activePerson,
-				...currentValue.people.slice(index + 1)
-			]
-		};
-	});
-};
-
 export const getPersonIndexById = (personId) => {
 	let personIndex;
 
@@ -68,6 +54,20 @@ export const addPersonToPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
 		currentValue.people.push(person);
 		return currentValue;
+	});
+};
+
+export const addActivePersonToPeopleArray = () => {
+	familyTreeData.update((currentValue) => {
+		const index = getPersonIndexById(currentValue.activePerson.id);
+		return {
+			...currentValue,
+			people: [
+				...currentValue.people.slice(0, index),
+				currentValue.activePerson,
+				...currentValue.people.slice(index + 1)
+			]
+		};
 	});
 };
 

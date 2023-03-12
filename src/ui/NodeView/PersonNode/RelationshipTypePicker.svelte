@@ -1,10 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
-	import { addOrUpdatePersonInActivePersonGroup } from '../../logic/personManagement';
+	import { addOrUpdatePersonInActivePersonGroup } from '../../../logic/personManagement';
 
-	import relationshipMap from '../../stores/relationshipMap';
-	import stylingConstants from '../../stores/stylingConstants';
-	import { unsetActiveNodeEditId } from '../../logic/uiManagement.js';
+	import relationshipMap from '../../../stores/relationshipMap';
+	import stylingConstants from '../../../stores/stylingConstants';
+	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sInputValue;

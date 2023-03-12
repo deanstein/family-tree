@@ -13,13 +13,13 @@
 		addPersonIdToActiveRelationshipsArray,
 		removePersonIdFromActiveRelationshipsArray,
 		upgradePersonData,
-		syncActivePersonToTree
-	} from '../../logic/personManagement';
+		addActivePersonToPeopleArray
+	} from '../../../logic/personManagement';
 
-	import { defaultPerson } from '../../stores/relationshipMap';
-	import familyTreeData from '../../stores/familyTreeData';
-	import uiState from '../../stores/uiState';
-	import stylingConstants from '../../stores/stylingConstants';
+	import { defaultPerson } from '../../../stores/relationshipMap';
+	import familyTreeData from '../../../stores/familyTreeData';
+	import uiState from '../../../stores/uiState';
+	import stylingConstants from '../../../stores/stylingConstants';
 
 	import Avatar from './Avatar.svelte';
 	import NodeSettingsButton from './NodeSettings.svelte';
@@ -54,7 +54,7 @@
 			// clicking on anyone else makes them the active person
 			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(sPersonId));
 			setActivePerson(upgradedPersonData);
-			syncActivePersonToTree();
+			addActivePersonToPeopleArray();
 		}
 	};
 

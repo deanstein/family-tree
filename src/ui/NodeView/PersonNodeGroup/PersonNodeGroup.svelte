@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../stores/stylingConstants';
+	import stylingConstants from '../../../stores/stylingConstants';
 
 	import PersonNodeAddButton from './AddPersonButton.svelte';
 	import PersonNodePlaceholder from '../PersonNode/PersonNodePlaceholder.svelte';
