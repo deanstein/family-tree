@@ -24,7 +24,7 @@
 
 	const relationshipTypePickerContainerDynamicClass = css`
 		width: -webkit-fill-available;
-		width: -moz-available; 
+		width: -moz-available;
 		margin-bottom: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};

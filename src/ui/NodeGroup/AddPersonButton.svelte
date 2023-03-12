@@ -25,7 +25,6 @@
 		:hover {
 			background-color: ${stylingConstants.colors.sHoverColor};
 		}
-
 	`;
 
 	const addButtonOnClick = () => {

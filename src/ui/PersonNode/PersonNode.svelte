@@ -87,15 +87,15 @@
 
 	getAvailablePeopleIds();
 
-	onMount(function() {
+	onMount(function () {
 		addPersonIdToActiveRelationshipsArray(sPersonId);
 		getAvailablePeopleIds();
-	})
+	});
 
-	onDestroy(function() {
+	onDestroy(function () {
 		removePersonIdFromActiveRelationshipsArray(sPersonId);
 		getAvailablePeopleIds();
-   });
+	});
 </script>
 
 <div

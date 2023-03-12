@@ -26,8 +26,8 @@
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 2px solid transparent;
 			:hover {
-					background-color: ${stylingConstants.colors.sHoverColor};
-				}
+				background-color: ${stylingConstants.colors.sHoverColor};
+			}
 		`;
 	}
 
@@ -59,7 +59,10 @@
 	>
 
 	{#if showSettingsFlyout}
-		<div id="node-settings-flyout-menu" class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu">
+		<div
+			id="node-settings-flyout-menu"
+			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"
+		>
 			<ul>
 				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
 				<li><a on:click|stopPropagation={deletePerson}>Remove</a></li>

@@ -58,9 +58,11 @@ export const getAvailablePeopleIds = () => {
 	let aAvailablePeopleIds = [];
 
 	familyTreeData.subscribe((currentValue) => {
-		aAvailablePeopleIds = currentValue.people.filter(person => !currentValue.activeRelationships.includes(person.id)).map(person => person.id);
+		aAvailablePeopleIds = currentValue.people
+			.filter((person) => !currentValue.activeRelationships.includes(person.id))
+			.map((person) => person.id);
 	});
-}
+};
 
 export const addPersonToPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
@@ -74,7 +76,7 @@ export const addPersonIdToActiveRelationshipsArray = (sPersonId) => {
 		currentValue.activeRelationships.push(sPersonId);
 		return currentValue;
 	});
-}
+};
 
 export const removePersonIdFromActiveRelationshipsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
@@ -82,7 +84,7 @@ export const removePersonIdFromActiveRelationshipsArray = (sPersonId) => {
 		currentValue.activeRelationships.splice(index, 1);
 		return currentValue;
 	});
-}
+};
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	familyTreeData.update((currentValue) => {
