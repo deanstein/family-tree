@@ -3,6 +3,7 @@ import { writable } from 'svelte/store';
 const familyTreeData = {};
 
 const activePerson = {};
+const activeRelationships = [];
 const people = [
 	{
 		id: 2,
@@ -115,6 +116,7 @@ const people = [
 ];
 
 familyTreeData['activePerson'] = activePerson;
+familyTreeData['activeRelationships'] = activeRelationships;
 familyTreeData['people'] = people;
 
 export default writable(familyTreeData);

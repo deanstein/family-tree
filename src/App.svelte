@@ -18,7 +18,7 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = 'v0.1.0';
+	let sAppVersion = 'v0.2.0';
 	let sDataVersion = relationshipMap.sDataVersion;
 
 	// set the initial active person as the first in the list

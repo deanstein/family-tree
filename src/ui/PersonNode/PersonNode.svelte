@@ -1,12 +1,17 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 
 	import {
 		getPersonById,
+		getAvailablePeopleIds,
 		setActivePerson,
+		addPersonIdToActiveRelationshipsArray,
+		removePersonIdFromActiveRelationshipsArray,
 		upgradePersonData,
 		syncActivePersonToTree
 	} from '../../logic/personManagement';
@@ -79,6 +84,18 @@
 			};
 		}
 	});
+
+	getAvailablePeopleIds();
+
+	onMount(function() {
+		addPersonIdToActiveRelationshipsArray(sPersonId);
+		getAvailablePeopleIds();
+	})
+
+	onDestroy(function() {
+		removePersonIdFromActiveRelationshipsArray(sPersonId);
+		getAvailablePeopleIds();
+   });
 </script>
 
 <div

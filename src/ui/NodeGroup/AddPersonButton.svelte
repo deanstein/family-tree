@@ -7,9 +7,9 @@
 
 	import {
 		createNewPerson,
-		addOrUpdatePersonReferenceObjectInActivePersonGroup,
-		addOrUpdateActivePersonReferenceObjectInNewPersonGroup,
-		addPersonToKnownPeople,
+		addOrUpdatePersonInActivePersonGroup,
+		addOrUpdateActivePersonInNewPersonGroup,
+		addPersonToPeopleArray,
 		getDefaultRelationshipType
 	} from '../../logic/personManagement';
 
@@ -30,10 +30,10 @@
 
 	const addButtonOnClick = () => {
 		let newPerson = createNewPerson();
-		addPersonToKnownPeople(newPerson);
+		addPersonToPeopleArray(newPerson);
 		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
-		addOrUpdatePersonReferenceObjectInActivePersonGroup(newPerson.id, defaultRelationshipType);
-		addOrUpdateActivePersonReferenceObjectInNewPersonGroup(newPerson.id, groupId);
+		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
+		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, groupId);
 
 		uiState.update((currentValue) => {
 			currentValue.sPersonIdForNodeEdit = newPerson.id;

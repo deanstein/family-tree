@@ -54,16 +54,38 @@ export const getPersonById = (id) => {
 	return person;
 };
 
-export const addPersonToKnownPeople = (person) => {
+export const getAvailablePeopleIds = () => {
+	let aAvailablePeopleIds = [];
+
+	familyTreeData.subscribe((currentValue) => {
+		aAvailablePeopleIds = currentValue.people.filter(person => !currentValue.activeRelationships.includes(person.id)).map(person => person.id);
+	});
+}
+
+export const addPersonToPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
 		currentValue.people.push(person);
 		return currentValue;
 	});
 };
 
-export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, sRelationshipId) => {
+export const addPersonIdToActiveRelationshipsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		console.log(sPersonId, sRelationshipId);
+		currentValue.activeRelationships.push(sPersonId);
+		return currentValue;
+	});
+}
+
+export const removePersonIdFromActiveRelationshipsArray = (sPersonId) => {
+	familyTreeData.update((currentValue) => {
+		const index = currentValue.activeRelationships.indexOf(sPersonId);
+		currentValue.activeRelationships.splice(index, 1);
+		return currentValue;
+	});
+}
+
+export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
+	familyTreeData.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = {
@@ -94,7 +116,7 @@ export const addOrUpdatePersonReferenceObjectInActivePersonGroup = (sPersonId, s
 	});
 };
 
-export const addOrUpdateActivePersonReferenceObjectInNewPersonGroup = (personId, groupId) => {
+export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
 		const inverseGroupId = getInverseGroupId(groupId);
