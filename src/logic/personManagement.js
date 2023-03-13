@@ -48,6 +48,8 @@ export const getAvailablePeopleIds = () => {
 			.filter((person) => !currentValue.activeRelationships.includes(person.id))
 			.map((person) => person.id);
 	});
+
+	return aAvailablePeopleIds;
 };
 
 export const addPersonToPeopleArray = (person) => {

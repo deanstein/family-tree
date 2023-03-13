@@ -2,6 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import { onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import { onDestroy } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
@@ -9,11 +10,11 @@
 	import {
 		getPersonById,
 		getAvailablePeopleIds,
+		upgradePersonData,
 		setActivePerson,
 		addPersonIdToActiveRelationshipsArray,
 		removePersonIdFromActiveRelationshipsArray,
-		upgradePersonData,
-		addActivePersonToPeopleArray
+		addActivePersonToPeopleArray,
 	} from '../../../logic/personManagement';
 
 	import { defaultPerson } from '../../../stores/relationshipMap';
@@ -25,12 +26,15 @@
 	import NodeSettingsButton from './NodeSettings.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import NameInput from './NameInput.svelte';
+	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 
 	export let sPersonId;
 	export let bIsActivePerson = false;
 	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
+
+	let aAvailablePersonIds = [];
 
 	$: {
 		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
@@ -85,17 +89,18 @@
 		}
 	});
 
-	getAvailablePeopleIds();
-
-	onMount(function () {
+	onMount(() => {
 		addPersonIdToActiveRelationshipsArray(sPersonId);
-		getAvailablePeopleIds();
+		
 	});
 
-	onDestroy(function () {
+	onDestroy(() => {
 		removePersonIdFromActiveRelationshipsArray(sPersonId);
-		getAvailablePeopleIds();
 	});
+
+	afterUpdate(() => {
+		aAvailablePersonIds = getAvailablePeopleIds();
+	})
 </script>
 
 <div
@@ -124,11 +129,15 @@
 			/>
 		{/if}
 	</div>
+	{#if bIsNodeInEditMode}
+		<PersonNodeScrollingWindow aPersonIdsToDisplayAsNodes={aAvailablePersonIds}/>
+	{/if}
 </div>
 
 <style>
 	.person-node {
 		display: flex;
+		position: relative;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;

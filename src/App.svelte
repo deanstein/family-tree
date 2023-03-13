@@ -13,12 +13,12 @@
 	import { setActivePerson } from './logic/personManagement';
 
 	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
-	import NodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
+	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = 'v0.2.0';
+	let sAppVersion = 'v0.3.0';
 	let sDataVersion = relationshipMap.sDataVersion;
 
 	// set the initial active person as the first in the list
@@ -37,7 +37,7 @@
 			<div id="upper-generation-section" class="upper-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div />
-					<NodeGroup
+					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
@@ -51,7 +51,7 @@
 
 			<div id="siblings-generation-section" class="siblings-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<NodeGroup
+					<PersonNodeGroup
 						slot="row-left-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.siblings.id,
@@ -67,7 +67,7 @@
 					>
 						<PersonNode sPersonId={$familyTreeData.activePerson.id} />
 					</div>
-					<NodeGroup
+					<PersonNodeGroup
 						slot="row-right-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.spouses.id,
@@ -81,7 +81,7 @@
 
 			<div id="lower-generation-section" class="lower-generation-section">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<NodeGroup
+					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.children.id,
