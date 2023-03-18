@@ -1,7 +1,6 @@
 <script>
 	import familyTreeData from '../../../stores/familyTreeData';
 
-	import PersonNode from '../PersonNode/PersonNode.svelte';
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
 
 	export let sRelationshipId;

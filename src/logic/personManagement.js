@@ -71,35 +71,48 @@ export const addActivePersonToPeopleArray = () => {
 	});
 };
 
-export const addPersonIdToRelatedPeopleIdsArray = (sPersonId) => {
+export const addPersonIdToActiveRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		currentValue.aActivePersonRelatedPeopleIds.push(sPersonId);
+		const nActiveRelatedPersonIdSpliceIndex =
+			currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+		const nAvailableRelatedPersonIdSpliceIndex =
+			currentValue.aAvailablePeopleIds.indexOf(sPersonId);
 
-		if (currentValue.aAvailablePeopleIds.includes(sPersonId)) {
-			currentValue.aAvailablePeopleIds.splice(
-				currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId),
-				1
-			);
+		if (nActiveRelatedPersonIdSpliceIndex === -1) {
+			currentValue.aActivePersonRelatedPeopleIds.push(sPersonId);
 		}
+
+		if (nAvailableRelatedPersonIdSpliceIndex > -1) {
+			currentValue.aAvailablePeopleIds.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
+		}
+
+		// if (currentValue.aAvailablePeopleIds.includes(sPersonId)) {
+		// 	currentValue.aAvailablePeopleIds.splice(
+		// 		currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId),
+		// 		1
+		// 	);
+		// }
+
+		//console.log(currentValue.aAvailablePeopleIds)
 
 		return currentValue;
 	});
 };
 
-export const removePersonIdFromRelatedPeopleIdsArray = (sPersonId) => {
+export const removePersonIdFromActiveRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		const nSpliceIndex = currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+		const nActiveRelatedPersonIdSpliceIndex =
+			currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+		const nAvailableRelatedPersonIdSpliceIndex =
+			currentValue.aAvailablePeopleIds.indexOf(sPersonId);
 
-		if (nSpliceIndex > -1) {
-			currentValue.aActivePersonRelatedPeopleIds.splice(nSpliceIndex, 1);
+		if (nActiveRelatedPersonIdSpliceIndex > -1) {
+			currentValue.aActivePersonRelatedPeopleIds.splice(nActiveRelatedPersonIdSpliceIndex, 1);
 		}
 
-		if (!currentValue.aAvailablePeopleIds.includes(sPersonId)) {
+		if (nAvailableRelatedPersonIdSpliceIndex === -1) {
 			currentValue.aAvailablePeopleIds.push(sPersonId);
 		}
-
-		console.log(sPersonId);
-		console.log(nSpliceIndex);
 
 		return currentValue;
 	});
@@ -222,6 +235,7 @@ export const updateAvailablePeopleIdsFilteredArray = (sFilter) => {
 		// if nothing in the text box, show all available people
 		if (sFilterUppercase === '') {
 			currentValue.aAvailablePeopleIdsFiltered = currentValue.aAvailablePeopleIds;
+			console.log(currentValue.aAvailablePeopleIds);
 		}
 
 		return currentValue;

@@ -1,6 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { afterUpdate } from 'svelte';
+
 	import familyTreeData from '../../../stores/familyTreeData';
 	import stylingConstants from '../../../stores/stylingConstants';
 	import {
@@ -70,8 +72,8 @@
 		bind:this={input}
 		bind:value={sInputValue}
 		on:click|stopPropagation
-		on:keydown|stopPropagation={onEnterKeyAction}
 		on:keyup={onKeyUpAction}
+		on:keydown|stopPropagation={onEnterKeyAction}
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 		use:startEditText

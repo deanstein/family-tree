@@ -10,8 +10,8 @@
 		getPersonById,
 		upgradePersonData,
 		setActivePerson,
-		addPersonIdToRelatedPeopleIdsArray,
-		removePersonIdFromRelatedPeopleIdsArray,
+		addPersonIdToActiveRelatedPeopleIdsArray,
+		removePersonIdFromActiveRelatedPeopleIdsArray,
 		addActivePersonToPeopleArray
 	} from '../../../logic/personManagement';
 
@@ -31,8 +31,6 @@
 	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
-
-	let bShowScrollingWindow = true;
 
 	$: {
 		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
@@ -88,11 +86,11 @@
 	});
 
 	onMount(() => {
-		addPersonIdToRelatedPeopleIdsArray(sPersonId);
+		addPersonIdToActiveRelatedPeopleIdsArray(sPersonId);
 	});
 
 	onDestroy(() => {
-		removePersonIdFromRelatedPeopleIdsArray(sPersonId);
+		removePersonIdFromActiveRelatedPeopleIdsArray(sPersonId);
 	});
 </script>
 
@@ -122,7 +120,7 @@
 			/>
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode && bShowScrollingWindow}
+	{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 1}
 		<PersonNodeScrollingWindow {sRelationshipId} />
 	{/if}
 </div>
