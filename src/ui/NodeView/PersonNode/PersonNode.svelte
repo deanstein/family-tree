@@ -1,7 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { onMount } from 'svelte';
 	import { onDestroy } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';

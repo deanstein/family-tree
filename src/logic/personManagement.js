@@ -86,15 +86,6 @@ export const addPersonIdToActiveRelatedPeopleIdsArray = (sPersonId) => {
 			currentValue.aAvailablePeopleIds.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
 		}
 
-		// if (currentValue.aAvailablePeopleIds.includes(sPersonId)) {
-		// 	currentValue.aAvailablePeopleIds.splice(
-		// 		currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId),
-		// 		1
-		// 	);
-		// }
-
-		//console.log(currentValue.aAvailablePeopleIds)
-
 		return currentValue;
 	});
 };

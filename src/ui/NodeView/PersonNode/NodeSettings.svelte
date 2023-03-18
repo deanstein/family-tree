@@ -4,20 +4,11 @@
 	import stylingConstants from '../../../stores/stylingConstants';
 
 	import { removePersonFromActivePersonGroup } from '../../../logic/personManagement';
-	import { setActiveNodeEditId, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
+	import { startNodeEditingMode, endNodeEditingMode } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;
 	export let bIsNodeInEditMode;
-
-	const startEditingMode = () => {
-		toggleSettingsFlyout();
-		setActiveNodeEditId(sPersonId);
-	};
-
-	const endEditingMode = () => {
-		unsetActiveNodeEditId();
-	};
 
 	let settingsButtonText;
 	let nodeSettingsButtonTextDynamicClass;
@@ -47,7 +38,12 @@
 		showSettingsFlyout = !showSettingsFlyout;
 	};
 
-	const removePersonNode = () => {
+	const onEditButtonClick = () => {
+		startNodeEditingMode(sPersonId);
+		toggleSettingsFlyout();
+	}
+
+	const onRemoveButtonClick = () => {
 		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
 	};
 </script>
@@ -57,7 +53,7 @@
 		type="button"
 		id="settings-button"
 		class="{nodeSettingsButtonTextDynamicClass} node-settings-button"
-		on:click|stopPropagation={bIsNodeInEditMode ? endEditingMode : toggleSettingsFlyout}
+		on:click|stopPropagation={bIsNodeInEditMode ? endNodeEditingMode : toggleSettingsFlyout}
 		>{settingsButtonText}</button
 	>
 
@@ -67,8 +63,8 @@
 			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"
 		>
 			<ul>
-				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
-				<li><a on:click|stopPropagation={removePersonNode}>Remove</a></li>
+				<li><a on:click|stopPropagation={onEditButtonClick}>Edit</a></li>
+				<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove</a></li>
 			</ul>
 		</div>
 	{/if}

@@ -12,6 +12,7 @@
 		addPersonToPeopleArray,
 		getDefaultRelationshipType
 	} from '../../../logic/personManagement';
+	import { startNodeEditingMode } from '../../../logic/uiManagement';
 
 	export let groupId;
 
@@ -34,10 +35,7 @@
 		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
 		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, groupId);
 
-		uiState.update((currentValue) => {
-			currentValue.sPersonIdForNodeEdit = newPerson.id;
-			return currentValue;
-		});
+		startNodeEditingMode(newPerson.id);
 	};
 </script>
 

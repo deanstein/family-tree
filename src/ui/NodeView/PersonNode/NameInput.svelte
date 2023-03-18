@@ -1,8 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { afterUpdate } from 'svelte';
-
 	import familyTreeData from '../../../stores/familyTreeData';
 	import stylingConstants from '../../../stores/stylingConstants';
 	import {

@@ -8,7 +8,9 @@
 		getPersonById,
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup,
-		removePersonFromPeopleArray
+		removePersonFromPeopleArray,
+		removePersonIdFromActiveRelatedPeopleIdsArray,
+		addPersonIdToActiveRelatedPeopleIdsArray
 	} from '../../../logic/personManagement';
 
 	import Avatar from './Avatar.svelte';
@@ -17,8 +19,9 @@
 	export let sPersonId;
 	export let sRelationshipId;
 
-	const onPersonNodeClickAction = () => {
+	const onPersonNodeForSelectAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
+		addPersonIdToActiveRelatedPeopleIdsArray(sPersonId);
 		removePersonFromActivePersonGroup($uiState.sPersonIdForNodeEdit, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($uiState.sPersonIdForNodeEdit));
 		//unsetActiveNodeEditId();
@@ -38,7 +41,7 @@
 <div
 	id="person-node-for-select-{sPersonId}"
 	class="person-node {personNodeForSelectDynamicClass}"
-	on:click|stopPropagation={onPersonNodeClickAction}
+	on:click|stopPropagation={onPersonNodeForSelectAction}
 	on:keydown|stopPropagation
 >
 	<div id="person-node-content-area" class="person-node-content-area">
