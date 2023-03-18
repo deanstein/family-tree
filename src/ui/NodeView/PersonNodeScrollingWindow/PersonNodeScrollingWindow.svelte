@@ -2,11 +2,19 @@
 	import familyTreeData from '../../../stores/familyTreeData';
 
 	import PersonNode from '../PersonNode/PersonNode.svelte';
+	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
+
+	export let sRelationshipId;
 </script>
 
-<div id="person-node-scrolling-window-container" class="person-node-scrolling-window-container">
+<div
+	id="person-node-scrolling-window-container"
+	class="person-node-scrolling-window-container"
+	on:click|stopPropagation
+	on:keypress|stopPropagation
+>
 	{#each $familyTreeData.aAvailablePeopleIdsFiltered as sPersonId}
-		<PersonNode {sPersonId} bTrackActiveState={true} />
+		<PersonNodeForSelect {sPersonId} {sRelationshipId} />
 	{/each}
 </div>
 

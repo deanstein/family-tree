@@ -30,7 +30,6 @@
 	export let bIsActivePerson = false;
 	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
-	export let bTrackActiveState = true;
 	export let compatibleGroups = undefined;
 
 	let bShowScrollingWindow = true;
@@ -89,15 +88,11 @@
 	});
 
 	onMount(() => {
-		if (bTrackActiveState) {
-			addPersonIdToRelatedPeopleIdsArray(sPersonId);
-		}
+		addPersonIdToRelatedPeopleIdsArray(sPersonId);
 	});
 
 	onDestroy(() => {
-		if (bTrackActiveState) {
-			removePersonIdFromRelatedPeopleIdsArray(sPersonId);
-		}
+		removePersonIdFromRelatedPeopleIdsArray(sPersonId);
 	});
 </script>
 
@@ -113,7 +108,7 @@
 	<div id="person-node-content-area" class="person-node-content-area">
 		<Avatar />
 		<NameInput
-			sInputValue={getPersonById(sPersonId).name}
+			sInputValue={getPersonById(sPersonId)?.name}
 			bEnabled={bIsNodeInEditMode}
 			{sPersonId}
 			{bIsActivePerson}
@@ -128,7 +123,7 @@
 		{/if}
 	</div>
 	{#if bIsNodeInEditMode && bShowScrollingWindow}
-		<PersonNodeScrollingWindow />
+		<PersonNodeScrollingWindow {sRelationshipId} />
 	{/if}
 </div>
 

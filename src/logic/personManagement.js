@@ -49,9 +49,9 @@ export const addPersonToPeopleArray = (person) => {
 
 export const removePersonFromPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
-		const spliceIndex = currentValue.aAllPeople.indexOf(person);
-		if (spliceIndex > -1) {
-			currentValue.aAllPeople.splice(spliceIndex, 1);
+		const nSpliceIndex = currentValue.aAllPeople.indexOf(person);
+		if (nSpliceIndex > -1) {
+			currentValue.aAllPeople.splice(nSpliceIndex, 1);
 		}
 		return currentValue;
 	});
@@ -88,15 +88,18 @@ export const addPersonIdToRelatedPeopleIdsArray = (sPersonId) => {
 
 export const removePersonIdFromRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		const index = currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+		const nSpliceIndex = currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
 
-		if (index > -1) {
-			currentValue.aActivePersonRelatedPeopleIds.splice(index, 1);
+		if (nSpliceIndex > -1) {
+			currentValue.aActivePersonRelatedPeopleIds.splice(nSpliceIndex, 1);
 		}
 
 		if (!currentValue.aAvailablePeopleIds.includes(sPersonId)) {
 			currentValue.aAvailablePeopleIds.push(sPersonId);
 		}
+
+		console.log(sPersonId);
+		console.log(nSpliceIndex);
 
 		return currentValue;
 	});
@@ -465,17 +468,32 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {
-	let upgraded = false;
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
 	}
+
+	let upgraded = false;
+	let originalVersion = personDataToModify?.version;
+
 	if (personDataToModify?.version !== personDataToMatch?.version) {
 		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
 		upgraded = true;
 	}
+
 	if (upgraded) {
 		personDataToModify['version'] = personDataToMatch.version;
-		console.log('Person upgraded: ' + personDataToModify.name);
+		console.log(
+			'Person upgraded: ' +
+				personDataToModify.name +
+				' (v' +
+				originalVersion +
+				') ' +
+				'->' +
+				' (v' +
+				personDataToMatch.version +
+				')'
+		);
 	}
+
 	return personDataToModify;
 };
