@@ -3,8 +3,10 @@ import { writable } from 'svelte/store';
 const familyTreeData = {};
 
 const activePerson = {};
-const activeRelationships = [];
-const people = [
+const aActivePersonRelatedPeopleIds = [];
+const aAvailablePeopleIds = [];
+const aFilteredPeopleIds = [];
+const aAllPeople = [
 	{
 		id: 2,
 		name: 'Kendall Roy',
@@ -115,8 +117,11 @@ const people = [
 	}
 ];
 
+familyTreeData['aAllPeople'] = aAllPeople;
+
 familyTreeData['activePerson'] = activePerson;
-familyTreeData['activeRelationships'] = activeRelationships;
-familyTreeData['people'] = people;
+familyTreeData['aActivePersonRelatedPeopleIds'] = aActivePersonRelatedPeopleIds;
+familyTreeData['aAvailablePeopleIds'] = aAvailablePeopleIds;
+familyTreeData['aAvailablePeopleIdsFiltered'] = aFilteredPeopleIds;
 
 export default writable(familyTreeData);

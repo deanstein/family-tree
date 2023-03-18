@@ -23,7 +23,7 @@ export const getPersonIndexById = (personId) => {
 	let personIndex;
 
 	familyTreeData.subscribe((currentValue) => {
-		personIndex = currentValue.people.findIndex((object) => object['id'] === personId);
+		personIndex = currentValue.aAllPeople.findIndex((object) => object['id'] === personId);
 	});
 
 	return personIndex;
@@ -33,28 +33,16 @@ export const getPersonById = (id) => {
 	let person = undefined;
 
 	familyTreeData.subscribe((currentValue) => {
-		const { people } = currentValue;
-		person = people.find((item) => item.id === id);
+		const { aAllPeople } = currentValue;
+		person = aAllPeople.find((item) => item.id === id);
 	});
 
 	return person;
 };
 
-export const getAvailablePeopleIds = () => {
-	let aAvailablePeopleIds = [];
-
-	familyTreeData.subscribe((currentValue) => {
-		aAvailablePeopleIds = currentValue.people
-			.filter((person) => !currentValue.activeRelationships.includes(person.id))
-			.map((person) => person.id);
-	});
-
-	return aAvailablePeopleIds;
-};
-
 export const addPersonToPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
-		currentValue.people.push(person);
+		currentValue.aAllPeople.push(person);
 		return currentValue;
 	});
 };
@@ -64,26 +52,38 @@ export const addActivePersonToPeopleArray = () => {
 		const index = getPersonIndexById(currentValue.activePerson.id);
 		return {
 			...currentValue,
-			people: [
-				...currentValue.people.slice(0, index),
+			aAllPeople: [
+				...currentValue.aAllPeople.slice(0, index),
 				currentValue.activePerson,
-				...currentValue.people.slice(index + 1)
+				...currentValue.aAllPeople.slice(index + 1)
 			]
 		};
 	});
 };
 
-export const addPersonIdToActiveRelationshipsArray = (sPersonId) => {
+export const addPersonIdToRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		currentValue.activeRelationships.push(sPersonId);
+		currentValue.aActivePersonRelatedPeopleIds.push(sPersonId);
+
+		if (currentValue.aAvailablePeopleIds.includes(sPersonId)) {
+			currentValue.aAvailablePeopleIds.splice(
+				currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId),
+				1
+			);
+		}
+
 		return currentValue;
 	});
 };
 
-export const removePersonIdFromActiveRelationshipsArray = (sPersonId) => {
+export const removePersonIdFromRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
-		const index = currentValue.activeRelationships.indexOf(sPersonId);
-		currentValue.activeRelationships.splice(index, 1);
+		const index = currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+		currentValue.aActivePersonRelatedPeopleIds.splice(index, 1);
+
+		if (!currentValue.aAvailablePeopleIds.includes(sPersonId)) {
+			currentValue.aAvailablePeopleIds.push(sPersonId);
+		}
 		return currentValue;
 	});
 };
@@ -131,22 +131,53 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			relationshipId: inverseRelationshipId
 		};
 
-		const foundPersonReferenceObject = currentValue.people[personIndex].relationships[groupId].find(
-			() => {
-				if (personReferenceObject.id === currentValue.activePerson.id) return personReferenceObject;
-			}
-		);
+		const foundPersonReferenceObject = currentValue.aAllPeople[personIndex].relationships[
+			groupId
+		].find(() => {
+			if (personReferenceObject.id === currentValue.activePerson.id) return personReferenceObject;
+		});
 		const nGroupIndex = currentValue.activePerson.relationships[inverseGroupId].indexOf(
 			foundPersonReferenceObject
 		);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {
-			currentValue.people[personIndex].relationships[inverseGroupId].push(personReferenceObject);
+			currentValue.aAllPeople[personIndex].relationships[inverseGroupId].push(
+				personReferenceObject
+			);
 			// but if it exists, update with the new relationship id
 		} else {
-			currentValue.people[personIndex].relationships[inverseGroupId][nGroupIndex].relationshipId =
-				inverseRelationshipId;
+			currentValue.aAllPeople[personIndex].relationships[inverseGroupId][
+				nGroupIndex
+			].relationshipId = inverseRelationshipId;
+		}
+
+		return currentValue;
+	});
+};
+
+export const updateAvailablePeopleIdsFilteredArray = (sFilter) => {
+	const sFilterUppercase = sFilter.toUpperCase();
+
+	familyTreeData.update((currentValue) => {
+		currentValue.aAvailablePeopleIdsFiltered = [];
+
+		// for each id, get name and see if the filter is contained in the name
+		currentValue.aAvailablePeopleIds.forEach((sPersonId) => {
+			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
+			if (sPersonName.indexOf(sFilterUppercase) > -1) {
+				currentValue.aAvailablePeopleIdsFiltered.push(sPersonId);
+			} else {
+				const nPersonIdIndex = currentValue.aAvailablePeopleIdsFiltered.indexOf(sPersonId);
+				if (nPersonIdIndex != -1) {
+					currentValue.aAvailablePeopleIdsFiltered.splice(nPersonIdIndex, 1);
+				}
+			}
+		});
+
+		// if nothing in the text box, show all available people
+		if (sFilterUppercase === '') {
+			currentValue.aAvailablePeopleIdsFiltered = currentValue.aAvailablePeopleIds;
 		}
 
 		return currentValue;

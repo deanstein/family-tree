@@ -3,7 +3,7 @@
 </script>
 
 <div id="person-node" class="person-node">
-	{$familyTreeData.people}
+	{$familyTreeData.aAllPeople}
 </div>
 
 <style>

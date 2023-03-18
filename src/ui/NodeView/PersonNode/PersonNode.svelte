@@ -2,19 +2,17 @@
 	import { css } from '@emotion/css';
 
 	import { onMount } from 'svelte';
-	import { afterUpdate } from 'svelte';
 	import { onDestroy } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 
 	import {
 		getPersonById,
-		getAvailablePeopleIds,
 		upgradePersonData,
 		setActivePerson,
-		addPersonIdToActiveRelationshipsArray,
-		removePersonIdFromActiveRelationshipsArray,
-		addActivePersonToPeopleArray,
+		addPersonIdToRelatedPeopleIdsArray,
+		removePersonIdFromRelatedPeopleIdsArray,
+		addActivePersonToPeopleArray
 	} from '../../../logic/personManagement';
 
 	import { defaultPerson } from '../../../stores/relationshipMap';
@@ -34,7 +32,7 @@
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 
-	let aAvailablePersonIds = [];
+	let bShowScrollingWindow = true;
 
 	$: {
 		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
@@ -50,7 +48,7 @@
 		}
 	}
 
-	const onClickPersonNodeAction = () => {
+	const onPersonNodeClickAction = () => {
 		// clicking on the active person will pull up the detailed view
 		if (sPersonId === $familyTreeData.activePerson.id) {
 			// TODO: show person detail view
@@ -90,23 +88,18 @@
 	});
 
 	onMount(() => {
-		addPersonIdToActiveRelationshipsArray(sPersonId);
-		
+		addPersonIdToRelatedPeopleIdsArray(sPersonId);
 	});
 
 	onDestroy(() => {
-		removePersonIdFromActiveRelationshipsArray(sPersonId);
+		removePersonIdFromRelatedPeopleIdsArray(sPersonId);
 	});
-
-	afterUpdate(() => {
-		aAvailablePersonIds = getAvailablePeopleIds();
-	})
 </script>
 
 <div
 	id="person-node-{sPersonId}"
 	class="person-node {personNodeDynamicClass}"
-	on:click={onClickPersonNodeAction}
+	on:click={onPersonNodeClickAction}
 	on:keydown|stopPropagation
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}
@@ -129,8 +122,8 @@
 			/>
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode}
-		<PersonNodeScrollingWindow aPersonIdsToDisplayAsNodes={aAvailablePersonIds}/>
+	{#if bIsNodeInEditMode && bShowScrollingWindow}
+		<PersonNodeScrollingWindow />
 	{/if}
 </div>
 

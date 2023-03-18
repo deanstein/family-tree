@@ -3,7 +3,10 @@
 
 	import familyTreeData from '../../../stores/familyTreeData';
 	import stylingConstants from '../../../stores/stylingConstants';
-	import { getPersonIndexById } from '../../../logic/personManagement';
+	import {
+		getPersonIndexById,
+		updateAvailablePeopleIdsFilteredArray
+	} from '../../../logic/personManagement';
 	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
@@ -28,10 +31,14 @@
 		}
 	};
 
+	const onKeyUpAction = (event) => {
+		updateAvailablePeopleIdsFilteredArray(event.target.value);
+	};
+
 	const writeNameInputValueToStore = (sName) => {
 		familyTreeData.update((currentValue) => {
 			let personIndex = getPersonIndexById(sPersonId);
-			currentValue.people[personIndex].name = sName;
+			currentValue.aAllPeople[personIndex].name = sName;
 			return currentValue;
 		});
 	};
@@ -64,6 +71,7 @@
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onEnterKeyAction}
+		on:keyup={onKeyUpAction}
 		on:blur={onBlurAction}
 		disabled={!bEnabled}
 		use:startEditText

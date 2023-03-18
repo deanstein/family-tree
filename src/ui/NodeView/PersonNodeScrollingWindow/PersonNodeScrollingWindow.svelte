@@ -1,25 +1,27 @@
 <script>
-    import PersonNode from "../PersonNode/PersonNode.svelte";
+	import familyTreeData from '../../../stores/familyTreeData';
 
-    export let aPersonIdsToDisplayAsNodes;
+	import PersonNode from '../PersonNode/PersonNode.svelte';
 </script>
 
-<div id='person-node-scrolling-window-container' class='person-node-scrolling-window-container'>
-    {#each aPersonIdsToDisplayAsNodes as sPersonId}
-    <PersonNode
+<div id="person-node-scrolling-window-container" class="person-node-scrolling-window-container">
+	{#each $familyTreeData.aAvailablePeopleIdsFiltered as sPersonId}
+		<div>{sPersonId}</div>
+		<!-- <PersonNode
         sPersonId={sPersonId}
-    />
-    {/each}
+    /> -->
+	{/each}
 </div>
 
 <style>
-    .person-node-scrolling-window-container {
-        display: flex;
-        position: absolute;
-        justify-content: center;
-        top: 100%;
-        gap: 10px;
-        padding: 10px;
-        background-color: gray;
-    }
+	.person-node-scrolling-window-container {
+		display: flex;
+		position: absolute;
+		justify-content: center;
+		top: 100%;
+		gap: 10px;
+		z-index: 1;
+		padding: 10px;
+		background-color: gray;
+	}
 </style>

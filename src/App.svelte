@@ -23,7 +23,7 @@
 
 	// set the initial active person as the first in the list
 	if (Object.keys($familyTreeData.activePerson).length == 0) {
-		setActivePerson($familyTreeData.people[0]);
+		setActivePerson($familyTreeData.aAllPeople[0]);
 	}
 
 	let blockContextMenu = (event) => {
