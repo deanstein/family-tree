@@ -120,7 +120,7 @@
 			/>
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 1}
+	{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 0}
 		<PersonNodeScrollingWindow {sRelationshipId} />
 	{/if}
 </div>

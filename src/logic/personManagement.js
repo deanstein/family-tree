@@ -235,7 +235,6 @@ export const updateAvailablePeopleIdsFilteredArray = (sFilter) => {
 		// if nothing in the text box, show all available people
 		if (sFilterUppercase === '') {
 			currentValue.aAvailablePeopleIdsFiltered = currentValue.aAvailablePeopleIds;
-			console.log(currentValue.aAvailablePeopleIds);
 		}
 
 		return currentValue;
