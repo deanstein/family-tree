@@ -3,7 +3,7 @@ import { updateAvailablePeopleIdsFilteredArray } from './personManagement';
 
 export const startNodeEditingMode = (sPersonId) => {
 	setActiveNodeEditId(sPersonId);
-	updateAvailablePeopleIdsFilteredArray('Firstname Lastname')
+	updateAvailablePeopleIdsFilteredArray('Firstname Lastname');
 };
 
 export const endNodeEditingMode = () => {

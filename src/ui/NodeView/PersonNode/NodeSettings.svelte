@@ -41,7 +41,7 @@
 	const onEditButtonClick = () => {
 		startNodeEditingMode(sPersonId);
 		toggleSettingsFlyout();
-	}
+	};
 
 	const onRemoveButtonClick = () => {
 		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
