@@ -30,6 +30,7 @@
 	export let bIsActivePerson = false;
 	export let sRelationshipId = 'undefined';
 	export let bIsNodeInEditMode = false;
+	export let bTrackActiveState = true;
 	export let compatibleGroups = undefined;
 
 	let bShowScrollingWindow = true;
@@ -88,12 +89,17 @@
 	});
 
 	onMount(() => {
-		addPersonIdToRelatedPeopleIdsArray(sPersonId);
+		if (bTrackActiveState) {
+			addPersonIdToRelatedPeopleIdsArray(sPersonId);
+		}
 	});
 
 	onDestroy(() => {
-		removePersonIdFromRelatedPeopleIdsArray(sPersonId);
+		if (bTrackActiveState) {
+			removePersonIdFromRelatedPeopleIdsArray(sPersonId);
+		}
 	});
+	
 </script>
 
 <div

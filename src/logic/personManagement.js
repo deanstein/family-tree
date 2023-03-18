@@ -63,6 +63,7 @@ export const addActivePersonToPeopleArray = () => {
 
 export const addPersonIdToRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
+
 		currentValue.aActivePersonRelatedPeopleIds.push(sPersonId);
 
 		if (currentValue.aAvailablePeopleIds.includes(sPersonId)) {
@@ -79,11 +80,15 @@ export const addPersonIdToRelatedPeopleIdsArray = (sPersonId) => {
 export const removePersonIdFromRelatedPeopleIdsArray = (sPersonId) => {
 	familyTreeData.update((currentValue) => {
 		const index = currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
-		currentValue.aActivePersonRelatedPeopleIds.splice(index, 1);
+
+		if (index > -1) {
+			currentValue.aActivePersonRelatedPeopleIds.splice(index, 1);
+		}
 
 		if (!currentValue.aAvailablePeopleIds.includes(sPersonId)) {
 			currentValue.aAvailablePeopleIds.push(sPersonId);
 		}
+
 		return currentValue;
 	});
 };
@@ -122,6 +127,7 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
+
 		const inverseRelationshipId = getInverseRelationshipId(groupId);
 		const inverseGroupId = getInverseGroupId(groupId);
 		const personIndex = getPersonIndexById(personId);

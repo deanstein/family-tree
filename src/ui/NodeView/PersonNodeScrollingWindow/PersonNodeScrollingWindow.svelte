@@ -6,10 +6,10 @@
 
 <div id="person-node-scrolling-window-container" class="person-node-scrolling-window-container">
 	{#each $familyTreeData.aAvailablePeopleIdsFiltered as sPersonId}
-		<div>{sPersonId}</div>
-		<!-- <PersonNode
+		<PersonNode
         sPersonId={sPersonId}
-    /> -->
+		bTrackActiveState={true}
+    />
 	{/each}
 </div>
 
