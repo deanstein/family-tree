@@ -109,7 +109,7 @@
 	in:receive={{ key: sPersonId }}
 	out:send={{ key: sPersonId }}
 >
-	<NodeSettingsButton {sPersonId} {bIsNodeInEditMode} />
+	<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
 	<div id="person-node-content-area" class="person-node-content-area">
 		<Avatar />
 		<NameInput

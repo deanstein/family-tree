@@ -47,6 +47,16 @@ export const addPersonToPeopleArray = (person) => {
 	});
 };
 
+export const removePersonFromPeopleArray = (person) => {
+	familyTreeData.update((currentValue) => {
+		const spliceIndex = currentValue.aAllPeople.indexOf(person);
+		if (spliceIndex > -1) {
+			currentValue.aAllPeople.splice(spliceIndex, 1);
+		}
+		return currentValue;
+	});
+};
+
 export const addActivePersonToPeopleArray = () => {
 	familyTreeData.update((currentValue) => {
 		const index = getPersonIndexById(currentValue.activePerson.id);
@@ -118,6 +128,33 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 			console.log('blocked from adding');
 			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId =
 				sRelationshipId;
+		}
+
+		return currentValue;
+	});
+};
+
+export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) => {
+	familyTreeData.update((currentValue) => {
+		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
+
+		const personReferenceObject = {
+			id: sPersonId,
+			relationshipId: sRelationshipId
+		};
+
+		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
+			(personObject) => {
+				if (personObject.id === sPersonId) return personReferenceObject;
+			}
+		);
+
+		const nSpliceIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
+			foundPersonReferenceObject
+		);
+
+		if (nSpliceIndex > -1) {
+			currentValue.activePerson.relationships[sGroupId].splice(nSpliceIndex, 1);
 		}
 
 		return currentValue;

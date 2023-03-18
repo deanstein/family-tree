@@ -2,9 +2,12 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../../stores/stylingConstants';
+
+	import { removePersonFromActivePersonGroup } from '../../../logic/personManagement';
 	import { setActiveNodeEditId, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
+	export let sRelationshipId;
 	export let bIsNodeInEditMode;
 
 	const startEditingMode = () => {
@@ -44,8 +47,8 @@
 		showSettingsFlyout = !showSettingsFlyout;
 	};
 
-	const deletePerson = () => {
-		// todo
+	const removePersonNode = () => {
+		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
 	};
 </script>
 
@@ -65,7 +68,7 @@
 		>
 			<ul>
 				<li><a on:click|stopPropagation={startEditingMode}>Edit</a></li>
-				<li><a on:click|stopPropagation={deletePerson}>Remove</a></li>
+				<li><a on:click|stopPropagation={removePersonNode}>Remove</a></li>
 			</ul>
 		</div>
 	{/if}
