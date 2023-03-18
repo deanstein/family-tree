@@ -99,7 +99,6 @@
 			removePersonIdFromRelatedPeopleIdsArray(sPersonId);
 		}
 	});
-	
 </script>
 
 <div
