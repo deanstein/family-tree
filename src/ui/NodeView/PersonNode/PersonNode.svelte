@@ -32,6 +32,7 @@
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 
+	let bIsAnyNodeInEditMode = false;
 	let personNodeDynamicClass;
 
 	$: {
@@ -39,6 +40,12 @@
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
+		}
+
+		if ($uiState.sPersonIdForNodeEdit == undefined) {
+			bIsAnyNodeInEditMode = false;
+		} else {
+			bIsAnyNodeInEditMode = true;
 		}
 
 		if (sPersonId === $familyTreeData.activePerson.id) {
@@ -59,6 +66,12 @@
 	}
 
 	const onPersonNodeClickAction = () => {
+
+		// don't do anything on click if any node is in edit mode
+		if (bIsAnyNodeInEditMode) {
+			return;
+		}
+
 		// clicking on the active person will pull up the detailed view
 		if (sPersonId === $familyTreeData.activePerson.id) {
 			// TODO: show person detail view
