@@ -32,6 +32,8 @@
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 
+	let personNodeDynamicClass;
+
 	$: {
 		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
 			bIsNodeInEditMode = true;
@@ -44,6 +46,16 @@
 		} else {
 			bIsActivePerson = false;
 		}
+
+		personNodeDynamicClass = css`
+		width: ${stylingConstants.sizes.personNodeSize};
+		height: ${stylingConstants.sizes.personNodeSize};
+		background-color: ${stylingConstants.colors.sPersonNodeColor};
+		border: ${$uiState.sPersonIdForNodeEdit == sPersonId ? `2px solid ${stylingConstants.colors.sHoverColor}` : '2px solid transparent'};
+		:hover {
+			border: 2px solid ${stylingConstants.colors.sHoverColor};
+		}
+	`;
 	}
 
 	const onPersonNodeClickAction = () => {
@@ -57,15 +69,6 @@
 			addActivePersonToPeopleArray();
 		}
 	};
-
-	const personNodeDynamicClass = css`
-		width: ${stylingConstants.sizes.personNodeSize};
-		height: ${stylingConstants.sizes.personNodeSize};
-		background-color: ${stylingConstants.colors.sPersonNodeColor};
-		:hover {
-			border: 2px solid ${stylingConstants.colors.sHoverColor};
-		}
-	`;
 
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200),
@@ -132,7 +135,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		border: 2px solid transparent;
 	}
 
 	.person-node-content-area {
