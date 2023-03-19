@@ -34,7 +34,6 @@
 		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
 		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
 		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, groupId);
-
 		startNodeEditingMode(newPerson.id);
 	};
 </script>

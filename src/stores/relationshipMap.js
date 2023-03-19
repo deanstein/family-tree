@@ -1,4 +1,4 @@
-export const sDataVersion = '0.8.1';
+export const sDataVersion = '0.8.2';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
@@ -53,15 +53,15 @@ const relationshipMap = {
 	parentsInLaw: {
 		id: 'parentsInLaw',
 		label: 'Parents in Law',
-		parentinlaw: {
+		parentInLaw: {
 			id: 'parentInLaw',
 			label: 'parent in law'
 		},
-		motherinlaw: {
+		motherInLaw: {
 			id: 'motherInLaw',
 			label: 'mother-in-law'
 		},
-		fatherinlaw: {
+		fatherInLaw: {
 			id: 'fatherInLaw',
 			label: 'father-in-law'
 		}

@@ -315,21 +315,21 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.parentsInLaw.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.children.soninlaw.id;
+					inverseId = relationshipMap.childrenInLaw.sonInLaw.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.children.daughterinlaw.id;
+					inverseId = relationshipMap.childrenInLaw.daughterInLaw.id;
 				} else {
-					inverseId = relationshipMap.children.childinlaw.id;
+					inverseId = relationshipMap.childrenInLaw.childInLaw.id;
 				}
 				break;
 			case relationshipMap.stepparentsMaternal.id:
 			case relationshipMap.stepparentsPaternal.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.children.stepson.id;
+					inverseId = relationshipMap.stepchildren.stepson.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.children.stepdaughter.id;
+					inverseId = relationshipMap.stepchildren.stepdaughter.id;
 				} else {
-					inverseId = relationshipMap.children.stepchild.id;
+					inverseId = relationshipMap.stepchildren.stepchild.id;
 				}
 				break;
 			case relationshipMap.siblings.id:

@@ -37,6 +37,26 @@
 			<div id="upper-generation-block" class="upper-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div />
+
+					<div slot="row-left-flank" class="row-flank">
+						<PersonNodeGroup
+						personNodeGroupData={{
+							groupId: relationshipMap.stepparentsMaternal.id,
+							groupName: relationshipMap.stepparentsMaternal.label,
+							groupMembers: $familyTreeData.activePerson.relationships.stepparentsMaternal,
+							compatibleGroups: parentsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+						personNodeGroupData={{
+							groupId: relationshipMap.stepparentsPaternal.id,
+							groupName: relationshipMap.stepparentsPaternal.label,
+							groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
+							compatibleGroups: parentsCompatibleGroups
+							}}
+						/>
+					</div>
+
 					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
@@ -46,6 +66,18 @@
 							compatibleGroups: parentsCompatibleGroups
 						}}
 					/>
+
+					<div slot="row-right-flank" class="row-flank">
+						<PersonNodeGroup
+						personNodeGroupData={{
+							groupId: relationshipMap.parentsInLaw.id,
+							groupName: relationshipMap.parentsInLaw.label,
+							groupMembers: $familyTreeData.activePerson.relationships.parentsInLaw,
+							compatibleGroups: parentsCompatibleGroups
+							}}
+						/>
+					</div>
+
 				</GenerationRow>
 			</div>
 
