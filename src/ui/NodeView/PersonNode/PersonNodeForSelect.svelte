@@ -51,4 +51,20 @@
 </div>
 
 <style>
+	.person-node {
+		display: flex;
+		position: relative;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid transparent;
+	}
+
+	.person-node-content-area {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
 </style>

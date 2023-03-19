@@ -9,14 +9,14 @@
 </script>
 
 <div id="row" class="{rowDynamicClass} row">
-	<div id="row-left-section" class="row-left-section">
-		<slot name="row-left-section" />
+	<div id="row-left-flank" class="row-left-flank">
+		<slot name="row-left-flank" />
 	</div>
 	<div id="row-middle-section" class="row-middle-section">
 		<slot name="row-middle-section" />
 	</div>
-	<div id="row-right-section" class="row-right-section">
-		<slot name="row-right-section" />
+	<div id="row-right-flank" class="row-right-flank">
+		<slot name="row-right-flank" />
 	</div>
 </div>
 
@@ -35,14 +35,14 @@
 		user-select: none;
 	}
 
-	.row-left-section,
-	.row-right-section {
+	.row-left-flank,
+	.row-right-flank {
 		display: flex;
 		flex-grow: 1;
 		flex-basis: 33%;
 	}
 
-	.row-left-section {
+	.row-left-flank {
 		justify-content: right;
 	}
 
@@ -50,7 +50,7 @@
 		justify-content: center;
 	}
 
-	.row-right-section {
+	.row-right-flank {
 		justify-content: left;
 	}
 </style>
