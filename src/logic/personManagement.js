@@ -344,7 +344,7 @@ export const getInverseRelationshipId = (groupId) => {
 			case relationshipMap.halfSiblingsMaternal.id:
 			case relationshipMap.halfSiblingsPaternal.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.siblings.halfbrother.id;
+					inverseId = relationshipMap.halfSiblingsMaternal.halfbrother.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
 					inverseId = relationshipMap.siblings.halfsister.id;
 				} else {
@@ -353,20 +353,20 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.stepsiblings.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.siblings.stepbrother.id;
+					inverseId = relationshipMap.stepsiblings.stepbrother.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.siblings.stepsister.id;
+					inverseId = relationshipMap.stepsiblings.stepsister.id;
 				} else {
-					inverseId = relationshipMap.siblings.stepsibling.id;
+					inverseId = relationshipMap.stepsiblings.stepsibling.id;
 				}
 				break;
 			case relationshipMap.siblingsInLaw.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.siblings.brotherinlaw.id;
+					inverseId = relationshipMap.siblingsInLaw.brotherInLaw.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.siblings.sisterinlaw.id;
+					inverseId = relationshipMap.siblingsInLaw.sisterInLaw.id;
 				} else {
-					inverseId = relationshipMap.siblings.siblinginlaw.id;
+					inverseId = relationshipMap.siblingsInLaw.siblingInLaw.id;
 				}
 				break;
 			case relationshipMap.spouses.id:
@@ -380,11 +380,11 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.exSpouses.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.spouses.exhusband.id;
+					inverseId = relationshipMap.exSpouses.exHusband.id;
 				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.spouses.exwife.id;
+					inverseId = relationshipMap.exSpouses.exWife.id;
 				} else {
-					inverseId = relationshipMap.spouses.expartner.id;
+					inverseId = relationshipMap.exSpouses.exPartner.id;
 				}
 				break;
 			case relationshipMap.children.id:

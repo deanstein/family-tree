@@ -1,4 +1,4 @@
-export const sDataVersion = '0.8.0';
+export const sDataVersion = '0.8.1';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
@@ -147,7 +147,7 @@ const relationshipMap = {
 		}
 	},
 	stepsiblings: {
-		id: 'stepSiblings',
+		id: 'stepsiblings',
 		label: 'Step Siblings',
 		stepsibling: {
 			id: 'stepsibling',
@@ -163,6 +163,7 @@ const relationshipMap = {
 		}
 	},
 	siblingsInLaw: {
+		id: 'siblingsInLaw',
 		label: 'Siblings-in-Law',
 		siblingInLaw: {
 			id: 'siblingInLaw',
