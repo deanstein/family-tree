@@ -1,22 +1,26 @@
 <script>
 	import { css } from '@emotion/css';
-	import { addOrUpdatePersonInActivePersonGroup } from '../../../logic/personManagement';
+	import { addOrUpdatePersonInActivePersonGroup, removePersonFromActivePersonGroup } from '../../../logic/personManagement';
 
 	import relationshipMap from '../../../stores/relationshipMap';
 	import stylingConstants from '../../../stores/stylingConstants';
 	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
+	export let sRelationshipId;
 	export let sInputValue;
 	export let bEnabled = false;
 	export let compatibleGroups = JSON.parse(JSON.stringify(relationshipMap));
 
 	const onBlurAction = () => {
+		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sInputValue);
 	};
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
+			let relationshipId = getRelationship
+			removePersonFromActivePersonGroup(sPersonId, sInputValue);
 			addOrUpdatePersonInActivePersonGroup(sPersonId, sInputValue);
 			unsetActiveNodeEditId();
 		}

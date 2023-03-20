@@ -27,8 +27,8 @@
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 
 	export let sPersonId;
-	export let bIsActivePerson = false;
 	export let sRelationshipId = 'undefined';
+	export let bIsActivePerson = false;
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 
@@ -71,7 +71,7 @@
 	}
 
 	const onPersonNodeClickAction = () => {
-		// don't do anything on click if any node is in edit mode
+		// don't do anything on click if the node is in edit mode
 		if (bIsNodeInEditMode) {
 			return;
 		}
@@ -135,6 +135,7 @@
 			<RelationshipTypePicker
 				bEnabled={bIsNodeInEditMode}
 				{sPersonId}
+				{sRelationshipId}
 				sInputValue={sRelationshipId}
 				{compatibleGroups}
 			/>
