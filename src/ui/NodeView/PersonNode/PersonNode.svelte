@@ -32,7 +32,6 @@
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 
-	let bIsAnyNodeInEditMode = false;
 	let personNodeDynamicClass;
 	let personNodeOverlayDynamicClass;
 
@@ -49,13 +48,6 @@
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
-		}
-
-		// is any node in edit mode?
-		if ($uiState.sPersonIdForNodeEdit == undefined) {
-			bIsAnyNodeInEditMode = false;
-		} else {
-			bIsAnyNodeInEditMode = true;
 		}
 
 		personNodeDynamicClass = css`
@@ -80,7 +72,7 @@
 
 	const onPersonNodeClickAction = () => {
 		// don't do anything on click if any node is in edit mode
-		if (bIsAnyNodeInEditMode) {
+		if (bIsNodeInEditMode) {
 			return;
 		}
 
