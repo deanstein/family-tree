@@ -34,35 +34,47 @@
 
 	let bIsAnyNodeInEditMode = false;
 	let personNodeDynamicClass;
+	let personNodeOverlayDynamicClass;
 
 	$: {
-		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
-			bIsNodeInEditMode = true;
-		} else {
-			bIsNodeInEditMode = false;
-		}
-
-		if ($uiState.sPersonIdForNodeEdit == undefined) {
-			bIsAnyNodeInEditMode = false;
-		} else {
-			bIsAnyNodeInEditMode = true;
-		}
-
+		// is this node the active person?
 		if (sPersonId === $familyTreeData.activePerson.id) {
 			bIsActivePerson = true;
 		} else {
 			bIsActivePerson = false;
 		}
 
-		personNodeDynamicClass = css`
-		width: ${stylingConstants.sizes.personNodeSize};
-		height: ${stylingConstants.sizes.personNodeSize};
-		background-color: ${stylingConstants.colors.sPersonNodeColor};
-		border: ${$uiState.sPersonIdForNodeEdit == sPersonId ? `2px solid ${stylingConstants.colors.sHoverColor}` : '2px solid transparent'};
-		:hover {
-			border: 2px solid ${stylingConstants.colors.sHoverColor};
+		// is this node in edit mode?
+		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
+			bIsNodeInEditMode = true;
+		} else {
+			bIsNodeInEditMode = false;
 		}
-	`;
+
+		// is any node in edit mode?
+		if ($uiState.sPersonIdForNodeEdit == undefined) {
+			bIsAnyNodeInEditMode = false;
+		} else {
+			bIsAnyNodeInEditMode = true;
+		}
+
+		personNodeDynamicClass = css`
+			width: ${stylingConstants.sizes.personNodeSize};
+			height: ${stylingConstants.sizes.personNodeSize};
+			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
+			background-color: ${stylingConstants.colors.sPersonNodeColor};
+			border: ${$uiState.sPersonIdForNodeEdit == sPersonId ? `2px solid ${stylingConstants.colors.sHoverColor}` : '2px solid transparent'};
+			:hover {
+				border: 2px solid ${stylingConstants.colors.sHoverColor};
+			}
+		`;
+
+		personNodeOverlayDynamicClass = css`
+			z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex};
+			background-color: ${stylingConstants.colors.sOverlayColor};
+			opacity: ${stylingConstants.colors.overlayOpacity};
+		`;
+
 	}
 
 	const onPersonNodeClickAction = () => {
@@ -140,6 +152,9 @@
 		<PersonNodeScrollingWindow {sRelationshipId} />
 	{/if}
 </div>
+{#if bIsNodeInEditMode}
+	<div id='person-node-overlay' class='{personNodeOverlayDynamicClass} person-node-overlay'></div>
+{/if}
 
 <style>
 	.person-node {
@@ -163,5 +178,13 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.person-node-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
 	}
 </style>

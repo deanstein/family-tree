@@ -1,8 +1,10 @@
 const colors = {
 	sHoverColor: '#50CBFC',
 	sActiveColor: '#3399ff',
+	sOverlayColor: 'gray',
+	overlayOpacity: '45%',
 	sNodeGroupColor: 'white',
-	sPersonNodeColor: '#ececec'
+	sPersonNodeColor: '#ececec',
 };
 
 const sizes = {
@@ -71,9 +73,15 @@ const sizes = {
 	}
 };
 
+const zIndices = {
+	nPersonNodeOverlayZIndex: 2,
+	nPersonNodeEditZIndex: 3
+}
+
 const stylingConstants = {
 	colors,
-	sizes
+	sizes,
+	zIndices
 };
 
 export default stylingConstants;
