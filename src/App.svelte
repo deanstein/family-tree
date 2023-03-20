@@ -40,19 +40,19 @@
 
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.stepparentsMaternal.id,
-							groupName: relationshipMap.stepparentsMaternal.label,
-							groupMembers: $familyTreeData.activePerson.relationships.stepparentsMaternal,
-							compatibleGroups: parentsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.stepparentsMaternal.id,
+								groupName: relationshipMap.stepparentsMaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.stepparentsMaternal,
+								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.stepparentsPaternal.id,
-							groupName: relationshipMap.stepparentsPaternal.label,
-							groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
-							compatibleGroups: parentsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.stepparentsPaternal.id,
+								groupName: relationshipMap.stepparentsPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
+								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
 					</div>
@@ -69,15 +69,14 @@
 
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.parentsInLaw.id,
-							groupName: relationshipMap.parentsInLaw.label,
-							groupMembers: $familyTreeData.activePerson.relationships.parentsInLaw,
-							compatibleGroups: parentsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.parentsInLaw.id,
+								groupName: relationshipMap.parentsInLaw.label,
+								groupMembers: $familyTreeData.activePerson.relationships.parentsInLaw,
+								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
 					</div>
-
 				</GenerationRow>
 			</div>
 
@@ -85,27 +84,27 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.siblingsInLaw.id,
-							groupName: relationshipMap.siblingsInLaw.label,
-							groupMembers: $familyTreeData.activePerson.relationships.siblingsInLaw,
-							compatibleGroups: siblingsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.siblingsInLaw.id,
+								groupName: relationshipMap.siblingsInLaw.label,
+								groupMembers: $familyTreeData.activePerson.relationships.siblingsInLaw,
+								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.stepsiblings.id,
-							groupName: relationshipMap.stepsiblings.label,
-							groupMembers: $familyTreeData.activePerson.relationships.stepsiblings,
-							compatibleGroups: siblingsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.stepsiblings.id,
+								groupName: relationshipMap.stepsiblings.label,
+								groupMembers: $familyTreeData.activePerson.relationships.stepsiblings,
+								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.siblings.id,
-							groupName: relationshipMap.siblings.label,
-							groupMembers: $familyTreeData.activePerson.relationships.siblings,
-							compatibleGroups: siblingsCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.siblings.id,
+								groupName: relationshipMap.siblings.label,
+								groupMembers: $familyTreeData.activePerson.relationships.siblings,
+								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
 					</div>
@@ -120,19 +119,19 @@
 
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.spouses.id,
-							groupName: relationshipMap.spouses.label,
-							groupMembers: $familyTreeData.activePerson.relationships.spouses,
-							compatibleGroups: spouseCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.spouses.id,
+								groupName: relationshipMap.spouses.label,
+								groupMembers: $familyTreeData.activePerson.relationships.spouses,
+								compatibleGroups: spouseCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
-						personNodeGroupData={{
-							groupId: relationshipMap.exSpouses.id,
-							groupName: relationshipMap.exSpouses.label,
-							groupMembers: $familyTreeData.activePerson.relationships.exSpouses,
-							compatibleGroups: spouseCompatibleGroups
+							personNodeGroupData={{
+								groupId: relationshipMap.exSpouses.id,
+								groupName: relationshipMap.exSpouses.label,
+								groupMembers: $familyTreeData.activePerson.relationships.exSpouses,
+								compatibleGroups: spouseCompatibleGroups
 							}}
 						/>
 					</div>

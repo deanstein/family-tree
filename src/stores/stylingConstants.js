@@ -4,7 +4,7 @@ const colors = {
 	sOverlayColor: 'gray',
 	overlayOpacity: '45%',
 	sNodeGroupColor: 'white',
-	sPersonNodeColor: '#ececec',
+	sPersonNodeColor: '#ececec'
 };
 
 const sizes = {
@@ -76,7 +76,7 @@ const sizes = {
 const zIndices = {
 	nPersonNodeOverlayZIndex: 2,
 	nPersonNodeEditZIndex: 3
-}
+};
 
 const stylingConstants = {
 	colors,

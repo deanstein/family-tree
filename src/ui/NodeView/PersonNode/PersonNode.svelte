@@ -63,7 +63,9 @@
 			height: ${stylingConstants.sizes.personNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
 			background-color: ${stylingConstants.colors.sPersonNodeColor};
-			border: ${$uiState.sPersonIdForNodeEdit == sPersonId ? `2px solid ${stylingConstants.colors.sHoverColor}` : '2px solid transparent'};
+			border: ${$uiState.sPersonIdForNodeEdit == sPersonId
+				? `2px solid ${stylingConstants.colors.sHoverColor}`
+				: '2px solid transparent'};
 			:hover {
 				border: 2px solid ${stylingConstants.colors.sHoverColor};
 			}
@@ -74,11 +76,9 @@
 			background-color: ${stylingConstants.colors.sOverlayColor};
 			opacity: ${stylingConstants.colors.overlayOpacity};
 		`;
-
 	}
 
 	const onPersonNodeClickAction = () => {
-
 		// don't do anything on click if any node is in edit mode
 		if (bIsAnyNodeInEditMode) {
 			return;
@@ -153,7 +153,7 @@
 	{/if}
 </div>
 {#if bIsNodeInEditMode}
-	<div id='person-node-overlay' class='{personNodeOverlayDynamicClass} person-node-overlay'></div>
+	<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
 {/if}
 
 <style>
