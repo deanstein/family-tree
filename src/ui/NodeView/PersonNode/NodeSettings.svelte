@@ -1,6 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import uiState from '../../../stores/uiState';
+
 	import stylingConstants from '../../../stores/stylingConstants';
 
 	import { removePersonFromActivePersonGroup } from '../../../logic/personManagement';
@@ -12,6 +14,7 @@
 
 	let settingsButtonText;
 	let nodeSettingsButtonTextDynamicClass;
+
 	$: {
 		settingsButtonText = bIsNodeInEditMode ? 'done' : '...';
 
@@ -26,6 +29,9 @@
 	}
 
 	const nodeSettingsFlyoutDynamicClass = css`
+		ul {
+			border: 2px solid ${stylingConstants.colors.sHoverColor};
+		}
 		a {
 			background-color: ${stylingConstants.colors.sPersonNodeColor};
 			:hover {
@@ -33,14 +39,34 @@
 		}
 	`;
 
-	let showSettingsFlyout = false;
+	const showSettingsFlyout = () => {
+		uiState.update((currentValue) => {
+			currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
+			return currentValue;
+		});
+	};
+
+	const hideSettingsFlyout = () => {
+		uiState.update((currentValue) => {
+			currentValue.sPersonIdForNodeSettingsFlyout = undefined;
+			return currentValue;
+		});
+	};
+
 	const toggleSettingsFlyout = () => {
-		showSettingsFlyout = !showSettingsFlyout;
+		uiState.update((currentValue) => {
+			if (currentValue.sPersonIdForNodeSettingsFlyout == undefined) {
+				showSettingsFlyout();
+			} else {
+				hideSettingsFlyout();
+			}
+			return currentValue;
+		});
 	};
 
 	const onEditButtonClick = () => {
 		startNodeEditingMode(sPersonId);
-		toggleSettingsFlyout();
+		hideSettingsFlyout();
 	};
 
 	const onRemoveButtonClick = () => {
@@ -57,7 +83,7 @@
 		>{settingsButtonText}</button
 	>
 
-	{#if showSettingsFlyout}
+	{#if $uiState.sPersonIdForNodeSettingsFlyout == sPersonId}
 		<div
 			id="node-settings-flyout-menu"
 			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"

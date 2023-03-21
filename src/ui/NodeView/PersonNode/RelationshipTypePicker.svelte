@@ -1,6 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
-	import { addOrUpdatePersonInActivePersonGroup, removePersonFromActivePersonGroup } from '../../../logic/personManagement';
+	import {
+		addOrUpdatePersonInActivePersonGroup,
+		removePersonFromActivePersonGroup
+	} from '../../../logic/personManagement';
 
 	import relationshipMap from '../../../stores/relationshipMap';
 	import stylingConstants from '../../../stores/stylingConstants';

@@ -55,7 +55,8 @@
 			height: ${stylingConstants.sizes.personNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
 			background-color: ${stylingConstants.colors.sPersonNodeColor};
-			border: ${$uiState.sPersonIdForNodeEdit == sPersonId
+			border: ${$uiState.sPersonIdForNodeEdit == sPersonId ||
+			$uiState.sPersonIdForNodeSettingsFlyout == sPersonId
 				? `2px solid ${stylingConstants.colors.sHoverColor}`
 				: '2px solid transparent'};
 			:hover {
