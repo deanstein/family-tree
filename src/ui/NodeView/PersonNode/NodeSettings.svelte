@@ -6,7 +6,12 @@
 	import stylingConstants from '../../../stores/stylingConstants';
 
 	import { removePersonFromActivePersonGroup } from '../../../logic/personManagement';
-	import { startNodeEditingMode, endNodeEditingMode } from '../../../logic/uiManagement.js';
+	import {
+		startNodeEditingMode,
+		endNodeEditingMode,
+		toggleNodeSettingsFlyout,
+		hideNodeSettingsFlyout
+	} from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;
@@ -39,34 +44,9 @@
 		}
 	`;
 
-	const showSettingsFlyout = () => {
-		uiState.update((currentValue) => {
-			currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
-			return currentValue;
-		});
-	};
-
-	const hideSettingsFlyout = () => {
-		uiState.update((currentValue) => {
-			currentValue.sPersonIdForNodeSettingsFlyout = undefined;
-			return currentValue;
-		});
-	};
-
-	const toggleSettingsFlyout = () => {
-		uiState.update((currentValue) => {
-			if (currentValue.sPersonIdForNodeSettingsFlyout == undefined) {
-				showSettingsFlyout();
-			} else {
-				hideSettingsFlyout();
-			}
-			return currentValue;
-		});
-	};
-
 	const onEditButtonClick = () => {
 		startNodeEditingMode(sPersonId);
-		hideSettingsFlyout();
+		hideNodeSettingsFlyout();
 	};
 
 	const onRemoveButtonClick = () => {
@@ -79,8 +59,9 @@
 		type="button"
 		id="settings-button"
 		class="{nodeSettingsButtonTextDynamicClass} node-settings-button"
-		on:click|stopPropagation={bIsNodeInEditMode ? endNodeEditingMode : toggleSettingsFlyout}
-		>{settingsButtonText}</button
+		on:click|stopPropagation={bIsNodeInEditMode
+			? endNodeEditingMode
+			: toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
 	>
 
 	{#if $uiState.sPersonIdForNodeSettingsFlyout == sPersonId}

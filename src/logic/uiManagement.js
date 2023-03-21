@@ -6,10 +6,6 @@ export const startNodeEditingMode = (sPersonId) => {
 	updateAvailablePeopleIdsFilteredArray('Firstname Lastname');
 };
 
-export const endNodeEditingMode = () => {
-	unsetActiveNodeEditId();
-};
-
 export const setActiveNodeEditId = (sPersonId) => {
 	uiState.update((currentValue) => {
 		currentValue.sPersonIdForNodeEdit = sPersonId;
@@ -17,9 +13,46 @@ export const setActiveNodeEditId = (sPersonId) => {
 	});
 };
 
+export const endNodeEditingMode = () => {
+	unsetActiveNodeEditId();
+};
+
 export const unsetActiveNodeEditId = () => {
 	uiState.update((currentValue) => {
 		currentValue.sPersonIdForNodeEdit = undefined;
+		return currentValue;
+	});
+};
+
+export const showNodeSettingsFlyout = (sPersonId) => {
+	setActiveNodeSettingsFlyoutId(sPersonId);
+};
+
+const setActiveNodeSettingsFlyoutId = (sPersonId) => {
+	uiState.update((currentValue) => {
+		currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
+		return currentValue;
+	});
+};
+
+export const hideNodeSettingsFlyout = () => {
+	unsetActiveNodeSettingsFlyoutId();
+};
+
+const unsetActiveNodeSettingsFlyoutId = () => {
+	uiState.update((currentValue) => {
+		currentValue.sPersonIdForNodeSettingsFlyout = undefined;
+		return currentValue;
+	});
+};
+
+export const toggleNodeSettingsFlyout = (sPersonId) => {
+	uiState.update((currentValue) => {
+		if (currentValue.sPersonIdForNodeSettingsFlyout == undefined) {
+			currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
+		} else {
+			currentValue.sPersonIdForNodeSettingsFlyout = undefined;
+		}
 		return currentValue;
 	});
 };
