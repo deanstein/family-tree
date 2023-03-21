@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import uiState from '../stores/uiState';
+
 import familyTreeData from '../stores/familyTreeData';
 import relationshipMap from '../stores/relationshipMap';
 import { defaultPerson } from '../stores/relationshipMap';
@@ -8,25 +10,6 @@ export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(defaultPerson)); // required to make a deep copy
 	newPerson.id = uuidv4();
 	return newPerson;
-};
-
-export const setActivePerson = (person) => {
-	familyTreeData.update((currentValue) => {
-		return {
-			...currentValue,
-			activePerson: person
-		};
-	});
-};
-
-export const getPersonIndexById = (personId) => {
-	let personIndex;
-
-	familyTreeData.subscribe((currentValue) => {
-		personIndex = currentValue.aAllPeople.findIndex((object) => object['id'] === personId);
-	});
-
-	return personIndex;
 };
 
 export const getPersonById = (id) => {
@@ -38,6 +21,56 @@ export const getPersonById = (id) => {
 	});
 
 	return person;
+};
+
+export const setActivePerson = (person) => {
+	familyTreeData.update((currentValue) => {
+		return {
+			...currentValue,
+			activePerson: person
+		};
+	});
+};
+
+export const setPersonName = (sPersonId, sName) => {
+	familyTreeData.update((currentValue) => {
+		let personIndex = getPersonIndexById(sPersonId);
+		currentValue.aAllPeople[personIndex].name = sName;
+		return currentValue;
+	});
+};
+
+export const setPersonNameFromTemporaryState = (sPersonId) => {
+	let temporaryName;
+	uiState.subscribe((currentValue) => {
+		temporaryName = currentValue.sPersonNameTemporaryValue;
+	});
+
+	setPersonName(sPersonId, temporaryName);
+};
+
+export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRelationshipId) => {
+	removePersonFromActivePersonGroup(sPersonId, sExistingRelationshipId);
+	addOrUpdatePersonInActivePersonGroup(sPersonId, sNewRelationshipId);
+};
+
+export const setPersonRelationshipFromTemporaryState = (sPersonId, sExistingRelationshipId) => {
+	let temporaryRelationship;
+	uiState.subscribe((currentValue) => {
+		temporaryRelationship = currentValue.sRelationshipIdTemporaryValue;
+	});
+
+	setPersonRelationship(sPersonId, sExistingRelationshipId, temporaryRelationship);
+};
+
+export const getPersonIndexById = (personId) => {
+	let personIndex;
+
+	familyTreeData.subscribe((currentValue) => {
+		personIndex = currentValue.aAllPeople.findIndex((object) => object['id'] === personId);
+	});
+
+	return personIndex;
 };
 
 export const addPersonToPeopleArray = (person) => {

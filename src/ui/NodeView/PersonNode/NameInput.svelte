@@ -1,49 +1,45 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from '../../../stores/familyTreeData';
 	import stylingConstants from '../../../stores/stylingConstants';
 	import {
-		getPersonIndexById,
+		setPersonName,
 		updateAvailablePeopleIdsFilteredArray
 	} from '../../../logic/personManagement';
-	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
+	import { setTemporaryNodeEditName, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;
 
-	const startEditText = (el) => {
-		el.focus();
-		el.select();
-	};
+	let input;
 
-	const onBlurAction = (event) => {
-		writeNameInputValueToStore(event.target.value);
+	$: {
+		// set the input value as the temporary value in the store when the input is enabled
+		if (bEnabled) {
+			setTemporaryNodeEditName(sInputValue);
+		}
+	}
+
+	const startEditText = (element) => {
+		element.focus();
+		element.select();
 	};
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			writeNameInputValueToStore(event.target.value);
+			setPersonName(sPersonId, event.target.value);
 			unsetActiveNodeEditId();
 			deselectText();
 		}
 	};
 
 	const onKeyUpAction = (event) => {
+		setTemporaryNodeEditName(event.target.value);
 		updateAvailablePeopleIdsFilteredArray(event.target.value);
 	};
 
-	const writeNameInputValueToStore = (sName) => {
-		familyTreeData.update((currentValue) => {
-			let personIndex = getPersonIndexById(sPersonId);
-			currentValue.aAllPeople[personIndex].name = sName;
-			return currentValue;
-		});
-	};
-
-	let input;
 	const deselectText = () => {
 		input.selectionStart = input.selectionEnd;
 	};
@@ -72,7 +68,6 @@
 		on:click|stopPropagation
 		on:keyup={onKeyUpAction}
 		on:keydown|stopPropagation={onEnterKeyAction}
-		on:blur={onBlurAction}
 		disabled={!bEnabled}
 		use:startEditText
 	/>

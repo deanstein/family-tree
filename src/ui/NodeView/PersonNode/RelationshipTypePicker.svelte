@@ -7,7 +7,10 @@
 
 	import relationshipMap from '../../../stores/relationshipMap';
 	import stylingConstants from '../../../stores/stylingConstants';
-	import { unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
+	import {
+		setTemporaryRelationshipId,
+		unsetActiveNodeEditId
+	} from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;
@@ -15,10 +18,12 @@
 	export let bEnabled = false;
 	export let compatibleGroups = JSON.parse(JSON.stringify(relationshipMap));
 
-	const onBlurAction = () => {
-		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
-		addOrUpdatePersonInActivePersonGroup(sPersonId, sInputValue);
-	};
+	$: {
+		// set the input value as the temporary value in the store when the input is enabled
+		if (bEnabled) {
+			setTemporaryRelationshipId(sInputValue);
+		}
+	}
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
@@ -51,7 +56,6 @@
 		bind:value={sInputValue}
 		on:click|stopPropagation
 		on:keydown|stopPropagation={onEnterKeyAction}
-		on:blur={onBlurAction}
 		disabled={!bEnabled}
 	>
 		{#each Object.entries(compatibleGroups) as [category, items]}

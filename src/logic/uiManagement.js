@@ -24,6 +24,20 @@ export const unsetActiveNodeEditId = () => {
 	});
 };
 
+export const setTemporaryNodeEditName = (sName) => {
+	uiState.update((currentValue) => {
+		currentValue.sPersonNameTemporaryValue = sName;
+		return currentValue;
+	});
+};
+
+export const setTemporaryRelationshipId = (sRelationshipId) => {
+	uiState.update((currentValue) => {
+		currentValue.sRelationshipIdTemporaryValue = sRelationshipId;
+		return currentValue;
+	});
+};
+
 export const showNodeSettingsFlyout = (sPersonId) => {
 	setActiveNodeSettingsFlyoutId(sPersonId);
 };
