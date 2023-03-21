@@ -116,41 +116,40 @@
 
 {#key sPersonId}
 	<div
-	id="person-node-{sPersonId}"
-	class="person-node {personNodeDynamicClass}"
-	on:click={onPersonNodeClickAction}
-	on:keydown|stopPropagation
-	in:receive={{ key: sPersonId }}
-	out:send={{ key: sPersonId }}
->
-	<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
-	<div id="person-node-content-area" class="person-node-content-area">
-		<Avatar />
-		<NameInput
-			sInputValue={getPersonById(sPersonId)?.name}
-			bEnabled={bIsNodeInEditMode}
-			{sPersonId}
-			{bIsActivePerson}
-		/>
-		{#if sPersonId !== $familyTreeData.activePerson.id}
-			<RelationshipTypePicker
+		id="person-node-{sPersonId}"
+		class="person-node {personNodeDynamicClass}"
+		on:click={onPersonNodeClickAction}
+		on:keydown|stopPropagation
+		in:receive={{ key: sPersonId }}
+		out:send={{ key: sPersonId }}
+	>
+		<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
+		<div id="person-node-content-area" class="person-node-content-area">
+			<Avatar />
+			<NameInput
+				sInputValue={getPersonById(sPersonId)?.name}
 				bEnabled={bIsNodeInEditMode}
 				{sPersonId}
-				{sRelationshipId}
-				sInputValue={sRelationshipId}
-				{compatibleGroups}
+				{bIsActivePerson}
 			/>
+			{#if sPersonId !== $familyTreeData.activePerson.id}
+				<RelationshipTypePicker
+					bEnabled={bIsNodeInEditMode}
+					{sPersonId}
+					{sRelationshipId}
+					sInputValue={sRelationshipId}
+					{compatibleGroups}
+				/>
+			{/if}
+		</div>
+		{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 0}
+			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 0}
-		<PersonNodeScrollingWindow {sRelationshipId} />
+	{#if bIsNodeInEditMode}
+		<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
 	{/if}
-</div>
-{#if bIsNodeInEditMode}
-	<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
-{/if}
 {/key}
-
 
 <style>
 	.person-node {

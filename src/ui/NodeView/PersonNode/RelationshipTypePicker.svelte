@@ -19,8 +19,7 @@
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			let relationshipId = getRelationship
-			removePersonFromActivePersonGroup(sPersonId, sInputValue);
+			removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
 			addOrUpdatePersonInActivePersonGroup(sPersonId, sInputValue);
 			unsetActiveNodeEditId();
 		}

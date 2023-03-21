@@ -9,7 +9,6 @@
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup,
 		removePersonFromPeopleArray,
-		removePersonIdFromActiveRelatedPeopleIdsArray,
 		addPersonIdToActiveRelatedPeopleIdsArray
 	} from '../../../logic/personManagement';
 
@@ -19,7 +18,7 @@
 	export let sPersonId;
 	export let sRelationshipId;
 
-	const onPersonNodeForSelectAction = () => {
+	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
 		addPersonIdToActiveRelatedPeopleIdsArray(sPersonId);
 		removePersonFromActivePersonGroup($uiState.sPersonIdForNodeEdit, sRelationshipId);
@@ -41,7 +40,7 @@
 <div
 	id="person-node-for-select-{sPersonId}"
 	class="person-node {personNodeForSelectDynamicClass}"
-	on:click|stopPropagation={onPersonNodeForSelectAction}
+	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >
 	<div id="person-node-content-area" class="person-node-content-area">
