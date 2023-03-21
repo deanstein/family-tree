@@ -114,7 +114,8 @@
 	});
 </script>
 
-<div
+{#key sPersonId}
+	<div
 	id="person-node-{sPersonId}"
 	class="person-node {personNodeDynamicClass}"
 	on:click={onPersonNodeClickAction}
@@ -148,6 +149,8 @@
 {#if bIsNodeInEditMode}
 	<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
 {/if}
+{/key}
+
 
 <style>
 	.person-node {
