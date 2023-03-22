@@ -40,6 +40,7 @@
 
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsMaternal.id,
 								groupName: relationshipMap.stepparentsMaternal.label,
@@ -48,6 +49,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsPaternal.id,
 								groupName: relationshipMap.stepparentsPaternal.label,
@@ -69,6 +71,7 @@
 
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.parentsInLaw.id,
 								groupName: relationshipMap.parentsInLaw.label,
@@ -84,6 +87,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.siblingsInLaw.id,
 								groupName: relationshipMap.siblingsInLaw.label,
@@ -92,6 +96,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepsiblings.id,
 								groupName: relationshipMap.stepsiblings.label,
@@ -127,6 +132,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={true}
 							personNodeGroupData={{
 								groupId: relationshipMap.exSpouses.id,
 								groupName: relationshipMap.exSpouses.label,

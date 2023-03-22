@@ -8,6 +8,13 @@
 	import PersonNode from '../PersonNode/PersonNode.svelte';
 
 	export let personNodeGroupData;
+	export let bHideIfEmpty = false;
+
+	let hide = false;
+
+	$: {
+		hide = personNodeGroupData.groupMembers.length === 0 && bHideIfEmpty
+	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`
 		background-color: ${stylingConstants.colors.sNodeGroupColor};
@@ -26,34 +33,36 @@
 	`;
 </script>
 
-<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
-	<div
-		id="person-node-group-outer-container"
-		class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
-	>
+{#if !hide}
+	<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
 		<div
-			id="person-node-group-title"
-			class="{personNodeGroupTitleDynamicClass} person-node-group-title"
+			id="person-node-group-outer-container"
+			class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
 		>
-			{personNodeGroupData.groupName}
+			<div
+				id="person-node-group-title"
+				class="{personNodeGroupTitleDynamicClass} person-node-group-title"
+			>
+				{personNodeGroupData.groupName}
+			</div>
+			<div id="person-node-group-interior-container" class="person-node-group-inner-container">
+				{#if personNodeGroupData.groupMembers.length == 0}
+					<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
+				{/if}
+				{#each personNodeGroupData.groupMembers as { }, i}
+					<PersonNode
+						sPersonId={personNodeGroupData.groupMembers[i].id}
+						sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
+						compatibleGroups={personNodeGroupData.compatibleGroups}
+					/>
+				{/each}
+			</div>
 		</div>
-		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
-			{#if personNodeGroupData.groupMembers.length == 0}
-				<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
-			{/if}
-			{#each personNodeGroupData.groupMembers as { }, i}
-				<PersonNode
-					sPersonId={personNodeGroupData.groupMembers[i].id}
-					sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
-					compatibleGroups={personNodeGroupData.compatibleGroups}
-				/>
-			{/each}
-		</div>
+		{#if personNodeGroupData.groupMembers.length > 0}
+			<PersonNodeAddButton groupId={personNodeGroupData.groupId} />
+		{/if}
 	</div>
-	{#if personNodeGroupData.groupMembers.length > 0}
-		<PersonNodeAddButton groupId={personNodeGroupData.groupId} />
-	{/if}
-</div>
+{/if}
 
 <style>
 	.person-node-group-plus-button {
