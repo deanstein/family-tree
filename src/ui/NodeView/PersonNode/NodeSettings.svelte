@@ -6,9 +6,7 @@
 	import stylingConstants from '../../../stores/stylingConstants';
 
 	import {
-		setPersonNameFromTemporaryState,
 		removePersonFromActivePersonGroup,
-		setPersonRelationshipFromTemporaryState
 	} from '../../../logic/personManagement';
 	import {
 		startNodeEditingMode,
@@ -49,9 +47,7 @@
 	`;
 
 	const onDoneButtonClick = () => {
-		setPersonNameFromTemporaryState(sPersonId);
-		setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
-		endNodeEditingMode();
+		endNodeEditingMode(sPersonId, sRelationshipId);
 	};
 
 	const onEditButtonClick = () => {
@@ -71,7 +67,7 @@
 		class="{nodeSettingsButtonTextDynamicClass} node-settings-button"
 		on:click|stopPropagation={bIsNodeInEditMode
 			? onDoneButtonClick
-			: toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
+			: () => toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
 	>
 
 	{#if $uiState.sPersonIdForNodeSettingsFlyout == sPersonId}

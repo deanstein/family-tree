@@ -131,6 +131,7 @@
 				sInputValue={getPersonById(sPersonId)?.name}
 				bEnabled={bIsNodeInEditMode}
 				{sPersonId}
+				{sRelationshipId}
 				{bIsActivePerson}
 			/>
 			{#if sPersonId !== $familyTreeData.activePerson.id}

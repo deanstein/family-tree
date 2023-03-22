@@ -1,9 +1,16 @@
 import uiState from '../stores/uiState';
-import { updateAvailablePeopleIdsFilteredArray } from './personManagement';
+import { setPersonNameFromTemporaryState, setPersonRelationshipFromTemporaryState, updateAvailablePeopleIdsFilteredArray } from './personManagement';
 
+// node editing mode
 export const startNodeEditingMode = (sPersonId) => {
 	setActiveNodeEditId(sPersonId);
 	updateAvailablePeopleIdsFilteredArray('Firstname Lastname');
+};
+
+export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
+	setPersonNameFromTemporaryState(sPersonId);
+	setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
+	unsetActiveNodeEditId();
 };
 
 export const setActiveNodeEditId = (sPersonId) => {
@@ -13,10 +20,6 @@ export const setActiveNodeEditId = (sPersonId) => {
 	});
 };
 
-export const endNodeEditingMode = () => {
-	unsetActiveNodeEditId();
-};
-
 export const unsetActiveNodeEditId = () => {
 	uiState.update((currentValue) => {
 		currentValue.sPersonIdForNodeEdit = undefined;
@@ -24,20 +27,23 @@ export const unsetActiveNodeEditId = () => {
 	});
 };
 
-export const setTemporaryNodeEditName = (sName) => {
+// node editing mode - name
+export const setTempNodeEditName = (sName) => {
 	uiState.update((currentValue) => {
 		currentValue.sPersonNameTemporaryValue = sName;
 		return currentValue;
 	});
 };
 
-export const setTemporaryRelationshipId = (sRelationshipId) => {
+// node editing mode - relationship
+export const setTempRelationshipId = (sRelationshipId) => {
 	uiState.update((currentValue) => {
 		currentValue.sRelationshipIdTemporaryValue = sRelationshipId;
 		return currentValue;
 	});
 };
 
+// node settings
 export const showNodeSettingsFlyout = (sPersonId) => {
 	setActiveNodeSettingsFlyoutId(sPersonId);
 };

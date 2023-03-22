@@ -8,7 +8,7 @@
 	import relationshipMap from '../../../stores/relationshipMap';
 	import stylingConstants from '../../../stores/stylingConstants';
 	import {
-		setTemporaryRelationshipId,
+		setTempRelationshipId,
 		unsetActiveNodeEditId
 	} from '../../../logic/uiManagement.js';
 
@@ -21,7 +21,7 @@
 	$: {
 		// set the input value as the temporary value in the store when the input is enabled
 		if (bEnabled) {
-			setTemporaryRelationshipId(sInputValue);
+			setTempRelationshipId(sInputValue);
 		}
 	}
 

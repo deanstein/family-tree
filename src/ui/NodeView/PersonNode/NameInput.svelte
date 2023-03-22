@@ -3,12 +3,12 @@
 
 	import stylingConstants from '../../../stores/stylingConstants';
 	import {
-		setPersonName,
 		updateAvailablePeopleIdsFilteredArray
 	} from '../../../logic/personManagement';
-	import { setTemporaryNodeEditName, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
+	import { endNodeEditingMode, setTempNodeEditName, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
+	export let sRelationshipId;
 	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;
@@ -18,7 +18,7 @@
 	$: {
 		// set the input value as the temporary value in the store when the input is enabled
 		if (bEnabled) {
-			setTemporaryNodeEditName(sInputValue);
+			setTempNodeEditName(sInputValue);
 		}
 	}
 
@@ -29,14 +29,13 @@
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			setPersonName(sPersonId, event.target.value);
-			unsetActiveNodeEditId();
+			endNodeEditingMode(sPersonId, sRelationshipId);
 			deselectText();
 		}
 	};
 
 	const onKeyUpAction = (event) => {
-		setTemporaryNodeEditName(event.target.value);
+		setTempNodeEditName(event.target.value);
 		updateAvailablePeopleIdsFilteredArray(event.target.value);
 	};
 
