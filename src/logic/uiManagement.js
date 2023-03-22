@@ -1,5 +1,9 @@
 import uiState from '../stores/uiState';
-import { setPersonNameFromTemporaryState, setPersonRelationshipFromTemporaryState, updateAvailablePeopleIdsFilteredArray } from './personManagement';
+import {
+	setPersonNameFromTemporaryState,
+	setPersonRelationshipFromTemporaryState,
+	updateAvailablePeopleIdsFilteredArray
+} from './personManagement';
 
 // node editing mode
 export const startNodeEditingMode = (sPersonId) => {
