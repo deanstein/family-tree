@@ -13,7 +13,9 @@ export const startNodeEditingMode = (sPersonId) => {
 
 export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
 	setPersonNameFromTemporaryState(sPersonId);
-	setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
+	if (sRelationshipId) {
+		setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
+	}
 	unsetActiveNodeEditId();
 };
 

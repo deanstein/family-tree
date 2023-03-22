@@ -20,6 +20,7 @@
 
 	let sAppVersion = 'v0.4.0';
 	let sDataVersion = relationshipMap.sDataVersion;
+	let bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
 	if (Object.keys($familyTreeData.activePerson).length == 0) {
@@ -40,20 +41,11 @@
 
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={true}
+							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsMaternal.id,
 								groupName: relationshipMap.stepparentsMaternal.label,
 								groupMembers: $familyTreeData.activePerson.relationships.stepparentsMaternal,
-								compatibleGroups: parentsCompatibleGroups
-							}}
-						/>
-						<PersonNodeGroup
-							bHideIfEmpty={true}
-							personNodeGroupData={{
-								groupId: relationshipMap.stepparentsPaternal.id,
-								groupName: relationshipMap.stepparentsPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
@@ -71,7 +63,16 @@
 
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={true}
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.stepparentsPaternal.id,
+								groupName: relationshipMap.stepparentsPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
+								compatibleGroups: parentsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.parentsInLaw.id,
 								groupName: relationshipMap.parentsInLaw.label,
@@ -87,7 +88,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<div slot="row-left-flank" class="row-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={true}
+							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.siblingsInLaw.id,
 								groupName: relationshipMap.siblingsInLaw.label,
@@ -96,7 +97,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={true}
+							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepsiblings.id,
 								groupName: relationshipMap.stepsiblings.label,
@@ -132,7 +133,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={true}
+							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.exSpouses.id,
 								groupName: relationshipMap.exSpouses.label,
@@ -155,6 +156,26 @@
 							compatibleGroups: childrenCompatibleGroups
 						}}
 					/>
+					<div slot="row-right-flank" class="row-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.stepchildren.id,
+								groupName: relationshipMap.stepchildren.label,
+								groupMembers: $familyTreeData.activePerson.relationships.stepchildren,
+								compatibleGroups: childrenCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.childrenInLaw.id,
+								groupName: relationshipMap.childrenInLaw.label,
+								groupMembers: $familyTreeData.activePerson.relationships.childrenInLaw,
+								compatibleGroups: childrenCompatibleGroups
+							}}
+						/>
+					</div>
 				</GenerationRow>
 			</div>
 		</div>

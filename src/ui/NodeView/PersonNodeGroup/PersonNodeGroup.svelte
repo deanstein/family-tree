@@ -13,7 +13,7 @@
 	let hide = false;
 
 	$: {
-		hide = personNodeGroupData.groupMembers.length === 0 && bHideIfEmpty
+		hide = personNodeGroupData.groupMembers.length === 0 && bHideIfEmpty;
 	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`

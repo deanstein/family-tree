@@ -3,11 +3,7 @@
 
 	import stylingConstants from '../../../stores/stylingConstants';
 	import { updateAvailablePeopleIdsFilteredArray } from '../../../logic/personManagement';
-	import {
-		endNodeEditingMode,
-		setTempNodeEditName,
-		unsetActiveNodeEditId
-	} from '../../../logic/uiManagement.js';
+	import { endNodeEditingMode, setTempNodeEditName } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;

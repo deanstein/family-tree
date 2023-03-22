@@ -27,7 +27,7 @@
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 
 	export let sPersonId;
-	export let sRelationshipId = 'undefined';
+	export let sRelationshipId = undefined;
 	export let bIsActivePerson = false;
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;

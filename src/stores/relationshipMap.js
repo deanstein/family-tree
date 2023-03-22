@@ -1,4 +1,4 @@
-export const sDataVersion = '0.8.2';
+export const sDataVersion = '0.8.3';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
@@ -68,7 +68,11 @@ const relationshipMap = {
 	},
 	stepparentsMaternal: {
 		id: 'stepparentsMaternal',
-		label: 'Maternal Step Parents',
+		label: 'Step Parent (M)',
+		stepparentMaternal: {
+			id: 'stepparentMaternal',
+			label: 'maternal step-parent'
+		},
 		stepmotherMaternal: {
 			id: 'stepmotherMaternal',
 			label: 'stepmother'
@@ -76,15 +80,11 @@ const relationshipMap = {
 		stepfatherMaternal: {
 			id: 'stepfatherMaternal',
 			label: 'stepfather'
-		},
-		stepparentMaternal: {
-			id: 'stepparentMaternal',
-			label: 'maternal step-parent'
 		}
 	},
 	stepparentsPaternal: {
 		id: 'stepparentsPaternal',
-		label: 'Paternal Step Parents',
+		label: 'Step Parent (P)',
 		stepparentPaternal: {
 			id: 'stepparentPaternal',
 			label: 'paternal step-parent'
@@ -197,6 +197,10 @@ const relationshipMap = {
 	exSpouses: {
 		id: 'exSpouses',
 		label: 'Ex-Spouses',
+		exPartner: {
+			id: 'exPartner',
+			label: 'ex-partner'
+		},
 		exWife: {
 			id: 'exWife',
 			label: 'ex-wife'
@@ -204,10 +208,6 @@ const relationshipMap = {
 		exHusband: {
 			id: 'exHusband',
 			label: 'ex-husband'
-		},
-		exPartner: {
-			id: 'exPartner',
-			label: 'ex-partner'
 		}
 	},
 	children: {
@@ -227,7 +227,7 @@ const relationshipMap = {
 		}
 	},
 	stepchildren: {
-		id: 'stepChildren',
+		id: 'stepchildren',
 		label: 'Step Children',
 		stepchild: {
 			id: 'stepchild',
@@ -283,7 +283,6 @@ export const defaultPerson = {
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',
 	gender: 'undefined',
-	relationshipToActivePerson: 'undefined',
 	relationships: (() => {
 		let relationships = {};
 		Object.keys(relationshipMap).forEach((element) => {
