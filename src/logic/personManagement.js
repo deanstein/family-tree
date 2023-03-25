@@ -275,8 +275,8 @@ export const getInverseGroupId = (groupId) => {
 			break;
 		case relationshipMap.greatAunclesMaternal:
 		case relationshipMap.greatAunclesPaternal:
-			 inverseGroupId = relationshipMap.grandNiblings.id;
-			 break;
+			inverseGroupId = relationshipMap.grandNiblings.id;
+			break;
 		case relationshipMap.parents.id:
 			inverseGroupId = relationshipMap.children.id;
 			break;

@@ -48,11 +48,11 @@ const relationshipMap = {
 		greatUncleMaternal: {
 			id: 'greatUnclesMaternal',
 			label: 'Maternal Great Uncles'
-		},
+		}
 	},
 	greatAunclesPaternal: {
 		id: 'greatAunclesPaternal',
-		label: 'Paternal Aunts/Uncles',
+		label: 'Paternal Great Aunts/Uncles',
 		greatAunclePaternal: {
 			id: 'greatAunclePaternal',
 			label: 'great auncle paternal'
@@ -64,7 +64,7 @@ const relationshipMap = {
 		greatUnclesPaternal: {
 			id: 'greatUnclesPaternal',
 			label: 'Paternal Great Uncles'
-		},
+		}
 	},
 	parents: {
 		id: 'parents',
@@ -140,7 +140,7 @@ const relationshipMap = {
 		uncleMaternal: {
 			id: 'uncleMaternal',
 			label: 'maternal uncle'
-		},
+		}
 	},
 	aunclesPaternal: {
 		id: 'aunclesPaternal',
@@ -152,7 +152,7 @@ const relationshipMap = {
 		unclePaternal: {
 			id: 'unclePaternal',
 			label: 'paternal uncle'
-		},
+		}
 	},
 	secondCousinsAbove: {
 		id: 'secondCousinsAbove',
@@ -168,7 +168,7 @@ const relationshipMap = {
 		cousin: {
 			id: 'cousin',
 			label: 'cousin'
-		},
+		}
 	},
 	siblings: {
 		id: 'siblings',
@@ -347,18 +347,20 @@ const relationshipMap = {
 		}
 	},
 	niblings: {
+		id: 'niblings',
+		label: 'Nieces or Nephews',
 		nibling: {
 			id: 'nibling',
-			label: 'Niece or Nephew',
+			label: 'Niece or Nephew'
 		},
 		niece: {
 			id: 'niece',
-			label: 'Niece',
+			label: 'Niece'
 		},
 		nephew: {
 			id: 'newphew',
 			label: 'Nephew'
-		},
+		}
 	},
 	grandchildren: {
 		id: 'grandchildren',
@@ -425,6 +427,12 @@ export const grandparentsCompatibleGroups = {
 	grandparentsPaternal
 };
 
+const { greatAunclesMaternal, greatAunclesPaternal } = relationshipMap;
+export const greatAunclesCompatibleGroups = {
+	greatAunclesMaternal,
+	greatAunclesPaternal
+};
+
 const { parents, stepparentsMaternal, stepparentsPaternal, parentsInLaw } = relationshipMap;
 export const parentsCompatibleGroups = {
 	parents,
@@ -433,13 +441,33 @@ export const parentsCompatibleGroups = {
 	parentsInLaw
 };
 
-const { siblings, halfSiblingsMaternal, halfSiblingsPaternal, stepsiblings, siblingsInLaw } =
-	relationshipMap;
+const { aunclesMaternal, aunclesPaternal } = relationshipMap;
+export const aunclesCompatibleGroups = {
+	aunclesMaternal,
+	aunclesPaternal
+};
+
+const { cousins, secondCousinsAbove, secondCousinsBelow } = relationshipMap;
+export const cousinsCompatibleGroups = {
+	cousins,
+	secondCousinsAbove,
+	secondCousinsBelow
+};
+
+const {
+	siblings,
+	halfSiblingsMaternal,
+	halfSiblingsPaternal,
+	stepsiblings,
+	spouseStepsiblings,
+	siblingsInLaw
+} = relationshipMap;
 export const siblingsCompatibleGroups = {
 	siblings,
 	halfSiblingsMaternal,
 	halfSiblingsPaternal,
 	stepsiblings,
+	spouseStepsiblings,
 	siblingsInLaw
 };
 
@@ -449,9 +477,19 @@ export const spouseCompatibleGroups = {
 	exSpouses
 };
 
+const { niblings } = relationshipMap;
+export const niblingsCompatibleGroups = {
+	niblings
+};
+
 const { children, stepchildren, childrenInLaw } = relationshipMap;
 export const childrenCompatibleGroups = {
 	children,
 	stepchildren,
 	childrenInLaw
+};
+
+const { grandNiblings } = relationshipMap;
+export const grandNiblingsCompatibleGroups = {
+	grandNiblings
 };

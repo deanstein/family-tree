@@ -14,10 +14,16 @@ const aAllPeople = [
 		relationships: {
 			grandparentsMaternal: [],
 			grandparentsPaternal: [],
+			greatAunclesMaternal: [],
+			greatAunclesPaternal: [],
 			parents: [],
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
+			aunclesMaternal: [],
+			aunclesPaternal: [],
+			secondCousinsAbove: [],
+			cousins: [],
 			siblings: [
 				{ id: 4, relationshipId: 'sibling' },
 				{ id: 3, relationshipId: 'sibling' },
@@ -28,11 +34,15 @@ const aAllPeople = [
 			stepsiblings: [],
 			siblingsInLaw: [],
 			spouses: [],
+			spouseStepsiblings: [],
 			exSpouses: [],
 			children: [],
 			stepchildren: [],
 			childrenInLaw: [],
-			grandchildren: []
+			niblings: [],
+			grandchildren: [],
+			grandNiblings: [],
+			secondCousinsBelow: []
 		}
 	},
 	{
@@ -42,10 +52,16 @@ const aAllPeople = [
 		relationships: {
 			grandparentsMaternal: [],
 			grandparentsPaternal: [],
+			greatAunclesMaternal: [],
+			greatAunclesPaternal: [],
 			parents: [],
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
+			aunclesMaternal: [],
+			aunclesPaternal: [],
+			secondCousinsAbove: [],
+			cousins: [],
 			siblings: [
 				{ id: 4, relationshipId: 'sibling' },
 				{ id: 2, relationshipId: 'sibling' },
@@ -57,10 +73,14 @@ const aAllPeople = [
 			siblingsInLaw: [],
 			spouses: [],
 			exSpouses: [],
+			spouseStepsiblings: [],
 			children: [],
 			stepchildren: [],
 			childrenInLaw: [],
-			grandchildren: []
+			niblings: [],
+			grandchildren: [],
+			grandNiblings: [],
+			secondCousinsBelow: []
 		}
 	},
 	{
@@ -70,10 +90,16 @@ const aAllPeople = [
 		relationships: {
 			grandparentsMaternal: [],
 			grandparentsPaternal: [],
+			greatAunclesMaternal: [],
+			greatAunclesPaternal: [],
 			parents: [],
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
+			aunclesMaternal: [],
+			aunclesPaternal: [],
+			secondCousinsAbove: [],
+			cousins: [],
 			siblings: [
 				{ id: 2, relationshipId: 'sibling' },
 				{ id: 3, relationshipId: 'sibling' },
@@ -85,10 +111,14 @@ const aAllPeople = [
 			siblingsInLaw: [],
 			spouses: [],
 			exSpouses: [],
+			spouseStepsiblings: [],
 			children: [],
 			stepchildren: [],
 			childrenInLaw: [],
-			grandchildren: []
+			niblings: [],
+			grandchildren: [],
+			grandNiblings: [],
+			secondCousinsBelow: []
 		}
 	},
 	{
@@ -98,10 +128,16 @@ const aAllPeople = [
 		relationships: {
 			grandparentsMaternal: [],
 			grandparentsPaternal: [],
+			greatAunclesMaternal: [],
+			greatAunclesPaternal: [],
 			parents: [],
 			parentsInLaw: [],
 			stepparentsMaternal: [],
 			stepparentsPaternal: [],
+			aunclesMaternal: [],
+			aunclesPaternal: [],
+			secondCousinsAbove: [],
+			cousins: [],
 			siblings: [
 				{ id: 2, relationshipId: 'sibling' },
 				{ id: 3, relationshipId: 'sibling' },
@@ -113,10 +149,14 @@ const aAllPeople = [
 			siblingsInLaw: [],
 			spouses: [],
 			exSpouses: [],
+			spouseStepsiblings: [],
 			children: [],
 			stepchildren: [],
 			childrenInLaw: [],
-			grandchildren: []
+			niblings: [],
+			grandchildren: [],
+			grandNiblings: [],
+			secondCousinsBelow: []
 		}
 	}
 ];

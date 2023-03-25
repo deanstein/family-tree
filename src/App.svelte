@@ -1,11 +1,13 @@
 <script>
 	import familyTreeData from './stores/familyTreeData';
-	import relationshipMap from './stores/relationshipMap';
-	import {
+	import relationshipMap, {
 		grandparentsCompatibleGroups,
+		greatAunclesCompatibleGroups,
 		parentsCompatibleGroups,
+		aunclesCompatibleGroups,
 		siblingsCompatibleGroups,
 		spouseCompatibleGroups,
+		niblingsCompatibleGroups,
 		childrenCompatibleGroups
 	} from './stores/relationshipMap';
 	import stylingConstants from './stores/stylingConstants';
@@ -18,7 +20,7 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = 'v0.4.1';
+	let sAppVersion = 'v0.4.2';
 	let sDataVersion = relationshipMap.sDataVersion;
 	let bHideEmptyGroups = false;
 
@@ -37,9 +39,60 @@
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div />
-
 					<div slot="row-left-flank" class="row-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.greatAunclesMaternal.id,
+								groupName: relationshipMap.greatAunclesMaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.greatAunclesMaternal,
+								compatibleGroups: greatAunclesCompatibleGroups
+							}}
+						/>
+					</div>
+
+					<div slot="row-middle-section" class="row-flank">
+						<PersonNodeGroup
+							personNodeGroupData={{
+								groupId: relationshipMap.grandparentsMaternal.id,
+								groupName: relationshipMap.grandparentsMaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.grandparentsMaternal,
+								compatibleGroups: grandparentsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							personNodeGroupData={{
+								groupId: relationshipMap.grandparentsPaternal.id,
+								groupName: relationshipMap.grandparentsPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.grandparentsPaternal,
+								compatibleGroups: grandparentsCompatibleGroups
+							}}
+						/>
+					</div>
+
+					<div slot="row-right-flank" class="row-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.greatAunclesPaternal.id,
+								groupName: relationshipMap.greatAunclesPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.greatAunclesPaternal,
+								compatibleGroups: greatAunclesCompatibleGroups
+							}}
+						/>
+					</div>
+				</GenerationRow>
+				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+					<div slot="row-left-flank" class="row-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.aunclesMaternal.id,
+								groupName: relationshipMap.aunclesMaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.aunclesMaternal,
+								compatibleGroups: aunclesCompatibleGroups
+							}}
+						/>
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -50,7 +103,6 @@
 							}}
 						/>
 					</div>
-
 					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
@@ -60,7 +112,6 @@
 							compatibleGroups: parentsCompatibleGroups
 						}}
 					/>
-
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
@@ -69,6 +120,15 @@
 								groupName: relationshipMap.stepparentsPaternal.label,
 								groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
 								compatibleGroups: parentsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.aunclesPaternal.id,
+								groupName: relationshipMap.aunclesPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.aunclesPaternal,
+								compatibleGroups: aunclesCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
@@ -107,6 +167,14 @@
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
+								groupId: relationshipMap.halfSiblingsMaternal.id,
+								groupName: relationshipMap.halfSiblingsMaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.halfSiblingsMaternal,
+								compatibleGroups: siblingsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							personNodeGroupData={{
 								groupId: relationshipMap.siblings.id,
 								groupName: relationshipMap.siblings.label,
 								groupMembers: $familyTreeData.activePerson.relationships.siblings,
@@ -126,10 +194,28 @@
 					<div slot="row-right-flank" class="row-flank">
 						<PersonNodeGroup
 							personNodeGroupData={{
+								groupId: relationshipMap.halfSiblingsPaternal.id,
+								groupName: relationshipMap.halfSiblingsPaternal.label,
+								groupMembers: $familyTreeData.activePerson.relationships.halfSiblingsPaternal,
+								compatibleGroups: siblingsCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
 								groupId: relationshipMap.spouses.id,
 								groupName: relationshipMap.spouses.label,
 								groupMembers: $familyTreeData.activePerson.relationships.spouses,
 								compatibleGroups: spouseCompatibleGroups
+							}}
+						/>
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.spouseStepsiblings.id,
+								groupName: relationshipMap.spouseStepsiblings.label,
+								groupMembers: $familyTreeData.activePerson.relationships.spouseStepsiblings,
+								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
 						<PersonNodeGroup
@@ -147,6 +233,17 @@
 
 			<div id="lower-generation-block" class="lower-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+					<div slot="row-left-flank" class="row-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.niblings.id,
+								groupName: relationshipMap.niblings.label,
+								groupMembers: $familyTreeData.activePerson.relationships.niblings,
+								compatibleGroups: niblingsCompatibleGroups
+							}}
+						/>
+					</div>
 					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
@@ -208,6 +305,7 @@
 
 	.upper-generation-block {
 		display: grid;
+		gap: 2vh;
 		width: 100vw;
 	}
 
