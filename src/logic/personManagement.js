@@ -273,6 +273,10 @@ export const getInverseGroupId = (groupId) => {
 		case relationshipMap.grandparentsPaternal.id:
 			inverseGroupId = relationshipMap.grandchildren.id;
 			break;
+		case relationshipMap.greatAunclesMaternal:
+		case relationshipMap.greatAunclesPaternal:
+			 inverseGroupId = relationshipMap.grandNiblings.id;
+			 break;
 		case relationshipMap.parents.id:
 			inverseGroupId = relationshipMap.children.id;
 			break;
@@ -282,6 +286,16 @@ export const getInverseGroupId = (groupId) => {
 		case relationshipMap.stepparentsMaternal.id:
 		case relationshipMap.stepparentsPaternal.id:
 			inverseGroupId = relationshipMap.stepchildren.id;
+			break;
+		case relationshipMap.aunclesMaternal:
+		case relationshipMap.aunclesPaternal:
+			inverseGroupId = relationshipMap.niblings.id;
+			break;
+		case relationshipMap.secondCousinsAbove:
+			inverseGroupId = relationshipMap.secondCousinsBelow.id;
+			break;
+		case relationshipMap.cousins.id:
+			inverseGroupId = relationshipMap.cousin.id;
 			break;
 		case relationshipMap.siblings.id:
 			inverseGroupId = relationshipMap.siblings.id;
@@ -301,6 +315,9 @@ export const getInverseGroupId = (groupId) => {
 		case relationshipMap.spouses.id:
 			inverseGroupId = relationshipMap.spouses.id;
 			break;
+		case relationshipMap.spouseStepsiblings.id:
+			inverseGroupId = relationshipMap.stepsiblings.id;
+			break;
 		case relationshipMap.exSpouses.id:
 			inverseGroupId = relationshipMap.exSpouses.id;
 			break;
@@ -310,11 +327,20 @@ export const getInverseGroupId = (groupId) => {
 		case relationshipMap.childrenInLaw.id:
 			inverseGroupId = relationshipMap.parentsInLaw.id;
 			break;
+		case relationshipMap.niblings.id:
+			inverseGroupId = relationshipMap.aunclesMaternal.id;
+			break;
 		case relationshipMap.stepchildren.id:
 			inverseGroupId = relationshipMap.stepparentsMaternal.id;
 			break;
 		case relationshipMap.grandchildren.id:
 			inverseGroupId = relationshipMap.grandparentsMaternal.id;
+			break;
+		case relationshipMap.grandNiblings.id:
+			inverseGroupId = relationshipMap.greatAunclesMaternal.id;
+			break;
+		case relationshipMap.secondCousinsBelow.id:
+			inverseGroupId = relationshipMap.secondCousinsAbove.id;
 			break;
 		default:
 			return undefined;
@@ -335,6 +361,16 @@ export const getInverseRelationshipId = (groupId) => {
 					inverseId = relationshipMap.grandchildren.granddaughter.id;
 				} else {
 					inverseId = relationshipMap.grandchildren.grandchild.id;
+				}
+				break;
+			case relationshipMap.greatAunclesMaternal.id:
+			case relationshipMap.greatAunclesPaternal.id:
+				if (activePersonGender === 'male') {
+					inverseId = relationshipMap.grandNiblings.grandnephew.id;
+				} else if (activePersonGender === 'female') {
+					inverseId = relationshipMap.grandNiblings.grandniece.id;
+				} else {
+					inverseId = relationshipMap.grandNiblings.grandnibling.id;
 				}
 				break;
 			case relationshipMap.parents.id:
@@ -364,6 +400,22 @@ export const getInverseRelationshipId = (groupId) => {
 				} else {
 					inverseId = relationshipMap.stepchildren.stepchild.id;
 				}
+				break;
+			case relationshipMap.aunclesMaternal.id:
+			case relationshipMap.aunclesPaternal.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.niblings.nephew.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.niblings.niece.id;
+				} else {
+					inverseId = relationshipMap.niblings.nibling.id;
+				}
+				break;
+			case relationshipMap.secondCousinsAbove.id:
+				inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow.id;
+				break;
+			case relationshipMap.cousins.id:
+				inverseId = relationshipMap.cousins.cousin.id;
 				break;
 			case relationshipMap.siblings.id:
 				if (familyTreeData.activePerson.gender === 'male') {
@@ -411,6 +463,15 @@ export const getInverseRelationshipId = (groupId) => {
 					inverseId = relationshipMap.spouses.partner.id;
 				}
 				break;
+			case relationshipMap.spouseStepsiblings.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.spouseStepsiblings.spouseStepbrother.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.spouseStepsiblings.spouseStepsister.id;
+				} else {
+					inverseId = relationshipMap.spouseStepsiblings.spouseStepsibling.id;
+				}
+				break;
 			case relationshipMap.exSpouses.id:
 				if (familyTreeData.activePerson.gender === 'male') {
 					inverseId = relationshipMap.exSpouses.exHusband.id;
@@ -429,6 +490,15 @@ export const getInverseRelationshipId = (groupId) => {
 					inverseId = relationshipMap.parents.parent.id;
 				}
 				break;
+			case relationshipMap.stepchildren.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.parents.stepfather.id;
+				} else if (familyTreeData.activePerson.gender === 'female') {
+					inverseId = relationshipMap.parents.stepmother.id;
+				} else {
+					inverseId = relationshipMap.parents.stepparent.id;
+				}
+				break;
 			case relationshipMap.childrenInLaw.id:
 				if (familyTreeData.activePerson.gender === 'male') {
 					inverseId = relationshipMap.parents.fatherinlaw.id;
@@ -438,13 +508,13 @@ export const getInverseRelationshipId = (groupId) => {
 					inverseId = relationshipMap.parents.parentinlaw.id;
 				}
 				break;
-			case relationshipMap.stepchildren.id:
+			case relationshipMap.niblings.id:
 				if (familyTreeData.activePerson.gender === 'male') {
-					inverseId = relationshipMap.parents.stepfather.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
-					inverseId = relationshipMap.parents.stepmother.id;
+					inverseId = relationshipMap.niblings.nephew.id;
+				} else if (familyTreeData.defaultPersonactivePerson.gender === 'female') {
+					inverseId = relationshipMap.niblings.niece.id;
 				} else {
-					inverseId = relationshipMap.parents.stepparent.id;
+					inverseId = relationshipMap.niblings.nibling.id;
 				}
 				break;
 			case relationshipMap.grandchildren.id:
@@ -455,6 +525,18 @@ export const getInverseRelationshipId = (groupId) => {
 				} else {
 					inverseId = undefined;
 				}
+			case relationshipMap.grandNiblings.id:
+				if (familyTreeData.activePerson.gender === 'male') {
+					inverseId = relationshipMap.grandNiblings.grandnephew.id;
+				} else if (familyTreeData.defaultPersonactivePerson.gender === 'female') {
+					inverseId = relationshipMap.grandNiblings.grandniece.id;
+				} else {
+					inverseId = relationshipMap.grandNiblings.grandNibling.id;
+				}
+				break;
+			case relationshipMap.secondCousinsBelow.id:
+				inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow;
+				break;
 			default:
 				return undefined;
 		}

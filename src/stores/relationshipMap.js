@@ -1,4 +1,4 @@
-export const sDataVersion = '0.8.3';
+export const sDataVersion = 'v0.9.0';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
@@ -33,6 +33,38 @@ const relationshipMap = {
 			id: 'grandfatherPaternal',
 			label: 'paternal grandfather'
 		}
+	},
+	greatAunclesMaternal: {
+		id: 'greatAunclessMaternal',
+		label: 'Maternal Great Aunts/Uncles',
+		greatAuncleMaternal: {
+			id: 'greatAuncleMaternal',
+			label: 'great auncle maternal'
+		},
+		greatAuntMaternal: {
+			id: 'greatAuntsMaternal',
+			label: 'Maternal Great Aunts'
+		},
+		greatUncleMaternal: {
+			id: 'greatUnclesMaternal',
+			label: 'Maternal Great Uncles'
+		},
+	},
+	greatAunclesPaternal: {
+		id: 'greatAunclesPaternal',
+		label: 'Paternal Aunts/Uncles',
+		greatAunclePaternal: {
+			id: 'greatAunclePaternal',
+			label: 'great auncle paternal'
+		},
+		greatAuntsPaternal: {
+			id: 'greatUnclesMaternal',
+			label: 'Paternal Great Aunts'
+		},
+		greatUnclesPaternal: {
+			id: 'greatUnclesPaternal',
+			label: 'Paternal Great Uncles'
+		},
 	},
 	parents: {
 		id: 'parents',
@@ -97,6 +129,46 @@ const relationshipMap = {
 			id: 'stepfatherPaternal',
 			label: 'stepfather'
 		}
+	},
+	aunclesMaternal: {
+		id: 'aunclesMaternal',
+		label: 'Maternal Aunts/Uncles',
+		auntMaternal: {
+			id: 'auntMaternal',
+			label: 'maternal aunt'
+		},
+		uncleMaternal: {
+			id: 'uncleMaternal',
+			label: 'maternal uncle'
+		},
+	},
+	aunclesPaternal: {
+		id: 'aunclesPaternal',
+		label: 'Paternal Aunts/Uncles',
+		auntPaternal: {
+			id: 'auntPaternal',
+			label: 'paternal aunt'
+		},
+		unclePaternal: {
+			id: 'unclePaternal',
+			label: 'paternal uncle'
+		},
+	},
+	secondCousinsAbove: {
+		id: 'secondCousinsAbove',
+		label: 'Second Cousins',
+		secondCousinAbove: {
+			id: 'secondCousinAbove',
+			label: 'second cousin'
+		}
+	},
+	cousins: {
+		id: 'cousins',
+		label: 'Cousins',
+		cousin: {
+			id: 'cousin',
+			label: 'cousin'
+		},
 	},
 	siblings: {
 		id: 'siblings',
@@ -194,6 +266,22 @@ const relationshipMap = {
 			label: 'husband'
 		}
 	},
+	spouseStepsiblings: {
+		id: 'spouseStepsiblings',
+		label: 'Spouse Stepsiblings',
+		spouseStepsibling: {
+			id: 'spouseStepsibling',
+			label: 'spouse stepsibling'
+		},
+		spouseStepsister: {
+			id: 'spouseStepsister',
+			label: 'spouse stepsister'
+		},
+		spouseStepbrother: {
+			id: 'spouseStepbrother',
+			label: 'spouse stepbrother'
+		}
+	},
 	exSpouses: {
 		id: 'exSpouses',
 		label: 'Ex-Spouses',
@@ -258,6 +346,20 @@ const relationshipMap = {
 			label: 'son-in-law'
 		}
 	},
+	niblings: {
+		nibling: {
+			id: 'nibling',
+			label: 'Niece or Nephew',
+		},
+		niece: {
+			id: 'niece',
+			label: 'Niece',
+		},
+		nephew: {
+			id: 'newphew',
+			label: 'Nephew'
+		},
+	},
 	grandchildren: {
 		id: 'grandchildren',
 		label: 'Grandchildren',
@@ -272,6 +374,30 @@ const relationshipMap = {
 		grandson: {
 			id: 'grandson',
 			label: 'grandson'
+		}
+	},
+	grandNiblings: {
+		id: 'grandNiblings',
+		label: 'Grand Nieces/Nephews',
+		grandnibling: {
+			id: 'grandnibling',
+			label: 'grand niece or nephew'
+		},
+		grandniece: {
+			id: 'grandnieces',
+			label: 'grandniece'
+		},
+		grandnephew: {
+			grandnephews: 'grandnephews',
+			label: 'grandnephew'
+		}
+	},
+	secondCousinsBelow: {
+		id: 'secondCousinsBelow',
+		label: 'Second Cousins',
+		secondCousinBelow: {
+			id: 'secondCousinBelow',
+			label: 'second cousin'
 		}
 	}
 };
