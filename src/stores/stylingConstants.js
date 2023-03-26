@@ -59,6 +59,14 @@ const sizes = {
 		return this.nPersonNodeGroupFontSize + 'vh';
 	},
 
+	get nPersonNodeActiveSize() {
+		return this.nPersonNodeGroupHeight -
+		this.nPadding /*account for gap*/
+	},
+	get personNodeActiveSize() {
+		return this.nPersonNodeActiveSize + 'vh';
+	},
+
 	get nPersonNodeAddButtonSize() {
 		return this.nPersonNodeSize / 4;
 	},

@@ -31,6 +31,7 @@
 	export let bIsActivePerson = false;
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
+	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
 	let personNodeOverlayDynamicClass;
@@ -51,8 +52,8 @@
 		}
 
 		personNodeDynamicClass = css`
-			width: ${stylingConstants.sizes.personNodeSize};
-			height: ${stylingConstants.sizes.personNodeSize};
+			width: ${sNodeSize};
+			height: ${sNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
 			background-color: ${stylingConstants.colors.sPersonNodeColor};
 			border: ${$uiState.sPersonIdForNodeEdit == sPersonId ||

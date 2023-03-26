@@ -188,7 +188,7 @@
 						id="active-person-container"
 						class="active-person-container"
 					>
-						<PersonNode sPersonId={$familyTreeData.activePerson.id} />
+						<PersonNode sPersonId={$familyTreeData.activePerson.id} sNodeSize={stylingConstants.sizes.personNodeActiveSize} />
 					</div>
 
 					<div slot="row-right-flank" class="row-flank">
