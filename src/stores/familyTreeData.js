@@ -41,7 +41,7 @@ const aAllPeople = [
 			childrenInLaw: [],
 			niblings: [],
 			grandchildren: [],
-			grandNiblings: [],
+			grandniblings: [],
 			secondCousinsBelow: []
 		}
 	},
@@ -79,7 +79,7 @@ const aAllPeople = [
 			childrenInLaw: [],
 			niblings: [],
 			grandchildren: [],
-			grandNiblings: [],
+			grandniblings: [],
 			secondCousinsBelow: []
 		}
 	},
@@ -117,7 +117,7 @@ const aAllPeople = [
 			childrenInLaw: [],
 			niblings: [],
 			grandchildren: [],
-			grandNiblings: [],
+			grandniblings: [],
 			secondCousinsBelow: []
 		}
 	},
@@ -155,7 +155,7 @@ const aAllPeople = [
 			childrenInLaw: [],
 			niblings: [],
 			grandchildren: [],
-			grandNiblings: [],
+			grandniblings: [],
 			secondCousinsBelow: []
 		}
 	}

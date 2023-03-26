@@ -1,4 +1,4 @@
-export const sDataVersion = 'v0.9.0';
+export const sDataVersion = 'v0.9.1';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
@@ -35,19 +35,19 @@ const relationshipMap = {
 		}
 	},
 	greatAunclesMaternal: {
-		id: 'greatAunclessMaternal',
+		id: 'greatAunclesMaternal',
 		label: 'Maternal Great Aunts/Uncles',
 		greatAuncleMaternal: {
 			id: 'greatAuncleMaternal',
-			label: 'great auncle maternal'
+			label: 'maternal great aunt or uncle'
 		},
 		greatAuntMaternal: {
-			id: 'greatAuntsMaternal',
-			label: 'Maternal Great Aunts'
+			id: 'greatAuntMaternal',
+			label: 'maternal great aunt'
 		},
 		greatUncleMaternal: {
-			id: 'greatUnclesMaternal',
-			label: 'Maternal Great Uncles'
+			id: 'greatUncleMaternal',
+			label: 'maternal great uncle'
 		}
 	},
 	greatAunclesPaternal: {
@@ -55,15 +55,15 @@ const relationshipMap = {
 		label: 'Paternal Great Aunts/Uncles',
 		greatAunclePaternal: {
 			id: 'greatAunclePaternal',
-			label: 'great auncle paternal'
+			label: 'paternal great aunt or uncle'
 		},
-		greatAuntsPaternal: {
-			id: 'greatUnclesMaternal',
-			label: 'Paternal Great Aunts'
+		greatAuntPaternal: {
+			id: 'greatAuntPaternal',
+			label: 'paternal great aunt'
 		},
-		greatUnclesPaternal: {
-			id: 'greatUnclesPaternal',
-			label: 'Paternal Great Uncles'
+		greatUnclePaternal: {
+			id: 'greatUncleMaternal',
+			label: 'paternal great uncle'
 		}
 	},
 	parents: {
@@ -378,8 +378,8 @@ const relationshipMap = {
 			label: 'grandson'
 		}
 	},
-	grandNiblings: {
-		id: 'grandNiblings',
+	grandniblings: {
+		id: 'grandniblings',
 		label: 'Grand Nieces/Nephews',
 		grandnibling: {
 			id: 'grandnibling',
