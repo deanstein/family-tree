@@ -45,7 +45,7 @@
 >
 	<div id="person-node-content-area" class="person-node-content-area">
 		<Avatar />
-		<NameInput sInputValue={getPersonById(sPersonId)?.name} {sPersonId} />
+		<NameInput sInputValue={getPersonById(sPersonId)?.name} {sPersonId} {sRelationshipId} />
 	</div>
 </div>
 

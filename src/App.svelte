@@ -20,7 +20,7 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = 'v0.4.2';
+	let sAppVersion = '0.4.2';
 	let sDataVersion = relationshipMap.sDataVersion;
 	let bHideEmptyGroups = false;
 

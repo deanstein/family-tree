@@ -1,4 +1,4 @@
-export const sDataVersion = 'v0.9.1';
+export const sDataVersion = '0.9.1';
 
 const relationshipMap = {
 	sDataVersion: sDataVersion,
