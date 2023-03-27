@@ -24,10 +24,16 @@ export const getPersonById = (id) => {
 };
 
 export const setActivePerson = (person) => {
-	familyTreeData.update((currentValue) => {
+	uiState.update((currentValue) => {
 		return {
 			...currentValue,
 			activePerson: person
+		};
+	});
+	familyTreeData.update((currentValue) => {
+		return {
+			...currentValue,
+			sLastKnownActivePersonId: person.id
 		};
 	});
 };
@@ -92,12 +98,13 @@ export const removePersonFromPeopleArray = (person) => {
 
 export const addActivePersonToPeopleArray = () => {
 	familyTreeData.update((currentValue) => {
-		const index = getPersonIndexById(currentValue.activePerson.id);
+		const index = getPersonIndexById(currentValue.sLastKnownActivePersonId);
+		const activePerson = getPersonById(currentValue.sLastKnownActivePersonId);
 		return {
 			...currentValue,
 			aAllPeople: [
 				...currentValue.aAllPeople.slice(0, index),
-				currentValue.activePerson,
+				activePerson,
 				...currentValue.aAllPeople.slice(index + 1)
 			]
 		};
@@ -105,45 +112,47 @@ export const addActivePersonToPeopleArray = () => {
 };
 
 export const addPersonIdToActiveRelatedPeopleIdsArray = (sPersonId) => {
-	familyTreeData.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex =
-			currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+	uiState.update((currentValue) => {
+		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
 		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aAvailablePeopleIds.indexOf(sPersonId);
+			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aActivePersonRelatedPeopleIds.push(sPersonId);
+			currentValue.aPersonIdsOnScreen.push(sPersonId);
 		}
 
 		if (nAvailableRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aAvailablePeopleIds.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
+			currentValue.aPersonIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
 		}
+
+		//console.log('Added', sPersonId)
 
 		return currentValue;
 	});
 };
 
 export const removePersonIdFromActiveRelatedPeopleIdsArray = (sPersonId) => {
-	familyTreeData.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex =
-			currentValue.aActivePersonRelatedPeopleIds.indexOf(sPersonId);
+	uiState.update((currentValue) => {
+		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
 		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aAvailablePeopleIds.indexOf(sPersonId);
+			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aActivePersonRelatedPeopleIds.splice(nActiveRelatedPersonIdSpliceIndex, 1);
+			currentValue.aPersonIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
 		}
 
 		if (nAvailableRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aAvailablePeopleIds.push(sPersonId);
+			currentValue.aPersonIdsOffScreen.push(sPersonId);
 		}
+
+		//console.log('Removed', sPersonId)
 
 		return currentValue;
 	});
 };
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
-	familyTreeData.update((currentValue) => {
+	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = {
@@ -175,7 +184,7 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 };
 
 export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) => {
-	familyTreeData.update((currentValue) => {
+	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = {
@@ -203,34 +212,34 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
-		const inverseRelationshipId = getInverseRelationshipId(groupId);
-		const inverseGroupId = getInverseGroupId(groupId);
-		const personIndex = getPersonIndexById(personId);
+		const sInverseRelationshipId = getInverseRelationshipId(groupId);
+		const sInverseGroupId = getInverseGroupId(groupId);
+		const nPersonIndex = getPersonIndexById(personId);
+		const person = currentValue.aAllPeople[nPersonIndex];
+		const nActivePersonIndex = getPersonIndexById(currentValue.sLastKnownActivePersonId);
+		const activePerson = currentValue.aAllPeople[nActivePersonIndex];
+
+		//console.log (sInverseRelationshipId, sInverseGroupId, nPersonIndex, person, nActivePersonIndex, activePerson);
 
 		const personReferenceObject = {
-			id: currentValue.activePerson.id,
-			relationshipId: inverseRelationshipId
+			id: currentValue.sLastKnownActivePersonId,
+			relationshipId: sInverseRelationshipId
 		};
 
-		const foundPersonReferenceObject = currentValue.aAllPeople[personIndex].relationships[
-			groupId
-		].find(() => {
-			if (personReferenceObject.id === currentValue.activePerson.id) return personReferenceObject;
+		const foundPersonReferenceObject = person.relationships[groupId].find(() => {
+			if (personReferenceObject.id === currentValue.sLastKnownActivePersonId)
+				return personReferenceObject;
 		});
-		const nGroupIndex = currentValue.activePerson.relationships[inverseGroupId].indexOf(
+		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(
 			foundPersonReferenceObject
 		);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {
-			currentValue.aAllPeople[personIndex].relationships[inverseGroupId].push(
-				personReferenceObject
-			);
+			person.relationships[sInverseGroupId].push(personReferenceObject);
 			// but if it exists, update with the new relationship id
 		} else {
-			currentValue.aAllPeople[personIndex].relationships[inverseGroupId][
-				nGroupIndex
-			].relationshipId = inverseRelationshipId;
+			person.relationships[sInverseGroupId][nGroupIndex].relationshipId = sInverseRelationshipId;
 		}
 
 		return currentValue;
@@ -240,25 +249,25 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 export const updateAvailablePeopleIdsFilteredArray = (sFilter) => {
 	const sFilterUppercase = sFilter.toUpperCase();
 
-	familyTreeData.update((currentValue) => {
-		currentValue.aAvailablePeopleIdsFiltered = [];
+	uiState.update((currentValue) => {
+		currentValue.aPersonIdsOffScreenFiltered = [];
 
 		// for each id, get name and see if the filter is contained in the name
-		currentValue.aAvailablePeopleIds.forEach((sPersonId) => {
+		currentValue.aPersonIdsOffScreen.forEach((sPersonId) => {
 			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
 			if (sPersonName.indexOf(sFilterUppercase) > -1) {
-				currentValue.aAvailablePeopleIdsFiltered.push(sPersonId);
+				currentValue.aPersonIdsOffScreenFiltered.push(sPersonId);
 			} else {
-				const nPersonIdIndex = currentValue.aAvailablePeopleIdsFiltered.indexOf(sPersonId);
+				const nPersonIdIndex = currentValue.aPersonIdsOffScreenFiltered.indexOf(sPersonId);
 				if (nPersonIdIndex != -1) {
-					currentValue.aAvailablePeopleIdsFiltered.splice(nPersonIdIndex, 1);
+					currentValue.aPersonIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
 				}
 			}
 		});
 
 		// if nothing in the text box, show all available people
 		if (sFilterUppercase === '') {
-			currentValue.aAvailablePeopleIdsFiltered = currentValue.aAvailablePeopleIds;
+			currentValue.aPersonIdsOffScreenFiltered = currentValue.aPersonIdsOffScreen;
 		}
 
 		return currentValue;
@@ -355,8 +364,8 @@ export const getInverseGroupId = (groupId) => {
 
 export const getInverseRelationshipId = (groupId) => {
 	let inverseId = undefined;
-	familyTreeData.subscribe((familyTreeData) => {
-		let activePersonGender = familyTreeData.activePerson.gender;
+	uiState.subscribe((currentValue) => {
+		let activePersonGender = currentValue.activePerson.gender;
 		switch (groupId) {
 			case relationshipMap.grandparentsMaternal.id:
 			case relationshipMap.grandparentsPaternal.id:
@@ -379,18 +388,18 @@ export const getInverseRelationshipId = (groupId) => {
 				}
 				break;
 			case relationshipMap.parents.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.children.son.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.children.daughter.id;
 				} else {
 					inverseId = relationshipMap.children.child.id;
 				}
 				break;
 			case relationshipMap.parentsInLaw.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.childrenInLaw.sonInLaw.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.childrenInLaw.daughterInLaw.id;
 				} else {
 					inverseId = relationshipMap.childrenInLaw.childInLaw.id;
@@ -398,9 +407,9 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.stepparentsMaternal.id:
 			case relationshipMap.stepparentsPaternal.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.stepchildren.stepson.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.stepchildren.stepdaughter.id;
 				} else {
 					inverseId = relationshipMap.stepchildren.stepchild.id;
@@ -408,9 +417,9 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.aunclesMaternal.id:
 			case relationshipMap.aunclesPaternal.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.niblings.nephew.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.niblings.niece.id;
 				} else {
 					inverseId = relationshipMap.niblings.nibling.id;
@@ -423,125 +432,125 @@ export const getInverseRelationshipId = (groupId) => {
 				inverseId = relationshipMap.cousins.cousin.id;
 				break;
 			case relationshipMap.siblings.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.siblings.brother.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.siblings.sister.id;
 				} else {
 					inverseId = relationshipMap.siblings.sibling.id;
 				}
 				break;
 			case relationshipMap.halfSiblingsMaternal.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.halfSiblingsMaternal.halfbrotherMaternal.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.halfSiblingsMaternal.halfsisterMaternal.id;
 				} else {
 					inverseId = relationshipMap.halfSiblingsMaternal.halfSiblingMaternal.id;
 				}
 				break;
 			case relationshipMap.halfSiblingsPaternal.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.halfSiblingsPaternal.halfBrotherPaternal.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.halfSiblingsPaternal.halfSisterPaternal.id;
 				} else {
 					inverseId = relationshipMap.halfSiblingsPaternal.halfsiblingPaternal.id;
 				}
 				break;
 			case relationshipMap.stepsiblings.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.stepsiblings.stepbrother.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.stepsiblings.stepsister.id;
 				} else {
 					inverseId = relationshipMap.stepsiblings.stepsibling.id;
 				}
 				break;
 			case relationshipMap.siblingsInLaw.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.siblingsInLaw.brotherInLaw.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.siblingsInLaw.sisterInLaw.id;
 				} else {
 					inverseId = relationshipMap.siblingsInLaw.siblingInLaw.id;
 				}
 				break;
 			case relationshipMap.spouses.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.spouses.husband.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.spouses.wife.id;
 				} else {
 					inverseId = relationshipMap.spouses.partner.id;
 				}
 				break;
 			case relationshipMap.spouseStepsiblings.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.spouseStepsiblings.spouseStepbrother.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.spouseStepsiblings.spouseStepsister.id;
 				} else {
 					inverseId = relationshipMap.spouseStepsiblings.spouseStepsibling.id;
 				}
 				break;
 			case relationshipMap.exSpouses.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.exSpouses.exHusband.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.exSpouses.exWife.id;
 				} else {
 					inverseId = relationshipMap.exSpouses.exPartner.id;
 				}
 				break;
 			case relationshipMap.children.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.parents.father.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.parents.mother.id;
 				} else {
 					inverseId = relationshipMap.parents.parent.id;
 				}
 				break;
 			case relationshipMap.stepchildren.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.stepparentsPaternal.stepfatherPaternal.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.stepparentsPaternal.stepmotherPaternal.id;
 				} else {
 					inverseId = relationshipMap.stepparentsPaternal.stepparentPaternal.id;
 				}
 				break;
 			case relationshipMap.childrenInLaw.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.parentsInLaw.fatherInLaw.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.parentsInLaw.motherInLaw.id;
 				} else {
 					inverseId = relationshipMap.parentsInLaw.parentInLaw.id;
 				}
 				break;
 			case relationshipMap.niblings.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.niblings.nephew.id;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.niblings.niece.id;
 				} else {
 					inverseId = relationshipMap.niblings.nibling.id;
 				}
 				break;
 			case relationshipMap.grandchildren.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = undefined;
-				} else if (familyTreeData.activePerson.gender === 'female') {
+				} else if (activePersonGender === 'female') {
 					inverseId = undefined;
 				} else {
 					inverseId = undefined;
 				}
 			case relationshipMap.grandNiblings.id:
-				if (familyTreeData.activePerson.gender === 'male') {
+				if (activePersonGender === 'male') {
 					inverseId = relationshipMap.grandNiblings.grandnephew.id;
-				} else if (familyTreeData.defaultPersonactivePerson.gender === 'female') {
+				} else if (currentValue.defaultPersonactivePerson.gender === 'female') {
 					inverseId = relationshipMap.grandNiblings.grandniece.id;
 				} else {
 					inverseId = relationshipMap.grandNiblings.grandNibling.id;

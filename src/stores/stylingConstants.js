@@ -60,8 +60,7 @@ const sizes = {
 	},
 
 	get nPersonNodeActiveSize() {
-		return this.nPersonNodeGroupHeight -
-		this.nPadding /*account for gap*/
+		return this.nPersonNodeGroupHeight - this.nPadding; /*account for gap*/
 	},
 	get personNodeActiveSize() {
 		return this.nPersonNodeActiveSize + 'vh';

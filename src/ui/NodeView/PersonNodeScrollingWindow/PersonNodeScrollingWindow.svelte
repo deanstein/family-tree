@@ -1,9 +1,14 @@
 <script>
-	import familyTreeData from '../../../stores/familyTreeData';
+	import { onMount } from 'svelte';
+	import uiState from '../../../stores/uiState';
 
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
 
 	export let sRelationshipId;
+
+	onMount(() => {
+		console.log($uiState.aPersonIdsOffScreen, $uiState.aPersonIdsOffScreenFiltered);
+	});
 </script>
 
 <div
@@ -12,7 +17,7 @@
 	on:click|stopPropagation
 	on:keypress|stopPropagation
 >
-	{#each $familyTreeData.aAvailablePeopleIdsFiltered as sPersonId}
+	{#each $uiState.aPersonIdsOffScreenFiltered as sPersonId}
 		<PersonNodeForSelect {sPersonId} {sRelationshipId} />
 	{/each}
 </div>

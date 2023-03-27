@@ -1,5 +1,6 @@
 <script>
 	import familyTreeData from './stores/familyTreeData';
+	import uiState from './stores/uiState';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
 		greatAunclesCompatibleGroups,
@@ -20,12 +21,12 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = '0.4.2';
+	let sAppVersion = '0.5.0';
 	let sDataVersion = relationshipMap.sDataVersion;
 	let bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
-	if (Object.keys($familyTreeData.activePerson).length == 0) {
+	if (Object.keys($uiState.activePerson).length == 0) {
 		setActivePerson($familyTreeData.aAllPeople[0]);
 	}
 
@@ -45,7 +46,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesMaternal.id,
 								groupName: relationshipMap.greatAunclesMaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.greatAunclesMaternal,
+								groupMembers: $uiState.activePerson.relationships.greatAunclesMaternal,
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
 						/>
@@ -56,7 +57,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.grandparentsMaternal.id,
 								groupName: relationshipMap.grandparentsMaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.grandparentsMaternal,
+								groupMembers: $uiState.activePerson.relationships.grandparentsMaternal,
 								compatibleGroups: grandparentsCompatibleGroups
 							}}
 						/>
@@ -64,7 +65,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.grandparentsPaternal.id,
 								groupName: relationshipMap.grandparentsPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.grandparentsPaternal,
+								groupMembers: $uiState.activePerson.relationships.grandparentsPaternal,
 								compatibleGroups: grandparentsCompatibleGroups
 							}}
 						/>
@@ -76,7 +77,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesPaternal.id,
 								groupName: relationshipMap.greatAunclesPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.greatAunclesPaternal,
+								groupMembers: $uiState.activePerson.relationships.greatAunclesPaternal,
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
 						/>
@@ -89,7 +90,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesMaternal.id,
 								groupName: relationshipMap.aunclesMaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.aunclesMaternal,
+								groupMembers: $uiState.activePerson.relationships.aunclesMaternal,
 								compatibleGroups: aunclesCompatibleGroups
 							}}
 						/>
@@ -98,7 +99,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsMaternal.id,
 								groupName: relationshipMap.stepparentsMaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.stepparentsMaternal,
+								groupMembers: $uiState.activePerson.relationships.stepparentsMaternal,
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
@@ -108,7 +109,7 @@
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
 							groupName: relationshipMap.parents.label,
-							groupMembers: $familyTreeData.activePerson.relationships.parents,
+							groupMembers: $uiState.activePerson.relationships.parents,
 							compatibleGroups: parentsCompatibleGroups
 						}}
 					/>
@@ -118,7 +119,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsPaternal.id,
 								groupName: relationshipMap.stepparentsPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.stepparentsPaternal,
+								groupMembers: $uiState.activePerson.relationships.stepparentsPaternal,
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
@@ -127,7 +128,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesPaternal.id,
 								groupName: relationshipMap.aunclesPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.aunclesPaternal,
+								groupMembers: $uiState.activePerson.relationships.aunclesPaternal,
 								compatibleGroups: aunclesCompatibleGroups
 							}}
 						/>
@@ -136,7 +137,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.parentsInLaw.id,
 								groupName: relationshipMap.parentsInLaw.label,
-								groupMembers: $familyTreeData.activePerson.relationships.parentsInLaw,
+								groupMembers: $uiState.activePerson.relationships.parentsInLaw,
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
@@ -152,7 +153,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.siblingsInLaw.id,
 								groupName: relationshipMap.siblingsInLaw.label,
-								groupMembers: $familyTreeData.activePerson.relationships.siblingsInLaw,
+								groupMembers: $uiState.activePerson.relationships.siblingsInLaw,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -161,7 +162,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.stepsiblings.id,
 								groupName: relationshipMap.stepsiblings.label,
-								groupMembers: $familyTreeData.activePerson.relationships.stepsiblings,
+								groupMembers: $uiState.activePerson.relationships.stepsiblings,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -169,7 +170,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.halfSiblingsMaternal.id,
 								groupName: relationshipMap.halfSiblingsMaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.halfSiblingsMaternal,
+								groupMembers: $uiState.activePerson.relationships.halfSiblingsMaternal,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -177,7 +178,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.siblings.id,
 								groupName: relationshipMap.siblings.label,
-								groupMembers: $familyTreeData.activePerson.relationships.siblings,
+								groupMembers: $uiState.activePerson.relationships.siblings,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -188,7 +189,10 @@
 						id="active-person-container"
 						class="active-person-container"
 					>
-						<PersonNode sPersonId={$familyTreeData.activePerson.id} sNodeSize={stylingConstants.sizes.personNodeActiveSize} />
+						<PersonNode
+							sPersonId={$uiState.activePerson.id}
+							sNodeSize={stylingConstants.sizes.personNodeActiveSize}
+						/>
 					</div>
 
 					<div slot="row-right-flank" class="row-flank">
@@ -196,7 +200,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.halfSiblingsPaternal.id,
 								groupName: relationshipMap.halfSiblingsPaternal.label,
-								groupMembers: $familyTreeData.activePerson.relationships.halfSiblingsPaternal,
+								groupMembers: $uiState.activePerson.relationships.halfSiblingsPaternal,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -205,7 +209,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.spouses.id,
 								groupName: relationshipMap.spouses.label,
-								groupMembers: $familyTreeData.activePerson.relationships.spouses,
+								groupMembers: $uiState.activePerson.relationships.spouses,
 								compatibleGroups: spouseCompatibleGroups
 							}}
 						/>
@@ -214,7 +218,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.spouseStepsiblings.id,
 								groupName: relationshipMap.spouseStepsiblings.label,
-								groupMembers: $familyTreeData.activePerson.relationships.spouseStepsiblings,
+								groupMembers: $uiState.activePerson.relationships.spouseStepsiblings,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
@@ -223,7 +227,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.exSpouses.id,
 								groupName: relationshipMap.exSpouses.label,
-								groupMembers: $familyTreeData.activePerson.relationships.exSpouses,
+								groupMembers: $uiState.activePerson.relationships.exSpouses,
 								compatibleGroups: spouseCompatibleGroups
 							}}
 						/>
@@ -239,7 +243,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.niblings.id,
 								groupName: relationshipMap.niblings.label,
-								groupMembers: $familyTreeData.activePerson.relationships.niblings,
+								groupMembers: $uiState.activePerson.relationships.niblings,
 								compatibleGroups: niblingsCompatibleGroups
 							}}
 						/>
@@ -249,7 +253,7 @@
 						personNodeGroupData={{
 							groupId: relationshipMap.children.id,
 							groupName: relationshipMap.children.label,
-							groupMembers: $familyTreeData.activePerson.relationships.children,
+							groupMembers: $uiState.activePerson.relationships.children,
 							compatibleGroups: childrenCompatibleGroups
 						}}
 					/>
@@ -259,7 +263,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.stepchildren.id,
 								groupName: relationshipMap.stepchildren.label,
-								groupMembers: $familyTreeData.activePerson.relationships.stepchildren,
+								groupMembers: $uiState.activePerson.relationships.stepchildren,
 								compatibleGroups: childrenCompatibleGroups
 							}}
 						/>
@@ -268,7 +272,7 @@
 							personNodeGroupData={{
 								groupId: relationshipMap.childrenInLaw.id,
 								groupName: relationshipMap.childrenInLaw.label,
-								groupMembers: $familyTreeData.activePerson.relationships.childrenInLaw,
+								groupMembers: $uiState.activePerson.relationships.childrenInLaw,
 								compatibleGroups: childrenCompatibleGroups
 							}}
 						/>

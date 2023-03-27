@@ -38,7 +38,7 @@
 
 	$: {
 		// is this node the active person?
-		if (sPersonId === $familyTreeData.activePerson.id) {
+		if (sPersonId === $uiState.activePerson.id) {
 			bIsActivePerson = true;
 		} else {
 			bIsActivePerson = false;
@@ -79,7 +79,7 @@
 		}
 
 		// clicking on the active person will pull up the detailed view
-		if (sPersonId === $familyTreeData.activePerson.id) {
+		if (sPersonId === $uiState.activePerson.id) {
 			// TODO: show person detail view
 		} else {
 			// clicking on anyone else makes them the active person
@@ -135,7 +135,7 @@
 				{sRelationshipId}
 				{bIsActivePerson}
 			/>
-			{#if sPersonId !== $familyTreeData.activePerson.id}
+			{#if sPersonId !== $uiState.activePerson.id}
 				<RelationshipTypePicker
 					bEnabled={bIsNodeInEditMode}
 					{sPersonId}
@@ -145,7 +145,7 @@
 				/>
 			{/if}
 		</div>
-		{#if bIsNodeInEditMode && $familyTreeData.aAvailablePeopleIdsFiltered.length > 0}
+		{#if bIsNodeInEditMode && $uiState.aPersonIdsOffScreenFiltered.length > 0}
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>
