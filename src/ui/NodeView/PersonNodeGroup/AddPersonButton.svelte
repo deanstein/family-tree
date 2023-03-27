@@ -7,12 +7,11 @@
 
 	import {
 		createNewPerson,
-		addOrUpdatePersonInActivePersonGroup,
 		addOrUpdateActivePersonInNewPersonGroup,
 		addPersonToPeopleArray,
 		getDefaultRelationshipType
 	} from '../../../logic/personManagement';
-	import { startNodeEditingMode } from '../../../logic/uiManagement';
+	import { startNodeEditingMode, addOrUpdatePersonInActivePersonGroup } from '../../../logic/uiManagement';
 
 	export let groupId;
 

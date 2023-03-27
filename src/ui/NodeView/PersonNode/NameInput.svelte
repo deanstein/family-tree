@@ -2,8 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../../stores/stylingConstants';
-	import { updateAvailablePeopleIdsFilteredArray } from '../../../logic/personManagement';
-	import { endNodeEditingMode, setTempNodeEditName } from '../../../logic/uiManagement.js';
+	import { endNodeEditingMode, setTempNodeEditName, updateOffScreenPeopleIdsArray } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;
@@ -34,7 +33,7 @@
 
 	const onKeyUpAction = (event) => {
 		setTempNodeEditName(event.target.value);
-		updateAvailablePeopleIdsFilteredArray(event.target.value);
+		updateOffScreenPeopleIdsArray(event.target.value);
 	};
 
 	const deselectText = () => {

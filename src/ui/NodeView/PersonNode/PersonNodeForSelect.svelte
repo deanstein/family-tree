@@ -6,11 +6,14 @@
 
 	import {
 		getPersonById,
+		removePersonFromPeopleArray,
+	} from '../../../logic/personManagement';
+
+	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup,
-		removePersonFromPeopleArray,
-		addPersonIdToActiveRelatedPeopleIdsArray
-	} from '../../../logic/personManagement';
+		addPersonIdToOnScreenPeopleIdsArray
+	}  from '../../../logic/uiManagement';
 
 	import Avatar from './Avatar.svelte';
 	import NameInput from './NameInput.svelte';
@@ -20,7 +23,7 @@
 
 	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
-		addPersonIdToActiveRelatedPeopleIdsArray(sPersonId);
+		addPersonIdToOnScreenPeopleIdsArray(sPersonId);
 		removePersonFromActivePersonGroup($uiState.sPersonIdForNodeEdit, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($uiState.sPersonIdForNodeEdit));
 		//unsetActiveNodeEditId();

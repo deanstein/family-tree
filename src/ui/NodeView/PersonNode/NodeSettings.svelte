@@ -5,7 +5,7 @@
 
 	import stylingConstants from '../../../stores/stylingConstants';
 
-	import { removePersonFromActivePersonGroup } from '../../../logic/personManagement';
+	import { removePersonFromActivePersonGroup } from '../../../logic/uiManagement.js';
 	import {
 		startNodeEditingMode,
 		endNodeEditingMode,

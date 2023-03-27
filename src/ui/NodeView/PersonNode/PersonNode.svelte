@@ -10,10 +10,13 @@
 		getPersonById,
 		upgradePersonData,
 		setActivePerson,
-		addPersonIdToActiveRelatedPeopleIdsArray,
-		removePersonIdFromActiveRelatedPeopleIdsArray,
 		addActivePersonToPeopleArray
 	} from '../../../logic/personManagement';
+
+	import {
+		addPersonIdToOnScreenPeopleIdsArray,
+		addPersonIdToOffScreenPeopleIdsArray
+	} from '../../../logic/uiManagement';
 
 	import { defaultPerson } from '../../../stores/relationshipMap';
 	import familyTreeData from '../../../stores/familyTreeData';
@@ -108,11 +111,11 @@
 	});
 
 	onMount(() => {
-		addPersonIdToActiveRelatedPeopleIdsArray(sPersonId);
+		addPersonIdToOnScreenPeopleIdsArray(sPersonId);
 	});
 
 	onDestroy(() => {
-		removePersonIdFromActiveRelatedPeopleIdsArray(sPersonId);
+		addPersonIdToOffScreenPeopleIdsArray(sPersonId);
 	});
 </script>
 

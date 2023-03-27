@@ -3,7 +3,7 @@
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup
-	} from '../../../logic/personManagement';
+	}  from '../../../logic/uiManagement';
 
 	import relationshipMap from '../../../stores/relationshipMap';
 	import stylingConstants from '../../../stores/stylingConstants';

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import uiState from '../stores/uiState';
+import { addOrUpdatePersonInActivePersonGroup, removePersonFromActivePersonGroup } from './uiManagement';
 
 import familyTreeData from '../stores/familyTreeData';
 import relationshipMap from '../stores/relationshipMap';
@@ -111,105 +112,6 @@ export const addActivePersonToPeopleArray = () => {
 	});
 };
 
-export const addPersonIdToActiveRelatedPeopleIdsArray = (sPersonId) => {
-	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
-
-		if (nActiveRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aPersonIdsOnScreen.push(sPersonId);
-		}
-
-		if (nAvailableRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aPersonIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
-		}
-
-		//console.log('Added', sPersonId)
-
-		return currentValue;
-	});
-};
-
-export const removePersonIdFromActiveRelatedPeopleIdsArray = (sPersonId) => {
-	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
-
-		if (nActiveRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aPersonIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
-		}
-
-		if (nAvailableRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aPersonIdsOffScreen.push(sPersonId);
-		}
-
-		//console.log('Removed', sPersonId)
-
-		return currentValue;
-	});
-};
-
-export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
-	uiState.update((currentValue) => {
-		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
-
-		const personReferenceObject = {
-			id: sPersonId,
-			relationshipId: sRelationshipId
-		};
-
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
-			(personObject) => {
-				if (personObject.id === sPersonId) return personReferenceObject;
-			}
-		);
-		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
-			foundPersonReferenceObject
-		);
-
-		// only add if it doesn't exist yet
-		if (!foundPersonReferenceObject) {
-			currentValue.activePerson.relationships[sGroupId].push(personReferenceObject);
-			// but if it exists, update with the new relationship id
-		} else {
-			console.log('blocked from adding');
-			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId =
-				sRelationshipId;
-		}
-
-		return currentValue;
-	});
-};
-
-export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) => {
-	uiState.update((currentValue) => {
-		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
-
-		const personReferenceObject = {
-			id: sPersonId,
-			relationshipId: sRelationshipId
-		};
-
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
-			(personObject) => {
-				if (personObject.id === sPersonId) return personReferenceObject;
-			}
-		);
-
-		const nSpliceIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
-			foundPersonReferenceObject
-		);
-
-		if (nSpliceIndex > -1) {
-			currentValue.activePerson.relationships[sGroupId].splice(nSpliceIndex, 1);
-		}
-
-		return currentValue;
-	});
-};
-
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	familyTreeData.update((currentValue) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
@@ -240,34 +142,6 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			// but if it exists, update with the new relationship id
 		} else {
 			person.relationships[sInverseGroupId][nGroupIndex].relationshipId = sInverseRelationshipId;
-		}
-
-		return currentValue;
-	});
-};
-
-export const updateAvailablePeopleIdsFilteredArray = (sFilter) => {
-	const sFilterUppercase = sFilter.toUpperCase();
-
-	uiState.update((currentValue) => {
-		currentValue.aPersonIdsOffScreenFiltered = [];
-
-		// for each id, get name and see if the filter is contained in the name
-		currentValue.aPersonIdsOffScreen.forEach((sPersonId) => {
-			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
-			if (sPersonName.indexOf(sFilterUppercase) > -1) {
-				currentValue.aPersonIdsOffScreenFiltered.push(sPersonId);
-			} else {
-				const nPersonIdIndex = currentValue.aPersonIdsOffScreenFiltered.indexOf(sPersonId);
-				if (nPersonIdIndex != -1) {
-					currentValue.aPersonIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
-				}
-			}
-		});
-
-		// if nothing in the text box, show all available people
-		if (sFilterUppercase === '') {
-			currentValue.aPersonIdsOffScreenFiltered = currentValue.aPersonIdsOffScreen;
 		}
 
 		return currentValue;
