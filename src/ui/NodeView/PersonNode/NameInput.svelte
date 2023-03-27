@@ -2,7 +2,11 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../../stores/stylingConstants';
-	import { endNodeEditingMode, setTempNodeEditName, updateOffScreenPeopleIdsArray } from '../../../logic/uiManagement.js';
+	import {
+		endNodeEditingMode,
+		setTempNodeEditName,
+		updateOffScreenPeopleIdsArray
+	} from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
 	export let sRelationshipId;

@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import uiState from '../stores/uiState';
-import { addOrUpdatePersonInActivePersonGroup, removePersonFromActivePersonGroup } from './uiManagement';
+import {
+	addOrUpdatePersonInActivePersonGroup,
+	removePersonFromActivePersonGroup
+} from './uiManagement';
 
 import familyTreeData from '../stores/familyTreeData';
 import relationshipMap from '../stores/relationshipMap';

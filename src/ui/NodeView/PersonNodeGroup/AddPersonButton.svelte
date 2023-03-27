@@ -11,7 +11,10 @@
 		addPersonToPeopleArray,
 		getDefaultRelationshipType
 	} from '../../../logic/personManagement';
-	import { startNodeEditingMode, addOrUpdatePersonInActivePersonGroup } from '../../../logic/uiManagement';
+	import {
+		startNodeEditingMode,
+		addOrUpdatePersonInActivePersonGroup
+	} from '../../../logic/uiManagement';
 
 	export let groupId;
 

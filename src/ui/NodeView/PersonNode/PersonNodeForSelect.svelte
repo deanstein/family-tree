@@ -4,16 +4,13 @@
 	import uiState from '../../../stores/uiState';
 	import stylingConstants from '../../../stores/stylingConstants';
 
-	import {
-		getPersonById,
-		removePersonFromPeopleArray,
-	} from '../../../logic/personManagement';
+	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/personManagement';
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup,
 		addPersonIdToOnScreenPeopleIdsArray
-	}  from '../../../logic/uiManagement';
+	} from '../../../logic/uiManagement';
 
 	import Avatar from './Avatar.svelte';
 	import NameInput from './NameInput.svelte';
