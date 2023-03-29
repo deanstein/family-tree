@@ -1,0 +1,27 @@
+name: Update family-tree-data-test.json
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-family-tree-data-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Send family tree data to GitHub repo
+        run: |
+          node -e "require('./path/to/your/module').sendFamilyTreeDataToRepo()"
+        env:
+          GITHUB_TOKEN: ${{ secrets.FAMILY-TREE-DATA-PAT }}
