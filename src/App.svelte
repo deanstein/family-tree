@@ -18,7 +18,7 @@
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
-	import StoreView from './ui/StoreView.svelte';
+	import StoreView from './ui/StoreView/StoreView.svelte';
 
 	let sAppVersion = '0.6.1';
 	let sDataVersion = relationshipMap.sDataVersion;

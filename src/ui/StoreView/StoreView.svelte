@@ -1,27 +1,12 @@
 <script>
-	import familyTreeData from '../stores/familyTreeData';
-	import { getFamilyTreeDataFromRepo, writeCurrentFamilyTreeDataToRepo } from '../logic/persistenceManagement';
-
-	const getDataButtonOnclickAction = () => {
-		getFamilyTreeDataFromRepo('0', '8890');
-	}
-
-	const setDataButtonOnClickAction = () => {
-		writeCurrentFamilyTreeDataToRepo();
-	}
+	import familyTreeData from '../../stores/familyTreeData';
+	import StoreViewToolbar from './StoreViewToolbar.svelte';
 </script>
 
 <div id="storeview-outer-container" class="storeview-outer-container">
 	<div id="storeview-inner-container" class="storeview-inner-container">
-		<div id="storeview-title" class="storeview-title">
-			<div id='testWriteButton' >
-				<button on:click={getDataButtonOnclickAction}>
-					GET DATA
-				</button>
-				<button on:click={setDataButtonOnClickAction}>
-					SEND DATA
-				</button>
-			</div>StoreView</div>
+		<div id="storeview-title" class="storeview-title">StoreView</div>
+		<StoreViewToolbar />
 		<div id="storeview-output" class="storeview-output">
 			{JSON.stringify($familyTreeData)}
 		</div>

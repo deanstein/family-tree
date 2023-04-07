@@ -22,7 +22,6 @@ export const getFileFromRepo = async (fileName, password) => {
     })
     .then(data => {
       fileData = data;
-      //console.log(fileData);
     })
     .catch(error => {
       console.error('There was a problem fetching the JSON file:', error);
