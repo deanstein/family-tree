@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 
 	const avatarContainerDynamicClass = css`
 		margin-top: ${stylingConstants.sizes.padding};

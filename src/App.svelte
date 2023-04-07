@@ -11,9 +11,11 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups
 	} from './stores/relationshipMap';
-	import stylingConstants from './stores/stylingConstants';
+	import stylingConstants from './ui/stylingConstants';
 
+	import { getFamilyTreeDataFromRepo, writeCurrentFamilyTreeDataToRepo } from './logic/persistenceManagement';
 	import { setActivePerson } from './logic/personManagement';
+	import { decrypt } from './logic/utils';
 
 	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
@@ -21,7 +23,7 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView.svelte';
 
-	let sAppVersion = '0.5.0';
+	let sAppVersion = '0.6.0';
 	let sDataVersion = relationshipMap.sDataVersion;
 	let bHideEmptyGroups = false;
 

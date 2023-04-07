@@ -21,7 +21,7 @@
 	import { defaultPerson } from '../../../stores/relationshipMap';
 	import familyTreeData from '../../../stores/familyTreeData';
 	import uiState from '../../../stores/uiState';
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 
 	import Avatar from './Avatar.svelte';
 	import NodeSettingsButton from './NodeSettings.svelte';

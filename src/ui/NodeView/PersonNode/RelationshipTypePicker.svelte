@@ -6,7 +6,7 @@
 	} from '../../../logic/uiManagement';
 
 	import relationshipMap from '../../../stores/relationshipMap';
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 	import { setTempRelationshipId, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
 
 	export let sPersonId;

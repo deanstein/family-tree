@@ -27,6 +27,7 @@
     "@emotion/styled": "^11.10.5",
     "@sveltejs/adapter-auto": "^1.0.2",
     "buffer": "^6.0.3",
+    "crypto-js": "^4.1.1",
     "uuid": "^9.0.0"
   }
 }

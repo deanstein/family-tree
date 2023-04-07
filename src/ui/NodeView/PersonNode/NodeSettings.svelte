@@ -3,7 +3,7 @@
 
 	import uiState from '../../../stores/uiState';
 
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 
 	import { removePersonFromActivePersonGroup } from '../../../logic/uiManagement.js';
 	import {
@@ -12,6 +12,7 @@
 		toggleNodeSettingsFlyout,
 		hideNodeSettingsFlyout
 	} from '../../../logic/uiManagement.js';
+	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/personManagement';
 
 	export let sPersonId;
 	export let sRelationshipId;
@@ -56,6 +57,11 @@
 	const onRemoveButtonClick = () => {
 		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
 	};
+
+	const onDeleteButtonClick = () => {
+		removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
+		removePersonFromPeopleArray(getPersonById(sPersonId));
+	};
 </script>
 
 <div id="node-settings-button-container" class="node-settings-button-container">
@@ -74,8 +80,9 @@
 			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"
 		>
 			<ul>
-				<li><a on:click|stopPropagation={onEditButtonClick}>Edit</a></li>
-				<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove</a></li>
+				<li><a on:click|stopPropagation={onEditButtonClick}>Edit Relationship</a></li>
+				<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove Relationship</a></li>
+				<li><a on:click|stopPropagation={onRemoveButtonClick}>Delete Person</a></li>
 			</ul>
 		</div>
 	{/if}

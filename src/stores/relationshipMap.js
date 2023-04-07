@@ -4,7 +4,7 @@ const relationshipMap = {
 	sDataVersion: sDataVersion,
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
-		label: 'Maternal Grandparents',
+		label: 'Grandparents (M)',
 		grandparentMaternal: {
 			id: 'grandparentMaternal',
 			label: 'maternal grandparent'
@@ -20,7 +20,7 @@ const relationshipMap = {
 	},
 	grandparentsPaternal: {
 		id: 'grandparentsPaternal',
-		label: 'Paternal Grandparents',
+		label: 'Grandparents (P)',
 		grandparentPaternal: {
 			id: 'grandparentPaternal',
 			label: 'paternal grandparent'
@@ -36,7 +36,7 @@ const relationshipMap = {
 	},
 	greatAunclesMaternal: {
 		id: 'greatAunclesMaternal',
-		label: 'Maternal Great Aunts/Uncles',
+		label: 'Great Aunts/Uncles (M)',
 		greatAuncleMaternal: {
 			id: 'greatAuncleMaternal',
 			label: 'maternal great aunt or uncle'
@@ -52,7 +52,7 @@ const relationshipMap = {
 	},
 	greatAunclesPaternal: {
 		id: 'greatAunclesPaternal',
-		label: 'Paternal Great Aunts/Uncles',
+		label: 'Great Aunts/Uncles (P)',
 		greatAunclePaternal: {
 			id: 'greatAunclePaternal',
 			label: 'paternal great aunt or uncle'
@@ -132,7 +132,7 @@ const relationshipMap = {
 	},
 	aunclesMaternal: {
 		id: 'aunclesMaternal',
-		label: 'Maternal Aunts/Uncles',
+		label: 'Aunts/Uncles (M)',
 		auntMaternal: {
 			id: 'auntMaternal',
 			label: 'maternal aunt'
@@ -144,7 +144,7 @@ const relationshipMap = {
 	},
 	aunclesPaternal: {
 		id: 'aunclesPaternal',
-		label: 'Paternal Aunts/Uncles',
+		label: 'Aunts/Uncles (P)',
 		auntPaternal: {
 			id: 'auntPaternal',
 			label: 'paternal aunt'
@@ -188,7 +188,7 @@ const relationshipMap = {
 	},
 	halfSiblingsMaternal: {
 		id: 'halfSiblingsMaternal',
-		label: 'Maternal Half Siblings',
+		label: 'Half Siblings (M)',
 		halfSiblingMaternal: {
 			id: 'halfSiblingMaternal',
 			label: 'half sibling'
@@ -204,7 +204,7 @@ const relationshipMap = {
 	},
 	halfSiblingsPaternal: {
 		id: 'halfSiblingsPaternal',
-		label: 'Paternal Half Siblings',
+		label: 'Half Siblings (P)',
 		halfsiblingPaternal: {
 			id: 'halfSiblingPaternal',
 			label: 'half sibling'

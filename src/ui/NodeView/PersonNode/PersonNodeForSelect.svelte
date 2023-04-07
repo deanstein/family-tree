@@ -2,7 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import uiState from '../../../stores/uiState';
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 
 	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/personManagement';
 

@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import stylingConstants from '../../../stores/stylingConstants';
+	import stylingConstants from '../../stylingConstants';
 	import PersonNodeAddButton from '../PersonNodeGroup/AddPersonButton.svelte';
 
 	export let relationshipId;
