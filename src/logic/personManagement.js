@@ -53,7 +53,7 @@ export const setPersonName = (sPersonId, sName) => {
 export const setPersonNameFromTemporaryState = (sPersonId) => {
 	let temporaryName;
 	uiState.subscribe((currentValue) => {
-		temporaryName = currentValue.sPersonNameTemporaryValue;
+		temporaryName = currentValue.personNameTemporaryValue;
 	});
 
 	setPersonName(sPersonId, temporaryName);
@@ -67,7 +67,7 @@ export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRe
 export const setPersonRelationshipFromTemporaryState = (sPersonId, sExistingRelationshipId) => {
 	let temporaryRelationship;
 	uiState.subscribe((currentValue) => {
-		temporaryRelationship = currentValue.sRelationshipIdTemporaryValue;
+		temporaryRelationship = currentValue.relationshipIdTemporaryValue;
 	});
 
 	setPersonRelationship(sPersonId, sExistingRelationshipId, temporaryRelationship);

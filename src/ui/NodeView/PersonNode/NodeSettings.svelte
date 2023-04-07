@@ -74,7 +74,7 @@
 			: () => toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
 	>
 
-	{#if $uiState.sPersonIdForNodeSettingsFlyout == sPersonId}
+	{#if $uiState.personIdForNodeSettingsFlyout == sPersonId}
 		<div
 			id="node-settings-flyout-menu"
 			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"

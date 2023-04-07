@@ -21,8 +21,8 @@
 	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
 		addPersonIdToOnScreenPeopleIdsArray(sPersonId);
-		removePersonFromActivePersonGroup($uiState.sPersonIdForNodeEdit, sRelationshipId);
-		removePersonFromPeopleArray(getPersonById($uiState.sPersonIdForNodeEdit));
+		removePersonFromActivePersonGroup($uiState.personIdForNodeEdit, sRelationshipId);
+		removePersonFromPeopleArray(getPersonById($uiState.personIdForNodeEdit));
 		//unsetActiveNodeEditId();
 		//setActiveNodeEditId(sPersonId)
 	};

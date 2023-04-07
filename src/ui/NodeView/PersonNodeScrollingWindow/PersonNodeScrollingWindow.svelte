@@ -7,7 +7,7 @@
 	export let sRelationshipId;
 
 	onMount(() => {
-		console.log($uiState.aPersonIdsOffScreen, $uiState.aPersonIdsOffScreenFiltered);
+		console.log($uiState.personIdsOffScreen, $uiState.personIdsOffScreenFiltered);
 	});
 </script>
 
@@ -17,7 +17,7 @@
 	on:click|stopPropagation
 	on:keypress|stopPropagation
 >
-	{#each $uiState.aPersonIdsOffScreenFiltered as sPersonId}
+	{#each $uiState.personIdsOffScreenFiltered as sPersonId}
 		<PersonNodeForSelect {sPersonId} {sRelationshipId} />
 	{/each}
 </div>

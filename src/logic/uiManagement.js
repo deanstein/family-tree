@@ -22,14 +22,14 @@ export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
 
 export const setActiveNodeEditId = (sPersonId) => {
 	uiState.update((currentValue) => {
-		currentValue.sPersonIdForNodeEdit = sPersonId;
+		currentValue.personIdForNodeEdit = sPersonId;
 		return currentValue;
 	});
 };
 
 export const unsetActiveNodeEditId = () => {
 	uiState.update((currentValue) => {
-		currentValue.sPersonIdForNodeEdit = undefined;
+		currentValue.personIdForNodeEdit = undefined;
 		return currentValue;
 	});
 };
@@ -37,7 +37,7 @@ export const unsetActiveNodeEditId = () => {
 // node editing mode - name
 export const setTempNodeEditName = (sName) => {
 	uiState.update((currentValue) => {
-		currentValue.sPersonNameTemporaryValue = sName;
+		currentValue.personNameTemporaryValue = sName;
 		return currentValue;
 	});
 };
@@ -45,7 +45,7 @@ export const setTempNodeEditName = (sName) => {
 // node editing mode - relationship
 export const setTempRelationshipId = (sRelationshipId) => {
 	uiState.update((currentValue) => {
-		currentValue.sRelationshipIdTemporaryValue = sRelationshipId;
+		currentValue.relationshipIdTemporaryValue = sRelationshipId;
 		return currentValue;
 	});
 };
@@ -57,7 +57,7 @@ export const showNodeSettingsFlyout = (sPersonId) => {
 
 const setActiveNodeSettingsFlyoutId = (sPersonId) => {
 	uiState.update((currentValue) => {
-		currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
+		currentValue.personIdForNodeSettingsFlyout = sPersonId;
 		return currentValue;
 	});
 };
@@ -68,17 +68,17 @@ export const hideNodeSettingsFlyout = () => {
 
 const unsetActiveNodeSettingsFlyoutId = () => {
 	uiState.update((currentValue) => {
-		currentValue.sPersonIdForNodeSettingsFlyout = undefined;
+		currentValue.personIdForNodeSettingsFlyout = undefined;
 		return currentValue;
 	});
 };
 
 export const toggleNodeSettingsFlyout = (sPersonId) => {
 	uiState.update((currentValue) => {
-		if (currentValue.sPersonIdForNodeSettingsFlyout == undefined) {
-			currentValue.sPersonIdForNodeSettingsFlyout = sPersonId;
+		if (currentValue.personIdForNodeSettingsFlyout == undefined) {
+			currentValue.personIdForNodeSettingsFlyout = sPersonId;
 		} else {
-			currentValue.sPersonIdForNodeSettingsFlyout = undefined;
+			currentValue.personIdForNodeSettingsFlyout = undefined;
 		}
 		return currentValue;
 	});
@@ -87,16 +87,16 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 // manage on/off screen people IDs
 export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
+		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
 		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
+			currentValue.personIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aPersonIdsOnScreen.push(sPersonId);
+			currentValue.personIdsOnScreen.push(sPersonId);
 		}
 
 		if (nAvailableRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aPersonIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
+			currentValue.personIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
 		}
 
 		//console.log('Added', sPersonId)
@@ -107,16 +107,16 @@ export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 
 export const addPersonIdToOffScreenPeopleIdsArray = (sPersonId) => {
 	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.aPersonIdsOnScreen.indexOf(sPersonId);
+		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
 		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.aPersonIdsOffScreen.indexOf(sPersonId);
+			currentValue.personIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex > -1) {
-			currentValue.aPersonIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
+			currentValue.personIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
 		}
 
 		if (nAvailableRelatedPersonIdSpliceIndex === -1) {
-			currentValue.aPersonIdsOffScreen.push(sPersonId);
+			currentValue.personIdsOffScreen.push(sPersonId);
 		}
 
 		//console.log('Removed', sPersonId)
@@ -188,24 +188,24 @@ export const updateOffScreenPeopleIdsArray = (sFilter) => {
 	const sFilterUppercase = sFilter.toUpperCase();
 
 	uiState.update((currentValue) => {
-		currentValue.aPersonIdsOffScreenFiltered = [];
+		currentValue.personIdsOffScreenFiltered = [];
 
 		// for each id, get name and see if the filter is contained in the name
-		currentValue.aPersonIdsOffScreen.forEach((sPersonId) => {
+		currentValue.personIdsOffScreen.forEach((sPersonId) => {
 			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
 			if (sPersonName.indexOf(sFilterUppercase) > -1) {
-				currentValue.aPersonIdsOffScreenFiltered.push(sPersonId);
+				currentValue.personIdsOffScreenFiltered.push(sPersonId);
 			} else {
-				const nPersonIdIndex = currentValue.aPersonIdsOffScreenFiltered.indexOf(sPersonId);
+				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
 				if (nPersonIdIndex != -1) {
-					currentValue.aPersonIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
+					currentValue.personIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
 				}
 			}
 		});
 
 		// if nothing in the text box, show all available people
 		if (sFilterUppercase === '') {
-			currentValue.aPersonIdsOffScreenFiltered = currentValue.aPersonIdsOffScreen;
+			currentValue.personIdsOffScreenFiltered = currentValue.personIdsOffScreen;
 		}
 
 		return currentValue;

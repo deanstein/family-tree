@@ -48,7 +48,7 @@
 		}
 
 		// is this node in edit mode?
-		if (sPersonId === $uiState.sPersonIdForNodeEdit && sPersonId != undefined) {
+		if (sPersonId === $uiState.personIdForNodeEdit && sPersonId != undefined) {
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
@@ -59,8 +59,8 @@
 			height: ${sNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
 			background-color: ${stylingConstants.colors.sPersonNodeColor};
-			border: ${$uiState.sPersonIdForNodeEdit == sPersonId ||
-			$uiState.sPersonIdForNodeSettingsFlyout == sPersonId
+			border: ${$uiState.personIdForNodeEdit == sPersonId ||
+			$uiState.personIdForNodeSettingsFlyout == sPersonId
 				? `2px solid ${stylingConstants.colors.sHoverColor}`
 				: '2px solid transparent'};
 			:hover {
@@ -148,7 +148,7 @@
 				/>
 			{/if}
 		</div>
-		{#if bIsNodeInEditMode && $uiState.aPersonIdsOffScreenFiltered.length > 0}
+		{#if bIsNodeInEditMode && $uiState.personIdsOffScreenFiltered.length > 0}
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>

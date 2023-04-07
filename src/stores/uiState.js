@@ -2,13 +2,13 @@ import { writable } from 'svelte/store';
 
 const uiState = {
 	activePerson: {},
-	aPersonIdsOnScreen: [],
-	aPersonIdsOffScreen: [],
-	aPersonIdsOffScreenFiltered: [],
-	sPersonIdForNodeEdit: undefined,
-	sPersonIdForNodeSettingsFlyout: undefined,
-	sPersonNameTemporaryValue: undefined,
-	sRelationshipIdTemporaryValue: undefined
+	personIdsOnScreen: [],
+	personIdsOffScreen: [],
+	personIdsOffScreenFiltered: [],
+	personIdForNodeEdit: undefined,
+	personIdForNodeSettingsFlyout: undefined,
+	personNameTemporaryValue: undefined,
+	relationshipIdTemporaryValue: undefined
 };
 
 export default writable(uiState);
