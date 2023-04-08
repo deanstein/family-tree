@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store';
 
 const familyTreeData = {
-	sLastKnownActivePersonId: undefined,
-	aAllPeople: []
+	lastKnownActivePersonId: undefined,
+	allPeople: []
 };
 
 export default writable(familyTreeData);
