@@ -21,7 +21,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
 	});
 
 	// force an update by setting the active person
-	setActivePerson(getPersonById(newFamilyTreeData.sLastKnownActivePersonId))
+	setActivePerson(getPersonById(newFamilyTreeData.sLastKnownActivePersonId));
 };
 
 // node editing mode

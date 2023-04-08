@@ -10,9 +10,9 @@
 		await initializeFamilyTreeDataSelector();
 	});
 
-    afterUpdate(async () => {
-        await getRepoFamilyTreeAndSetActive('0', '8890');
-    })
+	afterUpdate(async () => {
+		await getRepoFamilyTreeAndSetActive('0', '8890');
+	});
 
 	// initialize the picker with the available family trees from the map
 	const initializeFamilyTreeDataSelector = async (event) => {
