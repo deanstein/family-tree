@@ -20,8 +20,8 @@ export const getPersonById = (id) => {
 	let person = undefined;
 
 	familyTreeData.subscribe((currentValue) => {
-		const { aAllPeople } = currentValue;
-		person = aAllPeople.find((item) => item.id === id);
+		const { allPeople } = currentValue;
+		person = allPeople.find((item) => item.id === id);
 	});
 
 	return person;
@@ -41,7 +41,7 @@ export const setActivePerson = (person) => {
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
-			sLastKnownActivePersonId: person.id
+			lastKnownActivePersonId: person.id
 		};
 	});
 };
@@ -49,7 +49,7 @@ export const setActivePerson = (person) => {
 export const setPersonName = (sPersonId, sName) => {
 	familyTreeData.update((currentValue) => {
 		let personIndex = getPersonIndexById(sPersonId);
-		currentValue.aAllPeople[personIndex].name = sName;
+		currentValue.allPeople[personIndex].name = sName;
 		return currentValue;
 	});
 };
@@ -81,7 +81,7 @@ export const getPersonIndexById = (personId) => {
 	let personIndex;
 
 	familyTreeData.subscribe((currentValue) => {
-		personIndex = currentValue.aAllPeople.findIndex((object) => object['id'] === personId);
+		personIndex = currentValue.allPeople.findIndex((object) => object['id'] === personId);
 	});
 
 	return personIndex;
@@ -89,16 +89,16 @@ export const getPersonIndexById = (personId) => {
 
 export const addPersonToPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
-		currentValue.aAllPeople.push(person);
+		currentValue.allPeople.push(person);
 		return currentValue;
 	});
 };
 
 export const removePersonFromPeopleArray = (person) => {
 	familyTreeData.update((currentValue) => {
-		const nSpliceIndex = currentValue.aAllPeople.indexOf(person);
+		const nSpliceIndex = currentValue.allPeople.indexOf(person);
 		if (nSpliceIndex > -1) {
-			currentValue.aAllPeople.splice(nSpliceIndex, 1);
+			currentValue.allPeople.splice(nSpliceIndex, 1);
 		}
 		return currentValue;
 	});
@@ -106,14 +106,14 @@ export const removePersonFromPeopleArray = (person) => {
 
 export const addActivePersonToPeopleArray = () => {
 	familyTreeData.update((currentValue) => {
-		const index = getPersonIndexById(currentValue.sLastKnownActivePersonId);
-		const activePerson = getPersonById(currentValue.sLastKnownActivePersonId);
+		const index = getPersonIndexById(currentValue.lastKnownActivePersonId);
+		const activePerson = getPersonById(currentValue.lastKnownActivePersonId);
 		return {
 			...currentValue,
-			aAllPeople: [
-				...currentValue.aAllPeople.slice(0, index),
+			allPeople: [
+				...currentValue.allPeople.slice(0, index),
 				activePerson,
-				...currentValue.aAllPeople.slice(index + 1)
+				...currentValue.allPeople.slice(index + 1)
 			]
 		};
 	});
@@ -124,19 +124,19 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
-		const person = currentValue.aAllPeople[nPersonIndex];
-		const nActivePersonIndex = getPersonIndexById(currentValue.sLastKnownActivePersonId);
-		const activePerson = currentValue.aAllPeople[nActivePersonIndex];
+		const person = currentValue.allPeople[nPersonIndex];
+		const nActivePersonIndex = getPersonIndexById(currentValue.lastKnownActivePersonId);
+		const activePerson = currentValue.allPeople[nActivePersonIndex];
 
 		//console.log (sInverseRelationshipId, sInverseGroupId, nPersonIndex, person, nActivePersonIndex, activePerson);
 
 		const personReferenceObject = {
-			id: currentValue.sLastKnownActivePersonId,
+			id: currentValue.lastKnownActivePersonId,
 			relationshipId: sInverseRelationshipId
 		};
 
 		const foundPersonReferenceObject = person.relationships[groupId].find(() => {
-			if (personReferenceObject.id === currentValue.sLastKnownActivePersonId)
+			if (personReferenceObject.id === currentValue.lastKnownActivePersonId)
 				return personReferenceObject;
 		});
 		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(

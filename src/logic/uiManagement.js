@@ -26,7 +26,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
 	});
 
 	// force an update by setting the active person
-	setActivePerson(getPersonById(newFamilyTreeData.sLastKnownActivePersonId));
+	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 };
 
 // node editing mode
@@ -111,7 +111,7 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 export const initializeOffScreenPeopleIdsArray = () => {
 	let allPeople = undefined;
 	familyTreeData.subscribe((currentValue) => {
-		allPeople = currentValue.aAllPeople.map(person => person.id);
+		allPeople = currentValue.allPeople.map(person => person.id);
 	})
 
 	uiState.update((currentValue) => {
