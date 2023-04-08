@@ -12,13 +12,10 @@
 </script>
 
 <div id="storeview-toolbar-outer-container" class="storeview-toolbar-outer-container">
-    <button on:click={getDataButtonOnclickAction}>
-        GET DATA
-    </button>
+    <FamilyTreeDataSelector />
     <button on:click={setDataButtonOnClickAction}>
         SEND DATA
     </button>
-    <FamilyTreeDataSelector />
 </div>
 
 <style>
