@@ -7,7 +7,7 @@
 	export let sRelationshipId;
 
 	onMount(() => {
-		console.log($uiState.personIdsOffScreen, $uiState.personIdsOffScreenFiltered);
+		//console.log($uiState.personIdsOffScreen, $uiState.personIdsOffScreenFiltered);
 	});
 </script>
 

@@ -19,7 +19,6 @@
 	} from '../../../logic/uiManagement';
 
 	import { defaultPerson } from '../../../stores/relationshipMap';
-	import familyTreeData from '../../../stores/familyTreeData';
 	import uiState from '../../../stores/uiState';
 	import stylingConstants from '../../stylingConstants';
 
