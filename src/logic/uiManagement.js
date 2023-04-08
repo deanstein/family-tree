@@ -108,6 +108,18 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 };
 
 // manage on/off screen people IDs
+export const initializeOffScreenPeopleIdsArray = () => {
+	let allPeople = undefined;
+	familyTreeData.subscribe((currentValue) => {
+		allPeople = currentValue.aAllPeople.map(person => person.id);
+	})
+
+	uiState.update((currentValue) => {
+		currentValue.personIdsOffScreen = allPeople;
+		return currentValue;
+	})
+}
+
 export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 	uiState.update((currentValue) => {
 		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
