@@ -1,3 +1,4 @@
+import familyTreeData from '../stores/familyTreeData';
 import { decrypt } from './utils';
 
 const repoOwner = 'deanstein';
