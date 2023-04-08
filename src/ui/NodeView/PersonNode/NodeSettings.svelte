@@ -82,7 +82,7 @@
 			<ul>
 				<li><a on:click|stopPropagation={onEditButtonClick}>Edit Relationship</a></li>
 				<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove Relationship</a></li>
-				<li><a on:click|stopPropagation={onRemoveButtonClick}>Delete Person</a></li>
+				<li><a on:click|stopPropagation={onDeleteButtonClick}>Delete Person</a></li>
 			</ul>
 		</div>
 	{/if}
