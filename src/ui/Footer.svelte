@@ -1,7 +1,6 @@
 <script>
 	export let sAppVersion;
 	export let sDataVersion;
-
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">

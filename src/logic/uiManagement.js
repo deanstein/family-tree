@@ -9,7 +9,6 @@ import {
 
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
-
 	// get the family tree data from the id
 	const familyTreeData = await getFamilyTreeDataFromRepo(familyTreeId, password);
 
@@ -18,7 +17,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
 		currentValue.activeFamilyTreeData = familyTreeData;
 		return currentValue;
 	});
-}
+};
 
 // node editing mode
 export const startNodeEditingMode = (sPersonId) => {
@@ -102,8 +101,7 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 	uiState.update((currentValue) => {
 		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.personIdsOffScreen.indexOf(sPersonId);
+		const nAvailableRelatedPersonIdSpliceIndex = currentValue.personIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex === -1) {
 			currentValue.personIdsOnScreen.push(sPersonId);
@@ -122,8 +120,7 @@ export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 export const addPersonIdToOffScreenPeopleIdsArray = (sPersonId) => {
 	uiState.update((currentValue) => {
 		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex =
-			currentValue.personIdsOffScreen.indexOf(sPersonId);
+		const nAvailableRelatedPersonIdSpliceIndex = currentValue.personIdsOffScreen.indexOf(sPersonId);
 
 		if (nActiveRelatedPersonIdSpliceIndex > -1) {
 			currentValue.personIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
