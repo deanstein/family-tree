@@ -23,7 +23,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
 	uiState.update((currentValue) => {
 		currentValue.activeFamilyTreeDataId = familyTreeId;
 		return currentValue;
-	})
+	});
 
 	// force an update by setting the active person
 	setActivePerson(getPersonById(newFamilyTreeData.sLastKnownActivePersonId));
@@ -136,7 +136,10 @@ export const addPersonIdToOffScreenPeopleIdsArray = (sPersonId) => {
 			currentValue.personIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
 		}
 
-		if (nAvailableRelatedPersonIdSpliceIndex === -1 && getPersonById(sPersonId) /* only addd if person is in tree */) {
+		if (
+			nAvailableRelatedPersonIdSpliceIndex === -1 &&
+			getPersonById(sPersonId) /* only addd if person is in tree */
+		) {
 			currentValue.personIdsOffScreen.push(sPersonId);
 		}
 
