@@ -28,6 +28,10 @@ export const getPersonById = (id) => {
 };
 
 export const setActivePerson = (person) => {
+	if (!person) {
+		person = createNewPerson();
+		addPersonToPeopleArray(person);
+	}
 	uiState.update((currentValue) => {
 		return {
 			...currentValue,

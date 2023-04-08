@@ -32,6 +32,10 @@ export const getFileFromRepo = async (fileName, password) => {
 };
 
 export const getFamilyTreeDataFromRepo = async (familyTreeDataId, password) => {
+  if (!familyTreeDataId || !password) {
+    return;
+  }
+
 	// first, get the family tree data map
 	const familyTreeDataMap = await getFileFromRepo('family-tree-data-map.json', password);
 

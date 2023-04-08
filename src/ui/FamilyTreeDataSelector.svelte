@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import { getFileFromRepo } from '../logic/persistenceManagement';
 	import { getRepoFamilyTreeAndSetActive } from '../logic/uiManagement';
 
@@ -10,8 +10,12 @@
 		await initializeFamilyTreeDataSelector();
 	});
 
+    afterUpdate(async () => {
+        await getRepoFamilyTreeAndSetActive('0', '8890');
+    })
+
 	// initialize the picker with the available family trees from the map
-	const initializeFamilyTreeDataSelector = async () => {
+	const initializeFamilyTreeDataSelector = async (event) => {
 		familyTreeDataMap = await getFileFromRepo('family-tree-data-map.json', '8890');
 	};
 
