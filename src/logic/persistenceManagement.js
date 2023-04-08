@@ -1,5 +1,6 @@
 import familyTreeData from '../stores/familyTreeData';
 import uiState from '../stores/uiState';
+import { getRepoFamilyTreeAndSetActive } from './uiManagement';
 import { decrypt } from './utils';
 
 const repoOwner = 'deanstein';
@@ -138,5 +139,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
   } else {
     console.error(`Failed to update file ${familyTreeDataFileName}.`);
   }
-  
+
+  // required to ensure the latest version of the file is used for the next update
+  getRepoFamilyTreeAndSetActive(familyTreeId, password);
 };
