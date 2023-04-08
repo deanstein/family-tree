@@ -10,7 +10,7 @@
 	};
 
 	const setDataButtonOnClickAction = () => {
-		writeCurrentFamilyTreeDataToRepo();
+		writeCurrentFamilyTreeDataToRepo('8890');
 	};
 </script>
 
