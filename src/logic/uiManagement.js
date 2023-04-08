@@ -1,10 +1,24 @@
 import uiState from '../stores/uiState';
+import { getFamilyTreeDataFromRepo } from './persistenceManagement';
 import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
 } from './personManagement';
+
+// get a family tree by id from the repo and set it as the current UI state
+export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
+
+	// get the family tree data from the id
+	const familyTreeData = await getFamilyTreeDataFromRepo(familyTreeId, password);
+
+	// update the ui state
+	uiState.update((currentValue) => {
+		currentValue.activeFamilyTreeData = familyTreeData;
+		return currentValue;
+	});
+}
 
 // node editing mode
 export const startNodeEditingMode = (sPersonId) => {

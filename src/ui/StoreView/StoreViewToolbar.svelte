@@ -1,5 +1,6 @@
 <script>
 	import { getFamilyTreeDataFromRepo, writeCurrentFamilyTreeDataToRepo } from '../../logic/persistenceManagement';
+	import FamilyTreeDataSelector from '../FamilyTreeDataSelector.svelte';
 
     const getDataButtonOnclickAction = () => {
         getFamilyTreeDataFromRepo('0', '8890');
@@ -17,6 +18,7 @@
     <button on:click={setDataButtonOnClickAction}>
         SEND DATA
     </button>
+    <FamilyTreeDataSelector />
 </div>
 
 <style>

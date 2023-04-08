@@ -38,11 +38,11 @@ export const getFamilyTreeDataFromRepo = async (familyTreeDataId, password) => {
   // get the family tree data from the map by id
   const foundMapData = Object.values(familyTreeDataMap).find((item) => item.id === familyTreeDataId);
 
+  // get the file name from which to read the json data
   const familyTreeDataFileName = foundMapData.fileName;
 
+  // the final family tree data is a json object 
   const familyTreeData = await getFileFromRepo(familyTreeDataFileName, password);
-
-  console.log(familyTreeData)
   return familyTreeData;
 }
 
