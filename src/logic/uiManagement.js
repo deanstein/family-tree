@@ -133,7 +133,7 @@ export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
 			currentValue.personIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
 		}
 
-		//console.log('Added', sPersonId)
+		//console.log('On screen:', sPersonId)
 
 		return currentValue;
 	});
@@ -155,7 +155,7 @@ export const addPersonIdToOffScreenPeopleIdsArray = (sPersonId) => {
 			currentValue.personIdsOffScreen.push(sPersonId);
 		}
 
-		//console.log('Removed', sPersonId)
+		//console.log('Off screen:', sPersonId)
 
 		return currentValue;
 	});
