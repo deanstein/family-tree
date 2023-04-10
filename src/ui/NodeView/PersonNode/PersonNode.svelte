@@ -1,8 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { onMount } from 'svelte';
-	import { onDestroy } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 
@@ -12,11 +10,6 @@
 		setActivePerson,
 		addActivePersonToPeopleArray
 	} from '../../../logic/personManagement';
-
-	import {
-		addPersonIdToOnScreenPeopleIdsArray,
-		addPersonIdToOffScreenPeopleIdsArray
-	} from '../../../logic/uiManagement';
 
 	import { defaultPerson } from '../../../stores/relationshipMap';
 	import uiState from '../../../stores/uiState';
@@ -107,14 +100,6 @@
 				`
 			};
 		}
-	});
-
-	onMount(() => {
-		addPersonIdToOnScreenPeopleIdsArray(sPersonId);
-	});
-
-	onDestroy(() => {
-		addPersonIdToOffScreenPeopleIdsArray(sPersonId);
 	});
 </script>
 

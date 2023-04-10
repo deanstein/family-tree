@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import uiState from '../stores/uiState';
 import {
 	addOrUpdatePersonInActivePersonGroup,
+	initializeOffScreenPeopleIdsArray,
+	updateOffScreenPeopleIdsArray,
 	removePersonFromActivePersonGroup
 } from './uiManagement';
 
@@ -28,6 +30,7 @@ export const getPersonById = (id) => {
 };
 
 export const setActivePerson = (person) => {
+	initializeOffScreenPeopleIdsArray();
 	if (!person) {
 		person = createNewPerson();
 		addPersonToPeopleArray(person);
@@ -44,6 +47,7 @@ export const setActivePerson = (person) => {
 			lastKnownActivePersonId: person.id
 		};
 	});
+	updateOffScreenPeopleIdsArray();
 };
 
 export const setPersonName = (sPersonId, sName) => {

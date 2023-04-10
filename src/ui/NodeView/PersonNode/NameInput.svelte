@@ -5,7 +5,7 @@
 	import {
 		endNodeEditingMode,
 		setTempNodeEditName,
-		updateOffScreenPeopleIdsArray
+		updateFilteredOffScreenPeopleIdsArray
 	} from '../../../logic/uiManagement.js';
 
 	export let sPersonId;
@@ -37,7 +37,7 @@
 
 	const onKeyUpAction = (event) => {
 		setTempNodeEditName(event.target.value);
-		updateOffScreenPeopleIdsArray(event.target.value);
+		updateFilteredOffScreenPeopleIdsArray(event.target.value);
 	};
 
 	const deselectText = () => {

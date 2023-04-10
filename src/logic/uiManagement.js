@@ -32,7 +32,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
 // node editing mode
 export const startNodeEditingMode = (sPersonId) => {
 	setActiveNodeEditId(sPersonId);
-	updateOffScreenPeopleIdsArray('Firstname Lastname');
+	updateFilteredOffScreenPeopleIdsArray('Firstname Lastname');
 };
 
 export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
@@ -111,52 +111,35 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 export const initializeOffScreenPeopleIdsArray = () => {
 	let allPeople = undefined;
 	familyTreeData.subscribe((currentValue) => {
-		allPeople = currentValue.allPeople.map(person => person.id);
-	})
+		allPeople = currentValue.allPeople.map((person) => person.id);
+	});
 
 	uiState.update((currentValue) => {
 		currentValue.personIdsOffScreen = allPeople;
 		return currentValue;
-	})
-}
-
-export const addPersonIdToOnScreenPeopleIdsArray = (sPersonId) => {
-	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex = currentValue.personIdsOffScreen.indexOf(sPersonId);
-
-		if (nActiveRelatedPersonIdSpliceIndex === -1) {
-			currentValue.personIdsOnScreen.push(sPersonId);
-		}
-
-		if (nAvailableRelatedPersonIdSpliceIndex > -1) {
-			currentValue.personIdsOffScreen.splice(nAvailableRelatedPersonIdSpliceIndex, 1);
-		}
-
-		//console.log('On screen:', sPersonId)
-
-		return currentValue;
 	});
 };
 
-export const addPersonIdToOffScreenPeopleIdsArray = (sPersonId) => {
+export const updateOffScreenPeopleIdsArray = () => {
 	uiState.update((currentValue) => {
-		const nActiveRelatedPersonIdSpliceIndex = currentValue.personIdsOnScreen.indexOf(sPersonId);
-		const nAvailableRelatedPersonIdSpliceIndex = currentValue.personIdsOffScreen.indexOf(sPersonId);
-
-		if (nActiveRelatedPersonIdSpliceIndex > -1) {
-			currentValue.personIdsOnScreen.splice(nActiveRelatedPersonIdSpliceIndex, 1);
+		const activePersonIndex = currentValue.personIdsOffScreen.indexOf(currentValue.activePerson.id);
+		if (activePersonIndex > -1) {
+			currentValue.personIdsOffScreen.splice(activePersonIndex, 1);
 		}
-
-		if (
-			nAvailableRelatedPersonIdSpliceIndex === -1 &&
-			getPersonById(sPersonId) /* only addd if person is in tree */
-		) {
-			currentValue.personIdsOffScreen.push(sPersonId);
+		const relationships = currentValue.activePerson.relationships;
+		for (const relationship in relationships) {
+			if (Array.isArray(relationships[relationship])) {
+				relationships[relationship].forEach((personObject) => {
+					if (personObject && typeof personObject === 'object' && personObject.id) {
+						const personId = personObject.id;
+						const index = currentValue.personIdsOffScreen.indexOf(personId);
+						if (index > -1) {
+							currentValue.personIdsOffScreen.splice(index, 1);
+						}
+					}
+				});
+			}
 		}
-
-		//console.log('Off screen:', sPersonId)
-
 		return currentValue;
 	});
 };
@@ -220,7 +203,7 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 	});
 };
 
-export const updateOffScreenPeopleIdsArray = (sFilter) => {
+export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 	const sFilterUppercase = sFilter.toUpperCase();
 
 	uiState.update((currentValue) => {

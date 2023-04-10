@@ -1,7 +1,10 @@
 <script>
 	import { afterUpdate, onMount } from 'svelte';
 	import { getFileFromRepo } from '../logic/persistenceManagement';
-	import { initializeOffScreenPeopleIdsArray, getRepoFamilyTreeAndSetActive } from '../logic/uiManagement';
+	import {
+		initializeOffScreenPeopleIdsArray,
+		getRepoFamilyTreeAndSetActive
+	} from '../logic/uiManagement';
 
 	let sInputValue;
 	let familyTreeDataMap;
@@ -22,7 +25,6 @@
 	const handleSelectChange = async (event) => {
 		const selectedValue = event.target.value;
 		await getRepoFamilyTreeAndSetActive(selectedValue, '8890');
-        initializeOffScreenPeopleIdsArray();
 	};
 </script>
 

@@ -8,8 +8,7 @@
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
-		removePersonFromActivePersonGroup,
-		addPersonIdToOnScreenPeopleIdsArray
+		removePersonFromActivePersonGroup
 	} from '../../../logic/uiManagement';
 
 	import Avatar from './Avatar.svelte';
@@ -20,7 +19,6 @@
 
 	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
-		addPersonIdToOnScreenPeopleIdsArray(sPersonId);
 		removePersonFromActivePersonGroup($uiState.personIdForNodeEdit, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($uiState.personIdForNodeEdit));
 		//unsetActiveNodeEditId();
