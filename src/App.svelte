@@ -20,9 +20,9 @@
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView/StoreView.svelte';
 
-	let sAppVersion = '0.6.4';
-	let sDataVersion = relationshipMap.sDataVersion;
-	let bHideEmptyGroups = false;
+	const sAppVersion = '0.6.4';
+	const sDataVersion = relationshipMap.sDataVersion;
+	const bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {

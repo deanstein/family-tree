@@ -20,6 +20,7 @@
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import NameInput from './NameInput.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
+	import Overlay from '../Overlay.svelte';
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -58,12 +59,6 @@
 			:hover {
 				border: 2px solid ${stylingConstants.colors.sHoverColor};
 			}
-		`;
-
-		personNodeOverlayDynamicClass = css`
-			z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex};
-			background-color: ${stylingConstants.colors.sOverlayColor};
-			opacity: ${stylingConstants.colors.overlayOpacity};
 		`;
 	}
 
@@ -137,7 +132,7 @@
 		{/if}
 	</div>
 	{#if bIsNodeInEditMode}
-		<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
+		<Overlay />
 	{/if}
 {/key}
 
@@ -163,13 +158,5 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-	}
-
-	.person-node-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
 	}
 </style>
