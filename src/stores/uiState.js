@@ -9,7 +9,8 @@ const uiState = {
 	personIdForNodeEdit: undefined,
 	personIdForNodeSettingsFlyout: undefined,
 	personNameTemporaryValue: undefined,
-	relationshipIdTemporaryValue: undefined
+	relationshipIdTemporaryValue: undefined,
+	showChooseTreeModal: false
 };
 
 export default writable(uiState);

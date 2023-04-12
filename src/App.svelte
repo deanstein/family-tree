@@ -19,8 +19,9 @@
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import StoreView from './ui/StoreView/StoreView.svelte';
+	import PasswordModal from './ui/ChooseTreeModal.svelte';
 
-	const sAppVersion = '0.6.4';
+	const sAppVersion = '0.6.5';
 	const sDataVersion = relationshipMap.sDataVersion;
 	const bHideEmptyGroups = false;
 
@@ -36,6 +37,7 @@
 
 <main>
 	<div id="app-container" class="app-container" on:contextmenu={blockContextMenu}>
+		<PasswordModal />
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
