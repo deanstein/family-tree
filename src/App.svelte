@@ -14,14 +14,15 @@
 	import stylingConstants from './ui/stylingConstants';
 	import { setActivePerson } from './logic/personManagement';
 
+	import DevTools from './ui/DevTools/DevTools.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
-	import StoreView from './ui/StoreView/StoreView.svelte';
+	import StoreView from './ui/DevTools/StoreView.svelte';
 	import PasswordModal from './ui/ChooseTreeModal.svelte';
 
-	const sAppVersion = '0.6.5';
+	const sAppVersion = '0.6.6';
 	const sDataVersion = relationshipMap.sDataVersion;
 	const bHideEmptyGroups = false;
 
@@ -282,7 +283,8 @@
 			</div>
 		</div>
 		<Footer {sAppVersion} {sDataVersion} />
-		<StoreView />
+		<DevTools />
+		<!-- <StoreView /> -->
 	</div>
 </main>
 
