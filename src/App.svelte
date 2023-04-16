@@ -1,4 +1,6 @@
 <script>
+	import { css } from '@emotion/css';
+
 	import familyTreeData from './stores/familyTreeData';
 	import uiState from './stores/uiState';
 	import relationshipMap, {
@@ -33,10 +35,17 @@
 	let blockContextMenu = (event) => {
 		event.preventDefault();
 	};
+
+	const appContainerDynamicClass = css`
+		a {
+		color: ${stylingConstants.colors.hyperlinkColor};
+		}
+	}
+	`;
 </script>
 
 <main>
-	<div id="app-container" class="app-container" on:contextmenu={blockContextMenu}>
+	<div id="app-container" class="app-container {appContainerDynamicClass}" on:contextmenu={blockContextMenu}>
 		<PasswordModal />
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">

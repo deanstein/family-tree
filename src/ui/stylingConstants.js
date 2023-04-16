@@ -4,7 +4,8 @@ const colors = {
 	sOverlayColor: 'gray',
 	overlayOpacity: '45%',
 	sNodeGroupColor: 'white',
-	sPersonNodeColor: '#ececec'
+	sPersonNodeColor: '#ececec',
+	hyperlinkColor: '#2373a3'
 };
 
 const sizes = {
