@@ -18,6 +18,13 @@
 		writeCurrentFamilyTreeDataToRepo('8890');
 	};
 
+	const toggleStoreView = () => {
+		uiState.update((currentValue) => {
+			currentValue.showStoreView = !currentValue.showStoreView;
+			return currentValue;
+		});
+	};
+
 	const toggleChooseTreeModal = () => {
 		uiState.update((currentValue) => {
 			currentValue.showChooseTreeModal = !currentValue.showChooseTreeModal;
@@ -30,15 +37,22 @@
 	<div id="dev-tools-title" class="dev-tools-title">DEV TOOLS</div>
 	<DevToolsSubheader subheaderTitle="Interface Tools" />
 	<DevToolbar>
-		<button on:click={toggleChooseTreeModal}> Toggle Choose Tree Modal </button>
+		<button on:click={toggleChooseTreeModal}>
+			{!$uiState.showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
+		</button>
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>
 		<FamilyTreeDataSelector />
-		<button on:click={getDataButtonOnclickAction}> GET DATA </button>
-		<button on:click={setDataButtonOnClickAction}> SEND DATA </button>
+		<button on:click={getDataButtonOnclickAction}> Get Data </button>
+		<button on:click={setDataButtonOnClickAction}> Send Data </button>
+		<button on:click={toggleStoreView}>
+			{!$uiState.showStoreView ? 'Show' : 'Hide'} Store View
+		</button>
 	</DevToolbar>
-	<StoreView />
+	{#if $uiState.showStoreView}
+		<StoreView />
+	{/if}
 </div>
 
 <style>

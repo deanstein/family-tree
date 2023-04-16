@@ -284,7 +284,6 @@
 		</div>
 		<Footer {sAppVersion} {sDataVersion} />
 		<DevTools />
-		<!-- <StoreView /> -->
 	</div>
 </main>
 
