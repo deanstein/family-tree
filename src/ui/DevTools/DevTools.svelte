@@ -1,4 +1,6 @@
 <script>
+	import { css } from '@emotion/css';
+
 	import StoreView from './StoreView.svelte';
 	import DevToolbar from './DevToolbar.svelte';
 
@@ -9,6 +11,11 @@
 	import uiState from '../../stores/uiState';
 	import FamilyTreeDataSelector from '../FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
+	import {
+		enableScrolling,
+		disableScrolling,
+		scrollToTopAndCenter
+	} from '../../logic/uiManagement';
 
 	const getDataButtonOnclickAction = () => {
 		getFamilyTreeDataFromRepo('0', '8890');
@@ -28,6 +35,14 @@
 	const toggleChooseTreeModal = () => {
 		uiState.update((currentValue) => {
 			currentValue.showChooseTreeModal = !currentValue.showChooseTreeModal;
+			if (currentValue.showChooseTreeModal) {
+				scrollToTopAndCenter();
+				if (!currentValue.showDevTools) {
+					disableScrolling();
+				}
+			} else {
+				enableScrolling();
+			}
 			return currentValue;
 		});
 	};

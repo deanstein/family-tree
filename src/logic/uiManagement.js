@@ -230,3 +230,21 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 		return currentValue;
 	});
 };
+
+export const scrollToTopAndCenter = () => {
+	// Scroll to the top of the page
+	window.scrollTo(0, 0);
+
+	// Center the page horizontally
+	var screenWidth = window.innerWidth;
+	var scrollLeft = (document.body.scrollWidth - screenWidth) / 2;
+	window.scrollTo(scrollLeft, 0);
+};
+
+export const disableScrolling = () => {
+	document.body.style.overflow = 'hidden';
+};
+
+export const enableScrolling = () => {
+	document.body.style.overflow = 'auto';
+};

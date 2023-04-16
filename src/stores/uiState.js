@@ -11,6 +11,7 @@ const uiState = {
 	personNameTemporaryValue: undefined,
 	relationshipIdTemporaryValue: undefined,
 	showChooseTreeModal: false,
+	showDevTools: false,
 	showStoreView: false
 };
 

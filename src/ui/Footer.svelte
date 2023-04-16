@@ -1,12 +1,22 @@
 <script>
+	import uiState from '../stores/uiState';
+
 	export let sAppVersion;
 	export let sDataVersion;
+
+	const toggleDevTools = () => {
+		uiState.update((currentValue) => {
+			currentValue.showDevTools = !currentValue.showDevTools;
+			return currentValue;
+		});
+	};
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">
 	<div id="copyright" class="footer-item">(C) JDG 2023</div>
 	<div id="version" class="footer-item">
-		| App: v{sAppVersion} | Data: v{sDataVersion}
+		| App: v{sAppVersion} | Data: v{sDataVersion} |
+		<a on:click={toggleDevTools}>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a>
 	</div>
 </div>
 
