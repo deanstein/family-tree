@@ -29,19 +29,19 @@
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 2px solid transparent;
 			:hover {
-				background-color: ${stylingConstants.colors.sHoverColor};
+				background-color: ${stylingConstants.colors.hoverColor};
 			}
 		`;
 	}
 
 	const nodeSettingsFlyoutDynamicClass = css`
 		ul {
-			border: 2px solid ${stylingConstants.colors.sHoverColor};
+			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 		a {
-			background-color: ${stylingConstants.colors.sPersonNodeColor};
+			background-color: ${stylingConstants.colors.personNodeColor};
 			:hover {
-				background-color: ${stylingConstants.colors.sHoverColor};
+				background-color: ${stylingConstants.colors.hoverColor};
 		}
 	`;
 

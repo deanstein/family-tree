@@ -17,7 +17,7 @@
 	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`
-		background-color: ${stylingConstants.colors.sNodeGroupColor};
+		background-color: ${stylingConstants.colors.nodeGroupColor};
 		gap: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};

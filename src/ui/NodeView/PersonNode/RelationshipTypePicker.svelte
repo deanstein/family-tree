@@ -39,7 +39,7 @@
 	`;
 
 	const relationshipTypePickerDynamicClass = css`
-		border: 2px solid ${stylingConstants.colors.sActiveColor};
+		border: 2px solid ${stylingConstants.colors.activeColor};
 	`;
 </script>
 

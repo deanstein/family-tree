@@ -51,13 +51,13 @@
 			width: ${sNodeSize};
 			height: ${sNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
-			background-color: ${stylingConstants.colors.sPersonNodeColor};
+			background-color: ${stylingConstants.colors.personNodeColor};
 			border: ${$uiState.personIdForNodeEdit == sPersonId ||
 			$uiState.personIdForNodeSettingsFlyout == sPersonId
-				? `2px solid ${stylingConstants.colors.sHoverColor}`
+				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 			:hover {
-				border: 2px solid ${stylingConstants.colors.sHoverColor};
+				border: 2px solid ${stylingConstants.colors.hoverColor};
 			}
 		`;
 	}

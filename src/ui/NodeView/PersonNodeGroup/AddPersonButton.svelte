@@ -23,9 +23,9 @@
 		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		background: ${stylingConstants.colors.sNodeGroupColor};
+		background: ${stylingConstants.colors.nodeGroupColor};
 		:hover {
-			background-color: ${stylingConstants.colors.sHoverColor};
+			background-color: ${stylingConstants.colors.hoverColor};
 		}
 	`;
 

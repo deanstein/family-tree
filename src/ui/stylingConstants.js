@@ -1,10 +1,10 @@
 const colors = {
-	sHoverColor: '#50CBFC',
-	sActiveColor: '#3399ff',
-	sOverlayColor: 'gray',
+	hoverColor: '#50CBFC',
+	activeColor: '#3399ff',
+	overlayColor: 'gray',
 	overlayOpacity: '45%',
-	sNodeGroupColor: 'white',
-	sPersonNodeColor: '#ececec',
+	nodeGroupColor: 'white',
+	personNodeColor: '#ececec',
 	hyperlinkColor: '#2373a3'
 };
 

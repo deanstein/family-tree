@@ -5,7 +5,7 @@
 
 	const personNodeOverlayDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex};
-		background-color: ${stylingConstants.colors.sOverlayColor};
+		background-color: ${stylingConstants.colors.overlayColor};
 		opacity: ${stylingConstants.colors.overlayOpacity};
 	`;
 </script>

@@ -28,9 +28,9 @@
 	const personNodeForSelectDynamicClass = css`
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
-		background-color: ${stylingConstants.colors.sPersonNodeColor};
+		background-color: ${stylingConstants.colors.personNodeColor};
 		:hover {
-			border: 2px solid ${stylingConstants.colors.sHoverColor};
+			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 	`;
 </script>
