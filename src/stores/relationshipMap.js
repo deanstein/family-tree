@@ -1,7 +1,7 @@
-export const sDataVersion = '0.9.2';
+export const dataVersion = '0.9.3';
 
 const relationshipMap = {
-	sDataVersion: sDataVersion,
+	dataVersion: dataVersion,
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
 		label: 'Grandparents (M)',
@@ -406,7 +406,7 @@ const relationshipMap = {
 export default relationshipMap;
 
 export const defaultPerson = {
-	version: sDataVersion,
+	version: dataVersion,
 	id: '0',
 	name: 'Firstname Lastname',
 	birthdate: 'unspecified',

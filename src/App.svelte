@@ -23,8 +23,8 @@
 	import Footer from './ui/Footer.svelte';
 	import PasswordModal from './ui/ChooseTreeModal.svelte';
 
-	const sAppVersion = '0.6.7';
-	const sDataVersion = relationshipMap.sDataVersion;
+	const sAppVersion = '0.7.0';
+	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
