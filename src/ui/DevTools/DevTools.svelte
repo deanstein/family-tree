@@ -14,7 +14,7 @@
 		disableScrolling,
 		scrollToTopAndCenter
 	} from '../../logic/uiManagement';
-	import { repoSaveStateStrings } from '../strings';
+	import { repoStateStrings } from '../strings';
 
 	const getDataButtonOnclickAction = () => {
 		getFamilyTreeDataFromRepo('0', '8890');
@@ -48,7 +48,7 @@
 
 	const testSaveNotification = () => {
 		uiState.update((currentValue) => {
-			currentValue.saveToRepoStatus = repoSaveStateStrings.unsavedChanges;
+			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
 			return currentValue;
 		});
 	};

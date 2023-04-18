@@ -1,6 +1,6 @@
 import familyTreeData from '../stores/familyTreeData';
 import uiState from '../stores/uiState';
-import { repoSaveStateStrings } from '../ui/strings';
+import { repoStateStrings } from '../ui/strings';
 import { getFamilyTreeDataFromRepo } from './persistenceManagement';
 import {
 	getPersonById,
@@ -233,39 +233,58 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 	});
 };
 
-export const getNotificationConfigFromSaveState = () => {
+export const getNotificationConfigFromRepoState = () => {
 	let message;
 	let color;
 
 	uiState.subscribe((currentValue) => {
 		switch (currentValue.saveToRepoStatus) {
-			case repoSaveStateStrings.synced:
-				message = repoSaveStateStrings.synced;
-				color = stylingConstants.colors.notificationColorInformation;
+			case repoStateStrings.loading:
+				message = repoStateStrings.loading;
+				color = stylingConstants.colors.notificationColorInProgress;
 				break;
-			case repoSaveStateStrings.syncing:
-				message = repoSaveStateStrings.syncing;
-				color = stylingConstants.colors.notificationColorWarning;
-				break;
-			case repoSaveStateStrings.syncSuccessful:
-				message = repoSaveStateStrings.syncSuccessful;
+			case repoStateStrings.loadSuccessful:
+				message = repoStateStrings.loadSuccessful;
 				color = stylingConstants.colors.notificationColorSuccess;
 				break;
-			case repoSaveStateStrings.unsavedChanges:
-				message = repoSaveStateStrings.unsavedChanges;
+			case repoStateStrings.saved:
+				message = repoStateStrings.saved;
+				color = stylingConstants.colors.notificationColorInformation;
+				break;
+			case repoStateStrings.saving:
+				message = repoStateStrings.saving;
+				color = stylingConstants.colors.notificationColorInProgress;
+				break;
+			case repoStateStrings.saveSuccessful:
+				message = repoStateStrings.saveSuccessful;
+				color = stylingConstants.colors.notificationColorSuccess;
+				break;
+			case repoStateStrings.unsavedChanges:
+				message = repoStateStrings.unsavedChanges;
 				color = stylingConstants.colors.notificationColorWarning;
 				break;
-			case repoSaveStateStrings.failure0:
-				message = repoSaveStateStrings.failure0;
+			case repoStateStrings.loadFailed:
+				message = repoStateStrings.loadFailed;
+				color = stylingConstants.colors.notificationColorError;
+				break;
+			case repoStateStrings.saveFailed:
+				message = repoStateStrings.saveFailed;
 				color = stylingConstants.colors.notificationColorError;
 				break;
 			default:
-				message = 'No notification';
+				message = repoStateStrings.undefined;
 				color = stylingConstants.colors.notificationColorInformation;
 		}
 	});
 
 	return { message, color };
+};
+
+export const setRepoState = (saveState) => {
+	uiState.update((currentValue) => {
+		currentValue.saveToRepoStatus = saveState;
+		return currentValue;
+	});
 };
 
 export const scrollToTopAndCenter = () => {
