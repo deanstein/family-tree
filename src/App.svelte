@@ -24,7 +24,7 @@
 	import PasswordModal from './ui/ChooseTreeModal.svelte';
 	import SaveStateBanner from './ui/SaveStateBanner.svelte';
 
-	const sAppVersion = '0.7.1';
+	const sAppVersion = '0.7.2';
 	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 

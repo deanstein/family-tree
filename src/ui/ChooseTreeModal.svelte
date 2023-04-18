@@ -22,13 +22,20 @@
 			{#if showCloseButton}
 				<div id="choose-tree-close-button" class="choose-tree-close-button" />
 			{/if}
-			<div id="choose-tree-header" class="choose-tree-header">Welcome! Choose a family tree:</div>
+			<div id="choose-tree-header" class="choose-tree-header">
+				<div id="welcome-message" class="choose-tree-welcome-message">
+					Choose a family tree:
+				</div>
+			</div>
 			<div id="choose-tree-options-grid" class="choose-tree-options-grid">
 				<div id="new-tree-cell-container" class="options-cell-container">New Family Tree</div>
 				<div id="example-tree-cell-container" class="options-cell-container">
 					Example Family Tree
 				</div>
 				<div id="load-tree-cell-container" class="options-cell-container">Load Family Tree</div>
+			</div>
+			<div id="dev-message" class="choose-tree-dev-message">
+				Note: This app is unfinished and does not represent the final interface, colors, or features. It may also be buggy.
 			</div>
 		</div>
 		<Overlay />
@@ -55,8 +62,26 @@
 
 	.choose-tree-header {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
-		background-color: gray;
+		padding: 10px;
+		color: white;
+	}
+
+	.choose-tree-welcome-message {
+		font-size: 5vh;
+		display: flex;
+		justify-content: center;
+		padding: 10px;
+		color: white;
+	}
+
+	.choose-tree-dev-message {
+		display: flex;
+		padding: 10px;
+		font-style: italic;
+		justify-content: center;
+		color: #ebf596;
 	}
 
 	.choose-tree-options-grid {
