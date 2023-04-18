@@ -12,9 +12,17 @@ import {
 import stylingConstants from '../ui/stylingConstants';
 
 // get a family tree by id from the repo and set it as the current UI state
-export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
+export const getRepoFamilyTreeAndSetActive = async (
+	familyTreeId,
+	password,
+	showLoadNotifications = true
+) => {
 	// get the family tree data from the id
-	const newFamilyTreeData = await getFamilyTreeDataFromRepo(familyTreeId, password);
+	const newFamilyTreeData = await getFamilyTreeDataFromRepo(
+		familyTreeId,
+		password,
+		showLoadNotifications
+	);
 
 	// update the ui state
 	familyTreeData.update((currentValue) => {
@@ -278,6 +286,14 @@ export const getNotificationConfigFromRepoState = () => {
 	});
 
 	return { message, color };
+};
+
+export const getRepoState = () => {
+	let repoState = undefined;
+	uiState.subscribe((currentValue) => {
+		repoState = currentValue.saveToRepoStatus;
+	});
+	return repoState;
 };
 
 export const setRepoState = (saveState) => {

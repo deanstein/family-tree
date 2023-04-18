@@ -1,7 +1,7 @@
 import familyTreeData from '../stores/familyTreeData';
 import uiState from '../stores/uiState';
 import { repoStateStrings } from '../ui/strings';
-import { getRepoFamilyTreeAndSetActive, setRepoState } from './uiManagement';
+import { getRepoFamilyTreeAndSetActive, getRepoState, setRepoState } from './uiManagement';
 import { decrypt } from './utils';
 
 const repoOwner = 'deanstein';
@@ -35,13 +35,19 @@ export const getFileFromRepo = async (fileName, password) => {
 	return fileData;
 };
 
-export const getFamilyTreeDataFromRepo = async (familyTreeDataId, password) => {
+export const getFamilyTreeDataFromRepo = async (
+	familyTreeDataId,
+	password,
+	showNotifications = true
+) => {
 	if (!familyTreeDataId || !password) {
-		setRepoState(repoStateStrings.loadFailed);
+		setRepoState(repoStateStrings.saveFailed);
 		return;
 	}
 
-	setRepoState(repoStateStrings.loading);
+	if (showNotifications === true) {
+		setRepoState(repoStateStrings.loading);
+	}
 
 	// get the file name from which to read the json data
 	const familyTreeDataFileName = await getFamilyTreeDataFileName(familyTreeDataId, password);
@@ -49,7 +55,9 @@ export const getFamilyTreeDataFromRepo = async (familyTreeDataId, password) => {
 	// the final family tree data is a json object
 	const familyTreeData = await getFileFromRepo(familyTreeDataFileName, password);
 
-	setRepoState(repoStateStrings.loadSuccessful);
+	if (showNotifications === true) {
+		setRepoState(repoStateStrings.loadSuccessful);
+	}
 
 	return familyTreeData;
 };
@@ -89,6 +97,8 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 
 	familyTreeDataFileName = await getFamilyTreeDataFileName(familyTreeId, password);
 
+	setRepoState(repoStateStrings.saving);
+
 	const response = await fetch('https://api.github.com/user/repos', {
 		headers: {
 			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
@@ -100,6 +110,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	const repo = repos.find((repo) => repo.name === repoName);
 
 	if (!repo) {
+		setRepoState(repoStateStrings.saveFailed);
 		console.error('Repository not found: ' + repoName);
 		return;
 	}
@@ -119,6 +130,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 
 	if (!fileResponse.ok) {
 		console.error(`Failed to get file ${familyTreeDataFileName}`);
+		setRepoState(repoStateStrings.saveFailed);
 		return;
 	}
 
@@ -142,11 +154,13 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	);
 
 	if (updateResponse.ok) {
+		setRepoState(repoStateStrings.saveSuccessful);
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 	} else {
+		setRepoState(repoStateStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
 
 	// required to ensure the latest version of the file is used for the next update
-	getRepoFamilyTreeAndSetActive(familyTreeId, password);
+	getRepoFamilyTreeAndSetActive(familyTreeId, password, false);
 };

@@ -10,6 +10,7 @@ const colors = {
 	notificationColorError: 'lightRed',
 	notificationColorWarning: 'lightYellow',
 	notificationColorInformation: 'lightBlue',
+	notificationColorInProgress: 'yellow',
 	notificationColorSuccess: 'lightGreen'
 };
 
