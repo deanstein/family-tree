@@ -1,11 +1,16 @@
 const colors = {
+	headerColor: 'yellow',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',
 	overlayOpacity: '45%',
 	nodeGroupColor: 'white',
 	personNodeColor: '#ececec',
-	hyperlinkColor: '#2373a3'
+	hyperlinkColor: '#2373a3',
+	notificationColorError: 'lightRed',
+	notificationColorWarning: 'lightYellow',
+	notificationColorInformation: 'lightBlue',
+	notificationColorSuccess: 'lightGreen'
 };
 
 const sizes = {

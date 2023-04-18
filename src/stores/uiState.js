@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 
 const uiState = {
+	saveToRepoStatus: undefined,
 	activeFamilyTreeDataId: {},
 	activePerson: {},
 	personIdsOnScreen: [],

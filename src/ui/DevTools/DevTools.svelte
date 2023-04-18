@@ -1,6 +1,4 @@
 <script>
-	import { css } from '@emotion/css';
-
 	import StoreView from './StoreView.svelte';
 	import DevToolbar from './DevToolbar.svelte';
 
@@ -16,6 +14,7 @@
 		disableScrolling,
 		scrollToTopAndCenter
 	} from '../../logic/uiManagement';
+	import { repoSaveStateStrings } from '../strings';
 
 	const getDataButtonOnclickAction = () => {
 		getFamilyTreeDataFromRepo('0', '8890');
@@ -46,6 +45,13 @@
 			return currentValue;
 		});
 	};
+
+	const testSaveNotification = () => {
+		uiState.update((currentValue) => {
+			currentValue.saveToRepoStatus = repoSaveStateStrings.unsavedChanges;
+			return currentValue;
+		});
+	};
 </script>
 
 <div id="dev-tools-outer-container" class="dev-tools-outer-container">
@@ -55,6 +61,7 @@
 		<button on:click={toggleChooseTreeModal}>
 			{!$uiState.showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
+		<button on:click={testSaveNotification}> Test Save Notification </button>
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>

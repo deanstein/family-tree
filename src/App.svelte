@@ -22,6 +22,7 @@
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import PasswordModal from './ui/ChooseTreeModal.svelte';
+	import SaveStateBanner from './ui/SaveStateBanner.svelte';
 
 	const sAppVersion = '0.7.0';
 	const sDataVersion = relationshipMap.dataVersion;
@@ -45,7 +46,12 @@
 </script>
 
 <main>
-	<div id="app-container" class="app-container {appContainerDynamicClass}" on:contextmenu={blockContextMenu}>
+	<div
+		id="app-container"
+		class="app-container {appContainerDynamicClass}"
+		on:contextmenu={blockContextMenu}
+	>
+		<SaveStateBanner />
 		<PasswordModal />
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">

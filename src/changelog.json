@@ -1,10 +1,11 @@
 {
-    "appChangelog":{
+    "appChangelog": {
         "v0.7.x": {
-            "Overview": "v0.7.x adds password protection and the ability to choose which familyTreeData to start with.",
+            "Overview": "v0.7.x adds password protection and the ability to choose which familyTreeData to start with, plus a basic notification system.",
             "Changes": [
                 "Added a modal dialog to choose between new tree, example tree, and load tree",
-                "Added password protection"
+                "Added password protection",
+                "Added NotificationBanner and SaveStateBanner"
             ]
         },
         "v0.6.x": {

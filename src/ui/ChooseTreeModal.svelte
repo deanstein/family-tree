@@ -12,22 +12,18 @@
 </script>
 
 {#if $uiState.showChooseTreeModal}
-	<div
-		id="choose-tree-modal-outer-container"
-		class="choose-tree-modal-outer-container"
-	>
-		<div id="choose-tree-modal-content-container" class="{chooseTreeModalContentContainerDynamicClass} choose-tree-modal-content-container">
+	<div id="choose-tree-modal-outer-container" class="choose-tree-modal-outer-container">
+		<div
+			id="choose-tree-modal-content-container"
+			class="{chooseTreeModalContentContainerDynamicClass} choose-tree-modal-content-container"
+		>
 			<div id="choose-tree-header" class="choose-tree-header">Welcome! Choose a family tree:</div>
 			<div id="choose-tree-options-grid" class="choose-tree-options-grid">
-				<div id="new-tree-cell-container" class="options-cell-container">
-					New Family Tree
-				</div>
+				<div id="new-tree-cell-container" class="options-cell-container">New Family Tree</div>
 				<div id="example-tree-cell-container" class="options-cell-container">
 					Example Family Tree
 				</div>
-				<div id="load-tree-cell-container" class="options-cell-container">
-					Load Family Tree
-				</div>
+				<div id="load-tree-cell-container" class="options-cell-container">Load Family Tree</div>
 			</div>
 		</div>
 		<Overlay />
@@ -51,6 +47,8 @@
 	}
 
 	.choose-tree-header {
+		display: flex;
+		justify-content: center;
 		background-color: gray;
 	}
 

@@ -1,5 +1,6 @@
 import familyTreeData from '../stores/familyTreeData';
 import uiState from '../stores/uiState';
+import { repoSaveStateStrings } from '../ui/strings';
 import { getFamilyTreeDataFromRepo } from './persistenceManagement';
 import {
 	getPersonById,
@@ -8,6 +9,7 @@ import {
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
 } from './personManagement';
+import stylingConstants from '../ui/stylingConstants';
 
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (familyTreeId, password) => {
@@ -229,6 +231,41 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 
 		return currentValue;
 	});
+};
+
+export const getNotificationConfigFromSaveState = () => {
+	let message;
+	let color;
+
+	uiState.subscribe((currentValue) => {
+		switch (currentValue.saveToRepoStatus) {
+			case repoSaveStateStrings.synced:
+				message = repoSaveStateStrings.synced;
+				color = stylingConstants.colors.notificationColorInformation;
+				break;
+			case repoSaveStateStrings.syncing:
+				message = repoSaveStateStrings.syncing;
+				color = stylingConstants.colors.notificationColorWarning;
+				break;
+			case repoSaveStateStrings.syncSuccessful:
+				message = repoSaveStateStrings.syncSuccessful;
+				color = stylingConstants.colors.notificationColorSuccess;
+				break;
+			case repoSaveStateStrings.unsavedChanges:
+				message = repoSaveStateStrings.unsavedChanges;
+				color = stylingConstants.colors.notificationColorWarning;
+				break;
+			case repoSaveStateStrings.failure0:
+				message = repoSaveStateStrings.failure0;
+				color = stylingConstants.colors.notificationColorError;
+				break;
+			default:
+				message = 'No notification';
+				color = stylingConstants.colors.notificationColorInformation;
+		}
+	});
+
+	return { message, color };
 };
 
 export const scrollToTopAndCenter = () => {
