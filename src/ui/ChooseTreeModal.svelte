@@ -50,7 +50,7 @@
 		flex-direction: column;
 		width: 50vw;
 		height: 50vh;
-		background-color: black;
+		background-color: rgba(0, 0, 0, 0.8);
 	}
 
 	.choose-tree-header {

@@ -7,15 +7,11 @@
 	let familyTreeDataMap;
 
 	onMount(async () => {
-		await initializeFamilyTreeDataSelector();
-	});
-
-	afterUpdate(async () => {
-		await getRepoFamilyTreeAndSetActive('0', '8890');
+		await getAvailableFamilyTrees();
 	});
 
 	// initialize the picker with the available family trees from the map
-	const initializeFamilyTreeDataSelector = async (event) => {
+	const getAvailableFamilyTrees = async () => {
 		familyTreeDataMap = await getFileFromRepo('family-tree-data-map.json', '8890');
 	};
 
@@ -32,7 +28,9 @@
 			class="family-tree-data-selector"
 			bind:value={sInputValue}
 			on:change={handleSelectChange}
+
 		>
+			<option disabled selected value=-1>Choose a family tree...</option>
 			{#each Object.values(familyTreeDataMap) as data}
 				<option value={data.id}>{data.name}</option>
 			{/each}
