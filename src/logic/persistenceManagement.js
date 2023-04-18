@@ -1,7 +1,7 @@
 import familyTreeData from '../stores/familyTreeData';
 import uiState from '../stores/uiState';
 import { repoStateStrings } from '../ui/strings';
-import { getRepoFamilyTreeAndSetActive, getRepoState, setRepoState } from './uiManagement';
+import { getRepoFamilyTreeAndSetActive, setRepoState } from './uiManagement';
 import { decrypt } from './utils';
 
 const repoOwner = 'deanstein';

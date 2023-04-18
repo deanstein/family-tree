@@ -1,10 +1,7 @@
 <script>
 	import { afterUpdate, onMount } from 'svelte';
 	import { getFileFromRepo } from '../logic/persistenceManagement';
-	import {
-		initializeOffScreenPeopleIdsArray,
-		getRepoFamilyTreeAndSetActive
-	} from '../logic/uiManagement';
+	import { getRepoFamilyTreeAndSetActive } from '../logic/uiManagement';
 
 	let sInputValue;
 	let familyTreeDataMap;
