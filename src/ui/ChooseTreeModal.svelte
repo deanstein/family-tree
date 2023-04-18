@@ -6,6 +6,8 @@
 	import uiState from '../stores/uiState';
 	import stylingConstants from './stylingConstants';
 
+	export let showCloseButton = true;
+
 	const chooseTreeModalContentContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex + 1};
 	`;
@@ -17,6 +19,9 @@
 			id="choose-tree-modal-content-container"
 			class="{chooseTreeModalContentContainerDynamicClass} choose-tree-modal-content-container"
 		>
+			{#if showCloseButton}
+				<div id="choose-tree-close-button" class="choose-tree-close-button" />
+			{/if}
 			<div id="choose-tree-header" class="choose-tree-header">Welcome! Choose a family tree:</div>
 			<div id="choose-tree-options-grid" class="choose-tree-options-grid">
 				<div id="new-tree-cell-container" class="options-cell-container">New Family Tree</div>
@@ -41,6 +46,8 @@
 	}
 
 	.choose-tree-modal-content-container {
+		display: flex;
+		flex-direction: column;
 		width: 50vw;
 		height: 50vh;
 		background-color: black;
@@ -54,7 +61,9 @@
 
 	.choose-tree-options-grid {
 		display: flex;
-		height: 100%;
+		flex-grow: 1;
+		gap: 5vh;
+		padding: 5vh;
 	}
 
 	.options-cell-container {
@@ -63,5 +72,6 @@
 		align-items: center;
 		flex-basis: 33%;
 		color: white;
+		background-color: gray;
 	}
 </style>
