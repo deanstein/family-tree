@@ -9,12 +9,13 @@
             ]
         },
         "v0.6.x": {
-            "Overview": "v0.6.x adds the ability to read and write the familyTreeData store to a private GitHub repo.",
+            "Overview": "v0.6.x adds the ability to read and write the familyTreeData store to a private GitHub repo, and adds DevTools to the footer.",
             "Changes": [
                 "Added the ability to decrypt a PAT to communicate with GitHub",
                 "Added the ability to read the contents of a file from GitHub",
                 "Added the ability to write the contens of a json file on GitHub",
-                "Refactored StoreView into DevTools"
+                "Refactored StoreView into DevTools",
+                "Updated footer to include DevTools entry point"
             ]
         },
         "v0.5.x": {
