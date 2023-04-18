@@ -51,14 +51,6 @@
 </div>
 
 <style>
-	.person-add-button-container {
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-	}
-
 	.person-add-button {
 		display: flex;
 		align-items: center;

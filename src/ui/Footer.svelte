@@ -32,12 +32,6 @@
 		height: 5vh;
 
 		background-color: lightgrey;
-
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
 	}
 
 	.footer-item {
