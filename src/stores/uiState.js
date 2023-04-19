@@ -11,7 +11,7 @@ const uiState = {
 	personIdForNodeSettingsFlyout: undefined,
 	personNameTemporaryValue: undefined,
 	relationshipIdTemporaryValue: undefined,
-	showChooseTreeModal: false,
+	showChooseTreeModal: true,
 	showDevTools: false,
 	showStoreView: false
 };

@@ -10,15 +10,25 @@
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../logic/uiManagement';
+
 	export let showCloseButton = true;
 
 	const chooseTreeModalContentContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex + 1};
 	`;
 
-	const newFamilyTreeButtonOnClick = () => {};
+	const newFamilyTreeButtonOnClick = () => {
+		// new family tree is already loaded, so just dismiss the choose tree modal
+		hideChooseTreeModal();
+	};
 
-	const exampleFamilyTreeButtonOnClick = () => {};
+	const exampleFamilyTreeButtonOnClick = () => {
+		// hide the modal
+		hideChooseTreeModal();
+		// load the Roy family tree
+		getRepoFamilyTreeAndSetActive('0', '8890');
+	};
 </script>
 
 {#if $uiState.showChooseTreeModal}

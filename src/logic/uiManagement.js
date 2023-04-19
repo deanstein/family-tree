@@ -303,6 +303,20 @@ export const setRepoState = (saveState) => {
 	});
 };
 
+export const hideChooseTreeModal = () => {
+	uiState.update((currentValue) => {
+		currentValue.showChooseTreeModal = false;
+		return currentValue;
+	});
+};
+
+export const showChooseTreeModal = () => {
+	uiState.update((currentValue) => {
+		currentValue.showChooseTreeModal = true;
+		return currentValue;
+	});
+};
+
 export const scrollToTopAndCenter = () => {
 	// Scroll to the top of the page
 	window.scrollTo(0, 0);
