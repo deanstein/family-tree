@@ -1,5 +1,6 @@
 const colors = {
 	headerColor: 'yellow',
+	buttonColor: '#00a4ff',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',

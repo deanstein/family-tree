@@ -6,11 +6,19 @@
 	import uiState from '../stores/uiState';
 	import stylingConstants from './stylingConstants';
 
+	import { chooseTreeStrings } from './strings';
+
+	import ChooseTreeOption from './ChooseTreeOption.svelte';
+
 	export let showCloseButton = true;
 
 	const chooseTreeModalContentContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex + 1};
 	`;
+
+	const newFamilyTreeButtonOnClick = () => {};
+
+	const exampleFamilyTreeButtonOnClick = () => {};
 </script>
 
 {#if $uiState.showChooseTreeModal}
@@ -23,19 +31,28 @@
 				<div id="choose-tree-close-button" class="choose-tree-close-button" />
 			{/if}
 			<div id="choose-tree-header" class="choose-tree-header">
-				<div id="welcome-message" class="choose-tree-welcome-message">
-					Choose a family tree:
-				</div>
+				<div id="welcome-message" class="choose-tree-welcome-message">Choose a family tree:</div>
 			</div>
 			<div id="choose-tree-options-grid" class="choose-tree-options-grid">
-				<div id="new-tree-cell-container" class="options-cell-container">New Family Tree</div>
-				<div id="example-tree-cell-container" class="options-cell-container">
-					Example Family Tree
-				</div>
-				<div id="load-tree-cell-container" class="options-cell-container">Load Family Tree</div>
+				<ChooseTreeOption
+					buttonText={chooseTreeStrings.newTreeButton}
+					buttonFunction={newFamilyTreeButtonOnClick}
+					description={chooseTreeStrings.newTreeDescription}
+				/>
+				<ChooseTreeOption
+					buttonText={chooseTreeStrings.exampleTreeButton}
+					buttonFunction={exampleFamilyTreeButtonOnClick}
+					description={chooseTreeStrings.exampleTreeDescription}
+				/>
+				<ChooseTreeOption
+					buttonText={chooseTreeStrings.loadTreeButton}
+					buttonFunction={exampleFamilyTreeButtonOnClick}
+					description={chooseTreeStrings.loadTreeDescription}
+				/>
 			</div>
 			<div id="dev-message" class="choose-tree-dev-message">
-				Note: This app is unfinished and does not represent the final interface, colors, or features. It may also be buggy.
+				Note: This app is unfinished and does not represent the final interface, colors, or
+				features. It may also be buggy.
 			</div>
 		</div>
 		<Overlay />
@@ -89,14 +106,5 @@
 		flex-grow: 1;
 		gap: 5vh;
 		padding: 5vh;
-	}
-
-	.options-cell-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-basis: 33%;
-		color: white;
-		background-color: gray;
 	}
 </style>

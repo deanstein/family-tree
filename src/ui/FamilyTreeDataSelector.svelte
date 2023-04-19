@@ -28,9 +28,8 @@
 			class="family-tree-data-selector"
 			bind:value={sInputValue}
 			on:change={handleSelectChange}
-
 		>
-			<option disabled selected value=-1>Choose a family tree...</option>
+			<option disabled selected value="-1">Choose a family tree...</option>
 			{#each Object.values(familyTreeDataMap) as data}
 				<option value={data.id}>{data.name}</option>
 			{/each}
