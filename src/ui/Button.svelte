@@ -8,6 +8,9 @@
 
 	const buttonDynamicClass = css`
 		background-color: ${stylingConstants.colors.buttonColor};
+		:hover {
+			background-color: ${stylingConstants.colors.hoverColor};
+		}
 	`;
 </script>
 

@@ -24,7 +24,7 @@
 		align-items: center;
 		flex-basis: 33%;
 		color: white;
-		background-color: gray;
+		background-color: #a0a0a0;
 	}
 
 	.button-container {
