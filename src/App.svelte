@@ -355,5 +355,6 @@
 	.row-flank {
 		display: flex;
 		gap: 2em;
+		overflow: auto;
 	}
 </style>

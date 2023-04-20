@@ -27,6 +27,7 @@
 		align-items: center;
 		justify-content: center;
 		grid-gap: 2em;
+		overflow: auto;
 	}
 
 	.row-left-flank,
@@ -37,7 +38,8 @@
 	}
 
 	.row-left-flank {
-		justify-content: right;
+		justify-content: flex-end;
+		overflow: auto;
 	}
 
 	.row-middle-section {
@@ -45,6 +47,7 @@
 	}
 
 	.row-right-flank {
-		justify-content: left;
+		justify-content: flex-start;
+		overflow: auto;
 	}
 </style>
