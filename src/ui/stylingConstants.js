@@ -4,7 +4,7 @@ const colors = {
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',
-	overlayOpacity: '45%',
+	overlayOpacity: '55%',
 	nodeGroupColor: 'white',
 	personNodeColor: '#ececec',
 	hyperlinkColor: '#2373a3',
