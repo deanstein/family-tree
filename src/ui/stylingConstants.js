@@ -1,5 +1,5 @@
 const colors = {
-	headerColor: 'yellow',
+	headerColor: 'lightGray',
 	buttonColor: '#0092e4',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
@@ -12,7 +12,7 @@ const colors = {
 	notificationColorWarning: 'lightYellow',
 	notificationColorInformation: 'lightBlue',
 	notificationColorInProgress: 'yellow',
-	notificationColorSuccess: 'lightGreen'
+	notificationColorSuccess: '#77FF16'
 };
 
 const sizes = {
