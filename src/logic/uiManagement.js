@@ -303,6 +303,13 @@ export const setRepoState = (saveState) => {
 	});
 };
 
+export const showChooseTreeModal = () => {
+	uiState.update((currentValue) => {
+		currentValue.showChooseTreeModal = true;
+		return currentValue;
+	});
+};
+
 export const hideChooseTreeModal = () => {
 	uiState.update((currentValue) => {
 		currentValue.showChooseTreeModal = false;
@@ -310,9 +317,16 @@ export const hideChooseTreeModal = () => {
 	});
 };
 
-export const showChooseTreeModal = () => {
+export const showPersonDetailView = () => {
 	uiState.update((currentValue) => {
-		currentValue.showChooseTreeModal = true;
+		currentValue.showPersonDetailView = true;
+		return currentValue;
+	});
+};
+
+export const hidePersonDetailView = () => {
+	uiState.update((currentValue) => {
+		currentValue.showPersonDetailView = false;
 		return currentValue;
 	});
 };

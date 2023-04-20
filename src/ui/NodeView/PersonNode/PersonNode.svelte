@@ -21,6 +21,7 @@
 	import NameInput from './NameInput.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
+	import { showPersonDetailView } from '../../../logic/uiManagement';
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -30,7 +31,6 @@
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
-	let personNodeOverlayDynamicClass;
 
 	$: {
 		// is this node the active person?
@@ -70,7 +70,7 @@
 
 		// clicking on the active person will pull up the detailed view
 		if (sPersonId === $uiState.activePerson.id) {
-			// TODO: show person detail view
+			showPersonDetailView();
 		} else {
 			// clicking on anyone else makes them the active person
 			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(sPersonId));

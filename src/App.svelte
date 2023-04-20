@@ -16,13 +16,14 @@
 	import stylingConstants from './ui/stylingConstants';
 	import { setActivePerson } from './logic/personManagement';
 
-	import DevTools from './ui/DevTools/DevTools.svelte';
+	import SaveStateBanner from './ui/SaveStateBanner.svelte';
+	import ChooseTreeModal from './ui/ChooseTreeModal.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
-	import PasswordModal from './ui/ChooseTreeModal.svelte';
-	import SaveStateBanner from './ui/SaveStateBanner.svelte';
+	import DevTools from './ui/DevTools/DevTools.svelte';
+	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
 
 	const sAppVersion = '0.7.2';
 	const sDataVersion = relationshipMap.dataVersion;
@@ -43,6 +44,12 @@
 		}
 	}
 	`;
+
+	function handleWheel(event) {
+		const delta = event.deltaX || event.deltaY;
+		event.currentTarget.scrollBy(delta, 0);
+		event.preventDefault();
+	}
 </script>
 
 <main>
@@ -52,7 +59,8 @@
 		on:contextmenu={blockContextMenu}
 	>
 		<SaveStateBanner />
-		<PasswordModal />
+		<ChooseTreeModal />
+		<PersonDetail />
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
@@ -100,7 +108,7 @@
 					</div>
 				</GenerationRow>
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank">
+					<div slot="row-left-flank" class="row-flank" on:wheel={handleWheel}>
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -163,7 +171,7 @@
 
 			<div id="siblings-generation-block" class="siblings-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank">
+					<div slot="row-left-flank" class="row-flank" on:wheel={handleWheel}>
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
