@@ -29,6 +29,14 @@
 		// load the Roy family tree
 		getRepoFamilyTreeAndSetActive('0', '8890');
 	};
+
+	const loadFamilyTreeButtonOnClick = () => {
+		// hide the modal
+		hideChooseTreeModal();
+		// load the family tree
+		// TODO: add ability to choose, rather than hard-code
+		getRepoFamilyTreeAndSetActive('1', '8890');
+	}
 </script>
 
 {#if $uiState.showChooseTreeModal}
@@ -56,7 +64,7 @@
 				/>
 				<ChooseTreeOption
 					buttonText={chooseTreeStrings.loadTreeButton}
-					buttonFunction={exampleFamilyTreeButtonOnClick}
+					buttonFunction={loadFamilyTreeButtonOnClick}
 					description={chooseTreeStrings.loadTreeDescription}
 				/>
 			</div>
@@ -84,7 +92,7 @@
 		flex-direction: column;
 		width: 50vw;
 		height: 50vh;
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: rgba(48, 48, 48, 0.8);
 	}
 
 	.choose-tree-header {
