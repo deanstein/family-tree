@@ -66,7 +66,6 @@
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>
 		<FamilyTreeDataSelector />
-		<button on:click={getDataButtonOnclickAction}> Get Data </button>
 		<button on:click={setDataButtonOnClickAction}> Send Data </button>
 		<button on:click={toggleStoreView}>
 			{!$uiState.showStoreView ? 'Show' : 'Hide'} Store View
