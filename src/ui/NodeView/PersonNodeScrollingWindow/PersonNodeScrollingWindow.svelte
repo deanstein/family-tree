@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { scrollHorizontal } from '../../../logic/uiManagement';
 	import uiState from '../../../stores/uiState';
 
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
@@ -12,6 +12,7 @@
 	class="person-node-scrolling-window-container"
 	on:click|stopPropagation
 	on:keypress|stopPropagation
+	on:wheel={scrollHorizontal}
 >
 	{#each $uiState.personIdsOffScreenFiltered as sPersonId}
 		<PersonNodeForSelect {sPersonId} {sRelationshipId} />
@@ -23,6 +24,8 @@
 		display: flex;
 		position: absolute;
 		justify-content: center;
+		overflow: auto;
+		max-width: 500%; /* 5x the width of the node */
 		top: 100%;
 		gap: 10px;
 		z-index: 1;

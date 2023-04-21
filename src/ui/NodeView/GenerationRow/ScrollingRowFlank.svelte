@@ -1,6 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { scrollHorizontal } from '../../../logic/uiManagement';
 	import uiState from '../../../stores/uiState';
 
 	export let flank; // which side of the middle section should this appear?
@@ -8,24 +9,14 @@
 	let rowFlankOuterContainerDynamicClass;
 	let rowFlankInnerContainerDynamicClass;
 
-	function scrollHorizontal(event) {
-		if (event.currentTarget.scrollWidth <= event.currentTarget.clientWidth) {
-			return;
-		}
-		const delta = event.deltaX || event.deltaY;
-		event.currentTarget.scrollBy(delta, 0);
-		event.preventDefault();
-	}
-
 	$: {
 		rowFlankOuterContainerDynamicClass = css`
 			justify-content: ${flank === 'left' ? 'flex-end' : 'flex-start'};
-		`;
-
-		rowFlankInnerContainerDynamicClass = css`
 			overflow-x: ${$uiState.personIdForNodeEdit !== undefined ? `clip` : `initial`};
 			overflow-y: ${$uiState.personIdForNodeEdit !== undefined ? `initial` : `auto`};
 		`;
+
+		rowFlankInnerContainerDynamicClass = css``;
 	}
 </script>
 
@@ -47,7 +38,6 @@
 		display: flex;
 		flex-grow: 1;
 		flex-basis: 33%;
-		overflow: auto;
 	}
 
 	.row-flank-inner-container {

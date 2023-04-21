@@ -32,16 +32,10 @@
 		align-items: center;
 		justify-content: center;
 		grid-gap: 2em;
-		overflow: hidden;
 		padding: 0 25px 0 25px;
 	}
 
 	.row-middle-section {
 		justify-content: center;
 	}
-
-	/* .row-right-flank {
-		justify-content: flex-start;
-		overflow: auto;
-	} */
 </style>
