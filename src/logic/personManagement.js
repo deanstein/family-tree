@@ -425,21 +425,10 @@ export const getInverseRelationshipId = (groupId) => {
 				}
 				break;
 			case relationshipMap.grandchildren.id:
-				if (activePersonGender === 'male') {
-					inverseId = undefined;
-				} else if (activePersonGender === 'female') {
-					inverseId = undefined;
-				} else {
-					inverseId = undefined;
-				}
-			case relationshipMap.grandNiblings.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.grandNiblings.grandnephew.id;
-				} else if (currentValue.defaultPersonactivePerson.gender === 'female') {
-					inverseId = relationshipMap.grandNiblings.grandniece.id;
-				} else {
-					inverseId = relationshipMap.grandNiblings.grandNibling.id;
-				}
+				inverseId = relationshipMap.grandparentsMaternal.grandparentMaternal.id;
+				break;
+			case relationshipMap.grandniblings.id:
+				inverseId = relationshipMap.greatAunclesMaternal.greatAuncleMaternal.id;
 				break;
 			case relationshipMap.secondCousinsBelow.id:
 				inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow;

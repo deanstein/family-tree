@@ -390,7 +390,7 @@ const relationshipMap = {
 			label: 'grandniece'
 		},
 		grandnephew: {
-			grandnephews: 'grandnephews',
+			id: 'grandnephews',
 			label: 'grandnephew'
 		}
 	},
@@ -489,8 +489,8 @@ export const childrenCompatibleGroups = {
 	childrenInLaw
 };
 
-const { grandchildren, grandNiblings } = relationshipMap;
+const { grandchildren, grandniblings } = relationshipMap;
 export const grandchildrenCompatibleGroups = {
 	grandchildren,
-	grandNiblings
+	grandniblings
 };
