@@ -489,7 +489,8 @@ export const childrenCompatibleGroups = {
 	childrenInLaw
 };
 
-const { grandNiblings } = relationshipMap;
-export const grandNiblingsCompatibleGroups = {
+const { grandchildren, grandNiblings } = relationshipMap;
+export const grandchildrenCompatibleGroups = {
+	grandchildren,
 	grandNiblings
 };

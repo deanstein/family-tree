@@ -28,7 +28,7 @@ const sizes = {
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,
 	get nGenerationRowHeight() {
-		return 100 / (this.nShowGenerationsUp + this.nShowGenerationsUp + 1);
+		return 100 / (this.nShowGenerationsUp + this.nShowGenerationsUp + 2);
 	},
 	get generationRowHeight() {
 		return this.nGenerationRowHeight.toString() + 'vh';

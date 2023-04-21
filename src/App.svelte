@@ -11,15 +11,16 @@
 		siblingsCompatibleGroups,
 		spouseCompatibleGroups,
 		niblingsCompatibleGroups,
-		childrenCompatibleGroups
+		childrenCompatibleGroups,
+		grandchildrenCompatibleGroups
 	} from './stores/relationshipMap';
 	import stylingConstants from './ui/stylingConstants';
 	import { setActivePerson } from './logic/personManagement';
 
-	import SaveStateBanner from './ui/SaveStateBanner.svelte';
-	import ChooseTreeModal from './ui/ChooseTreeModal.svelte';
-	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
-	import ScrollingRowFlank from './ui/NodeView/ScrollingRowFlank.svelte';
+	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
+	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
+	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
+	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
@@ -57,7 +58,7 @@
 		<ChooseTreeModal />
 		<PersonDetail />
 		<div id="tree-canvas" class="tree-canvas">
-			<div id="upper-generation-block" class="upper-generation-block">
+			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -254,7 +255,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="lower-generation-block" class="lower-generation-block">
+			<div id="lower-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -297,6 +298,32 @@
 						/>
 					</ScrollingRowFlank>
 				</GenerationRow>
+				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+						<PersonNodeGroup
+							bHideIfEmpty={bHideEmptyGroups}
+							personNodeGroupData={{
+								groupId: relationshipMap.grandniblings.id,
+								groupName: relationshipMap.grandniblings.label,
+								groupMembers: $uiState.activePerson.relationships.grandniblings,
+								compatibleGroups: grandchildrenCompatibleGroups
+							}}
+						/>
+					</ScrollingRowFlank>
+
+					<PersonNodeGroup
+						slot="row-middle-section"
+						bHideIfEmpty={bHideEmptyGroups}
+						personNodeGroupData={{
+							groupId: relationshipMap.grandchildren.id,
+							groupName: relationshipMap.grandchildren.label,
+							groupMembers: $uiState.activePerson.relationships.grandchildren,
+							compatibleGroups: grandchildrenCompatibleGroups
+						}}
+					/>
+
+					<ScrollingRowFlank flank={'right'} slot="row-right-flank" />
+				</GenerationRow>
 			</div>
 		</div>
 		<Footer {sAppVersion} {sDataVersion} />
@@ -334,7 +361,7 @@
 		gap: 2vh;
 	}
 
-	.upper-generation-block {
+	.generation-block {
 		display: grid;
 		gap: 2vh;
 		width: 100vw;
