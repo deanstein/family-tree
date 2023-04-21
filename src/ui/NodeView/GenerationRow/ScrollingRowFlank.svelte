@@ -9,6 +9,9 @@
 	let rowFlankInnerContainerDynamicClass;
 
 	function scrollHorizontal(event) {
+		if (event.currentTarget.scrollWidth <= event.currentTarget.clientWidth) {
+    		return;
+		}
 		const delta = event.deltaX || event.deltaY;
 		event.currentTarget.scrollBy(delta, 0);
 		event.preventDefault();
