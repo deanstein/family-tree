@@ -1,9 +1,9 @@
 <script>
-	import { getNotificationConfigFromRepoState, setRepoState } from '../logic/uiManagement';
-	import uiState from '../stores/uiState';
+	import { getNotificationConfigFromRepoState, setRepoState } from '../../logic/uiManagement';
+	import uiState from '../../stores/uiState';
 
 	import NotificationBanner from './NotificationBanner.svelte';
-	import { repoStateStrings } from './strings';
+	import { repoStateStrings } from '../strings';
 
 	let message;
 	let color;

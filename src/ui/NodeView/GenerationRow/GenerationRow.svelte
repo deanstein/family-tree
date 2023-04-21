@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../stores/uiState';
+	import uiState from '../../../stores/uiState';
 
 	export let rowHeight = '15vh';
 

@@ -1,16 +1,16 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import Overlay from './NodeView/Overlay.svelte';
+	import Overlay from '../NodeView/Overlay.svelte';
 
-	import uiState from '../stores/uiState';
-	import stylingConstants from './stylingConstants';
+	import uiState from '../../stores/uiState';
+	import stylingConstants from '../stylingConstants';
 
-	import { chooseTreeStrings } from './strings';
+	import { chooseTreeStrings } from '../strings';
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../logic/uiManagement';
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/uiManagement';
 
 	export let showCloseButton = true;
 
