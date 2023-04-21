@@ -1,23 +1,28 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import uiState from '../../stores/uiState';
+
 	export let rowHeight = '15vh';
 
 	const rowDynamicClass = css`
 		height: ${rowHeight};
 	`;
+
+	function handleWheel(event) {
+		const delta = event.deltaX || event.deltaY;
+		console.log(event.target);
+		event.target.scrollBy(delta, 0);
+		event.preventDefault();
+	}
 </script>
 
 <div id="row" class="{rowDynamicClass} row">
-	<div id="row-left-flank" class="row-left-flank">
-		<slot name="row-left-flank" />
-	</div>
+	<slot name="row-left-flank" />
 	<div id="row-middle-section" class="row-middle-section">
 		<slot name="row-middle-section" />
 	</div>
-	<div id="row-right-flank" class="row-right-flank">
-		<slot name="row-right-flank" />
-	</div>
+	<slot name="row-right-flank" />
 </div>
 
 <style>
@@ -27,27 +32,16 @@
 		align-items: center;
 		justify-content: center;
 		grid-gap: 2em;
-		overflow: auto;
-	}
-
-	.row-left-flank,
-	.row-right-flank {
-		display: flex;
-		flex-grow: 1;
-		flex-basis: 33%;
-	}
-
-	.row-left-flank {
-		justify-content: flex-end;
-		overflow: auto;
+		overflow: hidden;
+		padding: 0 25px 0 25px;
 	}
 
 	.row-middle-section {
 		justify-content: center;
 	}
 
-	.row-right-flank {
+	/* .row-right-flank {
 		justify-content: flex-start;
 		overflow: auto;
-	}
+	} */
 </style>

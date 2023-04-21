@@ -36,7 +36,7 @@
 		// load the family tree
 		// TODO: add ability to choose, rather than hard-code
 		getRepoFamilyTreeAndSetActive('1', '8890');
-	}
+	};
 </script>
 
 {#if $uiState.showChooseTreeModal}

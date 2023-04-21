@@ -8,7 +8,8 @@
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
-		removePersonFromActivePersonGroup
+		removePersonFromActivePersonGroup,
+		unsetActiveNodeEditId
 	} from '../../../logic/uiManagement';
 
 	import Avatar from './Avatar.svelte';
@@ -21,7 +22,7 @@
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
 		removePersonFromActivePersonGroup($uiState.personIdForNodeEdit, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($uiState.personIdForNodeEdit));
-		//unsetActiveNodeEditId();
+		unsetActiveNodeEditId();
 		//setActiveNodeEditId(sPersonId)
 	};
 

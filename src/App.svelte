@@ -19,13 +19,14 @@
 	import SaveStateBanner from './ui/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/ChooseTreeModal.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow.svelte';
+	import ScrollingRowFlank from './ui/NodeView/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
 
-	const sAppVersion = '0.7.3';
+	const sAppVersion = '0.7.4';
 	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
@@ -44,12 +45,6 @@
 		}
 	}
 	`;
-
-	function handleWheel(event) {
-		const delta = event.deltaX || event.deltaY;
-		event.currentTarget.scrollBy(delta, 0);
-		event.preventDefault();
-	}
 </script>
 
 <main>
@@ -64,7 +59,7 @@
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="upper-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank">
+					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -74,9 +69,9 @@
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 
-					<div slot="row-middle-section" class="row-flank">
+					<div slot="row-middle-section" class="middle-section">
 						<PersonNodeGroup
 							personNodeGroupData={{
 								groupId: relationshipMap.grandparentsMaternal.id,
@@ -95,7 +90,7 @@
 						/>
 					</div>
 
-					<div slot="row-right-flank" class="row-flank">
+					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -105,10 +100,10 @@
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 				</GenerationRow>
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank" on:wheel={handleWheel}>
+					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -127,7 +122,7 @@
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
@@ -137,7 +132,7 @@
 							compatibleGroups: parentsCompatibleGroups
 						}}
 					/>
-					<div slot="row-right-flank" class="row-flank">
+					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -165,13 +160,13 @@
 								compatibleGroups: parentsCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 				</GenerationRow>
 			</div>
 
 			<div id="siblings-generation-block" class="siblings-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank" on:wheel={handleWheel}>
+					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -206,7 +201,7 @@
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 
 					<div
 						slot="row-middle-section"
@@ -219,7 +214,7 @@
 						/>
 					</div>
 
-					<div slot="row-right-flank" class="row-flank">
+					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
 							personNodeGroupData={{
 								groupId: relationshipMap.halfSiblingsPaternal.id,
@@ -255,13 +250,13 @@
 								compatibleGroups: spouseCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 				</GenerationRow>
 			</div>
 
 			<div id="lower-generation-block" class="lower-generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-					<div slot="row-left-flank" class="row-flank">
+					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -271,7 +266,7 @@
 								compatibleGroups: niblingsCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 					<PersonNodeGroup
 						slot="row-middle-section"
 						personNodeGroupData={{
@@ -281,7 +276,7 @@
 							compatibleGroups: childrenCompatibleGroups
 						}}
 					/>
-					<div slot="row-right-flank" class="row-flank">
+					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
@@ -300,7 +295,7 @@
 								compatibleGroups: childrenCompatibleGroups
 							}}
 						/>
-					</div>
+					</ScrollingRowFlank>
 				</GenerationRow>
 			</div>
 		</div>
@@ -360,9 +355,9 @@
 		margin-right: 5vh;
 	}
 
-	.row-flank {
+	.middle-section {
 		display: flex;
 		gap: 2em;
-		overflow: auto;
+		position: relative;
 	}
 </style>

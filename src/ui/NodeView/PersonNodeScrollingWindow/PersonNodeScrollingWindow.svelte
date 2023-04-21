@@ -5,10 +5,6 @@
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
 
 	export let sRelationshipId;
-
-	onMount(() => {
-		//console.log($uiState.personIdsOffScreen, $uiState.personIdsOffScreenFiltered);
-	});
 </script>
 
 <div
