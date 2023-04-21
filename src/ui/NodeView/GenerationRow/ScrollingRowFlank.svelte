@@ -16,7 +16,10 @@
 			overflow-y: ${$uiState.personIdForNodeEdit !== undefined ? `initial` : `auto`};
 		`;
 
-		rowFlankInnerContainerDynamicClass = css``;
+		rowFlankInnerContainerDynamicClass = css`
+			overflow-x: ${$uiState.personIdForNodeEdit !== undefined ? `clip` : `initial`};
+			overflow-y: ${$uiState.personIdForNodeEdit !== undefined ? `initial` : `auto`};
+		`;
 	}
 </script>
 

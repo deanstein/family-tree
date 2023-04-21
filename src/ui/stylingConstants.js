@@ -46,7 +46,7 @@ const sizes = {
 	get personNodeGroupTitleHeight() {
 		return this.nPersonNodeGroupTitleHeight.toString() + 'vh';
 	},
-	nPersonNodeGroupFontSize: 1.75,
+	nPersonNodeGroupFontSize: 1.25,
 	get personNodeGroupFontSize() {
 		return this.nPersonNodeGroupFontSize + 'vh';
 	},
@@ -62,7 +62,7 @@ const sizes = {
 	get personNodeSize() {
 		return this.nPersonNodeSize.toString() + 'vh';
 	},
-	nPersonNodeFontSize: 1.5,
+	nPersonNodeFontSize: 1.1,
 	get personNodeFontSize() {
 		return this.nPersonNodeGroupFontSize + 'vh';
 	},
