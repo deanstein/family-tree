@@ -46,6 +46,7 @@
 	.row-flank-inner-container {
 		display: flex;
 		gap: 2em;
+		position: relative;
 	}
 
 	/* not used yet - attempting to get the scrollbar out of the container */
@@ -55,11 +56,11 @@
 		position: relative;
 	}
 
-	.row-flank::-webkit-scrollbar {
+	.row-flank-inner-container2::-webkit-scrollbar {
 		height: 10px; /* Set scrollbar height */
 	}
 
-	.row-flank::after {
+	.row-flank-inner-container2::after {
 		content: '';
 		display: block;
 		position: absolute;
@@ -67,7 +68,7 @@
 		bottom: -10px;
 		left: 0;
 		right: 0;
-		background-color: #f1f1f1; /* Set background color of scrollbar */
-		z-index: 1; /* Ensure scrollbar is above content */
+		background-color: red; /* Set background color of scrollbar */
+		z-index: 5; /* Ensure scrollbar is above content */
 	}
 </style>

@@ -9,14 +9,24 @@
 </script>
 
 <div id="avatar-container" class="{avatarContainerDynamicClass} avatar-container">
-	<div id="avatar-image" class="avatar-image" />
+	<img
+		src="./src/ui/NodeView/PersonNode/img/avatar-placeholder.jpg"
+		id="avatar-image"
+		class="avatar-image"
+		alt="avatar of this person"
+	/>
 </div>
 
 <style>
 	.avatar-container {
 		height: 100%;
+		overflow: hidden;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: lightgray;
+	}
+
+	.avatar-image {
+		height: 100%;
 	}
 </style>

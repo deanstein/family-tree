@@ -27,7 +27,7 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
 
-	const sAppVersion = '0.7.4';
+	const sAppVersion = '0.7.5';
 	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
