@@ -385,6 +385,5 @@
 	.middle-section {
 		display: flex;
 		gap: 2em;
-		position: relative;
 	}
 </style>
