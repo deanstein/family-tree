@@ -64,7 +64,7 @@ const sizes = {
 	},
 	nPersonNodeFontSize: 1.1,
 	get personNodeFontSize() {
-		return this.nPersonNodeGroupFontSize + 'vh';
+		return this.nPersonNodeFontSize + 'vh';
 	},
 
 	get nPersonNodeActiveSize() {

@@ -40,6 +40,7 @@
 
 	const relationshipTypePickerDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
+		font-size: ${stylingConstants.sizes.personNodeFontSize};
 	`;
 </script>
 

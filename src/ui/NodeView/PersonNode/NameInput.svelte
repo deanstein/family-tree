@@ -45,15 +45,15 @@
 	};
 
 	const nameInputContainerDynamicClass = css`
-		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		padding-top: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 		padding-bottom: ${bIsActivePerson ? stylingConstants.sizes.padding : '0px'};
-		margin-bottom: ${bIsActivePerson ? '0px' : '-2px'};
+		margin-bottom: ${bIsActivePerson ? '0px' : '-4px'};
 	`;
 
 	const nameInputDynamicClass = css`
+		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 	`;
 </script>
