@@ -28,6 +28,7 @@
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 2px solid transparent;
+			font-size: ${stylingConstants.sizes.personNodeFontSize};
 			:hover {
 				background-color: ${stylingConstants.colors.hoverColor};
 			}

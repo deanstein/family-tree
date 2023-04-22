@@ -59,6 +59,6 @@
 	}
 
 	.person-add-button-label {
-		font-size: 2em;
+		font-size: 3vh;
 	}
 </style>
