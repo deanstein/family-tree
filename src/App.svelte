@@ -368,8 +368,8 @@
 	}
 
 	.active-person-container {
-		margin-left: 5vh;
-		margin-right: 5vh;
+		margin-left: 1vw;
+		margin-right: 1vw;
 	}
 
 	.middle-section {

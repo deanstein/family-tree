@@ -30,6 +30,7 @@
 	const personNodeGroupTitleDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
+		background-color: ${stylingConstants.colors.nodeGroupHeaderColor};
 	`;
 </script>
 
@@ -90,6 +91,5 @@
 		display: inline-flex;
 		width: 100%;
 		color: white;
-		background-color: darkgray;
 	}
 </style>

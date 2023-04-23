@@ -52,7 +52,9 @@
 			width: ${sNodeSize};
 			height: ${sNodeSize};
 			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
-			background-color: ${stylingConstants.colors.personNodeColor};
+			background-color: ${bIsActivePerson
+				? stylingConstants.colors.activePersonNodeColor
+				: stylingConstants.colors.personNodeColor};
 			border: ${$uiState.personIdForNodeEdit == sPersonId ||
 			$uiState.personIdForNodeSettingsFlyout == sPersonId
 				? `2px solid ${stylingConstants.colors.hoverColor}`

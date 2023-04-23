@@ -28,5 +28,6 @@
 
 	.avatar-image {
 		height: 100%;
+		scale: 1.1; /* temporarily account for placeholder avatar */
 	}
 </style>
