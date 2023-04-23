@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import Portal from "svelte-portal";
 
 	import Overlay from '../NodeView/Overlay.svelte';
 
@@ -73,7 +74,9 @@
 				features. It may also be buggy.
 			</div>
 		</div>
-		<Overlay />
+		<Portal target={document.body}>
+			<Overlay />
+		</Portal>
 	</div>
 {/if}
 

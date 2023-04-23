@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import Portal from "svelte-portal";
 
 	import familyTreeData from '../../stores/familyTreeData';
 	import uiState from '../../stores/uiState';
@@ -35,7 +36,9 @@
 
 			<Button buttonText={'Close'} onClickFunction={closeButtonOnClick} />
 		</div>
-		<Overlay />
+		<Portal target={document.body}>
+			<Overlay />
+		</Portal>
 	</div>
 {/if}
 

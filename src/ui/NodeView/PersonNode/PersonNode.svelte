@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import Portal from "svelte-portal";
 
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
@@ -131,9 +132,11 @@
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode}
-		<Overlay />
-	{/if}
+	<Portal target={document.body}>
+		{#if bIsNodeInEditMode}
+			<Overlay />
+		{/if}
+	</Portal>
 {/key}
 
 <style>
