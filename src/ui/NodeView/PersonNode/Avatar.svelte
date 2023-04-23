@@ -10,7 +10,7 @@
 
 <div id="avatar-container" class="{avatarContainerDynamicClass} avatar-container">
 	<img
-		src="./src/ui/NodeView/PersonNode/img/avatar-placeholder.jpg"
+		src="./img/avatar-placeholder.jpg"
 		id="avatar-image"
 		class="avatar-image"
 		alt="avatar of this person"
