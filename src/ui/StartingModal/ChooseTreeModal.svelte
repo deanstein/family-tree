@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import Portal from "svelte-portal";
+	import Portal from 'svelte-portal';
 
 	import Overlay from '../NodeView/Overlay.svelte';
 
