@@ -31,6 +31,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		max-width: 100vw;
+		box-sizing: border-box;
 		grid-gap: 2em;
 		padding: 0 25px 0 25px;
 	}

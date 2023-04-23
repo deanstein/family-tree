@@ -165,7 +165,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="siblings-generation-block" class="siblings-generation-block">
+			<div id="siblings-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -364,16 +364,6 @@
 	.generation-block {
 		display: grid;
 		gap: 2vh;
-		width: 100vw;
-	}
-
-	.siblings-generation-block {
-		display: grid;
-		width: 100vw;
-	}
-
-	.lower-generation-block {
-		display: grid;
 		width: 100vw;
 	}
 
