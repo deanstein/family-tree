@@ -22,7 +22,9 @@
 	class="notification-banner-outer-container {headerContainerDynamicClass}"
 >
 	{message}
-	<slot />
+	<div id="notification-button-container" class="notification-button-container">
+		<slot />
+	</div>
 </div>
 
 <style>
@@ -36,5 +38,11 @@
 		width: 100%;
 		width: -moz-available; /* WebKit-based browsers will ignore this. */
 		width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+	}
+
+	.notification-button-container {
+		display: grid;
+		margin-left: 1vw;
+		gap: 1vw;
 	}
 </style>

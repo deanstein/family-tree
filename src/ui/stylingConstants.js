@@ -9,7 +9,7 @@ const colors = {
 	personNodeColor: '#bfd0db',
 	activePersonNodeColor: '#87a9c0',
 	hyperlinkColor: '#2373a3',
-	menuBackgroundColor: 'gainsboro',
+	menuBackgroundColor: '#ececec',
 	notificationColorError: 'palevioletred',
 	notificationColorWarning: 'lightYellow',
 	notificationColorInformation: 'lightBlue',

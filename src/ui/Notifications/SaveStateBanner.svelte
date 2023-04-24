@@ -1,6 +1,6 @@
 <script>
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistenceManagement';
-	import { getNotificationConfigFromRepoState, setRepoState } from '../../logic/uiManagement';
+	import { getNotificationConfigFromRepoState, setCachedActivePerson, setRepoState } from '../../logic/uiManagement';
 	import uiState from '../../stores/uiState';
 	import { repoStateStrings } from '../strings';
 	import { areObjectsEqual } from '../../logic/utils';
@@ -13,6 +13,8 @@
 	let color;
 
 	let onSaveButtonClick = () => {
+		// set the cache to the current active user to clear the save flag
+		setCachedActivePerson();
 		writeCurrentFamilyTreeDataToRepo('8890');
 	};
 
@@ -28,16 +30,11 @@
 		}
 
 		// determine if there are unsved changes
-		if (
-			$uiState.saveToRepoStatus !== repoStateStrings.saving &&
-			$uiState.saveToRepoStatus !== repoStateStrings.saved
-		) {
-			unsavedChanges = !areObjectsEqual($uiState.activePerson, $uiState.cachedActivePerson);
+		unsavedChanges = !areObjectsEqual($uiState.activePerson, $uiState.cachedActivePerson);
 			if (unsavedChanges) {
 				$uiState.unsavedChanges = true;
 				$uiState.saveToRepoStatus = repoStateStrings.unsavedChanges;
 			}
-		}
 	}
 
 	uiState.subscribe(() => {
