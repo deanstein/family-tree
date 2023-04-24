@@ -74,7 +74,7 @@
 				features. It may also be buggy.
 			</div>
 		</div>
-		<Portal target={document.body}>
+		<Portal target="#app-container">
 			<Overlay />
 		</Portal>
 	</div>

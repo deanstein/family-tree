@@ -36,7 +36,7 @@
 
 			<Button buttonText={'Close'} onClickFunction={closeButtonOnClick} />
 		</div>
-		<Portal target={document.body}>
+		<Portal target="#app-container">
 			<Overlay />
 		</Portal>
 	</div>
