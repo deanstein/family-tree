@@ -24,7 +24,7 @@
 		justify-content: center;
 		max-width: 100vw;
 		box-sizing: border-box;
-		grid-gap: 2em;
+		grid-gap: 1vw;
 		padding: 0 25px 0 25px;
 	}
 

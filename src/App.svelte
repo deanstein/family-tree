@@ -369,6 +369,6 @@
 
 	.middle-section {
 		display: flex;
-		gap: 2em;
+		gap: 1vw;
 	}
 </style>

@@ -45,7 +45,7 @@
 
 	.row-flank-inner-container {
 		display: flex;
-		gap: 2em;
+		gap: 1vw;
 		position: relative;
 	}
 
