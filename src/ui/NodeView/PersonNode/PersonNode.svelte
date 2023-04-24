@@ -134,11 +134,11 @@
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>
-		{#if bIsNodeInEditMode}
+	{#if bIsNodeInEditMode}
 		<Portal target="#app-container">
 			<Overlay />
 		</Portal>
-		{/if}
+	{/if}
 {/key}
 
 <style>

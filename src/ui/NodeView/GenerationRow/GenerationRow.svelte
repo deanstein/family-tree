@@ -1,20 +1,11 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../stores/uiState';
-
 	export let rowHeight = '15vh';
 
 	const rowDynamicClass = css`
 		height: ${rowHeight};
 	`;
-
-	function handleWheel(event) {
-		const delta = event.deltaX || event.deltaY;
-		console.log(event.target);
-		event.target.scrollBy(delta, 0);
-		event.preventDefault();
-	}
 </script>
 
 <div id="row" class="{rowDynamicClass} row">

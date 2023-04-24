@@ -27,7 +27,7 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
 
-	const sAppVersion = '0.7.6';
+	const sAppVersion = '0.7.7';
 	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
@@ -365,11 +365,6 @@
 		display: grid;
 		gap: 2vh;
 		width: 100vw;
-	}
-
-	.active-person-container {
-		margin-left: 1vw;
-		margin-right: 1vw;
 	}
 
 	.middle-section {

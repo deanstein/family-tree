@@ -19,12 +19,13 @@
 	export let bIsNodeInEditMode;
 
 	let settingsButtonText;
-	let nodeSettingsButtonTextDynamicClass;
+	let nodeSettingsButtonDynamicClass;
 
 	$: {
 		settingsButtonText = bIsNodeInEditMode ? 'done' : '...';
 
-		nodeSettingsButtonTextDynamicClass = css`
+		nodeSettingsButtonDynamicClass = css`
+			z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 2px solid transparent;
@@ -36,12 +37,12 @@
 	}
 
 	const nodeSettingsFlyoutDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
+		z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex + 2};
 		ul {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 		a {
-			background-color: ${stylingConstants.colors.personNodeColor};
+			background-color: ${stylingConstants.colors.menuBackgroundColor};
 			:hover {
 				background-color: ${stylingConstants.colors.hoverColor};
 		}
@@ -70,7 +71,7 @@
 	<button
 		type="button"
 		id="settings-button"
-		class="{nodeSettingsButtonTextDynamicClass} node-settings-button"
+		class="{nodeSettingsButtonDynamicClass} node-settings-button"
 		on:click|stopPropagation={bIsNodeInEditMode
 			? onDoneButtonClick
 			: () => toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button

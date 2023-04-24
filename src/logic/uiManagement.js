@@ -11,6 +11,14 @@ import {
 } from './personManagement';
 import stylingConstants from '../ui/stylingConstants';
 
+export const setCachedActivePerson = () => {
+	uiState.update((currentValue) => {
+		let cachedPerson = JSON.stringify(currentValue.activePerson);
+		currentValue.cachedActivePerson = JSON.parse(cachedPerson);
+		return currentValue;
+	});
+};
+
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (
 	familyTreeId,

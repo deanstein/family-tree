@@ -1,6 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import stylingConstants from '../stylingConstants';
+
 	export let message = 'This is a notification banner.';
 	export let color = 'lightGreen';
 	export let showCloseButton = true;
@@ -9,6 +11,7 @@
 
 	$: {
 		headerContainerDynamicClass = css`
+			z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
 			background-color: ${color};
 		`;
 	}
@@ -19,11 +22,11 @@
 	class="notification-banner-outer-container {headerContainerDynamicClass}"
 >
 	{message}
+	<slot />
 </div>
 
 <style>
 	.notification-banner-outer-container {
-		z-index: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;

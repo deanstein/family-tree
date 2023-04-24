@@ -35,3 +35,36 @@ export const decrypt = (encrypted, password) => {
 	var decrypted = decryptedWA.toString(CryptoJS.enc.Utf8);
 	return decrypted;
 };
+
+export const areObjectsEqual = (obj1, obj2) => {
+	// Check if both objects are null or undefined
+	if (obj1 === obj2) {
+		return true;
+	}
+
+	// Check if both objects are not null and have the same type
+	if (typeof obj1 !== typeof obj2 || obj1 === null || obj2 === null) {
+		return false;
+	}
+
+	// If both objects are objects
+	if (typeof obj1 === 'object') {
+		// Get the keys of both objects
+		const keys1 = Object.keys(obj1);
+		const keys2 = Object.keys(obj2);
+		// Check if the number of keys are the same
+		if (keys1.length !== keys2.length) {
+			return false;
+		}
+		// Check each property of the objects recursively
+		for (let key of keys1) {
+			if (!areObjectsEqual(obj1[key], obj2[key])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// If both objects are not arrays or objects, compare them directly
+	return obj1 === obj2;
+};

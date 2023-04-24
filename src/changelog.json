@@ -6,6 +6,7 @@
                 "Added a modal dialog to choose between new tree, example tree, and load tree",
                 "Added password protection",
                 "Added NotificationBanner and SaveStateBanner",
+                "Added ability to know when unsaved changes are present, and added ability to save to SaveStateBanner",
                 "Added scrolling GenerationRow flank, fixed styling issues when view is compressed"
             ]
         },

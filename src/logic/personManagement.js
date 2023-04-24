@@ -5,7 +5,8 @@ import {
 	addOrUpdatePersonInActivePersonGroup,
 	initializeOffScreenPeopleIdsArray,
 	updateOffScreenPeopleIdsArray,
-	removePersonFromActivePersonGroup
+	removePersonFromActivePersonGroup,
+	setCachedActivePerson
 } from './uiManagement';
 
 import familyTreeData from '../stores/familyTreeData';
@@ -47,6 +48,7 @@ export const setActivePerson = (person) => {
 			lastKnownActivePersonId: person.id
 		};
 	});
+	setCachedActivePerson();
 	updateOffScreenPeopleIdsArray();
 };
 
