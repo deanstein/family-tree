@@ -36,6 +36,7 @@
 	}
 
 	const nodeSettingsFlyoutDynamicClass = css`
+		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
 		ul {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
@@ -112,7 +113,6 @@
 		top: 0;
 		left: 100%;
 		width: 200px;
-		z-index: 1;
 	}
 
 	.node-settings-flyout-menu ul {
