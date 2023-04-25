@@ -16,7 +16,20 @@
 	export let showCloseButton = true;
 
 	const chooseTreeModalContentContainerDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.personNodeEditZIndex + 1};
+		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
+	`;
+
+	const chooseTreeModalGridDynamicClass = css`
+		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
+				.breakpoints.width[1]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
+			flex-direction: row;
+		}
 	`;
 
 	const newFamilyTreeButtonOnClick = () => {
@@ -52,7 +65,10 @@
 			<div id="choose-tree-header" class="choose-tree-header">
 				<div id="welcome-message" class="choose-tree-welcome-message">Choose a family tree:</div>
 			</div>
-			<div id="choose-tree-options-grid" class="choose-tree-options-grid">
+			<div
+				id="choose-tree-options-grid"
+				class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
+			>
 				<ChooseTreeOption
 					buttonText={chooseTreeStrings.newTreeButton}
 					buttonFunction={newFamilyTreeButtonOnClick}
@@ -93,6 +109,7 @@
 	.choose-tree-modal-content-container {
 		display: flex;
 		flex-direction: column;
+		overflow: auto;
 		width: 50vw;
 		height: 50vh;
 		background-color: rgba(48, 48, 48, 0.8);
@@ -102,8 +119,16 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		text-align: center;
 		padding: 10px;
 		color: white;
+	}
+
+	.choose-tree-options-grid {
+		display: flex;
+		flex-grow: 1;
+		gap: 5vh;
+		padding: 0 5vh 0 5vh;
 	}
 
 	.choose-tree-welcome-message {
@@ -117,15 +142,10 @@
 	.choose-tree-dev-message {
 		display: flex;
 		padding: 10px;
+		font-size: 1.5vh;
 		font-style: italic;
 		justify-content: center;
+		text-align: center;
 		color: #ebf596;
-	}
-
-	.choose-tree-options-grid {
-		display: flex;
-		flex-grow: 1;
-		gap: 5vh;
-		padding: 5vh;
 	}
 </style>

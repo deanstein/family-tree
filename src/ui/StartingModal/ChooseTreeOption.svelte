@@ -1,16 +1,46 @@
 <script>
+	import { css } from '@emotion/css';
+
+	import stylingConstants from '../stylingConstants';
+
 	import Button from '../Button.svelte';
 
 	export let buttonText;
 	export let buttonFunction;
 	export let description;
+
+	const treeOptionContainerDynamicClass = css`
+		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
+				.breakpoints.width[1]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
+			flex-direction: row;
+		}
+	`;
+
+	const treeDescriptionDynamicClass = css`
+		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
+			position: relative;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
+				.breakpoints.width[1]}) {
+			position: relative;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
+			position: absolute;
+		}
+	`;
 </script>
 
-<div id="tree-option-container" class="tree-option-container">
+<div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
 	<div id="button-container" class="button-container">
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
-	<div id="example-tree-description" class="tree-description">
+	<div id="example-tree-description" class="{treeDescriptionDynamicClass} tree-description">
 		{description}
 	</div>
 </div>
@@ -34,10 +64,9 @@
 	}
 
 	.tree-description {
-		position: absolute;
 		color: black;
 		text-align: center;
-		font-size: 1.5vh;
+		font-size: 1.3vh;
 		padding: 10px;
 		bottom: 0;
 	}

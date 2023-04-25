@@ -1,3 +1,8 @@
+export const breakpoints = {
+	width: ['768px', '1024px'],
+	height: ['400px', '800px']
+};
+
 const colors = {
 	buttonColor: '#0092e4',
 	hoverColor: '#50CBFC',
@@ -105,6 +110,7 @@ const zIndices = {
 };
 
 const stylingConstants = {
+	breakpoints,
 	colors,
 	sizes,
 	zIndices
