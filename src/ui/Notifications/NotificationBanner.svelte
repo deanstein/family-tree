@@ -33,8 +33,8 @@
 		justify-content: center;
 		align-items: center;
 		position: fixed;
-
-		height: 5vh;
+		font-size: 1.5vh;
+		height: 3vh;
 		width: 100%;
 		width: -moz-available; /* WebKit-based browsers will ignore this. */
 		width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
@@ -42,7 +42,7 @@
 
 	.notification-button-container {
 		display: grid;
-		margin-left: 1vw;
-		gap: 1vw;
+		margin-left: 0.75vw;
+		gap: 0.75vw;
 	}
 </style>

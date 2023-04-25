@@ -5,8 +5,12 @@
 
 	export let buttonText;
 	export let onClickFunction;
+	export let overrideFontSize = undefined;
+	export let overridePadding = undefined;
 
 	const buttonDynamicClass = css`
+		font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
+		padding: ${overridePadding ? overridePadding : '1vh'};
 		background-color: ${stylingConstants.colors.buttonColor};
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
@@ -20,7 +24,6 @@
 
 <style>
 	button {
-		padding: 15px;
 		color: white;
 		border: none;
 		font-weight: bold;

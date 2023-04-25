@@ -1,6 +1,10 @@
 <script>
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistenceManagement';
-	import { getNotificationConfigFromRepoState, setCachedActivePerson, setRepoState } from '../../logic/uiManagement';
+	import {
+		getNotificationConfigFromRepoState,
+		setCachedActivePerson,
+		setRepoState
+	} from '../../logic/uiManagement';
 	import uiState from '../../stores/uiState';
 	import { repoStateStrings } from '../strings';
 	import { areObjectsEqual } from '../../logic/utils';
@@ -31,10 +35,10 @@
 
 		// determine if there are unsved changes
 		unsavedChanges = !areObjectsEqual($uiState.activePerson, $uiState.cachedActivePerson);
-			if (unsavedChanges) {
-				$uiState.unsavedChanges = true;
-				$uiState.saveToRepoStatus = repoStateStrings.unsavedChanges;
-			}
+		if (unsavedChanges) {
+			$uiState.unsavedChanges = true;
+			$uiState.saveToRepoStatus = repoStateStrings.unsavedChanges;
+		}
 	}
 
 	uiState.subscribe(() => {
@@ -46,7 +50,12 @@
 {#if $uiState.saveToRepoStatus != repoStateStrings.undefined && $uiState.saveToRepoStatus != repoStateStrings.saved && $uiState.saveToRepoStatus != undefined}
 	<NotificationBanner {message} {color}>
 		{#if $uiState.saveToRepoStatus === repoStateStrings.unsavedChanges}
-			<Button buttonText={'Save now'} onClickFunction={onSaveButtonClick} />
+			<Button
+				buttonText={'Save'}
+				onClickFunction={onSaveButtonClick}
+				overrideFontSize={'1.35vh'}
+				overridePadding={'0.5vh'}
+			/>
 		{/if}
 	</NotificationBanner>
 {/if}

@@ -3,7 +3,7 @@ const colors = {
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',
-	overlayOpacity: '55%',
+	overlayOpacity: '75%',
 	nodeGroupColor: 'white',
 	nodeGroupHeaderColor: '#adadad',
 	personNodeColor: '#bfd0db',
@@ -25,6 +25,11 @@ const sizes = {
 	nPaddingNarrow: 0.5,
 	get paddingNarrow() {
 		return this.nPaddingNarrow.toString() + 'vh';
+	},
+
+	nNotificationFontSize: 1.5,
+	get notificationFontSize() {
+		return this.nNotificationFontSize.toString() + 'vh';
 	},
 
 	nShowGenerationsUp: 2,
@@ -91,12 +96,12 @@ const sizes = {
 };
 
 const zIndices = {
-	notificationZIndex: 1,
 	personNodeOverlayZIndex: 2,
 	personNodeEditZIndex: 3,
 	personNodeSettingsZIndex: 4,
 	personNodeSettingsFlyoutZIndex: 5,
-	personDetailViewZIndex: 6
+	personDetailViewZIndex: 6,
+	notificationZIndex: 7
 };
 
 const stylingConstants = {
