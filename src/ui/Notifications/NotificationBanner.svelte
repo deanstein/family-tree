@@ -11,7 +11,7 @@
 
 	$: {
 		headerContainerDynamicClass = css`
-			z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
+			z-index: ${stylingConstants.zIndices.notificationZIndex};
 			background-color: ${color};
 		`;
 	}

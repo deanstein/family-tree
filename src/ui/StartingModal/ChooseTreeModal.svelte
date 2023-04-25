@@ -16,7 +16,7 @@
 	export let showCloseButton = true;
 
 	const chooseTreeModalContentContainerDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex + 1};
+		z-index: ${stylingConstants.zIndices.personNodeEditZIndex + 1};
 	`;
 
 	const newFamilyTreeButtonOnClick = () => {

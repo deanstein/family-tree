@@ -42,7 +42,7 @@
 		}
 
 		// is this node in edit mode?
-		if (sPersonId === $uiState.personIdForNodeEdit && sPersonId != undefined) {
+		if (sPersonId === $uiState.personIdForNodeEdit && sPersonId !== undefined) {
 			bIsNodeInEditMode = true;
 		} else {
 			bIsNodeInEditMode = false;
@@ -51,7 +51,7 @@
 		personNodeDynamicClass = css`
 			width: ${sNodeSize};
 			height: ${sNodeSize};
-			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.nPersonNodeEditZIndex}` : 'auto'};
+			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.personNodeEditZIndex}` : 'auto'};
 			background-color: ${bIsActivePerson
 				? stylingConstants.colors.activePersonNodeColor
 				: stylingConstants.colors.personNodeColor};

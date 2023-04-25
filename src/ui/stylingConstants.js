@@ -91,8 +91,12 @@ const sizes = {
 };
 
 const zIndices = {
-	nPersonNodeOverlayZIndex: 2,
-	nPersonNodeEditZIndex: 3
+	notificationZIndex: 1,
+	personNodeOverlayZIndex: 2,
+	personNodeEditZIndex: 3,
+	personNodeSettingsZIndex: 4,
+	personNodeSettingsFlyoutZIndex: 5,
+	personDetailViewZIndex: 6
 };
 
 const stylingConstants = {

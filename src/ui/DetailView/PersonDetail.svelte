@@ -11,7 +11,7 @@
 	import Button from '../Button.svelte';
 
 	const showPersonDetailViewContainerDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex + 1};
+		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
 	`;
 
 	const closeButtonOnClick = () => {

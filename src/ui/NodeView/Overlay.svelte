@@ -4,7 +4,7 @@
 	import stylingConstants from '../stylingConstants';
 
 	const personNodeOverlayDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex};
+		z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
 		background-color: ${stylingConstants.colors.overlayColor};
 		opacity: ${stylingConstants.colors.overlayOpacity};
 	`;

@@ -54,7 +54,9 @@
 		class="app-container {appContainerDynamicClass}"
 		on:contextmenu={blockContextMenu}
 	>
-		<SaveStateBanner />
+		{#if $uiState.personIdForNodeEdit === undefined}
+			<SaveStateBanner />
+		{/if}
 		<ChooseTreeModal />
 		<PersonDetail />
 		<div id="tree-canvas" class="tree-canvas">

@@ -25,7 +25,7 @@
 		settingsButtonText = bIsNodeInEditMode ? 'done' : '...';
 
 		nodeSettingsButtonDynamicClass = css`
-			z-index: ${stylingConstants.zIndices.nPersonNodeEditZIndex};
+			z-index: ${stylingConstants.zIndices.personNodeSettingsZIndex};
 			color: ${bIsNodeInEditMode ? 'white' : 'black'};
 			background-color: ${bIsNodeInEditMode ? 'green' : 'transparent'};
 			border: 2px solid transparent;
@@ -37,7 +37,7 @@
 	}
 
 	const nodeSettingsFlyoutDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.nPersonNodeOverlayZIndex + 2};
+		z-index: ${stylingConstants.zIndices.personNodeSettingsFlyoutZIndex};
 		ul {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
