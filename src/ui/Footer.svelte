@@ -29,8 +29,8 @@
 		width: 100%;
 		width: -moz-available; /* WebKit-based browsers will ignore this. */
 		width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+		font-size: 1.5vh;
 		height: 5vh;
-
 		background-color: lightgrey;
 	}
 
