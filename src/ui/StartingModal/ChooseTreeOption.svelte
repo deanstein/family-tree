@@ -12,13 +12,16 @@
 	const treeOptionContainerDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			flex-direction: column;
+			padding-top: 10px;
 		}
 		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
 				.breakpoints.width[1]}) {
 			flex-direction: column;
+			padding-top: 10px;
 		}
 		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
 			flex-direction: row;
+			padding-top: 0px;
 		}
 	`;
 
