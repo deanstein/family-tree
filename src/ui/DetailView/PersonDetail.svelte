@@ -10,9 +10,11 @@
 	import { hidePersonDetailView } from '../../logic/ui-management';
 	import Button from '../Button.svelte';
 
-	const showPersonDetailViewContainerDynamicClass = css`
+	const containerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
 	`;
+
+	const contentContainerDynamicClass = css``;
 
 	const closeButtonOnClick = () => {
 		hidePersonDetailView();
@@ -23,14 +25,33 @@
 	<div id="person-detail-view-outer-container" class="person-detail-view-outer-container">
 		<div
 			id="person-detail-view-content-container"
-			class="person-detail-view-content-container {showPersonDetailViewContainerDynamicClass}"
+			class="person-detail-view-content-container {containerDynamicClass}"
 		>
 			<div id="person-detail-header" class="person-detail-header">
-				<div id="welcome-message" class="person-detail-welcome-message">
+				<div id="person-detail-header-name" class="person-detail-header-name">
 					{$uiState.activePerson.name}
 				</div>
-				<div id="coming-soon-message" class="coming-soon-message">
-					Person detail view coming soon.
+			</div>
+			<div id="person-detail-content-container" class="person-detail-content-container">
+				<div id="person-detail-fields-container" class="person-detail-subsection-container">
+					<div id="person-detail-fields-header" class="person-detail-subsection-title">Basics</div>
+					<div
+						id="person-detail-fields-content-container"
+						class="person-detail-subsection-content-container"
+					>
+						Test
+					</div>
+				</div>
+				<div id="person-detail-timeline-container" class="person-detail-subsection-container">
+					<div id="person-detail-timeline-header" class="person-detail-subsection-title">
+						Timeline
+					</div>
+					<div
+						id="person-detail-timeline-content-container"
+						class="person-detail-subsection-content-container"
+					>
+						Test
+					</div>
 				</div>
 			</div>
 
@@ -55,8 +76,8 @@
 	.person-detail-view-content-container {
 		display: flex;
 		flex-direction: column;
-		width: 50vw;
-		height: 50vh;
+		width: 80vw;
+		height: 80vh;
 		background-color: rgba(48, 48, 48, 0.8);
 	}
 
@@ -68,7 +89,7 @@
 		color: white;
 	}
 
-	.person-detail-welcome-message {
+	.person-detail-header-name {
 		font-size: 5vh;
 		display: flex;
 		justify-content: center;
@@ -76,11 +97,30 @@
 		color: white;
 	}
 
-	.coming-soon-message {
-		font-size: 2vh;
+	.person-detail-content-container {
 		display: flex;
-		justify-content: center;
+		flex-grow: 1;
+		gap: 1vh;
 		padding: 10px;
+	}
+
+	.person-detail-subsection-title {
 		color: white;
+		text-align: center;
+		font-size: 2vh;
+		padding: 1vh;
+	}
+
+	.person-detail-subsection-container {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.person-detail-subsection-content-container {
+		display: flex;
+		flex-grow: 1;
+		background-color: gainsboro;
+		padding: 1vh;
 	}
 </style>
