@@ -419,11 +419,11 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.niblings.id:
 				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.niblings.nephew.id;
+					inverseId = relationshipMap.aunclesMaternal.uncleMaternal.id;
 				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.niblings.niece.id;
+					inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
 				} else {
-					inverseId = relationshipMap.niblings.nibling.id;
+					inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
 				}
 				break;
 			case relationshipMap.grandchildren.id:
