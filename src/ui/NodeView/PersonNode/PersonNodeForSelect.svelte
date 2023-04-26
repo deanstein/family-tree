@@ -1,16 +1,16 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../stores/uiState';
+	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../stylingConstants';
 
-	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/personManagement';
+	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/person-management';
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup,
 		unsetActiveNodeEditId
-	} from '../../../logic/uiManagement';
+	} from '../../../logic/ui-management';
 
 	import Avatar from './Avatar.svelte';
 	import NameInput from './NameInput.svelte';

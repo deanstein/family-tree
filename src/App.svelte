@@ -1,8 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from './stores/familyTreeData';
-	import uiState from './stores/uiState';
+	import familyTreeData from './stores/family-tree-data';
+	import uiState from './stores/ui-state';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
 		greatAunclesCompatibleGroups,
@@ -13,9 +13,9 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
-	} from './stores/relationshipMap';
+	} from './stores/relationship-map';
 	import stylingConstants from './ui/stylingConstants';
-	import { setActivePerson } from './logic/personManagement';
+	import { setActivePerson } from './logic/person-management';
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
@@ -27,7 +27,7 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
 
-	const sAppVersion = '0.7.8';
+	const sAppVersion = '0.8.0';
 	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
@@ -54,6 +54,9 @@
 		class="app-container {appContainerDynamicClass}"
 		on:contextmenu={blockContextMenu}
 	>
+		{#if $uiState.personIdForNodeEdit === undefined}
+			<SaveStateBanner />
+		{/if}
 		<ChooseTreeModal />
 		<PersonDetail />
 		<div id="tree-canvas" class="tree-canvas">
@@ -328,9 +331,6 @@
 		<Footer {sAppVersion} {sDataVersion} />
 		{#if $uiState.showDevTools}
 			<DevTools />
-		{/if}
-		{#if $uiState.personIdForNodeEdit === undefined}
-			<SaveStateBanner />
 		{/if}
 	</div>
 </main>

@@ -2,12 +2,12 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
-	import familyTreeData from '../../stores/familyTreeData';
-	import uiState from '../../stores/uiState';
+	import familyTreeData from '../../stores/family-tree-data';
+	import uiState from '../../stores/ui-state';
 	import stylingConstants from '../stylingConstants';
 
 	import Overlay from '../NodeView/Overlay.svelte';
-	import { hidePersonDetailView } from '../../logic/uiManagement';
+	import { hidePersonDetailView } from '../../logic/ui-management';
 	import Button from '../Button.svelte';
 
 	const showPersonDetailViewContainerDynamicClass = css`

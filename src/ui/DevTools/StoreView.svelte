@@ -1,5 +1,5 @@
 <script>
-	import familyTreeData from '../../stores/familyTreeData';
+	import familyTreeData from '../../stores/family-tree-data';
 </script>
 
 <div id="storeview-container" class="storeview-container">

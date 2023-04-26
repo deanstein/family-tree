@@ -1,11 +1,11 @@
 <script>
-	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistenceManagement';
+	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import {
 		getNotificationConfigFromRepoState,
 		setCachedActivePerson,
 		setRepoState
-	} from '../../logic/uiManagement';
-	import uiState from '../../stores/uiState';
+	} from '../../logic/ui-management';
+	import uiState from '../../stores/ui-state';
 	import { repoStateStrings } from '../strings';
 	import { areObjectsEqual } from '../../logic/utils';
 

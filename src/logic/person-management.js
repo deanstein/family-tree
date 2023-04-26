@@ -1,17 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import uiState from '../stores/uiState';
+import uiState from '../stores/ui-state';
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	initializeOffScreenPeopleIdsArray,
 	updateOffScreenPeopleIdsArray,
 	removePersonFromActivePersonGroup,
 	setCachedActivePerson
-} from './uiManagement';
+} from './ui-management';
 
-import familyTreeData from '../stores/familyTreeData';
-import relationshipMap from '../stores/relationshipMap';
-import { defaultPerson } from '../stores/relationshipMap';
+import familyTreeData from '../stores/family-tree-data';
+import relationshipMap from '../stores/relationship-map';
+import { defaultPerson } from '../stores/relationship-map';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(defaultPerson)); // required to make a deep copy

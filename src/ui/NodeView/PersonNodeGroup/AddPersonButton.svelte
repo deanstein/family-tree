@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import relationshipMap from '../../../stores/relationshipMap';
+	import relationshipMap from '../../../stores/relationship-map';
 	import stylingConstants from '../../stylingConstants';
 
 	import {
@@ -9,11 +9,11 @@
 		addOrUpdateActivePersonInNewPersonGroup,
 		addPersonToPeopleArray,
 		getDefaultRelationshipType
-	} from '../../../logic/personManagement';
+	} from '../../../logic/person-management';
 	import {
 		startNodeEditingMode,
 		addOrUpdatePersonInActivePersonGroup
-	} from '../../../logic/uiManagement';
+	} from '../../../logic/ui-management';
 
 	export let groupId;
 

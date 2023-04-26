@@ -6,7 +6,7 @@
 		endNodeEditingMode,
 		setTempNodeEditName,
 		updateFilteredOffScreenPeopleIdsArray
-	} from '../../../logic/uiManagement.js';
+	} from '../../../logic/ui-management.js';
 
 	export let sPersonId;
 	export let sRelationshipId;

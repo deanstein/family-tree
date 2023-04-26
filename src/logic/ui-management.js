@@ -1,14 +1,14 @@
-import familyTreeData from '../stores/familyTreeData';
-import uiState from '../stores/uiState';
+import familyTreeData from '../stores/family-tree-data';
+import uiState from '../stores/ui-state';
 import { repoStateStrings } from '../ui/strings';
-import { getFamilyTreeDataFromRepo } from './persistenceManagement';
+import { getFamilyTreeDataFromRepo } from './persistence-management';
 import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
 	setActivePerson,
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
-} from './personManagement';
+} from './person-management';
 import stylingConstants from '../ui/stylingConstants';
 
 export const setCachedActivePerson = () => {

@@ -1,13 +1,19 @@
 {
     "appChangelog": {
-        "v0.7.x": {
-            "Overview": "v0.7.x adds password protection and the ability to choose which familyTreeData to start with, plus a basic notification system.",
+        "v0.8.x": {
+            "Overview": "v0.8.x adds password protection and the ability to choose which familyTreeData to start with, plus a basic notification system.",
             "Changes": [
-                "Added a modal dialog to choose between new tree, example tree, and load tree",
-                "Added password protection",
+                "Added password protection to the ChooseTree dialog"
+            ]
+        },
+        "v0.7.x": {
+            "Overview": "v0.7.x adds a notification system with notifications for loading and saving, a modal dialog to choose which familyTreeData to start with, plus the ability to scroll the flanks of a GenerationRow.",
+            "Changes": [
                 "Added NotificationBanner and SaveStateBanner",
+                "Added a modal dialog to choose between new tree, example tree, and load tree",
                 "Added ability to know when unsaved changes are present, and added ability to save to SaveStateBanner",
-                "Added scrolling GenerationRow flank, fixed styling issues when view is compressed"
+                "Added scrolling GenerationRow flank, fixed styling issues when view is compressed",
+                "Adds support for basic PAT encription for future password protection work"
             ]
         },
         "v0.6.x": {

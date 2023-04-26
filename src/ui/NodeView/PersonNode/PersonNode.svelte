@@ -10,10 +10,10 @@
 		upgradePersonData,
 		setActivePerson,
 		addActivePersonToPeopleArray
-	} from '../../../logic/personManagement';
+	} from '../../../logic/person-management';
 
-	import { defaultPerson } from '../../../stores/relationshipMap';
-	import uiState from '../../../stores/uiState';
+	import { defaultPerson } from '../../../stores/relationship-map';
+	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../stylingConstants';
 
 	import Avatar from './Avatar.svelte';
@@ -22,7 +22,7 @@
 	import NameInput from './NameInput.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
-	import { showPersonDetailView } from '../../../logic/uiManagement';
+	import { showPersonDetailView } from '../../../logic/ui-management';
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;

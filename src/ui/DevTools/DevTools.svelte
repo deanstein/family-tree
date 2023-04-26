@@ -5,15 +5,15 @@
 	import {
 		getFamilyTreeDataFromRepo,
 		writeCurrentFamilyTreeDataToRepo
-	} from '../../logic/persistenceManagement';
-	import uiState from '../../stores/uiState';
+	} from '../../logic/persistence-management';
+	import uiState from '../../stores/ui-state';
 	import FamilyTreeDataSelector from '../FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
 	import {
 		enableScrolling,
 		disableScrolling,
 		scrollToTopAndCenter
-	} from '../../logic/uiManagement';
+	} from '../../logic/ui-management';
 	import { repoStateStrings } from '../strings';
 
 	const getDataButtonOnclickAction = () => {

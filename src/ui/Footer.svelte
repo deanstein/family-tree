@@ -1,5 +1,5 @@
 <script>
-	import uiState from '../stores/uiState';
+	import uiState from '../stores/ui-state';
 
 	export let sAppVersion;
 	export let sDataVersion;

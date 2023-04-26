@@ -3,11 +3,11 @@
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup
-	} from '../../../logic/uiManagement';
+	} from '../../../logic/ui-management';
 
-	import relationshipMap from '../../../stores/relationshipMap';
+	import relationshipMap from '../../../stores/relationship-map';
 	import stylingConstants from '../../stylingConstants';
-	import { setTempRelationshipId, unsetActiveNodeEditId } from '../../../logic/uiManagement.js';
+	import { setTempRelationshipId, unsetActiveNodeEditId } from '../../../logic/ui-management.js';
 
 	export let sPersonId;
 	export let sRelationshipId;

@@ -1,18 +1,18 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../stores/uiState';
+	import uiState from '../../../stores/ui-state';
 
 	import stylingConstants from '../../stylingConstants';
 
-	import { removePersonFromActivePersonGroup } from '../../../logic/uiManagement.js';
+	import { removePersonFromActivePersonGroup } from '../../../logic/ui-management.js';
 	import {
 		startNodeEditingMode,
 		endNodeEditingMode,
 		toggleNodeSettingsFlyout,
 		hideNodeSettingsFlyout
-	} from '../../../logic/uiManagement.js';
-	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/personManagement';
+	} from '../../../logic/ui-management.js';
+	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/person-management';
 
 	export let sPersonId;
 	export let sRelationshipId;

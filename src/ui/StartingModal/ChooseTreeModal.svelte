@@ -4,14 +4,14 @@
 
 	import Overlay from '../NodeView/Overlay.svelte';
 
-	import uiState from '../../stores/uiState';
+	import uiState from '../../stores/ui-state';
 	import stylingConstants from '../stylingConstants';
 
 	import { chooseTreeStrings } from '../strings';
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/uiManagement';
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/ui-management';
 
 	export let showCloseButton = true;
 
