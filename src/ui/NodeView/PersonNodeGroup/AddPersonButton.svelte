@@ -2,7 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import relationshipMap from '../../../stores/relationship-map';
-	import stylingConstants from '../../stylingConstants';
+	import stylingConstants from '../../styling-constants';
 
 	import {
 		createNewPerson,

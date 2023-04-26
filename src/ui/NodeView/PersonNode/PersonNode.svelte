@@ -14,7 +14,7 @@
 
 	import { defaultPerson } from '../../../stores/relationship-map';
 	import uiState from '../../../stores/ui-state';
-	import stylingConstants from '../../stylingConstants';
+	import stylingConstants from '../../styling-constants';
 
 	import Avatar from './Avatar.svelte';
 	import NodeSettingsButton from './NodeSettings.svelte';

@@ -9,7 +9,7 @@ import {
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
 } from './person-management';
-import stylingConstants from '../ui/stylingConstants';
+import stylingConstants from '../ui/styling-constants';
 
 export const setCachedActivePerson = () => {
 	uiState.update((currentValue) => {

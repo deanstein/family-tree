@@ -5,7 +5,7 @@
 	import Overlay from '../NodeView/Overlay.svelte';
 
 	import uiState from '../../stores/ui-state';
-	import stylingConstants from '../stylingConstants';
+	import stylingConstants from '../styling-constants';
 
 	import { chooseTreeStrings } from '../strings';
 

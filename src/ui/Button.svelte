@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from './stylingConstants';
+	import stylingConstants from './styling-constants';
 
 	export let buttonText;
 	export let onClickFunction;

@@ -14,7 +14,7 @@
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
 	} from './stores/relationship-map';
-	import stylingConstants from './ui/stylingConstants';
+	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';

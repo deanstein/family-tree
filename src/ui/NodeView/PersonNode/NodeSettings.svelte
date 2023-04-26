@@ -3,7 +3,7 @@
 
 	import uiState from '../../../stores/ui-state';
 
-	import stylingConstants from '../../stylingConstants';
+	import stylingConstants from '../../styling-constants';
 
 	import { removePersonFromActivePersonGroup } from '../../../logic/ui-management.js';
 	import {

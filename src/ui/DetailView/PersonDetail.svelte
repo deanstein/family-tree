@@ -4,7 +4,7 @@
 
 	import familyTreeData from '../../stores/family-tree-data';
 	import uiState from '../../stores/ui-state';
-	import stylingConstants from '../stylingConstants';
+	import stylingConstants from '../styling-constants';
 
 	import Overlay from '../NodeView/Overlay.svelte';
 	import { hidePersonDetailView } from '../../logic/ui-management';

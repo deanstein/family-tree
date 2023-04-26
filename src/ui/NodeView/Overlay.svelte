@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../stylingConstants';
+	import stylingConstants from '../styling-constants';
 
 	const personNodeOverlayDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
