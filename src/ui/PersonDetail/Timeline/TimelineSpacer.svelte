@@ -11,23 +11,21 @@
 <style>
 	.timeline-spacer-row {
 		display: flex;
+		width: 100%;
 	}
 
 	.timeline-spacer-line-column {
 		display: flex;
 		justify-content: center;
-		background-color: red;
 		flex-basis: 25%;
 	}
 
 	.timeline-spacer-add-event-column {
-		background-color: blue;
 		flex-basis: 75%;
 	}
 
 	.timeline-spacer-line {
 		width: 0.5vw;
-		height: 5vh;
 		background-color: black;
 	}
 </style>
