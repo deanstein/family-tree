@@ -1,4 +1,4 @@
-export const dataVersion = '0.9.4';
+export const dataVersion = '0.9.5';
 
 const relationshipMap = {
 	dataVersion: dataVersion,
@@ -409,8 +409,9 @@ export const defaultPerson = {
 	version: dataVersion,
 	id: '0',
 	name: 'Firstname Lastname',
-	birthdate: 'unspecified',
 	gender: 'undefined',
+	birthdate: 'unspecified',
+	deathdate: 'unspecified',
 	relationships: (() => {
 		let relationships = {};
 		Object.keys(relationshipMap).forEach((element) => {

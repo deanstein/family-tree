@@ -25,7 +25,7 @@
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
-	import PersonDetail from './ui/DetailView/PersonDetail.svelte';
+	import PersonDetail from './ui/PersonDetail/PersonDetail.svelte';
 
 	const sAppVersion = '0.8.0';
 	const sDataVersion = relationshipMap.dataVersion;

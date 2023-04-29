@@ -10,6 +10,7 @@
 	import Avatar from '../NodeView/PersonNode/Avatar.svelte';
 	import Button from '../Button.svelte';
 	import Overlay from '../NodeView/Overlay.svelte';
+	import Timeline from './Timeline/Timeline.svelte';
 
 	const personDetailContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
@@ -37,12 +38,12 @@
 						{$uiState.activePerson.name}
 					</div>
 					<div id="person-detail-bio-facts" class="person-detail-bio-facts">
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">
-							Some detail
-						</div>
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">
-							Some detail
-						</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Full name:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Other names:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Gender:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Born:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Deceased?</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Hometown:</div>
 					</div>
 				</div>
 			</div>
@@ -51,12 +52,7 @@
 					id="person-detail-timeline-content-container"
 					class="person-detail-timeline-content-container"
 				>
-					<div
-						id="person-detail-timeline-scrollable-container"
-						class="person-detail-timeline-scrollable-container"
-					>
-						Timeline coming soon.
-					</div>
+					<Timeline />
 				</div>
 			</div>
 			<Button buttonText={'Close'} onClickFunction={closeButtonOnClick} />
@@ -140,13 +136,5 @@
 		flex-grow: 1;
 		background-color: gainsboro;
 		padding: 1vh;
-	}
-
-	.person-detail-timeline-scrollable-container {
-		display: flex;
-		flex-grow: 1;
-		justify-content: center;
-		align-items: center;
-		background-color: darkgray;
 	}
 </style>
