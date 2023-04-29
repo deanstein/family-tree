@@ -1,14 +1,7 @@
 <script>
-	import { css } from '@emotion/css';
-
-	import stylingConstants from '../../styling-constants';
-
-	const avatarContainerDynamicClass = css`
-		margin-top: ${stylingConstants.sizes.padding};
-	`;
 </script>
 
-<div id="avatar-container" class="{avatarContainerDynamicClass} avatar-container">
+<div id="avatar-container" class="avatar-container">
 	<img
 		src="./img/avatar-placeholder.jpg"
 		id="avatar-image"

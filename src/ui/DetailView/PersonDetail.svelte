@@ -5,10 +5,11 @@
 	import familyTreeData from '../../stores/family-tree-data';
 	import uiState from '../../stores/ui-state';
 	import stylingConstants from '../styling-constants';
-
-	import Overlay from '../NodeView/Overlay.svelte';
 	import { hidePersonDetailView } from '../../logic/ui-management';
+
+	import Avatar from '../NodeView/PersonNode/Avatar.svelte';
 	import Button from '../Button.svelte';
+	import Overlay from '../NodeView/Overlay.svelte';
 
 	const personDetailContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
@@ -29,7 +30,9 @@
 		>
 			<div id="person-detail-bio-container" class="person-detail-bio-container">
 				<div id="person-detail-bio-content-container" class="person-detail-bio-content-container">
-					<div id="person-detail-bio-avatar" class="person-detail-bio-avatar" />
+					<div id="person-detail-bio-avatar" class="person-detail-bio-avatar">
+						<Avatar />
+					</div>
 					<div id="person-detail-bio-name" class="person-detail-bio-name">
 						{$uiState.activePerson.name}
 					</div>

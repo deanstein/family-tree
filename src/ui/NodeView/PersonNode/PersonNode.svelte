@@ -65,6 +65,10 @@
 		`;
 	}
 
+	const personNodeContentAreaDynamicClass = css`
+		margin-top: ${stylingConstants.sizes.padding};
+	`;
+
 	const onPersonNodeClickAction = () => {
 		// don't do anything on click if the node is in edit mode
 		if (bIsNodeInEditMode) {
@@ -111,7 +115,10 @@
 		out:send={{ key: sPersonId }}
 	>
 		<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
-		<div id="person-node-content-area" class="person-node-content-area">
+		<div
+			id="person-node-content-area"
+			class="{personNodeContentAreaDynamicClass} person-node-content-area"
+		>
 			<Avatar />
 			<NameInput
 				sInputValue={getPersonById(sPersonId)?.name}
