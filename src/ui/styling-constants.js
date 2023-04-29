@@ -97,6 +97,22 @@ const sizes = {
 	},
 	get personNodeAddButtonRadius() {
 		return this.nPersonNodeAddButtonRadius.toString() + 'vh';
+	},
+	nTimelineSpacerLineThickness: 0.5,
+	get timelineSpineThickness() {
+		return this.nTimelineSpacerLineThickness + 'vw';
+	},
+	nTimelineEventGapSize: 1,
+	get timelineEventGapSize() {
+		return this.nTimelineEventGapSize + 'vw';
+	},
+	nTimelineEventNodeSize: 2,
+	get timelineEventNodeSize() {
+		return this.nTimelineEventNodeSize + 'vw';
+	},
+	nTimelineEventYearWidth: 3,
+	get timelineEventYearWidth() {
+		return this.nTimelineEventNodeSize + 'vw';
 	}
 };
 

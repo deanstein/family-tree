@@ -1,9 +1,27 @@
 <script>
+	import { css } from '@emotion/css';
+
+	import stylingConstants from '../../styling-constants';
+
+	const lineDynamicClass = css`
+		width: ${stylingConstants.sizes.timelineSpineThickness};
+	`;
+
+	const lineColumnDynamicClass = css`
+		margin-left: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 +
+		stylingConstants.sizes.nTimelineEventGapSize +
+		stylingConstants.sizes.nTimelineEventYearWidth -
+		stylingConstants.sizes.nTimelineSpacerLineThickness / 2 +
+		'vw'};
+	`;
 </script>
 
 <div id="timeline-spacer-row" class="timeline-spacer-row">
-	<div id="timeline-spacer-line-column" class="timeline-spacer-line-column">
-		<div id="timeline-spacer-line" class="timeline-spacer-line" />
+	<div
+		id="timeline-spacer-line-column"
+		class="{lineColumnDynamicClass} timeline-spacer-line-column"
+	>
+		<div id="timeline-spacer-line" class="{lineDynamicClass} timeline-spacer-line" />
 	</div>
 	<div id="timeline-spacer-add-event-column" class="timeline-spacer-add-event-column" />
 </div>
@@ -16,8 +34,6 @@
 
 	.timeline-spacer-line-column {
 		display: flex;
-		justify-content: center;
-		flex-basis: 25%;
 	}
 
 	.timeline-spacer-add-event-column {
@@ -25,7 +41,6 @@
 	}
 
 	.timeline-spacer-line {
-		width: 0.5vw;
 		background-color: black;
 	}
 </style>
