@@ -30,11 +30,19 @@
 		>
 			<div id="person-detail-bio-container" class="person-detail-bio-container">
 				<div id="person-detail-bio-content-container" class="person-detail-bio-content-container">
-					<div id="person-detail-bio-avatar" class="person-detail-bio-avatar">
+					<div id="person-detail-bio-avatar-container" class="person-detail-bio-avatar-container">
 						<Avatar />
 					</div>
 					<div id="person-detail-bio-name" class="person-detail-bio-name">
 						{$uiState.activePerson.name}
+					</div>
+					<div id="person-detail-bio-facts" class="person-detail-bio-facts">
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">
+							Some detail
+						</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">
+							Some detail
+						</div>
 					</div>
 				</div>
 			</div>
@@ -95,6 +103,11 @@
 		padding: 1vh;
 	}
 
+	.person-detail-bio-avatar-container {
+		width: 20vh;
+		height: 20vh;
+	}
+
 	.person-detail-bio-name {
 		display: flex;
 		flex-direction: column;
@@ -104,10 +117,16 @@
 		font-size: 5vh;
 	}
 
-	.person-detail-bio-avatar {
-		width: 20vh;
-		height: 20vh;
-		background-color: lightBlue;
+	.person-detail-bio-facts {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		gap: 1vh;
+	}
+
+	.person-detail-bio-fact {
+		background-color: darkgray;
 	}
 
 	.person-detail-timeline-container {
