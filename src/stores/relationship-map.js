@@ -1,7 +1,7 @@
-export const dataVersion = '0.9.5';
+import { schemaVersion } from '../versions';
 
 const relationshipMap = {
-	dataVersion: dataVersion,
+	dataVersion: schemaVersion,
 	grandparentsMaternal: {
 		id: 'grandparentsMaternal',
 		label: 'Grandparents (M)',
@@ -404,22 +404,6 @@ const relationshipMap = {
 	}
 };
 export default relationshipMap;
-
-export const defaultPerson = {
-	version: dataVersion,
-	id: '0',
-	name: 'Firstname Lastname',
-	gender: 'undefined',
-	birthdate: 'unspecified',
-	deathdate: 'unspecified',
-	relationships: (() => {
-		let relationships = {};
-		Object.keys(relationshipMap).forEach((element) => {
-			relationships[element] = [];
-		});
-		return relationships;
-	})()
-};
 
 // specify compatible groups to show in the select element for each group
 const { grandparentsMaternal, grandparentsPaternal } = relationshipMap;

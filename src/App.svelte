@@ -16,6 +16,7 @@
 	} from './stores/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
+	import { appVersion, schemaVersion } from './versions';
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
@@ -27,8 +28,6 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import PersonDetail from './ui/PersonDetail/PersonDetail.svelte';
 
-	const sAppVersion = '0.8.0';
-	const sDataVersion = relationshipMap.dataVersion;
 	const bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
@@ -328,7 +327,7 @@
 				</GenerationRow>
 			</div>
 		</div>
-		<Footer {sAppVersion} {sDataVersion} />
+		<Footer {appVersion} {schemaVersion} />
 		{#if $uiState.showDevTools}
 			<DevTools />
 		{/if}

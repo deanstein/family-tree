@@ -9,12 +9,12 @@ import {
 	setCachedActivePerson
 } from './ui-management';
 
+import { person } from '../schemas/person';
 import familyTreeData from '../stores/family-tree-data';
 import relationshipMap from '../stores/relationship-map';
-import { defaultPerson } from '../stores/relationship-map';
 
 export const createNewPerson = () => {
-	const newPerson = JSON.parse(JSON.stringify(defaultPerson)); // required to make a deep copy
+	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
 	newPerson.id = uuidv4();
 	return newPerson;
 };

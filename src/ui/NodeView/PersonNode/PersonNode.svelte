@@ -12,7 +12,7 @@
 		addActivePersonToPeopleArray
 	} from '../../../logic/person-management';
 
-	import { defaultPerson } from '../../../stores/relationship-map';
+	import { person } from '../../../schemas/person';
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 
@@ -80,7 +80,7 @@
 			showPersonDetailView();
 		} else {
 			// clicking on anyone else makes them the active person
-			const upgradedPersonData = upgradePersonData(defaultPerson, getPersonById(sPersonId));
+			const upgradedPersonData = upgradePersonData(person, getPersonById(sPersonId));
 			setActivePerson(upgradedPersonData);
 			addActivePersonToPeopleArray();
 		}
