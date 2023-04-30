@@ -1,3 +1,47 @@
+export const schemaVersion = '0.9.5';
+export const schemaChangelog = {
+	'v0.9.x': {
+		Overview:
+			'v0.9.x wraps up the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings.',
+		Changes: [
+			'Added support for aunts, uncles, great aunts, great uncles, nieces, nephews, great nieces, great nephews, cousins, second cousins, and spouse stepsiblings',
+			'Added support for alternate names and date of death'
+		]
+	},
+	'v0.8.x': {
+		Overview:
+			'v0.8.x makes additional changes as required to support filtering the available people list via text box.',
+		Changes: ['Made changes as required to support available people filtering.']
+	},
+	'v0.7.x': {
+		Overview:
+			'v0.7.x makes changes as required to support filtering the available people list via text box.',
+		Changes: ['Made changes as required to support available people filtering.']
+	},
+	'v0.6.x': {
+		Overview: 'v0.6.x organizes and refactors the ability to get inverse relationships.',
+		Changes: ['Organized and refactored the logic to get inverse relationship IDs.']
+	},
+	'v0.5.x': {
+		Overview:
+			'v0.5.x updates relationshipMap to use friendly names for relationshipIDs instead of UUIDs.',
+		Changes: ['Changed relationship IDs to friendly names instead of UUIDs']
+	},
+	'v0.4.x': {
+		Overview:
+			'v0.4.x moves stepsiblings and children-in-law into a proper grouping to match preferred organization.',
+		Changes: ['Moved stepsiblings and children-in-law into their own relationship group.']
+	},
+	'v0.2.x': {
+		Overview: 'v0.2.x splits the relationshipMap data into its own separate object.',
+		Changes: ['Split relationshipMap from familyTreeData', 'Added UUID support for relationshipIDs']
+	},
+	'v0.1.x': {
+		Overview: 'v0.1.x adds initial support for inverse relationship types.',
+		Changes: ['Added inverse relationships for all relationships.']
+	}
+};
+
 export const appVersion = '0.8.0';
 export const appChangelog = {
 	'v0.8.x': {
@@ -59,49 +103,5 @@ export const appChangelog = {
 		Overview:
 			'v0.0.x represents the initial attempt at creating a very basic interface for the Family Tree app.',
 		Changes: ['Initialized repo and Svelte project', 'Created initial UI framework']
-	}
-};
-
-export const schemaVersion = '0.9.5';
-export const schemaChangelog = {
-	'v0.9.x': {
-		Overview:
-			'v0.9.x wraps up the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings.',
-		Changes: [
-			'Added support for aunts, uncles, great aunts, great uncles, nieces, nephews, great nieces, great nephews, cousins, second cousins, and spouse stepsiblings',
-			'Added support for alternate names and date of death'
-		]
-	},
-	'v0.8.x': {
-		Overview:
-			'v0.8.x makes additional changes as required to support filtering the available people list via text box.',
-		Changes: ['Made changes as required to support available people filtering.']
-	},
-	'v0.7.x': {
-		Overview:
-			'v0.7.x makes changes as required to support filtering the available people list via text box.',
-		Changes: ['Made changes as required to support available people filtering.']
-	},
-	'v0.6.x': {
-		Overview: 'v0.6.x organizes and refactors the ability to get inverse relationships.',
-		Changes: ['Organized and refactored the logic to get inverse relationship IDs.']
-	},
-	'v0.5.x': {
-		Overview:
-			'v0.5.x updates relationshipMap to use friendly names for relationshipIDs instead of UUIDs.',
-		Changes: ['Changed relationship IDs to friendly names instead of UUIDs']
-	},
-	'v0.4.x': {
-		Overview:
-			'v0.4.x moves stepsiblings and children-in-law into a proper grouping to match preferred organization.',
-		Changes: ['Moved stepsiblings and children-in-law into their own relationship group.']
-	},
-	'v0.2.x': {
-		Overview: 'v0.2.x splits the relationshipMap data into its own separate object.',
-		Changes: ['Split relationshipMap from familyTreeData', 'Added UUID support for relationshipIDs']
-	},
-	'v0.1.x': {
-		Overview: 'v0.1.x adds initial support for inverse relationship types.',
-		Changes: ['Added inverse relationships for all relationships.']
 	}
 };
