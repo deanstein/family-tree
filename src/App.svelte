@@ -24,9 +24,9 @@
 	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
+	import PersonDetailModal from './ui/PersonDetailModal/PersonDetailModal.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
-	import PersonDetail from './ui/PersonDetail/PersonDetail.svelte';
 
 	const bHideEmptyGroups = false;
 
@@ -57,7 +57,7 @@
 			<SaveStateBanner />
 		{/if}
 		<ChooseTreeModal />
-		<PersonDetail />
+		<PersonDetailModal />
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>

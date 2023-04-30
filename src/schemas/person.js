@@ -5,9 +5,19 @@ export const person = {
 	version: schemaVersion,
 	id: '0',
 	name: 'Firstname Lastname',
-	gender: 'undefined',
-	birthdate: 'unspecified',
-	deathdate: 'unspecified',
+    alternateNames: [],
+	gender: undefined,
+    birth: {
+        date: undefined,
+        place: undefined,
+    },
+    hometown: undefined,
+    deceased: false,
+    death: {
+        date: undefined,
+        place: undefined,
+        cause: undefined,
+    },
 	relationships: (() => {
 		let relationships = {};
 		Object.keys(relationshipMap).forEach((element) => {

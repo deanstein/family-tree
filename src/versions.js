@@ -1,11 +1,11 @@
-export const schemaVersion = '0.9.5';
+export const schemaVersion = '0.9.7';
 export const schemaChangelog = {
 	'v0.9.x': {
 		Overview:
 			'v0.9.x wraps up the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings.',
 		Changes: [
 			'Added support for aunts, uncles, great aunts, great uncles, nieces, nephews, great nieces, great nephews, cousins, second cousins, and spouse stepsiblings',
-			'Added support for alternate names and date of death'
+			'Added support for alternate names, birth and death properties'
 		]
 	},
 	'v0.8.x': {

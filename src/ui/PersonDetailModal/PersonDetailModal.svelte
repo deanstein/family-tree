@@ -38,12 +38,13 @@
 						{$uiState.activePerson.name}
 					</div>
 					<div id="person-detail-bio-facts" class="person-detail-bio-facts">
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Full name:</div>
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Other names:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Also known as:</div>
 						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Gender:</div>
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Born:</div>
-						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Deceased?</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Date of Birth:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Time of Birth:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Place of Birth:</div>
 						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Hometown:</div>
+						<div id="person-detail-bio-fact" class="person-detail-bio-fact">Deceased?</div>
 					</div>
 				</div>
 			</div>
