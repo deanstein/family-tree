@@ -93,7 +93,6 @@
 
 <style>
 	.node-settings-button-container {
-		position: relative;
 		width: 100%;
 		float: right;
 	}
