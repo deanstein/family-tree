@@ -5,7 +5,7 @@
 		removePersonFromActivePersonGroup
 	} from '../../../logic/ui-management';
 
-	import relationshipMap from '../../../stores/relationship-map';
+	import relationshipMap from '../../../schemas/relationship-map';
 	import stylingConstants from '../../styling-constants';
 	import { setTempRelationshipId, unsetActiveNodeEditId } from '../../../logic/ui-management.js';
 

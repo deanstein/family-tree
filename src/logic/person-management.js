@@ -11,7 +11,7 @@ import {
 
 import { person } from '../schemas/person';
 import familyTreeData from '../stores/family-tree-data';
-import relationshipMap from '../stores/relationship-map';
+import relationshipMap from '../schemas/relationship-map';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy

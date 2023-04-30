@@ -13,7 +13,7 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
-	} from './stores/relationship-map';
+	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
 	import { appVersion, schemaVersion } from './versions';

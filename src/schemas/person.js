@@ -1,4 +1,4 @@
-import relationshipMap from '../stores/relationship-map';
+import relationshipMap from './relationship-map';
 import { schemaVersion } from '../versions';
 
 export const person = {
