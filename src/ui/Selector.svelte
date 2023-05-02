@@ -4,6 +4,8 @@
     import stylingConstants from './styling-constants';
 
     // required format: { optionGroup: {option: { value: "someValue", label: "Some Label" } } }
+    export let optionValueKey = "value";
+    export let optionLabelKey = "label";
     export let optionsGroupObject; 
 	export let enabled = true;
 
@@ -32,13 +34,13 @@
 		on:click|stopPropagation
 		disabled={!enabled}
 	>
-        {#each Object.entries(optionsGroupObject) as [category, items]}
-        <optgroup label={items.label}>
+    {#each Object.entries(optionsGroupObject) as [category, items]}
+        <optgroup label={items[optionLabelKey]}>
         {#each Object.entries(items) as [key, value]}
-            {#if key !== 'label'}
-                {#if value.label}
-                    <option value={`${value.value}`}>{value.label}</option>
-                {/if}
+            {#if key !== optionLabelKey}
+            {#if value[optionLabelKey]}
+                <option value={`${value[optionValueKey]}`}>{value[optionLabelKey]}</option>
+            {/if}
             {/if}
         {/each}
         </optgroup>

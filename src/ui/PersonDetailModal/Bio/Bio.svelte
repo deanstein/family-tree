@@ -9,19 +9,19 @@
 
     let selectedBirthdate;
 
-    let genderOptions = {
+    const genderOptions = {
         gender: {
-            male: {
-                value: "male",
-                label: "Male",
-            },
-            female: {
-                value: "female",
-                label: "Remale",
-            },
             unspecified: {
                 value: "unspecified",
                 label: "Unspecified",
+            },
+            female: {
+                value: "female",
+                label: "Female",
+            },
+            male: {
+                value: "male",
+                label: "Male",
             }
         }
     }
