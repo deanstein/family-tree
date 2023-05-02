@@ -16,6 +16,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+        margin-bottom: 1vh;
 	}
 
     .bio-field-content {

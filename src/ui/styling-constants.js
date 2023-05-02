@@ -98,6 +98,10 @@ const sizes = {
 	get personNodeAddButtonRadius() {
 		return this.nPersonNodeAddButtonRadius.toString() + 'vh';
 	},
+	nBioFieldFontSize: 1,
+	get bioFieldFontSize() {
+		return this.nBioFieldFontSize + 'vh';
+	},
 	nTimelineSpacerLineThickness: 0.5,
 	get timelineSpineThickness() {
 		return this.nTimelineSpacerLineThickness + 'vw';

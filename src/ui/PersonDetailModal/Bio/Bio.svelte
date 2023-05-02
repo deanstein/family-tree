@@ -5,6 +5,26 @@
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AltNames from './AltNames.svelte';
 	import FieldContainer from './FieldContainer.svelte';
+    import Selector from '../../Selector.svelte';
+
+    let selectedBirthdate;
+
+    let genderOptions = {
+        gender: {
+            male: {
+                value: "male",
+                label: "Male",
+            },
+            female: {
+                value: "female",
+                label: "Remale",
+            },
+            unspecified: {
+                value: "unspecified",
+                label: "Unspecified",
+            }
+        }
+    }
 </script>
 
 <div id="bio-content-container" class="bio-content-container">
@@ -19,8 +39,10 @@
 			<AltNames />
 		</FieldContainer>
         <FieldContainer label={personDetailStrings.gender}>
+            <Selector optionsGroupObject={genderOptions}/>
         </FieldContainer>
         <FieldContainer label={personDetailStrings.birthdate}>
+            <input type="date" bind:value={selectedBirthdate} />
         </FieldContainer>
         <FieldContainer label={personDetailStrings.birthplace}>
         </FieldContainer>
