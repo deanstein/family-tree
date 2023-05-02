@@ -1,25 +1,29 @@
 <script>
-    import uiState from "../../../stores/ui-state";
+	import { personDetailStrings } from '../../strings';
+	import uiState from '../../../stores/ui-state';
 
-    import Avatar from "../../NodeView/PersonNode/Avatar.svelte";
+	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
+	import AltNames from './AltNames.svelte';
+	import FieldContainer from './FieldContainer.svelte';
 </script>
 
 <div id="bio-content-container" class="bio-content-container">
-    <div id="bio-avatar-container" class="bio-avatar-container">
-        <Avatar />
-    </div>
-    <div id="bio-name" class="bio-name">
-        {$uiState.activePerson.name}
-    </div>
-    <div id="bio-facts" class="bio-facts">
-        <div id="bio-fact" class="bio-fact">Also known as:</div>
-        <div id="bio-fact" class="bio-fact">Gender:</div>
-        <div id="bio-fact" class="bio-fact">Date of Birth:</div>
-        <div id="bio-fact" class="bio-fact">Time of Birth:</div>
-        <div id="bio-fact" class="bio-fact">Place of Birth:</div>
-        <div id="bio-fact" class="bio-fact">Hometown:</div>
-        <div id="bio-fact" class="bio-fact">Deceased?</div>
-    </div>
+	<div id="bio-avatar-container" class="bio-avatar-container">
+		<Avatar />
+	</div>
+	<div id="bio-name" class="bio-name">
+		{$uiState.activePerson.name}
+	</div>
+	<div id="bio-facts" class="bio-facts">
+		<FieldContainer label={personDetailStrings.altNames}>
+			<AltNames />
+		</FieldContainer>
+		<div id="bio-fact" class="bio-fact">Gender:</div>
+		<div id="bio-fact" class="bio-fact">Date of Birth:</div>
+		<div id="bio-fact" class="bio-fact">Place of Birth:</div>
+		<div id="bio-fact" class="bio-fact">Hometown:</div>
+		<div id="bio-fact" class="bio-fact">Deceased?</div>
+	</div>
 </div>
 
 <style>

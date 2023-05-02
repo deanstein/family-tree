@@ -19,3 +19,14 @@ export const chooseTreeStrings = {
 	loadTreeButton: 'Load Family Tree',
 	loadTreeDescription: 'Load an existing family tree.'
 };
+
+export const personDetailStrings = {
+	altNames: 'Alternate Names',
+	gender: 'Gender',
+	birthdate: 'Date of Birth',
+	birthplace: 'Place of Birth',
+	hometown: 'Hometown',
+	deceased: 'Deceased?',
+	deathdate: 'Date of Death',
+	deathplace: 'Place of Death'
+};

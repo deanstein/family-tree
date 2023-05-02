@@ -67,29 +67,31 @@
 	};
 </script>
 
-<div id="node-settings-button-container" class="node-settings-button-container">
-	<button
-		type="button"
-		id="settings-button"
-		class="{nodeSettingsButtonDynamicClass} node-settings-button"
-		on:click|stopPropagation={bIsNodeInEditMode
-			? onDoneButtonClick
-			: () => toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
-	>
-
-	{#if $uiState.personIdForNodeSettingsFlyout == sPersonId}
-		<div
-			id="node-settings-flyout-menu"
-			class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"
+{#if sPersonId !== $uiState.activePerson.id}
+	<div id="node-settings-button-container" class="node-settings-button-container">
+		<button
+			type="button"
+			id="settings-button"
+			class="{nodeSettingsButtonDynamicClass} node-settings-button"
+			on:click|stopPropagation={bIsNodeInEditMode
+				? onDoneButtonClick
+				: () => toggleNodeSettingsFlyout(sPersonId)}>{settingsButtonText}</button
 		>
-			<ul>
-				<li><a on:click|stopPropagation={onEditButtonClick}>Edit Relationship</a></li>
-				<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove Relationship</a></li>
-				<li><a on:click|stopPropagation={onDeleteButtonClick}>Delete Person</a></li>
-			</ul>
-		</div>
-	{/if}
-</div>
+
+		{#if $uiState.personIdForNodeSettingsFlyout == sPersonId}
+			<div
+				id="node-settings-flyout-menu"
+				class="{nodeSettingsFlyoutDynamicClass} node-settings-flyout-menu"
+			>
+				<ul>
+					<li><a on:click|stopPropagation={onEditButtonClick}>Edit Relationship</a></li>
+					<li><a on:click|stopPropagation={onRemoveButtonClick}>Remove Relationship</a></li>
+					<li><a on:click|stopPropagation={onDeleteButtonClick}>Delete Person</a></li>
+				</ul>
+			</div>
+		{/if}
+	</div>
+{/if}
 
 <style>
 	.node-settings-button-container {
