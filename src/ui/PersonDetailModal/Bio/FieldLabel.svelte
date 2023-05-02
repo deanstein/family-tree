@@ -15,6 +15,6 @@
 	}
 
 	.bio-fact-label {
-		font-size: 1vh;
+		font-size: 1.5vh;
 	}
 </style>

@@ -5,8 +5,10 @@
 </script>
 
 <div id="bio-field-container" class="bio-field-container">
-	<FieldLabel {label} />
-	<slot />
+    <div id="bio-field-content" class="bio-field-content" > 
+        <FieldLabel {label} />
+        <slot />
+    </div>
 </div>
 
 <style>
@@ -15,4 +17,8 @@
 		flex-direction: column;
 		width: 100%;
 	}
+
+    .bio-field-content {
+        min-height: 2vh;
+    }
 </style>

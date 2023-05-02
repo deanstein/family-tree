@@ -18,11 +18,16 @@
 		<FieldContainer label={personDetailStrings.altNames}>
 			<AltNames />
 		</FieldContainer>
-		<div id="bio-fact" class="bio-fact">Gender:</div>
-		<div id="bio-fact" class="bio-fact">Date of Birth:</div>
-		<div id="bio-fact" class="bio-fact">Place of Birth:</div>
-		<div id="bio-fact" class="bio-fact">Hometown:</div>
-		<div id="bio-fact" class="bio-fact">Deceased?</div>
+        <FieldContainer label={personDetailStrings.gender}>
+        </FieldContainer>
+        <FieldContainer label={personDetailStrings.birthdate}>
+        </FieldContainer>
+        <FieldContainer label={personDetailStrings.birthplace}>
+        </FieldContainer>
+        <FieldContainer label={personDetailStrings.hometown}>
+        </FieldContainer>
+        <FieldContainer label={personDetailStrings.deceased}>
+        </FieldContainer>
 	</div>
 </div>
 
