@@ -10,10 +10,17 @@
             `;
 </script>
 
-<input type="text" class={textInputDynamicClass} />
+<div id="input-container" class="input-container" >
+    <input type="text" class={textInputDynamicClass} />
+</div>
 
 <style>
+    .input-container {
+        display: flex;
+    }
+
 	input {
 		width: 100%;
+        outline: none;
 	}
 </style>

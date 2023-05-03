@@ -12,9 +12,16 @@
 	`;
 </script>
 
-<input type="date" bind:value={currentValue} class="{datePickerDynamicClass} date-picker" />
+
+<div id="date-picker-container" class="date-picker-container" >
+    <input type="date" bind:value={currentValue} class="{datePickerDynamicClass} date-picker" />
+</div>
 
 <style>
+    .date-picker-container {
+        display: flex;
+    }
+    
 	.date-picker {
 		width: 100%;
 	}
