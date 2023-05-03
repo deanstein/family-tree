@@ -98,7 +98,7 @@ const sizes = {
 	get personNodeAddButtonRadius() {
 		return this.nPersonNodeAddButtonRadius.toString() + 'vh';
 	},
-	nBioFieldFontSize: 1,
+	nBioFieldFontSize: 1.5,
 	get bioFieldFontSize() {
 		return this.nBioFieldFontSize + 'vh';
 	},

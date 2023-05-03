@@ -5,6 +5,7 @@
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AltNames from './AltNames.svelte';
+	import Checkbox from './Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import FieldContainer from './FieldContainer.svelte';
 	import Selector from '../../Select.svelte';
@@ -41,7 +42,7 @@
 		<FieldContainer label={personDetailStrings.hometown}>
 			<TextInput />
 		</FieldContainer>
-		<FieldContainer label={personDetailStrings.deceased} />
+		<Checkbox label="Deceased?" />
 	</div>
 </div>
 
