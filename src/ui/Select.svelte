@@ -19,6 +19,9 @@
 
 	const selectorDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
+		:hover {
+			border: 2px solid ${stylingConstants.colors.hoverColor};
+		}
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 	`;
 </script>

@@ -5,8 +5,10 @@
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AltNames from './AltNames.svelte';
+	import DatePicker from './DatePicker.svelte';
 	import FieldContainer from './FieldContainer.svelte';
-	import Selector from '../../Selector.svelte';
+	import Selector from '../../Select.svelte';
+	import TextInput from '../../TextInput.svelte';
 
 	let selectedBirthdate;
 
@@ -31,10 +33,14 @@
 			<Selector optionsGroupObject={genderOptions} optionValueKey="id" />
 		</FieldContainer>
 		<FieldContainer label={personDetailStrings.birthdate}>
-			<input type="date" bind:value={selectedBirthdate} />
+			<DatePicker />
 		</FieldContainer>
-		<FieldContainer label={personDetailStrings.birthplace} />
-		<FieldContainer label={personDetailStrings.hometown} />
+		<FieldContainer label={personDetailStrings.birthplace}>
+			<TextInput />
+		</FieldContainer>
+		<FieldContainer label={personDetailStrings.hometown}>
+			<TextInput />
+		</FieldContainer>
 		<FieldContainer label={personDetailStrings.deceased} />
 	</div>
 </div>
