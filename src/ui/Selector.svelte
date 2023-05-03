@@ -1,15 +1,15 @@
 <script>
 	import { css } from '@emotion/css';
 
-    import stylingConstants from './styling-constants';
+	import stylingConstants from './styling-constants';
 
-    // required format: { optionGroup: {option: { value: "someValue", label: "Some Label" } } }
-    export let optionValueKey = "value";
-    export let optionLabelKey = "label";
-    export let optionsGroupObject; 
+	// required format: { optionGroup: {option: { value: "someValue", label: "Some Label" } } }
+	export let optionValueKey = 'value';
+	export let optionLabelKey = 'label';
+	export let optionsGroupObject;
 	export let enabled = true;
 
-    let inputValue;
+	let inputValue;
 
 	const selectorContainerDynamicClass = css`
 		width: -webkit-fill-available;
@@ -34,23 +34,29 @@
 		on:click|stopPropagation
 		disabled={!enabled}
 	>
-    {#each Object.entries(optionsGroupObject) as [category, items]}
-        <optgroup label={items[optionLabelKey]}>
-        {#each Object.entries(items) as [key, value]}
-            {#if key !== optionLabelKey}
-            {#if value[optionLabelKey]}
-                <option value={`${value[optionValueKey]}`}>{value[optionLabelKey]}</option>
-            {/if}
-            {/if}
-        {/each}
-        </optgroup>
-    {/each}
+		{#each Object.entries(optionsGroupObject) as [category, items]}
+			{#if items.hasOwnProperty(optionLabelKey)}
+				<optgroup label={items[optionLabelKey]}>
+					{#each Object.entries(items) as [itemKey, itemValue]}
+						{#if itemKey !== optionLabelKey && itemValue.hasOwnProperty(optionLabelKey)}
+							<option value={itemValue[optionValueKey]}>{itemValue[optionLabelKey]}</option>
+						{/if}
+					{/each}
+				</optgroup>
+			{:else}
+				{#each Object.entries(items) as [itemKey, itemValue]}
+					{#if itemKey !== optionLabelKey && itemValue.hasOwnProperty(optionLabelKey)}
+						<option value={itemValue[optionValueKey]}>{itemValue[optionLabelKey]}</option>
+					{/if}
+				{/each}
+			{/if}
+		{/each}
 	</select>
 </div>
 
 <style>
 	.relationship-type-picker {
-        height: 1vw;
+		height: 1vw;
 		width: 100%;
 		outline: none;
 	}

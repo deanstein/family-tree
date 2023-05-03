@@ -5,10 +5,10 @@
 </script>
 
 <div id="bio-field-container" class="bio-field-container">
-    <div id="bio-field-content" class="bio-field-content" > 
-        <FieldLabel {label} />
-        <slot />
-    </div>
+	<div id="bio-field-content" class="bio-field-content">
+		<FieldLabel {label} />
+		<slot />
+	</div>
 </div>
 
 <style>
@@ -16,10 +16,10 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-        margin-bottom: 1vh;
+		margin-bottom: 1vh;
 	}
 
-    .bio-field-content {
-        min-height: 2vh;
-    }
+	.bio-field-content {
+		min-height: 2vh;
+	}
 </style>

@@ -1,30 +1,19 @@
 <script>
 	import { personDetailStrings } from '../../strings';
+	import { gender } from '../../../schemas/person';
 	import uiState from '../../../stores/ui-state';
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AltNames from './AltNames.svelte';
 	import FieldContainer from './FieldContainer.svelte';
-    import Selector from '../../Selector.svelte';
+	import Selector from '../../Selector.svelte';
 
-    let selectedBirthdate;
+	let selectedBirthdate;
 
-    const genderOptions = {
-        gender: {
-            unspecified: {
-                value: "unspecified",
-                label: "Unspecified",
-            },
-            female: {
-                value: "female",
-                label: "Female",
-            },
-            male: {
-                value: "male",
-                label: "Male",
-            }
-        }
-    }
+	const genderOptions = {
+		label: 'Gender:',
+		gender
+	};
 </script>
 
 <div id="bio-content-container" class="bio-content-container">
@@ -38,18 +27,15 @@
 		<FieldContainer label={personDetailStrings.altNames}>
 			<AltNames />
 		</FieldContainer>
-        <FieldContainer label={personDetailStrings.gender}>
-            <Selector optionsGroupObject={genderOptions}/>
-        </FieldContainer>
-        <FieldContainer label={personDetailStrings.birthdate}>
-            <input type="date" bind:value={selectedBirthdate} />
-        </FieldContainer>
-        <FieldContainer label={personDetailStrings.birthplace}>
-        </FieldContainer>
-        <FieldContainer label={personDetailStrings.hometown}>
-        </FieldContainer>
-        <FieldContainer label={personDetailStrings.deceased}>
-        </FieldContainer>
+		<FieldContainer label={personDetailStrings.gender}>
+			<Selector optionsGroupObject={genderOptions} optionValueKey="id" />
+		</FieldContainer>
+		<FieldContainer label={personDetailStrings.birthdate}>
+			<input type="date" bind:value={selectedBirthdate} />
+		</FieldContainer>
+		<FieldContainer label={personDetailStrings.birthplace} />
+		<FieldContainer label={personDetailStrings.hometown} />
+		<FieldContainer label={personDetailStrings.deceased} />
 	</div>
 </div>
 
@@ -84,9 +70,5 @@
 		justify-content: center;
 		width: 100%;
 		gap: 1vh;
-	}
-
-	.bio-fact {
-		background-color: darkgray;
 	}
 </style>

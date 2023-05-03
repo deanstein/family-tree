@@ -26,3 +26,18 @@ export const person = {
 		return relationships;
 	})()
 };
+
+export const gender = {
+	unspecified: {
+		id: 'unspecified',
+		label: 'Unspecified'
+	},
+	female: {
+		id: 'female',
+		label: 'Female'
+	},
+	male: {
+		id: 'male',
+		label: 'Male'
+	}
+};
