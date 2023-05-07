@@ -7,6 +7,7 @@
 
 	let fieldLabelDynamicClass = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
+		color: ${stylingConstants.colors.textColor};
 	`;
 </script>
 

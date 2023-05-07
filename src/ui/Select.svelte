@@ -54,6 +54,7 @@
 	}
 
 	select {
+		padding-left: 5px;
 		height: 1vw;
 		width: 100%;
 		outline: none;

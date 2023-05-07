@@ -27,15 +27,30 @@
 	let birthdateInputValueOriginal = undefined;
 	let birthplaceInputValue = $uiState.activePerson.birth.place;
 	let birthplaceInputValueOriginal = undefined;
+	let birthtimeInputValue = $uiState.activePerson.birth.time;
+	let birthtimeInputValueOriginal = undefined;
 	let hometownInputValue = $uiState.activePerson.hometown;
 	let hometownInputValueOriginal = undefined;
+	let deceasedValue = $uiState.activePerson.deceased;
+	let deceasedValueOriginal = undefined;
+	let deathDateInputValue = $uiState.activePerson.death.date;
+	let deathDateInputValueOriginal = undefined;
+	let deathPlaceInputValue = $uiState.activePerson.death.place;
+	let deathPlaceInputValueOriginal = undefined;
+	let deathCauseInputValue = $uiState.activePerson.death.cause;
+	let deathCauseInputValueOriginal = undefined;
 
-	const initializeAllInputs = () => {
+	const captureAllOriginalInputValues = () => {
 		alternateNamesInputValueOriginal = alternateNamesInputValue;
 		genderInputValueOriginal = genderInputValue;
 		birthdateInputValueOriginal = birthdateInputValue;
 		birthplaceInputValueOriginal = birthplaceInputValue;
+		birthtimeInputValueOriginal = birthtimeInputValue;
 		hometownInputValueOriginal = hometownInputValue;
+		deceasedValueOriginal = deceasedValue;
+		deathDateInputValueOriginal = deathDateInputValue;
+		deathPlaceInputValueOriginal = deathPlaceInputValue;
+		deathCauseInputValueOriginal = deathCauseInputValue;
 	};
 
 	const saveAllInputs = () => {
@@ -56,9 +71,30 @@
 			birthdateInputValueOriginal
 		);
 		writeUIStateValueAtPath(
+			'activePerson.birth.time',
+			birthtimeInputValue,
+			birthtimeInputValueOriginal
+		);
+		writeUIStateValueAtPath(
 			'activePerson.hometown',
 			hometownInputValue,
 			hometownInputValueOriginal
+		);
+		writeUIStateValueAtPath('activePerson.deceased', deceasedValue, deceasedValueOriginal);
+		writeUIStateValueAtPath(
+			'activePerson.death.date',
+			deathDateInputValue,
+			deathDateInputValueOriginal
+		);
+		writeUIStateValueAtPath(
+			'activePerson.death.place',
+			deathPlaceInputValue,
+			deathPlaceInputValueOriginal
+		);
+		writeUIStateValueAtPath(
+			'activePerson.death.cause',
+			deathCauseInputValue,
+			deathCauseInputValueOriginal
 		);
 	};
 
@@ -67,7 +103,12 @@
 		genderInputValue = genderInputValueOriginal;
 		birthdateInputValue = birthdateInputValueOriginal;
 		birthplaceInputValue = birthplaceInputValueOriginal;
+		birthtimeInputValue = birthtimeInputValueOriginal;
 		hometownInputValue = hometownInputValueOriginal;
+		deceasedValue = deceasedValueOriginal;
+		deathDateInputValue = deathDateInputValueOriginal;
+		deathPlaceInputValue = deathPlaceInputValueOriginal;
+		deathCauseInputValue = deathCauseInputValueOriginal;
 	};
 
 	const genderOptions = {
@@ -92,7 +133,7 @@
 		<EditBioButton
 			{personId}
 			{isBioEditActive}
-			{initializeAllInputs}
+			initializeAllInputs={captureAllOriginalInputValues}
 			{saveAllInputs}
 			{discardAllInputs}
 		/>
@@ -129,12 +170,13 @@
 			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
-		<Checkbox label="Deceased?" isChecked={$uiState.activePerson.deceased} />
-		{#if $uiState.activePerson.deceased}
+		<Checkbox label="Deceased" bind:isChecked={deceasedValue} isEnabled={isBioEditActive} />
+		{#if deceasedValue}
 			<div id="deceased-details-container" class="deceased-details-container">
 				<FieldContainer label={personDetailStrings.deathdate}>
 					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
+
 				<FieldContainer label={personDetailStrings.deathplace}>
 					<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
@@ -148,7 +190,6 @@
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		justify-content: center;
 		align-items: center;
 		background-color: gainsboro;
 		padding: 1vh;
@@ -160,6 +201,7 @@
 		justify-content: right;
 		width: 100%;
 		gap: 1vw;
+		margin-bottom: 2vh;
 	}
 
 	.bio-avatar-container {
@@ -182,5 +224,12 @@
 		justify-content: center;
 		width: 100%;
 		gap: 1vh;
+	}
+
+	.deceased-details-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+		padding-top: 0.25vw;
 	}
 </style>
