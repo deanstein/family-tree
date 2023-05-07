@@ -5,8 +5,7 @@
 
 	export let showLabel = true;
 	export let label = 'Checkbox label';
-
-	let isChecked;
+	export let isChecked;
 
 	let checkboxDynamicClass = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};

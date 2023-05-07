@@ -6,17 +6,17 @@ export const person = {
 	id: '0',
 	name: 'Firstname Lastname',
 	alternateNames: [],
-	gender: undefined,
+	gender: null,
 	birth: {
-		date: undefined,
-		place: undefined
+		date: null,
+		place: null
 	},
-	hometown: undefined,
+	hometown: null,
 	deceased: false,
 	death: {
-		date: undefined,
-		place: undefined,
-		cause: undefined
+		date: null,
+		place: null,
+		cause: null
 	},
 	relationships: (() => {
 		let relationships = {};
@@ -29,7 +29,7 @@ export const person = {
 
 export const gender = {
 	unspecified: {
-		id: 'unspecified',
+		id: undefined,
 		label: 'Unspecified'
 	},
 	female: {

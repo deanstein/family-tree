@@ -1,6 +1,8 @@
 import familyTreeData from '../stores/family-tree-data';
 import uiState from '../stores/ui-state';
+import stylingConstants from '../ui/styling-constants';
 import { repoStateStrings } from '../ui/strings';
+
 import { getFamilyTreeDataFromRepo } from './persistence-management';
 import {
 	getPersonById,
@@ -9,7 +11,16 @@ import {
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
 } from './person-management';
-import stylingConstants from '../ui/styling-constants';
+import { setNestedObjectProperty } from './utils';
+
+export const writeUIStateValueAtPath = (path, value) => {
+	uiState.update((currentValue) => {
+		if (path) {
+			setNestedObjectProperty(currentValue, path, value);
+		}
+		return currentValue;
+	});
+};
 
 export const setCachedActivePerson = () => {
 	uiState.update((currentValue) => {

@@ -68,3 +68,18 @@ export const areObjectsEqual = (obj1, obj2) => {
 	// If both objects are not arrays or objects, compare them directly
 	return obj1 === obj2;
 };
+
+export const instantiateObject = (object) => {
+	return JSON.parse(JSON.stringify(object)); // required to make a deep copy
+};
+
+export const setNestedObjectProperty = (obj, path, value) => {
+	let parts = path.split('.');
+	let last = parts.pop();
+	let target = obj;
+	for (let part of parts) {
+		target = target[part] || {};
+	}
+	target[last] = value;
+	return obj;
+};

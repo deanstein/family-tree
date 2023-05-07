@@ -32,10 +32,21 @@ export const getPersonById = (id) => {
 
 export const setActivePerson = (person) => {
 	initializeOffScreenPeopleIdsArray();
-	if (!person) {
-		person = createNewPerson();
+
+	// instantiate the newest default person schema
+	// to compare later for upgrade purposes or used as a new person
+	const newPerson = createNewPerson();
+
+	// if there's a person, upgrade it if necessary
+	if (person) {
+		const upgradedPersonData = upgradePersonData(newPerson, person);
+		person = upgradedPersonData;
+	} else {
+		// if there's no person, make one
+		person = newPerson;
 		addPersonToPeopleArray(person);
 	}
+
 	uiState.update((currentValue) => {
 		return {
 			...currentValue,
@@ -490,6 +501,7 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {
+	console.log(personDataToMatch);
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
 	}

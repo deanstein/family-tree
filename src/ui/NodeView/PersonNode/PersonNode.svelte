@@ -7,13 +7,13 @@
 
 	import {
 		getPersonById,
-		upgradePersonData,
 		setActivePerson,
 		addActivePersonToPeopleArray
 	} from '../../../logic/person-management';
 
 	import { person } from '../../../schemas/person';
 	import uiState from '../../../stores/ui-state';
+	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
 	import Avatar from './Avatar.svelte';
@@ -32,6 +32,8 @@
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
+
+	let nodeEditTempDataStore = $tempState.nodeEditTempData;
 
 	$: {
 		// is this node the active person?
@@ -80,8 +82,7 @@
 			showPersonDetailView();
 		} else {
 			// clicking on anyone else makes them the active person
-			const upgradedPersonData = upgradePersonData(person, getPersonById(sPersonId));
-			setActivePerson(upgradedPersonData);
+			setActivePerson(getPersonById(sPersonId));
 			addActivePersonToPeopleArray();
 		}
 	};

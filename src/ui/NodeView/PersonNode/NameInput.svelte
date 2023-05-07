@@ -19,7 +19,7 @@
 	$: {
 		// set the input value as the temporary value in the store when the input is enabled
 		if (bEnabled) {
-			setTempNodeEditName(sInputValue);
+			setTempNodeEditName(sInputValue); // TODO: replace with more generic solution
 		}
 	}
 
