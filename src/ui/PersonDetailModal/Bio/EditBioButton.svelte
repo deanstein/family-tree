@@ -50,8 +50,16 @@
 	{#if !isBioEditActive}
 		<Button buttonText={'Edit Bio'} onClickFunction={startBioEditingMode} />
 	{:else}
-		<Button buttonText={'Cancel'} onClickFunction={endBioEditingModeAndDiscard} />
-		<Button buttonText={'Done'} onClickFunction={endBioEditingModeAndSave} />
+		<Button
+			buttonText={'Cancel'}
+			onClickFunction={endBioEditingModeAndDiscard}
+			overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+		/>
+		<Button
+			buttonText={'Done'}
+			onClickFunction={endBioEditingModeAndSave}
+			overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
+		/>
 	{/if}
 </div>
 

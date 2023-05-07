@@ -6,17 +6,17 @@ export const person = {
 	id: '0',
 	name: 'Firstname Lastname',
 	alternateNames: [],
-	gender: null,
+	gender: 'Unspecified',
 	birth: {
 		date: null,
-		place: null
+		place: ''
 	},
-	hometown: null,
+	hometown: '',
 	deceased: false,
 	death: {
 		date: null,
-		place: null,
-		cause: null
+		place: '',
+		cause: ''
 	},
 	relationships: (() => {
 		let relationships = {};

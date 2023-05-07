@@ -5,13 +5,16 @@
 
 	export let buttonText;
 	export let onClickFunction;
+	export let overrideBackgroundColor = undefined;
 	export let overrideFontSize = undefined;
 	export let overridePadding = undefined;
 
 	const buttonDynamicClass = css`
 		font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
 		padding: ${overridePadding ? overridePadding : '1vh'};
-		background-color: ${stylingConstants.colors.buttonColor};
+		background-color: ${overrideBackgroundColor
+			? overrideBackgroundColor
+			: stylingConstants.colors.buttonColorPrimary};
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
 		}

@@ -10,6 +10,7 @@
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
 	import FieldContainer from './FieldContainer.svelte';
+	import Overlay from '../../NodeView/Overlay.svelte';
 	import Selector from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
 	import { writeUIStateValueAtPath } from '../../../logic/ui-management';
@@ -38,11 +39,27 @@
 	};
 
 	const saveAllInputs = () => {
-		writeUIStateValueAtPath('activePerson.alternateNames', alternateNamesInputValue);
-		writeUIStateValueAtPath('activePerson.gender', genderInputValue);
-		writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
-		writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
-		writeUIStateValueAtPath('activePerson.hometown', hometownInputValue);
+		writeUIStateValueAtPath(
+			'activePerson.alternateNames',
+			alternateNamesInputValue,
+			alternateNamesInputValueOriginal
+		);
+		writeUIStateValueAtPath('activePerson.gender', genderInputValue, genderInputValueOriginal);
+		writeUIStateValueAtPath(
+			'activePerson.birth.place',
+			birthplaceInputValue,
+			birthplaceInputValueOriginal
+		);
+		writeUIStateValueAtPath(
+			'activePerson.birth.date',
+			birthdateInputValue,
+			birthdateInputValueOriginal
+		);
+		writeUIStateValueAtPath(
+			'activePerson.hometown',
+			hometownInputValue,
+			hometownInputValueOriginal
+		);
 	};
 
 	const discardAllInputs = () => {
@@ -67,6 +84,9 @@
 	}
 </script>
 
+{#if isBioEditActive}
+	<Overlay />
+{/if}
 <div id="bio-content-container" class="bio-content-container">
 	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
 		<EditBioButton
@@ -132,6 +152,7 @@
 		align-items: center;
 		background-color: gainsboro;
 		padding: 1vh;
+		z-index: 8;
 	}
 
 	.bio-edit-toolbar {

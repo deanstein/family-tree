@@ -13,7 +13,15 @@ import {
 } from './person-management';
 import { setNestedObjectProperty } from './utils';
 
-export const writeUIStateValueAtPath = (path, value) => {
+export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
+	// only bother doing anything if the value is now different
+	if (originalValue) {
+		if (value !== originalValue) {
+			return;
+		}
+	}
+
+	// otherwise, proceed to writing
 	uiState.update((currentValue) => {
 		if (path) {
 			setNestedObjectProperty(currentValue, path, value);

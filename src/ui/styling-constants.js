@@ -4,7 +4,9 @@ export const breakpoints = {
 };
 
 const colors = {
-	buttonColor: '#0092e4',
+	buttonColorPrimary: '#0092e4',
+	buttonColorSecondary: 'darkGray',
+	buttonColorDone: '#4dc44d',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',
