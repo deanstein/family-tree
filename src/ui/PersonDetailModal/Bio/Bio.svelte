@@ -20,19 +20,39 @@
 	let isBioEditActive = false;
 
 	// set the value of each input from the active person
+	let alternateNamesInputValue = $uiState.activePerson.alternateNames;
+	let alternateNamesInputValueOriginal = undefined;
+	let genderInputValue = $uiState.activePerson.gender;
+	let genderInputValueOriginal = undefined;
+	let birthdateInputValue = $uiState.activePerson.birth.date;
+	let birthdateInputValueOriginal = undefined;
 	let birthplaceInputValue = $uiState.activePerson.birth.place;
 	let birthplaceInputValueOriginal = undefined;
+	let hometownInputValue = $uiState.activePerson.hometown;
+	let hometownInputValueOriginal = undefined;
 
 	const initializeAllInputs = () => {
+		alternateNamesInputValueOriginal = alternateNamesInputValue;
+		genderInputValueOriginal = genderInputValue;
+		birthdateInputValueOriginal = birthdateInputValue;
 		birthplaceInputValueOriginal = birthplaceInputValue;
+		hometownInputValueOriginal = hometownInputValue;
 	};
 
 	const saveAllInputs = () => {
+		writeUIStateValueAtPath('activePerson.alternateNames', alternateNamesInputValue);
+		writeUIStateValueAtPath('activePerson.gender', genderInputValue);
 		writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
+		writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
+		writeUIStateValueAtPath('activePerson.hometown', hometownInputValue);
 	};
 
 	const discardAllInputs = () => {
+		alternateNamesInputValue = alternateNamesInputValueOriginal;
+		genderInputValue = genderInputValueOriginal;
+		birthdateInputValue = birthdateInputValueOriginal;
 		birthplaceInputValue = birthplaceInputValueOriginal;
+		hometownInputValue = hometownInputValueOriginal;
 	};
 
 	const genderOptions = {
@@ -97,7 +117,7 @@
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.hometown}>
-			<TextInput isEnabled={isBioEditActive} inputValue={$uiState.activePerson.hometown} />
+			<TextInput isEnabled={isBioEditActive} bind:inputValue={hometownInputValue} />
 		</FieldContainer>
 
 		<Checkbox label="Deceased?" isChecked={$uiState.activePerson.deceased} />
