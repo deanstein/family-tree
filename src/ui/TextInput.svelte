@@ -1,10 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
-	
+
 	import stylingConstants from './styling-constants';
-	
+
 	export let isEnabled = true;
-	export let inputValue = "";
+	export let inputValue = '';
 
 	const textInputDynamicClass = css`
         border: 2px solid ${stylingConstants.colors.activeColor};
@@ -14,7 +14,7 @@
 </script>
 
 <div id="input-container" class="input-container">
-	<input type="text" bind:value={inputValue} class={textInputDynamicClass} disabled={!isEnabled}/>
+	<input type="text" bind:value={inputValue} class={textInputDynamicClass} disabled={!isEnabled} />
 </div>
 
 <style>

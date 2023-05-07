@@ -2,7 +2,8 @@
 	import { css } from '@emotion/css';
 	import stylingConstants from '../../styling-constants';
 
-	let currentValue;
+	export let isEnabled = true;
+	export let inputValue;
 
 	let datePickerDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
@@ -13,7 +14,12 @@
 </script>
 
 <div id="date-picker-container" class="date-picker-container">
-	<input type="date" bind:value={currentValue} class="{datePickerDynamicClass} date-picker" />
+	<input
+		type="date"
+		disabled={!isEnabled}
+		bind:value={inputValue}
+		class="{datePickerDynamicClass} date-picker"
+	/>
 </div>
 
 <style>
@@ -21,8 +27,13 @@
 		display: flex;
 	}
 
-	.date-picker {
+	input {
 		width: 100%;
 		outline: none;
+	}
+
+	input:disabled {
+		background-color: white;
+		border: 2px solid transparent;
 	}
 </style>

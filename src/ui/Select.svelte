@@ -7,17 +7,10 @@
 	export let optionValueKey = 'value';
 	export let optionLabelKey = 'label';
 	export let optionsGroupObject;
-	export let enabled = true;
+	export let isEnabled = true;
+	export let inputValue;
 
-	let inputValue;
-
-	const selectorContainerDynamicClass = css`
-		width: -webkit-fill-available;
-		width: -moz-available;
-		margin-bottom: ${stylingConstants.sizes.padding};
-	`;
-
-	const selectorDynamicClass = css`
+	const selectDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
@@ -26,16 +19,13 @@
 	`;
 </script>
 
-<div
-	id="relationship-type-picker-container"
-	class="{selectorContainerDynamicClass} relationship-type-picker-container"
->
+<div id="select-container" class="select-container">
 	<select
-		id="options"
-		class="{selectorDynamicClass} relationship-type-picker"
+		id="select"
+		class={selectDynamicClass}
 		bind:value={inputValue}
 		on:click|stopPropagation
-		disabled={!enabled}
+		disabled={!isEnabled}
 	>
 		{#each Object.entries(optionsGroupObject) as [category, items]}
 			{#if items.hasOwnProperty(optionLabelKey)}
@@ -58,15 +48,20 @@
 </div>
 
 <style>
-	.relationship-type-picker {
+	.select-container {
+		width: -webkit-fill-available;
+		width: -moz-available;
+	}
+
+	select {
 		height: 1vw;
 		width: 100%;
 		outline: none;
 	}
-	.relationship-type-picker:disabled {
+	select:disabled {
 		-webkit-appearance: none; /* for webkit-based browsers */
 		-moz-appearance: none; /* for Firefox */
-		text-align: center;
+		border: none;
 		appearance: none;
 	}
 </style>

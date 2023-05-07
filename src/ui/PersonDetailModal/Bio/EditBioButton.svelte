@@ -2,11 +2,15 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../styling-constants';
+	import { setBioEditId, unsetBioEditId } from '../../../logic/temp-management';
 
 	import Button from '../../Button.svelte';
 
 	export let personId;
 	export let isBioEditActive;
+	export let initializeAllInputs;
+	export let saveAllInputs;
+	export let discardAllInputs;
 
 	let settingsButtonText;
 	let nodeSettingsButtonDynamicClass;
@@ -26,9 +30,20 @@
 		`;
 	}
 
-	export let startBioEditingMode;
-	export let endBioEditingModeAndSave;
-	export let endBioEditingModeAndDiscard;
+	const startBioEditingMode = () => {
+		initializeAllInputs();
+		setBioEditId(personId);
+	};
+
+	const endBioEditingModeAndSave = () => {
+		saveAllInputs();
+		unsetBioEditId();
+	};
+
+	const endBioEditingModeAndDiscard = () => {
+		discardAllInputs();
+		unsetBioEditId();
+	};
 </script>
 
 <div id="edit-bio-button-container" class="edit-bio-button-container">

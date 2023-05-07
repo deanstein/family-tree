@@ -4,8 +4,6 @@
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 
-	import { setBioEditId, unsetBioEditId } from '../../../logic/temp-management';
-
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AltNames from './AltNames.svelte';
 	import Checkbox from './Checkbox.svelte';
@@ -60,21 +58,6 @@
 		gender
 	};
 
-	const startBioEditingMode = () => {
-		initializeAllInputs();
-		setBioEditId(personId);
-	};
-
-	const endBioEditingModeAndSave = () => {
-		saveAllInputs();
-		unsetBioEditId();
-	};
-
-	const endBioEditingModeAndDiscard = () => {
-		discardAllInputs();
-		unsetBioEditId();
-	};
-
 	$: {
 		if ($tempState.bioEditPersonId === personId) {
 			isBioEditActive = true;
@@ -85,6 +68,15 @@
 </script>
 
 <div id="bio-content-container" class="bio-content-container">
+	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
+		<EditBioButton
+			{personId}
+			{isBioEditActive}
+			{initializeAllInputs}
+			{saveAllInputs}
+			{discardAllInputs}
+		/>
+	</div>
 	<div id="bio-avatar-container" class="bio-avatar-container">
 		<Avatar />
 	</div>
@@ -92,42 +84,39 @@
 		{$uiState.activePerson.name}
 	</div>
 	<div id="bio-facts" class="bio-facts">
-		<EditBioButton
-			{personId}
-			{isBioEditActive}
-			{startBioEditingMode}
-			{endBioEditingModeAndSave}
-			{endBioEditingModeAndDiscard}
-		/>
-
 		<FieldContainer label={personDetailStrings.altNames}>
 			<AltNames />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.gender}>
-			<Selector optionsGroupObject={genderOptions} optionValueKey="id" />
+			<Selector
+				bind:inputValue={genderInputValue}
+				isEnabled={isBioEditActive}
+				optionsGroupObject={genderOptions}
+				optionValueKey="id"
+			/>
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.birthdate}>
-			<DatePicker />
+			<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.birthplace}>
-			<TextInput isEnabled={isBioEditActive} bind:inputValue={birthplaceInputValue} />
+			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.hometown}>
-			<TextInput isEnabled={isBioEditActive} bind:inputValue={hometownInputValue} />
+			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<Checkbox label="Deceased?" isChecked={$uiState.activePerson.deceased} />
 		{#if $uiState.activePerson.deceased}
 			<div id="deceased-details-container" class="deceased-details-container">
 				<FieldContainer label={personDetailStrings.deathdate}>
-					<DatePicker />
+					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
 				<FieldContainer label={personDetailStrings.deathplace}>
-					<TextInput />
+					<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
 			</div>
 		{/if}
@@ -143,6 +132,13 @@
 		align-items: center;
 		background-color: gainsboro;
 		padding: 1vh;
+	}
+
+	.bio-edit-toolbar {
+		display: grid;
+		justify-content: right;
+		width: 100%;
+		gap: 1vw;
 	}
 
 	.bio-avatar-container {
