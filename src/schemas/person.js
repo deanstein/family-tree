@@ -8,13 +8,14 @@ export const person = {
 	alternateNames: [],
 	gender: 'Unspecified',
 	birth: {
-		date: null,
-		place: ''
+		date: '',
+		place: '',
+		time: ''
 	},
 	hometown: '',
 	deceased: false,
 	death: {
-		date: null,
+		date: '',
 		place: '',
 		cause: ''
 	},

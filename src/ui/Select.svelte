@@ -54,7 +54,6 @@
 	}
 
 	select {
-		padding-left: 5px;
 		height: 1vw;
 		width: 100%;
 		outline: none;
@@ -64,5 +63,6 @@
 		-moz-appearance: none; /* for Firefox */
 		border: none;
 		appearance: none;
+		padding-left: 5px;
 	}
 </style>

@@ -491,6 +491,8 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 				dataToChange[key] = [];
 			} else if (typeof dataToMatch[key] === 'string') {
 				dataToChange[key] = '';
+			} else if (typeof dataToMatch[key] === 'boolean') {
+				dataToChange[key] = false;
 			} else {
 				dataToChange[key] = {};
 				deepMatchObjects(dataToMatch[key], dataToChange[key]);
