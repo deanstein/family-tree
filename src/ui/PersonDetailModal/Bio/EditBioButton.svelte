@@ -5,6 +5,7 @@
 	import { setBioEditId, unsetBioEditId } from '../../../logic/temp-management';
 
 	import Button from '../../Button.svelte';
+	import { checkForUnsavedChanges } from '../../../logic/ui-management';
 
 	export let personId;
 	export let isBioEditActive;

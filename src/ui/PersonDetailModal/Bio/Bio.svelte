@@ -1,6 +1,8 @@
 <script>
+	import { css } from '@emotion/css';
 	import { personDetailStrings } from '../../strings';
 	import { gender } from '../../../schemas/person';
+	import stylingConstants from '../../styling-constants';
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 
@@ -35,6 +37,8 @@
 	let deceasedValueOriginal = undefined;
 	let deathDateInputValue = $uiState.activePerson.death.date;
 	let deathDateInputValueOriginal = undefined;
+	let deathTimeInputValue = $uiState.activePerson.death.time;
+	let deathTimeInputValueOriginal = undefined;
 	let deathPlaceInputValue = $uiState.activePerson.death.place;
 	let deathPlaceInputValueOriginal = undefined;
 	let deathCauseInputValue = $uiState.activePerson.death.cause;
@@ -50,6 +54,7 @@
 		deceasedValueOriginal = deceasedValue;
 		deathDateInputValueOriginal = deathDateInputValue;
 		deathPlaceInputValueOriginal = deathPlaceInputValue;
+		deathTimeInputValueOriginal = deathTimeInputValue;
 		deathCauseInputValueOriginal = deathCauseInputValue;
 	};
 
@@ -87,6 +92,11 @@
 			deathDateInputValueOriginal
 		);
 		writeUIStateValueAtPath(
+			'activePerson.death.time',
+			deathTimeInputValue,
+			deathTimeInputValueOriginal
+		);
+		writeUIStateValueAtPath(
 			'activePerson.death.place',
 			deathPlaceInputValue,
 			deathPlaceInputValueOriginal
@@ -108,6 +118,7 @@
 		deceasedValue = deceasedValueOriginal;
 		deathDateInputValue = deathDateInputValueOriginal;
 		deathPlaceInputValue = deathPlaceInputValueOriginal;
+		deathTimeInputValue = deathTimeInputValueOriginal;
 		deathCauseInputValue = deathCauseInputValueOriginal;
 	};
 
@@ -123,6 +134,10 @@
 			isBioEditActive = false;
 		}
 	}
+
+	const bioNameDynamicClass = css`
+		color: ${stylingConstants.colors.textColor};
+	`;
 </script>
 
 {#if isBioEditActive}
@@ -141,7 +156,7 @@
 	<div id="bio-avatar-container" class="bio-avatar-container">
 		<Avatar />
 	</div>
-	<div id="bio-name" class="bio-name">
+	<div id="bio-name" class="{bioNameDynamicClass} bio-name">
 		{$uiState.activePerson.name}
 	</div>
 	<div id="bio-facts" class="bio-facts">
@@ -158,9 +173,15 @@
 			/>
 		</FieldContainer>
 
-		<FieldContainer label={personDetailStrings.birthdate}>
-			<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
-		</FieldContainer>
+		<div class="side-by-side-fact-container">
+			<FieldContainer label={personDetailStrings.birthdate}>
+				<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
+			</FieldContainer>
+
+			<FieldContainer label={personDetailStrings.birthtime}>
+				<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
+			</FieldContainer>
+		</div>
 
 		<FieldContainer label={personDetailStrings.birthplace}>
 			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
@@ -170,15 +191,29 @@
 			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
-		<Checkbox label="Deceased" bind:isChecked={deceasedValue} isEnabled={isBioEditActive} />
+		<Checkbox
+			label={personDetailStrings.deceased}
+			bind:isChecked={deceasedValue}
+			isEnabled={isBioEditActive}
+		/>
 		{#if deceasedValue}
 			<div id="deceased-details-container" class="deceased-details-container">
-				<FieldContainer label={personDetailStrings.deathdate}>
-					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
+				<div class="side-by-side-fact-container">
+					<FieldContainer label={personDetailStrings.deathDate}>
+						<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />
+					</FieldContainer>
+
+					<FieldContainer label={personDetailStrings.deathTime}>
+						<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isBioEditActive} />
+					</FieldContainer>
+				</div>
+
+				<FieldContainer label={personDetailStrings.deathPlace}>
+					<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
 
-				<FieldContainer label={personDetailStrings.deathplace}>
-					<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
+				<FieldContainer label={personDetailStrings.deathCause}>
+					<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isBioEditActive} />
 				</FieldContainer>
 			</div>
 		{/if}
@@ -214,7 +249,7 @@
 		flex-direction: column;
 		justify-content: center;
 		padding: 10px;
-		color: white;
+		margin-bottom: 1vh;
 		font-size: 5vh;
 	}
 
@@ -223,6 +258,11 @@
 		flex-direction: column;
 		justify-content: center;
 		width: 100%;
+		gap: 1vh;
+	}
+
+	.side-by-side-fact-container {
+		display: flex;
 		gap: 1vh;
 	}
 

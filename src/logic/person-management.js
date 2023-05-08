@@ -493,17 +493,18 @@ function deepMatchObjects(dataToMatch, dataToChange) {
 				dataToChange[key] = '';
 			} else if (typeof dataToMatch[key] === 'boolean') {
 				dataToChange[key] = false;
-			} else {
+			} else if (typeof dataToMatch[key] === 'object') {
 				dataToChange[key] = {};
 				deepMatchObjects(dataToMatch[key], dataToChange[key]);
 			}
+		} else if (typeof dataToMatch[key] === 'object') {
+			deepMatchObjects(dataToMatch[key], dataToChange[key]);
 		}
 	}
 	return dataToChange;
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {
-	console.log(personDataToMatch);
 	if (personDataToModify?.version == undefined) {
 		personDataToModify['version'] = '0.0.0';
 	}
@@ -513,6 +514,7 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 
 	if (personDataToModify?.version !== personDataToMatch?.version) {
 		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
+		console.log(personDataToModify);
 		upgraded = true;
 	}
 

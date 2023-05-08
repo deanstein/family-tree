@@ -17,6 +17,7 @@ export const person = {
 	death: {
 		date: '',
 		place: '',
+		time: '',
 		cause: ''
 	},
 	relationships: (() => {

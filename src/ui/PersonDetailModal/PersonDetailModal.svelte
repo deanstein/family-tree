@@ -69,7 +69,7 @@
 		display: flex;
 		flex-direction: column;
 		flex-basis: 33.333%;
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 
 	.person-detail-timeline-container {

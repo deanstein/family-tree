@@ -25,8 +25,11 @@ export const personDetailStrings = {
 	gender: 'Gender',
 	birthdate: 'Date of Birth',
 	birthplace: 'Place of Birth',
+	birthtime: 'Time of Birth: ',
 	hometown: 'Hometown',
-	deceased: 'Deceased?',
-	deathdate: 'Date of Death',
-	deathplace: 'Place of Death'
+	deceased: 'Deceased',
+	deathDate: 'Date of Death',
+	deathPlace: 'Place of Death',
+	deathTime: 'Time of Death',
+	deathCause: 'Cause of Death'
 };

@@ -32,5 +32,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1vh;
+
+		-webkit-touch-callout: text;
+		-webkit-user-select: text;
+		-moz-user-select: text;
+		-ms-user-select: text;
+		user-select: text;
 	}
 </style>

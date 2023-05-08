@@ -11,16 +11,30 @@ import {
 	setPersonNameFromTemporaryState,
 	setPersonRelationshipFromTemporaryState
 } from './person-management';
-import { setNestedObjectProperty } from './utils';
+import { areObjectsEqual, setNestedObjectProperty } from './utils';
+
+// might be expensive, so try not to call too often
+export const checkForUnsavedChanges = () => {
+	uiState.update((currentValue) => {
+		let unsavedChanges = !areObjectsEqual(
+			currentValue.activePerson,
+			currentValue.cachedActivePerson
+		);
+		if (unsavedChanges) {
+			currentValue.unsavedChanges = true;
+			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
+		}
+		return currentValue;
+	});
+};
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
-	// only bother doing anything if the value is now different
+	// only bother doing anything if the value is different
 	if (originalValue) {
-		if (value !== originalValue) {
+		if (value === originalValue) {
 			return;
 		}
 	}
-
 	// otherwise, proceed to writing
 	uiState.update((currentValue) => {
 		if (path) {

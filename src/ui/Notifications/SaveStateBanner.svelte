@@ -1,6 +1,7 @@
 <script>
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import {
+		checkForUnsavedChanges,
 		getNotificationConfigFromRepoState,
 		setCachedActivePerson,
 		setRepoState
@@ -33,12 +34,8 @@
 			}, 1500);
 		}
 
-		// determine if there are unsved changes
-		unsavedChanges = !areObjectsEqual($uiState.activePerson, $uiState.cachedActivePerson);
-		if (unsavedChanges) {
-			$uiState.unsavedChanges = true;
-			$uiState.saveToRepoStatus = repoStateStrings.unsavedChanges;
-		}
+		// always check for unsaved changes
+		checkForUnsavedChanges();
 	}
 
 	uiState.subscribe(() => {
