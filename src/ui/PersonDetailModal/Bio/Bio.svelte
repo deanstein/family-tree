@@ -222,20 +222,24 @@
 
 <style>
 	.bio-content-container {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
 		align-items: center;
 		background-color: gainsboro;
-		padding: 1vh;
+		padding: 0 1vh 1vh 1vh;
 		z-index: 8;
 	}
 
 	.bio-edit-toolbar {
+		position: sticky;
 		display: grid;
 		justify-content: right;
+		top: 0;
 		width: 100%;
 		gap: 1vw;
+		padding-top: 1vh;
 		margin-bottom: 2vh;
 	}
 
