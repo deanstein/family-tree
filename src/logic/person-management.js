@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { person } from '../schemas/person';
+import relationshipMap from '../schemas/relationship-map';
+
 import uiState from '../stores/ui-state';
+import familyTreeData from '../stores/family-tree-data';
+
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	initializeOffScreenPeopleIdsArray,
@@ -8,10 +13,7 @@ import {
 	removePersonFromActivePersonGroup,
 	setCachedActivePerson
 } from './ui-management';
-
-import { person } from '../schemas/person';
-import familyTreeData from '../stores/family-tree-data';
-import relationshipMap from '../schemas/relationship-map';
+import { deepMatchObjects } from './utils';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -482,26 +484,6 @@ export function getDefaultRelationshipType(relationshipGroup) {
 		}
 	}
 	return null;
-}
-
-function deepMatchObjects(dataToMatch, dataToChange) {
-	for (var key in dataToMatch) {
-		if (!dataToChange.hasOwnProperty(key)) {
-			if (Array.isArray(dataToMatch[key])) {
-				dataToChange[key] = [];
-			} else if (typeof dataToMatch[key] === 'string') {
-				dataToChange[key] = '';
-			} else if (typeof dataToMatch[key] === 'boolean') {
-				dataToChange[key] = false;
-			} else if (typeof dataToMatch[key] === 'object') {
-				dataToChange[key] = {};
-				deepMatchObjects(dataToMatch[key], dataToChange[key]);
-			}
-		} else if (typeof dataToMatch[key] === 'object') {
-			deepMatchObjects(dataToMatch[key], dataToChange[key]);
-		}
-	}
-	return dataToChange;
 }
 
 export const upgradePersonData = (personDataToMatch, personDataToModify) => {

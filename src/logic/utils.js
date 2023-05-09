@@ -75,6 +75,26 @@ export const instantiateObject = (object) => {
 	return JSON.parse(JSON.stringify(object)); // required to make a deep copy
 };
 
+export const deepMatchObjects = (dataToMatch, dataToChange) => {
+	for (var key in dataToMatch) {
+		if (!dataToChange.hasOwnProperty(key)) {
+			if (Array.isArray(dataToMatch[key])) {
+				dataToChange[key] = [];
+			} else if (typeof dataToMatch[key] === 'string') {
+				dataToChange[key] = '';
+			} else if (typeof dataToMatch[key] === 'boolean') {
+				dataToChange[key] = false;
+			} else if (typeof dataToMatch[key] === 'object') {
+				dataToChange[key] = {};
+				deepMatchObjects(dataToMatch[key], dataToChange[key]);
+			}
+		} else if (typeof dataToMatch[key] === 'object') {
+			deepMatchObjects(dataToMatch[key], dataToChange[key]);
+		}
+	}
+	return dataToChange;
+};
+
 export const setNestedObjectProperty = (obj, path, value) => {
 	let parts = path.split('.');
 	let last = parts.pop();

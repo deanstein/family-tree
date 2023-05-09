@@ -161,7 +161,7 @@
 	</div>
 	<div id="bio-facts" class="bio-facts">
 		<FieldContainer label={personDetailStrings.altNames}>
-			<AltNames />
+			<AltNames bind:inputValue={alternateNamesInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.gender}>

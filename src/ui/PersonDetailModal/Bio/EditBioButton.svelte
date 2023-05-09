@@ -69,22 +69,4 @@
 		width: 100%;
 		float: right;
 	}
-
-	.edit-bio-button {
-		position: absolute;
-		top: 0px;
-		right: 0px;
-		border: none;
-		letter-spacing: 2px;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-		font-weight: bold;
-	}
-
-	.edit-bio-flyout-menu {
-		position: relative;
-		top: 0;
-		left: 100%;
-		width: 200px;
-	}
 </style>
