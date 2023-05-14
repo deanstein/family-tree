@@ -25,6 +25,10 @@
 	let nameInputValueOriginal = undefined;
 	let typeInputValue = $tempState.editAltName.type;
 
+	const focusNameInput = (element) => {
+		element.focus();
+	};
+
 	const onDoneButtonAction = () => {
 		// create a new name from the inputs
 		const newOrUpdatedName = instantiateObject(alternateName);
@@ -34,7 +38,6 @@
 		// this could have been an editing session where the name was changed
 		// if so, attempt to find the original and delete it
 		if (nameInputValue !== nameInputValueOriginal) {
-			console.log(nameInputValue, nameInputValueOriginal);
 			removeAlternateNameFromTempState(nameInputValueOriginal);
 		}
 		unsetEditAltName();
@@ -60,15 +63,15 @@
 </script>
 
 <div
-	id="add-alternate-name-modal-container"
-	class="{addAlternateNameModalDynamicClass} add-alternate-name-modal-container"
+	id="edit-alternate-name-modal-container"
+	class="{addAlternateNameModalDynamicClass} edit-alternate-name-modal-container"
 >
-	<div id="add-alternate-name-modal-content" class="add-alternate-name-modal-content">
-		<div id="add-alternate-name-modal-title" class="add-alternate-name-modal-title">
+	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
+		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
 			Add an alternate name:
 		</div>
 		<FieldContainer label="Name">
-			<TextInput bind:inputValue={nameInputValue} />
+			<TextInput bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>
 		<FieldContainer label="Name Type (optional)">
 			<Select
@@ -77,16 +80,16 @@
 				optionValueKey="id"
 			/>
 		</FieldContainer>
-		<div id="add-alternate-name-button-container" class="add-alernate-name-button-container">
-			<Button
-				buttonText="Done"
-				isEnabled={nameInputValue.length > 0}
-				onClickFunction={onDoneButtonAction}
-			/>
+		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
 			<Button
 				buttonText="Cancel"
 				onClickFunction={onCancelButtonAction}
 				overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+			/>
+			<Button
+				buttonText="Done"
+				isEnabled={nameInputValue.length > 0}
+				onClickFunction={onDoneButtonAction}
 			/>
 		</div>
 	</div>
@@ -94,7 +97,7 @@
 </div>
 
 <style>
-	.add-alternate-name-modal-container {
+	.edit-alternate-name-modal-container {
 		position: absolute;
 		display: flex;
 		justify-content: center;
@@ -103,7 +106,7 @@
 		width: 100vw;
 	}
 
-	.add-alternate-name-modal-content {
+	.edit-alternate-name-modal-content {
 		display: flex;
 		flex-direction: column;
 		gap: 1vh;
@@ -112,12 +115,13 @@
 		background-color: lightGray;
 	}
 
-	.add-alternate-name-modal-title {
+	.edit-alternate-name-modal-title {
 		font-size: 2vh;
 	}
 
-	.add-alternate-name-button-container {
+	.edit-alternate-name-button-container {
 		display: flex;
-		gap: 1vw;
+		justify-content: right;
+		gap: 0.5vw;
 	}
 </style>

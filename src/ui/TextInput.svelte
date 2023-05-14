@@ -5,6 +5,8 @@
 
 	export let isEnabled = true;
 	export let inputValue = '';
+	// empty function in case no function is passed to the input by the parent
+	export let useFunction = (element) => {};
 
 	const textInputDynamicClass = css`
         border: 2px solid ${stylingConstants.colors.activeColor};
@@ -14,7 +16,13 @@
 </script>
 
 <div id="input-container" class="input-container">
-	<input type="text" bind:value={inputValue} class={textInputDynamicClass} disabled={!isEnabled} />
+	<input
+		type="text"
+		bind:value={inputValue}
+		use:useFunction
+		class={textInputDynamicClass}
+		disabled={!isEnabled}
+	/>
 </div>
 
 <style>
