@@ -15,22 +15,15 @@
 
 	import {
 		addOrEditAlternateNameInTempState,
-		unsetAltNames,
+		initializeAltNamesTempState,
+		removeAlternateNameFromTempState,
 		unsetEditAltName
 	} from '../../../logic/temp-management';
-	import { instantiateObject, replaceObjectByKeyValue } from '../../../logic/utils';
-	import uiState from '../../../stores/ui-state';
+	import { instantiateObject } from '../../../logic/utils';
 
 	let nameInputValue = $tempState.editAltName.name;
+	let nameInputValueOriginal = undefined;
 	let typeInputValue = $tempState.editAltName.type;
-
-	// capture all the original input values for the purposes of canceling?
-	const initializeAltNamesTempState = () => {
-		let alternateNamesOriginalValue;
-		uiState.subscribe((currentValue) => {
-			alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
-		});
-	};
 
 	const onDoneButtonAction = () => {
 		// create a new name from the inputs
@@ -38,6 +31,12 @@
 		newOrUpdatedName.name = nameInputValue;
 		newOrUpdatedName.type = typeInputValue;
 		addOrEditAlternateNameInTempState(newOrUpdatedName);
+		// this could have been an editing session where the name was changed
+		// if so, attempt to find the original and delete it
+		if (nameInputValue !== nameInputValueOriginal) {
+			console.log(nameInputValue, nameInputValueOriginal);
+			removeAlternateNameFromTempState(nameInputValueOriginal);
+		}
 		unsetEditAltName();
 	};
 
@@ -56,6 +55,7 @@
 
 	onMount(() => {
 		initializeAltNamesTempState();
+		nameInputValueOriginal = nameInputValue;
 	});
 </script>
 

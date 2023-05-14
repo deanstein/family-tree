@@ -19,7 +19,7 @@
 			font-size: ${stylingConstants.sizes.bioFieldFontSize};
 			color: ${isEnabled ? 'white' : 'black'};
 			background-color: ${isEnabled ? stylingConstants.colors.activeColor : 'lightGray'};
-			:hover  {
+			:hover {
 				background-color: ${isEnabled ? stylingConstants.colors.hoverColor : 'none'};
 			}
 		`;

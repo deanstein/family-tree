@@ -2,7 +2,11 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../styling-constants';
-	import { setBioEditId, unsetBioEditId } from '../../../logic/temp-management';
+	import {
+		initializeAltNamesTempState,
+		setBioEditId,
+		unsetBioEditId
+	} from '../../../logic/temp-management';
 
 	import Button from '../../Button.svelte';
 
@@ -32,6 +36,7 @@
 
 	const startBioEditingMode = () => {
 		captureAllOriginalInputValues();
+		initializeAltNamesTempState();
 		setBioEditId(personId);
 	};
 

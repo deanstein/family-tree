@@ -32,6 +32,18 @@ export const unsetEditAltName = () => {
 	});
 };
 
+export const initializeAltNamesTempState = () => {
+	let alternateNamesOriginalValue;
+	uiState.subscribe((currentValue) => {
+		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
+	});
+
+	tempState.update((currentvalue) => {
+		currentvalue.altNames = alternateNamesOriginalValue;
+		return currentvalue;
+	});
+};
+
 export const unsetAltNames = () => {
 	tempState.update((currentValue) => {
 		currentValue.altNames = [];
@@ -50,9 +62,9 @@ export const addOrEditAlternateNameInTempState = (alternateName) => {
 	});
 };
 
-export const removeAlternateNameFromTempState = (alternateNameId) => {
+export const removeAlternateNameFromTempState = (name /* just the name, not the object */) => {
 	tempState.update((currentValue) => {
-		deleteObjectByKeyValue(currentValue.altNames, alternateNameId);
+		deleteObjectByKeyValue(currentValue.altNames, 'name', name);
 		return currentValue;
 	});
 };

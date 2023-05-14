@@ -118,7 +118,6 @@ export const getObjectByKeyValue = (arr, key, value) => {
 // operates on an array of objects
 export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 	for (let i = 0; i < arr.length; i++) {
-		console.log('replaced?', arr[i][key], value);
 		if (arr[i][key] === value) {
 			arr[i] = replacementObject;
 			return true; // indicate that object was replaced
@@ -128,9 +127,10 @@ export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 };
 
 // operates on an array of objects
-export const deleteObjectByKeyValue = (arr, key, targetId) => {
+export const deleteObjectByKeyValue = (arr, key, value) => {
 	for (let i = 0; i < arr.length; i++) {
-		if (arr[i][key] === targetId) {
+		if (arr[i][key] === value) {
+			console.log('Array: ' + arr[i][key], 'Value: ' + value);
 			arr.splice(i, 1);
 			return true; // indicate that object was deleted
 		}
