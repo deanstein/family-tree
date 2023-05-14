@@ -21,7 +21,7 @@ export const chooseTreeStrings = {
 };
 
 export const personDetailStrings = {
-	altNames: 'Alternate Names',
+	altNames: 'Also Known As',
 	gender: 'Gender',
 	birthdate: 'Date of Birth',
 	birthplace: 'Place of Birth',

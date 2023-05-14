@@ -4,6 +4,8 @@ const tempState = {
 	nodeEditPersonId: undefined,
 	nodeSettingsFlyoutPersonId: undefined,
 	bioEditPersonId: undefined,
+	editAltName: undefined,
+	altNames: [],
 	timelineEditEventId: undefined,
 
 	personNameTemporaryValue: undefined,

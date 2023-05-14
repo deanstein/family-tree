@@ -3,17 +3,19 @@
 
 	import stylingConstants from '../styling-constants';
 
-	const personNodeOverlayDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
+	export let zIndexOverride = undefined;
+
+	const overlayDynamicClass = css`
+		z-index: ${zIndexOverride ? zIndexOverride : stylingConstants.zIndices.personNodeOverlayZIndex};
 		background-color: ${stylingConstants.colors.overlayColor};
 		opacity: ${stylingConstants.colors.overlayOpacity};
 	`;
 </script>
 
-<div id="person-node-overlay" class="{personNodeOverlayDynamicClass} person-node-overlay" />
+<div id="overlay" class="{overlayDynamicClass} overlay" />
 
 <style>
-	.person-node-overlay {
+	.overlay {
 		position: absolute;
 		top: 0;
 		left: 0;

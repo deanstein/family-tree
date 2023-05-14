@@ -7,7 +7,7 @@
 	import tempState from '../../../stores/temp-state';
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
-	import AltNames from './AltNames.svelte';
+	import AltNames from './AlternateNames.svelte';
 	import Checkbox from './Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
@@ -16,12 +16,15 @@
 	import Selector from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
 	import { writeUIStateValueAtPath } from '../../../logic/ui-management';
+	import { writeTempAlternateNamesToUIState, unsetAltNames } from '../../../logic/temp-management';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;
 
 	// set the value of each input from the active person
-	let alternateNamesInputValue = $uiState.activePerson.alternateNames;
+	let alternateNamesInputValue = $tempState.altNames
+		? $tempState.altNames
+		: $uiState.activePerson.alternateNames;
 	let alternateNamesInputValueOriginal = undefined;
 	let genderInputValue = $uiState.activePerson.gender;
 	let genderInputValueOriginal = undefined;
@@ -59,11 +62,7 @@
 	};
 
 	const saveAllInputs = () => {
-		writeUIStateValueAtPath(
-			'activePerson.alternateNames',
-			alternateNamesInputValue,
-			alternateNamesInputValueOriginal
-		);
+		writeTempAlternateNamesToUIState();
 		writeUIStateValueAtPath('activePerson.gender', genderInputValue, genderInputValueOriginal);
 		writeUIStateValueAtPath(
 			'activePerson.birth.place',
@@ -109,7 +108,7 @@
 	};
 
 	const discardAllInputs = () => {
-		alternateNamesInputValue = alternateNamesInputValueOriginal;
+		unsetAltNames();
 		genderInputValue = genderInputValueOriginal;
 		birthdateInputValue = birthdateInputValueOriginal;
 		birthplaceInputValue = birthplaceInputValueOriginal;
@@ -135,6 +134,10 @@
 		}
 	}
 
+	const bioContentContainerDynamicClass = css`
+		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
+	`;
+
 	const bioNameDynamicClass = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
@@ -143,12 +146,12 @@
 {#if isBioEditActive}
 	<Overlay />
 {/if}
-<div id="bio-content-container" class="bio-content-container">
+<div id="bio-content-container" class="{bioContentContainerDynamicClass} bio-content-container">
 	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
 		<EditBioButton
 			{personId}
 			{isBioEditActive}
-			initializeAllInputs={captureAllOriginalInputValues}
+			{captureAllOriginalInputValues}
 			{saveAllInputs}
 			{discardAllInputs}
 		/>
@@ -229,7 +232,6 @@
 		align-items: center;
 		background-color: gainsboro;
 		padding: 0 1vh 1vh 1vh;
-		z-index: 8;
 	}
 
 	.bio-edit-toolbar {

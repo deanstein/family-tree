@@ -2,6 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import familyTreeData from './stores/family-tree-data';
+	import tempState from './stores/temp-state';
 	import uiState from './stores/ui-state';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
@@ -27,6 +28,7 @@
 	import PersonDetailModal from './ui/PersonDetailModal/PersonDetailModal.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
+	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 
 	const bHideEmptyGroups = false;
 
@@ -58,6 +60,9 @@
 		{/if}
 		<ChooseTreeModal />
 		<PersonDetailModal />
+		{#if $tempState.editAltName !== undefined}
+			<EditAlternateNameModal />
+		{/if}
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>

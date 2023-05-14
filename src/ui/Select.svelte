@@ -59,10 +59,16 @@
 		outline: none;
 	}
 	select:disabled {
+		opacity: 1;
+		background-color: white;
 		-webkit-appearance: none; /* for webkit-based browsers */
 		-moz-appearance: none; /* for Firefox */
 		border: none;
 		appearance: none;
 		padding-left: 5px;
+	}
+
+	.select {
+		background-color: white;
 	}
 </style>

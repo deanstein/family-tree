@@ -1,0 +1,52 @@
+<script>
+	import { css } from '@emotion/css';
+	import stylingConstants from '../../styling-constants';
+	import { setEditAltName } from '../../../logic/temp-management';
+
+	export let alternateName;
+	export let isEnabled;
+
+	let alternateNameDynamicClass;
+
+	const alternateNameOnClickAction = () => {
+		if (isEnabled) {
+			setEditAltName(alternateName);
+		}
+	};
+
+	$: {
+		alternateNameDynamicClass = css`
+			font-size: ${stylingConstants.sizes.bioFieldFontSize};
+			color: ${isEnabled ? 'white' : 'black'};
+			background-color: ${isEnabled ? stylingConstants.colors.activeColor : 'lightGray'};
+			:hover  {
+				background-color: ${isEnabled ? stylingConstants.colors.hoverColor : 'none'};
+			}
+		`;
+	}
+</script>
+
+<div id="alternate-name-container" class="alternate-name-container">
+	<div
+		id="alternate-name"
+		class="{alternateNameDynamicClass} alternate-name"
+		on:click={alternateNameOnClickAction}
+		on:keypress={alternateNameOnClickAction}
+	>
+		{alternateName.name}
+	</div>
+</div>
+
+<style>
+	.alternate-name-container {
+		display: flex;
+		align-items: center;
+	}
+
+	.alternate-name {
+		padding: 5px;
+	}
+
+	.alternate-name-type-tag {
+	}
+</style>

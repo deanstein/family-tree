@@ -62,7 +62,7 @@
 		height: 80vh;
 		gap: 1vw;
 		padding: 1vw;
-		background-color: rgba(48, 48, 48, 0.8);
+		background-color: rgba(255, 255, 255, 0.2);
 	}
 
 	.person-detail-bio-container {

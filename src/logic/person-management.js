@@ -1,10 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { alternateName } from '../schemas/alternate-name';
 import { person } from '../schemas/person';
 import relationshipMap from '../schemas/relationship-map';
 
 import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
+
+import { getObjectByKeyValue, instantiateObject } from './utils';
 
 import {
 	addOrUpdatePersonInActivePersonGroup,
@@ -19,6 +22,38 @@ export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
 	newPerson.id = uuidv4();
 	return newPerson;
+};
+
+export const upgradePersonData = (personDataToMatch, personDataToModify) => {
+	if (personDataToModify?.version == undefined) {
+		personDataToModify['version'] = '0.0.0';
+	}
+
+	let upgraded = false;
+	let originalVersion = personDataToModify?.version;
+
+	if (personDataToModify?.version !== personDataToMatch?.version) {
+		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
+		console.log(personDataToModify);
+		upgraded = true;
+	}
+
+	if (upgraded) {
+		personDataToModify['version'] = personDataToMatch.version;
+		console.log(
+			'Person upgraded: ' +
+				personDataToModify.name +
+				' (v' +
+				originalVersion +
+				') ' +
+				'->' +
+				' (v' +
+				personDataToMatch.version +
+				')'
+		);
+	}
+
+	return personDataToModify;
 };
 
 export const getPersonById = (id) => {
@@ -94,6 +129,15 @@ export const setPersonRelationshipFromTemporaryState = (sPersonId, sExistingRela
 	});
 
 	setPersonRelationship(sPersonId, sExistingRelationshipId, temporaryRelationship);
+};
+
+export const addAlternateName = (name) => {
+	const newAlternateName = instantiateObject(alternateName);
+
+	uiState.update((currentValue) => {
+		currentValue.activePerson.alternateNames.push(newAlternateName);
+		return currentValue;
+	});
 };
 
 export const getPersonIndexById = (personId) => {
@@ -485,35 +529,3 @@ export function getDefaultRelationshipType(relationshipGroup) {
 	}
 	return null;
 }
-
-export const upgradePersonData = (personDataToMatch, personDataToModify) => {
-	if (personDataToModify?.version == undefined) {
-		personDataToModify['version'] = '0.0.0';
-	}
-
-	let upgraded = false;
-	let originalVersion = personDataToModify?.version;
-
-	if (personDataToModify?.version !== personDataToMatch?.version) {
-		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
-		console.log(personDataToModify);
-		upgraded = true;
-	}
-
-	if (upgraded) {
-		personDataToModify['version'] = personDataToMatch.version;
-		console.log(
-			'Person upgraded: ' +
-				personDataToModify.name +
-				' (v' +
-				originalVersion +
-				') ' +
-				'->' +
-				' (v' +
-				personDataToMatch.version +
-				')'
-		);
-	}
-
-	return personDataToModify;
-};

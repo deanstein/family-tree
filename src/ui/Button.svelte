@@ -4,6 +4,7 @@
 	import stylingConstants from './styling-constants';
 
 	export let buttonText;
+	export let isEnabled = true;
 	export let onClickFunction;
 	export let overrideBackgroundColor = undefined;
 	export let overrideFontSize = undefined;
@@ -18,10 +19,16 @@
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
 		}
+		:disabled {
+			background-color: ${stylingConstants.colors.buttonColorDisabled};
+		}
+		:disabled:hover {
+			background-color: ${stylingConstants.colors.buttonColorDisabled};
+		}
 	`;
 </script>
 
-<button on:click={onClickFunction} class={buttonDynamicClass}>
+<button disabled={!isEnabled} on:click={onClickFunction} class={buttonDynamicClass}>
 	{buttonText}
 </button>
 

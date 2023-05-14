@@ -7,6 +7,7 @@ const colors = {
 	textColor: '#595959',
 	buttonColorPrimary: '#0092e4',
 	buttonColorSecondary: 'darkGray',
+	buttonColorDisabled: '#B5B5B5',
 	buttonColorDone: '#4dc44d',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
@@ -129,7 +130,8 @@ const zIndices = {
 	personNodeSettingsZIndex: 4,
 	personNodeSettingsFlyoutZIndex: 5,
 	personDetailViewZIndex: 6,
-	notificationZIndex: 7
+	addEditAltNameZIndex: 7,
+	notificationZIndex: 8
 };
 
 const stylingConstants = {
