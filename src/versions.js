@@ -64,11 +64,11 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.9.9';
+export const schemaVersion = '0.9.10';
 export const schemaChangelog = {
 	'v0.9.x': {
 		Overview:
-			'v0.9.x wraps up the first pass of person bio fields and the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings.',
+			'v0.9.x wraps up the first pass of person bio fields and the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings-in-law.',
 		Changes: [
 			'Added support for aunts, uncles, great aunts, great uncles, nieces, nephews, great nieces, great nephews, cousins, second cousins, and spouse stepsiblings',
 			'Added support for alternate names, birth and death properties'

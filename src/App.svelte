@@ -242,9 +242,9 @@
 						<PersonNodeGroup
 							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
-								groupId: relationshipMap.spouseStepsiblings.id,
-								groupName: relationshipMap.spouseStepsiblings.label,
-								groupMembers: $uiState.activePerson.relationships.spouseStepsiblings,
+								groupId: relationshipMap.spouseSiblingsInLaw.id,
+								groupName: relationshipMap.spouseSiblingsInLaw.label,
+								groupMembers: $uiState.activePerson.relationships.spouseSiblingsInLaw,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
 						/>

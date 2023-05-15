@@ -266,20 +266,20 @@ const relationshipMap = {
 			label: 'husband'
 		}
 	},
-	spouseStepsiblings: {
-		id: 'spouseStepsiblings',
-		label: 'Spouse Stepsiblings',
-		spouseStepsibling: {
-			id: 'spouseStepsibling',
-			label: 'spouse stepsibling'
+	spouseSiblingsInLaw: {
+		id: 'spouseSiblingsInLaw',
+		label: 'Spouse Siblings-in-Law',
+		spouseSiblingInLaw: {
+			id: 'spouseSiblingInLaw',
+			label: 'spouse sibling-in-law'
 		},
-		spouseStepsister: {
-			id: 'spouseStepsister',
-			label: 'spouse stepsister'
+		spouseSisterInLaw: {
+			id: 'spouseSisterInLaw',
+			label: 'spouse sister-in-law'
 		},
-		spouseStepbrother: {
-			id: 'spouseStepbrother',
-			label: 'spouse stepbrother'
+		spouseBrotherInLaw: {
+			id: 'spouseBrotherInLaw',
+			label: 'spouse brotherInLaw'
 		}
 	},
 	exSpouses: {
@@ -444,7 +444,7 @@ const {
 	halfSiblingsMaternal,
 	halfSiblingsPaternal,
 	stepsiblings,
-	spouseStepsiblings,
+	spouseSiblingsInLaw,
 	siblingsInLaw
 } = relationshipMap;
 export const siblingsCompatibleGroups = {
@@ -452,7 +452,7 @@ export const siblingsCompatibleGroups = {
 	halfSiblingsMaternal,
 	halfSiblingsPaternal,
 	stepsiblings,
-	spouseStepsiblings,
+	spouseSiblingsInLaw,
 	siblingsInLaw
 };
 
