@@ -267,8 +267,8 @@ export const getInverseGroupId = (groupId) => {
 		case relationshipMap.spouses.id:
 			inverseGroupId = relationshipMap.spouses.id;
 			break;
-		case relationshipMap.spouseStepsiblings.id:
-			inverseGroupId = relationshipMap.stepsiblings.id;
+		case relationshipMap.spouseSiblingsInLaw.id:
+			inverseGroupId = relationshipMap.siblingsInLaw.id;
 			break;
 		case relationshipMap.exSpouses.id:
 			inverseGroupId = relationshipMap.exSpouses.id;
@@ -428,13 +428,13 @@ export const getInverseRelationshipId = (groupId) => {
 					inverseId = relationshipMap.spouses.partner.id;
 				}
 				break;
-			case relationshipMap.spouseStepsiblings.id:
+			case relationshipMap.spouseSiblingsInLaw.id:
 				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.spouseStepsiblings.spouseStepbrother.id;
+					inverseId = relationshipMap.spouseSiblingsInLaw.spouseBrotherInLaw.id;
 				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.spouseStepsiblings.spouseStepsister.id;
+					inverseId = relationshipMap.spouseSiblingsInLaw.spouseSisterInLaw.id;
 				} else {
-					inverseId = relationshipMap.spouseStepsiblings.spouseStepsibling.id;
+					inverseId = relationshipMap.spouseSiblingsInLaw.spouseSiblingInLaw.id;
 				}
 				break;
 			case relationshipMap.exSpouses.id:

@@ -77,7 +77,6 @@ export const writeTempAlternateNamesToUIState = () => {
 
 	uiState.update((currentValue) => {
 		currentValue.activePerson.alternateNames = tempStateToWrite;
-		console.log(tempStateToWrite);
 		return currentValue;
 	});
 };

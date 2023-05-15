@@ -279,7 +279,7 @@ const relationshipMap = {
 		},
 		spouseBrotherInLaw: {
 			id: 'spouseBrotherInLaw',
-			label: 'spouse brotherInLaw'
+			label: 'spouse brother-in-law'
 		}
 	},
 	exSpouses: {
