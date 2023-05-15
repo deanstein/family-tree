@@ -130,7 +130,6 @@ export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 export const deleteObjectByKeyValue = (arr, key, value) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i][key] === value) {
-			console.log('Array: ' + arr[i][key], 'Value: ' + value);
 			arr.splice(i, 1);
 			return true; // indicate that object was deleted
 		}

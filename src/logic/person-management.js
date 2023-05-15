@@ -34,7 +34,6 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 
 	if (personDataToModify?.version !== personDataToMatch?.version) {
 		personDataToModify = deepMatchObjects(personDataToMatch, personDataToModify);
-		console.log(personDataToModify);
 		upgraded = true;
 	}
 

@@ -6,6 +6,7 @@
 	export let buttonText;
 	export let isEnabled = true;
 	export let onClickFunction;
+	export let overrideColor = undefined;
 	export let overrideBackgroundColor = undefined;
 	export let overrideFontSize = undefined;
 	export let overridePadding = undefined;
@@ -13,6 +14,7 @@
 	const buttonDynamicClass = css`
 		font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
 		padding: ${overridePadding ? overridePadding : '1vh'};
+		color: ${overrideColor ? overrideColor : 'white'};
 		background-color: ${overrideBackgroundColor
 			? overrideBackgroundColor
 			: stylingConstants.colors.buttonColorPrimary};
@@ -34,7 +36,6 @@
 
 <style>
 	button {
-		color: white;
 		border: none;
 		font-weight: bold;
 	}

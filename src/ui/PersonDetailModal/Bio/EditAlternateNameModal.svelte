@@ -47,6 +47,11 @@
 		unsetEditAltName();
 	};
 
+	const onDeleteButtonAction = () => {
+		removeAlternateNameFromTempState(nameInputValue);
+		unsetEditAltName();
+	};
+
 	const alternateNameTypeOptions = {
 		label: 'Name Type:',
 		alternateNameTypes
@@ -68,7 +73,7 @@
 >
 	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
 		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
-			Add an alternate name:
+			Set alternate name:
 		</div>
 		<FieldContainer label="Name">
 			<TextInput bind:inputValue={nameInputValue} useFunction={focusNameInput} />
@@ -81,6 +86,15 @@
 			/>
 		</FieldContainer>
 		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
+			<!-- show a delete button if the original value is not empty (editing existing name) -->
+			{#if nameInputValueOriginal !== ''}
+				<Button
+					buttonText="Delete"
+					onClickFunction={onDeleteButtonAction}
+					overrideColor={stylingConstants.colors.buttonColorDelete}
+					overrideBackgroundColor="transparent"
+				/>
+			{/if}
 			<Button
 				buttonText="Cancel"
 				onClickFunction={onCancelButtonAction}

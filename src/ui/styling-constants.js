@@ -9,6 +9,7 @@ const colors = {
 	buttonColorSecondary: 'darkGray',
 	buttonColorDisabled: '#B5B5B5',
 	buttonColorDone: '#4dc44d',
+	buttonColorDelete: '#FF5757',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
 	overlayColor: 'gray',
