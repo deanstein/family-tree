@@ -13,7 +13,6 @@
 	import { alternateName } from '../../../schemas/alternate-name';
 
 	export let isEnabled = true;
-	export let inputValue;
 
 	let addAlternateNameButtonAction = () => {
 		// get or create a name from the uiState
@@ -35,16 +34,6 @@
 			border: 2px solid none;
 		}
 	`;
-
-	$: {
-		// when enabled, set the input value to the tempState, since we're editing
-		if (isEnabled) {
-			inputValue = $tempState.altNames;
-			// but when disabled, set the input value to the uiState, which is the source of truth
-		} else {
-			inputValue = $uiState.activePerson.alternateNames;
-		}
-	}
 </script>
 
 <div

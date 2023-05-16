@@ -130,15 +130,6 @@ export const setPersonRelationshipFromTemporaryState = (sPersonId, sExistingRela
 	setPersonRelationship(sPersonId, sExistingRelationshipId, temporaryRelationship);
 };
 
-export const addAlternateName = (name) => {
-	const newAlternateName = instantiateObject(alternateName);
-
-	uiState.update((currentValue) => {
-		currentValue.activePerson.alternateNames.push(newAlternateName);
-		return currentValue;
-	});
-};
-
 export const getPersonIndexById = (personId) => {
 	let personIndex;
 

@@ -7,7 +7,7 @@
 	import tempState from '../../../stores/temp-state';
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
-	import AltNames from './AlternateNames.svelte';
+	import AlternateNames from './AlternateNames.svelte';
 	import Checkbox from './Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
@@ -22,10 +22,6 @@
 	let isBioEditActive = false;
 
 	// set the value of each input from the active person
-	let alternateNamesInputValue = $tempState.altNames
-		? $tempState.altNames
-		: $uiState.activePerson.alternateNames;
-	let alternateNamesInputValueOriginal = undefined;
 	let genderInputValue = $uiState.activePerson.gender;
 	let genderInputValueOriginal = undefined;
 	let birthdateInputValue = $uiState.activePerson.birth.date;
@@ -48,7 +44,6 @@
 	let deathCauseInputValueOriginal = undefined;
 
 	const captureAllOriginalInputValues = () => {
-		alternateNamesInputValueOriginal = alternateNamesInputValue;
 		genderInputValueOriginal = genderInputValue;
 		birthdateInputValueOriginal = birthdateInputValue;
 		birthplaceInputValueOriginal = birthplaceInputValue;
@@ -164,7 +159,7 @@
 	</div>
 	<div id="bio-facts" class="bio-facts">
 		<FieldContainer label={personDetailStrings.altNames}>
-			<AltNames bind:inputValue={alternateNamesInputValue} isEnabled={isBioEditActive} />
+			<AlternateNames isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.gender}>

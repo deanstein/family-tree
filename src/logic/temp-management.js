@@ -38,9 +38,9 @@ export const initializeAltNamesTempState = () => {
 		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
 	});
 
-	tempState.update((currentvalue) => {
-		currentvalue.altNames = alternateNamesOriginalValue;
-		return currentvalue;
+	tempState.update((currentValue) => {
+		currentValue.altNames = alternateNamesOriginalValue;
+		return currentValue;
 	});
 };
 

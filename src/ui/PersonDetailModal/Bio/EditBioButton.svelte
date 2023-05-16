@@ -5,6 +5,7 @@
 	import {
 		initializeAltNamesTempState,
 		setBioEditId,
+		unsetAltNames,
 		unsetBioEditId
 	} from '../../../logic/temp-management';
 
