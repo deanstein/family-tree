@@ -158,6 +158,14 @@ export const toggleNodeSettingsFlyout = (sPersonId) => {
 	});
 };
 
+export const getAlternateNames = () => {
+	let alternateNamesOriginalValue;
+	uiState.subscribe((currentValue) => {
+		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
+	});
+	return alternateNamesOriginalValue;
+}
+
 // manage on/off screen people IDs
 export const initializeOffScreenPeopleIdsArray = () => {
 	let allPeople = undefined;

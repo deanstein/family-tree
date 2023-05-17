@@ -62,7 +62,6 @@
 	`;
 
 	onMount(() => {
-		initializeAltNamesTempState();
 		nameInputValueOriginal = nameInputValue;
 	});
 </script>

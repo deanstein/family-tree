@@ -36,6 +36,8 @@ export const initializeAltNamesTempState = () => {
 	let alternateNamesOriginalValue;
 	uiState.subscribe((currentValue) => {
 		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
+		console.log('Store modified:', currentValue);
+		console.trace('Modified at');
 	});
 
 	tempState.update((currentValue) => {

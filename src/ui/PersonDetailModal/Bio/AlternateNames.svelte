@@ -13,6 +13,8 @@
 	import { alternateName } from '../../../schemas/alternate-name';
 
 	export let isEnabled = true;
+	export let alternateNamesValue = undefined;
+	export let alternateNamesValueOriginal = undefined;
 
 	let addAlternateNameButtonAction = () => {
 		// get or create a name from the uiState
@@ -34,6 +36,12 @@
 			border: 2px solid none;
 		}
 	`;
+
+	$: {
+		if (!alternateNamesValueOriginal) {
+			//alternateNamesValueOriginal = alternateNamesValue;
+		}
+	}
 </script>
 
 <div
@@ -43,7 +51,7 @@
 		: altNamesContainerDisabledDynamicClass} bio-alt-names-container"
 >
 	<div id="alt-names-scrollable-container" class="alt-names-scrollable-container">
-		{#each isEnabled ? $tempState.altNames : $uiState.activePerson.alternateNames as alternateName}
+		{#each isEnabled ? alternateNamesValue : alternateNamesValueOriginal as alternateName}
 			<AlternateName {isEnabled} {alternateName} />
 		{/each}
 	</div>

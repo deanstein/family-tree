@@ -37,7 +37,6 @@
 
 	const startBioEditingMode = () => {
 		captureAllOriginalInputValues();
-		initializeAltNamesTempState();
 		setBioEditId(personId);
 	};
 

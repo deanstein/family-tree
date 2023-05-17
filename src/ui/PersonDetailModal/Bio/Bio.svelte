@@ -22,6 +22,8 @@
 	let isBioEditActive = false;
 
 	// set the value of each input from the active person
+	let alternateNamesValue = $uiState.activePerson.alternateNames;
+	let alternateNamesValueOriginal = undefined;
 	let genderInputValue = $uiState.activePerson.gender;
 	let genderInputValueOriginal = undefined;
 	let birthdateInputValue = $uiState.activePerson.birth.date;
@@ -159,7 +161,7 @@
 	</div>
 	<div id="bio-facts" class="bio-facts">
 		<FieldContainer label={personDetailStrings.altNames}>
-			<AlternateNames isEnabled={isBioEditActive} />
+			<AlternateNames {alternateNamesValue} {alternateNamesValueOriginal} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
 		<FieldContainer label={personDetailStrings.gender}>
