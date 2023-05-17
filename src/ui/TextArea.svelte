@@ -1,0 +1,41 @@
+<script>
+	import { css } from '@emotion/css';
+
+	import stylingConstants from './styling-constants';
+
+	export let isEnabled = true;
+	export let inputValue = '';
+	// empty function in case no function is passed to the input by the parent
+	export let useFunction = (element) => {};
+
+	const textInputDynamicClass = css`
+        border: 2px solid ${stylingConstants.colors.activeColor};
+        :hover {
+            border: 2px solid ${stylingConstants.colors.hoverColor};
+		`;
+</script>
+
+<div id="input-container" class="input-container">
+	<textarea
+		bind:value={inputValue}
+		use:useFunction
+		class={textInputDynamicClass}
+		disabled={!isEnabled}
+	/>
+</div>
+
+<style>
+	.input-container {
+		display: flex;
+	}
+
+	textarea {
+		width: 100%;
+		outline: none;
+	}
+
+	textarea:disabled {
+		background-color: white;
+		border: 2px solid transparent;
+	}
+</style>

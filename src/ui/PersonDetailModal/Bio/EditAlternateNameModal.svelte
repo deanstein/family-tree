@@ -20,6 +20,7 @@
 		unsetEditAltName
 	} from '../../../logic/temp-management';
 	import { instantiateObject } from '../../../logic/utils';
+	import TextArea from '../../TextArea.svelte';
 
 	let nameInputValue = $tempState.editAltName.name;
 	let nameInputValueOriginal = undefined;
@@ -92,7 +93,7 @@
 			/>
 		</FieldContainer>
 		<FieldContainer label="Context (optional)">
-			<TextInput bind:inputValue={contextInputValue} />
+			<TextArea bind:inputValue={contextInputValue} />
 		</FieldContainer>
 		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
 			<!-- show a delete button if the original value is not empty (editing existing name) -->
