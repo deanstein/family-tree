@@ -1,6 +1,7 @@
 export const alternateName = {
 	name: '',
-	type: ''
+	type: '',
+	context: ''
 };
 
 export const alternateNameTypes = {

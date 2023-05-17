@@ -24,6 +24,9 @@
 	let nameInputValue = $tempState.editAltName.name;
 	let nameInputValueOriginal = undefined;
 	let typeInputValue = $tempState.editAltName.type;
+	let typeInputValueOriginal = undefined;
+	let contextInputValue = $tempState.editAltName.context;
+	let contextInputValueOriginal = undefined;
 
 	const focusNameInput = (element) => {
 		element.focus();
@@ -34,6 +37,7 @@
 		const newOrUpdatedName = instantiateObject(alternateName);
 		newOrUpdatedName.name = nameInputValue;
 		newOrUpdatedName.type = typeInputValue;
+		newOrUpdatedName.context = contextInputValue;
 		addOrEditAlternateNameInTempState(newOrUpdatedName);
 		// this could have been an editing session where the name was changed
 		// if so, attempt to find the original and delete it
@@ -64,6 +68,8 @@
 	onMount(() => {
 		initializeAltNamesTempState();
 		nameInputValueOriginal = nameInputValue;
+		typeInputValueOriginal = typeInputValue;
+		contextInputValueOriginal = contextInputValue;
 	});
 </script>
 
@@ -78,12 +84,15 @@
 		<FieldContainer label="Name">
 			<TextInput bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>
-		<FieldContainer label="Name Type (optional)">
+		<FieldContainer label="Type (optional)">
 			<Select
 				bind:inputValue={typeInputValue}
 				optionsGroupObject={alternateNameTypeOptions}
 				optionValueKey="id"
 			/>
+		</FieldContainer>
+		<FieldContainer label="Context (optional)">
+			<TextInput bind:inputValue={contextInputValue} />
 		</FieldContainer>
 		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
 			<!-- show a delete button if the original value is not empty (editing existing name) -->
@@ -93,6 +102,7 @@
 					onClickFunction={onDeleteButtonAction}
 					overrideColor={stylingConstants.colors.buttonColorDelete}
 					overrideBackgroundColor="transparent"
+					overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
 				/>
 			{/if}
 			<Button

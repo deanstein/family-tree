@@ -7,7 +7,9 @@
 	export let isEnabled = true;
 	export let onClickFunction;
 	export let overrideColor = undefined;
+	export let overrideColorHover = undefined;
 	export let overrideBackgroundColor = undefined;
+	export let overrideBackgroundColorHover = undefined;
 	export let overrideFontSize = undefined;
 	export let overridePadding = undefined;
 
@@ -19,7 +21,10 @@
 			? overrideBackgroundColor
 			: stylingConstants.colors.buttonColorPrimary};
 		:hover {
-			background-color: ${stylingConstants.colors.hoverColor};
+			color: ${overrideColorHover ? overrideColorHover : 'white'};
+			background-color: ${overrideBackgroundColorHover
+				? overrideBackgroundColorHover
+				: stylingConstants.colors.hoverColor};
 		}
 		:disabled {
 			background-color: ${stylingConstants.colors.buttonColorDisabled};
