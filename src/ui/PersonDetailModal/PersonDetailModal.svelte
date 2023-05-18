@@ -90,7 +90,8 @@
 
 	.temp-close-button {
 		position: absolute;
-		top: -18px;
-		right: -13px;
+		transform: translate(50%, -50%);
+		top:  0px;
+		right: 0px;
 	}
 </style>
