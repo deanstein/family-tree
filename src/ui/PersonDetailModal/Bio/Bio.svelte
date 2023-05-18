@@ -8,10 +8,11 @@
 
 	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
 	import AlternateNames from './AlternateNames.svelte';
-	import Checkbox from './Checkbox.svelte';
+	import Checkbox from '../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
 	import FieldContainer from './FieldContainer.svelte';
+	import Name from './Name.svelte';
 	import Overlay from '../../NodeView/Overlay.svelte';
 	import Selector from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
@@ -22,6 +23,8 @@
 	let isBioEditActive = false;
 
 	// set the value of each input from the active person
+	let nameInputValue = $uiState.activePerson.name;
+	let nameInputValueOriginal = undefined;
 	let genderInputValue = $uiState.activePerson.gender;
 	let genderInputValueOriginal = undefined;
 	let birthdateInputValue = $uiState.activePerson.birth.date;
@@ -44,6 +47,7 @@
 	let deathCauseInputValueOriginal = undefined;
 
 	const captureAllOriginalInputValues = () => {
+		nameInputValueOriginal = nameInputValue;
 		genderInputValueOriginal = genderInputValue;
 		birthdateInputValueOriginal = birthdateInputValue;
 		birthplaceInputValueOriginal = birthplaceInputValue;
@@ -57,6 +61,7 @@
 	};
 
 	const saveAllInputs = () => {
+		writeUIStateValueAtPath('activePerson.name', nameInputValue, nameInputValueOriginal);
 		writeTempAlternateNamesToUIState();
 		writeUIStateValueAtPath('activePerson.gender', genderInputValue, genderInputValueOriginal);
 		writeUIStateValueAtPath(
@@ -103,6 +108,7 @@
 	};
 
 	const discardAllInputs = () => {
+		nameInputValue = nameInputValueOriginal;
 		unsetAltNames();
 		genderInputValue = genderInputValueOriginal;
 		birthdateInputValue = birthdateInputValueOriginal;
@@ -132,10 +138,6 @@
 	const bioContentContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
 	`;
-
-	const bioNameDynamicClass = css`
-		color: ${stylingConstants.colors.textColor};
-	`;
 </script>
 
 {#if isBioEditActive}
@@ -154,9 +156,7 @@
 	<div id="bio-avatar-container" class="bio-avatar-container">
 		<Avatar />
 	</div>
-	<div id="bio-name" class="{bioNameDynamicClass} bio-name">
-		{$uiState.activePerson.name}
-	</div>
+	<Name isEnabled={isBioEditActive} bind:inputValue={nameInputValue} />
 	<div id="bio-facts" class="bio-facts">
 		<FieldContainer label={personDetailStrings.altNames}>
 			<AlternateNames isEnabled={isBioEditActive} />
@@ -243,15 +243,6 @@
 	.bio-avatar-container {
 		width: 20vh;
 		height: 20vh;
-	}
-
-	.bio-name {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		padding: 10px;
-		margin-bottom: 1vh;
-		font-size: 5vh;
 	}
 
 	.bio-facts {

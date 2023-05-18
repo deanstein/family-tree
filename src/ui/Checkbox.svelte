@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from './styling-constants';
 
 	export let showLabel = true;
 	export let label = 'Checkbox label';

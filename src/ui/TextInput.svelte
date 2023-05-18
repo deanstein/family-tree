@@ -5,10 +5,16 @@
 
 	export let isEnabled = true;
 	export let inputValue = '';
+	export let fontColorOverride = undefined;
+	export let fontSizeOverride = undefined;
+	export let textAlignOverride = undefined;
 	// empty function in case no function is passed to the input by the parent
 	export let useFunction = (element) => {};
 
 	const textInputDynamicClass = css`
+		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
+		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
+		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
         border: 2px solid ${stylingConstants.colors.activeColor};
         :hover {
             border: 2px solid ${stylingConstants.colors.hoverColor};
