@@ -18,6 +18,7 @@ const colors = {
 	nodeGroupHeaderColor: '#adadad',
 	personNodeColor: '#bfd0db',
 	activePersonNodeColor: '#87a9c0',
+	alternateNameDefaultColor: '#99bce0',
 	hyperlinkColor: '#2373a3',
 	menuBackgroundColor: '#ececec',
 	notificationColorError: 'palevioletred',

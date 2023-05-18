@@ -22,6 +22,7 @@
 	import { instantiateObject } from '../../../logic/utils';
 	import TextArea from '../../TextArea.svelte';
 
+	let isEnabled = undefined;
 	let nameInputValue = $tempState.editAltName.name;
 	let nameInputValueOriginal = undefined;
 	let typeInputValue = $tempState.editAltName.type;
@@ -66,6 +67,9 @@
 		z-index: ${stylingConstants.zIndices.addEditAltNameZIndex};
 	`;
 
+	$: {
+		isEnabled = $tempState.bioEditPersonId !== undefined;
+	}
 	onMount(() => {
 		initializeAltNamesTempState();
 		nameInputValueOriginal = nameInputValue;
@@ -80,24 +84,25 @@
 >
 	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
 		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
-			Set alternate name:
+			{isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
 		</div>
 		<FieldContainer label="Name">
-			<TextInput bind:inputValue={nameInputValue} useFunction={focusNameInput} />
+			<TextInput {isEnabled} bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>
 		<FieldContainer label="Type (optional)">
 			<Select
+				{isEnabled}
 				bind:inputValue={typeInputValue}
 				optionsGroupObject={alternateNameTypeOptions}
 				optionValueKey="id"
 			/>
 		</FieldContainer>
 		<FieldContainer label="Context (optional)">
-			<TextArea bind:inputValue={contextInputValue} />
+			<TextArea {isEnabled} bind:inputValue={contextInputValue} />
 		</FieldContainer>
 		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
 			<!-- show a delete button if the original value is not empty (editing existing name) -->
-			{#if nameInputValueOriginal !== ''}
+			{#if isEnabled && nameInputValueOriginal !== ''}
 				<Button
 					buttonText="Delete"
 					onClickFunction={onDeleteButtonAction}
@@ -109,13 +114,17 @@
 			<Button
 				buttonText="Cancel"
 				onClickFunction={onCancelButtonAction}
-				overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+				overrideBackgroundColor={isEnabled
+					? stylingConstants.colors.buttonColorSecondary
+					: stylingConstants.colors.activeColor}
 			/>
-			<Button
-				buttonText="Done"
-				isEnabled={nameInputValue.length > 0}
-				onClickFunction={onDoneButtonAction}
-			/>
+			{#if isEnabled}
+				<Button
+					buttonText="Done"
+					isEnabled={nameInputValue.length > 0}
+					onClickFunction={onDoneButtonAction}
+				/>
+			{/if}
 		</div>
 	</div>
 	<Overlay zIndexOverride={-1} />

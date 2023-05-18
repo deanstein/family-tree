@@ -9,18 +9,17 @@
 	let alternateNameDynamicClass;
 
 	const alternateNameOnClickAction = () => {
-		if (isEnabled) {
-			setEditAltName(alternateName);
-		}
+		setEditAltName(alternateName);
 	};
 
 	$: {
 		alternateNameDynamicClass = css`
 			font-size: ${stylingConstants.sizes.bioFieldFontSize};
-			color: ${isEnabled ? 'white' : 'black'};
-			background-color: ${isEnabled ? stylingConstants.colors.activeColor : 'lightGray'};
+			background-color: ${isEnabled
+				? stylingConstants.colors.activeColor
+				: stylingConstants.colors.alternateNameDefaultColor};
 			:hover {
-				background-color: ${isEnabled ? stylingConstants.colors.hoverColor : 'none'};
+				background-color: ${stylingConstants.colors.hoverColor};
 			}
 		`;
 	}
@@ -45,6 +44,7 @@
 
 	.alternate-name {
 		padding: 5px;
+		color: white;
 	}
 
 	.alternate-name-type-tag {
