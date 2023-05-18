@@ -37,7 +37,9 @@
 					<Timeline />
 				</div>
 			</div>
-			<Button buttonText={'Close'} onClickFunction={closeButtonOnClick} />
+			<div id="temp-close-button" class="temp-close-button">
+				<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
+			</div>
 		</div>
 		<Portal target="#app-container">
 			<Overlay />
@@ -56,6 +58,7 @@
 	}
 
 	.person-detail-content-container {
+		position: relative;
 		display: flex;
 		flex-direction: row;
 		width: 80vw;
@@ -83,5 +86,11 @@
 		flex-grow: 1;
 		background-color: gainsboro;
 		padding: 1vh;
+	}
+
+	.temp-close-button {
+		position: absolute;
+		top: -18px;
+		right: -13px;
 	}
 </style>
