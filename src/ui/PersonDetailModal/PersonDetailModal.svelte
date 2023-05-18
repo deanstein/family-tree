@@ -58,7 +58,6 @@
 	}
 
 	.person-detail-content-container {
-		position: relative;
 		display: flex;
 		flex-direction: row;
 		width: 80vw;
@@ -86,12 +85,5 @@
 		flex-grow: 1;
 		background-color: gainsboro;
 		padding: 1vh;
-	}
-
-	.temp-close-button {
-		position: absolute;
-		transform: translate(50%, -50%);
-		top:  0px;
-		right: 0px;
 	}
 </style>

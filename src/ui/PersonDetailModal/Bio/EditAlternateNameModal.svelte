@@ -112,7 +112,7 @@
 				/>
 			{/if}
 			<Button
-				buttonText={isEnabled ? "Cancel" : "Close"}
+				buttonText={isEnabled ? 'Cancel' : 'Close'}
 				onClickFunction={onCancelButtonAction}
 				overrideBackgroundColor={isEnabled
 					? stylingConstants.colors.buttonColorSecondary
