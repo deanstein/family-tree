@@ -12,10 +12,12 @@
 	} from '../../../logic/person-management';
 	import {
 		startNodeEditingMode,
-		addOrUpdatePersonInActivePersonGroup
+		addOrUpdatePersonInActivePersonGroup,
+		showPersonNodeActionsModal
 	} from '../../../logic/ui-management';
 
 	export let groupId;
+	export let compatibleGroups;
 
 	const personNodeAddButtonDynamicStyle = css`
 		width: ${stylingConstants.sizes.personNodeAddButtonSize};
@@ -35,7 +37,12 @@
 		let defaultRelationshipType = getDefaultRelationshipType(relationshipMap[groupId]).id;
 		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
 		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, groupId);
-		startNodeEditingMode(newPerson.id);
+		showPersonNodeActionsModal(
+			newPerson.id,
+			newPerson.name,
+			defaultRelationshipType,
+			compatibleGroups
+		);
 	};
 </script>
 

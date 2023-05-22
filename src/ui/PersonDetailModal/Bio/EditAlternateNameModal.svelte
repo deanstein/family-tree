@@ -23,11 +23,11 @@
 	import TextArea from '../../TextArea.svelte';
 
 	let isEnabled = undefined;
-	let nameInputValue = $tempState.editAltName.name;
+	let nameInputValue = $tempState.bioEditAltName.name;
 	let nameInputValueOriginal = undefined;
-	let typeInputValue = $tempState.editAltName.type;
+	let typeInputValue = $tempState.bioEditAltName.type;
 	let typeInputValueOriginal = undefined;
-	let contextInputValue = $tempState.editAltName.context;
+	let contextInputValue = $tempState.bioEditAltName.context;
 	let contextInputValueOriginal = undefined;
 
 	const focusNameInput = (element) => {

@@ -26,6 +26,7 @@
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import PersonDetailModal from './ui/PersonDetailModal/PersonDetailModal.svelte';
+	import NodeActionsModal from './ui/NodeView/PersonNode/NodeActionsModal.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
@@ -59,8 +60,14 @@
 			<SaveStateBanner />
 		{/if}
 		<ChooseTreeModal />
+		{#if $tempState.nodeActionsModalPersonId !== undefined}
+			<NodeActionsModal
+				personId={$tempState.nodeActionsModalPersonId}
+				relationshipId={$tempState.nodeEditRelationshipId}
+			/>
+		{/if}
 		<PersonDetailModal />
-		{#if $tempState.editAltName !== undefined}
+		{#if $tempState.bioEditAltName !== undefined}
 			<EditAlternateNameModal />
 		{/if}
 		<div id="tree-canvas" class="tree-canvas">

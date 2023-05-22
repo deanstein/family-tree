@@ -12,6 +12,17 @@ import {
 	setPersonRelationshipFromTemporaryState
 } from './person-management';
 import { areObjectsEqual, setNestedObjectProperty } from './utils';
+import {
+	setNodeActionsModalId,
+	setNodeEditCompatibleGroups,
+	setNodeEditName,
+	setNodeEditRelationshipId,
+	unsetEditAltName,
+	unsetNodeActionsModalId,
+	unsetNodeEditCompatibleGroups,
+	unsetNodeEditId,
+	unsetNodeEditRelationshipId
+} from './temp-management';
 
 // might be expensive, so try not to call too often
 export const checkForUnsavedChanges = () => {
@@ -124,16 +135,31 @@ export const setTempRelationshipId = (sRelationshipId) => {
 	});
 };
 
-// node settings
-export const showNodeSettingsFlyout = (sPersonId) => {
-	setActiveNodeSettingsFlyoutId(sPersonId);
+// person node actions modal
+export const showPersonNodeActionsModal = (personId, name, relationshipId, compatibleGroups) => {
+	setNodeActionsModalId(personId);
+	setNodeEditName(name);
+	setNodeEditRelationshipId(relationshipId);
+	setNodeEditCompatibleGroups(compatibleGroups);
 };
 
+export const hidePersonNodeActionsModal = () => {
+	unsetNodeActionsModalId();
+	unsetEditAltName();
+	unsetNodeEditRelationshipId();
+	unsetNodeEditCompatibleGroups();
+};
+
+// node settings
 const setActiveNodeSettingsFlyoutId = (sPersonId) => {
 	uiState.update((currentValue) => {
 		currentValue.personIdForNodeSettingsFlyout = sPersonId;
 		return currentValue;
 	});
+};
+
+export const showNodeSettingsFlyout = (sPersonId) => {
+	setActiveNodeSettingsFlyoutId(sPersonId);
 };
 
 export const hideNodeSettingsFlyout = () => {

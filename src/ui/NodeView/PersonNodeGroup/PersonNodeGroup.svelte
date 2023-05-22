@@ -60,7 +60,10 @@
 			</div>
 		</div>
 		{#if personNodeGroupData.groupMembers.length > 0}
-			<PersonNodeAddButton groupId={personNodeGroupData.groupId} />
+			<PersonNodeAddButton
+				groupId={personNodeGroupData.groupId}
+				compatibleGroups={personNodeGroupData.compatibleGroups}
+			/>
 		{/if}
 	</div>
 {/if}

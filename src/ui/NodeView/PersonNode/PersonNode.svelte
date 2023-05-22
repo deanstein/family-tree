@@ -11,13 +11,13 @@
 		addActivePersonToPeopleArray
 	} from '../../../logic/person-management';
 
-	import { person } from '../../../schemas/person';
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
 	import Avatar from './Avatar.svelte';
-	import NodeSettingsButton from './NodeSettings.svelte';
+	import NodeActionsButton from './NodeActionsButton.svelte';
+	import NodeActionsModal from './NodeActionsModal.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import NameInput from './NameInput.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
@@ -32,8 +32,6 @@
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
-
-	let nodeEditTempDataStore = $tempState.nodeEditTempData;
 
 	$: {
 		// is this node the active person?
@@ -115,7 +113,12 @@
 		in:receive={{ key: sPersonId }}
 		out:send={{ key: sPersonId }}
 	>
-		<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
+		<NodeActionsButton
+			personId={sPersonId}
+			relationshipId={sRelationshipId}
+			name={getPersonById(sPersonId)?.name}
+			{compatibleGroups}
+		/>
 		<div
 			id="person-node-content-area"
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"

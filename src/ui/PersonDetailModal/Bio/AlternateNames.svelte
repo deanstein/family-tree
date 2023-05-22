@@ -43,7 +43,7 @@
 		: altNamesContainerDisabledDynamicClass} bio-alt-names-container"
 >
 	<div id="alt-names-scrollable-container" class="alt-names-scrollable-container">
-		{#each isEnabled ? $tempState.altNames : $uiState.activePerson.alternateNames as alternateName}
+		{#each isEnabled ? $tempState.bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}
 			<AlternateName {isEnabled} {alternateName} />
 		{/each}
 	</div>

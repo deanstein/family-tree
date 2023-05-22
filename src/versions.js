@@ -1,7 +1,11 @@
-export const appVersion = '0.8.0';
+export const appVersion = '0.8.1';
 export const appChangelog = {
+	'v0.9.x': {
+		Overview: 'v0.9.x adds password protection and overhauled temp state management',
+		Changes: []
+	},
 	'v0.8.x': {
-		Overview: 'v0.8.x adds password protection and overhauled temp state management',
+		Overview: 'v0.8.x adds a person detail view, including bio and timeline views',
 		Changes: [
 			'Added password protection to the ChooseTree dialog',
 			'Overhauled temporary state management to simplify editing code'
