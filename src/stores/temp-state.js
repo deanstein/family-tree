@@ -5,6 +5,7 @@ const tempState = {
 	nodeEditPersonId: undefined,
 	nodeEditName: undefined,
 	nodeEditRelationshipId: undefined,
+	nodeEditGroupId: undefined,
 	nodeEditCompatibleGroups: undefined,
 	bioEditPersonId: undefined,
 	bioEditAltName: undefined,

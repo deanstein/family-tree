@@ -9,6 +9,7 @@
 
 	export let personId;
 	export let relationshipId;
+	export let groupId;
 	export let name;
 	export let compatibleGroups;
 
@@ -16,7 +17,7 @@
 	let nodeActionsButtonDynamicClass;
 
 	let onNodeActionButtonClick = () => {
-		showPersonNodeActionsModal(personId, name, relationshipId, compatibleGroups);
+		showPersonNodeActionsModal(personId, name, relationshipId, groupId, compatibleGroups);
 	};
 
 	$: {

@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import { onMount } from 'svelte';
 	import Portal from 'svelte-portal';
 
 	import { quintOut } from 'svelte/easing';
@@ -15,6 +16,8 @@
 	import Select from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
 
+	import { updateFilteredOffScreenPeopleIdsArray } from '../../../logic/ui-management';
+
 	export let nameInputValue;
 	export let relationshipInputValue;
 	export let compatibleGroups = $tempState.nodeEditCompatibleGroups;
@@ -28,6 +31,10 @@
 		element.select();
 	};
 
+	const onKeyUpFunction = (event) => {
+		updateFilteredOffScreenPeopleIdsArray(event.target.value);
+	};
+
 	$: {
 		personNodeDynamicClass = css`
 			width: ${nodeSize};
@@ -36,6 +43,10 @@
 			border: 2px solid ${stylingConstants.colors.activeColor};
 		`;
 	}
+
+	onMount(() => {
+		updateFilteredOffScreenPeopleIdsArray(nameInputValue);
+	});
 
 	const personNodeContentAreaDynamicClass = css`
 		margin-top: ${stylingConstants.sizes.padding};
@@ -74,6 +85,7 @@
 				bind:inputValue={nameInputValue}
 				textAlignOverride="center"
 				useFunction={isNewPerson ? useFunction : undefined}
+				{onKeyUpFunction}
 			/>
 			{#if $tempState.nodeEditPersonId !== $uiState.activePerson.id}
 				<div class="select-container">

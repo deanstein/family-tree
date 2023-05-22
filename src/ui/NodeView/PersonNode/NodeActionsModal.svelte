@@ -18,7 +18,13 @@
 		writeUIStateValueAtPath
 	} from '../../../logic/ui-management.js';
 	import PersonNodeForEdit from './PersonNodeForEdit.svelte';
-	import { setPersonName, setPersonRelationship } from '../../../logic/person-management';
+	import {
+		getPersonById,
+		setPersonName,
+		setPersonRelationship,
+		removePersonFromPeopleArray,
+		setActivePerson
+	} from '../../../logic/person-management';
 
 	export let personId;
 	export let relationshipId;
@@ -45,7 +51,13 @@
 	};
 
 	const onCancelButtonClick = () => {
-		hidePersonNodeActionsModal();
+		if (isNewPerson) {
+			removePersonFromActivePersonGroup(personId, relationshipId);
+			removePersonFromPeopleArray(getPersonById(personId));
+			hidePersonNodeActionsModal();
+		} else {
+			hidePersonNodeActionsModal();
+		}
 	};
 
 	const onRemoveButtonClick = () => {

@@ -26,14 +26,18 @@
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
+	export let groupId = undefined;
 	export let bIsActivePerson = false;
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
+	let name;
 
 	$: {
+		name = getPersonById(sPersonId)?.name;
+
 		// is this node the active person?
 		if (sPersonId === $uiState.activePerson.id) {
 			bIsActivePerson = true;
@@ -116,6 +120,7 @@
 		<NodeActionsButton
 			personId={sPersonId}
 			relationshipId={sRelationshipId}
+			{groupId}
 			name={getPersonById(sPersonId)?.name}
 			{compatibleGroups}
 		/>
@@ -124,13 +129,7 @@
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
 			<Avatar />
-			<NameInput
-				sInputValue={getPersonById(sPersonId)?.name}
-				bEnabled={bIsNodeInEditMode}
-				{sPersonId}
-				{sRelationshipId}
-				{bIsActivePerson}
-			/>
+			<NameInput sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
 				<RelationshipTypePicker
 					bEnabled={bIsNodeInEditMode}

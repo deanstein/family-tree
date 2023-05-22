@@ -15,6 +15,7 @@ import { areObjectsEqual, setNestedObjectProperty } from './utils';
 import {
 	setNodeActionsModalId,
 	setNodeEditCompatibleGroups,
+	setNodeEditGroupId,
 	setNodeEditName,
 	setNodeEditRelationshipId,
 	unsetEditAltName,
@@ -91,20 +92,6 @@ export const getRepoFamilyTreeAndSetActive = async (
 	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 };
 
-// node editing mode
-export const startNodeEditingMode = (sPersonId) => {
-	setActiveNodeEditId(sPersonId);
-	updateFilteredOffScreenPeopleIdsArray('Firstname Lastname');
-};
-
-export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
-	setPersonNameFromTemporaryState(sPersonId);
-	if (sRelationshipId) {
-		setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
-	}
-	unsetActiveNodeEditId();
-};
-
 export const setActiveNodeEditId = (sPersonId) => {
 	uiState.update((currentValue) => {
 		currentValue.personIdForNodeEdit = sPersonId;
@@ -136,10 +123,17 @@ export const setTempRelationshipId = (sRelationshipId) => {
 };
 
 // person node actions modal
-export const showPersonNodeActionsModal = (personId, name, relationshipId, compatibleGroups) => {
+export const showPersonNodeActionsModal = (
+	personId,
+	name,
+	relationshipId,
+	groupId,
+	compatibleGroups
+) => {
 	setNodeActionsModalId(personId);
 	setNodeEditName(name);
 	setNodeEditRelationshipId(relationshipId);
+	setNodeEditGroupId(groupId);
 	setNodeEditCompatibleGroups(compatibleGroups);
 };
 

@@ -60,6 +60,20 @@ export const unsetNodeEditRelationshipId = () => {
 	});
 };
 
+export const setNodeEditGroupId = (groupId) => {
+	tempState.update((currentValue) => {
+		currentValue.nodeEditGroupId = groupId;
+		return currentValue;
+	});
+};
+
+export const unsetNodeEditGroupId = () => {
+	tempState.update((currentValue) => {
+		currentValue.nodeEditGroupId = undefined;
+		return currentValue;
+	});
+};
+
 export const setNodeEditCompatibleGroups = (compatibleGroups) => {
 	tempState.update((currentValue) => {
 		currentValue.nodeEditCompatibleGroups = compatibleGroups;

@@ -11,7 +11,6 @@
 		getDefaultRelationshipType
 	} from '../../../logic/person-management';
 	import {
-		startNodeEditingMode,
 		addOrUpdatePersonInActivePersonGroup,
 		showPersonNodeActionsModal
 	} from '../../../logic/ui-management';
@@ -41,6 +40,7 @@
 			newPerson.id,
 			newPerson.name,
 			defaultRelationshipType,
+			groupId,
 			compatibleGroups
 		);
 	};
