@@ -121,7 +121,7 @@
 			personId={sPersonId}
 			relationshipId={sRelationshipId}
 			{groupId}
-			name={getPersonById(sPersonId)?.name}
+			{name}
 			{compatibleGroups}
 		/>
 		<div

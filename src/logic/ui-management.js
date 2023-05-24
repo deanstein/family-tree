@@ -291,7 +291,7 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 				currentValue.personIdsOffScreenFiltered.push(sPersonId);
 			} else {
 				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
-				if (nPersonIdIndex != -1) {
+				if (nPersonIdIndex !== -1) {
 					currentValue.personIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
 				}
 			}
