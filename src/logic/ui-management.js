@@ -276,6 +276,10 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 
 export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 	const sFilterUppercase = sFilter.toUpperCase();
+	let activePersonName;
+	uiState.subscribe((currentValue) => {
+		activePersonName = currentValue.activePerson.id;
+	});
 
 	uiState.update((currentValue) => {
 		currentValue.personIdsOffScreenFiltered = [];
@@ -283,7 +287,7 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 		// for each id, get name and see if the filter is contained in the name
 		currentValue.personIdsOffScreen.forEach((sPersonId) => {
 			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
-			if (sPersonName.indexOf(sFilterUppercase) > -1) {
+			if (sPersonName.indexOf(sFilterUppercase) > -1 && sPersonName !== activePersonName) {
 				currentValue.personIdsOffScreenFiltered.push(sPersonId);
 			} else {
 				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
