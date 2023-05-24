@@ -1,15 +1,21 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import tempState from '../../../stores/temp-state';
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 
-	import { getPersonById, removePersonFromPeopleArray } from '../../../logic/person-management';
+	import {
+		getPersonById,
+		addOrUpdateActivePersonInNewPersonGroup,
+		removePersonFromPeopleArray
+	} from '../../../logic/person-management';
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
+		hidePersonNodeActionsModal,
 		removePersonFromActivePersonGroup,
-		unsetActiveNodeEditId
+		showPersonNodeActionsModal
 	} from '../../../logic/ui-management';
 
 	import Avatar from './Avatar.svelte';
@@ -20,10 +26,12 @@
 
 	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
-		removePersonFromActivePersonGroup($uiState.personIdForNodeEdit, sRelationshipId);
-		removePersonFromPeopleArray(getPersonById($uiState.personIdForNodeEdit));
-		unsetActiveNodeEditId();
-		//setActiveNodeEditId(sPersonId)
+		console.log('TEST: ' + JSON.stringify($tempState.nodeEditGroupId));
+		addOrUpdateActivePersonInNewPersonGroup(sPersonId, $tempState.nodeEditGroupId);
+		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, sRelationshipId);
+		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
+		hidePersonNodeActionsModal();
+		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
 
 	const personNodeForSelectDynamicClass = css`
@@ -44,7 +52,7 @@
 >
 	<div id="person-node-content-area" class="person-node-content-area">
 		<Avatar />
-		<NameInput sInputValue={getPersonById(sPersonId)?.name} {sPersonId} {sRelationshipId} />
+		<NameInput sInputValue={getPersonById(sPersonId)?.name} />
 	</div>
 </div>
 

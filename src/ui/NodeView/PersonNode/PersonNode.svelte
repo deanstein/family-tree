@@ -11,13 +11,13 @@
 		addActivePersonToPeopleArray
 	} from '../../../logic/person-management';
 
-	import { person } from '../../../schemas/person';
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
 	import Avatar from './Avatar.svelte';
-	import NodeSettingsButton from './NodeSettings.svelte';
+	import NodeActionsButton from './NodeActionsButton.svelte';
+	import NodeActionsModal from './NodeActionsModal.svelte';
 	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
 	import NameInput from './NameInput.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
@@ -26,16 +26,18 @@
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
+	export let groupId = undefined;
 	export let bIsActivePerson = false;
 	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
 	let personNodeDynamicClass;
-
-	let nodeEditTempDataStore = $tempState.nodeEditTempData;
+	let name;
 
 	$: {
+		name = getPersonById(sPersonId)?.name;
+
 		// is this node the active person?
 		if (sPersonId === $uiState.activePerson.id) {
 			bIsActivePerson = true;
@@ -115,19 +117,19 @@
 		in:receive={{ key: sPersonId }}
 		out:send={{ key: sPersonId }}
 	>
-		<NodeSettingsButton {sPersonId} {sRelationshipId} {bIsNodeInEditMode} />
+		<NodeActionsButton
+			personId={sPersonId}
+			relationshipId={sRelationshipId}
+			{groupId}
+			name={getPersonById(sPersonId)?.name}
+			{compatibleGroups}
+		/>
 		<div
 			id="person-node-content-area"
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
 			<Avatar />
-			<NameInput
-				sInputValue={getPersonById(sPersonId)?.name}
-				bEnabled={bIsNodeInEditMode}
-				{sPersonId}
-				{sRelationshipId}
-				{bIsActivePerson}
-			/>
+			<NameInput sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
 				<RelationshipTypePicker
 					bEnabled={bIsNodeInEditMode}

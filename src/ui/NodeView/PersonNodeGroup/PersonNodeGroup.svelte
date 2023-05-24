@@ -48,19 +48,26 @@
 			</div>
 			<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 				{#if personNodeGroupData.groupMembers.length == 0}
-					<PersonNodePlaceholder relationshipId={personNodeGroupData.groupId} />
+					<PersonNodePlaceholder
+						relationshipId={personNodeGroupData.groupId}
+						compatibleGroups={personNodeGroupData.compatibleGroups}
+					/>
 				{/if}
 				{#each personNodeGroupData.groupMembers as { }, i (personNodeGroupData.groupMembers[i].id)}
 					<PersonNode
 						sPersonId={personNodeGroupData.groupMembers[i].id}
 						sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
+						groupId={personNodeGroupData.groupId}
 						compatibleGroups={personNodeGroupData.compatibleGroups}
 					/>
 				{/each}
 			</div>
 		</div>
 		{#if personNodeGroupData.groupMembers.length > 0}
-			<PersonNodeAddButton groupId={personNodeGroupData.groupId} />
+			<PersonNodeAddButton
+				groupId={personNodeGroupData.groupId}
+				compatibleGroups={personNodeGroupData.compatibleGroups}
+			/>
 		{/if}
 	</div>
 {/if}

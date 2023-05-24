@@ -10,6 +10,7 @@
 	export let textAlignOverride = undefined;
 	// empty function in case no function is passed to the input by the parent
 	export let useFunction = (element) => {};
+	export let onKeyUpFunction = (event) => {};
 
 	const textInputDynamicClass = css`
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
@@ -26,6 +27,7 @@
 		type="text"
 		bind:value={inputValue}
 		use:useFunction
+		on:keyup={onKeyUpFunction}
 		class={textInputDynamicClass}
 		disabled={!isEnabled}
 	/>

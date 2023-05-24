@@ -3,13 +3,10 @@
 
 	import stylingConstants from '../../styling-constants';
 	import {
-		endNodeEditingMode,
 		setTempNodeEditName,
 		updateFilteredOffScreenPeopleIdsArray
 	} from '../../../logic/ui-management.js';
 
-	export let sPersonId;
-	export let sRelationshipId;
 	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;
@@ -30,7 +27,6 @@
 
 	const onEnterKeyAction = (event) => {
 		if (event.keyCode === 13) {
-			endNodeEditingMode(sPersonId, sRelationshipId);
 			deselectText();
 		}
 	};

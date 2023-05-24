@@ -12,6 +12,18 @@ import {
 	setPersonRelationshipFromTemporaryState
 } from './person-management';
 import { areObjectsEqual, setNestedObjectProperty } from './utils';
+import {
+	setNodeActionsModalId,
+	setNodeEditCompatibleGroups,
+	setNodeEditGroupId,
+	setNodeEditName,
+	setNodeEditRelationshipId,
+	unsetEditAltName,
+	unsetNodeActionsModalId,
+	unsetNodeEditCompatibleGroups,
+	unsetNodeEditId,
+	unsetNodeEditRelationshipId
+} from './temp-management';
 
 // might be expensive, so try not to call too often
 export const checkForUnsavedChanges = () => {
@@ -80,20 +92,6 @@ export const getRepoFamilyTreeAndSetActive = async (
 	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 };
 
-// node editing mode
-export const startNodeEditingMode = (sPersonId) => {
-	setActiveNodeEditId(sPersonId);
-	updateFilteredOffScreenPeopleIdsArray('Firstname Lastname');
-};
-
-export const endNodeEditingMode = (sPersonId, sRelationshipId) => {
-	setPersonNameFromTemporaryState(sPersonId);
-	if (sRelationshipId) {
-		setPersonRelationshipFromTemporaryState(sPersonId, sRelationshipId);
-	}
-	unsetActiveNodeEditId();
-};
-
 export const setActiveNodeEditId = (sPersonId) => {
 	uiState.update((currentValue) => {
 		currentValue.personIdForNodeEdit = sPersonId;
@@ -124,16 +122,38 @@ export const setTempRelationshipId = (sRelationshipId) => {
 	});
 };
 
-// node settings
-export const showNodeSettingsFlyout = (sPersonId) => {
-	setActiveNodeSettingsFlyoutId(sPersonId);
+// person node actions modal
+export const showPersonNodeActionsModal = (
+	personId,
+	name,
+	relationshipId,
+	groupId,
+	compatibleGroups
+) => {
+	setNodeActionsModalId(personId);
+	setNodeEditName(name);
+	setNodeEditRelationshipId(relationshipId);
+	setNodeEditGroupId(groupId);
+	setNodeEditCompatibleGroups(compatibleGroups);
 };
 
+export const hidePersonNodeActionsModal = () => {
+	unsetNodeActionsModalId();
+	unsetEditAltName();
+	unsetNodeEditRelationshipId();
+	unsetNodeEditCompatibleGroups();
+};
+
+// node settings
 const setActiveNodeSettingsFlyoutId = (sPersonId) => {
 	uiState.update((currentValue) => {
 		currentValue.personIdForNodeSettingsFlyout = sPersonId;
 		return currentValue;
 	});
+};
+
+export const showNodeSettingsFlyout = (sPersonId) => {
+	setActiveNodeSettingsFlyoutId(sPersonId);
 };
 
 export const hideNodeSettingsFlyout = () => {
@@ -256,6 +276,10 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 
 export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 	const sFilterUppercase = sFilter.toUpperCase();
+	let activePersonName;
+	uiState.subscribe((currentValue) => {
+		activePersonName = currentValue.activePerson.id;
+	});
 
 	uiState.update((currentValue) => {
 		currentValue.personIdsOffScreenFiltered = [];
@@ -263,7 +287,7 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 		// for each id, get name and see if the filter is contained in the name
 		currentValue.personIdsOffScreen.forEach((sPersonId) => {
 			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
-			if (sPersonName.indexOf(sFilterUppercase) > -1) {
+			if (sPersonName.indexOf(sFilterUppercase) > -1 && sPersonName !== activePersonName) {
 				currentValue.personIdsOffScreenFiltered.push(sPersonId);
 			} else {
 				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);

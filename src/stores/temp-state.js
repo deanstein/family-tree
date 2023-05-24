@@ -1,11 +1,15 @@
 import { writable } from 'svelte/store';
 
 const tempState = {
+	nodeActionsModalPersonId: undefined,
 	nodeEditPersonId: undefined,
-	nodeSettingsFlyoutPersonId: undefined,
+	nodeEditName: undefined,
+	nodeEditRelationshipId: undefined,
+	nodeEditGroupId: undefined,
+	nodeEditCompatibleGroups: undefined,
 	bioEditPersonId: undefined,
-	editAltName: undefined,
-	altNames: [],
+	bioEditAltName: undefined,
+	bioEditAltNames: [],
 	timelineEditEventId: undefined,
 
 	personNameTemporaryValue: undefined,

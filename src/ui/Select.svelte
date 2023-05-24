@@ -9,6 +9,7 @@
 	export let optionsGroupObject;
 	export let isEnabled = true;
 	export let inputValue;
+	export let textAlignOverride = undefined;
 
 	const selectDynamicClass = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
@@ -16,6 +17,7 @@
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
+		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
 	`;
 </script>
 
