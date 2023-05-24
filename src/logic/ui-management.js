@@ -4,26 +4,8 @@ import stylingConstants from '../ui/styling-constants';
 import { repoStateStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
-import {
-	getPersonById,
-	getGroupIdFromRelationshipId,
-	setActivePerson,
-	setPersonNameFromTemporaryState,
-	setPersonRelationshipFromTemporaryState
-} from './person-management';
+import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
 import { areObjectsEqual, setNestedObjectProperty } from './utils';
-import {
-	setNodeActionsModalId,
-	setNodeEditCompatibleGroups,
-	setNodeEditGroupId,
-	setNodeEditName,
-	setNodeEditRelationshipId,
-	unsetEditAltName,
-	unsetNodeActionsModalId,
-	unsetNodeEditCompatibleGroups,
-	unsetNodeEditId,
-	unsetNodeEditRelationshipId
-} from './temp-management';
 
 // might be expensive, so try not to call too often
 export const checkForUnsavedChanges = () => {
@@ -92,20 +74,6 @@ export const getRepoFamilyTreeAndSetActive = async (
 	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 };
 
-export const setActiveNodeEditId = (sPersonId) => {
-	uiState.update((currentValue) => {
-		currentValue.personIdForNodeEdit = sPersonId;
-		return currentValue;
-	});
-};
-
-export const unsetActiveNodeEditId = () => {
-	uiState.update((currentValue) => {
-		currentValue.personIdForNodeEdit = undefined;
-		return currentValue;
-	});
-};
-
 // node editing mode - name
 export const setTempNodeEditName = (sName) => {
 	uiState.update((currentValue) => {
@@ -118,62 +86,6 @@ export const setTempNodeEditName = (sName) => {
 export const setTempRelationshipId = (sRelationshipId) => {
 	uiState.update((currentValue) => {
 		currentValue.relationshipIdTemporaryValue = sRelationshipId;
-		return currentValue;
-	});
-};
-
-// person node actions modal
-export const showPersonNodeActionsModal = (
-	personId,
-	name,
-	relationshipId,
-	groupId,
-	compatibleGroups
-) => {
-	setNodeActionsModalId(personId);
-	setNodeEditName(name);
-	setNodeEditRelationshipId(relationshipId);
-	setNodeEditGroupId(groupId);
-	setNodeEditCompatibleGroups(compatibleGroups);
-};
-
-export const hidePersonNodeActionsModal = () => {
-	unsetNodeActionsModalId();
-	unsetEditAltName();
-	unsetNodeEditRelationshipId();
-	unsetNodeEditCompatibleGroups();
-};
-
-// node settings
-const setActiveNodeSettingsFlyoutId = (sPersonId) => {
-	uiState.update((currentValue) => {
-		currentValue.personIdForNodeSettingsFlyout = sPersonId;
-		return currentValue;
-	});
-};
-
-export const showNodeSettingsFlyout = (sPersonId) => {
-	setActiveNodeSettingsFlyoutId(sPersonId);
-};
-
-export const hideNodeSettingsFlyout = () => {
-	unsetActiveNodeSettingsFlyoutId();
-};
-
-const unsetActiveNodeSettingsFlyoutId = () => {
-	uiState.update((currentValue) => {
-		currentValue.personIdForNodeSettingsFlyout = undefined;
-		return currentValue;
-	});
-};
-
-export const toggleNodeSettingsFlyout = (sPersonId) => {
-	uiState.update((currentValue) => {
-		if (currentValue.personIdForNodeSettingsFlyout == undefined) {
-			currentValue.personIdForNodeSettingsFlyout = sPersonId;
-		} else {
-			currentValue.personIdForNodeSettingsFlyout = undefined;
-		}
 		return currentValue;
 	});
 };

@@ -2,43 +2,12 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../styling-constants';
-	import {
-		setTempNodeEditName,
-		updateFilteredOffScreenPeopleIdsArray
-	} from '../../../logic/ui-management.js';
 
 	export let bIsActivePerson = false;
 	export let sInputValue;
 	export let bEnabled = false;
 
 	let input;
-
-	$: {
-		// set the input value as the temporary value in the store when the input is enabled
-		if (bEnabled) {
-			setTempNodeEditName(sInputValue); // TODO: replace with more generic solution
-		}
-	}
-
-	const startEditText = (element) => {
-		element.focus();
-		element.select();
-	};
-
-	const onEnterKeyAction = (event) => {
-		if (event.keyCode === 13) {
-			deselectText();
-		}
-	};
-
-	const onKeyUpAction = (event) => {
-		setTempNodeEditName(event.target.value);
-		updateFilteredOffScreenPeopleIdsArray(event.target.value);
-	};
-
-	const deselectText = () => {
-		input.selectionStart = input.selectionEnd;
-	};
 
 	const nameInputContainerDynamicClass = css`
 		padding-top: ${stylingConstants.sizes.padding};
@@ -62,10 +31,7 @@
 		bind:this={input}
 		bind:value={sInputValue}
 		on:click|stopPropagation
-		on:keyup={onKeyUpAction}
-		on:keydown|stopPropagation={onEnterKeyAction}
 		disabled={!bEnabled}
-		use:startEditText
 	/>
 </div>
 

@@ -12,8 +12,8 @@
 
 	import stylingConstants from '../../styling-constants';
 
+	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
 	import {
-		hidePersonNodeActionsModal,
 		removePersonFromActivePersonGroup,
 		writeUIStateValueAtPath
 	} from '../../../logic/ui-management.js';
@@ -45,7 +45,7 @@
 		setPersonRelationship(personId, relationshipInputValueOriginal, relationshipInputValue);
 	};
 
-	const onDoneButtonClick = () => {
+	export const onDoneButtonClick = () => {
 		saveAllInputs();
 		hidePersonNodeActionsModal();
 	};

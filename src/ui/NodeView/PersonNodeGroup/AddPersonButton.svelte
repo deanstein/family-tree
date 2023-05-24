@@ -10,10 +10,8 @@
 		addPersonToPeopleArray,
 		getDefaultRelationshipType
 	} from '../../../logic/person-management';
-	import {
-		addOrUpdatePersonInActivePersonGroup,
-		showPersonNodeActionsModal
-	} from '../../../logic/ui-management';
+	import { addOrUpdatePersonInActivePersonGroup } from '../../../logic/ui-management';
+	import { showPersonNodeActionsModal } from '../../../logic/temp-management';
 
 	export let groupId;
 	export let compatibleGroups;

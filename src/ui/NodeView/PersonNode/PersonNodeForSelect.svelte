@@ -2,7 +2,6 @@
 	import { css } from '@emotion/css';
 
 	import tempState from '../../../stores/temp-state';
-	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 
 	import {
@@ -13,10 +12,10 @@
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
-		hidePersonNodeActionsModal,
-		removePersonFromActivePersonGroup,
-		showPersonNodeActionsModal
+		removePersonFromActivePersonGroup
 	} from '../../../logic/ui-management';
+
+	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
 
 	import Avatar from './Avatar.svelte';
 	import NameInput from './NameInput.svelte';

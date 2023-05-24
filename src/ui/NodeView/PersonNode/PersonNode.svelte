@@ -131,13 +131,7 @@
 			<Avatar />
 			<NameInput sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
-				<RelationshipTypePicker
-					bEnabled={bIsNodeInEditMode}
-					{sPersonId}
-					{sRelationshipId}
-					sInputValue={sRelationshipId}
-					{compatibleGroups}
-				/>
+				<RelationshipTypePicker sInputValue={sRelationshipId} {compatibleGroups} />
 			{/if}
 		</div>
 		{#if bIsNodeInEditMode && $uiState.personIdsOffScreenFiltered.length > 0}

@@ -33,6 +33,8 @@
 
 	const onKeyUpFunction = (event) => {
 		updateFilteredOffScreenPeopleIdsArray(event.target.value);
+		if (event.keyCode === 13) {
+		}
 	};
 
 	$: {

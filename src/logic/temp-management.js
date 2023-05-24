@@ -17,6 +17,32 @@ export const unsetNodeActionsModalId = () => {
 	});
 };
 
+// person node actions modal
+export const showPersonNodeActionsModal = (
+	personId,
+	name,
+	relationshipId,
+	groupId,
+	compatibleGroups
+) => {
+	setNodeActionsModalId(personId);
+	setNodeEditName(name);
+	setNodeEditRelationshipId(relationshipId);
+	setNodeEditGroupId(groupId);
+	setNodeEditCompatibleGroups(compatibleGroups);
+};
+
+export const hidePersonNodeActionsModal = () => {
+	unsetNodeActionsModalId();
+	unsetEditAltName();
+	unsetNodeEditRelationshipId();
+	unsetNodeEditCompatibleGroups();
+};
+
+export const hidePersonNodeActionsModalAndDiscard = () => {};
+
+export const hidePersonNodeActionsModalAndSave = () => {};
+
 // node edit
 export const setNodeEditId = (personId) => {
 	tempState.update((currentValue) => {

@@ -1,34 +1,12 @@
 <script>
 	import { css } from '@emotion/css';
-	import {
-		addOrUpdatePersonInActivePersonGroup,
-		removePersonFromActivePersonGroup
-	} from '../../../logic/ui-management';
 
 	import relationshipMap from '../../../schemas/relationship-map';
 	import stylingConstants from '../../styling-constants';
-	import { setTempRelationshipId, unsetActiveNodeEditId } from '../../../logic/ui-management.js';
 
-	export let sPersonId;
-	export let sRelationshipId;
 	export let sInputValue;
 	export let bEnabled = false;
 	export let compatibleGroups = JSON.parse(JSON.stringify(relationshipMap));
-
-	$: {
-		// set the input value as the temporary value in the store when the input is enabled
-		if (bEnabled) {
-			setTempRelationshipId(sInputValue);
-		}
-	}
-
-	const onEnterKeyAction = (event) => {
-		if (event.keyCode === 13) {
-			removePersonFromActivePersonGroup(sPersonId, sRelationshipId);
-			addOrUpdatePersonInActivePersonGroup(sPersonId, sInputValue);
-			unsetActiveNodeEditId();
-		}
-	};
 
 	const relationshipTypePickerContainerDynamicClass = css`
 		width: -webkit-fill-available;
@@ -52,8 +30,6 @@
 		id="options"
 		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
 		bind:value={sInputValue}
-		on:click|stopPropagation
-		on:keydown|stopPropagation={onEnterKeyAction}
 		disabled={!bEnabled}
 	>
 		{#each Object.entries(compatibleGroups) as [category, items]}
