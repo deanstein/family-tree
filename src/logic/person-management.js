@@ -8,7 +8,6 @@ import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
 
 import {
-	initializeOffScreenPeopleIdsArray,
 	updateOffScreenPeopleIdsArray
 } from './temp-management';
 
@@ -105,15 +104,6 @@ export const setPersonName = (sPersonId, sName) => {
 		currentValue.allPeople[personIndex].name = sName;
 		return currentValue;
 	});
-};
-
-export const setPersonNameFromTemporaryState = (sPersonId) => {
-	let temporaryName;
-	uiState.subscribe((currentValue) => {
-		temporaryName = currentValue.personNameTemporaryValue;
-	});
-
-	setPersonName(sPersonId, temporaryName);
 };
 
 export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRelationshipId) => {

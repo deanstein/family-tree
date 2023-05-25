@@ -8,8 +8,6 @@ const uiState = {
 	cachedActivePerson: {},
 	personIdForNodeEdit: undefined,
 	personIdForNodeSettingsFlyout: undefined,
-	personNameTemporaryValue: undefined,
-	relationshipIdTemporaryValue: undefined,
 	showChooseTreeModal: true,
 	showPersonDetailView: false,
 	showDevTools: false,
