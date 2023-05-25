@@ -17,7 +17,7 @@ import {
 	setCachedActivePerson
 } from './ui-management';
 
-import { deepMatchObjects } from './utils';
+import { deepMatchObjects, getObjectByKeyValue } from './utils';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -171,24 +171,19 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 		const nActivePersonIndex = getPersonIndexById(currentValue.lastKnownActivePersonId);
 		const activePerson = currentValue.allPeople[nActivePersonIndex];
 
-		//console.log (sInverseRelationshipId, sInverseGroupId, nPersonIndex, person, nActivePersonIndex, activePerson);
-
-		const personReferenceObject = {
+		const activePersonRelationship = {
 			id: currentValue.lastKnownActivePersonId,
 			relationshipId: sInverseRelationshipId
 		};
-
-		const foundPersonReferenceObject = person.relationships[groupId].find(() => {
-			if (personReferenceObject.id === currentValue.lastKnownActivePersonId)
-				return personReferenceObject;
-		});
+		const matchingRelationship = getObjectByKeyValue(activePerson.relationships[groupId], 'id', personId);
+		
 		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(
-			foundPersonReferenceObject
+			matchingRelationship
 		);
 
 		// only add if it doesn't exist yet
-		if (!foundPersonReferenceObject && nGroupIndex !== -1) {
-			person.relationships[sInverseGroupId].push(personReferenceObject);
+		if (!matchingRelationship) {
+			person.relationships[sInverseGroupId].push(activePersonRelationship);
 			// but if it exists, update with the new relationship id
 		} else {
 			if (nGroupIndex !== -1) {
