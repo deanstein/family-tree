@@ -18,7 +18,7 @@
 	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
 
 	import Avatar from './Avatar.svelte';
-	import NameInput from './NameInput.svelte';
+	import NameInput from './NameLabel.svelte';
 
 	export let sPersonId;
 	export let sRelationshipId;

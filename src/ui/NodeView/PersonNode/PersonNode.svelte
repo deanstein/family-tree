@@ -17,9 +17,8 @@
 
 	import Avatar from './Avatar.svelte';
 	import NodeActionsButton from './NodeActionsButton.svelte';
-	import NodeActionsModal from './NodeActionsModal.svelte';
-	import RelationshipTypePicker from './RelationshipTypePicker.svelte';
-	import NameInput from './NameInput.svelte';
+	import RelationshipLabel from './RelationshipLabel.svelte';
+	import NameLabel from './NameLabel.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
 	import { showPersonDetailView } from '../../../logic/ui-management';
@@ -129,9 +128,9 @@
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
 			<Avatar />
-			<NameInput sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
+			<NameLabel sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
-				<RelationshipTypePicker sInputValue={sRelationshipId} {compatibleGroups} />
+				<RelationshipLabel sInputValue={sRelationshipId} {compatibleGroups} />
 			{/if}
 		</div>
 		{#if bIsNodeInEditMode && $tempState.personIdsOffScreenFiltered.length > 0}
