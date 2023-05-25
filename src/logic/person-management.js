@@ -163,20 +163,25 @@ export const addActivePersonToPeopleArray = () => {
 };
 
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
+	let activePersonId;
+	uiState.subscribe((currentValue) => {
+		activePersonId = currentValue.activePerson.id;
+	})
+
 	familyTreeData.update((currentValue) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
 		const person = currentValue.allPeople[nPersonIndex];
-		const nActivePersonIndex = getPersonIndexById(currentValue.lastKnownActivePersonId);
+		const nActivePersonIndex = getPersonIndexById(activePersonId);
 		const activePerson = currentValue.allPeople[nActivePersonIndex];
 
 		const activePersonRelationship = {
-			id: currentValue.lastKnownActivePersonId,
+			id: activePersonId,
 			relationshipId: sInverseRelationshipId
 		};
-		const matchingRelationship = getObjectByKeyValue(activePerson.relationships[groupId], 'id', personId);
-		
+
+		const matchingRelationship = getObjectByKeyValue(person.relationships[groupId], 'id', activePersonId);
 		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(
 			matchingRelationship
 		);
