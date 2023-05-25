@@ -25,11 +25,11 @@
 
 	const onPersonNodeForSelectClickAction = () => {
 		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
-		console.log('TEST: ' + JSON.stringify($tempState.nodeEditGroupId));
 		addOrUpdateActivePersonInNewPersonGroup(sPersonId, $tempState.nodeEditGroupId);
 		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
 		hidePersonNodeActionsModal();
+		// TODO: try to keep the actions modal open
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
 

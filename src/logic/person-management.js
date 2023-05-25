@@ -7,15 +7,17 @@ import relationshipMap from '../schemas/relationship-map';
 import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
 
-import { getObjectByKeyValue, instantiateObject } from './utils';
+import {
+	initializeOffScreenPeopleIdsArray,
+	updateOffScreenPeopleIdsArray
+} from './temp-management';
 
 import {
 	addOrUpdatePersonInActivePersonGroup,
-	initializeOffScreenPeopleIdsArray,
-	updateOffScreenPeopleIdsArray,
 	removePersonFromActivePersonGroup,
 	setCachedActivePerson
 } from './ui-management';
+
 import { deepMatchObjects } from './utils';
 
 export const createNewPerson = () => {
@@ -67,8 +69,6 @@ export const getPersonById = (id) => {
 };
 
 export const setActivePerson = (person) => {
-	initializeOffScreenPeopleIdsArray();
-
 	// instantiate the newest default person schema
 	// to compare later for upgrade purposes or used as a new person
 	const newPerson = createNewPerson();
@@ -201,7 +201,9 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			person.relationships[sInverseGroupId].push(personReferenceObject);
 			// but if it exists, update with the new relationship id
 		} else {
-			person.relationships[sInverseGroupId][nGroupIndex].relationshipId = sInverseRelationshipId;
+			if (nGroupIndex !== -1) {
+				person.relationships[sInverseGroupId][nGroupIndex].relationshipId = sInverseRelationshipId;
+			}
 		}
 
 		return currentValue;

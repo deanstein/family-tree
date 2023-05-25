@@ -134,7 +134,7 @@
 				<RelationshipTypePicker sInputValue={sRelationshipId} {compatibleGroups} />
 			{/if}
 		</div>
-		{#if bIsNodeInEditMode && $uiState.personIdsOffScreenFiltered.length > 0}
+		{#if bIsNodeInEditMode && $tempState.personIdsOffScreenFiltered.length > 0}
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>

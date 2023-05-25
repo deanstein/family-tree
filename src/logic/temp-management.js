@@ -1,6 +1,87 @@
+import familyTreeData from '../stores/family-tree-data';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
+import { getPersonById } from './person-management';
 import { replaceObjectByKeyValue, deleteObjectByKeyValue, getObjectByKeyValue } from './utils';
+
+// manage on/off screen people IDs
+export const initializeOffScreenPeopleIdsArray = () => {
+	let allPeople = undefined;
+	familyTreeData.subscribe((currentValue) => {
+		allPeople = currentValue.allPeople.map((person) => person.id);
+	});
+
+	tempState.update((currentValue) => {
+		currentValue.personIdsOffScreen = allPeople;
+		return currentValue;
+	});
+};
+
+export const updateOffScreenPeopleIdsArray = () => {
+	let activePerson;
+	uiState.subscribe((currentValue) => {
+		activePerson = currentValue.activePerson;
+	});
+
+	tempState.update((currentValue) => {
+		const activePersonIndex = currentValue.personIdsOffScreen.indexOf(activePerson.id);
+		const editedPersonIndex = currentValue.personIdsOffScreen.indexOf(currentValue.nodeEditPersonId);
+		// remove the active person from the list of candidates to show
+		if (activePersonIndex > -1) {
+			currentValue.personIdsOffScreen.splice(activePersonIndex, 1);
+		}
+		if (editedPersonIndex > -1) {
+			currentValue.personIdsOffScreen.splice(editedPersonIndex, 1);
+		}
+		const relationships = activePerson.relationships;
+		for (const relationship in relationships) {
+			if (Array.isArray(relationships[relationship])) {
+				relationships[relationship].forEach((personObject) => {
+					if (personObject && typeof personObject === 'object' && personObject.id) {
+						const personId = personObject.id;
+						const index = currentValue.personIdsOffScreen.indexOf(personId);
+						if (index > -1) {
+							currentValue.personIdsOffScreen.splice(index, 1);
+						}
+					}
+				});
+			}
+		}
+		return currentValue;
+	});
+};
+
+export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
+	const sFilterUppercase = sFilter.toUpperCase();
+	let activePersonName;
+	uiState.subscribe((currentValue) => {
+		activePersonName = currentValue.activePerson.id;
+	});
+
+	tempState.update((currentValue) => {
+		currentValue.personIdsOffScreenFiltered = [];
+
+		// for each id, get name and see if the filter is contained in the name
+		currentValue.personIdsOffScreen.forEach((sPersonId) => {
+			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
+			if (sPersonName.indexOf(sFilterUppercase) > -1 && sPersonName !== activePersonName) {
+				currentValue.personIdsOffScreenFiltered.push(sPersonId);
+			} else {
+				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
+				if (nPersonIdIndex !== -1) {
+					currentValue.personIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
+				}
+			}
+		});
+
+		// if nothing in the text box, show all available people
+		if (sFilterUppercase === '') {
+			currentValue.personIdsOffScreenFiltered = currentValue.personIdsOffScreen;
+		}
+
+		return currentValue;
+	});
+};
 
 // node actions modal
 export const setNodeActionsModalId = (personId) => {

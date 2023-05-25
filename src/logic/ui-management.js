@@ -74,59 +74,6 @@ export const getRepoFamilyTreeAndSetActive = async (
 	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 };
 
-// node editing mode - name
-export const setTempNodeEditName = (sName) => {
-	uiState.update((currentValue) => {
-		currentValue.personNameTemporaryValue = sName;
-		return currentValue;
-	});
-};
-
-// node editing mode - relationship
-export const setTempRelationshipId = (sRelationshipId) => {
-	uiState.update((currentValue) => {
-		currentValue.relationshipIdTemporaryValue = sRelationshipId;
-		return currentValue;
-	});
-};
-
-// manage on/off screen people IDs
-export const initializeOffScreenPeopleIdsArray = () => {
-	let allPeople = undefined;
-	familyTreeData.subscribe((currentValue) => {
-		allPeople = currentValue.allPeople.map((person) => person.id);
-	});
-
-	uiState.update((currentValue) => {
-		currentValue.personIdsOffScreen = allPeople;
-		return currentValue;
-	});
-};
-
-export const updateOffScreenPeopleIdsArray = () => {
-	uiState.update((currentValue) => {
-		const activePersonIndex = currentValue.personIdsOffScreen.indexOf(currentValue.activePerson.id);
-		if (activePersonIndex > -1) {
-			currentValue.personIdsOffScreen.splice(activePersonIndex, 1);
-		}
-		const relationships = currentValue.activePerson.relationships;
-		for (const relationship in relationships) {
-			if (Array.isArray(relationships[relationship])) {
-				relationships[relationship].forEach((personObject) => {
-					if (personObject && typeof personObject === 'object' && personObject.id) {
-						const personId = personObject.id;
-						const index = currentValue.personIdsOffScreen.indexOf(personId);
-						if (index > -1) {
-							currentValue.personIdsOffScreen.splice(index, 1);
-						}
-					}
-				});
-			}
-		}
-		return currentValue;
-	});
-};
-
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
@@ -180,38 +127,6 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 
 		if (nSpliceIndex > -1) {
 			currentValue.activePerson.relationships[sGroupId].splice(nSpliceIndex, 1);
-		}
-
-		return currentValue;
-	});
-};
-
-export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
-	const sFilterUppercase = sFilter.toUpperCase();
-	let activePersonName;
-	uiState.subscribe((currentValue) => {
-		activePersonName = currentValue.activePerson.id;
-	});
-
-	uiState.update((currentValue) => {
-		currentValue.personIdsOffScreenFiltered = [];
-
-		// for each id, get name and see if the filter is contained in the name
-		currentValue.personIdsOffScreen.forEach((sPersonId) => {
-			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
-			if (sPersonName.indexOf(sFilterUppercase) > -1 && sPersonName !== activePersonName) {
-				currentValue.personIdsOffScreenFiltered.push(sPersonId);
-			} else {
-				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
-				if (nPersonIdIndex !== -1) {
-					currentValue.personIdsOffScreenFiltered.splice(nPersonIdIndex, 1);
-				}
-			}
-		});
-
-		// if nothing in the text box, show all available people
-		if (sFilterUppercase === '') {
-			currentValue.personIdsOffScreenFiltered = currentValue.personIdsOffScreen;
 		}
 
 		return currentValue;

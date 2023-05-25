@@ -16,7 +16,11 @@
 	import Select from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
 
-	import { updateFilteredOffScreenPeopleIdsArray } from '../../../logic/ui-management';
+	import {
+		updateOffScreenPeopleIdsArray,
+		updateFilteredOffScreenPeopleIdsArray,
+		initializeOffScreenPeopleIdsArray
+	} from '../../../logic/temp-management';
 
 	export let nameInputValue;
 	export let relationshipInputValue;
@@ -34,6 +38,7 @@
 	const onKeyUpFunction = (event) => {
 		updateFilteredOffScreenPeopleIdsArray(event.target.value);
 		if (event.keyCode === 13) {
+			// TO DO: ensure enter acts as Done
 		}
 	};
 
@@ -47,6 +52,8 @@
 	}
 
 	onMount(() => {
+		initializeOffScreenPeopleIdsArray();
+		updateOffScreenPeopleIdsArray();
 		updateFilteredOffScreenPeopleIdsArray(nameInputValue);
 	});
 
@@ -103,7 +110,7 @@
 			{/if}
 		</div>
 	</div>
-	{#if $uiState.personIdsOffScreenFiltered.length > 0}
+	{#if $tempState.personIdsOffScreenFiltered.length > 0}
 		<PersonNodeScrollingWindow sRelationshipId={$tempState.nodeEditRelationshipId} />
 	{/if}
 </div>

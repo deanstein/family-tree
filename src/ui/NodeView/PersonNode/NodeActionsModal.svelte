@@ -13,17 +13,13 @@
 	import stylingConstants from '../../styling-constants';
 
 	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
-	import {
-		removePersonFromActivePersonGroup,
-		writeUIStateValueAtPath
-	} from '../../../logic/ui-management.js';
+	import { removePersonFromActivePersonGroup } from '../../../logic/ui-management.js';
 	import PersonNodeForEdit from './PersonNodeForEdit.svelte';
 	import {
 		getPersonById,
 		setPersonName,
 		setPersonRelationship,
-		removePersonFromPeopleArray,
-		setActivePerson
+		removePersonFromPeopleArray
 	} from '../../../logic/person-management';
 
 	export let personId;
@@ -124,10 +120,10 @@
 				nodeSize="15vh"
 			/>
 		</div>
-		<div id="node-actions-button-container" class="node-actions-button-container">
+		<div id="node-actions-button-bottom-container" class="node-actions-button-bottom-container">
 			{#if !isNewPerson}
 				<Button
-					buttonText="Remove Relationship"
+					buttonText="Remove"
 					onClickFunction={onRemoveButtonClick}
 					overrideColor={stylingConstants.colors.buttonColorDelete}
 					overrideColorHover={'white'}
@@ -135,8 +131,6 @@
 					overrideBackgroundColorHover={stylingConstants.colors.buttonColorDelete}
 				/>
 			{/if}
-		</div>
-		<div id="node-actions-button-bottom-container" class="node-actions-button-bottom-container">
 			<Button
 				buttonText={'Cancel'}
 				onClickFunction={onCancelButtonClick}
@@ -195,6 +189,7 @@
 		width: 100%;
 		display: flex;
 		gap: 0.5vw;
+		margin-top: 1.5vh;
 		justify-content: right;
 	}
 </style>
