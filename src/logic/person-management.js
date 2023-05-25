@@ -197,7 +197,7 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 		);
 
 		// only add if it doesn't exist yet
-		if (!foundPersonReferenceObject) {
+		if (!foundPersonReferenceObject && nGroupIndex !== -1) {
 			person.relationships[sInverseGroupId].push(personReferenceObject);
 			// but if it exists, update with the new relationship id
 		} else {
