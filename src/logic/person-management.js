@@ -506,9 +506,10 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 export const getRelationshipNameById = (relationshipId, relationshipMap) => {
 	const groupId = getGroupIdFromRelationshipId(relationshipId);
 	if (relationshipId && relationshipMap.hasOwnProperty(groupId)) {
-		return relationshipMap[groupId][relationshipId].label;
+		console.log(relationshipMap[groupId][relationshipId]);
+		return relationshipMap[groupId][relationshipId]?.label;
 	}
-	return null;
+	return undefined;
 };
 
 export function getDefaultRelationshipType(relationshipGroup) {

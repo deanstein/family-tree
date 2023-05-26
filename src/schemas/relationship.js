@@ -1,4 +1,4 @@
 export const relationship = {
-	personId: '',
+	id: '',
 	relationshipId: ''
 };

@@ -80,12 +80,12 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = instantiateObject(relationship);
-		personReferenceObject.personId = sPersonId;
+		personReferenceObject.id = sPersonId;
 		personReferenceObject.relationshipId = sRelationshipId;
 
 		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
 			(personObject) => {
-				if (personObject.personId === sPersonId) return personReferenceObject;
+				if (personObject.id === sPersonId) return personReferenceObject;
 			}
 		);
 		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
@@ -111,7 +111,7 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = instantiateObject(relationship);
-		personReferenceObject.personId = sPersonId;
+		personReferenceObject.id = sPersonId;
 		personReferenceObject.relationshipId = sRelationshipId;
 
 		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
