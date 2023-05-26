@@ -1,22 +1,18 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import relationshipMap from '../../../schemas/relationship-map';
 	import stylingConstants from '../../styling-constants';
 
-	export let sInputValue;
-	export let bEnabled = false;
-	export let compatibleGroups = JSON.parse(JSON.stringify(relationshipMap));
+	export let relationshipName;
 
-	const relationshipTypePickerContainerDynamicClass = css`
-		width: -webkit-fill-available;
-		width: -moz-available;
+	const relationshipLabelContainerDynamicClass = css`
 		margin-bottom: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 	`;
 
-	const relationshipTypePickerDynamicClass = css`
+	const relationshipLabelDynamicClass = css`
+		color: ${stylingConstants.colors.textColor};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 	`;
@@ -24,40 +20,28 @@
 
 <div
 	id="relationship-type-picker-container"
-	class="{relationshipTypePickerContainerDynamicClass} relationship-type-picker-container"
+	class="{relationshipLabelContainerDynamicClass} relationship-type-picker-container"
 >
-	<select
-		id="options"
-		class="{relationshipTypePickerDynamicClass} relationship-type-picker"
-		bind:value={sInputValue}
-		disabled={!bEnabled}
-	>
-		{#each Object.entries(compatibleGroups) as [category, items]}
-			<optgroup label={items.label}>
-				{#each Object.entries(items) as [key, value]}
-					{#if key != 'label'}
-						{#if value.label}
-							<option value={`${value.id}`}>{value.label}</option>
-						{/if}
-					{/if}
-				{/each}
-			</optgroup>
-		{/each}
-	</select>
+	<div id="options" class="{relationshipLabelDynamicClass} relationship-type-picker">
+		{relationshipName}
+	</div>
 </div>
 
 <style>
+	.relationship-type-picker-container {
+		width: -webkit-fill-available;
+		width: -moz-available;
+	}
+
 	.relationship-type-picker {
-		width: 100%;
 		font-style: italic;
 		outline: none;
-	}
-	.relationship-type-picker:disabled {
 		-webkit-appearance: none; /* for webkit-based browsers */
 		-moz-appearance: none; /* for Firefox */
 		text-align: center;
 		appearance: none;
 		border: 2px solid transparent;
 		font-style: italic;
+		background-color: rgb(241, 241, 241);
 	}
 </style>

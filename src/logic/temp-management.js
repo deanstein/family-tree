@@ -1,6 +1,7 @@
 import familyTreeData from '../stores/family-tree-data';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
+
 import { getPersonById } from './person-management';
 import { replaceObjectByKeyValue, deleteObjectByKeyValue, getObjectByKeyValue } from './utils';
 
@@ -25,7 +26,9 @@ export const updateOffScreenPeopleIdsArray = () => {
 
 	tempState.update((currentValue) => {
 		const activePersonIndex = currentValue.personIdsOffScreen.indexOf(activePerson.id);
-		const editedPersonIndex = currentValue.personIdsOffScreen.indexOf(currentValue.nodeEditPersonId);
+		const editedPersonIndex = currentValue.personIdsOffScreen.indexOf(
+			currentValue.nodeEditPersonId
+		);
 		// remove the active person from the list of candidates to show
 		if (activePersonIndex > -1) {
 			currentValue.personIdsOffScreen.splice(activePersonIndex, 1);

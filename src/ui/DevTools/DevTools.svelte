@@ -56,13 +56,6 @@
 			return currentValue;
 		});
 	};
-
-	const setNodeEditActive = () => {
-		tempState.update((currentValue) => {
-			currentValue.nodeEditPersonId = $uiState.activePerson.id;
-			return currentValue;
-		});
-	};
 </script>
 
 <div id="dev-tools-outer-container" class="dev-tools-outer-container">
@@ -73,7 +66,6 @@
 			{!$uiState.showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
-		<button on:click={setNodeEditActive}> Set Node Edit Active </button>
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
