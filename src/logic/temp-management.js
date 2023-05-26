@@ -116,7 +116,9 @@ export const showPersonNodeActionsModal = (
 export const hidePersonNodeActionsModal = () => {
 	unsetNodeActionsModalId();
 	unsetEditAltName();
+	unsetNodeEditName();
 	unsetNodeEditRelationshipId();
+	unsetNodeEditGroupId();
 	unsetNodeEditCompatibleGroups();
 };
 
