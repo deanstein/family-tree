@@ -20,24 +20,29 @@
 	`;
 </script>
 
-<div id="name-input-container" class="{nameLabelContainerDynamicClass} name-input-container">
-	<div id="name-input" class="{nameLabelDynamicClass} name-input">
+<div id="name-label-container" class="{nameLabelContainerDynamicClass} name-label-container">
+	<div id="name-label" class="{nameLabelDynamicClass} name-label">
 		{sInputValue}
 	</div>
 </div>
 
 <style>
-	.name-input-container {
+	.name-label-container {
 		display: flex;
 		width: -moz-available; /* WebKit-based browsers will ignore this. */
 		width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
 	}
 
-	.name-input {
+	.name-label {
 		width: 100%;
 		text-align: center;
 		outline: none;
 		background-color: white;
 		border: 2px solid transparent;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: -webkit-fill-available;
+		width: -moz-available;
 	}
 </style>
