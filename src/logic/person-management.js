@@ -506,7 +506,6 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 export const getRelationshipNameById = (relationshipId, compatibleGroups) => {
 	const groupId = getGroupIdFromRelationshipId(relationshipId);
 	if (relationshipId && compatibleGroups.hasOwnProperty(groupId)) {
-		console.log(compatibleGroups[groupId][relationshipId]);
 		return compatibleGroups[groupId][relationshipId]?.label;
 	}
 	return undefined;
