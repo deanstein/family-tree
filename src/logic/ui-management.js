@@ -5,7 +5,8 @@ import { repoStateStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
 import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
-import { areObjectsEqual, setNestedObjectProperty } from './utils';
+import { areObjectsEqual, instantiateObject, setNestedObjectProperty } from './utils';
+import { relationship } from '../schemas/relationship';
 
 // might be expensive, so try not to call too often
 export const checkForUnsavedChanges = () => {
@@ -78,14 +79,13 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
-		const personReferenceObject = {
-			id: sPersonId,
-			relationshipId: sRelationshipId
-		};
+		const personReferenceObject = instantiateObject(relationship);
+		personReferenceObject.personId = sPersonId;
+		personReferenceObject.relationshipId = sRelationshipId;
 
 		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
 			(personObject) => {
-				if (personObject.id === sPersonId) return personReferenceObject;
+				if (personObject.personId === sPersonId) return personReferenceObject;
 			}
 		);
 		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
@@ -110,10 +110,9 @@ export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) =>
 	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
-		const personReferenceObject = {
-			id: sPersonId,
-			relationshipId: sRelationshipId
-		};
+		const personReferenceObject = instantiateObject(relationship);
+		personReferenceObject.personId = sPersonId;
+		personReferenceObject.relationshipId = sRelationshipId;
 
 		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
 			(personObject) => {

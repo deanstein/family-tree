@@ -2,13 +2,16 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
+	import relationshipMap from '../../../schemas/relationship-map';
+
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
 
 	import {
 		getPersonById,
 		setActivePerson,
-		addActivePersonToPeopleArray
+		addActivePersonToPeopleArray,
+		getRelationshipNameById
 	} from '../../../logic/person-management';
 
 	import uiState from '../../../stores/ui-state';
@@ -33,9 +36,11 @@
 
 	let personNodeDynamicClass;
 	let name;
+	let relationshipLabel;
 
 	$: {
 		name = getPersonById(sPersonId)?.name;
+		relationshipLabel = getRelationshipNameById(sRelationshipId, relationshipMap);
 
 		// is this node the active person?
 		if (sPersonId === $uiState.activePerson.id) {
@@ -69,7 +74,7 @@
 	}
 
 	const personNodeContentAreaDynamicClass = css`
-		margin-top: ${stylingConstants.sizes.padding};
+		padding-top: ${stylingConstants.sizes.padding};
 	`;
 
 	const onPersonNodeClickAction = () => {
@@ -128,9 +133,9 @@
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
 			<Avatar />
-			<NameLabel sInputValue={name} bEnabled={bIsNodeInEditMode} {bIsActivePerson} />
+			<NameLabel sInputValue={name} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
-				<RelationshipLabel sInputValue={sRelationshipId} {compatibleGroups} />
+				<RelationshipLabel relationshipName={relationshipLabel} />
 			{/if}
 		</div>
 		{#if bIsNodeInEditMode && $tempState.personIdsOffScreenFiltered.length > 0}

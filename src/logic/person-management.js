@@ -7,9 +7,7 @@ import relationshipMap from '../schemas/relationship-map';
 import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
 
-import {
-	updateOffScreenPeopleIdsArray
-} from './temp-management';
+import { updateOffScreenPeopleIdsArray } from './temp-management';
 
 import {
 	addOrUpdatePersonInActivePersonGroup,
@@ -166,7 +164,7 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	let activePersonId;
 	uiState.subscribe((currentValue) => {
 		activePersonId = currentValue.activePerson.id;
-	})
+	});
 
 	familyTreeData.update((currentValue) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
@@ -181,10 +179,12 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			relationshipId: sInverseRelationshipId
 		};
 
-		const matchingRelationship = getObjectByKeyValue(person.relationships[sInverseGroupId], 'id', activePersonId);
-		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(
-			matchingRelationship
+		const matchingRelationship = getObjectByKeyValue(
+			person.relationships[sInverseGroupId],
+			'id',
+			activePersonId
 		);
+		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(matchingRelationship);
 
 		// only add if it doesn't exist yet
 		if (!matchingRelationship) {
@@ -501,6 +501,14 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 	}
 
 	return groupId;
+};
+
+export const getRelationshipNameById = (relationshipId, relationshipMap) => {
+	const groupId = getGroupIdFromRelationshipId(relationshipId);
+	if (relationshipId && relationshipMap.hasOwnProperty(groupId)) {
+		return relationshipMap[groupId][relationshipId].label;
+	}
+	return null;
 };
 
 export function getDefaultRelationshipType(relationshipGroup) {
