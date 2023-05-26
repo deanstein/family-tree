@@ -181,7 +181,7 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			relationshipId: sInverseRelationshipId
 		};
 
-		const matchingRelationship = getObjectByKeyValue(person.relationships[groupId], 'id', activePersonId);
+		const matchingRelationship = getObjectByKeyValue(person.relationships[sInverseGroupId], 'id', activePersonId);
 		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(
 			matchingRelationship
 		);
