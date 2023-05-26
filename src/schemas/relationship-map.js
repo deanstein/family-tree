@@ -193,11 +193,11 @@ const relationshipMap = {
 			id: 'halfSiblingMaternal',
 			label: 'half sibling'
 		},
-		halfsisterMaternal: {
+		halfSisterMaternal: {
 			id: 'halfSisterMaternal',
 			label: 'half sister'
 		},
-		halfbrotherMaternal: {
+		halfSrotherMaternal: {
 			id: 'halfBrotherMaternal',
 			label: 'half brother'
 		}
@@ -358,7 +358,7 @@ const relationshipMap = {
 			label: 'Niece'
 		},
 		nephew: {
-			id: 'newphew',
+			id: 'nephew',
 			label: 'Nephew'
 		}
 	},
@@ -386,11 +386,11 @@ const relationshipMap = {
 			label: 'grand niece or nephew'
 		},
 		grandniece: {
-			id: 'grandnieces',
+			id: 'grandniece',
 			label: 'grandniece'
 		},
 		grandnephew: {
-			id: 'grandnephews',
+			id: 'grandnephew',
 			label: 'grandnephew'
 		}
 	},

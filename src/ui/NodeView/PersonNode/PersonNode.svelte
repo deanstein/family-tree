@@ -40,7 +40,7 @@
 
 	$: {
 		name = getPersonById(sPersonId)?.name;
-		relationshipLabel = getRelationshipNameById(sRelationshipId, relationshipMap);
+		relationshipLabel = getRelationshipNameById(sRelationshipId, compatibleGroups);
 
 		// is this node the active person?
 		if (sPersonId === $uiState.activePerson.id) {

@@ -503,11 +503,11 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 	return groupId;
 };
 
-export const getRelationshipNameById = (relationshipId, relationshipMap) => {
+export const getRelationshipNameById = (relationshipId, compatibleGroups) => {
 	const groupId = getGroupIdFromRelationshipId(relationshipId);
-	if (relationshipId && relationshipMap.hasOwnProperty(groupId)) {
-		console.log(relationshipMap[groupId][relationshipId]);
-		return relationshipMap[groupId][relationshipId]?.label;
+	if (relationshipId && compatibleGroups.hasOwnProperty(groupId)) {
+		console.log(compatibleGroups[groupId][relationshipId]);
+		return compatibleGroups[groupId][relationshipId]?.label;
 	}
 	return undefined;
 };

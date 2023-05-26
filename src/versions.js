@@ -1,15 +1,19 @@
-export const appVersion = '0.8.1';
+export const appVersion = '0.9.0';
 export const appChangelog = {
+	'v0.10.x': {
+		Overview: 'v0.10.x adds password protection and overhauled temp state management',
+		Changes: ['Added password protection to the ChooseTree dialog']
+	},
 	'v0.9.x': {
-		Overview: 'v0.9.x adds password protection and overhauled temp state management',
-		Changes: []
+		Overview: 'v0.9.x improves parts of the NodeView and overhauls some legacy NodeView code',
+		Changes: [
+			'Switched from a node edit view in context to a node actions modal containing a node edit section',
+			'Switched PersonNode input fields to static labels'
+		]
 	},
 	'v0.8.x': {
 		Overview: 'v0.8.x adds a person detail view, including bio and timeline views',
-		Changes: [
-			'Added password protection to the ChooseTree dialog',
-			'Overhauled temporary state management to simplify editing code'
-		]
+		Changes: ['Overhauled temporary state management to simplify editing code']
 	},
 	'v0.7.x': {
 		Overview:
@@ -68,7 +72,7 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.9.11';
+export const schemaVersion = '0.9.12';
 export const schemaChangelog = {
 	'v0.9.x': {
 		Overview:
