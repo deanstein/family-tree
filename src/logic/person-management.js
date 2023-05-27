@@ -368,9 +368,9 @@ export const getInverseRelationshipId = (groupId) => {
 				break;
 			case relationshipMap.halfSiblingsMaternal.id:
 				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.halfSiblingsMaternal.halfbrotherMaternal.id;
+					inverseId = relationshipMap.halfSiblingsMaternal.halfBrotherMaternal.id;
 				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.halfSiblingsMaternal.halfsisterMaternal.id;
+					inverseId = relationshipMap.halfSiblingsMaternal.halfSisterMaternal.id;
 				} else {
 					inverseId = relationshipMap.halfSiblingsMaternal.halfSiblingMaternal.id;
 				}
@@ -381,7 +381,7 @@ export const getInverseRelationshipId = (groupId) => {
 				} else if (activePersonGender === 'female') {
 					inverseId = relationshipMap.halfSiblingsPaternal.halfSisterPaternal.id;
 				} else {
-					inverseId = relationshipMap.halfSiblingsPaternal.halfsiblingPaternal.id;
+					inverseId = relationshipMap.halfSiblingsPaternal.halfSiblingPaternal.id;
 				}
 				break;
 			case relationshipMap.stepsiblings.id:

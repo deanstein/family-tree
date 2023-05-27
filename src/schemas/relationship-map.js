@@ -197,7 +197,7 @@ const relationshipMap = {
 			id: 'halfSisterMaternal',
 			label: 'half sister'
 		},
-		halfSrotherMaternal: {
+		halfBrotherMaternal: {
 			id: 'halfBrotherMaternal',
 			label: 'half brother'
 		}
@@ -205,7 +205,7 @@ const relationshipMap = {
 	halfSiblingsPaternal: {
 		id: 'halfSiblingsPaternal',
 		label: 'Half Siblings (P)',
-		halfsiblingPaternal: {
+		halfSiblingPaternal: {
 			id: 'halfSiblingPaternal',
 			label: 'half sibling'
 		},

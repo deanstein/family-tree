@@ -72,7 +72,7 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.9.13';
+export const schemaVersion = '0.9.14';
 export const schemaChangelog = {
 	'v0.9.x': {
 		Overview:
