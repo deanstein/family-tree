@@ -306,9 +306,9 @@ export const getInverseRelationshipId = (groupId) => {
 			case relationshipMap.greatAunclesMaternal.id:
 			case relationshipMap.greatAunclesPaternal.id:
 				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.grandNiblings.grandnephew.id;
+					inverseId = relationshipMap.grandniblings.grandnephew.id;
 				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.grandNiblings.grandniece.id;
+					inverseId = relationshipMap.grandniblings.grandniece.id;
 				} else {
 					inverseId = relationshipMap.grandniblings.grandnibling.id;
 				}
@@ -504,6 +504,7 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 };
 
 export const getRelationshipNameById = (relationshipId, compatibleGroups) => {
+	console.log("getting relationship id")
 	const groupId = getGroupIdFromRelationshipId(relationshipId);
 	if (relationshipId && compatibleGroups.hasOwnProperty(groupId)) {
 		return compatibleGroups[groupId][relationshipId]?.label;

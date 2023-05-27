@@ -62,7 +62,7 @@ const relationshipMap = {
 			label: 'paternal great aunt'
 		},
 		greatUnclePaternal: {
-			id: 'greatUncleMaternal',
+			id: 'greatUnclePaternal',
 			label: 'paternal great uncle'
 		}
 	},
