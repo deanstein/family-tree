@@ -101,7 +101,7 @@
 
 	onMount(() => {
 		captureAllOriginalInputValues();
-		setCachedPerson(personId);
+		setCachedPerson(getPersonById(personId));
 	});
 
 	onDestroy(() => {
