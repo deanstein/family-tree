@@ -142,14 +142,16 @@
 				nodeSize="15vh"
 			/>
 		</div>
-		<Button
-			buttonText="View Details"
-			onClickFunction={onViewDetailsButtonClick}
-			overrideColor={stylingConstants.colors.activeColor}
-			overrideColorHover={'white'}
-			overrideBackgroundColor={'transparent'}
-			overrideBackgroundColorHover={stylingConstants.colors.hoverColor}
-		/>
+		{#if !isNewPerson}
+			<Button
+				buttonText="View Details"
+				onClickFunction={onViewDetailsButtonClick}
+				overrideColor={stylingConstants.colors.activeColor}
+				overrideColorHover={'white'}
+				overrideBackgroundColor={'transparent'}
+				overrideBackgroundColorHover={stylingConstants.colors.hoverColor}
+			/>
+		{/if}
 		<div id="node-actions-button-bottom-container" class="node-actions-button-bottom-container">
 			{#if !isNewPerson}
 				<Button
