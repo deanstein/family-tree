@@ -47,7 +47,7 @@ export const checkPersonForUnsavedChanges = (personId) => {
 		return;
 	}
 
-	console.log(personToTest, personToCompare);
+	//console.log(personToTest, personToCompare);
 
 	if (!areObjectsEqual(personToTest, personToCompare)) {
 		unsavedChanges = true;
