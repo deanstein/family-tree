@@ -13,13 +13,14 @@
 	import stylingConstants from '../../styling-constants';
 
 	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
-	import { removePersonFromActivePersonGroup } from '../../../logic/ui-management.js';
+	import { checkPersonForUnsavedChanges, removePersonFromActivePersonGroup, setCachedActivePerson, showPersonDetailView } from '../../../logic/ui-management.js';
 	import PersonNodeForEdit from './PersonNodeForEdit.svelte';
 	import {
 		getPersonById,
 		setPersonName,
 		setPersonRelationship,
-		removePersonFromPeopleArray
+		removePersonFromPeopleArray,
+		setActivePerson
 	} from '../../../logic/person-management';
 
 	export let personId;
@@ -39,6 +40,7 @@
 	const saveAllInputs = () => {
 		setPersonName(personId, nameInputValue);
 		setPersonRelationship(personId, relationshipInputValueOriginal, relationshipInputValue);
+		checkPersonForUnsavedChanges(personId);
 	};
 
 	export const onDoneButtonClick = () => {
@@ -60,6 +62,13 @@
 		removePersonFromActivePersonGroup(personId, relationshipId);
 		hidePersonNodeActionsModal();
 	};
+
+	const onViewDetailsButtonClick = () => {
+		saveAllInputs();
+		hidePersonNodeActionsModal();
+		setActivePerson(getPersonById(personId));
+		showPersonDetailView();
+	}
 
 	const nodeActionsModalDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personNodeSettingsFlyoutZIndex};
@@ -120,6 +129,14 @@
 				nodeSize="15vh"
 			/>
 		</div>
+		<Button
+			buttonText="View Details"
+			onClickFunction={onViewDetailsButtonClick}
+			overrideColor={stylingConstants.colors.activeColor}
+			overrideColorHover={'white'}
+			overrideBackgroundColor={'transparent'}
+			overrideBackgroundColorHover={stylingConstants.colors.hoverColor}
+		/>
 		<div id="node-actions-button-bottom-container" class="node-actions-button-bottom-container">
 			{#if !isNewPerson}
 				<Button
@@ -139,6 +156,7 @@
 			<Button
 				buttonText="Done"
 				isEnabled={nameInputValue.length > 0 && nameInputValue !== defaultName}
+				overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				onClickFunction={onDoneButtonClick}
 			/>
 		</div>

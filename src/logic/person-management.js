@@ -65,6 +65,16 @@ export const getPersonById = (id) => {
 	return person;
 };
 
+export const getCachedPersonById = (id) => {
+	let cachedPerson = undefined;
+
+	uiState.subscribe((currentValue) => {
+		cachedPerson = currentValue.cachedFamilyTreeData.allPeople.find((item) => item.id === id);
+	});
+
+	return cachedPerson;
+};
+
 export const setActivePerson = (person) => {
 	// instantiate the newest default person schema
 	// to compare later for upgrade purposes or used as a new person
@@ -504,7 +514,6 @@ export const getGroupIdFromRelationshipId = (relationshipId) => {
 };
 
 export const getRelationshipNameById = (relationshipId, compatibleGroups) => {
-	console.log("getting relationship id")
 	const groupId = getGroupIdFromRelationshipId(relationshipId);
 	if (relationshipId && compatibleGroups.hasOwnProperty(groupId)) {
 		return compatibleGroups[groupId][relationshipId]?.label;

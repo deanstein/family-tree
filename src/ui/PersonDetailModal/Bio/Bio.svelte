@@ -16,7 +16,10 @@
 	import Overlay from '../../NodeView/Overlay.svelte';
 	import Selector from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
-	import { writeUIStateValueAtPath } from '../../../logic/ui-management';
+	import {
+		checkPersonForUnsavedChanges,
+		writeUIStateValueAtPath
+	} from '../../../logic/ui-management';
 	import { writeTempAlternateNamesToUIState, unsetAltNames } from '../../../logic/temp-management';
 
 	let personId = $uiState.activePerson.id;
@@ -105,6 +108,7 @@
 			deathCauseInputValue,
 			deathCauseInputValueOriginal
 		);
+		checkPersonForUnsavedChanges(personId);
 	};
 
 	const discardAllInputs = () => {

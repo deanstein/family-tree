@@ -1,7 +1,6 @@
 <script>
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import {
-		checkForUnsavedChanges,
 		getNotificationConfigFromRepoState,
 		setCachedActivePerson,
 		setRepoState
@@ -24,18 +23,15 @@
 	};
 
 	$: {
-		// success messages get a 5-second delay before dismissing
+		// success messages get a delay before dismissing
 		if (
 			$uiState.saveToRepoStatus === repoStateStrings.loadSuccessful ||
 			$uiState.saveToRepoStatus === repoStateStrings.saveSuccessful
 		) {
 			setTimeout(() => {
 				setRepoState(repoStateStrings.undefined);
-			}, 1500);
+			}, 2000);
 		}
-
-		// always check for unsaved changes
-		checkForUnsavedChanges();
 	}
 
 	uiState.subscribe(() => {

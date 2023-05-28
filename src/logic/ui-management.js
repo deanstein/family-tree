@@ -4,17 +4,28 @@ import stylingConstants from '../ui/styling-constants';
 import { repoStateStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
-import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
+import {
+	getPersonById,
+	getGroupIdFromRelationshipId,
+	setActivePerson,
+	getCachedPersonById
+} from './person-management';
 import { areObjectsEqual, instantiateObject, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
 
 // might be expensive, so try not to call too often
-export const checkForUnsavedChanges = () => {
+export const checkPersonForUnsavedChanges = (personId) => {
+	let unsavedChanges = false;
+
+	// get the person to test from the ui state
+	let personToTest = getPersonById(personId);
+	// get the person to compare from the cached list of all people
+	let personToCompare = getCachedPersonById(personId);
+
+	if (!areObjectsEqual(personToTest, personToCompare)) {
+		unsavedChanges = true;
+	}
 	uiState.update((currentValue) => {
-		let unsavedChanges = !areObjectsEqual(
-			currentValue.activePerson,
-			currentValue.cachedActivePerson
-		);
 		if (unsavedChanges) {
 			currentValue.unsavedChanges = true;
 			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
@@ -47,6 +58,23 @@ export const setCachedActivePerson = () => {
 	});
 };
 
+export const setCachedFamilyTree = (newFamilyTreeData = undefined) => {
+	// optionally pass in family tree data to set as the cache
+	// otherwise get it from the familyTreeData state
+	let cachedFamilyTreeData = newFamilyTreeData ? newFamilyTreeData : undefined;
+	if (!cachedFamilyTreeData) {
+		familyTreeData.subscribe((currentValue) => {
+			cachedFamilyTreeData = JSON.stringify(currentValue);
+		});
+	}
+
+	uiState.update((currentValue) => {
+		currentValue.cachedFamilyTreeData = JSON.parse(cachedFamilyTreeData);
+		console.log(currentValue.cachedFamilyTreeData);
+		return currentValue;
+	});
+};
+
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (
 	familyTreeId,
@@ -73,6 +101,9 @@ export const getRepoFamilyTreeAndSetActive = async (
 
 	// force an update by setting the active person
 	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
+
+	// set the entire family tree as cached
+	setCachedFamilyTree();
 };
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {

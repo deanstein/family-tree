@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 
 const uiState = {
 	unsavedChanges: false,
+	cachedFamilyTreeData: {},
 	saveToRepoStatus: undefined,
 	activeFamilyTreeDataId: {},
 	activePerson: {},
