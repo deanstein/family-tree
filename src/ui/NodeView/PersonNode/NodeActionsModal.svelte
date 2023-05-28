@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
@@ -12,8 +12,16 @@
 
 	import stylingConstants from '../../styling-constants';
 
-	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
-	import { checkPersonForUnsavedChanges, removePersonFromActivePersonGroup, setCachedActivePerson, showPersonDetailView } from '../../../logic/ui-management.js';
+	import {
+		checkPersonForUnsavedChanges,
+		hidePersonNodeActionsModal,
+		setCachedPerson,
+		unsetCachedPerson
+	} from '../../../logic/temp-management';
+	import {
+		removePersonFromActivePersonGroup,
+		showPersonDetailView
+	} from '../../../logic/ui-management.js';
 	import PersonNodeForEdit from './PersonNodeForEdit.svelte';
 	import {
 		getPersonById,
@@ -68,7 +76,7 @@
 		hidePersonNodeActionsModal();
 		setActivePerson(getPersonById(personId));
 		showPersonDetailView();
-	}
+	};
 
 	const nodeActionsModalDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personNodeSettingsFlyoutZIndex};
@@ -93,6 +101,11 @@
 
 	onMount(() => {
 		captureAllOriginalInputValues();
+		setCachedPerson(personId);
+	});
+
+	onDestroy(() => {
+		unsetCachedPerson();
 	});
 
 	$: {

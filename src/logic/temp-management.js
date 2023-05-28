@@ -1,9 +1,65 @@
 import familyTreeData from '../stores/family-tree-data';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
-
+import { repoStateStrings } from '../ui/strings';
 import { getPersonById } from './person-management';
-import { replaceObjectByKeyValue, deleteObjectByKeyValue, getObjectByKeyValue } from './utils';
+import {
+	areObjectsEqual,
+	replaceObjectByKeyValue,
+	deleteObjectByKeyValue,
+	getObjectByKeyValue
+} from './utils';
+
+// manage the unsaved changes state
+export const setCachedPerson = (person) => {
+	uiState.update((currentValue) => {
+		currentValue.cachedPersonForUnsavedChanges = JSON.parse(JSON.stringify(person));
+		return currentValue;
+	});
+};
+
+export const unsetCachedPerson = () => {
+	uiState.update((currentValue) => {
+		currentValue.cachedPersonForUnsavedChanges = undefined;
+		return currentValue;
+	});
+};
+
+// compares this person in the ui state to the cached person set by an editing modal
+export const checkPersonForUnsavedChanges = (personId) => {
+	let unsavedChanges = false;
+
+	// get the person to test from the ui state
+	let personToTest = getPersonById(personId);
+	// get the person to compare from the cached list of all people
+	let personToCompare;
+	uiState.subscribe((currentValue) => {
+		personToCompare = currentValue.cachedPersonForUnsavedChanges;
+	});
+
+	if (!personToTest || !personToCompare) {
+		console.warn(
+			'Failed to check for unsaved changes because something was undefined. \nPerson to test:  ' +
+				JSON.stringify(personToTest) +
+				'\nPerson to compare: ' +
+				personToCompare
+		);
+		return;
+	}
+
+	console.log(personToTest, personToCompare);
+
+	if (!areObjectsEqual(personToTest, personToCompare)) {
+		unsavedChanges = true;
+	}
+	uiState.update((currentValue) => {
+		if (unsavedChanges) {
+			currentValue.unsavedChanges = true;
+			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
+		}
+		return currentValue;
+	});
+};
 
 // manage on/off screen people IDs
 export const initializeOffScreenPeopleIdsArray = () => {

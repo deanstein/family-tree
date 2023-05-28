@@ -11,8 +11,7 @@ import { updateOffScreenPeopleIdsArray } from './temp-management';
 
 import {
 	addOrUpdatePersonInActivePersonGroup,
-	removePersonFromActivePersonGroup,
-	setCachedActivePerson
+	removePersonFromActivePersonGroup
 } from './ui-management';
 
 import { deepMatchObjects, getObjectByKeyValue } from './utils';
@@ -102,7 +101,6 @@ export const setActivePerson = (person) => {
 			lastKnownActivePersonId: person.id
 		};
 	});
-	setCachedActivePerson();
 	updateOffScreenPeopleIdsArray();
 };
 
