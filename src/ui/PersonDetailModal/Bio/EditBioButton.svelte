@@ -2,20 +2,13 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../styling-constants';
-	import {
-		initializeAltNamesTempState,
-		setBioEditId,
-		unsetAltNames,
-		unsetBioEditId
-	} from '../../../logic/temp-management';
 
 	import Button from '../../Button.svelte';
 
-	export let personId;
 	export let isBioEditActive;
-	export let captureAllOriginalInputValues;
-	export let saveAllInputs;
-	export let discardAllInputs;
+	export let onBioEditButtonClick;
+	export let onDoneButtonClick;
+	export let onCancelButtonClick;
 
 	let settingsButtonText;
 	let nodeSettingsButtonDynamicClass;
@@ -34,36 +27,20 @@
 			}
 		`;
 	}
-
-	const startBioEditingMode = () => {
-		captureAllOriginalInputValues();
-		initializeAltNamesTempState();
-		setBioEditId(personId);
-	};
-
-	const endBioEditingModeAndSave = () => {
-		saveAllInputs();
-		unsetBioEditId();
-	};
-
-	const endBioEditingModeAndDiscard = () => {
-		discardAllInputs();
-		unsetBioEditId();
-	};
 </script>
 
 <div id="edit-bio-button-container" class="edit-bio-button-container">
 	{#if !isBioEditActive}
-		<Button buttonText={'Edit Bio'} onClickFunction={startBioEditingMode} />
+		<Button buttonText={'Edit Bio'} onClickFunction={onBioEditButtonClick} />
 	{:else}
 		<Button
 			buttonText={'Cancel'}
-			onClickFunction={endBioEditingModeAndDiscard}
+			onClickFunction={onCancelButtonClick}
 			overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 		/>
 		<Button
 			buttonText={'Done'}
-			onClickFunction={endBioEditingModeAndSave}
+			onClickFunction={onDoneButtonClick}
 			overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 		/>
 	{/if}

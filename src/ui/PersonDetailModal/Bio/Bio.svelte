@@ -17,7 +17,18 @@
 	import Selector from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
 	import { writeUIStateValueAtPath } from '../../../logic/ui-management';
-	import { writeTempAlternateNamesToUIState, unsetAltNames } from '../../../logic/temp-management';
+	import {
+		checkPersonForUnsavedChanges,
+		writeTempAlternateNamesToUIState,
+		unsetAltNames,
+		unsetCachedPerson,
+		setCachedPerson,
+		unsetBioEditId,
+		initializeAltNamesTempState,
+		setBioEditId
+	} from '../../../logic/temp-management';
+	import { onMount } from 'svelte';
+	import { getPersonById } from '../../../logic/person-management';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;
@@ -45,6 +56,23 @@
 	let deathPlaceInputValueOriginal = undefined;
 	let deathCauseInputValue = $uiState.activePerson.death.cause;
 	let deathCauseInputValueOriginal = undefined;
+
+	const onBioEditButtonClick = () => {
+		captureAllOriginalInputValues();
+		initializeAltNamesTempState();
+		setBioEditId(personId);
+	};
+
+	const onDoneButtonClick = () => {
+		setCachedPerson(getPersonById(personId));
+		saveAllInputs();
+		unsetBioEditId();
+	};
+
+	const onCancelButtonClick = () => {
+		discardAllInputs();
+		unsetBioEditId();
+	};
 
 	const captureAllOriginalInputValues = () => {
 		nameInputValueOriginal = nameInputValue;
@@ -105,9 +133,11 @@
 			deathCauseInputValue,
 			deathCauseInputValueOriginal
 		);
+		checkPersonForUnsavedChanges(personId);
 	};
 
 	const discardAllInputs = () => {
+		unsetCachedPerson();
 		nameInputValue = nameInputValueOriginal;
 		unsetAltNames();
 		genderInputValue = genderInputValueOriginal;
@@ -135,6 +165,10 @@
 		}
 	}
 
+	onMount(() => {
+		setCachedPerson(getPersonById(personId));
+	});
+
 	const bioContentContainerDynamicClass = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
 	`;
@@ -146,11 +180,10 @@
 <div id="bio-content-container" class="{bioContentContainerDynamicClass} bio-content-container">
 	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
 		<EditBioButton
-			{personId}
 			{isBioEditActive}
-			{captureAllOriginalInputValues}
-			{saveAllInputs}
-			{discardAllInputs}
+			{onBioEditButtonClick}
+			{onDoneButtonClick}
+			{onCancelButtonClick}
 		/>
 	</div>
 	<div id="bio-avatar-container" class="bio-avatar-container">

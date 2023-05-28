@@ -2,10 +2,10 @@ import { writable } from 'svelte/store';
 
 const uiState = {
 	unsavedChanges: false,
+	cachedPersonForUnsavedChanges: undefined,
 	saveToRepoStatus: undefined,
 	activeFamilyTreeDataId: {},
 	activePerson: {},
-	cachedActivePerson: {},
 	personIdForNodeEdit: undefined,
 	personIdForNodeSettingsFlyout: undefined,
 	showChooseTreeModal: true,

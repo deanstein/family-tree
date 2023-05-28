@@ -1,41 +1,29 @@
 <script>
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
-	import {
-		checkForUnsavedChanges,
-		getNotificationConfigFromRepoState,
-		setCachedActivePerson,
-		setRepoState
-	} from '../../logic/ui-management';
+	import { getNotificationConfigFromRepoState, setRepoState } from '../../logic/ui-management';
 	import uiState from '../../stores/ui-state';
 	import { repoStateStrings } from '../strings';
-	import { areObjectsEqual } from '../../logic/utils';
 
 	import NotificationBanner from './NotificationBanner.svelte';
 	import Button from '../Button.svelte';
 
-	let unsavedChanges;
 	let message;
 	let color;
 
 	let onSaveButtonClick = () => {
-		// set the cache to the current active user to clear the save flag
-		setCachedActivePerson();
 		writeCurrentFamilyTreeDataToRepo('8890');
 	};
 
 	$: {
-		// success messages get a 5-second delay before dismissing
+		// success messages get a delay before dismissing
 		if (
 			$uiState.saveToRepoStatus === repoStateStrings.loadSuccessful ||
 			$uiState.saveToRepoStatus === repoStateStrings.saveSuccessful
 		) {
 			setTimeout(() => {
 				setRepoState(repoStateStrings.undefined);
-			}, 1500);
+			}, 2000);
 		}
-
-		// always check for unsaved changes
-		checkForUnsavedChanges();
 	}
 
 	uiState.subscribe(() => {

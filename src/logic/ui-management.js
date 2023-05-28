@@ -5,23 +5,8 @@ import { repoStateStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
 import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
-import { areObjectsEqual, instantiateObject, setNestedObjectProperty } from './utils';
+import { instantiateObject, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
-
-// might be expensive, so try not to call too often
-export const checkForUnsavedChanges = () => {
-	uiState.update((currentValue) => {
-		let unsavedChanges = !areObjectsEqual(
-			currentValue.activePerson,
-			currentValue.cachedActivePerson
-		);
-		if (unsavedChanges) {
-			currentValue.unsavedChanges = true;
-			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
-		}
-		return currentValue;
-	});
-};
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different
@@ -35,14 +20,6 @@ export const writeUIStateValueAtPath = (path, value, originalValue = undefined) 
 		if (path) {
 			setNestedObjectProperty(currentValue, path, value);
 		}
-		return currentValue;
-	});
-};
-
-export const setCachedActivePerson = () => {
-	uiState.update((currentValue) => {
-		let cachedPerson = JSON.stringify(currentValue.activePerson);
-		currentValue.cachedActivePerson = JSON.parse(cachedPerson);
 		return currentValue;
 	});
 };
