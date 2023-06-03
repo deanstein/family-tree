@@ -1,5 +1,6 @@
 const timelineEventText = {
     eventId: '',
+    eventType: '',
     eventDate: '',
     eventContent: ''
 }

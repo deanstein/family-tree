@@ -106,6 +106,7 @@ export const setNestedObjectProperty = (obj, path, value) => {
 	return obj;
 };
 
+// gets an object from an array of objects
 export const getObjectByKeyValue = (arr, key, value) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i][key] === value) {
@@ -115,7 +116,7 @@ export const getObjectByKeyValue = (arr, key, value) => {
 	return undefined;
 };
 
-// operates on an array of objects
+// replaces an object in an array of objects
 export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i][key] === value) {
@@ -126,7 +127,7 @@ export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 	return false; // indicate that object was not found
 };
 
-// operates on an array of objects
+// deletes an object in an array of objects
 export const deleteObjectByKeyValue = (arr, key, value) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i][key] === value) {
