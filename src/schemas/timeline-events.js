@@ -1,4 +1,4 @@
-export const timelineEvents = {
+const timelineEvents = {
 	text: {
 		id: 'text',
 		label: 'Text',
@@ -15,3 +15,5 @@ export const timelineEvents = {
 		placeholder: 'What timeline event relates to this person?'
 	}
 };
+
+export default timelineEvents;
