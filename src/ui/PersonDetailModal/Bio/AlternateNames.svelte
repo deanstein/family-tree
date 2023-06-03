@@ -1,6 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import alternateName from '../../../schemas/alternate-name';
+
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
@@ -10,7 +12,6 @@
 
 	import { setEditAltName } from '../../../logic/temp-management';
 	import { instantiateObject } from '../../../logic/utils';
-	import { alternateName } from '../../../schemas/alternate-name';
 
 	export let isEnabled = true;
 

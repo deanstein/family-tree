@@ -2,7 +2,8 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import { alternateName, alternateNameTypes } from '../../../schemas/alternate-name';
+	import alternateName from '../../../schemas/alternate-name';
+	import alternateNameTypes from '../../../schemas/alternate-name-types';
 	import tempState from '../../../stores/temp-state';
 
 	import stylingConstants from '../../styling-constants';

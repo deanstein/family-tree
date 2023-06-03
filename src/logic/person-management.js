@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { alternateName } from '../schemas/alternate-name';
 import { person } from '../schemas/person';
 import relationshipMap from '../schemas/relationship-map';
 
