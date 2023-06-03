@@ -1,30 +1,47 @@
 <script>
-	import TimelineEvent from './TimelineEvent.svelte';
+	import Button from '../../Button.svelte';
+import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpacer from './TimelineSpacer.svelte';
 
 	let events = ['born', 'deceasedOrPresent'];
 </script>
 
-<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
-	<!-- always present: birth -->
-	<TimelineEvent />
-
-	<!-- temporary: one spacer to fill the height -->
-	<div id="middle-spacer" class="middle-spacer">
-		<TimelineSpacer />
+<div id="timeline-container" class="timeline-container">
+	<div id="timeline-actions-bar" class="timeline-actions-bar">
+		<Button buttonText="Add Event"/>
 	</div>
-
-	<!-- always present: current moment or date of death -->
-	<TimelineEvent />
-
-	<!-- TODO: for each event, add an event somewhere on the timeline -->
-	<!-- {#each events as event}
-        <TimelineSpacer />
-        <TimelineEvent />
-    {/each} -->
+	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
+		<!-- always present: birth -->
+		<TimelineEvent />
+	
+		<!-- temporary: one spacer to fill the height -->
+		<div id="middle-spacer" class="middle-spacer">
+			<TimelineSpacer />
+		</div>
+	
+		<!-- always present: current moment or date of death -->
+		<TimelineEvent />
+	
+		<!-- TODO: for each event, add an event somewhere on the timeline -->
+		<!-- {#each events as event}
+			<TimelineSpacer />
+			<TimelineEvent />
+		{/each} -->
+	</div>
 </div>
 
 <style>
+	.timeline-container {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.timeline-actions-bar {
+		display: flex;
+		justify-content: right;
+	}
+
 	.timeline-scrolling-canvas {
 		display: flex;
 		flex-direction: column;
