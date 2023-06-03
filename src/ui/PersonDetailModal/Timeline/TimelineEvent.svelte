@@ -3,6 +3,9 @@
 
 	import stylingConstants from '../../styling-constants';
 
+	export let eventDate;
+	export let eventDateCorrected = new Date(eventDate);
+
 	const eventRowDynamicClass = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
@@ -17,7 +20,9 @@
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
-	<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">1990</div>
+	<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
+		{eventDateCorrected.getUTCFullYear()}
+	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="event-detail-line" class="event-detail-line" />
 	<div id="event-detail-content" class="event-detail-content">Event details</div>

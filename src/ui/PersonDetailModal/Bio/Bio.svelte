@@ -11,7 +11,7 @@
 	import Checkbox from '../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
-	import FieldContainer from './FieldContainer.svelte';
+	import FieldContainer from '../../FieldContainer.svelte';
 	import Name from './Name.svelte';
 	import Overlay from '../../NodeView/Overlay.svelte';
 	import Selector from '../../Select.svelte';
@@ -72,6 +72,7 @@
 	const onDoneButtonClick = () => {
 		setCachedPerson(getPersonById(personId));
 		saveAllInputs();
+		checkPersonForUnsavedChanges(personId);
 		unsetBioEditId();
 	};
 
@@ -139,7 +140,6 @@
 			deathCauseInputValue,
 			deathCauseInputValueOriginal
 		);
-		checkPersonForUnsavedChanges(personId);
 	};
 
 	const discardAllInputs = () => {

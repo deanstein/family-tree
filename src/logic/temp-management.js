@@ -47,7 +47,7 @@ export const checkPersonForUnsavedChanges = (personId) => {
 		return;
 	}
 
-	//console.log(personToTest, personToCompare);
+	console.log(personToTest, personToCompare);
 
 	if (!areObjectsEqual(personToTest, personToCompare)) {
 		unsavedChanges = true;
@@ -255,6 +255,7 @@ export const unsetNodeEditCompatibleGroups = () => {
 		return currentValue;
 	});
 };
+
 // bio editing mode
 export const setBioEditId = (personId) => {
 	tempState.update((currentValue) => {
@@ -335,6 +336,14 @@ export const writeTempAlternateNamesToUIState = () => {
 
 	uiState.update((currentValue) => {
 		currentValue.activePerson.alternateNames = tempStateToWrite;
+		return currentValue;
+	});
+};
+
+// timeline event edit
+export const setTimelineEditId = (timelineEventId) => {
+	tempState.update((currentValue) => {
+		currentValue.timelineEditEventId = timelineEventId;
 		return currentValue;
 	});
 };

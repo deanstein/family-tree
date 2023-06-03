@@ -1,6 +1,8 @@
 <script>
+	import uiState from '../../../stores/ui-state';
+
 	import Button from '../../Button.svelte';
-import TimelineEvent from './TimelineEvent.svelte';
+	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpacer from './TimelineSpacer.svelte';
 
 	let events = ['born', 'deceasedOrPresent'];
@@ -8,20 +10,20 @@ import TimelineEvent from './TimelineEvent.svelte';
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
-		<Button buttonText="Add Event"/>
+		<Button buttonText="Add Event" />
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
-		<TimelineEvent />
-	
+		<TimelineEvent eventDate={$uiState.activePerson.birth.date ?? '????'} />
+
 		<!-- temporary: one spacer to fill the height -->
 		<div id="middle-spacer" class="middle-spacer">
 			<TimelineSpacer />
 		</div>
-	
+
 		<!-- always present: current moment or date of death -->
-		<TimelineEvent />
-	
+		<TimelineEvent eventDate={$uiState.activePerson.death.date ?? new Date()} />
+
 		<!-- TODO: for each event, add an event somewhere on the timeline -->
 		<!-- {#each events as event}
 			<TimelineSpacer />

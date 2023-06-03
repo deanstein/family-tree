@@ -1,8 +1,12 @@
-export const appVersion = '0.9.1';
+export const appVersion = '0.10.1';
 export const appChangelog = {
-	'v0.10.x': {
-		Overview: 'v0.10.x adds password protection and overhauled temp state management',
+	'v0.11.x': {
+		Overview: 'v0.11.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
+	},
+	'v0.10.x': {
+		Overview: 'v0.10.x finishes the first pass of the timeline view',
+		Changes: ['Added dynamic UI to timeline']
 	},
 	'v0.9.x': {
 		Overview: 'v0.9.x improves parts of the NodeView and overhauls some legacy NodeView code',
