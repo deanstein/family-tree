@@ -21,7 +21,9 @@
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
 	<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
-		{eventDateCorrected.getUTCFullYear()}
+		{eventDateCorrected.toString() !== 'Invalid Date'
+			? eventDateCorrected.getUTCFullYear()
+			: '????'}
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="event-detail-line" class="event-detail-line" />

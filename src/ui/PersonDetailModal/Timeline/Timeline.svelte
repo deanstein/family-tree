@@ -14,7 +14,7 @@
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
-		<TimelineEvent eventDate={$uiState.activePerson.birth.date ?? '????'} />
+		<TimelineEvent eventDate={$uiState.activePerson.birth.date} />
 
 		<!-- temporary: one spacer to fill the height -->
 		<div id="middle-spacer" class="middle-spacer">
@@ -22,7 +22,11 @@
 		</div>
 
 		<!-- always present: current moment or date of death -->
-		<TimelineEvent eventDate={$uiState.activePerson.death.date ?? new Date()} />
+		<TimelineEvent
+			eventDate={$uiState.activePerson.death.date !== ''
+				? $uiState.activePerson.death.date
+				: new Date()}
+		/>
 
 		<!-- TODO: for each event, add an event somewhere on the timeline -->
 		<!-- {#each events as event}
