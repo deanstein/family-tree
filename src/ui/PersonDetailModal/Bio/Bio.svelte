@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 	import { personDetailStrings } from '../../strings';
-	import { gender } from '../../../schemas/person';
+	import { gender } from '../../../schemas/gender';
 	import stylingConstants from '../../styling-constants';
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
@@ -56,6 +56,12 @@
 	let deathPlaceInputValueOriginal = undefined;
 	let deathCauseInputValue = $uiState.activePerson.death.cause;
 	let deathCauseInputValueOriginal = undefined;
+
+	// set up the gender options for the select element
+	const genderOptions = {
+		label: 'Gender:',
+		gender
+	};
 
 	const onBioEditButtonClick = () => {
 		captureAllOriginalInputValues();
@@ -150,11 +156,6 @@
 		deathPlaceInputValue = deathPlaceInputValueOriginal;
 		deathTimeInputValue = deathTimeInputValueOriginal;
 		deathCauseInputValue = deathCauseInputValueOriginal;
-	};
-
-	const genderOptions = {
-		label: 'Gender:',
-		gender
 	};
 
 	$: {
