@@ -3,7 +3,7 @@
 
 	import Button from '../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
-	import TimelineSpacer from './TimelineSpacer.svelte';
+	import TimelineSpine from './TimelineSpine.svelte';
 
 	let events = ['born', 'deceasedOrPresent'];
 </script>
@@ -18,8 +18,11 @@
 
 		<!-- middle section for all other events -->
 		<div id="timeline-center" class="timeline-center">
-			<TimelineEvent eventDate="01-02-1970" />
-			<TimelineSpacer />
+			<TimelineSpine />
+			<div id="timeline-events-container" class="timeline-events-container">
+				<TimelineEvent eventDate="01-02-1970" />
+				<TimelineEvent eventDate="01-02-1999" />
+			</div>
 		</div>
 
 		<!-- always present: current moment or date of death -->
@@ -59,6 +62,13 @@
 		position: relative;
 		display: flex;
 		flex-grow: 1;
+		width: 100%;
+	}
+
+	.timeline-events-container {
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 	}
 </style>

@@ -5,44 +5,33 @@
 
 	const lineDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
+		background-color: ${stylingConstants.colors.textColor};
 	`;
 
 	const lineColumnDynamicClass = css`
 		margin-left: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 +
-		stylingConstants.sizes.nTimelineEventGapSize +
+		stylingConstants.sizes.nTimelineEventGapSize * 2 +
 		stylingConstants.sizes.nTimelineEventYearWidth -
 		stylingConstants.sizes.nTimelineSpacerLineThickness / 2 +
 		'vw'};
 	`;
 </script>
 
-<div id="timeline-spacer-row" class="timeline-spacer-row">
-	<div
-		id="timeline-spacer-line-column"
-		class="{lineColumnDynamicClass} timeline-spacer-line-column"
-	>
-		<div id="timeline-spacer-line" class="{lineDynamicClass} timeline-spacer-line" />
+<div id="timeline-spine-row" class="timeline-spine-row">
+	<div id="timeline-spine-line-column" class="{lineColumnDynamicClass} timeline-spine-line-column">
+		<div id="timeline-spine-line" class="{lineDynamicClass} timeline-spine-line" />
 	</div>
-	<div id="timeline-spacer-add-event-column" class="timeline-spacer-add-event-column" />
 </div>
 
 <style>
-	.timeline-spacer-row {
+	.timeline-spine-row {
 		position: absolute;
 		display: flex;
 		height: 100%;
 		width: 100%;
 	}
 
-	.timeline-spacer-line-column {
+	.timeline-spine-line-column {
 		display: flex;
-	}
-
-	.timeline-spacer-add-event-column {
-		flex-basis: 75%;
-	}
-
-	.timeline-spacer-line {
-		background-color: black;
 	}
 </style>
