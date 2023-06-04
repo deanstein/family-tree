@@ -73,6 +73,31 @@ export const getCachedPersonById = (id) => {
 	return cachedPerson;
 };
 
+export const getPersonBirthYear = (person) => {
+	let birthYear;
+
+	const birthdate = person.birth.date;
+	birthYear = new Date(birthdate).getFullYear();
+
+	return birthYear;
+};
+
+export const getPersonAge = (person) => {
+	let age;
+
+	const birthYear = new Date(person.birth.date).getFullYear();
+	const deathOrCurrentYear =
+		person.death.date !== '' && person.death.date !== undefined
+			? new Date(person.death.date).getFullYear()
+			: new Date().getFullYear();
+
+	if (birthYear && deathOrCurrentYear) {
+		age = deathOrCurrentYear - birthYear;
+	}
+
+	return age;
+};
+
 export const setActivePerson = (person) => {
 	// instantiate the newest default person schema
 	// to compare later for upgrade purposes or used as a new person

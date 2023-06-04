@@ -30,6 +30,7 @@
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
+	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
 
 	const bHideEmptyGroups = false;
 
@@ -69,6 +70,9 @@
 		<PersonDetailModal />
 		{#if $tempState.bioEditAltName !== undefined}
 			<EditAlternateNameModal />
+		{/if}
+		{#if $tempState.timelineEditEventId !== undefined}
+			<EditTimelineEventModal />
 		{/if}
 		<div id="tree-canvas" class="tree-canvas">
 			<div id="upper-generation-block" class="generation-block">

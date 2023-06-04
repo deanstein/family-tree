@@ -1,25 +1,47 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import uiState from '../../../stores/ui-state';
+
 	import stylingConstants from '../../styling-constants';
+	import { getTimelineProportionByDate } from '../../../logic/ui-management';
 
 	export let eventDate;
 	let eventDateCorrected;
+	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
+	let isValidEvent;
 
-	const eventRowDynamicClass = css`
-		gap: ${stylingConstants.sizes.timelineEventGapSize};
-	`;
+	let eventRowDynamicClass;
 
 	const eventYearDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
+		color: ${stylingConstants.colors.textColor};
 	`;
 
 	const eventNodeDynamicClass = css`
 		height: ${stylingConstants.sizes.timelineEventNodeSize};
+		background-color: ${stylingConstants.colors.textColor};
+	`;
+
+	const eventDetailLineDynamicClass = css`
+		background-color: ${stylingConstants.colors.textColor};
 	`;
 
 	$: {
 		eventDateCorrected = new Date(eventDate);
+		eventTimelineProportion = getTimelineProportionByDate($uiState.activePerson, eventDate);
+
+		isValidEvent =
+			eventTimelineProportion !== 0 &&
+			eventTimelineProportion !== 1 &&
+			eventTimelineProportion !== undefined;
+
+		eventRowDynamicClass = css`
+			position: ${isValidEvent ? 'absolute' : 'relative'};
+			gap: ${stylingConstants.sizes.timelineEventGapSize};
+			margin-left: ${stylingConstants.sizes.timelineEventGapSize};
+			top: ${isValidEvent ? eventTimelineProportion * 100 + '%' : 'auto'};
+		`;
 	}
 </script>
 
@@ -30,7 +52,7 @@
 			: 'Year Unknown'}
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
-	<div id="event-detail-line" class="event-detail-line" />
+	<div id="event-detail-line" class="{eventDetailLineDynamicClass} event-detail-line" />
 	<div id="event-detail-content" class="event-detail-content">Event details</div>
 </div>
 
@@ -42,7 +64,6 @@
 	}
 
 	.timeline-event-year {
-		margin-left: 1vw;
 		text-align: center;
 		display: flex;
 		justify-content: center;
@@ -52,14 +73,12 @@
 	.timeline-event-node {
 		border-radius: 1vw;
 		aspect-ratio: 1;
-		background-color: black;
 	}
 
 	.event-detail-line {
 		display: flex;
 		height: 0.5vh;
 		width: 3vw;
-		background-color: black;
 	}
 
 	.event-detail-content {

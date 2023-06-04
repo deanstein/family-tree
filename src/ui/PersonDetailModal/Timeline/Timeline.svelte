@@ -1,16 +1,18 @@
 <script>
 	import uiState from '../../../stores/ui-state';
 
+	import { showTimelineEventEditModal } from '../../../logic/temp-management';
+
 	import Button from '../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
-	import TimelineSpacer from './TimelineSpacer.svelte';
+	import TimelineSpine from './TimelineSpine.svelte';
 
 	let events = ['born', 'deceasedOrPresent'];
 </script>
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
-		<Button buttonText="Add Event" />
+		<Button buttonText="Add Event" onClickFunction={showTimelineEventEditModal} />
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
@@ -18,8 +20,16 @@
 
 		<!-- middle section for all other events -->
 		<div id="timeline-center" class="timeline-center">
-			<TimelineEvent eventDate="01-02-1970" />
-			<TimelineSpacer />
+			<TimelineSpine />
+			<div id="timeline-events-container" class="timeline-events-container">
+				<!-- TODO: for each event, add an event somewhere on the timeline -->
+				<!-- {#each events as event}
+					<TimelineSpacer />
+					<TimelineEvent />
+				{/each} -->
+				<TimelineEvent eventDate="01-02-1992" />
+				<TimelineEvent eventDate="01-02-1999" />
+			</div>
 		</div>
 
 		<!-- always present: current moment or date of death -->
@@ -28,12 +38,6 @@
 				? $uiState.activePerson.death.date
 				: new Date()}
 		/>
-
-		<!-- TODO: for each event, add an event somewhere on the timeline -->
-		<!-- {#each events as event}
-			<TimelineSpacer />
-			<TimelineEvent />
-		{/each} -->
 	</div>
 </div>
 
@@ -59,6 +63,14 @@
 		position: relative;
 		display: flex;
 		flex-grow: 1;
+		width: 100%;
+	}
+
+	.timeline-events-container {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 	}
 </style>

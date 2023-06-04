@@ -116,13 +116,13 @@ const sizes = {
 	get timelineEventGapSize() {
 		return this.nTimelineEventGapSize + 'vw';
 	},
-	nTimelineEventNodeSize: 2,
+	nTimelineEventNodeSize: 1.5,
 	get timelineEventNodeSize() {
 		return this.nTimelineEventNodeSize + 'vw';
 	},
 	nTimelineEventYearWidth: 3,
 	get timelineEventYearWidth() {
-		return this.nTimelineEventNodeSize + 'vw';
+		return this.nTimelineEventYearWidth + 'vw';
 	}
 };
 
