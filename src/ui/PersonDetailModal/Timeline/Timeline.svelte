@@ -27,7 +27,7 @@
 					<TimelineSpacer />
 					<TimelineEvent />
 				{/each} -->
-				<TimelineEvent eventDate="01-02-1980" />
+				<TimelineEvent eventDate="01-02-1992" />
 				<TimelineEvent eventDate="01-02-1999" />
 			</div>
 		</div>
