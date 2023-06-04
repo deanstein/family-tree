@@ -1,6 +1,8 @@
 <script>
 	import uiState from '../../../stores/ui-state';
 
+	import { showTimelineEventEditModal } from '../../../logic/temp-management';
+
 	import Button from '../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
@@ -10,7 +12,7 @@
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
-		<Button buttonText="Add Event" />
+		<Button buttonText="Add Event" onClickFunction={showTimelineEventEditModal} />
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
@@ -20,6 +22,11 @@
 		<div id="timeline-center" class="timeline-center">
 			<TimelineSpine />
 			<div id="timeline-events-container" class="timeline-events-container">
+				<!-- TODO: for each event, add an event somewhere on the timeline -->
+				<!-- {#each events as event}
+					<TimelineSpacer />
+					<TimelineEvent />
+				{/each} -->
 				<TimelineEvent eventDate="01-02-1980" />
 				<TimelineEvent eventDate="01-02-1999" />
 			</div>
@@ -31,12 +38,6 @@
 				? $uiState.activePerson.death.date
 				: new Date()}
 		/>
-
-		<!-- TODO: for each event, add an event somewhere on the timeline -->
-		<!-- {#each events as event}
-			<TimelineSpacer />
-			<TimelineEvent />
-		{/each} -->
 	</div>
 </div>
 

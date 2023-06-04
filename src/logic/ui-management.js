@@ -216,8 +216,6 @@ export const getTimelineProportionByDate = (person, date) => {
 		proportion = (year - birthYear) / age;
 	}
 
-	console.log(proportion);
-
 	return proportion;
 };
 
