@@ -71,7 +71,7 @@
 		{#if $tempState.bioEditAltName !== undefined}
 			<EditAlternateNameModal />
 		{/if}
-		{#if $tempState.timelineEditEventId !== undefined}
+		{#if $tempState.timelineEditEvent !== undefined}
 			<EditTimelineEventModal />
 		{/if}
 		<div id="tree-canvas" class="tree-canvas">

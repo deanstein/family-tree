@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-import timelineEvent from '../schemas/timeline-event';
 import familyTreeData from '../stores/family-tree-data';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
@@ -344,26 +342,16 @@ export const writeTempAlternateNamesToUIState = () => {
 };
 
 // timeline event edit
-export const setTimelineEditId = (timelineEventId) => {
+export const setTimelineEditEvent = (timelineEvent) => {
 	tempState.update((currentValue) => {
-		currentValue.timelineEditEventId = timelineEventId;
+		currentValue.timelineEditEvent = timelineEvent;
 		return currentValue;
 	});
 };
 
-export const unsetTimelineEventEditId = () => {
+export const unsetTimelineEditEvent = () => {
 	tempState.update((currentValue) => {
-		currentValue.timelineEditEventId = undefined;
+		currentValue.timelineEditEvent = undefined;
 		return currentValue;
 	});
-};
-
-export const showTimelineEventEditModal = () => {
-	let event = instantiateObject(timelineEvent);
-	event.id = uuidv4();
-	setTimelineEditId(event.id);
-};
-
-export const hideTimelineEventEditModal = () => {
-	unsetTimelineEventEditId();
 };

@@ -7,6 +7,7 @@
 	import { getTimelineProportionByDate } from '../../../logic/ui-management';
 
 	export let eventDate;
+	export let eventContent;
 	let eventDateCorrected;
 	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
 	let isValidEvent;
@@ -53,7 +54,9 @@
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="event-detail-line" class="{eventDetailLineDynamicClass} event-detail-line" />
-	<div id="event-detail-content" class="event-detail-content">Event details</div>
+	<div id="event-detail-content" class="event-detail-content">
+		{eventContent ? eventContent : 'Event details'}
+	</div>
 </div>
 
 <style>

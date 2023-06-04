@@ -13,7 +13,7 @@ import {
 	removePersonFromActivePersonGroup
 } from './ui-management';
 
-import { deepMatchObjects, getObjectByKeyValue } from './utils';
+import { deepMatchObjects, getObjectByKeyValue, replaceObjectByKeyValue } from './utils';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -551,3 +551,14 @@ export function getDefaultRelationshipType(relationshipGroup) {
 	}
 	return null;
 }
+
+export const addOrReplaceTimelineEvent = (event) => {
+	uiState.update((currentValue) => {
+		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
+			replaceObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
+		} else {
+			currentValue.activePerson.timelineEvents.push(event);
+		}
+		return currentValue;
+	});
+};

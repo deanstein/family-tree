@@ -2,7 +2,10 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import alternateNameTypes from '../../../schemas/alternate-name-types';
+	import uiState from '../../../stores/ui-state';
+	import tempState from '../../../stores/temp-state';
+
+	import timelineEvents from '../../../schemas/timeline-event-types';
 
 	import stylingConstants from '../../styling-constants';
 
@@ -12,32 +15,41 @@
 	import Overlay from '../../NodeView/Overlay.svelte';
 	import Select from '../../Select.svelte';
 	import TextArea from '../../TextArea.svelte';
-
+	import {
+		checkPersonForUnsavedChanges,
+		setTimelineEditEvent,
+		unsetTimelineEditEvent
+	} from '../../../logic/temp-management';
+	import { addOrReplaceTimelineEvent } from '../../../logic/person-management';
 	import { instantiateObject } from '../../../logic/utils';
-	import { hideTimelineEventEditModal } from '../../../logic/temp-management';
+	import timelineEvent from '../../../schemas/timeline-event';
 
-	let nameInputValue = undefined;
-	let nameInputValueOriginal = undefined;
-	let typeInputValue = undefined;
-	let typeInputValueOriginal = undefined;
-	let contextInputValue = undefined;
-	let contextInputValueOriginal = undefined;
+	let eventDateInputValue = undefined;
+	let eventTypeInputValue = undefined;
+	let eventContentInputValue = undefined;
 
 	const focusNameInput = (element) => {
 		element.focus();
 	};
 
 	const onDoneButtonAction = () => {
-		hideTimelineEventEditModal();
+		const newEventFromInputs = instantiateObject(timelineEvent);
+		newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
+		newEventFromInputs.eventDate = eventDateInputValue;
+		newEventFromInputs.eventType = eventTypeInputValue;
+		newEventFromInputs.eventContent = eventContentInputValue;
+		addOrReplaceTimelineEvent(newEventFromInputs);
+		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		unsetTimelineEditEvent();
 	};
 
 	const onCancelButtonAction = () => {
-		hideTimelineEventEditModal();
+		setTimelineEditEvent();
 	};
 
-	const alternateNameTypeOptions = {
-		label: 'Name Type:',
-		alternateNameTypes
+	const timelineEventOptions = {
+		label: 'Event types:',
+		timelineEvents
 	};
 
 	let addAlternateNameModalDynamicClass = css`
@@ -45,9 +57,9 @@
 	`;
 
 	onMount(() => {
-		nameInputValueOriginal = nameInputValue;
-		typeInputValueOriginal = typeInputValue;
-		contextInputValueOriginal = contextInputValue;
+		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
+		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
+		eventContentInputValue = $tempState.timelineEditEvent.eventContent;
 	});
 </script>
 
@@ -60,17 +72,18 @@
 			{'Event details'}
 		</div>
 		<FieldContainer label="Event Date">
-			<DatePicker bind:inputValue={nameInputValue} />
+			<DatePicker bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
 		<FieldContainer label="Event Type">
 			<Select
-				bind:inputValue={typeInputValue}
-				optionsGroupObject={alternateNameTypeOptions}
+				isEnabled={false}
+				bind:inputValue={eventTypeInputValue}
+				optionsGroupObject={timelineEventOptions}
 				optionValueKey="id"
 			/>
 		</FieldContainer>
 		<FieldContainer label="Event Content">
-			<TextArea bind:inputValue={contextInputValue} />
+			<TextArea bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
 		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
 			<Button
@@ -78,7 +91,11 @@
 				onClickFunction={onCancelButtonAction}
 				overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 			/>
-			<Button buttonText="Done" isEnabled={nameInputValue} onClickFunction={onDoneButtonAction} />
+			<Button
+				buttonText="Done"
+				isEnabled={eventDateInputValue}
+				onClickFunction={onDoneButtonAction}
+			/>
 		</div>
 	</div>
 	<Overlay zIndexOverride={-1} />

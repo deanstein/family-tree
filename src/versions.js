@@ -76,8 +76,12 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.9.14';
+export const schemaVersion = '0.10.0';
 export const schemaChangelog = {
+	'v0.10.x': {
+		Overview: 'v0.10.x adds timeline support for each person.',
+		Changes: ['Added basic timeline event field in person schema']
+	},
 	'v0.9.x': {
 		Overview:
 			'v0.9.x wraps up the first pass of person bio fields and the initial supported relationship list with the addition of aunts, uncles, nieces, nephews (and great aunts, nieces, etc.) plus second cousins and spouse siblings-in-law.',

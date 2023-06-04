@@ -27,5 +27,6 @@ export const person = {
 			relationships[element] = [];
 		});
 		return relationships;
-	})()
+	})(),
+	timelineEvents: []
 };
