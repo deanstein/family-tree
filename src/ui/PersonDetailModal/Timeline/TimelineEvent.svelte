@@ -4,7 +4,7 @@
 	import stylingConstants from '../../styling-constants';
 
 	export let eventDate;
-	export let eventDateCorrected = new Date(eventDate);
+	let eventDateCorrected;
 
 	const eventRowDynamicClass = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
@@ -17,13 +17,17 @@
 	const eventNodeDynamicClass = css`
 		height: ${stylingConstants.sizes.timelineEventNodeSize};
 	`;
+
+	$: {
+		eventDateCorrected = new Date(eventDate);
+	}
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
 	<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
 		{eventDateCorrected.toString() !== 'Invalid Date'
 			? eventDateCorrected.getUTCFullYear()
-			: '????'}
+			: 'Year Unknown'}
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="event-detail-line" class="event-detail-line" />
