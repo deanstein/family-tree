@@ -16,8 +16,9 @@
 		<!-- always present: birth -->
 		<TimelineEvent eventDate={$uiState.activePerson.birth.date} />
 
-		<!-- temporary: one spacer to fill the height -->
-		<div id="middle-spacer" class="middle-spacer">
+		<!-- middle section for all other events -->
+		<div id="timeline-center" class="timeline-center">
+			<TimelineEvent eventDate="01-02-1970" />
 			<TimelineSpacer />
 		</div>
 
@@ -54,7 +55,8 @@
 		flex-grow: 1;
 	}
 
-	.middle-spacer {
+	.timeline-center {
+		position: relative;
 		display: flex;
 		flex-grow: 1;
 		width: 100%;
