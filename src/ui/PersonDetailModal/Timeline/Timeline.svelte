@@ -20,7 +20,7 @@
 		<div id="timeline-center" class="timeline-center">
 			<TimelineSpine />
 			<div id="timeline-events-container" class="timeline-events-container">
-				<TimelineEvent eventDate="01-02-1970" />
+				<TimelineEvent eventDate="01-02-1980" />
 				<TimelineEvent eventDate="01-02-1999" />
 			</div>
 		</div>
@@ -66,6 +66,7 @@
 	}
 
 	.timeline-events-container {
+		position: relative;
 		z-index: 1;
 		display: flex;
 		flex-direction: column;

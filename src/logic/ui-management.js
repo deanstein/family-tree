@@ -4,7 +4,13 @@ import stylingConstants from '../ui/styling-constants';
 import { repoStateStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
-import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
+import {
+	getPersonById,
+	getGroupIdFromRelationshipId,
+	setActivePerson,
+	getPersonAge,
+	getPersonBirthYear
+} from './person-management';
 import { instantiateObject, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
 
@@ -197,6 +203,22 @@ export const hidePersonDetailView = () => {
 		currentValue.showPersonDetailView = false;
 		return currentValue;
 	});
+};
+
+export const getTimelineProportionByDate = (person, date) => {
+	let proportion;
+
+	const birthYear = getPersonBirthYear(person);
+	const age = getPersonAge(person);
+	const year = new Date(date).getFullYear();
+
+	if (birthYear && age) {
+		proportion = (year - birthYear) / age;
+	}
+
+	console.log(proportion);
+
+	return proportion;
 };
 
 export const scrollToTopAndCenter = () => {

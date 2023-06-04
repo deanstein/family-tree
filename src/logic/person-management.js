@@ -73,17 +73,27 @@ export const getCachedPersonById = (id) => {
 	return cachedPerson;
 };
 
-export const getPersonAgeById = (personId) => {
+export const getPersonBirthYear = (person) => {
+	let birthYear;
+
+	const birthdate = person.birth.date;
+	birthYear = new Date(birthdate).getFullYear();
+
+	return birthYear;
+};
+
+export const getPersonAge = (person) => {
 	let age;
 
-	uiState.subscribe((currentValue) => {
-		const birthYear = currentValue.activePerson.birth.date.getFullYear();
-		const deathYear = currentValue.activePerson.death.date.getFullYear();
+	const birthYear = new Date(person.birth.date).getFullYear();
+	const deathOrCurrentYear =
+		person.death.date !== '' && person.death.date !== undefined
+			? new Date(person.death.date).getFullYear()
+			: new Date().getFullYear();
 
-		if (birthYear && deathYear) {
-			age = deathYear - birthYear;
-		}
-	});
+	if (birthYear && deathOrCurrentYear) {
+		age = deathOrCurrentYear - birthYear;
+	}
 
 	return age;
 };

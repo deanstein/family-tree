@@ -1,16 +1,17 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import uiState from '../../../stores/ui-state';
+
 	import stylingConstants from '../../styling-constants';
+	import { getTimelineProportionByDate } from '../../../logic/ui-management';
 
 	export let eventDate;
 	let eventDateCorrected;
-	let eventDatePercentage; // parameter 0-1 of the position on the timeline
+	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
+	let isValidEvent;
 
-	const eventRowDynamicClass = css`
-		gap: ${stylingConstants.sizes.timelineEventGapSize};
-		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
-	`;
+	let eventRowDynamicClass;
 
 	const eventYearDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
@@ -28,6 +29,19 @@
 
 	$: {
 		eventDateCorrected = new Date(eventDate);
+		eventTimelineProportion = getTimelineProportionByDate($uiState.activePerson, eventDate);
+
+		isValidEvent =
+			eventTimelineProportion !== 0 &&
+			eventTimelineProportion !== 1 &&
+			eventTimelineProportion !== undefined;
+
+		eventRowDynamicClass = css`
+			position: ${isValidEvent ? 'absolute' : 'relative'};
+			gap: ${stylingConstants.sizes.timelineEventGapSize};
+			margin-left: ${stylingConstants.sizes.timelineEventGapSize};
+			top: ${isValidEvent ? eventTimelineProportion * 100 + '%' : 'auto'};
+		`;
 	}
 </script>
 
