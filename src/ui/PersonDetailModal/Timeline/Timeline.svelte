@@ -24,7 +24,7 @@
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
-		<TimelineEvent eventDate={$uiState.activePerson.birth.date} eventContent="Birth" />
+		<TimelineEvent eventDate={$uiState.activePerson.birth.date} eventContent="Born" />
 
 		<!-- middle section for all other events -->
 		<div id="timeline-center" class="timeline-center">
@@ -69,6 +69,8 @@
 		display: flex;
 		flex-grow: 1;
 		width: 100%;
+		margin-top: -2px; /* force the center to slightly overlap the top node */
+		margin-bottom: -2px; /* force the center to slightly overlap the bottom node */
 	}
 
 	.timeline-events-container {

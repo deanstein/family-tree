@@ -81,7 +81,7 @@
 	.event-detail-line {
 		display: flex;
 		height: 0.5vh;
-		width: 3vw;
+		width: 2vw;
 	}
 
 	.event-detail-content {

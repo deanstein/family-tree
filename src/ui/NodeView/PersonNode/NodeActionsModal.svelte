@@ -198,7 +198,6 @@
 		align-items: center;
 		gap: 1vh;
 		padding: 1vw;
-		width: 10vw;
 		background-color: lightGray;
 	}
 
