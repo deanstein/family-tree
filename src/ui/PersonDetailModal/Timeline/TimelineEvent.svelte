@@ -86,6 +86,5 @@
 
 	.event-detail-content {
 		display: flex;
-		flex-basis: 25%;
 	}
 </style>
