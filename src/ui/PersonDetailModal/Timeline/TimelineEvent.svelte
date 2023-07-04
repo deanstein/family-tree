@@ -44,6 +44,10 @@
 			top: ${isValidEvent ? eventTimelineProportion * 100 + '%' : 'auto'};
 		`;
 	}
+
+	const eventContentDynamicClass = css`
+			background-color: ${stylingConstants.colors.activeColorSubtle};
+		`;
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
@@ -54,7 +58,7 @@
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="event-detail-line" class="{eventDetailLineDynamicClass} event-detail-line" />
-	<div id="event-detail-content" class="event-detail-content">
+	<div id="event-detail-content" class="{eventContentDynamicClass} event-detail-content">
 		{eventContent ? eventContent : 'Event details'}
 	</div>
 </div>
@@ -86,5 +90,6 @@
 
 	.event-detail-content {
 		display: flex;
+		padding: 3px;
 	}
 </style>

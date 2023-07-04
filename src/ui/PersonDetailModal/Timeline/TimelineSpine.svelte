@@ -12,7 +12,7 @@
 		margin-left: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 +
 		stylingConstants.sizes.nTimelineEventGapSize * 2 +
 		stylingConstants.sizes.nTimelineEventYearWidth -
-		stylingConstants.sizes.nTimelineSpacerLineThickness / 2 +
+		stylingConstants.sizes.nTimelineSpineLineThickness / 2 +
 		'vw'};
 	`;
 </script>

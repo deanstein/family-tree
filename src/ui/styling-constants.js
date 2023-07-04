@@ -12,13 +12,13 @@ const colors = {
 	buttonColorDelete: '#FF5757',
 	hoverColor: '#50CBFC',
 	activeColor: '#3399ff',
+	activeColorSubtle: '#dfe7ee',
 	overlayColor: 'gray',
 	overlayOpacity: '75%',
 	nodeGroupColor: 'white',
 	nodeGroupHeaderColor: '#adadad',
 	personNodeColor: '#bfd0db',
 	activePersonNodeColor: '#87a9c0',
-	alternateNameDefaultColor: '#99bce0',
 	hyperlinkColor: '#2373a3',
 	menuBackgroundColor: '#ececec',
 	notificationColorError: 'palevioletred',
@@ -108,15 +108,15 @@ const sizes = {
 	get bioFieldFontSize() {
 		return this.nBioFieldFontSize + 'vh';
 	},
-	nTimelineSpacerLineThickness: 0.5,
+	nTimelineSpineLineThickness: 0.3,
 	get timelineSpineThickness() {
-		return this.nTimelineSpacerLineThickness + 'vw';
+		return this.nTimelineSpineLineThickness + 'vw';
 	},
 	nTimelineEventGapSize: 1,
 	get timelineEventGapSize() {
 		return this.nTimelineEventGapSize + 'vw';
 	},
-	nTimelineEventNodeSize: 1.5,
+	nTimelineEventNodeSize: 0.9,
 	get timelineEventNodeSize() {
 		return this.nTimelineEventNodeSize + 'vw';
 	},

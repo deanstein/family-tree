@@ -17,7 +17,7 @@
 			font-size: ${stylingConstants.sizes.bioFieldFontSize};
 			background-color: ${isEnabled
 				? stylingConstants.colors.activeColor
-				: stylingConstants.colors.alternateNameDefaultColor};
+				: stylingConstants.colors.activeColorSubtle};
 			:hover {
 				background-color: ${stylingConstants.colors.hoverColor};
 			}
@@ -44,7 +44,6 @@
 
 	.alternate-name {
 		padding: 5px;
-		color: white;
 	}
 
 	.alternate-name-type-tag {

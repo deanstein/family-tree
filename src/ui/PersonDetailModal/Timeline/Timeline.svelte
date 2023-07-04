@@ -69,8 +69,8 @@
 		display: flex;
 		flex-grow: 1;
 		width: 100%;
-		margin-top: -2px; /* force the center to slightly overlap the top node */
-		margin-bottom: -2px; /* force the center to slightly overlap the bottom node */
+		margin-top: -10px; /* force the center to slightly overlap the top node */
+		margin-bottom: -10px; /* force the center to slightly overlap the bottom node */
 	}
 
 	.timeline-events-container {
