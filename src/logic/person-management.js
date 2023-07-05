@@ -13,7 +13,12 @@ import {
 	removePersonFromActivePersonGroup
 } from './ui-management';
 
-import { deepMatchObjects, deleteObjectByKeyValue, getObjectByKeyValue, replaceObjectByKeyValue } from './utils';
+import {
+	deepMatchObjects,
+	deleteObjectByKeyValue,
+	getObjectByKeyValue,
+	replaceObjectByKeyValue
+} from './utils';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -577,12 +582,8 @@ export const deleteTimelineEvent = (event) => {
 	}
 	uiState.update((currentValue) => {
 		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
-			deleteObjectByKeyValue(
-				currentValue.activePerson.timelineEvents,
-				'eventId',
-				event.eventId
-			);
+			deleteObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
 		}
 		return currentValue;
 	});
-}
+};

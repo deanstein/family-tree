@@ -6,7 +6,10 @@ export const appChangelog = {
 	},
 	'v0.10.x': {
 		Overview: 'v0.10.x finishes the first pass of the timeline view',
-		Changes: ['Added dynamically-placed UI to timeline', 'Added ability to add, edit, and remove timeline events' ]
+		Changes: [
+			'Added dynamically-placed UI to timeline',
+			'Added ability to add, edit, and remove timeline events'
+		]
 	},
 	'v0.9.x': {
 		Overview: 'v0.9.x improves parts of the NodeView and overhauls some legacy NodeView code',

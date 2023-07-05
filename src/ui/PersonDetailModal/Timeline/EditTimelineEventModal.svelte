@@ -22,7 +22,11 @@
 		unsetTimelineEditEventId
 	} from '../../../logic/temp-management';
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
-	import { deleteObjectByKeyValue, getObjectByKeyValue, instantiateObject } from '../../../logic/utils';
+	import {
+		deleteObjectByKeyValue,
+		getObjectByKeyValue,
+		instantiateObject
+	} from '../../../logic/utils';
 	import timelineEvent from '../../../schemas/timeline-event';
 
 	let isEnabled = false;
@@ -56,7 +60,7 @@
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
 		unsetTimelineEditEvent();
 		unsetTimelineEditEventId();
-	}
+	};
 
 	const onCancelButtonAction = () => {
 		unsetTimelineEditEventId();
@@ -74,7 +78,11 @@
 
 	$: {
 		isEnabled = $tempState.timelineEditEventId !== undefined;
-		isKnownEvent = getObjectByKeyValue($uiState.activePerson.timelineEvents, 'eventId', $tempState.timelineEditEventId);
+		isKnownEvent = getObjectByKeyValue(
+			$uiState.activePerson.timelineEvents,
+			'eventId',
+			$tempState.timelineEditEventId
+		);
 	}
 
 	onMount(() => {
@@ -116,13 +124,13 @@
 				<Button buttonText={'Close'} onClickFunction={onCancelButtonAction} />
 			{:else}
 				{#if isKnownEvent}
-				<Button
-					buttonText="Delete"
-					onClickFunction={onDeleteButtonAction}
-					overrideColor={stylingConstants.colors.buttonColorDelete}
-					overrideBackgroundColor="transparent"
-					overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
-				/>
+					<Button
+						buttonText="Delete"
+						onClickFunction={onDeleteButtonAction}
+						overrideColor={stylingConstants.colors.buttonColorDelete}
+						overrideBackgroundColor="transparent"
+						overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
+					/>
 				{/if}
 				<Button
 					buttonText={'Cancel'}
