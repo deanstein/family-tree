@@ -30,6 +30,7 @@
 	}
 
 	textarea {
+		min-height: 10vh;
 		width: 100%;
 		outline: none;
 	}

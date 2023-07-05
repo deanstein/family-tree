@@ -21,8 +21,8 @@
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
 	} from '../../../logic/temp-management';
-	import { addOrReplaceTimelineEvent } from '../../../logic/person-management';
-	import { instantiateObject } from '../../../logic/utils';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
+	import { deleteObjectByKeyValue, instantiateObject } from '../../../logic/utils';
 	import timelineEvent from '../../../schemas/timeline-event';
 
 	let isEnabled = false;
@@ -49,6 +49,13 @@
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
+
+	const onDeleteButtonAction = () => {
+		deleteTimelineEvent($tempState.timelineEditEvent);
+		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		unsetTimelineEditEvent();
+		unsetTimelineEditEventId();
+	}
 
 	const onCancelButtonAction = () => {
 		unsetTimelineEditEventId();
@@ -107,6 +114,13 @@
 				<Button buttonText={'Close'} onClickFunction={onCancelButtonAction} />
 			{:else}
 				<Button
+					buttonText="Delete"
+					onClickFunction={onDeleteButtonAction}
+					overrideColor={stylingConstants.colors.buttonColorDelete}
+					overrideBackgroundColor="transparent"
+					overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
+				/>
+				<Button
 					buttonText={'Cancel'}
 					onClickFunction={onCancelButtonAction}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
@@ -118,7 +132,6 @@
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
 			{/if}
-			{#if $tempState.timelineEditEventId !== undefined}{/if}
 		</div>
 	</div>
 	<Overlay zIndexOverride={-1} />
