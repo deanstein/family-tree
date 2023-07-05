@@ -22,10 +22,11 @@
 		unsetTimelineEditEventId
 	} from '../../../logic/temp-management';
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
-	import { deleteObjectByKeyValue, instantiateObject } from '../../../logic/utils';
+	import { deleteObjectByKeyValue, getObjectByKeyValue, instantiateObject } from '../../../logic/utils';
 	import timelineEvent from '../../../schemas/timeline-event';
 
 	let isEnabled = false;
+	let isKnownEvent = false;
 	let eventDateInputValue = undefined;
 	let eventTypeInputValue = undefined;
 	let eventContentInputValue = undefined;
@@ -73,6 +74,7 @@
 
 	$: {
 		isEnabled = $tempState.timelineEditEventId !== undefined;
+		isKnownEvent = getObjectByKeyValue($uiState.activePerson.timelineEvents, 'eventId', $tempState.timelineEditEventId);
 	}
 
 	onMount(() => {
@@ -113,6 +115,7 @@
 				/>
 				<Button buttonText={'Close'} onClickFunction={onCancelButtonAction} />
 			{:else}
+				{#if isKnownEvent}
 				<Button
 					buttonText="Delete"
 					onClickFunction={onDeleteButtonAction}
@@ -120,6 +123,7 @@
 					overrideBackgroundColor="transparent"
 					overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
 				/>
+				{/if}
 				<Button
 					buttonText={'Cancel'}
 					onClickFunction={onCancelButtonAction}
