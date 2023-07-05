@@ -14,12 +14,15 @@
 
 	$: {
 		alternateNameDynamicClass = css`
+			color: ${isEnabled ? 'white' : 'black'};
 			font-size: ${stylingConstants.sizes.bioFieldFontSize};
 			background-color: ${isEnabled
 				? stylingConstants.colors.activeColor
 				: stylingConstants.colors.activeColorSubtle};
 			:hover {
-				background-color: ${stylingConstants.colors.hoverColorSubtle};
+				background-color: ${isEnabled
+					? stylingConstants.colors.hoverColor
+					: stylingConstants.colors.hoverColorSubtle};
 			}
 		`;
 	}

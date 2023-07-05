@@ -553,11 +553,18 @@ export function getDefaultRelationshipType(relationshipGroup) {
 }
 
 export const addOrReplaceTimelineEvent = (event) => {
+	if (!event) {
+		return;
+	}
 	uiState.update((currentValue) => {
 		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
-			replaceObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
+			replaceObjectByKeyValue(
+				currentValue.activePerson.timelineEvents,
+				'eventId',
+				event.eventId,
+				event
+			);
 		} else {
-			currentValue.activePerson.timelineEvents.push(event);
 		}
 		return currentValue;
 	});

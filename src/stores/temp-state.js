@@ -12,7 +12,8 @@ const tempState = {
 	bioEditPersonId: undefined,
 	bioEditAltName: undefined,
 	bioEditAltNames: [],
-	timelineEditEvent: undefined
+	timelineEditEvent: undefined,
+	timelineEditEventId: undefined
 };
 
 export default writable(tempState);

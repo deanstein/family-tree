@@ -48,8 +48,6 @@ export const checkPersonForUnsavedChanges = (personId) => {
 		return;
 	}
 
-	console.log(personToTest, personToCompare);
-
 	if (!areObjectsEqual(personToTest, personToCompare)) {
 		unsavedChanges = true;
 	}
@@ -342,6 +340,20 @@ export const writeTempAlternateNamesToUIState = () => {
 };
 
 // timeline event edit
+export const setTimelineEditEventId = (timelineEditEventId) => {
+	tempState.update((currentValue) => {
+		currentValue.timelineEditEventId = timelineEditEventId;
+		return currentValue;
+	});
+};
+
+export const unsetTimelineEditEventId = () => {
+	tempState.update((currentValue) => {
+		currentValue.timelineEditEventId = undefined;
+		return currentValue;
+	});
+};
+
 export const setTimelineEditEvent = (timelineEvent) => {
 	tempState.update((currentValue) => {
 		currentValue.timelineEditEvent = timelineEvent;

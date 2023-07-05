@@ -43,7 +43,7 @@ export const areObjectsEqual = (obj1, obj2) => {
 	}
 	// Check if both objects are not null and have the same type
 	if (typeof obj1 !== typeof obj2 || obj1 === null || obj2 === null) {
-		//console.log('not equal because of null and type thing');
+		console.log('not equal because of null and type thing');
 		return false;
 	}
 
@@ -54,13 +54,13 @@ export const areObjectsEqual = (obj1, obj2) => {
 		const keys2 = Object.keys(obj2);
 		// Check if the number of keys are the same
 		if (keys1.length !== keys2.length) {
-			//console.log('not equal because of key length', keys1, keys2);
+			console.log('not equal because of key length', keys1, keys2);
 			return false;
 		}
 		// Check each property of the objects recursively
 		for (let key of keys1) {
 			if (!areObjectsEqual(obj1[key], obj2[key])) {
-				//console.log('one of the keys not equal', obj1[key], obj2[key]);
+				console.log('one of the keys not equal', obj1[key], obj2[key]);
 				return false;
 			}
 		}
@@ -124,6 +124,7 @@ export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 			return true; // indicate that object was replaced
 		}
 	}
+	console.log('Failed to find and replace object.');
 	return false; // indicate that object was not found
 };
 

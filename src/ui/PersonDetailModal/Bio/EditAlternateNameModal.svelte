@@ -71,6 +71,7 @@
 	$: {
 		isEnabled = $tempState.bioEditPersonId !== undefined;
 	}
+
 	onMount(() => {
 		initializeAltNamesTempState();
 		nameInputValueOriginal = nameInputValue;

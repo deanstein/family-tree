@@ -17,19 +17,25 @@
 	import TextArea from '../../TextArea.svelte';
 	import {
 		checkPersonForUnsavedChanges,
-		setTimelineEditEvent,
-		unsetTimelineEditEvent
+		setTimelineEditEventId,
+		unsetTimelineEditEvent,
+		unsetTimelineEditEventId
 	} from '../../../logic/temp-management';
 	import { addOrReplaceTimelineEvent } from '../../../logic/person-management';
 	import { instantiateObject } from '../../../logic/utils';
 	import timelineEvent from '../../../schemas/timeline-event';
 
+	let isEnabled = false;
 	let eventDateInputValue = undefined;
 	let eventTypeInputValue = undefined;
 	let eventContentInputValue = undefined;
 
 	const focusNameInput = (element) => {
 		element.focus();
+	};
+
+	const onEditButtonAction = () => {
+		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
 	};
 
 	const onDoneButtonAction = () => {
@@ -40,11 +46,13 @@
 		newEventFromInputs.eventContent = eventContentInputValue;
 		addOrReplaceTimelineEvent(newEventFromInputs);
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
 
 	const onCancelButtonAction = () => {
-		setTimelineEditEvent();
+		unsetTimelineEditEventId();
+		unsetTimelineEditEvent();
 	};
 
 	const timelineEventOptions = {
@@ -56,6 +64,10 @@
 		z-index: ${stylingConstants.zIndices.addEditAltNameZIndex};
 	`;
 
+	$: {
+		isEnabled = $tempState.timelineEditEventId !== undefined;
+	}
+
 	onMount(() => {
 		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
 		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
@@ -64,45 +76,56 @@
 </script>
 
 <div
-	id="edit-alternate-name-modal-container"
-	class="{addAlternateNameModalDynamicClass} edit-alternate-name-modal-container"
+	id="edit-timeline-event-modal-container"
+	class="{addAlternateNameModalDynamicClass} edit-timeline-event-modal-container"
 >
-	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
-		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
+	<div id="edit-timeline-event-modal-content" class="edit-timeline-event-modal-content">
+		<div id="edit-timeline-event-modal-title" class="edit-timeline-event-modal-title">
 			{'Event details'}
 		</div>
 		<FieldContainer label="Event Date">
-			<DatePicker bind:inputValue={eventDateInputValue} />
+			<DatePicker {isEnabled} bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
 		<FieldContainer label="Event Type">
 			<Select
-				isEnabled={false}
+				{isEnabled}
 				bind:inputValue={eventTypeInputValue}
 				optionsGroupObject={timelineEventOptions}
 				optionValueKey="id"
 			/>
 		</FieldContainer>
 		<FieldContainer label="Event Content">
-			<TextArea bind:inputValue={eventContentInputValue} />
+			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
-		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
-			<Button
-				buttonText={'Cancel'}
-				onClickFunction={onCancelButtonAction}
-				overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
-			/>
-			<Button
-				buttonText="Done"
-				isEnabled={eventDateInputValue}
-				onClickFunction={onDoneButtonAction}
-			/>
+		<div id="edit-timeline-event-button-container" class="edit-timeline-event-button-container">
+			{#if $tempState.timelineEditEventId === undefined}
+				<Button
+					buttonText={'Edit'}
+					onClickFunction={onEditButtonAction}
+					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+				/>
+				<Button buttonText={'Close'} onClickFunction={onCancelButtonAction} />
+			{:else}
+				<Button
+					buttonText={'Cancel'}
+					onClickFunction={onCancelButtonAction}
+					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+				/>
+				<Button
+					buttonText="Done"
+					isEnabled={eventDateInputValue}
+					onClickFunction={onDoneButtonAction}
+					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
+				/>
+			{/if}
+			{#if $tempState.timelineEditEventId !== undefined}{/if}
 		</div>
 	</div>
 	<Overlay zIndexOverride={-1} />
 </div>
 
 <style>
-	.edit-alternate-name-modal-container {
+	.edit-timeline-event-modal-container {
 		position: absolute;
 		display: flex;
 		justify-content: center;
@@ -111,7 +134,7 @@
 		width: 100vw;
 	}
 
-	.edit-alternate-name-modal-content {
+	.edit-timeline-event-modal-content {
 		display: flex;
 		flex-direction: column;
 		gap: 1vh;
@@ -120,11 +143,11 @@
 		background-color: lightGray;
 	}
 
-	.edit-alternate-name-modal-title {
+	.edit-timeline-event-modal-title {
 		font-size: 2vh;
 	}
 
-	.edit-alternate-name-button-container {
+	.edit-timeline-event-button-container {
 		display: flex;
 		justify-content: right;
 		gap: 0.5vw;

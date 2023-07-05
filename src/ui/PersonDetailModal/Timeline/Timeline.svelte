@@ -4,18 +4,32 @@
 	import timelineEvent from '../../../schemas/timeline-event';
 	import uiState from '../../../stores/ui-state';
 
-	import { setTimelineEditEvent } from '../../../logic/temp-management';
+	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../logic/temp-management';
 	import { instantiateObject } from '../../../logic/utils';
 
 	import Button from '../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
 
+	// define the two required events - birth and death
+	const birthEvent = instantiateObject(timelineEvent);
+	const deathEvent = instantiateObject(timelineEvent);
+
 	const onAddEventButtonClick = () => {
 		const newTimelineEvent = instantiateObject(timelineEvent);
 		newTimelineEvent.eventId = uuidv4();
 		setTimelineEditEvent(newTimelineEvent);
+		setTimelineEditEventId(newTimelineEvent.eventId);
 	};
+
+	$: {
+		// ensure birth and death events are kept updated
+		birthEvent.eventDate = $uiState.activePerson.birth.date;
+		birthEvent.eventContent = 'Born';
+		deathEvent.eventDate =
+			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
+		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
+	}
 </script>
 
 <div id="timeline-container" class="timeline-container">
@@ -24,25 +38,20 @@
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- always present: birth -->
-		<TimelineEvent eventDate={$uiState.activePerson.birth.date} eventContent="Born" />
+		<TimelineEvent timelineEvent={birthEvent} />
 
 		<!-- middle section for all other events -->
 		<div id="timeline-center" class="timeline-center">
 			<TimelineSpine />
 			<div id="timeline-events-container" class="timeline-events-container">
 				{#each $uiState.activePerson.timelineEvents as event}
-					<TimelineEvent eventDate={event.eventDate} eventContent={event.eventContent} />
+					<TimelineEvent timelineEvent={event} />
 				{/each}
 			</div>
 		</div>
 
 		<!-- always present: current moment or date of death -->
-		<TimelineEvent
-			eventDate={$uiState.activePerson.death.date !== ''
-				? $uiState.activePerson.death.date
-				: new Date()}
-			eventContent={$uiState.activePerson.death.date !== '' ? 'Death' : 'Today'}
-		/>
+		<TimelineEvent timelineEvent={deathEvent} />
 	</div>
 </div>
 
