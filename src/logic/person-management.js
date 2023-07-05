@@ -565,6 +565,7 @@ export const addOrReplaceTimelineEvent = (event) => {
 				event
 			);
 		} else {
+			currentValue.activePerson.timelineEvents.push(event);
 		}
 		return currentValue;
 	});
@@ -581,7 +582,6 @@ export const deleteTimelineEvent = (event) => {
 				'eventId',
 				event.eventId
 			);
-		} else {
 		}
 		return currentValue;
 	});
