@@ -19,7 +19,7 @@
 				? stylingConstants.colors.activeColor
 				: stylingConstants.colors.activeColorSubtle};
 			:hover {
-				background-color: ${stylingConstants.colors.hoverColor};
+				background-color: ${stylingConstants.colors.hoverColorSubtle};
 			}
 		`;
 	}
