@@ -205,17 +205,20 @@ export const hidePersonDetailView = () => {
 	});
 };
 
-export const getTimelineProportionByDate = (person, date) => {
-	let proportion;
+export const getTimelineProportionByDate = (person, eventDate) => {
 
-	const birthYear = getPersonBirthYear(person);
-	const age = getPersonAge(person);
-	const year = new Date(date).getFullYear();
+	const startDate = new Date(person.birth.date);
+	// end date is the death date if deceased or today
+	const endDate = person.death.date !== '' ? new Date(person.death.date) : new Date();
+  
+	// lifespan and event duration in milliseconds
+	const lifespanMs = Math.abs(endDate.getTime() - startDate.getTime()) - 1;
+	const eventDurationMs = Math.abs(new Date(eventDate).getTime() - startDate.getTime());
 
-	if (birthYear && age) {
-		proportion = (year - birthYear) / age;
-	}
-
+	// proportion is event duration divided by lifespan, in milliseconds
+	const proportion = eventDurationMs / lifespanMs;
+	console.log(lifespanMs, proportion);
+  
 	return proportion;
 };
 
