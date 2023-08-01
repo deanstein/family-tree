@@ -4,6 +4,8 @@
 	import stylingConstants from '../../styling-constants';
 
 	const lineDynamicClass = css`
+		margin-top: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 + 'vw'};
+		margin-bottom: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 + 'vw'};
 		width: ${stylingConstants.sizes.timelineSpineThickness};
 		background-color: ${stylingConstants.colors.textColor};
 	`;

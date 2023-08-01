@@ -37,19 +37,18 @@
 		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
+
+		<!-- the vertical line for the timeline -->
+		<TimelineSpine />
+
 		<!-- always present: birth -->
 		<TimelineEvent timelineEvent={birthEvent} />
 
-		<!-- middle section for all other events -->
-		<div id="timeline-center" class="timeline-center">
-			<TimelineSpine />
-			<div id="timeline-events-container" class="timeline-events-container">
-				{#each $uiState.activePerson.timelineEvents as event}
-					<TimelineEvent timelineEvent={event} />
-				{/each}
-			</div>
-		</div>
-
+		<!-- show all timeline events -->
+		{#each $uiState.activePerson.timelineEvents as event}
+			<TimelineEvent timelineEvent={event} />
+		{/each}
+		
 		<!-- always present: current moment or date of death -->
 		<TimelineEvent timelineEvent={deathEvent} />
 	</div>
@@ -68,25 +67,10 @@
 	}
 
 	.timeline-scrolling-canvas {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-	}
-
-	.timeline-center {
-		position: relative;
-		display: flex;
-		flex-grow: 1;
-		width: 100%;
-		margin-top: -10px; /* force the center to slightly overlap the top node */
-		margin-bottom: -10px; /* force the center to slightly overlap the bottom node */
-	}
-
-	.timeline-events-container {
-		position: relative;
 		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		width: 100%;
 	}
 </style>
