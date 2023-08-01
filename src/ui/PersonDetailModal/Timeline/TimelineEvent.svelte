@@ -10,7 +10,6 @@
 	export let timelineEvent = undefined; // one object to carry all event properties
 	let eventDateCorrected;
 	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
-	let isValidEvent;
 
 	let eventRowDynamicClass;
 
@@ -40,16 +39,11 @@
 				timelineEvent.eventDate
 			);
 
-			isValidEvent =
-				eventTimelineProportion !== 0 &&
-				eventTimelineProportion !== 1 &&
-				eventTimelineProportion !== undefined;
-
 			eventRowDynamicClass = css`
-				position: ${isValidEvent ? 'absolute' : 'relative'};
 				gap: ${stylingConstants.sizes.timelineEventGapSize};
 				margin-left: ${stylingConstants.sizes.timelineEventGapSize};
-				top: ${isValidEvent ? eventTimelineProportion * 100 + '%' : 'auto'};
+				top: ${eventTimelineProportion < 0.9 ? eventTimelineProportion * 100 + '%' : 'auto'};
+				bottom: ${eventTimelineProportion < 0.9 ? 'auto' : 0};
 			`;
 		}
 	}
@@ -81,9 +75,9 @@
 
 <style>
 	.timeline-event-row {
+		position: absolute;
 		display: flex;
 		align-items: center;
-		width: 100%;
 	}
 
 	.timeline-event-year {
@@ -106,6 +100,7 @@
 
 	.event-detail-content {
 		display: flex;
+		flex: 1;
 		padding: 3px;
 	}
 </style>
