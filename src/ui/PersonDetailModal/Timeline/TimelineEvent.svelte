@@ -18,6 +18,7 @@
 	};
 
 	const eventYearDynamicClass = css`
+		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
 	`;
@@ -41,7 +42,6 @@
 
 			eventRowDynamicClass = css`
 				gap: ${stylingConstants.sizes.timelineEventGapSize};
-				margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 				top: ${eventTimelineProportion < 0.9 ? eventTimelineProportion * 100 + '%' : 'auto'};
 				bottom: ${eventTimelineProportion < 0.9 ? 'auto' : 0};
 			`;
@@ -76,6 +76,7 @@
 <style>
 	.timeline-event-row {
 		position: absolute;
+		max-width: 100%;
 		display: flex;
 		align-items: center;
 	}
@@ -99,8 +100,12 @@
 	}
 
 	.event-detail-content {
-		display: flex;
+		/* display: flex; */ /* TODO: make separate text layout and truncate that */
 		flex: 1;
+		flex-shrink: 1;
 		padding: 3px;
+		white-space: nowrap; 
+		overflow: hidden; 
+		text-overflow: ellipsis;
 	}
 </style>
