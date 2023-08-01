@@ -37,7 +37,6 @@
 		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
 	</div>
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
-
 		<!-- the vertical line for the timeline -->
 		<TimelineSpine />
 
@@ -48,7 +47,7 @@
 		{#each $uiState.activePerson.timelineEvents as event}
 			<TimelineEvent timelineEvent={event} />
 		{/each}
-		
+
 		<!-- always present: current moment or date of death -->
 		<TimelineEvent timelineEvent={deathEvent} />
 	</div>
