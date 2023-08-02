@@ -1,4 +1,4 @@
-export const appVersion = '0.10.1';
+export const appVersion = '0.10.2';
 export const appChangelog = {
 	'v0.11.x': {
 		Overview: 'v0.11.x adds password protection and overhauled temp state management',
@@ -8,7 +8,8 @@ export const appChangelog = {
 		Overview: 'v0.10.x finishes the first pass of the timeline view',
 		Changes: [
 			'Added dynamically-placed UI to timeline',
-			'Added ability to add, edit, and remove timeline events'
+			'Added ability to add, edit, and remove timeline events',
+			'Added dynamic year and build date to footer'
 		]
 	},
 	'v0.9.x': {

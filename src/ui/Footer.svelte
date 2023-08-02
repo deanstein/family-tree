@@ -19,7 +19,7 @@
 <div id="footer-outer-container" class="footer-outer-container">
 	<div id="copyright" class="footer-item">(C) JDG {copyrightYear}</div>
 	<div id="version" class="footer-item">
-		| App: v{appVersion}.{buildDate} | Data: v{schemaVersion} |
+		| App: v{appVersion} | Build: {buildDate} | Schema: v{schemaVersion} | 
 		<a on:click={toggleDevTools}>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a>
 	</div>
 </div>
