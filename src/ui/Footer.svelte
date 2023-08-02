@@ -1,8 +1,12 @@
 <script>
+	import { getBuildFormattedDate } from '../logic/utils';
 	import uiState from '../stores/ui-state';
 
 	export let appVersion;
 	export let schemaVersion;
+
+	let copyrightYear = new Date().getFullYear();
+	let buildDate = getBuildFormattedDate(new Date());
 
 	const toggleDevTools = () => {
 		uiState.update((currentValue) => {
@@ -13,9 +17,9 @@
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">
-	<div id="copyright" class="footer-item">(C) JDG 2023</div>
+	<div id="copyright" class="footer-item">(C) JDG {copyrightYear}</div>
 	<div id="version" class="footer-item">
-		| App: v{appVersion} | Data: v{schemaVersion} |
+		| App: v{appVersion}.{buildDate} | Data: v{schemaVersion} |
 		<a on:click={toggleDevTools}>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a>
 	</div>
 </div>

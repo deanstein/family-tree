@@ -140,3 +140,18 @@ export const deleteObjectByKeyValue = (arr, key, value) => {
 	}
 	return false; // indicate that object was not found
 };
+
+export const getBuildFormattedDate = (date) => {
+	const newDate = new Date(date);
+	const year = newDate.getFullYear().toString();
+	let month = (newDate.getMonth() + 1).toString();
+	if (month.length === 1) {
+		month = '0' + month;
+	}
+	let day = newDate.getDate().toString();
+	if (day.length === 1) {
+		day = '0' + day;
+	}
+
+	return year.concat(month).concat(day);
+};
