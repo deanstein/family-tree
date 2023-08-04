@@ -17,7 +17,7 @@ const colors = {
 	overlayColor: 'gray',
 	overlayOpacity: '75%',
 	nodeGroupColor: 'rgba(255, 255, 255, 0.65)',
-	nodeGroupHeaderColor: '#adadad',
+	nodeGroupHeaderColor: 'rgba(150, 150, 150, 0.5)',
 	personNodeColor: '#bfd0db',
 	activePersonNodeColor: '#87a9c0',
 	hyperlinkColor: '#2373a3',
