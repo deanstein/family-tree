@@ -6,7 +6,7 @@ export const appChangelog = {
 	},
 	'v0.11.x': {
 		Overview: 'v0.11.x adds a proper canvas for drawing node connection lines to the active person',
-		Changes: ['Added a canvas element', "Added lines from nodes to center"]
+		Changes: ['Added a canvas element', 'Added lines from nodes to center']
 	},
 	'v0.10.x': {
 		Overview: 'v0.10.x finishes the first pass of the timeline view',

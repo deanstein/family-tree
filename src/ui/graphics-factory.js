@@ -32,6 +32,4 @@ export const drawLineFromPosToScreenCenter = (context2d, position) => {
 	context2d.lineWidth = 5;
 	context2d.strokeStyle = 'black';
 	context2d.stroke();
-
-	console.log('drawing line!');
 };
