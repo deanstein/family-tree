@@ -155,3 +155,13 @@ export const getBuildFormattedDate = (date) => {
 
 	return year.concat(month).concat(day);
 };
+
+export const getDivCentroid = (element) => {
+	const rect = element.getBoundingClientRect();
+    const position = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
+
+	return position;
+}

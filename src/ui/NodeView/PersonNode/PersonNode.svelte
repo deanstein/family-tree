@@ -1,8 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
+	import { onDestroy } from 'svelte';
 	import Portal from 'svelte-portal';
-
-	import relationshipMap from '../../../schemas/relationship-map';
 
 	import { quintOut } from 'svelte/easing';
 	import { crossfade } from 'svelte/transition';
@@ -24,7 +23,8 @@
 	import NameLabel from './NameLabel.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
-	import { showPersonDetailView } from '../../../logic/ui-management';
+	import { addOrUpdateNodePosition as addOrUpdateNodePosition, removeNodePosition, showPersonDetailView } from '../../../logic/ui-management';
+	import { getDivCentroid } from '../../../logic/utils';
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -37,6 +37,8 @@
 	let personNodeDynamicClass;
 	let name;
 	let relationshipLabel;
+	let nodeDivRef;
+	let centroid;
 
 	$: {
 		name = getPersonById(sPersonId)?.name;
@@ -72,6 +74,17 @@
 			}
 		`;
 	}
+
+	$: {
+		if (nodeDivRef) {
+			centroid = getDivCentroid(nodeDivRef);
+			addOrUpdateNodePosition(sPersonId, centroid);
+		}
+	}
+
+	onDestroy(() => {
+		removeNodePosition(sPersonId);
+	});
 
 	const personNodeContentAreaDynamicClass = css`
 		padding-top: ${stylingConstants.sizes.padding};
@@ -120,6 +133,7 @@
 		on:keydown|stopPropagation
 		in:receive={{ key: sPersonId }}
 		out:send={{ key: sPersonId }}
+		bind:this={nodeDivRef}
 	>
 		<NodeActionsButton
 			personId={sPersonId}

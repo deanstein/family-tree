@@ -31,7 +31,10 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
+	import { drawLinesForAllNodes } from './ui/graphics-factory';
+	import { afterUpdate } from 'svelte';
 
+	let canvasRef;
 	const bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
@@ -49,6 +52,10 @@
 		}
 	}
 	`;
+
+uiState.subscribe((currentValue) => {
+	drawLinesForAllNodes(canvasRef, currentValue.nodePositions);
+	});
 </script>
 
 <main>
@@ -74,7 +81,8 @@
 		{#if $tempState.timelineEditEvent !== undefined}
 			<EditTimelineEventModal />
 		{/if}
-		<div id="tree-canvas" class="tree-canvas">
+		<div id="tree-content" class="tree-content">
+			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef}></canvas>
 			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
@@ -370,12 +378,18 @@
 		flex-direction: column;
 	}
 
-	.tree-canvas {
+	.tree-content {
 		display: grid;
 		height: 100vh;
 		align-items: center;
 		align-content: center;
 		gap: 2vh;
+	}
+
+	.tree-canvas {
+		position: absolute;
+		width: 100vw;
+		height: 100vh;
 	}
 
 	.generation-block {
