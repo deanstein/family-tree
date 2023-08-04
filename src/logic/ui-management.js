@@ -224,10 +224,10 @@ export const addOrUpdateNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
 		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
-	
+
 		if (existingIndex !== -1) {
-		  // If personId exists delete it
-		  currentValue.nodePositions.splice(existingIndex, 1)
+			// If personId exists delete it
+			currentValue.nodePositions.splice(existingIndex, 1);
 		}
 
 		// If personId does not exist, add a new entry
@@ -235,22 +235,22 @@ export const addOrUpdateNodePosition = (personId, nodePosition) => {
 		//console.log(currentValue.nodePositions)
 
 		return currentValue;
-	  });
-}
-  
+	});
+};
+
 export const removeNodePosition = (personId) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
 		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
-	
+
 		if (existingIndex !== -1) {
-		  // If personId exists delete it
-		  currentValue.nodePositions.splice(existingIndex, 1)
+			// If personId exists delete it
+			currentValue.nodePositions.splice(existingIndex, 1);
 		}
 
 		return currentValue;
-	})
-  };
+	});
+};
 
 export const scrollToTopAndCenter = () => {
 	// Scroll to the top of the page

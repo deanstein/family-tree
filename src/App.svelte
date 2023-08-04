@@ -52,8 +52,8 @@
 	}
 	`;
 
-uiState.subscribe((currentValue) => {
-	drawLinesForAllNodes(canvasRef, currentValue.nodePositions);
+	uiState.subscribe((currentValue) => {
+		drawLinesForAllNodes(canvasRef, currentValue.nodePositions);
 	});
 </script>
 
@@ -81,7 +81,7 @@ uiState.subscribe((currentValue) => {
 			<EditTimelineEventModal />
 		{/if}
 		<div id="tree-content" class="tree-content">
-			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef}></canvas>
+			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef} />
 			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">

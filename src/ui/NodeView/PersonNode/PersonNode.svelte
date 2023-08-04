@@ -23,8 +23,13 @@
 	import NameLabel from './NameLabel.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
-	import { addOrUpdateNodePosition as addOrUpdateNodePosition, removeNodePosition, showPersonDetailView } from '../../../logic/ui-management';
-	import { getDivCentroid } from '../../../logic/utils';addOrUpdateNodePosition
+	import {
+		addOrUpdateNodePosition as addOrUpdateNodePosition,
+		removeNodePosition,
+		showPersonDetailView
+	} from '../../../logic/ui-management';
+	import { getDivCentroid } from '../../../logic/utils';
+	addOrUpdateNodePosition;
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -80,7 +85,7 @@
 			centroid = getDivCentroid(nodeDivRef);
 			addOrUpdateNodePosition(sPersonId, centroid);
 		}
-	})
+	});
 
 	onDestroy(() => {
 		removeNodePosition(sPersonId);

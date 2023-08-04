@@ -158,10 +158,10 @@ export const getBuildFormattedDate = (date) => {
 
 export const getDivCentroid = (element) => {
 	const rect = element.getBoundingClientRect();
-    const position = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    };
+	const position = {
+		x: rect.left + rect.width / 2,
+		y: rect.top + rect.height / 2
+	};
 
 	return position;
-}
+};
