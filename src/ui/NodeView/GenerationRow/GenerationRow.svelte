@@ -18,7 +18,7 @@
 
 <style>
 	.row {
-		background-color: rgba(225, 225, 225, 0.65);
+		background-color: rgba(210, 210, 210, 0.65);
 		display: flex;
 		align-items: center;
 		justify-content: center;
