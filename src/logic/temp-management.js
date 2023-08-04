@@ -91,6 +91,8 @@ export const updateOffScreenPeopleIdsArray = () => {
 		if (editedPersonIndex > -1) {
 			currentValue.personIdsOffScreen.splice(editedPersonIndex, 1);
 		}
+
+		// get all the active person's relationships
 		const relationships = activePerson.relationships;
 		for (const relationship in relationships) {
 			if (Array.isArray(relationships[relationship])) {

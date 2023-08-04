@@ -32,7 +32,6 @@
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
 	import { drawLinesForAllNodes } from './ui/graphics-factory';
-	import { afterUpdate } from 'svelte';
 
 	let canvasRef;
 	const bHideEmptyGroups = false;

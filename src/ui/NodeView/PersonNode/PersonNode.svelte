@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import { onDestroy } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
 	import Portal from 'svelte-portal';
 
 	import { quintOut } from 'svelte/easing';
@@ -24,7 +24,7 @@
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
 	import { addOrUpdateNodePosition as addOrUpdateNodePosition, removeNodePosition, showPersonDetailView } from '../../../logic/ui-management';
-	import { getDivCentroid } from '../../../logic/utils';
+	import { getDivCentroid } from '../../../logic/utils';addOrUpdateNodePosition
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -75,12 +75,12 @@
 		`;
 	}
 
-	$: {
+	afterUpdate(() => {
 		if (nodeDivRef) {
 			centroid = getDivCentroid(nodeDivRef);
 			addOrUpdateNodePosition(sPersonId, centroid);
 		}
-	}
+	})
 
 	onDestroy(() => {
 		removeNodePosition(sPersonId);

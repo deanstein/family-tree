@@ -222,26 +222,34 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 
 export const addOrUpdateNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
-	  // Check if the personId already exists in the array
-	  const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
-  
-	  if (existingIndex !== -1) {
-		// If personId exists, update its position
-		currentValue.nodePositions[existingIndex] = { personId, ...nodePosition };
-	  } else {
+		// Check if the personId already exists in the array
+		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
+	
+		if (existingIndex !== -1) {
+		  // If personId exists delete it
+		  currentValue.nodePositions.splice(existingIndex, 1)
+		}
+
 		// If personId does not exist, add a new entry
 		currentValue.nodePositions.push({ personId, ...nodePosition });
-	  }
-  
-	  return currentValue;
-	});
-  };
+		//console.log(currentValue.nodePositions)
+
+		return currentValue;
+	  });
+}
   
 export const removeNodePosition = (personId) => {
 	uiState.update((currentValue) => {
-	  currentValue.nodePositions = currentValue.nodePositions.filter((pos) => pos.personId !== personId);
-	  return currentValue;
-	});
+		// Check if the personId already exists in the array
+		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
+	
+		if (existingIndex !== -1) {
+		  // If personId exists delete it
+		  currentValue.nodePositions.splice(existingIndex, 1)
+		}
+
+		return currentValue;
+	})
   };
 
 export const scrollToTopAndCenter = () => {
