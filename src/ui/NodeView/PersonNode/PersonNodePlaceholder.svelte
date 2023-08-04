@@ -9,7 +9,7 @@
 	let personNodePlaceholderDynamicStyle = css`
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
-		background-color: lightgray;
+		background-color: rgb(200, 200, 200, 0.4);
 	`;
 </script>
 

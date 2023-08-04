@@ -104,8 +104,8 @@
 		flex: 1;
 		flex-shrink: 1;
 		padding: 3px;
-		white-space: nowrap; 
-		overflow: hidden; 
+		white-space: nowrap;
+		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 </style>
