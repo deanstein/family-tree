@@ -53,7 +53,7 @@
 	`;
 
 	uiState.subscribe((currentValue) => {
-		drawLinesForAllNodes(canvasRef, currentValue.nodePositions);
+		drawLinesForAllNodes(canvasRef, currentValue.personNodePositions);
 	});
 </script>
 
@@ -385,6 +385,7 @@
 		gap: 2vh;
 	}
 
+	/* used for drawing connection lines between person nodes */
 	.tree-canvas {
 		position: absolute;
 		width: 100vw;

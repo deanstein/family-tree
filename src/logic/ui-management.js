@@ -220,32 +220,32 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	return proportion;
 };
 
-export const addOrUpdateNodePosition = (personId, nodePosition) => {
+export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
+		const existingIndex = currentValue.personNodePositions.findIndex((pos) => pos.personId === personId);
 
 		if (existingIndex !== -1) {
 			// If personId exists delete it
-			currentValue.nodePositions.splice(existingIndex, 1);
+			currentValue.personNodePositions.splice(existingIndex, 1);
 		}
 
 		// If personId does not exist, add a new entry
-		currentValue.nodePositions.push({ personId, ...nodePosition });
+		currentValue.personNodePositions.push({ personId, ...nodePosition });
 		//console.log(currentValue.nodePositions)
 
 		return currentValue;
 	});
 };
 
-export const removeNodePosition = (personId) => {
+export const removePersonNodePosition = (personId) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.nodePositions.findIndex((pos) => pos.personId === personId);
+		const existingIndex = currentValue.personNodePositions.findIndex((pos) => pos.personId === personId);
 
 		if (existingIndex !== -1) {
 			// If personId exists delete it
-			currentValue.nodePositions.splice(existingIndex, 1);
+			currentValue.personNodePositions.splice(existingIndex, 1);
 		}
 
 		return currentValue;

@@ -24,12 +24,12 @@
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Overlay from '../Overlay.svelte';
 	import {
-		addOrUpdateNodePosition as addOrUpdateNodePosition,
-		removeNodePosition,
+		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
+		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
 	import { getDivCentroid } from '../../../logic/utils';
-	addOrUpdateNodePosition;
+	addOrUpdatePersonNodePosition;
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -83,12 +83,12 @@
 	afterUpdate(() => {
 		if (nodeDivRef) {
 			centroid = getDivCentroid(nodeDivRef);
-			addOrUpdateNodePosition(sPersonId, centroid);
+			addOrUpdatePersonNodePosition(sPersonId, centroid);
 		}
 	});
 
 	onDestroy(() => {
-		removeNodePosition(sPersonId);
+		removePersonNodePosition(sPersonId);
 	});
 
 	const personNodeContentAreaDynamicClass = css`
