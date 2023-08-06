@@ -1,7 +1,11 @@
-export const drawLinesForAllNodes = (canvasRef, nodePositions) => {
+import stylingConstants from './styling-constants';
+
+export const drawAllNodeConnectionLines = (canvasRef, nodePositions) => {
 	if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
 
 	const ctx = canvasRef.getContext('2d');
+	const color = stylingConstants.colors.personNodeConnectionLineColor;
+	const thickness = stylingConstants.sizes.nPersonNodeConnectionLineThickness;
 
 	// context needs to be adjusted for the device's pixel ratio
 	const pixelRatio = window.devicePixelRatio || 1;
@@ -10,12 +14,12 @@ export const drawLinesForAllNodes = (canvasRef, nodePositions) => {
 	ctx.scale(pixelRatio, pixelRatio);
 
 	for (const position of nodePositions) {
-		drawLineFromPosToScreenCenter(ctx, position);
+		drawNodeConnectionLine(ctx, position, thickness, color);
 	}
 };
 
-export const drawLineFromPosToScreenCenter = (context2d, position) => {
-	if (!position) {
+export const drawNodeConnectionLine = (context2d, position, thickness, color) => {
+	if (!context2d || !position || !color) {
 		return;
 	}
 
@@ -29,8 +33,7 @@ export const drawLineFromPosToScreenCenter = (context2d, position) => {
 	context2d.beginPath();
 	context2d.moveTo(screenCenter.x, screenCenter.y);
 	context2d.lineTo(position.x, position.y);
-	context2d.lineWidth = 5;
-	context2d.strokeStyle = 'gray';
-	context2d.globalAlpha = 0.45;
+	context2d.lineWidth = thickness;
+	context2d.strokeStyle = color; // color may include transparency (rgba)
 	context2d.stroke();
 };

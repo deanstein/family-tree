@@ -25,6 +25,8 @@
 	import Overlay from '../Overlay.svelte';
 	import {
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
+		setPersonNodePositionHover,
+		clearPersonNodePositionHover,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
@@ -95,6 +97,14 @@
 		padding-top: ${stylingConstants.sizes.padding};
 	`;
 
+	const onPersonNodeMouseEnterAction = () => {
+		setPersonNodePositionHover(sPersonId, getDivCentroid(nodeDivRef));
+	};
+
+	const onPersonNodeMouseLeaveAction = () => {
+		clearPersonNodePositionHover();
+	};
+
 	const onPersonNodeClickAction = () => {
 		// don't do anything on click if the node is in edit mode
 		if (bIsNodeInEditMode) {
@@ -134,6 +144,8 @@
 	<div
 		id="person-node-{sPersonId}"
 		class="person-node {personNodeDynamicClass}"
+		on:mouseenter={onPersonNodeMouseEnterAction}
+		on:mouseleave={onPersonNodeMouseLeaveAction}
 		on:click={onPersonNodeClickAction}
 		on:keydown|stopPropagation
 		in:receive={{ key: sPersonId }}

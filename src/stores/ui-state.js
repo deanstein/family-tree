@@ -9,6 +9,7 @@ const uiState = {
 	personIdForNodeEdit: undefined,
 	personIdForNodeSettingsFlyout: undefined,
 	personNodePositions: [],
+	personNodePositionHover: undefined,
 	showChooseTreeModal: true,
 	showPersonDetailView: false,
 	showDevTools: false,

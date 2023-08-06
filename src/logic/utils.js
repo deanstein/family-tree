@@ -157,6 +157,9 @@ export const getBuildFormattedDate = (date) => {
 };
 
 export const getDivCentroid = (element) => {
+	if (!element) {
+		return undefined;
+	}
 	const rect = element.getBoundingClientRect();
 	const position = {
 		x: rect.left + rect.width / 2,

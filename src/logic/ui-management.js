@@ -223,7 +223,9 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.personNodePositions.findIndex((pos) => pos.personId === personId);
+		const existingIndex = currentValue.personNodePositions.findIndex(
+			(pos) => pos.personId === personId
+		);
 
 		if (existingIndex !== -1) {
 			// If personId exists delete it
@@ -241,13 +243,34 @@ export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 export const removePersonNodePosition = (personId) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.personNodePositions.findIndex((pos) => pos.personId === personId);
+		const existingIndex = currentValue.personNodePositions.findIndex(
+			(pos) => pos.personId === personId
+		);
 
 		if (existingIndex !== -1) {
 			// If personId exists delete it
 			currentValue.personNodePositions.splice(existingIndex, 1);
 		}
 
+		return currentValue;
+	});
+};
+
+// when hovering over a person node, set the id and position in the store
+export const setPersonNodePositionHover = (personId, position) => {
+	uiState.update((currentValue) => {
+		currentValue.personNodePositionHover = {
+			personId: personId,
+			position: position
+		};
+		return currentValue;
+	});
+};
+
+// when not hovering over a node, clear the store
+export const clearPersonNodePositionHover = () => {
+	uiState.update((currentValue) => {
+		currentValue.personNodePositionHover = undefined;
 		return currentValue;
 	});
 };
