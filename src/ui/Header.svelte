@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+
 	import tempState from '../stores/temp-state';
 	import stylingConstants from './styling-constants';
 
@@ -42,8 +43,6 @@
 
 <style>
 	.header-container {
-		position: absolute;
-		width: 100vw;
 		background: rgb(245, 245, 245);
 	}
 

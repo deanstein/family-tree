@@ -52,10 +52,18 @@ const sizes = {
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,
 	get nGenerationRowHeight() {
-		return (100 - this.nHeaderHeight) / (this.nShowGenerationsUp + this.nShowGenerationsUp + 2);
+		return (
+			(100 - (this.nHeaderHeight + this.nGenerationRowGap * 6)) /
+			(this.nShowGenerationsUp + this.nShowGenerationsUp + 1)
+		);
 	},
 	get generationRowHeight() {
 		return this.nGenerationRowHeight.toString() + 'vh';
+	},
+
+	nGenerationRowGap: 2,
+	get generationRowGap() {
+		return this.nGenerationRowGap + 'vh';
 	},
 
 	get nPersonNodeGroupHeight() {

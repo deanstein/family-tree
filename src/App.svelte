@@ -52,6 +52,15 @@
 	}
 	`;
 
+	const treeContentDynamicClass = css`
+		height: ${100 - stylingConstants.sizes.nHeaderHeight + 'vh'};
+		gap: ${stylingConstants.sizes.generationRowGap};
+	`;
+
+	const generationBlockDynamicClass = css`
+		gap: ${stylingConstants.sizes.generationRowGap};
+	`;
+
 	uiState.subscribe((currentValue) => {
 		if (canvasRef) {
 			drawAllNodeConnectionLines(canvasRef, currentValue.personNodePositions);
@@ -89,9 +98,9 @@
 			<EditTimelineEventModal />
 		{/if}
 		<Header />
-		<div id="tree-content" class="tree-content">
+		<div id="tree-content" class="{treeContentDynamicClass} tree-content">
 			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef} />
-			<div id="upper-generation-block" class="generation-block">
+			<div id="upper-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -191,7 +200,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="siblings-generation-block" class="generation-block">
+			<div id="siblings-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -276,7 +285,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="lower-generation-block" class="generation-block">
+			<div id="lower-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -362,6 +371,7 @@
 
 	:global(body) {
 		margin: 0;
+		overflow-x: hidden;
 	}
 
 	.app-container {
@@ -371,24 +381,19 @@
 
 	.tree-content {
 		display: grid;
-		height: 100vh;
 		align-items: center;
 		align-content: center;
-		gap: 2vh;
 	}
 
 	/* used for drawing connection lines between person nodes */
 	.tree-canvas {
 		position: absolute;
-		width: 100vw;
-		height: 100vh;
+		max-width: 100vw;
 		z-index: -1;
 	}
 
 	.generation-block {
 		display: grid;
-		gap: 2vh;
-		width: 100vw;
 	}
 
 	.middle-section {
