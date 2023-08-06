@@ -19,6 +19,7 @@ const colors = {
 	nodeGroupColor: 'rgba(255, 255, 255, 0.65)',
 	nodeGroupHeaderColor: 'rgba(150, 150, 150, 0.5)',
 	personNodeColor: '#bfd0db',
+	personNodeConnectionLineColor: 'rgba(128, 128, 128, 0.45)',
 	activePersonNodeColor: '#87a9c0',
 	hyperlinkColor: '#2373a3',
 	menuBackgroundColor: '#ececec',
@@ -124,7 +125,9 @@ const sizes = {
 	nTimelineEventYearWidth: 3,
 	get timelineEventYearWidth() {
 		return this.nTimelineEventYearWidth + 'vw';
-	}
+	},
+	nPersonNodeConnectionLineThickness: 5,
+	nPersonNodeConnectionLineThicknessHover: 8
 };
 
 const zIndices = {

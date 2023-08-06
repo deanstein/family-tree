@@ -1,4 +1,4 @@
-export const appVersion = '0.11.0';
+export const appVersion = '0.11.1';
 export const appChangelog = {
 	'v0.12.x': {
 		Overview: 'v0.12.x adds password protection and overhauled temp state management',
@@ -6,7 +6,11 @@ export const appChangelog = {
 	},
 	'v0.11.x': {
 		Overview: 'v0.11.x adds a proper canvas for drawing node connection lines to the active person',
-		Changes: ['Added a canvas element', 'Added lines from nodes to center']
+		Changes: [
+			'Added a canvas element',
+			'Added lines from nodes to center',
+			'Added color to connection line when hovering over attached node'
+		]
 	},
 	'v0.10.x': {
 		Overview: 'v0.10.x finishes the first pass of the timeline view',

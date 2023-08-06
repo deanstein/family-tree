@@ -31,7 +31,7 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
-	import { drawLinesForAllNodes } from './ui/graphics-factory';
+	import { drawNodeConnectionLine, drawAllNodeConnectionLines } from './ui/graphics-factory';
 
 	let canvasRef;
 	const bHideEmptyGroups = false;
@@ -53,7 +53,15 @@
 	`;
 
 	uiState.subscribe((currentValue) => {
-		drawLinesForAllNodes(canvasRef, currentValue.personNodePositions);
+		if (canvasRef) {
+			drawAllNodeConnectionLines(canvasRef, currentValue.personNodePositions);
+			drawNodeConnectionLine(
+				canvasRef.getContext('2d'),
+				currentValue?.personNodePositionHover?.position /* only gets updated on hover */,
+				stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
+				stylingConstants.colors.hoverColor
+			);
+		}
 	});
 </script>
 
