@@ -31,6 +31,10 @@ const colors = {
 };
 
 const sizes = {
+	nHeaderHeight: 5,
+	get headerHeight() {
+		return this.nHeaderHeight.toString() + 'vh';
+	},
 	nPadding: 0.75,
 	get padding() {
 		return this.nPadding.toString() + 'vh';
@@ -48,7 +52,7 @@ const sizes = {
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,
 	get nGenerationRowHeight() {
-		return 100 / (this.nShowGenerationsUp + this.nShowGenerationsUp + 2);
+		return (100 - this.nHeaderHeight) / (this.nShowGenerationsUp + this.nShowGenerationsUp + 2);
 	},
 	get generationRowHeight() {
 		return this.nGenerationRowHeight.toString() + 'vh';
