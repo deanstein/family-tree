@@ -1,6 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
 	import PersonNodeAddButton from './AddPersonButton.svelte';
@@ -8,14 +9,6 @@
 	import PersonNode from '../PersonNode/PersonNode.svelte';
 
 	export let personNodeGroupData;
-	export let bHideIfEmpty = false;
-
-	let hide = false;
-
-	$: {
-		hide = personNodeGroupData.groupMembers.length === 0 && bHideIfEmpty;
-		console.log(bHideIfEmpty);
-	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`
 		background-color: ${stylingConstants.colors.nodeGroupColor};
@@ -35,7 +28,7 @@
 	`;
 </script>
 
-{#if !hide}
+{#if $tempState.buildMode || personNodeGroupData.groupMembers.length > 0}
 	<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
 		<div
 			id="person-node-group-outer-container"
@@ -64,7 +57,7 @@
 				{/each}
 			</div>
 		</div>
-		{#if personNodeGroupData.groupMembers.length > 0}
+		{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
 			<PersonNodeAddButton
 				groupId={personNodeGroupData.groupId}
 				compatibleGroups={personNodeGroupData.compatibleGroups}
