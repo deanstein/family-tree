@@ -14,6 +14,7 @@
 
 	$: {
 		hide = personNodeGroupData.groupMembers.length === 0 && bHideIfEmpty;
+		console.log(bHideIfEmpty);
 	}
 
 	const personNodeGroupPlusButtonDynamicClass = css`

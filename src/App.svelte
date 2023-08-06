@@ -21,6 +21,7 @@
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
+	import Header from './ui/Header.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
 	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
@@ -34,7 +35,6 @@
 	import { drawNodeConnectionLine, drawAllNodeConnectionLines } from './ui/graphics-factory';
 
 	let canvasRef;
-	const bHideEmptyGroups = false;
 
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {
@@ -88,13 +88,14 @@
 		{#if $tempState.timelineEditEvent !== undefined}
 			<EditTimelineEventModal />
 		{/if}
+		<Header />
 		<div id="tree-content" class="tree-content">
 			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef} />
 			<div id="upper-generation-block" class="generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesMaternal.id,
 								groupName: relationshipMap.greatAunclesMaternal.label,
@@ -106,6 +107,7 @@
 
 					<div slot="row-middle-section" class="middle-section">
 						<PersonNodeGroup
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.grandparentsMaternal.id,
 								groupName: relationshipMap.grandparentsMaternal.label,
@@ -114,6 +116,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.grandparentsPaternal.id,
 								groupName: relationshipMap.grandparentsPaternal.label,
@@ -125,7 +128,7 @@
 
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesPaternal.id,
 								groupName: relationshipMap.greatAunclesPaternal.label,
@@ -138,7 +141,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesMaternal.id,
 								groupName: relationshipMap.aunclesMaternal.label,
@@ -147,7 +150,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsMaternal.id,
 								groupName: relationshipMap.stepparentsMaternal.label,
@@ -157,6 +160,7 @@
 						/>
 					</ScrollingRowFlank>
 					<PersonNodeGroup
+						bHideIfEmpty={!$tempState.buildMode}
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.parents.id,
@@ -167,7 +171,7 @@
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsPaternal.id,
 								groupName: relationshipMap.stepparentsPaternal.label,
@@ -176,7 +180,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesPaternal.id,
 								groupName: relationshipMap.aunclesPaternal.label,
@@ -185,7 +189,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.parentsInLaw.id,
 								groupName: relationshipMap.parentsInLaw.label,
@@ -201,7 +205,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.siblingsInLaw.id,
 								groupName: relationshipMap.siblingsInLaw.label,
@@ -210,7 +214,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepsiblings.id,
 								groupName: relationshipMap.stepsiblings.label,
@@ -219,6 +223,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.halfSiblingsMaternal.id,
 								groupName: relationshipMap.halfSiblingsMaternal.label,
@@ -227,6 +232,7 @@
 							}}
 						/>
 						<PersonNodeGroup
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.siblings.id,
 								groupName: relationshipMap.siblings.label,
@@ -249,6 +255,7 @@
 
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.halfSiblingsPaternal.id,
 								groupName: relationshipMap.halfSiblingsPaternal.label,
@@ -257,7 +264,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.spouses.id,
 								groupName: relationshipMap.spouses.label,
@@ -266,7 +273,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.spouseSiblingsInLaw.id,
 								groupName: relationshipMap.spouseSiblingsInLaw.label,
@@ -275,7 +282,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.exSpouses.id,
 								groupName: relationshipMap.exSpouses.label,
@@ -291,7 +298,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.niblings.id,
 								groupName: relationshipMap.niblings.label,
@@ -301,6 +308,7 @@
 						/>
 					</ScrollingRowFlank>
 					<PersonNodeGroup
+						bHideIfEmpty={!$tempState.buildMode}
 						slot="row-middle-section"
 						personNodeGroupData={{
 							groupId: relationshipMap.children.id,
@@ -311,7 +319,7 @@
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepchildren.id,
 								groupName: relationshipMap.stepchildren.label,
@@ -320,7 +328,7 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.childrenInLaw.id,
 								groupName: relationshipMap.childrenInLaw.label,
@@ -333,7 +341,7 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
+							bHideIfEmpty={!$tempState.buildMode}
 							personNodeGroupData={{
 								groupId: relationshipMap.grandniblings.id,
 								groupName: relationshipMap.grandniblings.label,
@@ -344,8 +352,8 @@
 					</ScrollingRowFlank>
 
 					<PersonNodeGroup
+						bHideIfEmpty={!$tempState.buildMode}
 						slot="row-middle-section"
-						bHideIfEmpty={bHideEmptyGroups}
 						personNodeGroupData={{
 							groupId: relationshipMap.grandchildren.id,
 							groupName: relationshipMap.grandchildren.label,

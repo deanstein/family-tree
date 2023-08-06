@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 
 const tempState = {
+	buildMode: false,
 	personIdsOffScreen: [],
 	personIdsOffScreenFiltered: [],
 	nodeActionsModalPersonId: undefined,

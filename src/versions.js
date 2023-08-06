@@ -1,8 +1,12 @@
-export const appVersion = '0.11.1';
+export const appVersion = '0.12.0';
 export const appChangelog = {
-	'v0.12.x': {
-		Overview: 'v0.12.x adds password protection and overhauled temp state management',
+	'v0.13.x': {
+		Overview: 'v0.13.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
+	},
+	'v0.12.x': {
+		Overview: 'v0.12.x adds a build mode for the tree view',
+		Changes: ['Added build mode temp state to hide build UI until needed']
 	},
 	'v0.11.x': {
 		Overview: 'v0.11.x adds a proper canvas for drawing node connection lines to the active person',
