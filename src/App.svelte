@@ -33,6 +33,7 @@
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
 	import { drawNodeConnectionLine, drawAllNodeConnectionLines } from './ui/graphics-factory';
+	import { derived } from 'svelte/store';
 
 	let canvasRef;
 
@@ -61,17 +62,17 @@
 		gap: ${stylingConstants.sizes.generationRowGap};
 	`;
 
-	uiState.subscribe((currentValue) => {
+	$: {
 		if (canvasRef) {
-			drawAllNodeConnectionLines(canvasRef, currentValue.personNodePositions);
+			drawAllNodeConnectionLines(canvasRef, $uiState.personNodePositions);
 			drawNodeConnectionLine(
 				canvasRef.getContext('2d'),
-				currentValue?.personNodePositionHover?.position /* only gets updated on hover */,
+				$uiState.personNodePositionHover?.position /* only gets updated on hover */,
 				stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
 				stylingConstants.colors.hoverColor
 			);
 		}
-	});
+	}
 </script>
 
 <main>

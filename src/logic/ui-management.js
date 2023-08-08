@@ -223,16 +223,23 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.personNodePositions.findIndex(
+		const foundPersonPositionIndex = currentValue.personNodePositions.findIndex(
 			(pos) => pos.personId === personId
 		);
+		const foundPersonPosition = currentValue.personNodePositions[foundPersonPositionIndex];
 
-		if (existingIndex !== -1) {
-			// If personId exists delete it
-			currentValue.personNodePositions.splice(existingIndex, 1);
+		// If the person was found
+		if (foundPersonPositionIndex !== -1) {
+			// If its position is unchanged, make no changes
+			if (foundPersonPosition === nodePosition) {
+				return currentValue;
+			}
+
+			// Otherwise, delete the old position
+			currentValue.personNodePositions.splice(foundPersonPositionIndex, 1);
 		}
 
-		// If personId does not exist, add a new entry
+		// The person shouldn't exist at this point, so add them
 		currentValue.personNodePositions.push({ personId, ...nodePosition });
 		//console.log(currentValue.nodePositions)
 
