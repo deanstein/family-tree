@@ -11,6 +11,34 @@ import {
 	instantiateObject
 } from './utils';
 
+// manage build mode
+export const startBuildMode = () => {
+	tempState.update((currentValue) => {
+		currentValue.buildMode = true;
+		return currentValue;
+	});
+};
+
+export const endBuildMode = () => {
+	tempState.update((currentValue) => {
+		currentValue.buildMode = false;
+		return currentValue;
+	});
+};
+
+export const toggleBuildMode = () => {
+	let currentBuildModeValue;
+
+	tempState.subscribe((currentValue) => {
+		currentBuildModeValue = currentValue.buildMode;
+	});
+
+	tempState.update((currentValue) => {
+		currentValue.buildMode = !currentBuildModeValue;
+		return currentValue;
+	});
+};
+
 // manage the unsaved changes state
 export const setCachedPerson = (person) => {
 	uiState.update((currentValue) => {

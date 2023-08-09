@@ -223,16 +223,23 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
-		const existingIndex = currentValue.personNodePositions.findIndex(
+		const foundPersonPositionIndex = currentValue.personNodePositions.findIndex(
 			(pos) => pos.personId === personId
 		);
+		const foundPersonPosition = currentValue.personNodePositions[foundPersonPositionIndex];
 
-		if (existingIndex !== -1) {
-			// If personId exists delete it
-			currentValue.personNodePositions.splice(existingIndex, 1);
+		// If the person was found
+		if (foundPersonPositionIndex !== -1) {
+			// If its position is unchanged, make no changes
+			if (foundPersonPosition === nodePosition) {
+				return currentValue;
+			}
+
+			// Otherwise, delete the old position
+			currentValue.personNodePositions.splice(foundPersonPositionIndex, 1);
 		}
 
-		// If personId does not exist, add a new entry
+		// The person shouldn't exist at this point, so add them
 		currentValue.personNodePositions.push({ personId, ...nodePosition });
 		//console.log(currentValue.nodePositions)
 
@@ -252,25 +259,6 @@ export const removePersonNodePosition = (personId) => {
 			currentValue.personNodePositions.splice(existingIndex, 1);
 		}
 
-		return currentValue;
-	});
-};
-
-// when hovering over a person node, set the id and position in the store
-export const setPersonNodePositionHover = (personId, position) => {
-	uiState.update((currentValue) => {
-		currentValue.personNodePositionHover = {
-			personId: personId,
-			position: position
-		};
-		return currentValue;
-	});
-};
-
-// when not hovering over a node, clear the store
-export const clearPersonNodePositionHover = () => {
-	uiState.update((currentValue) => {
-		currentValue.personNodePositionHover = undefined;
 		return currentValue;
 	});
 };
@@ -300,4 +288,12 @@ export const scrollHorizontal = (event) => {
 	const delta = event.deltaX || event.deltaY;
 	event.currentTarget.scrollBy(delta, 0);
 	event.preventDefault();
+};
+
+// adjust the 2D context of a canvas to take into consideration the device pixel ratio
+export const set2DContextScale = (canvasRef, context2d) => {
+	const pixelRatio = window.devicePixelRatio || 1;
+	canvasRef.width = window.innerWidth * pixelRatio;
+	canvasRef.height = window.innerHeight * pixelRatio;
+	context2d.scale(pixelRatio, pixelRatio);
 };

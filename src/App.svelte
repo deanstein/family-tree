@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import familyTreeData from './stores/family-tree-data';
@@ -17,10 +18,13 @@
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
+	import { set2DContextScale } from './logic/ui-management';
 	import { appVersion, schemaVersion } from './versions';
+	import { drawAllNodeConnectionLines } from './ui/graphics-factory';
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
+	import Header from './ui/Header.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
 	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
@@ -31,10 +35,9 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
-	import { drawNodeConnectionLine, drawAllNodeConnectionLines } from './ui/graphics-factory';
 
-	let canvasRef;
-	const bHideEmptyGroups = false;
+	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
+	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {
@@ -52,16 +55,33 @@
 	}
 	`;
 
-	uiState.subscribe((currentValue) => {
-		if (canvasRef) {
-			drawAllNodeConnectionLines(canvasRef, currentValue.personNodePositions);
-			drawNodeConnectionLine(
-				canvasRef.getContext('2d'),
-				currentValue?.personNodePositionHover?.position /* only gets updated on hover */,
-				stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
-				stylingConstants.colors.hoverColor
-			);
+	const treeContentDynamicClass = css`
+		height: ${100 - stylingConstants.sizes.nHeaderHeight + 'vh'};
+		gap: ${stylingConstants.sizes.generationRowGap};
+	`;
+
+	const generationBlockDynamicClass = css`
+		gap: ${stylingConstants.sizes.generationRowGap};
+	`;
+
+	$: {
+		if (personNodeConnectionLineCanvasRef) {
+			drawAllNodeConnectionLines($uiState.personNodePositions);
 		}
+	}
+
+	onMount(() => {
+		// set up the primary canvas
+		const primary2dContext = personNodeConnectionLineCanvasRef.getContext('2d');
+		$uiState.personNodeConnectionLineCanvas = personNodeConnectionLineCanvasRef;
+		$uiState.personNodeConnectionLineContext2d = primary2dContext;
+		// set up the hover canvas
+		// used to draw a hover line when hovering over a person node
+		const hover2dContext = personNodeConnectionLineCanvasRefHover.getContext('2d');
+		set2DContextScale(personNodeConnectionLineCanvasRefHover, hover2dContext);
+		// write the hover canvas to the state
+		$uiState.personNodeConnectionLineCanvasHover = personNodeConnectionLineCanvasRefHover;
+		$uiState.personNodeConnectionLineContext2dHover = hover2dContext;
 	});
 </script>
 
@@ -88,13 +108,14 @@
 		{#if $tempState.timelineEditEvent !== undefined}
 			<EditTimelineEventModal />
 		{/if}
-		<div id="tree-content" class="tree-content">
-			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef} />
-			<div id="upper-generation-block" class="generation-block">
+		<Header />
+		<div id="tree-content" class="{treeContentDynamicClass} tree-content">
+			<canvas id="tree-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
+			<canvas id="hover-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
+			<div id="upper-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesMaternal.id,
 								groupName: relationshipMap.greatAunclesMaternal.label,
@@ -125,7 +146,6 @@
 
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.greatAunclesPaternal.id,
 								groupName: relationshipMap.greatAunclesPaternal.label,
@@ -138,7 +158,6 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesMaternal.id,
 								groupName: relationshipMap.aunclesMaternal.label,
@@ -147,7 +166,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsMaternal.id,
 								groupName: relationshipMap.stepparentsMaternal.label,
@@ -167,7 +185,6 @@
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepparentsPaternal.id,
 								groupName: relationshipMap.stepparentsPaternal.label,
@@ -176,7 +193,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.aunclesPaternal.id,
 								groupName: relationshipMap.aunclesPaternal.label,
@@ -185,7 +201,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.parentsInLaw.id,
 								groupName: relationshipMap.parentsInLaw.label,
@@ -197,11 +212,10 @@
 				</GenerationRow>
 			</div>
 
-			<div id="siblings-generation-block" class="generation-block">
+			<div id="siblings-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.siblingsInLaw.id,
 								groupName: relationshipMap.siblingsInLaw.label,
@@ -210,7 +224,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepsiblings.id,
 								groupName: relationshipMap.stepsiblings.label,
@@ -257,7 +270,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.spouses.id,
 								groupName: relationshipMap.spouses.label,
@@ -266,7 +278,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.spouseSiblingsInLaw.id,
 								groupName: relationshipMap.spouseSiblingsInLaw.label,
@@ -275,7 +286,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.exSpouses.id,
 								groupName: relationshipMap.exSpouses.label,
@@ -287,11 +297,10 @@
 				</GenerationRow>
 			</div>
 
-			<div id="lower-generation-block" class="generation-block">
+			<div id="lower-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.niblings.id,
 								groupName: relationshipMap.niblings.label,
@@ -311,7 +320,6 @@
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.stepchildren.id,
 								groupName: relationshipMap.stepchildren.label,
@@ -320,7 +328,6 @@
 							}}
 						/>
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.childrenInLaw.id,
 								groupName: relationshipMap.childrenInLaw.label,
@@ -333,7 +340,6 @@
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
-							bHideIfEmpty={bHideEmptyGroups}
 							personNodeGroupData={{
 								groupId: relationshipMap.grandniblings.id,
 								groupName: relationshipMap.grandniblings.label,
@@ -345,7 +351,6 @@
 
 					<PersonNodeGroup
 						slot="row-middle-section"
-						bHideIfEmpty={bHideEmptyGroups}
 						personNodeGroupData={{
 							groupId: relationshipMap.grandchildren.id,
 							groupName: relationshipMap.grandchildren.label,
@@ -378,6 +383,7 @@
 
 	:global(body) {
 		margin: 0;
+		overflow-x: hidden;
 	}
 
 	.app-container {
@@ -387,24 +393,19 @@
 
 	.tree-content {
 		display: grid;
-		height: 100vh;
 		align-items: center;
 		align-content: center;
-		gap: 2vh;
 	}
 
 	/* used for drawing connection lines between person nodes */
 	.tree-canvas {
 		position: absolute;
-		width: 100vw;
-		height: 100vh;
+		max-width: 100vw;
 		z-index: -1;
 	}
 
 	.generation-block {
 		display: grid;
-		gap: 2vh;
-		width: 100vw;
 	}
 
 	.middle-section {

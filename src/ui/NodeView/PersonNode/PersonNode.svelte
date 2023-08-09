@@ -25,12 +25,11 @@
 	import Overlay from '../Overlay.svelte';
 	import {
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
-		setPersonNodePositionHover,
-		clearPersonNodePositionHover,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
 	import { getDivCentroid } from '../../../logic/utils';
+	import { drawNodeConnectionLine } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 
 	export let sPersonId;
@@ -83,13 +82,15 @@
 	}
 
 	afterUpdate(() => {
-		if (nodeDivRef) {
+		if (nodeDivRef && !bIsActivePerson) {
 			centroid = getDivCentroid(nodeDivRef);
+			// ensure this node's position is added or updated so we can draw a line from it
 			addOrUpdatePersonNodePosition(sPersonId, centroid);
 		}
 	});
 
 	onDestroy(() => {
+		// remove this node's position so no line is drawn to it
 		removePersonNodePosition(sPersonId);
 	});
 
@@ -98,11 +99,23 @@
 	`;
 
 	const onPersonNodeMouseEnterAction = () => {
-		setPersonNodePositionHover(sPersonId, getDivCentroid(nodeDivRef));
+		// on hover, draw a thicker connection line
+		drawNodeConnectionLine(
+			$uiState.personNodeConnectionLineContext2dHover,
+			getDivCentroid(nodeDivRef),
+			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
+			stylingConstants.colors.hoverColor
+		);
 	};
 
 	const onPersonNodeMouseLeaveAction = () => {
-		clearPersonNodePositionHover();
+		// on blur, clear the hover canvas entirely
+		$uiState.personNodeConnectionLineContext2dHover.clearRect(
+			0,
+			0,
+			$uiState.personNodeConnectionLineCanvasHover.width,
+			$uiState.personNodeConnectionLineCanvasHover.height
+		);
 	};
 
 	const onPersonNodeClickAction = () => {
