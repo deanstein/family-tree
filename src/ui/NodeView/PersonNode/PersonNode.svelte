@@ -82,7 +82,7 @@
 	}
 
 	afterUpdate(() => {
-		if (nodeDivRef) {
+		if (nodeDivRef && !bIsActivePerson) {
 			centroid = getDivCentroid(nodeDivRef);
 			// ensure this node's position is added or updated so we can draw a line from it
 			addOrUpdatePersonNodePosition(sPersonId, centroid);
