@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import familyTreeData from './stores/family-tree-data';
@@ -17,7 +18,9 @@
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
+	import { set2DContextScale } from './logic/ui-management';
 	import { appVersion, schemaVersion } from './versions';
+	import { drawAllNodeConnectionLines } from './ui/graphics-factory';
 
 	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
@@ -32,10 +35,9 @@
 	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
-	import { drawNodeConnectionLine, drawAllNodeConnectionLines } from './ui/graphics-factory';
-	import { derived } from 'svelte/store';
 
-	let canvasRef;
+	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
+	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {
@@ -63,16 +65,24 @@
 	`;
 
 	$: {
-		if (canvasRef) {
-			drawAllNodeConnectionLines(canvasRef, $uiState.personNodePositions);
-			drawNodeConnectionLine(
-				canvasRef.getContext('2d'),
-				$uiState.personNodePositionHover?.position /* only gets updated on hover */,
-				stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
-				stylingConstants.colors.hoverColor
-			);
+		if (personNodeConnectionLineCanvasRef) {
+			drawAllNodeConnectionLines($uiState.personNodePositions);
 		}
 	}
+
+	onMount(() => {
+		// set up the primary canvas
+		const primary2dContext = personNodeConnectionLineCanvasRef.getContext('2d');
+		$uiState.personNodeConnectionLineCanvas = personNodeConnectionLineCanvasRef;
+		$uiState.personNodeConnectionLineContext2d = primary2dContext;
+		// set up the hover canvas
+		// used to draw a hover line when hovering over a person node
+		const hover2dContext = personNodeConnectionLineCanvasRefHover.getContext('2d');
+		set2DContextScale(personNodeConnectionLineCanvasRefHover, hover2dContext);
+		// write the hover canvas to the state
+		$uiState.personNodeConnectionLineCanvasHover = personNodeConnectionLineCanvasRefHover;
+		$uiState.personNodeConnectionLineContext2dHover = hover2dContext;
+	});
 </script>
 
 <main>
@@ -100,7 +110,8 @@
 		{/if}
 		<Header />
 		<div id="tree-content" class="{treeContentDynamicClass} tree-content">
-			<canvas id="tree-canvas" class="tree-canvas" bind:this={canvasRef} />
+			<canvas id="tree-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
+			<canvas id="hover-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
 			<div id="upper-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
