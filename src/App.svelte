@@ -400,7 +400,7 @@
 	/* used for drawing connection lines between person nodes */
 	.tree-canvas {
 		position: absolute;
-		max-width: 100vw;
+		width: 100vw; /* necessary to make the lines align with the nodes */
 		z-index: -1;
 	}
 

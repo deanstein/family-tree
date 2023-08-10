@@ -26,7 +26,7 @@ export const drawNodeConnectionLine = (context2d, position, thickness, color) =>
 
 	// Get the center of the screen
 	const screenCenter = {
-		x: window.innerWidth / 2,
+		x: document.documentElement.clientWidth / 2,
 		y: window.innerHeight / 2
 	};
 

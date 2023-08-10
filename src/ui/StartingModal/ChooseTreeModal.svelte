@@ -103,7 +103,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
-		width: 100vw;
+		width: 100%;
 	}
 
 	.choose-tree-modal-content-container {
