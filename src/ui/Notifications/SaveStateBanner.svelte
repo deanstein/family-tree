@@ -33,7 +33,7 @@
 </script>
 
 {#if $uiState.saveToRepoStatus != repoStateStrings.undefined && $uiState.saveToRepoStatus != repoStateStrings.saved && $uiState.saveToRepoStatus != undefined}
-	<NotificationBanner {message} {color}>
+	<NotificationBanner {message} {color} standalone={false}>
 		{#if $uiState.saveToRepoStatus === repoStateStrings.unsavedChanges}
 			<Button
 				buttonText={'Save'}

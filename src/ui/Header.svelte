@@ -7,6 +7,8 @@
 	import { toggleBuildMode } from '../logic/temp-management';
 
 	import Button from './Button.svelte';
+	import SaveStateBanner from './Notifications/SaveStateBanner.svelte';
+	import uiState from '../stores/ui-state';
 
 	const buildModeButtonOnClickAction = () => {
 		toggleBuildMode();
@@ -33,10 +35,18 @@
 			/>
 		</div>
 		<div id="header-right-flank" class="header-right-flank">
-			<Button
-				onClickFunction={buildModeButtonOnClickAction}
-				buttonText={$tempState.buildMode ? 'End Build Mode' : 'Start Build Mode'}
-			/>
+			{#if $uiState.personIdForNodeEdit === undefined}
+				<SaveStateBanner />
+			{/if}
+			<div id="edit-tree-button-container" class="edit-tree-button-container">
+				<Button
+					onClickFunction={buildModeButtonOnClickAction}
+					buttonText={$tempState.buildMode ? 'Done Editing' : 'Edit Tree'}
+					overrideBackgroundColor={$tempState.buildMode
+						? stylingConstants.colors.buttonColorDone
+						: stylingConstants.colors.buttonColorPrimary}
+				/>
+			</div>
 		</div>
 	</div>
 </div>
@@ -56,6 +66,8 @@
 	.header-left-flank {
 		display: flex;
 		flex: 1;
+		gap: 0.5vw;
+		padding: 0 0.5vw 0 0.5vw;
 	}
 
 	.header-center {
@@ -67,6 +79,13 @@
 	.header-right-flank {
 		display: flex;
 		flex: 1;
-		justify-content: center;
+		justify-content: right;
+		align-items: center;
+		gap: 0.5vw;
+		padding: 0 0.5vw 0 0.5vw;
+	}
+
+	.edit-tree-button-container {
+		flex-shrink: 0;
 	}
 </style>
