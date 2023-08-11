@@ -297,3 +297,16 @@ export const set2DContextScale = (canvasRef, context2d) => {
 	canvasRef.height = window.innerHeight * pixelRatio;
 	context2d.scale(pixelRatio, pixelRatio);
 };
+
+export const getDivCentroid = (element) => {
+	if (!element) {
+		return undefined;
+	}
+	const rect = element.getBoundingClientRect();
+	const position = {
+		x: rect.left + window.scrollX + rect.width / 2,
+		y: rect.top + window.scrollY + rect.height / 2
+	};
+
+	return position;
+};
