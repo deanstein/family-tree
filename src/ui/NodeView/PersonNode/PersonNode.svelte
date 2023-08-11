@@ -25,10 +25,10 @@
 	import Overlay from '../Overlay.svelte';
 	import {
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
+		getDivCentroid,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
-	import { getDivCentroid } from '../../../logic/utils';
 	import { drawNodeConnectionLine } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 
