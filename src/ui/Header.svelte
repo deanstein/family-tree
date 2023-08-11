@@ -9,6 +9,9 @@
 	import Button from './Button.svelte';
 	import SaveStateBanner from './Notifications/SaveStateBanner.svelte';
 	import uiState from '../stores/ui-state';
+	import { repoStateStrings } from './strings';
+
+	let headerLeftFlankDynamicClass;
 
 	const buildModeButtonOnClickAction = () => {
 		toggleBuildMode();
@@ -21,11 +24,19 @@
 	const headerLogoContainerDynamicClass = css`
 		height: ${stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'};
 	`;
+
+	$: {
+		headerLeftFlankDynamicClass = css`
+			flex: ${$uiState.saveToRepoStatus === repoStateStrings.undefined || !$uiState.saveToRepoStatus
+				? 1
+				: 0};
+		`;
+	}
 </script>
 
 <div id="header-container" class="{headerContainerDynamicClass} header-container">
 	<div id="header-content" class="header-content">
-		<div id="header-left-flank" class="header-left-flank" />
+		<div id="header-left-flank" class="{headerLeftFlankDynamicClass} header-left-flank" />
 		<div id="header-center" class="header-center">
 			<img
 				src="./img/family-tree-icon.png"
@@ -65,7 +76,6 @@
 
 	.header-left-flank {
 		display: flex;
-		flex: 1;
 		gap: 0.5vw;
 		padding: 0 0.5vw 0 0.5vw;
 	}
