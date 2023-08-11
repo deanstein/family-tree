@@ -1,4 +1,4 @@
-export const appVersion = '0.12.1';
+export const appVersion = '0.12.2';
 export const appChangelog = {
 	'v0.13.x': {
 		Overview: 'v0.13.x adds password protection and overhauled temp state management',
