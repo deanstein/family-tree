@@ -14,7 +14,12 @@ export const drawAllNodeConnectionLines = (nodePositions) => {
 		set2DContextScale(canvasRef, ctx);
 
 		for (const position of nodePositions) {
-			drawNodeConnectionLine(ctx, position, stylingConstants.sizes.nPersonNodeConnectionLineThickness, stylingConstants.colors.personNodeConnectionLineColor);
+			drawNodeConnectionLine(
+				ctx,
+				position,
+				stylingConstants.sizes.nPersonNodeConnectionLineThickness,
+				stylingConstants.colors.personNodeConnectionLineColor
+			);
 		}
 	});
 };

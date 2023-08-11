@@ -6,7 +6,11 @@ export const appChangelog = {
 	},
 	'v0.12.x': {
 		Overview: 'v0.12.x adds a build mode for the tree view',
-		Changes: ['Added a button to toggle build mode, hiding the (+) UI until buid mode is active', 'Fixed performance issues from new person node connection lines and hover from 0.11', "Fixed layout issues with generation row"]
+		Changes: [
+			'Added a button to toggle build mode, hiding the (+) UI until buid mode is active',
+			'Fixed performance issues from new person node connection lines and hover from 0.11',
+			'Fixed layout issues with generation row'
+		]
 	},
 	'v0.11.x': {
 		Overview: 'v0.11.x adds a proper canvas for drawing node connection lines to the active person',

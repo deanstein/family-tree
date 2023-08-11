@@ -111,7 +111,11 @@
 		<Header />
 		<div id="tree-content" class="{treeContentDynamicClass} tree-content">
 			<canvas id="tree-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
-			<canvas id="hover-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
+			<canvas
+				id="hover-canvas"
+				class="tree-canvas"
+				bind:this={personNodeConnectionLineCanvasRefHover}
+			/>
 			<div id="upper-generation-block" class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
