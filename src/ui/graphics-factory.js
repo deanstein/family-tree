@@ -1,27 +1,16 @@
-import { set2DContextScale } from '../logic/ui-management';
-import uiState from '../stores/ui-state';
-import stylingConstants from './styling-constants';
+import { resetCanvasSize } from '../logic/ui-management';
 
-export const drawAllNodeConnectionLines = (nodePositions) => {
-	uiState.subscribe((currentValue) => {
-		const canvasRef = currentValue.personNodeConnectionLineCanvas;
+export const drawNodeConnectionLines = (canvasRef, nodePositions, thickness, color) => {
+	if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
 
-		if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
+	const ctx = canvasRef.getContext('2d');
 
-		const ctx = canvasRef.getContext('2d');
+	// context needs to be adjusted for the device's pixel ratio
+	resetCanvasSize(canvasRef);
 
-		// context needs to be adjusted for the device's pixel ratio
-		set2DContextScale(canvasRef, ctx);
-
-		for (const position of nodePositions) {
-			drawNodeConnectionLine(
-				ctx,
-				position,
-				stylingConstants.sizes.nPersonNodeConnectionLineThickness,
-				stylingConstants.colors.personNodeConnectionLineColor
-			);
-		}
-	});
+	for (const position of nodePositions) {
+		drawNodeConnectionLine(ctx, position, thickness, color);
+	}
 };
 
 export const drawNodeConnectionLine = (context2d, position, thickness, color) => {

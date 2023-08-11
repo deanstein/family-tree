@@ -25,11 +25,12 @@
 	import Overlay from '../Overlay.svelte';
 	import {
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
+		clearCanvas,
 		getDivCentroid,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
-	import { drawNodeConnectionLine } from '../../graphics-factory';
+	import {  drawNodeConnectionLine } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 
 	export let sPersonId;
@@ -101,7 +102,7 @@
 	const onPersonNodeMouseEnterAction = () => {
 		// on hover, draw a thicker connection line
 		drawNodeConnectionLine(
-			$uiState.personNodeConnectionLineContext2dHover,
+			$uiState.personNodeConnectionLineCanvasHover.getContext('2d'),
 			getDivCentroid(nodeDivRef),
 			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
 			stylingConstants.colors.hoverColor
@@ -110,12 +111,7 @@
 
 	const onPersonNodeMouseLeaveAction = () => {
 		// on blur, clear the hover canvas entirely
-		$uiState.personNodeConnectionLineContext2dHover.clearRect(
-			0,
-			0,
-			$uiState.personNodeConnectionLineCanvasHover.width,
-			$uiState.personNodeConnectionLineCanvasHover.height
-		);
+		clearCanvas($uiState.personNodeConnectionLineCanvasHover);
 	};
 
 	const onPersonNodeClickAction = () => {

@@ -290,8 +290,25 @@ export const scrollHorizontal = (event) => {
 	event.preventDefault();
 };
 
+export const clearCanvas = (canvasRef) => {
+	if (!canvasRef) {
+		return;
+	}
+	canvasRef.getContext('2d').clearRect(0, 0, canvasRef.width, canvasRef.height);
+};
+
+export const resetCanvasSize = (canvasRef) => {
+	if (!canvasRef) {
+		return;
+	}
+	set2DContextScale(canvasRef);
+	canvasRef.width = window.innerWidth;
+	canvasRef.height = window.innerHeight;
+};
+
 // adjust the 2D context of a canvas to take into consideration the device pixel ratio
-export const set2DContextScale = (canvasRef, context2d) => {
+export const set2DContextScale = (canvasRef) => {
+	const context2d = canvasRef.getContext('2d');
 	const pixelRatio = window.devicePixelRatio || 1;
 	canvasRef.width = window.innerWidth * pixelRatio;
 	canvasRef.height = window.innerHeight * pixelRatio;

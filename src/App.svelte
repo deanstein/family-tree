@@ -18,11 +18,10 @@
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
-	import { set2DContextScale } from './logic/ui-management';
+	import { resetCanvasSize, set2DContextScale } from './logic/ui-management';
 	import { appVersion, schemaVersion } from './versions';
-	import { drawAllNodeConnectionLines } from './ui/graphics-factory';
+	import { drawNodeConnectionLines } from './ui/graphics-factory';
 
-	import SaveStateBanner from './ui/Notifications/SaveStateBanner.svelte';
 	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
 	import Header from './ui/Header.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
@@ -48,6 +47,12 @@
 		event.preventDefault();
 	};
 
+	window.addEventListener('resize', () => {
+		resetCanvasSize(personNodeConnectionLineCanvasRef);
+		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
+		//drawAllNodeConnectionLines($uiState.personNodePositions);
+	});
+
 	const appContainerDynamicClass = css`
 		a {
 		color: ${stylingConstants.colors.hyperlinkColor};
@@ -66,22 +71,24 @@
 
 	$: {
 		if (personNodeConnectionLineCanvasRef) {
-			drawAllNodeConnectionLines($uiState.personNodePositions);
+			drawNodeConnectionLines(
+				$uiState.personNodeConnectionLineCanvas,
+				$uiState.personNodePositions,
+				stylingConstants.sizes.nPersonNodeConnectionLineThickness,
+				stylingConstants.colors.personNodeConnectionLineColor
+			);
 		}
 	}
 
 	onMount(() => {
 		// set up the primary canvas
-		const primary2dContext = personNodeConnectionLineCanvasRef.getContext('2d');
+		// used for drawing lines between every person node and the center of the screen
 		$uiState.personNodeConnectionLineCanvas = personNodeConnectionLineCanvasRef;
-		$uiState.personNodeConnectionLineContext2d = primary2dContext;
+		set2DContextScale(personNodeConnectionLineCanvasRef);
 		// set up the hover canvas
-		// used to draw a hover line when hovering over a person node
-		const hover2dContext = personNodeConnectionLineCanvasRefHover.getContext('2d');
-		set2DContextScale(personNodeConnectionLineCanvasRefHover, hover2dContext);
-		// write the hover canvas to the state
+		// used for drawing a hover line when hovering over a person node
 		$uiState.personNodeConnectionLineCanvasHover = personNodeConnectionLineCanvasRefHover;
-		$uiState.personNodeConnectionLineContext2dHover = hover2dContext;
+		set2DContextScale(personNodeConnectionLineCanvasRefHover);
 	});
 </script>
 
