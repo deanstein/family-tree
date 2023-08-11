@@ -7,6 +7,11 @@
 	import { toggleBuildMode } from '../logic/temp-management';
 
 	import Button from './Button.svelte';
+	import SaveStateBanner from './Notifications/SaveStateBanner.svelte';
+	import uiState from '../stores/ui-state';
+	import { repoStateStrings } from './strings';
+
+	let headerLeftFlankDynamicClass;
 
 	const buildModeButtonOnClickAction = () => {
 		toggleBuildMode();
@@ -19,11 +24,19 @@
 	const headerLogoContainerDynamicClass = css`
 		height: ${stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'};
 	`;
+
+	$: {
+		headerLeftFlankDynamicClass = css`
+			flex: ${$uiState.saveToRepoStatus === repoStateStrings.undefined || !$uiState.saveToRepoStatus
+				? 1
+				: 0};
+		`;
+	}
 </script>
 
 <div id="header-container" class="{headerContainerDynamicClass} header-container">
 	<div id="header-content" class="header-content">
-		<div id="header-left-flank" class="header-left-flank" />
+		<div id="header-left-flank" class="{headerLeftFlankDynamicClass} header-left-flank" />
 		<div id="header-center" class="header-center">
 			<img
 				src="./img/family-tree-icon.png"
@@ -33,10 +46,18 @@
 			/>
 		</div>
 		<div id="header-right-flank" class="header-right-flank">
-			<Button
-				onClickFunction={buildModeButtonOnClickAction}
-				buttonText={$tempState.buildMode ? 'End Build Mode' : 'Start Build Mode'}
-			/>
+			{#if $uiState.personIdForNodeEdit === undefined}
+				<SaveStateBanner />
+			{/if}
+			<div id="edit-tree-button-container" class="edit-tree-button-container">
+				<Button
+					onClickFunction={buildModeButtonOnClickAction}
+					buttonText={$tempState.buildMode ? 'Done Editing' : 'Edit Tree'}
+					overrideBackgroundColor={$tempState.buildMode
+						? stylingConstants.colors.buttonColorDone
+						: stylingConstants.colors.buttonColorPrimary}
+				/>
+			</div>
 		</div>
 	</div>
 </div>
@@ -55,7 +76,8 @@
 
 	.header-left-flank {
 		display: flex;
-		flex: 1;
+		gap: 0.5vw;
+		padding: 0 0.5vw 0 0.5vw;
 	}
 
 	.header-center {
@@ -67,6 +89,13 @@
 	.header-right-flank {
 		display: flex;
 		flex: 1;
-		justify-content: center;
+		justify-content: right;
+		align-items: center;
+		gap: 0.5vw;
+		padding: 0 0.5vw 0 0.5vw;
+	}
+
+	.edit-tree-button-container {
+		flex-shrink: 0;
 	}
 </style>

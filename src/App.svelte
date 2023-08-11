@@ -91,9 +91,6 @@
 		class="app-container {appContainerDynamicClass}"
 		on:contextmenu={blockContextMenu}
 	>
-		{#if $uiState.personIdForNodeEdit === undefined}
-			<SaveStateBanner />
-		{/if}
 		<ChooseTreeModal />
 		{#if $tempState.nodeActionsModalPersonId !== undefined}
 			<NodeActionsModal

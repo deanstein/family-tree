@@ -3,8 +3,9 @@
 
 	import stylingConstants from '../styling-constants';
 
-	export let message = 'This is a notification banner.';
-	export let color = 'lightGreen';
+	export let message = 'This is a notification banner.'; // default message
+	export let color = 'lightGreen'; // default color
+	export let standalone = true; // set to false if included in a header already in a fixed position
 	export let showCloseButton = true;
 
 	let headerContainerDynamicClass;
@@ -13,6 +14,7 @@
 		headerContainerDynamicClass = css`
 			z-index: ${stylingConstants.zIndices.notificationZIndex};
 			background-color: ${color};
+			position: ${standalone ? 'fixed' : 'relative'};
 		`;
 	}
 </script>
@@ -32,7 +34,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		position: fixed;
 		font-size: 1.5vh;
 		height: 3vh;
 		width: 100%;

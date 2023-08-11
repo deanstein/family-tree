@@ -13,26 +13,30 @@
 	export let overrideFontSize = undefined;
 	export let overridePadding = undefined;
 
-	const buttonDynamicClass = css`
-		font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
-		padding: ${overridePadding ? overridePadding : '1vh'};
-		color: ${overrideColor ? overrideColor : 'white'};
-		background-color: ${overrideBackgroundColor
-			? overrideBackgroundColor
-			: stylingConstants.colors.buttonColorPrimary};
-		:hover {
-			color: ${overrideColorHover ? overrideColorHover : 'white'};
-			background-color: ${overrideBackgroundColorHover
-				? overrideBackgroundColorHover
-				: stylingConstants.colors.hoverColor};
-		}
-		:disabled {
-			background-color: ${stylingConstants.colors.buttonColorDisabled};
-		}
-		:disabled:hover {
-			background-color: ${stylingConstants.colors.buttonColorDisabled};
-		}
-	`;
+	let buttonDynamicClass;
+
+	$: {
+		buttonDynamicClass = css`
+			font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
+			padding: ${overridePadding ? overridePadding : '1vh'};
+			color: ${overrideColor ? overrideColor : 'white'};
+			background-color: ${overrideBackgroundColor
+				? overrideBackgroundColor
+				: stylingConstants.colors.buttonColorPrimary};
+			:hover {
+				color: ${overrideColorHover ? overrideColorHover : 'white'};
+				background-color: ${overrideBackgroundColorHover
+					? overrideBackgroundColorHover
+					: stylingConstants.colors.hoverColor};
+			}
+			:disabled {
+				background-color: ${stylingConstants.colors.buttonColorDisabled};
+			}
+			:disabled:hover {
+				background-color: ${stylingConstants.colors.buttonColorDisabled};
+			}
+		`;
+	}
 </script>
 
 <button disabled={!isEnabled} on:click={onClickFunction} class={buttonDynamicClass}>
