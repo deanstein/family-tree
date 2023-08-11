@@ -50,7 +50,8 @@
 	window.addEventListener('resize', () => {
 		resetCanvasSize(personNodeConnectionLineCanvasRef);
 		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
-		//drawAllNodeConnectionLines($uiState.personNodePositions);
+		drawNodeConnectionLines($uiState.personNodeConnectionLineCanvas, $uiState.personNodePositions, stylingConstants.sizes.nPersonNodeConnectionLineThickness,
+			stylingConstants.colors.personNodeConnectionLineColor);
 	});
 
 	const appContainerDynamicClass = css`
