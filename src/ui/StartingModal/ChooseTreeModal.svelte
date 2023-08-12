@@ -112,7 +112,7 @@
 		overflow: auto;
 		width: 50vw;
 		height: 50vh;
-		background-color: rgba(48, 48, 48, 0.8);
+		background-color: rgba(120, 120, 120, 0.8);
 	}
 
 	.choose-tree-header {
