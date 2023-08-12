@@ -30,7 +30,7 @@
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
-	import {  drawNodeConnectionLine } from '../../graphics-factory';
+	import { drawNodeConnectionLine } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 
 	export let sPersonId;
@@ -80,6 +80,10 @@
 				border: 2px solid ${stylingConstants.colors.hoverColor};
 			}
 		`;
+	}
+
+	$: {
+		addOrUpdatePersonNodePosition(sPersonId, centroid);
 	}
 
 	afterUpdate(() => {

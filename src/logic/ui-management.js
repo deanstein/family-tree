@@ -327,3 +327,10 @@ export const getDivCentroid = (element) => {
 
 	return position;
 };
+
+export const getScreenCentroid = () => {
+	return {
+		x: document.documentElement.clientWidth / 2,
+		y: window.innerHeight / 2
+	};
+};
