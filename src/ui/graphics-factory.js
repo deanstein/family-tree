@@ -21,7 +21,6 @@ export const drawNodeConnectionLine = (context2d, position, thickness, color) =>
 export const drawNodeConnectionLines = (canvasRef, nodePositions, thickness, color) => {
 	if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
 
-	console.log('called');
 	const ctx = canvasRef.getContext('2d');
 
 	// context needs to be adjusted for the device's pixel ratio

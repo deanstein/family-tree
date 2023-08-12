@@ -206,6 +206,11 @@ export const hidePersonDetailView = () => {
 };
 
 export const getTimelineProportionByDate = (person, eventDate) => {
+	// this covers the case where the birthday is unknown, so force the div to the top (0 proportion)
+	if (eventDate === '') {
+		return 0;
+	}
+
 	const startDate = new Date(person.birth.date);
 	// end date is the death date if deceased or today
 	const endDate = person.death.date !== '' ? new Date(person.death.date) : new Date();
@@ -215,7 +220,9 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	const eventDurationMs = Math.abs(new Date(eventDate).getTime() - startDate.getTime());
 
 	// proportion is event duration divided by lifespan, in milliseconds
-	const proportion = eventDurationMs / lifespanMs;
+	let proportion = eventDurationMs / lifespanMs;
+
+	console.log(proportion);
 
 	return proportion;
 };
