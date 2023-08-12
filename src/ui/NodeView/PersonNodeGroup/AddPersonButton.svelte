@@ -22,7 +22,8 @@
 		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		background: ${stylingConstants.colors.nodeGroupColor};
+		color: white;
+		background: ${stylingConstants.colors.activePersonNodeColor};
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
 		}
@@ -51,7 +52,7 @@
 		on:click={addButtonOnClick}
 		on:keydown={addButtonOnClick}
 	>
-		<div id="person-add-button-label" class="person-add-button-label">+</div>
+		<span id="person-add-button-label" class="person-add-button-label">+</span>
 	</div>
 </div>
 
@@ -60,10 +61,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: darkgray;
 	}
 
 	.person-add-button-label {
 		font-size: 3vh;
+		line-height: normal;
 	}
 </style>
