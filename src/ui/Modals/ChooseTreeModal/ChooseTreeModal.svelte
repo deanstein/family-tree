@@ -12,12 +12,9 @@
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
 	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../../logic/ui-management';
+	import Modal from '../Modal.svelte';
 
 	export let showCloseButton = true;
-
-	const chooseTreeModalContentContainerDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
-	`;
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -53,75 +50,45 @@
 	};
 </script>
 
-{#if $uiState.showChooseTreeModal}
-	<div id="choose-tree-modal-outer-container" class="choose-tree-modal-outer-container">
+<Modal
+	showModal={$uiState.showChooseTreeModal}
+	modalTitle={'Choose a family tree:'}
+	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
+>
+	<div class="choose-tree-modal-content">
 		<div
-			id="choose-tree-modal-content-container"
-			class="{chooseTreeModalContentContainerDynamicClass} choose-tree-modal-content-container"
+			id="choose-tree-options-grid"
+			class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
 		>
-			{#if showCloseButton}
-				<div id="choose-tree-close-button" class="choose-tree-close-button" />
-			{/if}
-			<div id="choose-tree-header" class="choose-tree-header">
-				<div id="welcome-message" class="choose-tree-welcome-message">Choose a family tree:</div>
-			</div>
-			<div
-				id="choose-tree-options-grid"
-				class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
-			>
-				<ChooseTreeOption
-					buttonText={chooseTreeStrings.newTreeButton}
-					buttonFunction={newFamilyTreeButtonOnClick}
-					description={chooseTreeStrings.newTreeDescription}
-				/>
-				<ChooseTreeOption
-					buttonText={chooseTreeStrings.exampleTreeButton}
-					buttonFunction={exampleFamilyTreeButtonOnClick}
-					description={chooseTreeStrings.exampleTreeDescription}
-				/>
-				<ChooseTreeOption
-					buttonText={chooseTreeStrings.loadTreeButton}
-					buttonFunction={loadFamilyTreeButtonOnClick}
-					description={chooseTreeStrings.loadTreeDescription}
-				/>
-			</div>
-			<div id="dev-message" class="choose-tree-dev-message">
-				Note: This app is unfinished and does not represent the final interface, colors, or
-				features. It may also be buggy.
-			</div>
+			<ChooseTreeOption
+				buttonText={chooseTreeStrings.newTreeButton}
+				buttonFunction={newFamilyTreeButtonOnClick}
+				description={chooseTreeStrings.newTreeDescription}
+			/>
+			<ChooseTreeOption
+				buttonText={chooseTreeStrings.exampleTreeButton}
+				buttonFunction={exampleFamilyTreeButtonOnClick}
+				description={chooseTreeStrings.exampleTreeDescription}
+			/>
+			<ChooseTreeOption
+				buttonText={chooseTreeStrings.loadTreeButton}
+				buttonFunction={loadFamilyTreeButtonOnClick}
+				description={chooseTreeStrings.loadTreeDescription}
+			/>
 		</div>
-		<Portal target="#app-container">
-			<Overlay />
-		</Portal>
+		<div id="dev-message" class="choose-tree-dev-message">
+			Note: This app is unfinished and does not represent the final interface, colors, or features.
+			It may also be buggy.
+		</div>
 	</div>
-{/if}
+</Modal>
 
 <style>
-	.choose-tree-modal-outer-container {
-		position: absolute;
+	.choose-tree-modal-content {
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
+		flex-direction: column;
+		flex-grow: 1;
 		width: 100%;
-	}
-
-	.choose-tree-modal-content-container {
-		display: flex;
-		flex-direction: column;
-		overflow: auto;
-		width: 50vw;
-		height: 50vh;
-		background-color: rgba(120, 120, 120, 0.8);
-	}
-
-	.choose-tree-header {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
-		padding: 10px;
-		color: white;
 	}
 
 	.choose-tree-options-grid {
@@ -129,14 +96,6 @@
 		flex-grow: 1;
 		gap: 5vh;
 		padding: 0 5vh 0 5vh;
-	}
-
-	.choose-tree-welcome-message {
-		font-size: 5vh;
-		display: flex;
-		justify-content: center;
-		padding: 10px;
-		color: white;
 	}
 
 	.choose-tree-dev-message {

@@ -2,32 +2,28 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import uiState from '../../../stores/ui-state';
-	import tempState from '../../../stores/temp-state';
+	import uiState from '../../stores/ui-state';
+	import tempState from '../../stores/temp-state';
 
-	import timelineEvents from '../../../schemas/timeline-event-types';
+	import timelineEvents from '../../schemas/timeline-event-types';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
-	import Button from '../../Button.svelte';
+	import Button from '../Button.svelte';
 	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
-	import FieldContainer from '../../FieldContainer.svelte';
-	import Overlay from '../../NodeView/Overlay.svelte';
-	import Select from '../../Select.svelte';
-	import TextArea from '../../TextArea.svelte';
+	import FieldContainer from '../FieldContainer.svelte';
+	import Overlay from '../Modals/Overlay.svelte';
+	import Select from '../Select.svelte';
+	import TextArea from '../TextArea.svelte';
 	import {
 		checkPersonForUnsavedChanges,
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
-	} from '../../../logic/temp-management';
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
-	import {
-		deleteObjectByKeyValue,
-		getObjectByKeyValue,
-		instantiateObject
-	} from '../../../logic/utils';
-	import timelineEvent from '../../../schemas/timeline-event';
+	} from '../../logic/temp-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
+	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
+	import timelineEvent from '../../schemas/timeline-event';
 
 	let isEnabled = false;
 	let isKnownEvent = false;

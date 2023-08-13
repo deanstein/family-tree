@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../../../styling-constants';
 
 	const lineDynamicClass = css`
 		margin-top: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 + 'vw'};

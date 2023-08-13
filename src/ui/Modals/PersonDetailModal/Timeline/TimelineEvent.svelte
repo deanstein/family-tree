@@ -1,11 +1,11 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../stores/ui-state';
+	import uiState from '../../../../stores/ui-state';
 
-	import stylingConstants from '../../styling-constants';
-	import { getTimelineProportionByDate } from '../../../logic/ui-management';
-	import { setTimelineEditEvent } from '../../../logic/temp-management';
+	import stylingConstants from '../../../styling-constants';
+	import { getTimelineProportionByDate } from '../../../../logic/ui-management';
+	import { setTimelineEditEvent } from '../../../../logic/temp-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	let eventDateCorrected;

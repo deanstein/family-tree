@@ -2,26 +2,26 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import alternateName from '../../../schemas/alternate-name';
-	import alternateNameTypes from '../../../schemas/alternate-name-types';
-	import tempState from '../../../stores/temp-state';
+	import alternateName from '../../schemas/alternate-name';
+	import alternateNameTypes from '../../schemas/alternate-name-types';
+	import tempState from '../../stores/temp-state';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
-	import Button from '../../Button.svelte';
-	import FieldContainer from '../../FieldContainer.svelte';
-	import Overlay from '../../NodeView/Overlay.svelte';
-	import Select from '../../Select.svelte';
-	import TextInput from '../../TextInput.svelte';
+	import Button from '../Button.svelte';
+	import FieldContainer from '../FieldContainer.svelte';
+	import Overlay from '../Modals/Overlay.svelte';
+	import Select from '../Select.svelte';
+	import TextInput from '../TextInput.svelte';
 
 	import {
 		addOrEditAlternateNameInTempState,
 		initializeAltNamesTempState,
 		removeAlternateNameFromTempState,
 		unsetEditAltName
-	} from '../../../logic/temp-management';
-	import { instantiateObject } from '../../../logic/utils';
-	import TextArea from '../../TextArea.svelte';
+	} from '../../logic/temp-management';
+	import { instantiateObject } from '../../logic/utils';
+	import TextArea from '../TextArea.svelte';
 
 	let isEnabled = undefined;
 	let nameInputValue = $tempState.bioEditAltName.name;

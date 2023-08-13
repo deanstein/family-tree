@@ -1,22 +1,22 @@
 <script>
 	import { css } from '@emotion/css';
-	import { personDetailStrings } from '../../strings';
-	import { gender } from '../../../schemas/gender';
-	import stylingConstants from '../../styling-constants';
-	import uiState from '../../../stores/ui-state';
-	import tempState from '../../../stores/temp-state';
+	import { personDetailStrings } from '../../../strings';
+	import { gender } from '../../../../schemas/gender';
+	import stylingConstants from '../../../styling-constants';
+	import uiState from '../../../../stores/ui-state';
+	import tempState from '../../../../stores/temp-state';
 
-	import Avatar from '../../NodeView/PersonNode/Avatar.svelte';
+	import Avatar from '../../../NodeView/PersonNode/Avatar.svelte';
 	import AlternateNames from './AlternateNames.svelte';
-	import Checkbox from '../../Checkbox.svelte';
+	import Checkbox from '../../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
-	import FieldContainer from '../../FieldContainer.svelte';
+	import FieldContainer from '../../../FieldContainer.svelte';
 	import Name from './Name.svelte';
-	import Overlay from '../../NodeView/Overlay.svelte';
-	import Selector from '../../Select.svelte';
-	import TextInput from '../../TextInput.svelte';
-	import { writeUIStateValueAtPath } from '../../../logic/ui-management';
+	import Overlay from '../../Overlay.svelte';
+	import Selector from '../../../Select.svelte';
+	import TextInput from '../../../TextInput.svelte';
+	import { writeUIStateValueAtPath } from '../../../../logic/ui-management';
 	import {
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
@@ -26,9 +26,9 @@
 		unsetBioEditId,
 		initializeAltNamesTempState,
 		setBioEditId
-	} from '../../../logic/temp-management';
+	} from '../../../../logic/temp-management';
 	import { onMount } from 'svelte';
-	import { getPersonById } from '../../../logic/person-management';
+	import { getPersonById } from '../../../../logic/person-management';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;
