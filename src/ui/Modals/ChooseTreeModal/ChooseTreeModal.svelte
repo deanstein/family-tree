@@ -2,16 +2,16 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
-	import Overlay from '../NodeView/Overlay.svelte';
+	import Overlay from '../Overlay.svelte';
 
-	import uiState from '../../stores/ui-state';
-	import stylingConstants from '../styling-constants';
+	import uiState from '../../../stores/ui-state';
+	import stylingConstants from '../../styling-constants';
 
-	import { chooseTreeStrings } from '../strings';
+	import { chooseTreeStrings } from '../../strings';
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/ui-management';
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../../logic/ui-management';
 
 	export let showCloseButton = true;
 

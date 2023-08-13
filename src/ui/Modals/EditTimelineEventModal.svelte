@@ -10,7 +10,7 @@
 	import stylingConstants from '../../styling-constants';
 
 	import Button from '../../Button.svelte';
-	import DatePicker from '../Bio/DatePicker.svelte';
+	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
 	import FieldContainer from '../../FieldContainer.svelte';
 	import Overlay from '../../NodeView/Overlay.svelte';
 	import Select from '../../Select.svelte';

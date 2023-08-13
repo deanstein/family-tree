@@ -2,12 +2,12 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
-	import uiState from '../../stores/ui-state';
-	import stylingConstants from '../styling-constants';
-	import { hidePersonDetailView } from '../../logic/ui-management';
+	import uiState from '../../../stores/ui-state';
+	import stylingConstants from '../../styling-constants';
+	import { hidePersonDetailView } from '../../../logic/ui-management';
 
-	import Button from '../Button.svelte';
-	import Overlay from '../NodeView/Overlay.svelte';
+	import Button from '../../Button.svelte';
+	import Overlay from '../Overlay.svelte';
 	import Timeline from './Timeline/Timeline.svelte';
 	import Bio from './Bio/Bio.svelte';
 

@@ -3,33 +3,33 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
-	import Button from '../../Button.svelte';
-	import Overlay from '../Overlay.svelte';
+	import Button from '../Button.svelte';
+	import Overlay from './Overlay.svelte';
 
-	import { defaultName } from '../../../schemas/person';
-	import tempState from '../../../stores/temp-state';
-	import uiState from '../../../stores/ui-state';
+	import { defaultName } from '../../schemas/person';
+	import tempState from '../../stores/temp-state';
+	import uiState from '../../stores/ui-state';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
 	import {
 		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal,
 		setCachedPerson,
 		unsetCachedPerson
-	} from '../../../logic/temp-management';
+	} from '../../logic/temp-management';
 	import {
 		removePersonFromActivePersonGroup,
 		showPersonDetailView
-	} from '../../../logic/ui-management.js';
-	import PersonNodeForEdit from './PersonNodeForEdit.svelte';
+	} from '../../logic/ui-management.js';
+	import PersonNodeForEdit from '../NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import {
 		getPersonById,
 		setPersonName,
 		setPersonRelationship,
 		removePersonFromPeopleArray,
 		setActivePerson
-	} from '../../../logic/person-management';
+	} from '../../logic/person-management';
 
 	export let personId;
 	export let relationshipId;
