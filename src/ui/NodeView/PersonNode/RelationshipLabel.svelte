@@ -48,5 +48,6 @@
 		text-overflow: ellipsis;
 		width: -webkit-fill-available;
 		width: -moz-available;
+		border-radius: 5px;
 	}
 </style>

@@ -236,7 +236,7 @@ export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 		// If the person was found
 		if (foundPersonPositionIndex !== -1) {
 			// If its position is unchanged, make no changes
-			if (foundPersonPosition === nodePosition) {
+		if (foundPersonPosition === nodePosition) {
 				return currentValue;
 			}
 

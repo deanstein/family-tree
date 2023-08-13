@@ -47,5 +47,6 @@
 	button {
 		border: none;
 		font-weight: bold;
+		border-radius: 5px;
 	}
 </style>

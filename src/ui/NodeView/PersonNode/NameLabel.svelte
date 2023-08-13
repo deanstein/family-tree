@@ -16,13 +16,13 @@
 	const nameLabelDynamicClass = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		border: 2px solid ${stylingConstants.colors.activeColor};
-		color: ${stylingConstants.colors.textColor};
+		color: white;
 	`;
 </script>
 
 <div id="name-label-container" class="{nameLabelContainerDynamicClass} name-label-container">
 	<div id="name-label" class="{nameLabelDynamicClass} name-label">
-		{sInputValue}
+		{bIsActivePerson ? sInputValue.toUpperCase() : sInputValue}
 	</div>
 </div>
 
@@ -34,10 +34,11 @@
 	}
 
 	.name-label {
+		color: white;
 		width: 100%;
 		text-align: center;
+		font-weight: bold;
 		outline: none;
-		background-color: white;
 		border: 2px solid transparent;
 		white-space: nowrap;
 		overflow: hidden;

@@ -75,7 +75,8 @@
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 			:hover {
-				border: 2px solid ${stylingConstants.colors.hoverColor};
+				border: 2px solid ${stylingConstants.colors.hoverColorSubtleDark};
+				background-color: ${stylingConstants.colors.hoverColorSubtleDark};
 			}
 		`;
 	}
@@ -107,7 +108,7 @@
 			$uiState.personNodeConnectionLineCanvasHover.getContext('2d'),
 			getDivCentroid(nodeDivRef),
 			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
-			stylingConstants.colors.hoverColor
+			stylingConstants.colors.hoverColorSubtleDark
 		);
 	};
 

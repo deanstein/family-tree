@@ -12,6 +12,7 @@ const colors = {
 	buttonColorDelete: '#FF5757',
 	hoverColor: '#50CBFC',
 	hoverColorSubtle: '#B6EAFF',
+	hoverColorSubtleDark: '#92C0D2',
 	activeColor: '#3399ff',
 	activeColorSubtle: '#e6f3ff',
 	overlayColor: 'gray',
