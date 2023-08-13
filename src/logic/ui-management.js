@@ -222,8 +222,6 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	// proportion is event duration divided by lifespan, in milliseconds
 	let proportion = eventDurationMs / lifespanMs;
 
-	console.log(proportion);
-
 	return proportion;
 };
 

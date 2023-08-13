@@ -18,11 +18,11 @@
 
 <style>
 	.row {
-		background-color: rgba(210, 210, 210, 0.65);
+		/* background-color: rgba(210, 210, 210, 0.65); */
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		max-width: 100%;
+		max-width: 100vw;
 		box-sizing: border-box;
 		grid-gap: 1vw;
 		padding: 0 25px 0 25px;

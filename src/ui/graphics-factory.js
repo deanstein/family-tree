@@ -1,3 +1,6 @@
+import { quintOut } from 'svelte/easing';
+import { crossfade } from 'svelte/transition';
+
 import {
 	addOrUpdatePersonNodePosition,
 	getScreenCentroid,
@@ -35,4 +38,24 @@ export const drawNodeConnectionLines = (canvasRef, nodePositions, thickness, col
 // this should be used only with the personId from uiState
 export const redrawNodeConnectionLines = (personId) => {
 	addOrUpdatePersonNodePosition(personId, getScreenCentroid());
+};
+
+export const drawCrossfade = () => {
+	return crossfade({
+		duration: (d) => Math.sqrt(d * 200),
+
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+
+			return {
+				duration: 300,
+				easing: quintOut,
+				css: (t) => `
+			transform: ${transform} scale(${t});
+			opacity: ${t}
+		  `
+			};
+		}
+	});
 };

@@ -72,6 +72,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+		border-radius: 10px;
 	}
 
 	.person-node-group-outer-container {
@@ -92,5 +93,6 @@
 		display: inline-flex;
 		width: 100%;
 		color: white;
+		border-radius: 5px;
 	}
 </style>

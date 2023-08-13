@@ -18,7 +18,7 @@
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
-	import { resetCanvasSize, set2DContextScale } from './logic/ui-management';
+	import { clearCanvas, resetCanvasSize, set2DContextScale } from './logic/ui-management';
 	import { appVersion, schemaVersion } from './versions';
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 
@@ -43,10 +43,13 @@
 		setActivePerson($familyTreeData.allPeople[0]);
 	}
 
+	// block the context menu everywhere
 	let blockContextMenu = (event) => {
 		event.preventDefault();
 	};
 
+	// on window resize, need to reset all canvases and redraw
+	// connection lines
 	window.addEventListener('resize', () => {
 		resetCanvasSize(personNodeConnectionLineCanvasRef);
 		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
@@ -77,6 +80,7 @@
 				stylingConstants.sizes.nPersonNodeConnectionLineThickness,
 				stylingConstants.colors.personNodeConnectionLineColor
 			);
+			clearCanvas(personNodeConnectionLineCanvasRefHover);
 		}
 	}
 

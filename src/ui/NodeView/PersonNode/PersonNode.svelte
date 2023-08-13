@@ -3,9 +3,6 @@
 	import { afterUpdate, onDestroy } from 'svelte';
 	import Portal from 'svelte-portal';
 
-	import { quintOut } from 'svelte/easing';
-	import { crossfade } from 'svelte/transition';
-
 	import {
 		getPersonById,
 		setActivePerson,
@@ -30,8 +27,9 @@
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
-	import { drawNodeConnectionLine } from '../../graphics-factory';
+	import { drawNodeConnectionLine, drawCrossfade } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
+	const [send, receive] = drawCrossfade();
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
@@ -133,24 +131,6 @@
 			addActivePersonToPeopleArray();
 		}
 	};
-
-	const [send, receive] = crossfade({
-		duration: (d) => Math.sqrt(d * 200),
-
-		fallback(node, params) {
-			const style = getComputedStyle(node);
-			const transform = style.transform === 'none' ? '' : style.transform;
-
-			return {
-				duration: 300,
-				easing: quintOut,
-				css: (t) => `
-					transform: ${transform} scale(${t});
-					opacity: ${t}
-				`
-			};
-		}
-	});
 </script>
 
 {#key sPersonId}
@@ -200,6 +180,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		border-radius: 10px;
 	}
 
 	.person-node-content-area {
