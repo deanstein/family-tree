@@ -62,5 +62,6 @@
 		color: black;
 		background-color: transparent;
 		font-weight: bold;
+		border-radius: 5px;
 	}
 </style>
