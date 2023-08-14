@@ -150,6 +150,7 @@
 	.edit-alternate-name-button-container {
 		display: flex;
 		justify-content: right;
+		width: 100%;
 		gap: 0.5vw;
 	}
 </style>

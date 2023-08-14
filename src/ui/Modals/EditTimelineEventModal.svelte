@@ -160,5 +160,6 @@
 		display: flex;
 		justify-content: right;
 		gap: 0.5vw;
+		width: 100%;
 	}
 </style>
