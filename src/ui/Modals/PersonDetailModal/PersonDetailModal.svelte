@@ -55,6 +55,7 @@
 		flex-direction: column;
 		flex-basis: 33.333%;
 		overflow-y: auto;
+		border-radius: 10px;
 	}
 
 	.person-detail-timeline-container {
@@ -68,5 +69,6 @@
 		flex-grow: 1;
 		background-color: gainsboro;
 		padding: 1vh;
+		border-radius: 10px;
 	}
 </style>
