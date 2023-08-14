@@ -84,7 +84,6 @@
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 		a {
-			background-color: ${stylingConstants.colors.menuBackgroundColor};
 			:hover {
 				background-color: ${stylingConstants.colors.hoverColor};
 		}
