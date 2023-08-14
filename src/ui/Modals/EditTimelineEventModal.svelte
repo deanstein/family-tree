@@ -111,8 +111,8 @@
 		<FieldContainer label="Event Content">
 			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
-			<ModalActionsBar >
-				{#if $tempState.timelineEditEventId === undefined}
+		<ModalActionsBar>
+			{#if $tempState.timelineEditEventId === undefined}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onEditButtonAction}
@@ -141,8 +141,8 @@
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
 			{/if}
-			</ModalActionsBar>
-		</div>
+		</ModalActionsBar>
+	</div>
 </Modal>
 
 <style>

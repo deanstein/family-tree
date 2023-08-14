@@ -121,7 +121,7 @@
 				overrideBackgroundColorHover={stylingConstants.colors.hoverColor}
 			/>
 		{/if}
-		<ModalActionsBar >
+		<ModalActionsBar>
 			{#if !isNewPerson}
 				<Button
 					buttonText="Remove"

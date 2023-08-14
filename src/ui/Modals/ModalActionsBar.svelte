@@ -2,7 +2,7 @@
 </script>
 
 <div id="modal-actions-bar" class="modal-actions-bar">
-    <slot />
+	<slot />
 </div>
 
 <style>
