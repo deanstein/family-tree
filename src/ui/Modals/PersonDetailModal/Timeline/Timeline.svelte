@@ -1,13 +1,13 @@
 <script>
 	import { v4 as uuidv4 } from 'uuid';
 
-	import timelineEvent from '../../../schemas/timeline-event';
-	import uiState from '../../../stores/ui-state';
+	import timelineEvent from '../../../../schemas/timeline-event';
+	import uiState from '../../../../stores/ui-state';
 
-	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../logic/temp-management';
-	import { instantiateObject } from '../../../logic/utils';
+	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
+	import { instantiateObject } from '../../../../logic/utils';
 
-	import Button from '../../Button.svelte';
+	import Button from '../../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
 

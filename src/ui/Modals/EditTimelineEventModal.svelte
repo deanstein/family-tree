@@ -2,32 +2,30 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import uiState from '../../../stores/ui-state';
-	import tempState from '../../../stores/temp-state';
+	import uiState from '../../stores/ui-state';
+	import tempState from '../../stores/temp-state';
 
-	import timelineEvents from '../../../schemas/timeline-event-types';
+	import timelineEvents from '../../schemas/timeline-event-types';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
-	import Button from '../../Button.svelte';
-	import DatePicker from '../Bio/DatePicker.svelte';
-	import FieldContainer from '../../FieldContainer.svelte';
-	import Overlay from '../../NodeView/Overlay.svelte';
-	import Select from '../../Select.svelte';
-	import TextArea from '../../TextArea.svelte';
+	import Button from '../Button.svelte';
+	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
+	import FieldContainer from '../FieldContainer.svelte';
+	import Overlay from '../Modals/Overlay.svelte';
+	import Select from '../Select.svelte';
+	import TextArea from '../TextArea.svelte';
 	import {
 		checkPersonForUnsavedChanges,
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
-	} from '../../../logic/temp-management';
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
-	import {
-		deleteObjectByKeyValue,
-		getObjectByKeyValue,
-		instantiateObject
-	} from '../../../logic/utils';
-	import timelineEvent from '../../../schemas/timeline-event';
+	} from '../../logic/temp-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
+	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
+	import timelineEvent from '../../schemas/timeline-event';
+	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	let isEnabled = false;
 	let isKnownEvent = false;
@@ -72,10 +70,6 @@
 		timelineEvents
 	};
 
-	let addAlternateNameModalDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.addEditAltNameZIndex};
-	`;
-
 	$: {
 		isEnabled = $tempState.timelineEditEventId !== undefined;
 		isKnownEvent = getObjectByKeyValue(
@@ -92,14 +86,17 @@
 	});
 </script>
 
-<div
-	id="edit-timeline-event-modal-container"
-	class="{addAlternateNameModalDynamicClass} edit-timeline-event-modal-container"
+<Modal
+	showModal={$tempState.timelineEditEventId}
+	modalTitle={'Event details'}
+	modalSubtitle={null}
+	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div id="edit-timeline-event-modal-content" class="edit-timeline-event-modal-content">
-		<div id="edit-timeline-event-modal-title" class="edit-timeline-event-modal-title">
-			{'Event details'}
-		</div>
+	<div
+		id="edit-timeline-event-modal-content"
+		class="edit-timeline-event-modal-content"
+		slot="modal-content-slot"
+	>
 		<FieldContainer label="Event Date">
 			<DatePicker {isEnabled} bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
@@ -114,7 +111,7 @@
 		<FieldContainer label="Event Content">
 			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
-		<div id="edit-timeline-event-button-container" class="edit-timeline-event-button-container">
+		<ModalActionsBar>
 			{#if $tempState.timelineEditEventId === undefined}
 				<Button
 					buttonText={'Edit'}
@@ -144,37 +141,19 @@
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
 			{/if}
-		</div>
+		</ModalActionsBar>
 	</div>
-	<Overlay zIndexOverride={-1} />
-</div>
+</Modal>
 
 <style>
-	.edit-timeline-event-modal-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
 	.edit-timeline-event-modal-content {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vh;
-		padding: 1vw;
-		width: 10vw;
-		background-color: lightGray;
-	}
-
-	.edit-timeline-event-modal-title {
-		font-size: 2vh;
-	}
-
-	.edit-timeline-event-button-container {
-		display: flex;
-		justify-content: right;
-		gap: 0.5vw;
 	}
 </style>

@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
-	import stylingConstants from '../../styling-constants';
-	import { setEditAltName } from '../../../logic/temp-management';
+	import stylingConstants from '../../../styling-constants';
+	import { setEditAltName } from '../../../../logic/temp-management';
 
 	export let alternateName;
 	export let isEnabled;

@@ -2,26 +2,28 @@
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
-	import alternateName from '../../../schemas/alternate-name';
-	import alternateNameTypes from '../../../schemas/alternate-name-types';
-	import tempState from '../../../stores/temp-state';
+	import alternateName from '../../schemas/alternate-name';
+	import alternateNameTypes from '../../schemas/alternate-name-types';
+	import tempState from '../../stores/temp-state';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
-	import Button from '../../Button.svelte';
-	import FieldContainer from '../../FieldContainer.svelte';
-	import Overlay from '../../NodeView/Overlay.svelte';
-	import Select from '../../Select.svelte';
-	import TextInput from '../../TextInput.svelte';
+	import Button from '../Button.svelte';
+	import FieldContainer from '../FieldContainer.svelte';
+	import Overlay from '../Modals/Overlay.svelte';
+	import Select from '../Select.svelte';
+	import TextInput from '../TextInput.svelte';
 
 	import {
 		addOrEditAlternateNameInTempState,
 		initializeAltNamesTempState,
 		removeAlternateNameFromTempState,
 		unsetEditAltName
-	} from '../../../logic/temp-management';
-	import { instantiateObject } from '../../../logic/utils';
-	import TextArea from '../../TextArea.svelte';
+	} from '../../logic/temp-management';
+	import { instantiateObject } from '../../logic/utils';
+	import TextArea from '../TextArea.svelte';
+	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	let isEnabled = undefined;
 	let nameInputValue = $tempState.bioEditAltName.name;
@@ -80,14 +82,17 @@
 	});
 </script>
 
-<div
-	id="edit-alternate-name-modal-container"
-	class="{addAlternateNameModalDynamicClass} edit-alternate-name-modal-container"
+<Modal
+	showModal={$tempState.bioEditAltName}
+	modalTitle={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
+	modalSubtitle={null}
+	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
-		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
-			{isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
-		</div>
+	<div
+		id="edit-alt-name-modal-content"
+		class="edit-alt-name-modal-content"
+		slot="modal-content-slot"
+	>
 		<FieldContainer label="Name">
 			<TextInput {isEnabled} bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>
@@ -102,8 +107,7 @@
 		<FieldContainer label="Context (optional)">
 			<TextArea {isEnabled} bind:inputValue={contextInputValue} />
 		</FieldContainer>
-		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
-			<!-- show a delete button if the original value is not empty (editing existing name) -->
+		<ModalActionsBar>
 			{#if isEnabled && nameInputValueOriginal !== ''}
 				<Button
 					buttonText="Delete"
@@ -127,36 +131,19 @@
 					onClickFunction={onDoneButtonAction}
 				/>
 			{/if}
-		</div>
-	</div>
-	<Overlay zIndexOverride={-1} />
-</div>
+		</ModalActionsBar>
+	</div></Modal
+>
 
 <style>
-	.edit-alternate-name-modal-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
-	.edit-alternate-name-modal-content {
+	.edit-alt-name-modal-content {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vh;
-		padding: 1vw;
-		background-color: lightGray;
-	}
-
-	.edit-alternate-name-modal-title {
-		font-size: 2vh;
-	}
-
-	.edit-alternate-name-button-container {
-		display: flex;
-		justify-content: right;
-		gap: 0.5vw;
 	}
 </style>

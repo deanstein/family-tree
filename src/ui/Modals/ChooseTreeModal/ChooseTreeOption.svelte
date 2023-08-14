@@ -1,9 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../styling-constants';
+	import stylingConstants from '../../styling-constants';
 
-	import Button from '../Button.svelte';
+	import Button from '../../Button.svelte';
 
 	export let buttonText;
 	export let buttonFunction;
@@ -57,7 +57,8 @@
 		align-items: center;
 		flex-basis: 33%;
 		color: white;
-		background-color: #c1c1c1;
+		background-color: #dbdbdb;
+		border-radius: 10px;
 	}
 
 	.button-container {

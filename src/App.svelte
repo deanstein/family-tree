@@ -22,18 +22,18 @@
 	import { appVersion, schemaVersion } from './versions';
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 
-	import ChooseTreeModal from './ui/StartingModal/ChooseTreeModal.svelte';
+	import ChooseTreeModal from './ui/Modals/ChooseTreeModal/ChooseTreeModal.svelte';
+	import EditAlternateNameModal from './ui/Modals/EditAlternateNameModal.svelte';
+	import EditTimelineEventModal from './ui/Modals/EditTimelineEventModal.svelte';
+	import NodeActionsModal from './ui/Modals/NodeActionsModal.svelte';
+	import PersonDetailModal from './ui/Modals/PersonDetailModal/PersonDetailModal.svelte';
 	import Header from './ui/Header.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
 	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
-	import PersonDetailModal from './ui/PersonDetailModal/PersonDetailModal.svelte';
-	import NodeActionsModal from './ui/NodeView/PersonNode/NodeActionsModal.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
-	import EditAlternateNameModal from './ui/PersonDetailModal/Bio/EditAlternateNameModal.svelte';
-	import EditTimelineEventModal from './ui/PersonDetailModal/Timeline/EditTimelineEventModal.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node

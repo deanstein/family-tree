@@ -19,7 +19,7 @@
 	import RelationshipLabel from './RelationshipLabel.svelte';
 	import NameLabel from './NameLabel.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
-	import Overlay from '../Overlay.svelte';
+	import Overlay from '../../Modals/Overlay.svelte';
 	import {
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
 		clearCanvas,
