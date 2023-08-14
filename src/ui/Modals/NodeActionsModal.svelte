@@ -1,10 +1,8 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
 	import { css } from '@emotion/css';
-	import Portal from 'svelte-portal';
 
 	import Button from '../Button.svelte';
-	import Overlay from './Overlay.svelte';
 
 	import { defaultName } from '../../schemas/person';
 	import tempState from '../../stores/temp-state';
@@ -30,6 +28,7 @@
 		removePersonFromPeopleArray,
 		setActivePerson
 	} from '../../logic/person-management';
+	import Modal from './Modal.svelte';
 
 	export let personId;
 	export let relationshipId;
@@ -78,26 +77,6 @@
 		showPersonDetailView();
 	};
 
-	const nodeActionsModalDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.personNodeSettingsFlyoutZIndex};
-		ul {
-			border: 2px solid ${stylingConstants.colors.hoverColor};
-		}
-		a {
-			:hover {
-				background-color: ${stylingConstants.colors.hoverColor};
-		}
-	`;
-
-	const nodeActionsModalTitleDynamicClass = css`
-		color: ${stylingConstants.colors.textColor};
-	`;
-
-	const personNodeRelationshipSubtextDynamicClass = css`
-		font-size: ${stylingConstants.sizes.bioFieldFontSize};
-		color: ${stylingConstants.colors.textColor};
-	`;
-
 	onMount(() => {
 		captureAllOriginalInputValues();
 		setCachedPerson(getPersonById(personId));
@@ -116,23 +95,13 @@
 	}
 </script>
 
-<div
-	id="node-actions-modal-container"
-	class="{nodeActionsModalDynamicClass} node-actions-modal-container"
+<Modal
+	showModal={$tempState.nodeActionsModalPersonId}
+	modalTitle={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
+	modalSubtitle={'to ' + $uiState.activePerson.name}
+	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}
 >
-	<div id="node-actions-modal-content" class="node-actions-modal-content">
-		<div
-			id="node-actions-modal-title"
-			class="{nodeActionsModalTitleDynamicClass} node-actions-modal-title"
-		>
-			{isNewPerson ? 'Add relationship ' : 'Edit relationship '}
-			<div
-				id="relationship-subtext-label"
-				class="{personNodeRelationshipSubtextDynamicClass} relationship-subtext-label"
-			>
-				to {$uiState.activePerson.name}
-			</div>
-		</div>
+	<div id="node-actions-modal-content" class="node-actions-modal-content" slot="modal-content-slot">
 		<div id="node-actions-node-view" class="node-actions-node-view">
 			<PersonNodeForEdit
 				bind:nameInputValue
@@ -169,51 +138,24 @@
 			/>
 			<Button
 				buttonText="Done"
-				isEnabled={nameInputValue.length > 0 && nameInputValue !== defaultName}
+				isEnabled={nameInputValue?.length > 0 && nameInputValue !== defaultName}
 				overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				onClickFunction={onDoneButtonClick}
 			/>
 		</div>
 	</div>
-</div>
-<Portal target="#app-container">
-	<Overlay />
-</Portal>
+</Modal>
 
 <style>
-	.node-actions-modal-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
 	.node-actions-modal-content {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vh;
-		padding: 1vw;
-		background-color: lightGray;
-	}
-
-	.node-actions-modal-title {
-		font-size: 2vh;
-		padding-bottom: 1vh;
-	}
-
-	.node-actions-button-container {
-		display: flex;
-		flex-direction: column;
-		gap: 1vh;
-		padding: 0.5vh 0 1vh 0;
-	}
-
-	.relationship-subtext-label {
-		text-align: center;
 	}
 
 	.node-actions-button-bottom-container {

@@ -57,7 +57,7 @@
 		align-items: center;
 		flex-basis: 33%;
 		color: white;
-		background-color: #c1c1c1;
+		background-color: #dbdbdb;
 	}
 
 	.button-container {

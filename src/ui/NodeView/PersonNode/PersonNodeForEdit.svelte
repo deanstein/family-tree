@@ -42,6 +42,12 @@
 		}
 	};
 
+	onMount(() => {
+		initializeOffScreenPeopleIdsArray();
+		updateOffScreenPeopleIdsArray();
+		updateFilteredOffScreenPeopleIdsArray(nameInputValue);
+	});
+
 	$: {
 		personNodeDynamicClass = css`
 			width: ${nodeSize};
@@ -51,33 +57,9 @@
 		`;
 	}
 
-	onMount(() => {
-		initializeOffScreenPeopleIdsArray();
-		updateOffScreenPeopleIdsArray();
-		updateFilteredOffScreenPeopleIdsArray(nameInputValue);
-	});
-
 	const personNodeContentAreaDynamicClass = css`
 		margin-top: ${stylingConstants.sizes.padding};
 	`;
-
-	const [send, receive] = crossfade({
-		duration: (d) => Math.sqrt(d * 200),
-
-		fallback(node, params) {
-			const style = getComputedStyle(node);
-			const transform = style.transform === 'none' ? '' : style.transform;
-
-			return {
-				duration: 300,
-				easing: quintOut,
-				css: (t) => `
-					transform: ${transform} scale(${t});
-					opacity: ${t}
-				`
-			};
-		}
-	});
 </script>
 
 <div
@@ -122,6 +104,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		border-radius: 10px;
 	}
 
 	.person-node-content-area {

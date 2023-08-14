@@ -24,7 +24,7 @@
 		actionsButtonText = '...';
 
 		nodeActionsButtonDynamicClass = css`
-			z-index: ${stylingConstants.zIndices.personNodeSettingsZIndex};
+			z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
 			border: 2px solid transparent;
 			font-size: ${stylingConstants.sizes.personNodeFontSize};
 			:hover {

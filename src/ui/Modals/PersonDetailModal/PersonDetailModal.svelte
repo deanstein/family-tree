@@ -13,7 +13,14 @@
 	};
 </script>
 
-<Modal showModal={$uiState.showPersonDetailView} modalTitle={undefined} modalWidth={'80vw'} modalHeight={'80vh'} zIndex={stylingConstants.zIndices.personDetailViewZIndex}>
+<Modal
+	showModal={$uiState.showPersonDetailView}
+	modalTitle={null}
+	modalSubtitle={null}
+	modalWidth={'80vw'}
+	modalHeight={'80vh'}
+	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
+>
 	<div class="person-detail-modal-content" slot="modal-content-slot">
 		<div id="person-detail-bio-container" class="person-detail-bio-container">
 			<Bio />
@@ -28,8 +35,9 @@
 		</div>
 		<div id="temp-close-button" class="temp-close-button">
 			<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
-	</div>
-</Modal>
+		</div>
+	</div></Modal
+>
 
 <style>
 	.person-detail-modal-content {
@@ -39,7 +47,7 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vw;
-		padding: 1vw;;
+		padding: 1vw;
 	}
 
 	.person-detail-bio-container {

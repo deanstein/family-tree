@@ -24,6 +24,7 @@
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
 	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
 	import timelineEvent from '../../schemas/timeline-event';
+	import Modal from './Modal.svelte';
 
 	let isEnabled = false;
 	let isKnownEvent = false;
@@ -68,10 +69,6 @@
 		timelineEvents
 	};
 
-	let addAlternateNameModalDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.addEditAltNameZIndex};
-	`;
-
 	$: {
 		isEnabled = $tempState.timelineEditEventId !== undefined;
 		isKnownEvent = getObjectByKeyValue(
@@ -88,14 +85,17 @@
 	});
 </script>
 
-<div
-	id="edit-timeline-event-modal-container"
-	class="{addAlternateNameModalDynamicClass} edit-timeline-event-modal-container"
+<Modal
+	showModal={$tempState.timelineEditEventId}
+	modalTitle={'Event details'}
+	modalSubtitle={null}
+	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div id="edit-timeline-event-modal-content" class="edit-timeline-event-modal-content">
-		<div id="edit-timeline-event-modal-title" class="edit-timeline-event-modal-title">
-			{'Event details'}
-		</div>
+	<div
+		id="edit-timeline-event-modal-content"
+		class="edit-timeline-event-modal-content"
+		slot="modal-content-slot"
+	>
 		<FieldContainer label="Event Date">
 			<DatePicker {isEnabled} bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
@@ -142,30 +142,18 @@
 			{/if}
 		</div>
 	</div>
-	<Overlay zIndexOverride={-1} />
-</div>
+</Modal>
 
 <style>
-	.edit-timeline-event-modal-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
 	.edit-timeline-event-modal-content {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vh;
-		padding: 1vw;
-		width: 10vw;
-		background-color: lightGray;
-	}
-
-	.edit-timeline-event-modal-title {
-		font-size: 2vh;
 	}
 
 	.edit-timeline-event-button-container {

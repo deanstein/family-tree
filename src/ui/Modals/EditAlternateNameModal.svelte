@@ -22,6 +22,7 @@
 	} from '../../logic/temp-management';
 	import { instantiateObject } from '../../logic/utils';
 	import TextArea from '../TextArea.svelte';
+	import Modal from './Modal.svelte';
 
 	let isEnabled = undefined;
 	let nameInputValue = $tempState.bioEditAltName.name;
@@ -80,14 +81,17 @@
 	});
 </script>
 
-<div
-	id="edit-alternate-name-modal-container"
-	class="{addAlternateNameModalDynamicClass} edit-alternate-name-modal-container"
+<Modal
+	showModal={$tempState.bioEditAltName}
+	modalTitle={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
+	modalSubtitle={null}
+	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div id="edit-alternate-name-modal-content" class="edit-alternate-name-modal-content">
-		<div id="edit-alternate-name-modal-title" class="edit-alternate-name-modal-title">
-			{isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
-		</div>
+	<div
+		id="edit-alt-name-modal-content"
+		class="edit-alt-name-modal-content"
+		slot="modal-content-slot"
+	>
 		<FieldContainer label="Name">
 			<TextInput {isEnabled} bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>
@@ -129,29 +133,18 @@
 			{/if}
 		</div>
 	</div>
-	<Overlay zIndexOverride={-1} />
-</div>
+</Modal>
 
 <style>
-	.edit-alternate-name-modal-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
-	.edit-alternate-name-modal-content {
+	.edit-alt-name-modal-content {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vh;
-		padding: 1vw;
-		background-color: lightGray;
-	}
-
-	.edit-alternate-name-modal-title {
-		font-size: 2vh;
 	}
 
 	.edit-alternate-name-button-container {

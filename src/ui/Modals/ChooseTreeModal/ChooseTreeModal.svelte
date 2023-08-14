@@ -47,7 +47,8 @@
 
 <Modal
 	showModal={$uiState.showChooseTreeModal}
-	modalTitle={'Choose a family tree:'}
+	modalTitle={'Welcome!'}
+	modalSubtitle={'Choose a family tree:'}
 	modalWidth={'50vw'}
 	modalHeight={'50vh'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}

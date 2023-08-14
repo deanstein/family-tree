@@ -17,7 +17,8 @@ const colors = {
 	activeColorSubtle: '#e6f3ff',
 	overlayColor: 'gray',
 	overlayOpacity: '75%',
-	modalContentContainerColor: 'rgba(255, 255, 255, 0.2)',
+	modalContentContainerColor: 'rgba(255, 255, 255, 0.4)',
+	formBackgroundColor: 'gainsboro',
 	nodeGroupColor: 'rgba(255, 255, 255, 0.65)',
 	nodeGroupHeaderColor: 'rgba(150, 150, 150, 0.5)',
 	personNodeColor: '#bfd0db',
@@ -48,6 +49,15 @@ const sizes = {
 	nNotificationFontSize: 1.5,
 	get notificationFontSize() {
 		return this.nNotificationFontSize.toString() + 'vh';
+	},
+
+	nModalTitleFontSize: 2,
+	get modalTitleFontSize() {
+		return this.nModalTitleFontSize.toString() + 'vh';
+	},
+	nModalSubtitleFontSize: 1.5,
+	get modalSubtitleFontSize() {
+		return this.nModalSubtitleFontSize.toString() + 'vh';
 	},
 
 	nShowGenerationsUp: 2,
