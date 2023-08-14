@@ -6,22 +6,23 @@
 	import Overlay from './Overlay.svelte';
 
 	export let showModal = true;
-	export let modalTitle = 'This is a modal title';
-	export let showCloseButton;
+    export let showCloseButton = false;
+	export let modalTitle;
 	export let modalWidth;
 	export let modalHeight;
 	export let zIndex;
-	export let cancelButtonAction;
-	export let confirmButtonAction;
 
-	const modalContainerDynamicClass = css`
+	const modalContentContainerDynamicClass = css`
+        width: ${modalWidth};
+		height: ${modalHeight};
 		z-index: ${zIndex};
+        background-color: ${stylingConstants.colors.modalContentContainerColor};
 	`;
 </script>
 
 {#if showModal}
 	<div id="modal-outer-container" class="modal-outer-container">
-		<div id="modal-content-container" class="{modalContainerDynamicClass} modal-content-container">
+		<div id="modal-content-container" class="{modalContentContainerDynamicClass} modal-content-container">
 			{#if modalTitle}
 				<div id="modal-title-container">
 					<div id="modal-title" class="modal-title">
@@ -33,9 +34,11 @@
 				<div id="choose-tree-close-button" class="choose-tree-close-button" />
 			{/if}
 			<div id="modal-content-slot" class="modal-content-slot">
-				<slot />
+				<slot name="modal-content-slot"/>
 			</div>
-			<div id="modal-toolbar-slot" class="modal-toolbar-slot" />
+			<div id="modal-toolbar-slot" class="modal-toolbar-slot" >
+                <slot name="modal-toolbar-slot"/>
+                </div>
 		</div>
 		<Portal target="#app-container">
 			<Overlay />
@@ -59,11 +62,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 100%;
 		border-radius: 10px;
-		width: 50vw;
-		height: 50vh;
-		background-color: rgba(120, 120, 120, 0.8);
 	}
 
 	.modal-title {

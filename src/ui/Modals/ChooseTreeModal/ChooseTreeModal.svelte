@@ -1,8 +1,5 @@
 <script>
 	import { css } from '@emotion/css';
-	import Portal from 'svelte-portal';
-
-	import Overlay from '../Overlay.svelte';
 
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
@@ -13,8 +10,6 @@
 
 	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../../logic/ui-management';
 	import Modal from '../Modal.svelte';
-
-	export let showCloseButton = true;
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -53,9 +48,11 @@
 <Modal
 	showModal={$uiState.showChooseTreeModal}
 	modalTitle={'Choose a family tree:'}
+	modalWidth={'50vw'}
+	modalHeight={'50vh'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
-	<div class="choose-tree-modal-content">
+	<div class="choose-tree-modal-content" slot="modal-content-slot">
 		<div
 			id="choose-tree-options-grid"
 			class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
@@ -88,6 +85,7 @@
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
+		height: 100%;
 		width: 100%;
 	}
 

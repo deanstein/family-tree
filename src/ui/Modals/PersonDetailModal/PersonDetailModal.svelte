@@ -1,70 +1,45 @@
 <script>
-	import { css } from '@emotion/css';
-	import Portal from 'svelte-portal';
-
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 	import { hidePersonDetailView } from '../../../logic/ui-management';
 
 	import Button from '../../Button.svelte';
-	import Overlay from '../Overlay.svelte';
 	import Timeline from './Timeline/Timeline.svelte';
 	import Bio from './Bio/Bio.svelte';
-
-	const personDetailContainerDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
-	`;
+	import Modal from '../Modal.svelte';
 
 	const closeButtonOnClick = () => {
 		hidePersonDetailView();
 	};
 </script>
 
-{#if $uiState.showPersonDetailView}
-	<div id="person-detail-container" class="person-detail-container">
-		<div
-			id="person-detail-content-container"
-			class="person-detail-content-container {personDetailContainerDynamicClass}"
-		>
-			<div id="person-detail-bio-container" class="person-detail-bio-container">
-				<Bio />
-			</div>
-			<div id="person-detail-timeline-container" class="person-detail-timeline-container">
-				<div
-					id="person-detail-timeline-content-container"
-					class="person-detail-timeline-content-container"
-				>
-					<Timeline />
-				</div>
-			</div>
-			<div id="temp-close-button" class="temp-close-button">
-				<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
+<Modal showModal={$uiState.showPersonDetailView} modalTitle={undefined} modalWidth={'80vw'} modalHeight={'80vh'} zIndex={stylingConstants.zIndices.personDetailViewZIndex}>
+	<div class="person-detail-modal-content" slot="modal-content-slot">
+		<div id="person-detail-bio-container" class="person-detail-bio-container">
+			<Bio />
+		</div>
+		<div id="person-detail-timeline-container" class="person-detail-timeline-container">
+			<div
+				id="person-detail-timeline-content-container"
+				class="person-detail-timeline-content-container"
+			>
+				<Timeline />
 			</div>
 		</div>
-		<Portal target="#app-container">
-			<Overlay />
-		</Portal>
+		<div id="temp-close-button" class="temp-close-button">
+			<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
 	</div>
-{/if}
+</Modal>
 
 <style>
-	.person-detail-container {
-		position: absolute;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		width: 100%;
-	}
-
-	.person-detail-content-container {
+	.person-detail-modal-content {
 		display: flex;
 		flex-direction: row;
-		width: 80vw;
-		height: 80vh;
+		flex-grow: 1;
+		height: 100%;
+		width: 100%;
 		gap: 1vw;
-		padding: 1vw;
-		background-color: rgba(255, 255, 255, 0.2);
+		padding: 1vw;;
 	}
 
 	.person-detail-bio-container {
