@@ -47,7 +47,6 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vw;
-		padding: 1vw;
 	}
 
 	.person-detail-bio-container {

@@ -58,6 +58,7 @@
 		flex-basis: 33%;
 		color: white;
 		background-color: #dbdbdb;
+		border-radius: 10px;
 	}
 
 	.button-container {
