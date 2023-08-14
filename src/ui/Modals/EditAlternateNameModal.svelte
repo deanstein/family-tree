@@ -23,6 +23,7 @@
 	import { instantiateObject } from '../../logic/utils';
 	import TextArea from '../TextArea.svelte';
 	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	let isEnabled = undefined;
 	let nameInputValue = $tempState.bioEditAltName.name;
@@ -106,8 +107,7 @@
 		<FieldContainer label="Context (optional)">
 			<TextArea {isEnabled} bind:inputValue={contextInputValue} />
 		</FieldContainer>
-		<div id="edit-alternate-name-button-container" class="edit-alternate-name-button-container">
-			<!-- show a delete button if the original value is not empty (editing existing name) -->
+		<ModalActionsBar>
 			{#if isEnabled && nameInputValueOriginal !== ''}
 				<Button
 					buttonText="Delete"
@@ -131,8 +131,7 @@
 					onClickFunction={onDoneButtonAction}
 				/>
 			{/if}
-		</div>
-	</div>
+		</ModalActionsBar>
 </Modal>
 
 <style>
@@ -145,12 +144,5 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vh;
-	}
-
-	.edit-alternate-name-button-container {
-		display: flex;
-		justify-content: right;
-		width: 100%;
-		gap: 0.5vw;
 	}
 </style>

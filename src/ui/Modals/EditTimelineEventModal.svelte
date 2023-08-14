@@ -25,6 +25,7 @@
 	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
 	import timelineEvent from '../../schemas/timeline-event';
 	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	let isEnabled = false;
 	let isKnownEvent = false;
@@ -110,8 +111,8 @@
 		<FieldContainer label="Event Content">
 			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
-		<div id="edit-timeline-event-button-container" class="edit-timeline-event-button-container">
-			{#if $tempState.timelineEditEventId === undefined}
+			<ModalActionsBar >
+				{#if $tempState.timelineEditEventId === undefined}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onEditButtonAction}
@@ -140,8 +141,8 @@
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
 			{/if}
+			</ModalActionsBar>
 		</div>
-	</div>
 </Modal>
 
 <style>
@@ -154,12 +155,5 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vh;
-	}
-
-	.edit-timeline-event-button-container {
-		display: flex;
-		justify-content: right;
-		gap: 0.5vw;
-		width: 100%;
 	}
 </style>

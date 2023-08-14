@@ -29,6 +29,7 @@
 		setActivePerson
 	} from '../../logic/person-management';
 	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	export let personId;
 	export let relationshipId;
@@ -120,7 +121,7 @@
 				overrideBackgroundColorHover={stylingConstants.colors.hoverColor}
 			/>
 		{/if}
-		<div id="node-actions-button-bottom-container" class="node-actions-button-bottom-container">
+		<ModalActionsBar >
 			{#if !isNewPerson}
 				<Button
 					buttonText="Remove"
@@ -142,7 +143,7 @@
 				overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				onClickFunction={onDoneButtonClick}
 			/>
-		</div>
+		</ModalActionsBar>
 	</div>
 </Modal>
 
@@ -156,13 +157,5 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vh;
-	}
-
-	.node-actions-button-bottom-container {
-		width: 100%;
-		display: flex;
-		gap: 0.5vw;
-		margin-top: 1.5vh;
-		justify-content: right;
 	}
 </style>
