@@ -88,6 +88,7 @@
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
+		overflow: auto;
 	}
 
 	.choose-tree-options-grid {

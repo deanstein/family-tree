@@ -85,9 +85,9 @@
 		position: absolute;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 		align-items: center;
 		border-radius: 10px;
+        overflow: auto;
 	}
 
 	.modal-title {
@@ -95,8 +95,12 @@
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
-		padding: 10px;
+		padding: 7px 0px 5px 0px;
 	}
+
+    .modal-subtitle {
+        padding-bottom: 5px;
+    }
 
 	.modal-content-slot {
 		display: flex;
@@ -104,7 +108,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1vh;
-		padding: 1vw;
+		padding: 15px;
 		flex-grow: 1;
 		width: -webkit-fill-available;
 		width: -moz-available;
