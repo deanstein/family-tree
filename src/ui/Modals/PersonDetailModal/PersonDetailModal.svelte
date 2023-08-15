@@ -20,7 +20,6 @@
 	width={'80vw'}
 	height={'80vh'}
 	padding={'15px'}
-	transparency={'0.2'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
 	<div class="person-detail-modal-content" slot="modal-content-slot">
