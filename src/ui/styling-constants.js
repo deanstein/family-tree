@@ -17,6 +17,7 @@ const colors = {
 	activeColorSubtle: '#e6f3ff',
 	overlayColor: 'gray',
 	overlayOpacity: '75%',
+	modalTitleBackground: 'rgba(220, 220, 220, 1.0)',
 	modalContentContainerColor: 'rgba(255, 255, 255, 0.3)',
 	formBackgroundLegibleTransparency: '0.8',
 	nodeGroupColor: 'rgba(255, 255, 255, 0.65)',

@@ -72,4 +72,25 @@
 		flex-grow: 1;
 		z-index: 1;
 	}
+
+	/* .timeline {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-gap: 20px;
+}
+
+.timeline-event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-event:nth-child(odd) {
+  justify-self: end;
+}
+
+.timeline-event:nth-child(even) {
+  justify-self: start;
+} */
 </style>

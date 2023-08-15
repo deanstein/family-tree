@@ -75,8 +75,7 @@
 			/>
 		</div>
 		<div id="dev-message" class="choose-tree-dev-message">
-			Note: This app is unfinished and does not represent the final interface, colors, or features.
-			It may also be buggy.
+			Note: This app is unfinished and may be both ugly and buggy.
 		</div>
 	</div>
 </Modal>
@@ -94,8 +93,8 @@
 	.choose-tree-options-grid {
 		display: flex;
 		flex-grow: 1;
-		gap: 5vh;
-		padding: 0 5vh 0 5vh;
+		gap: 1vw;
+		padding: 0 1vw 0 1vw;
 	}
 
 	.choose-tree-dev-message {

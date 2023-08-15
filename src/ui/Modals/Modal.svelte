@@ -39,11 +39,13 @@
 	const modalTitleDynamicClass = css`
 		font-size: ${stylingConstants.sizes.modalTitleFontSize};
 		color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.modalTitleBackground};
 	`;
 
 	const modalSubtitleDynamicClass = css`
 		font-size: ${stylingConstants.sizes.modalSubtitleFontSize};
 		color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.modalTitleBackground};
 	`;
 </script>
 
@@ -54,14 +56,14 @@
 			class="{modalContentContainerDynamicClass} modal-content-container"
 		>
 			{#if title}
-				<div id="modal-title-container">
+				<div id="modal-title-container" class="modal-title-container">
 					<div id="modal-title" class="{modalTitleDynamicClass} modal-title">
 						{title}
 					</div>
 				</div>
 			{/if}
 			{#if subtitle}
-				<div id="modal-subtitle-container">
+				<div id="modal-subtitle-container" class="modal-subtitle-container">
 					<div id="modal-subtitle" class="{modalSubtitleDynamicClass} modal-subtitle">
 						{subtitle}
 					</div>
@@ -102,16 +104,28 @@
 		overflow: auto;
 	}
 
+	.modal-title-container {
+		width: 100%;
+	}
+
 	.modal-title {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
+		font-weight: bold;
 		padding: 7px 0px 5px 0px;
 	}
 
+	.modal-subtitle-container {
+		width: 100%;
+	}
+
 	.modal-subtitle {
+		width: 100%;
 		padding-bottom: 5px;
+		text-align: center;
 	}
 
 	.modal-content-slot {
