@@ -14,13 +14,16 @@
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			flex-direction: column;
+			gap: 2vh;
 		}
 		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
 				.breakpoints.width[1]}) {
 			flex-direction: column;
+			gap: 2vh;
 		}
 		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
 			flex-direction: row;
+			gap: 1vw;
 		}
 	`;
 
@@ -93,8 +96,6 @@
 	.choose-tree-options-grid {
 		display: flex;
 		flex-grow: 1;
-		gap: 1vw;
-		padding: 0 1vw 0 1vw;
 	}
 
 	.choose-tree-dev-message {
