@@ -1,5 +1,4 @@
 <script>
-	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
 	import uiState from '../../stores/ui-state';
@@ -12,7 +11,6 @@
 	import Button from '../Button.svelte';
 	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
 	import FieldContainer from '../FieldContainer.svelte';
-	import Overlay from '../Modals/Overlay.svelte';
 	import Select from '../Select.svelte';
 	import TextArea from '../TextArea.svelte';
 	import {
@@ -88,8 +86,9 @@
 
 <Modal
 	showModal={$tempState.timelineEditEventId}
-	modalTitle={'Event details'}
-	modalSubtitle={null}
+	title={'Event details'}
+	subtitle={null}
+	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
 	<div

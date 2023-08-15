@@ -15,10 +15,12 @@
 
 <Modal
 	showModal={$uiState.showPersonDetailView}
-	modalTitle={null}
-	modalSubtitle={null}
-	modalWidth={'80vw'}
-	modalHeight={'80vh'}
+	title={null}
+	subtitle={null}
+	width={'80vw'}
+	height={'80vh'}
+	padding={'15px'}
+	transparency={'0.2'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
 	<div class="person-detail-modal-content" slot="modal-content-slot">

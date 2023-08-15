@@ -1,6 +1,5 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
-	import { css } from '@emotion/css';
 
 	import Button from '../Button.svelte';
 
@@ -98,8 +97,9 @@
 
 <Modal
 	showModal={$tempState.nodeActionsModalPersonId}
-	modalTitle={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
-	modalSubtitle={'to ' + $uiState.activePerson.name}
+	title={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
+	subtitle={'to ' + $uiState.activePerson.name}
+	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}
 >
 	<div id="node-actions-modal-content" class="node-actions-modal-content" slot="modal-content-slot">

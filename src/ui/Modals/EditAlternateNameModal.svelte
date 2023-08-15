@@ -1,5 +1,4 @@
 <script>
-	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
 
 	import alternateName from '../../schemas/alternate-name';
@@ -10,7 +9,6 @@
 
 	import Button from '../Button.svelte';
 	import FieldContainer from '../FieldContainer.svelte';
-	import Overlay from '../Modals/Overlay.svelte';
 	import Select from '../Select.svelte';
 	import TextInput from '../TextInput.svelte';
 
@@ -66,10 +64,6 @@
 		alternateNameTypes
 	};
 
-	let addAlternateNameModalDynamicClass = css`
-		z-index: ${stylingConstants.zIndices.addEditAltNameZIndex};
-	`;
-
 	$: {
 		isEnabled = $tempState.bioEditPersonId !== undefined;
 	}
@@ -84,8 +78,8 @@
 
 <Modal
 	showModal={$tempState.bioEditAltName}
-	modalTitle={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
-	modalSubtitle={null}
+	title={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
+	subtitle={null}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
 	<div

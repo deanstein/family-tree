@@ -339,3 +339,10 @@ export const getScreenCentroid = () => {
 		y: window.innerHeight / 2
 	};
 };
+
+export const adjustRgbaColorTransparency = (rgbaColor, transparency) => {
+	let startIndex = rgbaColor.lastIndexOf(',') + 1;
+	let endIndex = rgbaColor.lastIndexOf(')');
+	let newString = rgbaColor.slice(0, startIndex) + ' ' + transparency + rgbaColor.slice(endIndex);
+	return newString;
+};

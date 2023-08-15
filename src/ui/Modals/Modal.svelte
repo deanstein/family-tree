@@ -4,13 +4,16 @@
 	import stylingConstants from '../styling-constants';
 	import Portal from 'svelte-portal';
 	import Overlay from './Overlay.svelte';
+	import { adjustRgbaColorTransparency } from '../../logic/ui-management';
 
 	export let showModal = true;
 	export let showCloseButton = false;
-	export let modalTitle = 'This is a modal title';
-	export let modalSubtitle = 'This is a modal subtitle';
-	export let modalWidth = 'auto';
-	export let modalHeight = 'auto';
+	export let title = 'This is a modal title';
+	export let subtitle = 'This is a modal subtitle';
+	export let width = 'auto';
+	export let height = 'auto';
+	export let padding = '10px';
+	export let transparency = '0.2';
 	export let zIndex;
 
 	const modalOuterContainerDynamicClass = css`
@@ -18,10 +21,19 @@
 	`;
 
 	const modalContentContainerDynamicClass = css`
-		width: ${modalWidth};
-		height: ${modalHeight};
+		width: ${width};
+		height: ${height};
 		z-index: ${zIndex};
-		background-color: ${stylingConstants.colors.modalContentContainerColor};
+		background-color: ${transparency
+			? adjustRgbaColorTransparency(
+					stylingConstants.colors.modalContentContainerColor,
+					transparency
+			  )
+			: stylingConstants.colors.modalContentContainerColor};
+	`;
+
+	const modalContentSlotDynamicClass = css`
+		padding: ${padding};
 	`;
 
 	const modalTitleDynamicClass = css`
@@ -41,24 +53,24 @@
 			id="modal-content-container"
 			class="{modalContentContainerDynamicClass} modal-content-container"
 		>
-			{#if modalTitle}
+			{#if title}
 				<div id="modal-title-container">
 					<div id="modal-title" class="{modalTitleDynamicClass} modal-title">
-						{modalTitle}
+						{title}
 					</div>
 				</div>
 			{/if}
-			{#if modalSubtitle}
+			{#if subtitle}
 				<div id="modal-subtitle-container">
 					<div id="modal-subtitle" class="{modalSubtitleDynamicClass} modal-subtitle">
-						{modalSubtitle}
+						{subtitle}
 					</div>
 				</div>
 			{/if}
 			{#if showCloseButton}
 				<div id="choose-tree-close-button" class="choose-tree-close-button" />
 			{/if}
-			<div id="modal-content-slot" class="modal-content-slot">
+			<div id="modal-content-slot" class="{modalContentSlotDynamicClass} modal-content-slot">
 				<slot name="modal-content-slot" />
 			</div>
 			<div id="modal-toolbar-slot" class="modal-toolbar-slot">
@@ -87,7 +99,7 @@
 		flex-direction: column;
 		align-items: center;
 		border-radius: 10px;
-        overflow: auto;
+		overflow: auto;
 	}
 
 	.modal-title {
@@ -98,9 +110,9 @@
 		padding: 7px 0px 5px 0px;
 	}
 
-    .modal-subtitle {
-        padding-bottom: 5px;
-    }
+	.modal-subtitle {
+		padding-bottom: 5px;
+	}
 
 	.modal-content-slot {
 		display: flex;
@@ -108,7 +120,6 @@
 		justify-content: center;
 		align-items: center;
 		gap: 1vh;
-		padding: 15px;
 		flex-grow: 1;
 		width: -webkit-fill-available;
 		width: -moz-available;
