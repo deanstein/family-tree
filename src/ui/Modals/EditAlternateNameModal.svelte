@@ -81,6 +81,7 @@
 	title={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
+	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
 	<div
