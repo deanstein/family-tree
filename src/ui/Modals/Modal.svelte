@@ -114,6 +114,7 @@
 		text-align: center;
 		font-weight: bold;
 		padding: 7px 0px 5px 0px;
+        border-radius: 10px 10px 0px 0px;
 	}
 
 	.modal-subtitle-container {
