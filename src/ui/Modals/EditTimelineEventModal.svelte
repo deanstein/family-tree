@@ -87,6 +87,7 @@
 <Modal
 	showModal={$tempState.timelineEditEventId}
 	title={'Event details'}
+	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}

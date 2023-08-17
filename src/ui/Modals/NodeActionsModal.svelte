@@ -1,6 +1,8 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
 
+	import Modal from './Modal.svelte';
+	import ModalActionsBar from './ModalActionsBar.svelte';
 	import Button from '../Button.svelte';
 
 	import { defaultName } from '../../schemas/person';
@@ -27,8 +29,6 @@
 		removePersonFromPeopleArray,
 		setActivePerson
 	} from '../../logic/person-management';
-	import Modal from './Modal.svelte';
-	import ModalActionsBar from './ModalActionsBar.svelte';
 
 	export let personId;
 	export let relationshipId;

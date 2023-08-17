@@ -18,7 +18,7 @@ const colors = {
 	overlayColor: 'gray',
 	overlayOpacity: '75%',
 	modalTitleBackground: 'rgba(220, 220, 220, 1.0)',
-	modalContentContainerColor: 'rgba(255, 255, 255, 0.3)',
+	modalContentBackground: 'rgba(220, 220, 220, 0.4)',
 	formBackgroundLegibleTransparency: '0.8',
 	nodeGroupColor: 'rgba(255, 255, 255, 0.65)',
 	nodeGroupHeaderColor: 'rgba(150, 150, 150, 0.5)',
@@ -59,6 +59,10 @@ const sizes = {
 	nModalSubtitleFontSize: 1.5,
 	get modalSubtitleFontSize() {
 		return this.nModalSubtitleFontSize.toString() + 'vh';
+	},
+	nModalFormWidth: 25,
+	get modalFormWidth() {
+		return this.nModalFormWidth.toString() + 'vw';
 	},
 
 	nShowGenerationsUp: 2,

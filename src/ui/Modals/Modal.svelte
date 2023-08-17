@@ -13,7 +13,7 @@
 	export let width = 'auto';
 	export let height = 'auto';
 	export let padding = '10px';
-	export let transparency = '0.2';
+	export let transparency = undefined; // default is in default bg color
 	export let zIndex;
 
 	const modalOuterContainerDynamicClass = css`
@@ -25,11 +25,8 @@
 		height: ${height};
 		z-index: ${zIndex};
 		background-color: ${transparency
-			? adjustRgbaColorTransparency(
-					stylingConstants.colors.modalContentContainerColor,
-					transparency
-			  )
-			: stylingConstants.colors.modalContentContainerColor};
+			? adjustRgbaColorTransparency(stylingConstants.colors.modalContentBackground, transparency)
+			: stylingConstants.colors.modalContentBackground};
 	`;
 
 	const modalContentSlotDynamicClass = css`
