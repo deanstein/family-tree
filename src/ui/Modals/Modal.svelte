@@ -13,6 +13,7 @@
 	export let width = 'auto';
 	export let height = 'auto';
 	export let padding = '10px';
+    export let overflow = ''; // default is not set but can be set per instance
 	export let transparency = undefined; // default is in default bg color
 	export let zIndex;
 
@@ -23,6 +24,7 @@
 	const modalContentContainerDynamicClass = css`
 		width: ${width};
 		height: ${height};
+        overflow: ${overflow};
 		z-index: ${zIndex};
 		background-color: ${transparency
 			? adjustRgbaColorTransparency(stylingConstants.colors.modalContentBackground, transparency)
@@ -98,7 +100,6 @@
 		flex-direction: column;
 		align-items: center;
 		border-radius: 10px;
-		overflow: auto;
 	}
 
 	.modal-title-container {

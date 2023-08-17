@@ -54,6 +54,7 @@
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}
 	height={'50vh'}
+	overflow={'auto'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
 	<div class="choose-tree-modal-content" slot="modal-content-slot">
