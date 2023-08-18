@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import { fade } from 'svelte/transition';
 	import { afterUpdate, onDestroy } from 'svelte';
 	import Portal from 'svelte-portal';
 

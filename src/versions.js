@@ -1,4 +1,4 @@
-export const appVersion = '0.12.5';
+export const appVersion = '0.12.6';
 export const appChangelog = {
 	'v0.13.x': {
 		Overview: 'v0.13.x adds password protection and overhauled temp state management',
@@ -10,7 +10,8 @@ export const appChangelog = {
 			'Added a button to toggle build mode, hiding the (+) UI until buid mode is active',
 			'Fixed performance issues from new person node connection lines and hover from 0.11',
 			'Fixed layout issues with generation row',
-			'Softened styling by adding border radii'
+			'Softened styling by adding border radii',
+			'Added transitions on modals'
 		]
 	},
 	'v0.11.x': {

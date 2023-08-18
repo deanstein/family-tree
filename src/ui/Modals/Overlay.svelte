@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import { fade } from 'svelte/transition';
 
 	import stylingConstants from '../styling-constants';
 
@@ -12,7 +13,11 @@
 	`;
 </script>
 
-<div id="overlay" class="{overlayDynamicClass} overlay" />
+<div
+	transition:fade={{ duration: stylingConstants.durations.transitionDuration }}
+	id="overlay"
+	class="{overlayDynamicClass} overlay"
+/>
 
 <style>
 	.overlay {

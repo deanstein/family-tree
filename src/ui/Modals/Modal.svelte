@@ -1,5 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
+	import { fade, blur } from 'svelte/transition';
+	import { drawCrossfade } from '../graphics-factory';
+	const [send, receive] = drawCrossfade(stylingConstants.durations.transitionDuration);
 
 	import stylingConstants from '../styling-constants';
 	import Portal from 'svelte-portal';
@@ -49,7 +52,12 @@
 </script>
 
 {#if showModal}
-	<div id="modal-outer-container" class="{modalOuterContainerDynamicClass} modal-outer-container">
+	<div
+		in:receive={{ key: showModal }}
+		out:send={{ key: showModal }}
+		id="modal-outer-container"
+		class="{modalOuterContainerDynamicClass} modal-outer-container"
+	>
 		<div
 			id="modal-content-container"
 			class="{modalContentContainerDynamicClass} modal-content-container"
@@ -114,7 +122,7 @@
 		text-align: center;
 		font-weight: bold;
 		padding: 7px 0px 5px 0px;
-        border-radius: 10px 10px 0px 0px;
+		border-radius: 10px 10px 0px 0px;
 	}
 
 	.modal-subtitle-container {

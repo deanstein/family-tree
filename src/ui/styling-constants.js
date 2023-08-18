@@ -158,6 +158,10 @@ const sizes = {
 	nPersonNodeConnectionLineThicknessHover: 8
 };
 
+const durations = {
+	transitionDuration: 75 //ms
+};
+
 const zIndices = {
 	personNodeOverlayZIndex: 2,
 	personNodeEditZIndex: 3,
@@ -172,6 +176,7 @@ const stylingConstants = {
 	breakpoints,
 	colors,
 	sizes,
+	durations,
 	zIndices
 };
 

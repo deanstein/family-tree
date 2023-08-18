@@ -40,16 +40,16 @@ export const redrawNodeConnectionLines = (personId) => {
 	addOrUpdatePersonNodePosition(personId, getScreenCentroid());
 };
 
-export const drawCrossfade = () => {
+export const drawCrossfade = (duration) => {
 	return crossfade({
-		duration: (d) => Math.sqrt(d * 200),
+		duration: duration ? duration : (d) => Math.sqrt(d * 200),
 
 		fallback(node, params) {
 			const style = getComputedStyle(node);
 			const transform = style.transform === 'none' ? '' : style.transform;
 
 			return {
-				duration: 300,
+				duration: duration,
 				easing: quintOut,
 				css: (t) => `
 			transform: ${transform} scale(${t});
