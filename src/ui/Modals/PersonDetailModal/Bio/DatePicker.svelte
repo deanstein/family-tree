@@ -6,6 +6,7 @@
 	export let inputValue;
 
 	let datePickerDynamicClass = css`
+		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};

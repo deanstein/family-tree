@@ -30,7 +30,6 @@
 		position: absolute;
 		display: flex;
 		height: 100%;
-		width: 100%;
 	}
 
 	.timeline-spine-line-column {

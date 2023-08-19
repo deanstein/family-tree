@@ -8,8 +8,9 @@
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
+	export let rowIndex;
 	let eventDateCorrected;
-	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
+	//let eventTimelineProportion; // parameter 0-1 of the position on the timeline
 
 	let eventRowDynamicClass;
 
@@ -21,6 +22,7 @@
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
 	const eventNodeDynamicClass = css`
@@ -35,15 +37,14 @@
 	$: {
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
-			eventTimelineProportion = getTimelineProportionByDate(
-				$uiState.activePerson,
-				timelineEvent.eventDate
-			);
+			//eventTimelineProportion = getTimelineProportionByDate(
+			//$uiState.activePerson,
+			//timelineEvent.eventDate
+			//);
 
 			eventRowDynamicClass = css`
 				gap: ${stylingConstants.sizes.timelineEventGapSize};
-				top: ${eventTimelineProportion < 0.9 ? eventTimelineProportion * 100 + '%' : 'auto'};
-				bottom: ${eventTimelineProportion < 0.9 ? 'auto' : 0};
+				grid-row: ${rowIndex};
 			`;
 		}
 	}
@@ -75,7 +76,6 @@
 
 <style>
 	.timeline-event-row {
-		position: absolute;
 		max-width: 100%;
 		display: flex;
 		align-items: center;
@@ -101,10 +101,9 @@
 
 	.event-detail-content {
 		/* display: flex; */ /* TODO: make separate text layout and truncate that */
-		flex: 1;
 		flex-shrink: 1;
 		padding: 3px;
-		white-space: nowrap;
+		/* white-space: nowrap; */
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}

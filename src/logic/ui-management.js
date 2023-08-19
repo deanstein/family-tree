@@ -225,6 +225,11 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	return proportion;
 };
 
+export const getClosestTimelineRowByDate = (person, eventDate, totalRows) => {
+	const closestRow = Math.ceil(getTimelineProportionByDate(person, eventDate) * totalRows);
+	return closestRow;
+};
+
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	uiState.update((currentValue) => {
 		// Check if the personId already exists in the array
