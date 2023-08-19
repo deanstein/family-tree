@@ -34,13 +34,16 @@
 		background-color: ${stylingConstants.colors.textColor};
 	`;
 
+	const eventTextDynamicClass = css`
+		background-color: ${stylingConstants.colors.activeColorSubtle};
+		:hover {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+	`;
+
 	$: {
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
-			//eventTimelineProportion = getTimelineProportionByDate(
-			//$uiState.activePerson,
-			//timelineEvent.eventDate
-			//);
 
 			eventRowDynamicClass = css`
 				gap: ${stylingConstants.sizes.timelineEventGapSize};
@@ -48,13 +51,6 @@
 			`;
 		}
 	}
-
-	const eventContentDynamicClass = css`
-		background-color: ${stylingConstants.colors.activeColorSubtle};
-		:hover {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}
-	`;
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
@@ -64,13 +60,19 @@
 			: 'Year Unknown'}
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
-	<div id="event-detail-line" class="{eventDetailLineDynamicClass} event-detail-line" />
 	<div
-		id="event-detail-content"
-		class="{eventContentDynamicClass} event-detail-content"
+		id="timeline-timeline-event-detail-line"
+		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
+	/>
+	<div
+		id="timeline-event-detail-content"
+		class="timeline-event-detail-content"
 		on:click={onTimelineEventClickAction}
+		on:keydown={onTimelineEventClickAction}
 	>
-		{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
+		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
+			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
+		</div>
 	</div>
 </div>
 
@@ -93,18 +95,23 @@
 		aspect-ratio: 1;
 	}
 
-	.event-detail-line {
+	.timeline-event-detail-line {
 		display: flex;
 		height: 0.5vh;
 		width: 2vw;
 	}
 
-	.event-detail-content {
-		/* display: flex; */ /* TODO: make separate text layout and truncate that */
+	.timeline-event-detail-content {
+		display: flex;
+		flex-basis: 0;
+		flex-grow: 1;
 		flex-shrink: 1;
 		padding: 3px;
-		/* white-space: nowrap; */
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.timeline-event-text {
+		padding: 0 5px 0 5px;
 	}
 </style>
