@@ -10,10 +10,14 @@
 	import Button from '../../../Button.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
-	import { getClosestTimelineRowByDate } from '../../../../logic/ui-management';
+	import {
+		generateTimelineRowItems,
+		getClosestTimelineRowByDate,
+		updateTimelineRowItems
+	} from '../../../../logic/ui-management';
+	import stylingConstants from '../../../styling-constants';
 
-	const timelineGridRowHeight = '20px';
-	let timelineGridRows = Array.from({ length: 100 }, (_, i) => ({ index: i, event: null }));
+	let timelineRowItems = [];
 
 	// define the two required events - birth and death
 	const birthEvent = instantiateObject(timelineEvent);
@@ -35,38 +39,9 @@
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 	}
 
-	// needs to be fixed
-	// $: {
-	// 	timelineGridRows = timelineGridRows.map((row) => {
-	// 		if (!row?.event) {
-	// 			return;
-	// 		}
-	// 		console.log(row);
-	// 		const closestRow = Math.ceil(
-	// 			getTimelineProportionByDate($uiState.activPerson, row.event.eventDate) *
-	// 				timelineGridRows.length
-	// 		);
-	// 		console.log(closestRow);
-	// 		if (!row.event || closestRow === row.index) {
-	// 			return {
-	// 				...row,
-	// 				event: $uiState.activePerson.timelineEvents.find(
-	// 					(event) =>
-	// 						Math.ceil(getTimelineProportionByDate($uiState.activePerson, event.eventDate)) ===
-	// 						row.index
-	// 				)
-	// 			};
-	// 		}
-
-	// 		// Handle overlapping events by shifting rows down
-	// 		//   for (let i = timelineGridRows.length - 2; i >= 0; i--) {
-	// 		//     if (timelineGridRows[i].event && timelineGridRows[i + 1].event) {
-	// 		// 		timelineGridRows[i + 1].event = timelineGridRows[i].event;
-	// 		// 		timelineGridRows[i].event = null;
-	// 		//     }
-	// 		//   }
-	// 	});
-	// }
+	$: {
+		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
+	}
 </script>
 
 <div id="timeline-container" class="timeline-container">
@@ -76,20 +51,21 @@
 	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 		<!-- the vertical line for the timeline -->
 		<TimelineSpine />
+		<div id="timeline-event-grid" class="timeline-event-grid">
+			<!-- always present: birth -->
+			<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 
-		<!-- always present: birth -->
-		<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
+			<!-- show all timeline events -->
+			{#each timelineRowItems as timelineRowItem}
+				<TimelineEvent timelineEvent={timelineRowItem.event} rowIndex={timelineRowItem.index} />
+			{/each}
 
-		<!-- show all timeline events -->
-		{#each $uiState.activePerson.timelineEvents as event}
+			<!-- always present: current moment or date of death -->
 			<TimelineEvent
-				timelineEvent={event}
-				rowIndex={getClosestTimelineRowByDate($uiState.activePerson, event.eventDate, 100)}
+				timelineEvent={deathEvent}
+				rowIndex={stylingConstants.quantities.initialTimelineRowCount}
 			/>
-		{/each}
-
-		<!-- always present: current moment or date of death -->
-		<TimelineEvent timelineEvent={deathEvent} rowIndex={timelineGridRows.length - 1} />
+		</div>
 	</div>
 </div>
 
@@ -98,6 +74,7 @@
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
+		gap: 1vh;
 	}
 
 	.timeline-actions-bar {
@@ -107,6 +84,13 @@
 
 	.timeline-scrolling-canvas {
 		position: relative;
+		height: -webkit-fill-available;
+		width: -moz-available;
+		display: flex;
+		overflow: auto;
+	}
+
+	.timeline-event-grid {
 		display: grid;
 		grid-template-columns: 1fr;
 		flex-grow: 1;

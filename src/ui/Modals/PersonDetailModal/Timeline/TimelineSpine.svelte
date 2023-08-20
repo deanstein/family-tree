@@ -35,4 +35,8 @@
 	.timeline-spine-line-column {
 		display: flex;
 	}
+
+	.timeline-spine-line {
+		height: 100%;
+	}
 </style>

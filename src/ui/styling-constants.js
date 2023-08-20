@@ -158,6 +158,10 @@ const sizes = {
 	nPersonNodeConnectionLineThicknessHover: 8
 };
 
+const quantities = {
+	initialTimelineRowCount: 1000
+};
+
 const durations = {
 	transitionDuration: 75 //ms
 };
@@ -176,6 +180,7 @@ const stylingConstants = {
 	breakpoints,
 	colors,
 	sizes,
+	quantities,
 	durations,
 	zIndices
 };
