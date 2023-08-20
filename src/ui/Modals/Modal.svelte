@@ -20,10 +20,6 @@
 	export let transparency = undefined; // default is in default bg color
 	export let zIndex;
 
-	const modalOuterContainerDynamicClass = css`
-		margin-top: ${stylingConstants.sizes.nHeaderHeight / 2 + 'vh'};
-	`;
-
 	const modalContentContainerDynamicClass = css`
 		width: ${width};
 		height: ${height};
@@ -56,7 +52,7 @@
 		in:receive={{ key: showModal }}
 		out:send={{ key: showModal }}
 		id="modal-outer-container"
-		class="{modalOuterContainerDynamicClass} modal-outer-container"
+		class="modal-outer-container"
 	>
 		<div
 			id="modal-content-container"
