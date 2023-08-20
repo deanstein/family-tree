@@ -78,7 +78,7 @@
 
 <Modal
 	showModal={$tempState.bioEditAltName}
-	title={isEnabled ? 'Set alternate name:' : 'Alternate name details:'}
+	title={isEnabled ? 'Set alternate name' : 'Alternate name details'}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}

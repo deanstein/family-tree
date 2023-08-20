@@ -47,8 +47,6 @@
 
 	.alternate-name {
 		padding: 5px;
-	}
-
-	.alternate-name-type-tag {
+		border-radius: 5px;
 	}
 </style>
