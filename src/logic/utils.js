@@ -155,3 +155,9 @@ export const getBuildFormattedDate = (date) => {
 
 	return year.concat(month).concat(day);
 };
+
+export const largest = (a, b) => {
+	if (a > b) return a;
+	else if (a === b) return a;
+	else return b;
+};

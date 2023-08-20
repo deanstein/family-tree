@@ -11,8 +11,9 @@ import {
 	getPersonAge,
 	getPersonBirthYear
 } from './person-management';
-import { instantiateObject, setNestedObjectProperty } from './utils';
+import { instantiateObject, largest, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
+import timelineRowItem from '../schemas/timeline-row-item';
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different
@@ -223,6 +224,54 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	let proportion = eventDurationMs / lifespanMs;
 
 	return proportion;
+};
+
+export const getClosestTimelineRowByDate = (person, eventDate, totalRows) => {
+	const closestRow = Math.ceil(getTimelineProportionByDate(person, eventDate) * totalRows);
+	return closestRow;
+};
+
+// converts raw timeline events from a person to timeline row items for UI
+// row items include an index to properly sort based on chronology
+export const generateTimelineRowItems = (person) => {
+	let rowItems = [];
+	let numberOfRows = largest(
+		person.timelineEvents,
+		stylingConstants.quantities.initialTimelineRowCount
+	);
+	for (let i = 0; i < person.timelineEvents.length; i++) {
+		// create a new timeline row item
+		let thisRowItem = instantiateObject(timelineRowItem);
+		// get the index this item belongs to
+		const rowIndex = getClosestTimelineRowByDate(
+			person,
+			person.timelineEvents[i].eventDate,
+			numberOfRows
+		);
+		thisRowItem.index = rowIndex;
+		thisRowItem.event = person.timelineEvents[i];
+		rowItems.push(thisRowItem);
+	}
+	return rowItems;
+};
+
+// checks to make sure if any index is reused, it shifts all indices down
+// returning a new array of timeline row items
+export const updateTimelineRowItems = (rowItems) => {
+	let indices = rowItems.map((rowItem) => rowItem.index);
+	let duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+	while (duplicates.length > 0) {
+		let dupIndex = rowItems.findIndex((obj) => obj.index === duplicates[0]);
+		rowItems[dupIndex].index++;
+		rowItems.forEach((obj) => {
+			if (obj.index > rowItems[dupIndex].index) {
+				obj.index++;
+			}
+		});
+		indices = rowItems.map((rowItem) => rowItem.index);
+		duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+	}
+	return rowItems;
 };
 
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {

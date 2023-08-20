@@ -8,8 +8,9 @@
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
+	export let rowIndex;
 	let eventDateCorrected;
-	let eventTimelineProportion; // parameter 0-1 of the position on the timeline
+	//let eventTimelineProportion; // parameter 0-1 of the position on the timeline
 
 	let eventRowDynamicClass;
 
@@ -21,6 +22,7 @@
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
 	const eventNodeDynamicClass = css`
@@ -32,28 +34,23 @@
 		background-color: ${stylingConstants.colors.textColor};
 	`;
 
-	$: {
-		if (timelineEvent) {
-			eventDateCorrected = new Date(timelineEvent.eventDate);
-			eventTimelineProportion = getTimelineProportionByDate(
-				$uiState.activePerson,
-				timelineEvent.eventDate
-			);
-
-			eventRowDynamicClass = css`
-				gap: ${stylingConstants.sizes.timelineEventGapSize};
-				top: ${eventTimelineProportion < 0.9 ? eventTimelineProportion * 100 + '%' : 'auto'};
-				bottom: ${eventTimelineProportion < 0.9 ? 'auto' : 0};
-			`;
-		}
-	}
-
-	const eventContentDynamicClass = css`
+	const eventTextDynamicClass = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColorSubtle};
 		}
 	`;
+
+	$: {
+		if (timelineEvent) {
+			eventDateCorrected = new Date(timelineEvent.eventDate);
+
+			eventRowDynamicClass = css`
+				gap: ${stylingConstants.sizes.timelineEventGapSize};
+				grid-row: ${rowIndex};
+			`;
+		}
+	}
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
@@ -63,19 +60,24 @@
 			: 'Year Unknown'}
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
-	<div id="event-detail-line" class="{eventDetailLineDynamicClass} event-detail-line" />
 	<div
-		id="event-detail-content"
-		class="{eventContentDynamicClass} event-detail-content"
+		id="timeline-timeline-event-detail-line"
+		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
+	/>
+	<div
+		id="timeline-event-detail-content"
+		class="timeline-event-detail-content"
 		on:click={onTimelineEventClickAction}
+		on:keydown={onTimelineEventClickAction}
 	>
-		{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
+		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
+			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
+		</div>
 	</div>
 </div>
 
 <style>
 	.timeline-event-row {
-		position: absolute;
 		max-width: 100%;
 		display: flex;
 		align-items: center;
@@ -93,19 +95,23 @@
 		aspect-ratio: 1;
 	}
 
-	.event-detail-line {
+	.timeline-event-detail-line {
 		display: flex;
 		height: 0.5vh;
 		width: 2vw;
 	}
 
-	.event-detail-content {
-		/* display: flex; */ /* TODO: make separate text layout and truncate that */
-		flex: 1;
+	.timeline-event-detail-content {
+		display: flex;
+		flex-basis: 0;
+		flex-grow: 1;
 		flex-shrink: 1;
 		padding: 3px;
-		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.timeline-event-text {
+		padding: 0 5px 0 5px;
 	}
 </style>

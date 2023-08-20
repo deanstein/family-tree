@@ -67,6 +67,8 @@
 	.person-detail-timeline-content-container {
 		display: flex;
 		flex-grow: 1;
+		height: -webkit-fill-available;
+		width: -moz-available;
 		background-color: gainsboro;
 		padding: 1vh;
 		border-radius: 10px;
