@@ -12,11 +12,11 @@
 	import TimelineSpine from './TimelineSpine.svelte';
 	import {
 		generateTimelineRowItems,
-		getClosestTimelineRowByDate,
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
 	import stylingConstants from '../../../styling-constants';
 
+	// row items are converted from the activePerson's raw event data
 	let timelineRowItems = [];
 
 	// define the two required events - birth and death
@@ -40,6 +40,8 @@
 	}
 
 	$: {
+		// convert events to timeline row items
+		// and ensure no shared rows in the grid
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 	}
 </script>
@@ -48,23 +50,26 @@
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
 		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
 	</div>
-	<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
-		<!-- the vertical line for the timeline -->
+	<div id="timeline-content-container" class="timeline-content-container">
 		<TimelineSpine />
-		<div id="timeline-event-grid" class="timeline-event-grid">
-			<!-- always present: birth -->
-			<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
+		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
+			<!-- the vertical line for the timeline -->
+			<div id="timeline-event-grid" class="timeline-event-grid">
+				<!-- always present: birth -->
+				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 
-			<!-- show all timeline events -->
-			{#each timelineRowItems as timelineRowItem}
-				<TimelineEvent timelineEvent={timelineRowItem.event} rowIndex={timelineRowItem.index} />
-			{/each}
+				<!-- show all timeline events -->
+				{#each timelineRowItems as timelineRowItem}
+					<TimelineEvent timelineEvent={timelineRowItem.event} rowIndex={timelineRowItem.index} />
+				{/each}
 
-			<!-- always present: current moment or date of death -->
-			<TimelineEvent
-				timelineEvent={deathEvent}
-				rowIndex={stylingConstants.quantities.initialTimelineRowCount}
-			/>
+				<!-- always present: current moment or date of death -->
+				<TimelineEvent
+					timelineEvent={deathEvent}
+					rowIndex={stylingConstants.quantities.initialTimelineRowCount +
+						$uiState.activePerson.timelineEvents.length}
+				/>
+			</div>
 		</div>
 	</div>
 </div>
@@ -80,6 +85,14 @@
 	.timeline-actions-bar {
 		display: flex;
 		justify-content: right;
+	}
+
+	.timeline-content-container {
+		position: relative;
+		display: flex;
+		height: -webkit-fill-available;
+		flex-grow: 1;
+		overflow: hidden;
 	}
 
 	.timeline-scrolling-canvas {

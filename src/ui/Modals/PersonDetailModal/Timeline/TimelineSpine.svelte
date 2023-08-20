@@ -19,14 +19,14 @@
 	`;
 </script>
 
-<div id="timeline-spine-row" class="timeline-spine-row">
+<div id="timeline-spine" class="timeline-spine">
 	<div id="timeline-spine-line-column" class="{lineColumnDynamicClass} timeline-spine-line-column">
 		<div id="timeline-spine-line" class="{lineDynamicClass} timeline-spine-line" />
 	</div>
 </div>
 
 <style>
-	.timeline-spine-row {
+	.timeline-spine {
 		position: absolute;
 		display: flex;
 		height: 100%;
@@ -34,9 +34,5 @@
 
 	.timeline-spine-line-column {
 		display: flex;
-	}
-
-	.timeline-spine-line {
-		height: 100%;
 	}
 </style>
