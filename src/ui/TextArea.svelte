@@ -5,11 +5,13 @@
 
 	export let isEnabled = true;
 	export let inputValue = '';
+	export let resizable = 'none'; // none, vertical, horizontal, or both
 	// empty function in case no function is passed to the input by the parent
 	export let useFunction = (element) => {};
 
 	const textInputDynamicClass = css`
         border: 2px solid ${stylingConstants.colors.activeColor};
+		resize: ${resizable};
         :hover {
             border: 2px solid ${stylingConstants.colors.hoverColor};
 		`;
