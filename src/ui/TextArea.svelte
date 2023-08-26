@@ -27,6 +27,7 @@
 <style>
 	.input-container {
 		display: flex;
+		height: 100%;
 	}
 
 	textarea {

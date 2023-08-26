@@ -1,10 +1,17 @@
 <script>
+	import { css } from '@emotion/css';
+
 	import FieldLabel from './FieldLabel.svelte';
 
 	export let label = 'Some Fact or Field Name';
+	export let grow = false;
+
+	const bioFieldContainerDynamicClass = css`
+		flex-grow: ${grow ? 1 : 'auto'};
+	`;
 </script>
 
-<div id="bio-field-container" class="bio-field-container">
+<div id="bio-field-container" class="{bioFieldContainerDynamicClass} bio-field-container">
 	<div id="bio-field-content" class="bio-field-content">
 		<FieldLabel {label} />
 		<slot />
@@ -21,5 +28,6 @@
 
 	.bio-field-content {
 		min-height: 2vh;
+		height: 100%;
 	}
 </style>

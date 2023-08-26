@@ -79,6 +79,7 @@
 <Modal
 	showModal={$tempState.bioEditAltName}
 	title={isEnabled ? 'Set alternate name' : 'Alternate name details'}
+	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
@@ -100,7 +101,7 @@
 				optionValueKey="id"
 			/>
 		</FieldContainer>
-		<FieldContainer label="Context (optional)">
+		<FieldContainer label="Context (optional)" grow={true}>
 			<TextArea {isEnabled} bind:inputValue={contextInputValue} />
 		</FieldContainer>
 		<ModalActionsBar>

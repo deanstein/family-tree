@@ -5,8 +5,12 @@ export const appChangelog = {
 		Changes: ['Added password protection to the ChooseTree dialog']
 	},
 	'v0.13.x': {
-		Overview: 'v0.13.x refactors the timeline to a grid-based system, with better handling of large events and events with very close dates',
-		Changes: ['Refactored the timeline to use a grid instead of absolute positioning', 'Added initial logic to shift rows when events land in rows already occupied by other events']
+		Overview:
+			'v0.13.x refactors the timeline to a grid-based system, with better handling of large events and events with very close dates',
+		Changes: [
+			'Refactored the timeline to use a grid instead of absolute positioning',
+			'Added initial logic to shift rows when events land in rows already occupied by other events'
+		]
 	},
 	'v0.12.x': {
 		Overview: 'v0.12.x adds a build mode for the tree view',

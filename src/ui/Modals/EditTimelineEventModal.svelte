@@ -87,6 +87,7 @@
 <Modal
 	showModal={$tempState.timelineEditEventId}
 	title={'Event details'}
+	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
@@ -108,7 +109,7 @@
 				optionValueKey="id"
 			/>
 		</FieldContainer>
-		<FieldContainer label="Event Content">
+		<FieldContainer label="Event Content" grow={true}>
 			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
 		</FieldContainer>
 		<ModalActionsBar>
@@ -150,7 +151,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;

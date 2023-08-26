@@ -40,6 +40,8 @@
 
 	input {
 		width: 100%;
+		min-width: -webkit-fill-available;
+		min-width: -moz-available;
 		outline: none;
 	}
 

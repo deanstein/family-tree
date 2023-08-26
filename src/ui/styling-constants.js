@@ -64,6 +64,10 @@ const sizes = {
 	get modalFormWidth() {
 		return this.nModalFormWidth.toString() + 'vw';
 	},
+	nModalFormHeight: 80,
+	get modalFormHeight() {
+		return this.nModalFormHeight.toString() + 'vh';
+	},
 
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,
