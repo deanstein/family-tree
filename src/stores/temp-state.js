@@ -13,8 +13,8 @@ const tempState = {
 	bioEditPersonId: undefined,
 	bioEditAltName: undefined,
 	bioEditAltNames: [],
-	timelineEditEvent: undefined,
-	timelineEditEventId: undefined
+	timelineEditEvent: undefined, // when defined, shows the edit timeline event modal
+	timelineEditEventId: undefined // when defined, inputs of edit event modal are enabled
 };
 
 export default writable(tempState);

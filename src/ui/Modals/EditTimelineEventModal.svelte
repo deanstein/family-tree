@@ -39,6 +39,17 @@
 		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
 	};
 
+	// cancel, but when used for editing an existing event
+	const onCancelEditButtonAction = () => {
+		unsetTimelineEditEventId();
+	};
+
+	// cancel, but when used for creating a new event
+	const onCancelNewEventButtonAction = () => {
+		unsetTimelineEditEventId();
+		unsetTimelineEditEvent();
+	};
+
 	const onDoneButtonAction = () => {
 		const newEventFromInputs = instantiateObject(timelineEvent);
 		newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
@@ -54,11 +65,11 @@
 	const onDeleteButtonAction = () => {
 		deleteTimelineEvent($tempState.timelineEditEvent);
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
-		unsetTimelineEditEvent();
 		unsetTimelineEditEventId();
+		unsetTimelineEditEvent();
 	};
 
-	const onCancelButtonAction = () => {
+	const onCloseButtonAction = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
@@ -85,7 +96,7 @@
 </script>
 
 <Modal
-	showModal={$tempState.timelineEditEventId}
+	showModal={$tempState.timelineEditEvent}
 	title={'Event details'}
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -119,7 +130,7 @@
 					onClickFunction={onEditButtonAction}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
-				<Button buttonText={'Close'} onClickFunction={onCancelButtonAction} />
+				<Button buttonText={'Close'} onClickFunction={onCloseButtonAction} />
 			{:else}
 				{#if isKnownEvent}
 					<Button
@@ -132,7 +143,7 @@
 				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={onCancelButtonAction}
+					onClickFunction={isKnownEvent ? onCancelEditButtonAction : onCancelNewEventButtonAction}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button
