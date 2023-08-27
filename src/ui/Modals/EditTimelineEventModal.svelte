@@ -41,6 +41,10 @@
 
 	// cancel, but when used for editing an existing event
 	const onCancelEditButtonAction = () => {
+		// reset the inputs - get their value from the store again
+		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
+		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
+		eventContentInputValue = $tempState.timelineEditEvent.eventContent;
 		unsetTimelineEditEventId();
 	};
 
