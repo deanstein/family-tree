@@ -1,16 +1,12 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../../stores/ui-state';
-
 	import stylingConstants from '../../../styling-constants';
-	import { getTimelineProportionByDate } from '../../../../logic/ui-management';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
 	let eventDateCorrected;
-	//let eventTimelineProportion; // parameter 0-1 of the position on the timeline
 
 	let eventRowDynamicClass;
 
@@ -18,7 +14,16 @@
 		setTimelineEditEvent(timelineEvent);
 	};
 
+	const eventDateDynamicClass = css`
+		font-size: ${stylingConstants.sizes.timelineDateFontSize};
+		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
+		width: ${stylingConstants.sizes.timelineEventYearWidth};
+		color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.activeColorSubtle};
+	`;
+
 	const eventYearDynamicClass = css`
+		font-size: ${stylingConstants.sizes.timelineYearFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
@@ -54,10 +59,18 @@
 </script>
 
 <div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
-	<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
-		{eventDateCorrected.toString() !== 'Invalid Date'
-			? eventDateCorrected.getUTCFullYear()
-			: 'Year Unknown'}
+	<div id="timeline-event-date-year-container" class="timeline-event-date-year-container">
+		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
+			<!-- show month name with three letters like AUG -->
+			{eventDateCorrected.toString() !== 'Invalid Date'
+				? eventDateCorrected.toLocaleString('default', { month: 'short' }).toUpperCase() + ' ' + eventDateCorrected.getUTCDate().toString()
+				: 'Date Unknown'}
+		</div>
+		<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
+			{eventDateCorrected.toString() !== 'Invalid Date'
+				? eventDateCorrected.getUTCFullYear()
+				: 'Year Unknown'}
+		</div>
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div
@@ -81,6 +94,19 @@
 		max-width: 100%;
 		display: flex;
 		align-items: center;
+	}
+
+	.timeline-event-date-year-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.timeline-event-date {
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
 	}
 
 	.timeline-event-year {

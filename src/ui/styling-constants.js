@@ -142,6 +142,14 @@ const sizes = {
 	get bioFieldFontSize() {
 		return this.nBioFieldFontSize + 'vh';
 	},
+	nTimelineDateFontSize: 1.5,
+	get timelineDateFontSize() {
+		return this.nTimelineDateFontSize + 'vh';
+	},
+	nTimelineYearFontSize: 3,
+	get timelineYearFontSize() {
+		return this.nTimelineYearFontSize + 'vh';
+	},
 	nTimelineSpineLineThickness: 0.3,
 	get timelineSpineThickness() {
 		return this.nTimelineSpineLineThickness + 'vw';
