@@ -146,7 +146,7 @@ const sizes = {
 	get timelineDateFontSize() {
 		return this.nTimelineDateFontSize + 'vh';
 	},
-	nTimelineYearFontSize: 3,
+	nTimelineYearFontSize: 2.5,
 	get timelineYearFontSize() {
 		return this.nTimelineYearFontSize + 'vh';
 	},
@@ -162,7 +162,7 @@ const sizes = {
 	get timelineEventNodeSize() {
 		return this.nTimelineEventNodeSize + 'vw';
 	},
-	nTimelineEventYearWidth: 3,
+	nTimelineEventYearWidth: 4,
 	get timelineEventYearWidth() {
 		return this.nTimelineEventYearWidth + 'vw';
 	},
