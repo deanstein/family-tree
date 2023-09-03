@@ -108,7 +108,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border-radius: 5px;
+		border-radius: 5px 5px 0px 0px;
 	}
 
 	.timeline-event-year {
@@ -116,7 +116,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border-radius: 5px;
+		border-radius: 0px 0px 5px 5px;
 	}
 
 	.timeline-event-node {
