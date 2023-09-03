@@ -23,11 +23,13 @@
 	// to show relative spacing between events
 	let forceRelativeSpacing = false;
 	// row items are converted from the activePerson's raw event data
+	// each row item is an object with the index and the event content
 	let timelineRowItems = [];
 
+	// dynamic classes using Emotion CSS
 	let timelineEventGridDynamicClass;
 
-	// define the two required events - birth and death
+	// define the two required events - birth and death (or today)
 	const birthEvent = instantiateObject(timelineEvent);
 	const deathEvent = instantiateObject(timelineEvent);
 
@@ -50,19 +52,17 @@
 		// ensure birth and death events are kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
-		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date :new Date().setDate( new Date().getDate() - 1);
+		deathEvent.eventDate = $uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
-		timelineEventGridDynamicClass = css`
-		row-gap: ${forceRelativeSpacing ? '1px' : 'auto'}
-		`;
-	}
-
-	$: {
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
+
+		// ensure custom css is kept updated
+		timelineEventGridDynamicClass = css`
+		row-gap: ${forceRelativeSpacing ? '1px' : 'auto'}
+		`;
 	}
 </script>
 

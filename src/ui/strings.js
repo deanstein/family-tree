@@ -33,3 +33,5 @@ export const personDetailStrings = {
 	deathTime: 'Time of Death',
 	deathCause: 'Cause of Death'
 };
+
+export const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];

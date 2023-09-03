@@ -255,23 +255,22 @@ export const generateTimelineRowItems = (person) => {
 	return rowItems;
 };
 
-// checks to make sure if any index is reused, it shifts all indices down
-// returning a new array of timeline row items
+// sorts timeline event row items by date
+// and ensurs any conflicting row indices are resolved
 export const updateTimelineRowItems = (rowItems) => {
-	let indices = rowItems.map((rowItem) => rowItem.index);
-	let duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
-	while (duplicates.length > 0) {
-		let dupIndex = rowItems.findIndex((obj) => obj.index === duplicates[0]);
-		rowItems[dupIndex].index++;
-		rowItems.forEach((obj) => {
-			if (obj.index > rowItems[dupIndex].index) {
-				obj.index++;
-			}
-		});
-		indices = rowItems.map((rowItem) => rowItem.index);
-		duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
-	}
-	return rowItems;
+	const sortedRowItems = rowItems.sort((a, b) => new Date(a.event.eventDate).getTime() - new Date(b.event.eventDate).getTime());
+    let indices = sortedRowItems.map((rowItem) => rowItem.index);
+    let duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+    while (duplicates.length > 0) {
+        let conflictingRowItems = sortedRowItems.filter((obj) => obj.index === duplicates[0]);
+        for (let i = 1; i < conflictingRowItems.length; i++) {
+            conflictingRowItems[i].index++;
+        }
+        indices = sortedRowItems.map((rowItem) => rowItem.index);
+        duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+    }
+    return sortedRowItems;
+};
 };
 
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {

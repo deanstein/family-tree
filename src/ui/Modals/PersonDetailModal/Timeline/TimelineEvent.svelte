@@ -1,6 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { monthNames } from '../../../strings';
 	import stylingConstants from '../../../styling-constants';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
 
@@ -63,9 +64,9 @@
 		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
 			<!-- show month name with three letters like AUG -->
 			{eventDateCorrected.toString() !== 'Invalid Date'
-				? eventDateCorrected.toLocaleString('default', { month: 'short' }).toUpperCase() +
+				? monthNames[eventDateCorrected.getUTCMonth()] +
 				  ' ' +
-				  eventDateCorrected.getUTCDate().toString()
+				  eventDateCorrected.getUTCDate()
 				: 'Date Unknown'}
 		</div>
 		<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
