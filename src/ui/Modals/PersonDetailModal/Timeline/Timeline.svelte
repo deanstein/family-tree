@@ -1,6 +1,8 @@
 <script>
 	import { v4 as uuidv4 } from 'uuid';
 
+	import { css } from '@emotion/css';
+
 	import timelineEvent from '../../../../schemas/timeline-event';
 	import uiState from '../../../../stores/ui-state';
 
@@ -15,9 +17,15 @@
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
 	import stylingConstants from '../../../styling-constants';
+	import Checkbox from '../../../Checkbox.svelte';
 
+	// if true, the timeline is spaced out
+	// to show relative spacing between events
+	let forceRelativeSpacing = false;
 	// row items are converted from the activePerson's raw event data
 	let timelineRowItems = [];
+
+	let timelineEventGridDynamicClass;
 
 	// define the two required events - birth and death
 	const birthEvent = instantiateObject(timelineEvent);
@@ -30,13 +38,25 @@
 		setTimelineEditEventId(newTimelineEvent.eventId);
 	};
 
+	export const onCheckRelativeSpacing = () => {
+		forceRelativeSpacing = true;
+	}
+
+	export const onUncheckRelativeSpacing = () => {
+		forceRelativeSpacing = false;
+	}
+
 	$: {
 		// ensure birth and death events are kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
 		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
+			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date :new Date().setDate( new Date().getDate() - 1);
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
+
+		timelineEventGridDynamicClass = css`
+		row-gap: ${forceRelativeSpacing ? '1px' : 'auto'}
+		`;
 	}
 
 	$: {
@@ -48,13 +68,14 @@
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
+		<Checkbox isEnabled={true} showLabel={true} label="Relative Spacing" isChecked={forceRelativeSpacing} onCheckAction={onCheckRelativeSpacing} onUncheckAction={onUncheckRelativeSpacing}/>
 		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
 		<TimelineSpine />
 		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 			<!-- the vertical line for the timeline -->
-			<div id="timeline-event-grid" class="timeline-event-grid">
+			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 
@@ -84,6 +105,7 @@
 	.timeline-actions-bar {
 		display: flex;
 		justify-content: right;
+		column-gap: 1vh;
 	}
 
 	.timeline-content-container {
@@ -97,6 +119,7 @@
 	.timeline-scrolling-canvas {
 		position: relative;
 		height: -webkit-fill-available;
+		width: -webkit-fill-available;
 		width: -moz-available;
 		display: flex;
 		overflow: auto;
