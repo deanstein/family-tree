@@ -1,4 +1,4 @@
-export const appVersion = '0.13.1';
+export const appVersion = '0.13.2';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -9,7 +9,8 @@ export const appChangelog = {
 			'v0.13.x refactors the timeline to a grid-based system, with better handling of large events and events with very close dates',
 		Changes: [
 			'Refactored the timeline to use a grid instead of absolute positioning',
-			'Added initial logic to shift rows when events land in rows already occupied by other events'
+			'Added initial logic to shift rows when events land in rows already occupied by other events',
+			'Forced birthday to be set before adding timeline events'
 		]
 	},
 	'v0.12.x': {
