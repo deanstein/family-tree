@@ -5,13 +5,23 @@
 
 	export let showLabel = true;
 	export let label = 'Checkbox label';
-	export let isChecked;
-	export let isEnabled;
+	export let isChecked = false;
+	export let isEnabled = true;
+	export let onCheckAction = undefined;
+	export let onUncheckAction = undefined;
 
 	let checkboxLabelDynamicClass = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		color: ${stylingConstants.colors.textColor};
 	`;
+
+	$: {
+		if (isChecked && onCheckAction) {
+			onCheckAction();
+		} else if (onUncheckAction) {
+			onUncheckAction();
+		}
+	}
 </script>
 
 <div id="checkbox-wrapper" class="checkbox-wrapper">
