@@ -55,19 +55,19 @@
 		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 			<!-- the vertical line for the timeline -->
 			<div id="timeline-event-grid" class="timeline-event-grid">
-				<!-- always present: birth -->
+
+				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 
-				<!-- show all timeline events -->
+				<!-- all other timeline events saved to the person -->
 				{#each timelineRowItems as timelineRowItem}
 					<TimelineEvent timelineEvent={timelineRowItem.event} rowIndex={timelineRowItem.index} />
 				{/each}
 
-				<!-- always present: current moment or date of death -->
+				<!-- always present: current date or date of death -->
 				<TimelineEvent
 					timelineEvent={deathEvent}
-					rowIndex={stylingConstants.quantities.initialTimelineRowCount +
-						$uiState.activePerson.timelineEvents.length}
+					rowIndex={stylingConstants.quantities.initialTimelineRowCount}
 				/>
 			</div>
 		</div>
