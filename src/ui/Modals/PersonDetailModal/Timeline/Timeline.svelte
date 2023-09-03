@@ -55,7 +55,6 @@
 		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 			<!-- the vertical line for the timeline -->
 			<div id="timeline-event-grid" class="timeline-event-grid">
-
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 
