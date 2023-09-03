@@ -1,4 +1,4 @@
-export const appVersion = '0.13.3';
+export const appVersion = '0.13.4';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -12,6 +12,8 @@ export const appChangelog = {
 			'Added initial logic to shift rows when events land in rows already occupied by other events',
 			'Added support for posthumous timeline events',
 			'Added a checkbox to space timeline events relatively',
+			'Added top-level date display on timeline event items',
+			'Fixed issues with timeline event sorting',
 			'Forced birthday to be set before adding timeline events'
 		]
 	},
