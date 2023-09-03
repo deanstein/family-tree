@@ -42,17 +42,18 @@
 
 	export const onCheckRelativeSpacing = () => {
 		forceRelativeSpacing = true;
-	}
+	};
 
 	export const onUncheckRelativeSpacing = () => {
 		forceRelativeSpacing = false;
-	}
+	};
 
 	$: {
 		// ensure birth and death events are kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
-		deathEvent.eventDate = $uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
+		deathEvent.eventDate =
+			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
 		// convert events to timeline row items
@@ -61,14 +62,21 @@
 
 		// ensure custom css is kept updated
 		timelineEventGridDynamicClass = css`
-		row-gap: ${forceRelativeSpacing ? '1px' : 'auto'}
+			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
 		`;
 	}
 </script>
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
-		<Checkbox isEnabled={true} showLabel={true} label="Relative Spacing" isChecked={forceRelativeSpacing} onCheckAction={onCheckRelativeSpacing} onUncheckAction={onUncheckRelativeSpacing}/>
+		<Checkbox
+			isEnabled={true}
+			showLabel={true}
+			label="Relative Spacing"
+			isChecked={forceRelativeSpacing}
+			onCheckAction={onCheckRelativeSpacing}
+			onUncheckAction={onUncheckRelativeSpacing}
+		/>
 		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
