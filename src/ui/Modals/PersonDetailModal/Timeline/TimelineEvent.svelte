@@ -95,6 +95,8 @@
 		max-width: 100%;
 		display: flex;
 		align-items: center;
+		padding-top: 2px;
+		padding-bottom: 2px;
 	}
 
 	.timeline-event-date-year-container {
