@@ -64,7 +64,7 @@
 		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
 			<!-- show month name with three letters like AUG -->
 			{eventDateCorrected.toString() !== 'Invalid Date'
-				? monthNames[eventDateCorrected.getUTCMonth()] + ' ' + eventDateCorrected.getDate()
+				? monthNames[eventDateCorrected.getUTCMonth()] + ' ' + eventDateCorrected.getUTCDate()
 				: 'Date Unknown'}
 		</div>
 		<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
