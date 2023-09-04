@@ -53,7 +53,7 @@
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
 		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date();
+			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date().toLocaleDateString();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
 		// convert events to timeline row items
