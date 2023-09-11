@@ -4,15 +4,8 @@
 	import uiState from '../../stores/ui-state';
 	import tempState from '../../stores/temp-state';
 
-	import timelineEvents from '../../schemas/timeline-event-types';
+	import timelineEventTypes from '../../schemas/timeline-event-types';
 
-	import stylingConstants from '../styling-constants';
-
-	import Button from '../Button.svelte';
-	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
-	import FieldContainer from '../FieldContainer.svelte';
-	import Select from '../Select.svelte';
-	import TextArea from '../TextArea.svelte';
 	import {
 		checkPersonForUnsavedChanges,
 		setTimelineEditEventId,
@@ -20,10 +13,18 @@
 		unsetTimelineEditEventId
 	} from '../../logic/temp-management';
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
-	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
-	import timelineEvent from '../../schemas/timeline-event';
+
+	import stylingConstants from '../styling-constants';
+
+	import Button from '../Button.svelte';
+	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
+	import FieldContainer from '../FieldContainer.svelte';
 	import Modal from './Modal.svelte';
 	import ModalActionsBar from './ModalActionsBar.svelte';
+	import Select from '../Select.svelte';
+	import TextArea from '../TextArea.svelte';
+	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
+	import timelineEvent from '../../schemas/timeline-event';
 
 	let isEnabled = false;
 	let isKnownEvent = false;
@@ -80,7 +81,7 @@
 
 	const timelineEventOptions = {
 		label: 'Event types:',
-		timelineEvents
+		timelineEventTypes
 	};
 
 	$: {
@@ -113,20 +114,39 @@
 		class="edit-timeline-event-modal-content"
 		slot="modal-content-slot"
 	>
+		<!-- always present: event date -->
 		<FieldContainer label="Event Date">
 			<DatePicker {isEnabled} bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
-		<FieldContainer label="Event Type">
-			<Select
-				{isEnabled}
-				bind:inputValue={eventTypeInputValue}
-				optionsGroupObject={timelineEventOptions}
-				optionValueKey="id"
-			/>
-		</FieldContainer>
-		<FieldContainer label="Event Content" grow={true}>
-			<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
-		</FieldContainer>
+
+		<!-- event type present for everything except birth or death -->
+		{#if $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.birth.type && $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.death.type}
+			<FieldContainer label="Event Type">
+				<Select
+					{isEnabled}
+					bind:inputValue={eventTypeInputValue}
+					optionsGroupObject={timelineEventOptions}
+					optionValueKey="type"
+					optionLabelKey="typeLabel"
+				/>
+			</FieldContainer>
+		{/if}
+
+		<!-- the rest of the content will depend on the event type -->
+
+		<!-- birth -->
+		{#if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type}
+			<!-- {#each timelineEvents.}
+			{/each} -->
+			<!-- death -->
+		{:else if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type}
+			<!-- generic content box will show if no event type or text type -->
+		{:else}
+			<FieldContainer label="Event Content" grow={true}>
+				<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
+			</FieldContainer>
+		{/if}
+
 		<ModalActionsBar>
 			{#if $tempState.timelineEditEventId === undefined}
 				<Button

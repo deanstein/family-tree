@@ -18,6 +18,8 @@
 	} from '../../../../logic/ui-management';
 	import stylingConstants from '../../../styling-constants';
 	import Checkbox from '../../../Checkbox.svelte';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
+	import { schemaVersion } from '../../../../versions';
 
 	// if true, the timeline is spaced out
 	// to show relative spacing between events
@@ -50,11 +52,18 @@
 
 	$: {
 		// ensure birth and death events are kept updated
+		birthEvent.eventType = timelineEventTypes.birth.type;
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
+		birthEvent.eventVersion = schemaVersion;
+
+		deathEvent.eventType = timelineEventTypes.death.type;
 		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date().toLocaleDateString();
+			$uiState.activePerson.death.date !== ''
+				? $uiState.activePerson.death.date
+				: new Date().toLocaleDateString();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
+		deathEvent.eventVersion = schemaVersion;
 
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid

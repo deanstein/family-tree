@@ -77,7 +77,11 @@ export const instantiateObject = (object) => {
 	return JSON.parse(JSON.stringify(object)); // required to make a deep copy
 };
 
-export const deepMatchObjects = (dataToMatch, dataToChange) => {
+export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = undefined) => {
+	if (forceChangeToType && typeof dataToChange !== 'object') {
+		dataToChange = forceChangeToType;
+	}
+
 	for (var key in dataToMatch) {
 		if (!dataToChange.hasOwnProperty(key)) {
 			if (Array.isArray(dataToMatch[key])) {
@@ -88,13 +92,13 @@ export const deepMatchObjects = (dataToMatch, dataToChange) => {
 				dataToChange[key] = false;
 			} else if (typeof dataToMatch[key] === 'object') {
 				dataToChange[key] = {};
-				deepMatchObjects(dataToMatch[key], dataToChange[key]);
+				deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 			}
 		} else if (typeof dataToMatch[key] === 'object') {
-			deepMatchObjects(dataToMatch[key], dataToChange[key]);
+			deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 		}
+		return dataToChange;
 	}
-	return dataToChange;
 };
 
 export const setNestedObjectProperty = (obj, path, value) => {
@@ -139,6 +143,17 @@ export const deleteObjectByKeyValue = (arr, key, value) => {
 		}
 	}
 	return false; // indicate that object was not found
+};
+
+export const convertDateToUTC = (date) => {
+	return new Date(
+		date.getUTCFullYear(),
+		date.getUTCMonth(),
+		date.getUTCDate(),
+		date.getUTCHours(),
+		date.getUTCMinutes(),
+		date.getUTCSeconds()
+	);
 };
 
 export const getBuildFormattedDate = (date) => {

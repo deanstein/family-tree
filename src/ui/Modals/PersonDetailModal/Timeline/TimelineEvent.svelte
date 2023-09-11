@@ -4,6 +4,7 @@
 	import { monthNames } from '../../../strings';
 	import stylingConstants from '../../../styling-constants';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
+	import { upgradeTimelineEvent } from '../../../../logic/ui-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
@@ -12,6 +13,7 @@
 	let eventRowDynamicClass;
 
 	const onTimelineEventClickAction = () => {
+		upgradeTimelineEvent(timelineEvent);
 		setTimelineEditEvent(timelineEvent);
 	};
 
