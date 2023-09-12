@@ -25,9 +25,12 @@
 	import TextArea from '../../../TextArea.svelte';
 	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
 	import timelineEvent from '../../../../schemas/timeline-event';
+	import TextInput from '../../../TextInput.svelte';
 
-	let isEditable = false;
-	let isKnownEvent = false;
+	let isNewEvent = false; // if true, this event was not found in this person's events
+	let isInEditMode = false; // if true , all fields will be editable
+
+	// input values per event type
 	let eventDateInputValue = undefined;
 	let eventTypeInputValue = undefined;
 	let eventContentInputValue = undefined;
@@ -81,12 +84,12 @@
 	};
 
 	$: {
-		isEditable = $tempState.timelineEditEventId !== undefined;
-		isKnownEvent = getObjectByKeyValue(
+		isInEditMode = $tempState.timelineEditEventId !== undefined;
+		isNewEvent = getObjectByKeyValue(
 			$uiState.activePerson.timelineEvents,
 			'eventId',
 			$tempState.timelineEditEventId
-		);
+		) ? false : true;
 	}
 
 	onMount(() => {
@@ -98,7 +101,7 @@
 
 <Modal
 	showModal={$tempState.timelineEditEvent}
-	title={'Event details'}
+	title={timelineEventTypes[$tempState?.timelineEditEvent?.eventType]?.modalTitle || timelineEventTypes.text.modalTitle }
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
@@ -110,36 +113,39 @@
 		class="edit-timeline-event-modal-content"
 		slot="modal-content-slot"
 	>
-		<!-- always present: event date -->
-		<FieldContainer label="Event Date">
-			<DatePicker isEnabled={isEditable} bind:inputValue={eventDateInputValue} />
-		</FieldContainer>
+		<!-- modal content will depend on the event type -->
 
-		<!-- event type present for everything except birth or death -->
-		{#if $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.birth.type && $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.death.type}
+		<!-- birth -->
+		{#if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type}
+			<div class="side-by-side-field-container">
+				<FieldContainer label={timelineEventTypes.birth.content.birthdate.label}>
+					<DatePicker bind:inputValue={$tempState.timelineEditEvent.eventDate} isEnabled={isInEditMode} />
+				</FieldContainer>
+				<FieldContainer label={timelineEventTypes.birth.content.birthTime.label}>
+					<TextInput bind:inputValue={$uiState.activePerson.birth.time} isEnabled={isInEditMode} />
+				</FieldContainer>
+			</div>
+			<FieldContainer label={timelineEventTypes.birth.content.birthplace.label}>
+				<TextInput bind:inputValue={$uiState.activePerson.birth.place} isEnabled={isInEditMode} />
+			</FieldContainer>
+		<!-- death -->
+		{:else if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type}
+		<!-- generic content box if no event type or text type -->
+		{:else}
+			<FieldContainer label="Event Date">
+				<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
+			</FieldContainer>
 			<FieldContainer label="Event Type">
 				<Select
-					isEnabled={isEditable}
+					isEnabled={isInEditMode}
 					bind:inputValue={eventTypeInputValue}
 					optionsGroupObject={timelineEventOptions}
 					optionValueKey="type"
 					optionLabelKey="typeLabel"
 				/>
 			</FieldContainer>
-		{/if}
-
-		<!-- the rest of the content will depend on the event type -->
-
-		<!-- birth -->
-		{#if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type}
-			<!-- {#each timelineEvents.}
-			{/each} -->
-			<!-- death -->
-		{:else if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type}
-			<!-- generic content box will show if no event type or text type -->
-		{:else}
 			<FieldContainer label="Event Content" grow={true}>
-				<TextArea isEnabled={isEditable} bind:inputValue={eventContentInputValue} />
+				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</FieldContainer>
 		{/if}
 
@@ -152,7 +158,7 @@
 				/>
 				<Button buttonText={'Close'} onClickFunction={onClickCloseButton} />
 			{:else}
-				{#if isKnownEvent}
+				{#if !isNewEvent}
 					<Button
 						buttonText="Delete"
 						onClickFunction={onClickDeleteButton}
@@ -163,7 +169,7 @@
 				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={isKnownEvent ? onClickCancelEditButton : onClickCancelNewEventButton}
+					onClickFunction={!isNewEvent ? onClickCancelEditButton : onClickCancelNewEventButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button
@@ -185,6 +191,14 @@
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
+		gap: 1vh;
+	}
+
+
+	.side-by-side-field-container {
+		display: flex;
+		width: -webkit-fill-available;
+		width: -moz-available;
 		gap: 1vh;
 	}
 </style>
