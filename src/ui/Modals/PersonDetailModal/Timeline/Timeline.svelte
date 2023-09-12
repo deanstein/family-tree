@@ -33,7 +33,12 @@
 
 	// define the two required events - birth and death (or today)
 	const birthEvent = instantiateObject(timelineEvent);
+	birthEvent.eventType = timelineEventTypes.birth.type;
+	birthEvent.eventVersion = schemaVersion;
+
 	const deathEvent = instantiateObject(timelineEvent);
+	deathEvent.eventType = timelineEventTypes.death.type;
+	deathEvent.eventVersion = schemaVersion;
 
 	const onAddEventButtonClick = () => {
 		const newTimelineEvent = instantiateObject(timelineEvent);
@@ -51,19 +56,15 @@
 	};
 
 	$: {
-		// ensure birth and death events are kept updated
-		birthEvent.eventType = timelineEventTypes.birth.type;
+		// ensure birth event is kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
-		birthEvent.eventVersion = schemaVersion;
-
-		deathEvent.eventType = timelineEventTypes.death.type;
+		// ensure death event is kept updated
 		deathEvent.eventDate =
 			$uiState.activePerson.death.date !== ''
 				? $uiState.activePerson.death.date
 				: new Date().toLocaleDateString();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
-		deathEvent.eventVersion = schemaVersion;
 
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid
