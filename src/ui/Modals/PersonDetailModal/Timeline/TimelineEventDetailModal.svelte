@@ -26,22 +26,18 @@
 	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
 	import timelineEvent from '../../../../schemas/timeline-event';
 
-	let isEnabled = false;
+	let isEditable = false;
 	let isKnownEvent = false;
 	let eventDateInputValue = undefined;
 	let eventTypeInputValue = undefined;
 	let eventContentInputValue = undefined;
 
-	const focusNameInput = (element) => {
-		element.focus();
-	};
-
-	const onEditButtonAction = () => {
+	const onClickEditButton = () => {
 		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
 	};
 
 	// cancel, but when used for editing an existing event
-	const onCancelEditButtonAction = () => {
+	const onClickCancelEditButton = () => {
 		// reset the inputs - get their value from the store again
 		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
 		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
@@ -50,12 +46,12 @@
 	};
 
 	// cancel, but when used for creating a new event
-	const onCancelNewEventButtonAction = () => {
+	const onClickCancelNewEventButton = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
 
-	const onDoneButtonAction = () => {
+	const onClickDoneButton = () => {
 		const newEventFromInputs = instantiateObject(timelineEvent);
 		newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
 		newEventFromInputs.eventDate = eventDateInputValue;
@@ -67,14 +63,14 @@
 		unsetTimelineEditEvent();
 	};
 
-	const onDeleteButtonAction = () => {
+	const onClickDeleteButton = () => {
 		deleteTimelineEvent($tempState.timelineEditEvent);
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
 
-	const onCloseButtonAction = () => {
+	const onClickCloseButton = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
@@ -85,7 +81,7 @@
 	};
 
 	$: {
-		isEnabled = $tempState.timelineEditEventId !== undefined;
+		isEditable = $tempState.timelineEditEventId !== undefined;
 		isKnownEvent = getObjectByKeyValue(
 			$uiState.activePerson.timelineEvents,
 			'eventId',
@@ -116,14 +112,14 @@
 	>
 		<!-- always present: event date -->
 		<FieldContainer label="Event Date">
-			<DatePicker {isEnabled} bind:inputValue={eventDateInputValue} />
+			<DatePicker isEnabled={isEditable} bind:inputValue={eventDateInputValue} />
 		</FieldContainer>
 
 		<!-- event type present for everything except birth or death -->
 		{#if $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.birth.type && $tempState?.timelineEditEvent?.eventType !== timelineEventTypes.death.type}
 			<FieldContainer label="Event Type">
 				<Select
-					{isEnabled}
+					isEnabled={isEditable}
 					bind:inputValue={eventTypeInputValue}
 					optionsGroupObject={timelineEventOptions}
 					optionValueKey="type"
@@ -143,7 +139,7 @@
 			<!-- generic content box will show if no event type or text type -->
 		{:else}
 			<FieldContainer label="Event Content" grow={true}>
-				<TextArea {isEnabled} bind:inputValue={eventContentInputValue} />
+				<TextArea isEnabled={isEditable} bind:inputValue={eventContentInputValue} />
 			</FieldContainer>
 		{/if}
 
@@ -151,15 +147,15 @@
 			{#if $tempState.timelineEditEventId === undefined}
 				<Button
 					buttonText={'Edit'}
-					onClickFunction={onEditButtonAction}
+					onClickFunction={onClickEditButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
-				<Button buttonText={'Close'} onClickFunction={onCloseButtonAction} />
+				<Button buttonText={'Close'} onClickFunction={onClickCloseButton} />
 			{:else}
 				{#if isKnownEvent}
 					<Button
 						buttonText="Delete"
-						onClickFunction={onDeleteButtonAction}
+						onClickFunction={onClickDeleteButton}
 						overrideColor={stylingConstants.colors.buttonColorDelete}
 						overrideBackgroundColor="transparent"
 						overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
@@ -167,13 +163,13 @@
 				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={isKnownEvent ? onCancelEditButtonAction : onCancelNewEventButtonAction}
+					onClickFunction={isKnownEvent ? onClickCancelEditButton : onClickCancelNewEventButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button
 					buttonText="Done"
 					isEnabled={eventDateInputValue}
-					onClickFunction={onDoneButtonAction}
+					onClickFunction={onClickDoneButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
 			{/if}
