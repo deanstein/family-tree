@@ -1,30 +1,30 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import uiState from '../../stores/ui-state';
-	import tempState from '../../stores/temp-state';
+	import uiState from '../../../../stores/ui-state';
+	import tempState from '../../../../stores/temp-state';
 
-	import timelineEventTypes from '../../schemas/timeline-event-types';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 
 	import {
 		checkPersonForUnsavedChanges,
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
-	} from '../../logic/temp-management';
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
+	} from '../../../../logic/temp-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../../logic/person-management';
 
-	import stylingConstants from '../styling-constants';
+	import stylingConstants from '../../../styling-constants';
 
-	import Button from '../Button.svelte';
-	import DatePicker from './PersonDetailModal/Bio/DatePicker.svelte';
-	import FieldContainer from '../FieldContainer.svelte';
-	import Modal from './Modal.svelte';
-	import ModalActionsBar from './ModalActionsBar.svelte';
-	import Select from '../Select.svelte';
-	import TextArea from '../TextArea.svelte';
-	import { getObjectByKeyValue, instantiateObject } from '../../logic/utils';
-	import timelineEvent from '../../schemas/timeline-event';
+	import Button from '../../../Button.svelte';
+	import DatePicker from '../Bio/DatePicker.svelte';
+	import FieldContainer from '../../../FieldContainer.svelte';
+	import Modal from '../../Modal.svelte';
+	import ModalActionsBar from '../../ModalActionsBar.svelte';
+	import Select from '../../../Select.svelte';
+	import TextArea from '../../../TextArea.svelte';
+	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
+	import timelineEvent from '../../../../schemas/timeline-event';
 
 	let isEnabled = false;
 	let isKnownEvent = false;
