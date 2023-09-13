@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import { personDetailStrings } from '../../../strings';
+	import { personDetailStrings, timelineEventStrings } from '../../../strings';
 	import { gender } from '../../../../schemas/gender';
 	import stylingConstants from '../../../styling-constants';
 	import uiState from '../../../../stores/ui-state';
@@ -206,16 +206,16 @@
 		</FieldContainer>
 
 		<div class="side-by-side-fact-container">
-			<FieldContainer label={personDetailStrings.birthdate}>
+			<FieldContainer label={timelineEventStrings.birthdate}>
 				<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
 			</FieldContainer>
 
-			<FieldContainer label={personDetailStrings.birthtime}>
+			<FieldContainer label={timelineEventStrings.birthtime}>
 				<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
 			</FieldContainer>
 		</div>
 
-		<FieldContainer label={personDetailStrings.birthplace}>
+		<FieldContainer label={timelineEventStrings.birthplace}>
 			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
 		</FieldContainer>
 
