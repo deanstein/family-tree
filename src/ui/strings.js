@@ -23,15 +23,25 @@ export const chooseTreeStrings = {
 export const personDetailStrings = {
 	altNames: 'Also Known As',
 	gender: 'Gender',
+	hometown: 'Hometown'
+};
+
+export const timelineEventStrings = {
+	birthEventModalTitle: 'Birth event details',
 	birthdate: 'Date of Birth',
 	birthplace: 'Place of Birth',
 	birthtime: 'Time of Birth: ',
-	hometown: 'Hometown',
+	deathEventModalTitle: 'Death event details',
 	deceased: 'Deceased',
 	deathDate: 'Date of Death',
 	deathPlace: 'Place of Death',
 	deathTime: 'Time of Death',
-	deathCause: 'Cause of Death'
+	deathCause: 'Cause of Death',
+	childEventModalTitle: 'Child event details',
+	residenceEventModalTitle: 'Residence event details',
+	vehicleEventModalTitle: 'Vehicle event details',
+	textEventModalTitle: 'Event details',
+	additionalContext: 'Additional Context'
 };
 
 export const monthNames = [

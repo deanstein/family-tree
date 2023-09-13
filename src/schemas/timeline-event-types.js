@@ -4,45 +4,17 @@ const timelineEventTypes = {
 	birth: {
 		type: 'birth',
 		icon: '',
-		modalTitle: 'Birth event details',
 		content: {
-			birthdate: {
-				value: '',
-				placeholder: '',
-				inputType: 'single-line',
-				label: 'Date of Birth'
-			},
-			birthTime: {
-				value: '',
-				placeholder: '',
-				inputType: 'single-line',
-				label: 'Time of Birth'
-			},
-			birthplace: {
-				value: '',
-				placeholder: '',
-				inputType: 'single-line',
-				label: 'Place of Birth'
-			},
-			hometown: {
-				value: '',
-				placeholder: '',
-				inputType: 'single-line',
-				label: 'Hometown'
-			},
-			additionalContext: {
-				value: '',
-				placeholder: '',
-				inputType: 'multi-line',
-				label: 'Additional Context'
-			},
+			birthdate: '',
+			birthtime: '',
+			birthplace: '',
+			additionalContext: '',
 			media: []
 		}
 	},
 	death: {
 		type: 'death',
 		icon: '',
-		modalTitle: 'Death event details',
 		content: {
 			deathDate: '',
 			deathTime: '',
@@ -54,38 +26,23 @@ const timelineEventTypes = {
 	},
 	child: {
 		type: 'child',
-		typeLabel: 'Child',
 		icon: '',
-		modalTitle: 'Child event details',
 		content: {}
 	},
 	text: {
 		type: 'text',
-		typeLabel: 'Text',
 		icon: '',
-		modalTitle: 'Text memory event details',
-		placeholder: 'Enter a memory, random fact, or other text-based record of this person...'
-	},
-	photo: {
-		type: 'photo',
-		typeLabel: 'Photo',
-		icon: '',
-		modalTitle: 'Photo details',
-		placeholder: 'Add photos...'
+		content: {}
 	},
 	residence: {
 		type: 'residence',
-		typeLabel: 'Residence',
 		icon: '',
-		modalTitle: 'Residence details',
-		placeholder: 'Where did this person live?'
+		content: {}
 	},
 	vehicle: {
 		type: 'vehicle',
-		typeLabel: 'Vehicle',
 		icon: '',
-		modalTitle: 'Vehicle details',
-		placeholder: 'What vehicle did this person drive?'
+		content: {}
 	}
 };
 

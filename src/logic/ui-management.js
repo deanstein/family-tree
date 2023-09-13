@@ -1,7 +1,7 @@
 import familyTreeData from '../stores/family-tree-data';
 import uiState from '../stores/ui-state';
 import stylingConstants from '../ui/styling-constants';
-import { repoStateStrings } from '../ui/strings';
+import { repoStateStrings, timelineEventStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
 import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
@@ -287,6 +287,17 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, {});
 				return eventToUpgrade;
 		}
+	}
+};
+
+export const getModalTitleByEventType = (eventType) => {
+	switch (eventType) {
+		case timelineEventTypes.birth.type:
+			return timelineEventStrings.birthEventModalTitle;
+		case timelineEventTypes.death.type:
+			return timelineEventStrings.deathEventModalTitle;
+		default:
+			return timelineEventStrings.textEventModalTitle;
 	}
 };
 
