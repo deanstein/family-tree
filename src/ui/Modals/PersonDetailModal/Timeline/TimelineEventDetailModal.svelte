@@ -4,6 +4,7 @@
 	import uiState from '../../../../stores/ui-state';
 	import tempState from '../../../../stores/temp-state';
 
+	import timelineEvent from '../../../../schemas/timeline-event';
 	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 
 	import {
@@ -16,6 +17,9 @@
 		addOrReplaceTimelineEvent,
 		deleteTimelineEvent
 	} from '../../../../logic/person-management';
+	import { getModalTitleByEventType } from '../../../../logic/ui-management';
+	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
+	import { timelineEventStrings } from '../../../strings';
 
 	import stylingConstants from '../../../styling-constants';
 
@@ -26,30 +30,30 @@
 	import ModalActionsBar from '../../ModalActionsBar.svelte';
 	import Select from '../../../Select.svelte';
 	import TextArea from '../../../TextArea.svelte';
-	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
-	import timelineEvent from '../../../../schemas/timeline-event';
 	import TextInput from '../../../TextInput.svelte';
-	import { getModalTitleByEventType } from '../../../../logic/ui-management';
-	import { timelineEventStrings } from '../../../strings';
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
+	let isBirthOrDeathEvent = false; // if true, this is a birth or death event which are always present but not stored as timeline events
 	let isInEditMode = false; // if true, all fields will be editable
 
 	// adjust the modal depending on the type
 	let modalTitle = undefined;
 
-	// input values per event type
+	// all possible input values
 	let eventDateInputValue = undefined;
 	let eventTypeInputValue = undefined;
 	let eventContentInputValue = undefined;
+	let birthdateInputValue = undefined;
+	let birthtimeInputValue = undefined;
+	let birthplaceInputValue = undefined;
 
 	const onClickEditButton = () => {
 		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
 	};
 
 	// cancel, but when used for editing an existing event
+	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
-		// reset the inputs - get their value from the store again
 		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
 		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
 		eventContentInputValue = $tempState.timelineEditEvent.eventContent;
@@ -94,16 +98,16 @@
 	$: {
 		modalTitle = getModalTitleByEventType($tempState?.timelineEditEvent?.eventType);
 		isInEditMode = $tempState.timelineEditEventId !== undefined;
-		isNewEvent =
-			!getObjectByKeyValue(
-				$uiState.activePerson.timelineEvents,
-				'eventId',
-				$tempState.timelineEditEventId
-			) &&
-			$tempState?.timelineEditEvent?.eventType !== timelineEventTypes.birth.type &&
-			$tempState?.timelineEditEvent?.eventType !== timelineEventTypes.death.type
-				? true
-				: false;
+		isBirthOrDeathEvent =
+			$tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type ||
+			$tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type;
+		isNewEvent = !getObjectByKeyValue(
+			$uiState.activePerson.timelineEvents,
+			'eventId',
+			$tempState.timelineEditEventId
+		)
+			? true
+			: false;
 	}
 
 	onMount(() => {
@@ -176,7 +180,7 @@
 				/>
 				<Button buttonText={'Close'} onClickFunction={onClickCloseButton} />
 			{:else}
-				{#if !isNewEvent}
+				{#if !isNewEvent && !isBirthOrDeathEvent}
 					<Button
 						buttonText="Delete"
 						onClickFunction={onClickDeleteButton}
@@ -187,7 +191,9 @@
 				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={isNewEvent ? onClickCancelNewEventButton : onClickCancelEditButton}
+					onClickFunction={isNewEvent && !isBirthOrDeathEvent
+						? onClickCancelNewEventButton
+						: onClickCancelEditButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button
