@@ -21,7 +21,7 @@
 
 	import Button from '../../../Button.svelte';
 	import DatePicker from '../Bio/DatePicker.svelte';
-	import FieldContainer from '../../../FieldContainer.svelte';
+	import FieldContainer from '../../../InputContainer.svelte';
 	import Modal from '../../Modal.svelte';
 	import ModalActionsBar from '../../ModalActionsBar.svelte';
 	import Select from '../../../Select.svelte';
@@ -33,9 +33,9 @@
 	import { timelineEventStrings } from '../../../strings';
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
-	let isInEditMode = false; // if true , all fields will be editable
+	let isInEditMode = false; // if true, all fields will be editable
 
-	// modal title changes based on event type
+	// adjust the modal depending on the type
 	let modalTitle = undefined;
 
 	// input values per event type
@@ -94,13 +94,16 @@
 	$: {
 		modalTitle = getModalTitleByEventType($tempState?.timelineEditEvent?.eventType);
 		isInEditMode = $tempState.timelineEditEventId !== undefined;
-		isNewEvent = getObjectByKeyValue(
-			$uiState.activePerson.timelineEvents,
-			'eventId',
-			$tempState.timelineEditEventId
-		)
-			? false
-			: true;
+		isNewEvent =
+			!getObjectByKeyValue(
+				$uiState.activePerson.timelineEvents,
+				'eventId',
+				$tempState.timelineEditEventId
+			) &&
+			$tempState?.timelineEditEvent?.eventType !== timelineEventTypes.birth.type &&
+			$tempState?.timelineEditEvent?.eventType !== timelineEventTypes.death.type
+				? true
+				: false;
 	}
 
 	onMount(() => {
@@ -142,9 +145,10 @@
 			<FieldContainer label={timelineEventStrings.birthplace}>
 				<TextInput bind:inputValue={$uiState.activePerson.birth.place} isEnabled={isInEditMode} />
 			</FieldContainer>
+
 			<!-- death -->
 		{:else if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type}
-			<!-- generic content box if no event type or text type -->
+			<!-- stsandard content box if no event type or generic type -->
 		{:else}
 			<FieldContainer label="Event Date">
 				<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
@@ -183,7 +187,7 @@
 				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={!isNewEvent ? onClickCancelEditButton : onClickCancelNewEventButton}
+					onClickFunction={isNewEvent ? onClickCancelNewEventButton : onClickCancelEditButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button

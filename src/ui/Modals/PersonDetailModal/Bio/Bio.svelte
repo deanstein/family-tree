@@ -11,10 +11,11 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
-	import FieldContainer from '../../../FieldContainer.svelte';
+	import InputContainer from '../../../InputContainer.svelte';
 	import Name from './Name.svelte';
 	import Overlay from '../../Overlay.svelte';
 	import Selector from '../../../Select.svelte';
+	import SideBySideContainer from '../../../SideBySideContainer.svelte';
 	import TextInput from '../../../TextInput.svelte';
 	import { writeUIStateValueAtPath } from '../../../../logic/ui-management';
 	import {
@@ -192,61 +193,61 @@
 	</div>
 	<Name isEnabled={isBioEditActive} bind:inputValue={nameInputValue} />
 	<div id="bio-facts" class="bio-facts">
-		<FieldContainer label={personDetailStrings.altNames}>
+		<InputContainer label={personDetailStrings.altNames}>
 			<AlternateNames isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
-		<FieldContainer label={personDetailStrings.gender}>
+		<InputContainer label={personDetailStrings.gender}>
 			<Selector
 				bind:inputValue={genderInputValue}
 				isEnabled={isBioEditActive}
 				optionsGroupObject={genderOptions}
 				optionValueKey="id"
 			/>
-		</FieldContainer>
+		</InputContainer>
 
-		<div class="side-by-side-fact-container">
-			<FieldContainer label={timelineEventStrings.birthdate}>
+		<SideBySideContainer>
+			<InputContainer label={timelineEventStrings.birthdate}>
 				<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
-			</FieldContainer>
+			</InputContainer>
 
-			<FieldContainer label={timelineEventStrings.birthtime}>
+			<InputContainer label={timelineEventStrings.birthtime}>
 				<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
-			</FieldContainer>
-		</div>
+			</InputContainer>
+		</SideBySideContainer>
 
-		<FieldContainer label={timelineEventStrings.birthplace}>
+		<InputContainer label={timelineEventStrings.birthplace}>
 			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
-		<FieldContainer label={personDetailStrings.hometown}>
+		<InputContainer label={personDetailStrings.hometown}>
 			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
 		<Checkbox
-			label={personDetailStrings.deceased}
+			label={timelineEventStrings.deceased}
 			bind:isChecked={deceasedValue}
 			isEnabled={isBioEditActive}
 		/>
 		{#if deceasedValue}
 			<div id="deceased-details-container" class="deceased-details-container">
-				<div class="side-by-side-fact-container">
-					<FieldContainer label={personDetailStrings.deathDate}>
+				<SideBySideContainer>
+					<InputContainer label={timelineEventStrings.deathDate}>
 						<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />
-					</FieldContainer>
+					</InputContainer>
 
-					<FieldContainer label={personDetailStrings.deathTime}>
+					<InputContainer label={timelineEventStrings.deathTime}>
 						<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isBioEditActive} />
-					</FieldContainer>
-				</div>
+					</InputContainer>
+				</SideBySideContainer>
 
-				<FieldContainer label={personDetailStrings.deathPlace}>
+				<InputContainer label={timelineEventStrings.deathPlace}>
 					<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isBioEditActive} />
-				</FieldContainer>
+				</InputContainer>
 
-				<FieldContainer label={personDetailStrings.deathCause}>
+				<InputContainer label={timelineEventStrings.deathCause}>
 					<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isBioEditActive} />
-				</FieldContainer>
+				</InputContainer>
 			</div>
 		{/if}
 	</div>
@@ -284,11 +285,6 @@
 		flex-direction: column;
 		justify-content: center;
 		width: 100%;
-		gap: 1vh;
-	}
-
-	.side-by-side-fact-container {
-		display: flex;
 		gap: 1vh;
 	}
 

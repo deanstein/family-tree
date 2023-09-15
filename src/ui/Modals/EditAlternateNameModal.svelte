@@ -8,7 +8,7 @@
 	import stylingConstants from '../styling-constants';
 
 	import Button from '../Button.svelte';
-	import FieldContainer from '../FieldContainer.svelte';
+	import FieldContainer from '../InputContainer.svelte';
 	import Select from '../Select.svelte';
 	import TextInput from '../TextInput.svelte';
 

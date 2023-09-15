@@ -24,23 +24,32 @@ const timelineEventTypes = {
 			media: []
 		}
 	},
-	child: {
-		type: 'child',
+	generic: {
+		type: 'generic',
 		icon: '',
-		content: {}
-	},
-	text: {
-		type: 'text',
-		icon: '',
-		content: {}
+		content: {
+			associatedPeople: [],
+			additionalContext: '',
+			media: []
+		}
 	},
 	residence: {
 		type: 'residence',
 		icon: '',
 		content: {}
 	},
+	workplace: {
+		type: 'workplace',
+		icon: '',
+		content: {}
+	},
 	vehicle: {
 		type: 'vehicle',
+		icon: '',
+		content: {}
+	},
+	child: {
+		type: 'child',
 		icon: '',
 		content: {}
 	}
