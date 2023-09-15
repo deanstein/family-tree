@@ -1,6 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
-
 	import uiState from '../../../../stores/ui-state';
 	import tempState from '../../../../stores/temp-state';
 
@@ -17,7 +15,10 @@
 		addOrReplaceTimelineEvent,
 		deleteTimelineEvent
 	} from '../../../../logic/person-management';
-	import { getModalTitleByEventType } from '../../../../logic/ui-management';
+	import {
+		getModalTitleByEventType,
+		writeUIStateValueAtPath
+	} from '../../../../logic/ui-management';
 	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
 	import { timelineEventStrings } from '../../../strings';
 
@@ -32,20 +33,25 @@
 	import TextArea from '../../../TextArea.svelte';
 	import TextInput from '../../../TextInput.svelte';
 
+	// get the event data
+	let eventDate = $tempState?.timelineEditEvent?.eventDate;
+	let eventType = $tempState?.timelineEditEvent?.eventType;
+	let eventContent = $tempState?.timelineEditEvent?.eventContent;
+
 	let isNewEvent = false; // if true, this event was not found in this person's events
 	let isBirthOrDeathEvent = false; // if true, this is a birth or death event which are always present but not stored as timeline events
 	let isInEditMode = false; // if true, all fields will be editable
 
-	// adjust the modal depending on the type
+	// modal title changes based on the event type
 	let modalTitle = undefined;
 
 	// all possible input values
-	let eventDateInputValue = undefined;
-	let eventTypeInputValue = undefined;
-	let eventContentInputValue = undefined;
-	let birthdateInputValue = undefined;
-	let birthtimeInputValue = undefined;
-	let birthplaceInputValue = undefined;
+	let eventDateInputValue = $tempState?.timelineEditEvent?.eventDate;
+	let eventTypeInputValue = $tempState?.timelineEditEvent?.eventType;
+	let eventContentInputValue = $tempState?.timelineEditEvent?.eventContent;
+	let birthdateInputValue = $uiState?.activePerson?.birth?.date;
+	let birthtimeInputValue = $uiState?.activePerson?.birth?.time;
+	let birthplaceInputValue = $uiState?.activePerson?.birth?.place;
 
 	const onClickEditButton = () => {
 		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
@@ -54,9 +60,21 @@
 	// cancel, but when used for editing an existing event
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
-		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
-		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
-		eventContentInputValue = $tempState.timelineEditEvent.eventContent;
+		// the inputs to reset depend on the event type
+		switch (eventType) {
+			case timelineEventTypes.birth.type:
+				birthdateInputValue = $uiState.activePerson.birth.date;
+				birthtimeInputValue = $uiState.activePerson.birth.time;
+				birthplaceInputValue = $uiState.activePerson.birth.place;
+				break;
+			case timelineEventTypes.death.type:
+				break;
+			default:
+				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
+				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
+				eventContentInputValue = $tempState.timelineEditEvent.eventContent;
+		}
+
 		unsetTimelineEditEventId();
 	};
 
@@ -67,12 +85,24 @@
 	};
 
 	const onClickDoneButton = () => {
-		const newEventFromInputs = instantiateObject(timelineEvent);
-		newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
-		newEventFromInputs.eventDate = eventDateInputValue;
-		newEventFromInputs.eventType = eventTypeInputValue;
-		newEventFromInputs.eventContent = eventContentInputValue;
-		addOrReplaceTimelineEvent(newEventFromInputs);
+		// done button needs to commit different inputs depending on the event type
+		switch (eventType) {
+			case timelineEventTypes.birth.type:
+				writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
+				writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
+				writeUIStateValueAtPath('activePerson.birth.time', birthtimeInputValue);
+				break;
+			case timelineEventTypes.death.type:
+				break;
+			case timelineEventTypes.generic.type:
+			default:
+				const newEventFromInputs = instantiateObject(timelineEvent);
+				newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
+				newEventFromInputs.eventDate = eventDateInputValue;
+				newEventFromInputs.eventType = eventTypeInputValue;
+				newEventFromInputs.eventContent = eventContentInputValue;
+				addOrReplaceTimelineEvent(newEventFromInputs);
+		}
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
@@ -96,11 +126,10 @@
 	};
 
 	$: {
-		modalTitle = getModalTitleByEventType($tempState?.timelineEditEvent?.eventType);
+		modalTitle = getModalTitleByEventType(eventType);
 		isInEditMode = $tempState.timelineEditEventId !== undefined;
 		isBirthOrDeathEvent =
-			$tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type ||
-			$tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type;
+			eventType === timelineEventTypes.birth.type || eventType === timelineEventTypes.death.type;
 		isNewEvent = !getObjectByKeyValue(
 			$uiState.activePerson.timelineEvents,
 			'eventId',
@@ -109,12 +138,6 @@
 			? true
 			: false;
 	}
-
-	onMount(() => {
-		eventDateInputValue = $tempState.timelineEditEvent.eventDate;
-		eventTypeInputValue = $tempState.timelineEditEvent.eventType;
-		eventContentInputValue = $tempState.timelineEditEvent.eventContent;
-	});
 </script>
 
 <Modal
@@ -134,24 +157,21 @@
 		<!-- modal content will depend on the event type -->
 
 		<!-- birth -->
-		{#if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.birth.type}
+		{#if eventType === timelineEventTypes.birth.type}
 			<div class="side-by-side-field-container">
 				<FieldContainer label={timelineEventStrings.birthdate}>
-					<DatePicker
-						bind:inputValue={$tempState.timelineEditEvent.eventDate}
-						isEnabled={isInEditMode}
-					/>
+					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isInEditMode} />
 				</FieldContainer>
 				<FieldContainer label={timelineEventStrings.birthtime}>
-					<TextInput bind:inputValue={$uiState.activePerson.birth.time} isEnabled={isInEditMode} />
+					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
 				</FieldContainer>
 			</div>
 			<FieldContainer label={timelineEventStrings.birthplace}>
-				<TextInput bind:inputValue={$uiState.activePerson.birth.place} isEnabled={isInEditMode} />
+				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isInEditMode} />
 			</FieldContainer>
 
 			<!-- death -->
-		{:else if $tempState?.timelineEditEvent?.eventType === timelineEventTypes.death.type}
+		{:else if eventType === timelineEventTypes.death.type}
 			<!-- stsandard content box if no event type or generic type -->
 		{:else}
 			<FieldContainer label="Event Date">
