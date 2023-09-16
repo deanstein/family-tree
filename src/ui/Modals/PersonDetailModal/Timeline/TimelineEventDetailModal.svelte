@@ -58,43 +58,8 @@
 	let deathTimeInputValue = $uiState?.activePerson?.death?.time;
 	let deathCauseInputValue = $uiState?.activePerson?.death?.cause;
 
-	const onClickEditButton = () => {
-		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
-	};
-
-	// cancel, but when used for editing an existing event
-	// resets the inputs to match the store
-	const onClickCancelEditButton = () => {
-		// the inputs to reset depend on the event type
-		switch (eventType) {
-			case timelineEventTypes.birth.type:
-				birthdateInputValue = $uiState.activePerson.birth.date;
-				birthtimeInputValue = $uiState.activePerson.birth.time;
-				birthplaceInputValue = $uiState.activePerson.birth.place;
-				break;
-			case timelineEventTypes.death.type:
-				deathDateInputValue = $uiState.activePerson.death.date;
-				deathPlaceInputValue = $uiState.activePerson.death.place;
-				deathTimeInputValue = $uiState.activePerson.death.time;
-				deathCauseInputValue = $uiState.activePerson.death.cause;
-				break;
-			default:
-				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
-				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
-				eventContentInputValue = $tempState.timelineEditEvent.eventContent;
-		}
-
-		unsetTimelineEditEventId();
-	};
-
-	// cancel, but when used for creating a new event
-	const onClickCancelNewEventButton = () => {
-		unsetTimelineEditEventId();
-		unsetTimelineEditEvent();
-	};
-
-	const onClickDoneButton = () => {
-		// done button needs to commit different inputs depending on the event type
+	// saves available inputs to the UI state
+	const saveAllInputs = () => {
 		switch (eventType) {
 			case timelineEventTypes.birth.type:
 				writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
@@ -116,6 +81,48 @@
 				newEventFromInputs.eventContent = eventContentInputValue;
 				addOrReplaceTimelineEvent(newEventFromInputs);
 		}
+	};
+
+	// synchronizes available inputs back to UI state values
+	const syncAllInputs = () => {
+		switch (eventType) {
+			case timelineEventTypes.birth.type:
+				birthdateInputValue = $uiState.activePerson.birth.date;
+				birthtimeInputValue = $uiState.activePerson.birth.time;
+				birthplaceInputValue = $uiState.activePerson.birth.place;
+				break;
+			case timelineEventTypes.death.type:
+				deathDateInputValue = $uiState.activePerson.death.date;
+				deathPlaceInputValue = $uiState.activePerson.death.place;
+				deathTimeInputValue = $uiState.activePerson.death.time;
+				deathCauseInputValue = $uiState.activePerson.death.cause;
+				break;
+			default:
+				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
+				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
+				eventContentInputValue = $tempState.timelineEditEvent.eventContent;
+		}
+	};
+
+	const onClickEditButton = () => {
+		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
+	};
+
+	// cancel, but when used for editing an existing event
+	// resets the inputs to match the store
+	const onClickCancelEditButton = () => {
+		syncAllInputs();
+		unsetTimelineEditEventId();
+	};
+
+	// cancel, but when used for creating a new event
+	const onClickCancelNewEventButton = () => {
+		unsetTimelineEditEventId();
+		unsetTimelineEditEvent();
+	};
+
+	const onClickDoneButton = () => {
+		saveAllInputs();
 		checkPersonForUnsavedChanges($uiState.activePerson.id);
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
