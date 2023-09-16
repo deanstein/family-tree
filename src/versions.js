@@ -116,7 +116,7 @@ export const schemaChangelog = {
 	'v0.10.x': {
 		Overview:
 			'v0.10.x adds timeline support for each person and support for different timeline event types.',
-		Changes: ['Added basic timeline event field in person schema, added timeline event types']
+		Changes: ['Added basic timeline event field in person schema', 'Added timeline event types']
 	},
 	'v0.9.x': {
 		Overview:

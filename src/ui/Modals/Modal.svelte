@@ -143,4 +143,12 @@
 		height: -webkit-fill-available;
 		height: -moz-available;
 	}
+
+	.modal-toolbar-slot {
+		display: flex;
+		width: -webkit-fill-available;
+		width: -moz-available;
+		justify-content: right;
+		padding: 0 10px 10px 0px;
+	}
 </style>

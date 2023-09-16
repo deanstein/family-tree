@@ -32,6 +32,7 @@
 	import Select from '../../../Select.svelte';
 	import TextArea from '../../../TextArea.svelte';
 	import TextInput from '../../../TextInput.svelte';
+	import SideBySideContainer from '../../../SideBySideContainer.svelte';
 
 	// get the event data
 	let eventDate = $tempState?.timelineEditEvent?.eventDate;
@@ -52,6 +53,10 @@
 	let birthdateInputValue = $uiState?.activePerson?.birth?.date;
 	let birthtimeInputValue = $uiState?.activePerson?.birth?.time;
 	let birthplaceInputValue = $uiState?.activePerson?.birth?.place;
+	let deathDateInputValue = $uiState?.activePerson?.death?.date;
+	let deathPlaceInputValue = $uiState?.activePerson?.death?.place;
+	let deathTimeInputValue = $uiState?.activePerson?.death?.time;
+	let deathCauseInputValue = $uiState?.activePerson?.death?.cause;
 
 	const onClickEditButton = () => {
 		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
@@ -68,6 +73,10 @@
 				birthplaceInputValue = $uiState.activePerson.birth.place;
 				break;
 			case timelineEventTypes.death.type:
+				deathDateInputValue = $uiState.activePerson.death.date;
+				deathPlaceInputValue = $uiState.activePerson.death.place;
+				deathTimeInputValue = $uiState.activePerson.death.time;
+				deathCauseInputValue = $uiState.activePerson.death.cause;
 				break;
 			default:
 				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
@@ -93,6 +102,10 @@
 				writeUIStateValueAtPath('activePerson.birth.time', birthtimeInputValue);
 				break;
 			case timelineEventTypes.death.type:
+				writeUIStateValueAtPath('activePerson.death.date', deathDateInputValue);
+				writeUIStateValueAtPath('activePerson.death.place', deathPlaceInputValue);
+				writeUIStateValueAtPath('activePerson.death.time', deathTimeInputValue);
+				writeUIStateValueAtPath('activePerson.death.cause', deathCauseInputValue);
 				break;
 			case timelineEventTypes.generic.type:
 			default:
@@ -158,21 +171,36 @@
 
 		<!-- birth -->
 		{#if eventType === timelineEventTypes.birth.type}
-			<div class="side-by-side-field-container">
+			<SideBySideContainer>
 				<FieldContainer label={timelineEventStrings.birthdate}>
 					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isInEditMode} />
 				</FieldContainer>
 				<FieldContainer label={timelineEventStrings.birthtime}>
 					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
 				</FieldContainer>
-			</div>
+			</SideBySideContainer>
 			<FieldContainer label={timelineEventStrings.birthplace}>
 				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isInEditMode} />
 			</FieldContainer>
 
 			<!-- death -->
 		{:else if eventType === timelineEventTypes.death.type}
-			<!-- stsandard content box if no event type or generic type -->
+			<SideBySideContainer>
+				<FieldContainer label={timelineEventStrings.deathDate}>
+					<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isInEditMode} />
+				</FieldContainer>
+				<FieldContainer label={timelineEventStrings.deathTime}>
+					<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isInEditMode} />
+				</FieldContainer>
+			</SideBySideContainer>
+			<FieldContainer label={timelineEventStrings.deathPlace}>
+				<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isInEditMode} />
+			</FieldContainer>
+			<FieldContainer label={timelineEventStrings.deathCause}>
+				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isInEditMode} />
+			</FieldContainer>
+
+			<!-- standard content box if no event type or generic type -->
 		{:else}
 			<FieldContainer label="Event Date">
 				<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
@@ -190,7 +218,8 @@
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</FieldContainer>
 		{/if}
-
+	</div>
+	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
 			{#if $tempState.timelineEditEventId === undefined}
 				<Button
@@ -235,13 +264,6 @@
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
-		gap: 1vh;
-	}
-
-	.side-by-side-field-container {
-		display: flex;
-		width: -webkit-fill-available;
-		width: -moz-available;
 		gap: 1vh;
 	}
 </style>
