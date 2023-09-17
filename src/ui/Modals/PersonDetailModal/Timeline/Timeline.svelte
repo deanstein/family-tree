@@ -33,18 +33,28 @@
 
 	// define the two required events - birth and death (or today)
 	const birthEvent = instantiateObject(timelineEvent);
+	birthEvent.eventId = uuidv4();
 	birthEvent.eventType = timelineEventTypes.birth.type;
 	birthEvent.eventVersion = schemaVersion;
 
 	const deathEvent = instantiateObject(timelineEvent);
+	deathEvent.eventId = uuidv4();
 	deathEvent.eventType = timelineEventTypes.death.type;
 	deathEvent.eventVersion = schemaVersion;
 
-	const onAddEventButtonClick = () => {
-		const newTimelineEvent = instantiateObject(timelineEvent);
-		newTimelineEvent.eventId = uuidv4();
-		setTimelineEditEvent(newTimelineEvent);
-		setTimelineEditEventId(newTimelineEvent.eventId);
+	const onClickAddEventButton = () => {
+		// birth date must be set first
+		// before any normal timeline event is added
+		if ($uiState.activePerson.birth.date === '') {
+			setTimelineEditEvent(birthEvent);
+			setTimelineEditEventId(birthEvent.eventId);
+			// otherwise, add an event like normal
+		} else {
+			const newTimelineEvent = instantiateObject(timelineEvent);
+			newTimelineEvent.eventId = uuidv4();
+			setTimelineEditEvent(newTimelineEvent);
+			setTimelineEditEventId(newTimelineEvent.eventId);
+		}
 	};
 
 	export const onCheckRelativeSpacing = () => {
@@ -87,7 +97,7 @@
 			onCheckAction={onCheckRelativeSpacing}
 			onUncheckAction={onUncheckRelativeSpacing}
 		/>
-		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
+		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
 		<TimelineSpine />

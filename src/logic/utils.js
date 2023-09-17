@@ -145,6 +145,13 @@ export const deleteObjectByKeyValue = (arr, key, value) => {
 	return false; // indicate that object was not found
 };
 
+export const getIsDateValid = (dateToTest) => {
+	const date = new Date(dateToTest);
+	const isValid = !isNaN(date.getTime());
+	//console.log("Date to test: " + dateToTest, "Is valid? " + isValid)
+	return isValid;
+};
+
 export const convertDateToUTC = (date) => {
 	return new Date(
 		date.getUTCFullYear(),

@@ -19,7 +19,7 @@
 		getModalTitleByEventType,
 		writeUIStateValueAtPath
 	} from '../../../../logic/ui-management';
-	import { getObjectByKeyValue, instantiateObject } from '../../../../logic/utils';
+	import { getObjectByKeyValue, instantiateObject, getIsDateValid } from '../../../../logic/utils';
 	import { timelineEventStrings } from '../../../strings';
 
 	import stylingConstants from '../../../styling-constants';
@@ -40,6 +40,7 @@
 	let eventContent = $tempState?.timelineEditEvent?.eventContent;
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
+	let isValidDate = false; // if true, the current date in the field is valid
 	let isBirthOrDeathEvent = false; // if true, this is a birth or death event which are always present but not stored as timeline events
 	let isInEditMode = false; // if true, all fields will be editable
 
@@ -140,12 +141,20 @@
 		unsetTimelineEditEvent();
 	};
 
+	// checks whether the value in the date input field is valid
+	// critical to enable or disable the Done button depending on whether the date is good
+	const getIsDateInputValid = (event) => {
+		eventDateInputValue = event.target.value;
+		isValidDate = getIsDateValid(eventDateInputValue);
+	};
+
 	const timelineEventOptions = {
 		label: 'Event types:',
 		timelineEventTypes
 	};
 
 	$: {
+		isValidDate = getIsDateValid(eventDateInputValue);
 		modalTitle = getModalTitleByEventType(eventType);
 		isInEditMode = $tempState.timelineEditEventId !== undefined;
 		isBirthOrDeathEvent =
@@ -180,7 +189,11 @@
 		{#if eventType === timelineEventTypes.birth.type}
 			<SideBySideContainer>
 				<FieldContainer label={timelineEventStrings.birthdate}>
-					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isInEditMode} />
+					<DatePicker
+						bind:inputValue={birthdateInputValue}
+						isEnabled={isInEditMode}
+						onKeyUpFunction={getIsDateInputValid}
+					/>
 				</FieldContainer>
 				<FieldContainer label={timelineEventStrings.birthtime}>
 					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
@@ -254,7 +267,7 @@
 				/>
 				<Button
 					buttonText="Done"
-					isEnabled={eventDateInputValue}
+					isEnabled={isValidDate}
 					onClickFunction={onClickDoneButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				/>
