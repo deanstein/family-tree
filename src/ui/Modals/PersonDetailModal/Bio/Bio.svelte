@@ -71,7 +71,6 @@
 
 	// synchronizes all inputs back to UI state values
 	const syncAllInputs = () => {
-		unsetCachedPerson();
 		nameInputValue = $uiState.activePerson.name;
 		unsetAltNames();
 		genderInputValue = $uiState.activePerson.gender;
