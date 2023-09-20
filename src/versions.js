@@ -1,8 +1,12 @@
-export const appVersion = '0.13.5';
+export const appVersion = '0.14.0';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
+	},
+	'v0.14.x': {
+		Overview: 'v0.14.x adds iconography support via FontAwesome',
+		Changes: ['Added FontAwesome']
 	},
 	'v0.13.x': {
 		Overview:

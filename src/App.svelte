@@ -96,6 +96,9 @@
 	});
 </script>
 
+<head>
+	<script src="https://kit.fontawesome.com/6cf50e6673.js" crossorigin="anonymous"></script>
+</head>
 <main>
 	<div
 		id="app-container"

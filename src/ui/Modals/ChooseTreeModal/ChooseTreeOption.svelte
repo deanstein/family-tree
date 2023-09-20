@@ -25,6 +25,12 @@
 		}
 	`;
 
+	const iconContainerDynamicClass = css`
+		border: 2px solid ${stylingConstants.colors.activeColor}`;
+	
+	const iconDynamicClass = css`
+		color: ${stylingConstants.colors.activeColor}`;
+
 	const treeDescriptionDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			position: relative;
@@ -40,7 +46,10 @@
 </script>
 
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
-	<div id="button-container" class="button-container">
+	<div id="button-and-icon-container" class="button-and-icon-container">
+		<div id="icon-container" class="{iconContainerDynamicClass} icon-container">
+			<i class="{iconDynamicClass} fa-solid fa-user"></i>
+		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
 	<div id="example-tree-description" class="{treeDescriptionDynamicClass} tree-description">
@@ -61,10 +70,24 @@
 		border-radius: 10px;
 	}
 
-	.button-container {
+	.button-and-icon-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	.icon-container {
+		width: 100%;
 		display: flex;
 		align-items: center;
-		height: 100%;
+		justify-content: center;
+	}
+
+	/* option icon */
+	.fa-solid {
+		font-size: 100px;
 	}
 
 	.tree-description {
