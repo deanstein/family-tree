@@ -6,7 +6,7 @@ export const appChangelog = {
 	},
 	'v0.13.x': {
 		Overview:
-			'v0.13.x refactors the timeline to a grid-based system, with better handling of large events and events with very close dates',
+			'v0.13.x refactors the timeline to a grid-based system, with better handling of large events and events with very close dates; also adds support for different event types and better special event handling',
 		Changes: [
 			'Refactored the timeline to use a grid instead of absolute positioning',
 			'Added initial logic to shift rows when events land in rows already occupied by other events',
