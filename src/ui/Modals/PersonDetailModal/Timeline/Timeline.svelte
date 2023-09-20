@@ -18,6 +18,8 @@
 	} from '../../../../logic/ui-management';
 	import stylingConstants from '../../../styling-constants';
 	import Checkbox from '../../../Checkbox.svelte';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
+	import { schemaVersion } from '../../../../versions';
 
 	// if true, the timeline is spaced out
 	// to show relative spacing between events
@@ -31,13 +33,28 @@
 
 	// define the two required events - birth and death (or today)
 	const birthEvent = instantiateObject(timelineEvent);
-	const deathEvent = instantiateObject(timelineEvent);
+	birthEvent.eventId = uuidv4();
+	birthEvent.eventType = timelineEventTypes.birth.type;
+	birthEvent.eventVersion = schemaVersion;
 
-	const onAddEventButtonClick = () => {
-		const newTimelineEvent = instantiateObject(timelineEvent);
-		newTimelineEvent.eventId = uuidv4();
-		setTimelineEditEvent(newTimelineEvent);
-		setTimelineEditEventId(newTimelineEvent.eventId);
+	const deathEvent = instantiateObject(timelineEvent);
+	deathEvent.eventId = uuidv4();
+	deathEvent.eventType = timelineEventTypes.death.type;
+	deathEvent.eventVersion = schemaVersion;
+
+	const onClickAddEventButton = () => {
+		// birth date must be set first
+		// before any normal timeline event is added
+		if ($uiState.activePerson.birth.date === '') {
+			setTimelineEditEvent(birthEvent);
+			setTimelineEditEventId(birthEvent.eventId);
+			// otherwise, add an event like normal
+		} else {
+			const newTimelineEvent = instantiateObject(timelineEvent);
+			newTimelineEvent.eventId = uuidv4();
+			setTimelineEditEvent(newTimelineEvent);
+			setTimelineEditEventId(newTimelineEvent.eventId);
+		}
 	};
 
 	export const onCheckRelativeSpacing = () => {
@@ -49,11 +66,14 @@
 	};
 
 	$: {
-		// ensure birth and death events are kept updated
+		// ensure birth event is kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
+		// ensure death event is kept updated
 		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== '' ? $uiState.activePerson.death.date : new Date().toLocaleDateString();
+			$uiState.activePerson.death.date !== ''
+				? $uiState.activePerson.death.date
+				: new Date().toLocaleDateString();
 		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
 		// convert events to timeline row items
@@ -77,7 +97,7 @@
 			onCheckAction={onCheckRelativeSpacing}
 			onUncheckAction={onUncheckRelativeSpacing}
 		/>
-		<Button buttonText="Add Event" onClickFunction={onAddEventButtonClick} />
+		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
 		<TimelineSpine />

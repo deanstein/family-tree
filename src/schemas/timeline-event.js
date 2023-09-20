@@ -1,9 +1,9 @@
 const timelineEvent = {
 	eventId: '',
 	eventType: '',
-	eventIcon: '',
 	eventDate: '',
-	eventContent: ''
+	eventContent: '',
+	eventVersion: ''
 };
 
 export default timelineEvent;

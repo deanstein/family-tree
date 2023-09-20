@@ -4,6 +4,9 @@
 	import { monthNames } from '../../../strings';
 	import stylingConstants from '../../../styling-constants';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
+	import { upgradeTimelineEvent } from '../../../../logic/ui-management';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
+	import uiState from '../../../../stores/ui-state';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
@@ -12,6 +15,14 @@
 	let eventRowDynamicClass;
 
 	const onTimelineEventClickAction = () => {
+		// do nothing if this is the "today" event (no death date)
+		if (
+			timelineEvent.eventType === timelineEventTypes.death.type &&
+			$uiState.activePerson.death.date === ''
+		) {
+			return;
+		}
+		upgradeTimelineEvent(timelineEvent);
 		setTimelineEditEvent(timelineEvent);
 	};
 

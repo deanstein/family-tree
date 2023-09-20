@@ -1,19 +1,15 @@
 import familyTreeData from '../stores/family-tree-data';
 import uiState from '../stores/ui-state';
 import stylingConstants from '../ui/styling-constants';
-import { repoStateStrings } from '../ui/strings';
+import { repoStateStrings, timelineEventStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
-import {
-	getPersonById,
-	getGroupIdFromRelationshipId,
-	setActivePerson,
-	getPersonAge,
-	getPersonBirthYear
-} from './person-management';
-import { instantiateObject, largest, setNestedObjectProperty } from './utils';
+import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
+import { deepMatchObjects, instantiateObject, largest, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
 import timelineRowItem from '../schemas/timeline-row-item';
+import timelineEventTypes from '../schemas/timeline-event-types';
+import { schemaVersion } from '../versions';
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different
@@ -258,19 +254,51 @@ export const generateTimelineRowItems = (person) => {
 // sorts timeline event row items by date
 // and ensurs any conflicting row indices are resolved
 export const updateTimelineRowItems = (rowItems) => {
-	const sortedRowItems = rowItems.sort((a, b) => new Date(a.event.eventDate).getTime() - new Date(b.event.eventDate).getTime());
-    let indices = sortedRowItems.map((rowItem) => rowItem.index);
-    let duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
-    while (duplicates.length > 0) {
-        let conflictingRowItems = sortedRowItems.filter((obj) => obj.index === duplicates[0]);
-        for (let i = 1; i < conflictingRowItems.length; i++) {
-            conflictingRowItems[i].index++;
-        }
-        indices = sortedRowItems.map((rowItem) => rowItem.index);
-        duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
-    }
-    return sortedRowItems;
+	const sortedRowItems = rowItems.sort(
+		(a, b) => new Date(a.event.eventDate).getTime() - new Date(b.event.eventDate).getTime()
+	);
+	let indices = sortedRowItems.map((rowItem) => rowItem.index);
+	let duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+	while (duplicates.length > 0) {
+		let conflictingRowItems = sortedRowItems.filter((obj) => obj.index === duplicates[0]);
+		for (let i = 1; i < conflictingRowItems.length; i++) {
+			conflictingRowItems[i].index++;
+		}
+		indices = sortedRowItems.map((rowItem) => rowItem.index);
+		duplicates = indices.filter((item, index) => indices.indexOf(item) != index);
+	}
+	return sortedRowItems;
 };
+
+// ensures a timeline event has the necessary fields
+export const upgradeTimelineEvent = (eventToUpgrade) => {
+	// only upgrade if the schema version doesn't match
+	if (!eventToUpgrade?.eventVersion || eventToUpgrade?.eventVersion !== schemaVersion) {
+		console.log(
+			'Timeline event upgraded: ' + eventToUpgrade?.eventVersion + ' -> ' + schemaVersion
+		);
+		eventToUpgrade.eventVersion = schemaVersion;
+
+		switch (eventToUpgrade.eventType) {
+			case 'birth':
+				deepMatchObjects(timelineEventTypes.birth.content, eventToUpgrade.eventContent, {});
+				return eventToUpgrade;
+			case 'death':
+				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, {});
+				return eventToUpgrade;
+		}
+	}
+};
+
+export const getModalTitleByEventType = (eventType) => {
+	switch (eventType) {
+		case timelineEventTypes.birth.type:
+			return timelineEventStrings.birthEventModalTitle;
+		case timelineEventTypes.death.type:
+			return timelineEventStrings.deathEventModalTitle;
+		default:
+			return timelineEventStrings.textEventModalTitle;
+	}
 };
 
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {

@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import { personDetailStrings } from '../../../strings';
+	import { personDetailStrings, timelineEventStrings } from '../../../strings';
 	import { gender } from '../../../../schemas/gender';
 	import stylingConstants from '../../../styling-constants';
 	import uiState from '../../../../stores/ui-state';
@@ -11,10 +11,11 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
-	import FieldContainer from '../../../FieldContainer.svelte';
+	import InputContainer from '../../../InputContainer.svelte';
 	import Name from './Name.svelte';
 	import Overlay from '../../Overlay.svelte';
 	import Selector from '../../../Select.svelte';
+	import SideBySideContainer from '../../../SideBySideContainer.svelte';
 	import TextInput from '../../../TextInput.svelte';
 	import { writeUIStateValueAtPath } from '../../../../logic/ui-management';
 	import {
@@ -35,27 +36,16 @@
 
 	// set the value of each input from the active person
 	let nameInputValue = $uiState.activePerson.name;
-	let nameInputValueOriginal = undefined;
 	let genderInputValue = $uiState.activePerson.gender;
-	let genderInputValueOriginal = undefined;
 	let birthdateInputValue = $uiState.activePerson.birth.date;
-	let birthdateInputValueOriginal = undefined;
 	let birthplaceInputValue = $uiState.activePerson.birth.place;
-	let birthplaceInputValueOriginal = undefined;
 	let birthtimeInputValue = $uiState.activePerson.birth.time;
-	let birthtimeInputValueOriginal = undefined;
 	let hometownInputValue = $uiState.activePerson.hometown;
-	let hometownInputValueOriginal = undefined;
 	let deceasedValue = $uiState.activePerson.deceased;
-	let deceasedValueOriginal = undefined;
 	let deathDateInputValue = $uiState.activePerson.death.date;
-	let deathDateInputValueOriginal = undefined;
 	let deathTimeInputValue = $uiState.activePerson.death.time;
-	let deathTimeInputValueOriginal = undefined;
 	let deathPlaceInputValue = $uiState.activePerson.death.place;
-	let deathPlaceInputValueOriginal = undefined;
 	let deathCauseInputValue = $uiState.activePerson.death.cause;
-	let deathCauseInputValueOriginal = undefined;
 
 	// set up the gender options for the select element
 	const genderOptions = {
@@ -63,99 +53,53 @@
 		gender
 	};
 
-	const onBioEditButtonClick = () => {
-		captureAllOriginalInputValues();
+	// writes all inputs to the UI state
+	const saveAllInputs = () => {
+		writeUIStateValueAtPath('activePerson.name', nameInputValue);
+		writeTempAlternateNamesToUIState();
+		writeUIStateValueAtPath('activePerson.gender', genderInputValue);
+		writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
+		writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
+		writeUIStateValueAtPath('activePerson.birth.time', birthtimeInputValue);
+		writeUIStateValueAtPath('activePerson.hometown', hometownInputValue);
+		writeUIStateValueAtPath('activePerson.deceased', deceasedValue);
+		writeUIStateValueAtPath('activePerson.death.date', deathDateInputValue);
+		writeUIStateValueAtPath('activePerson.death.time', deathTimeInputValue);
+		writeUIStateValueAtPath('activePerson.death.place', deathPlaceInputValue);
+		writeUIStateValueAtPath('activePerson.death.cause', deathCauseInputValue);
+	};
+
+	// synchronizes all inputs back to UI state values
+	const syncAllInputs = () => {
+		nameInputValue = $uiState.activePerson.name;
+		unsetAltNames();
+		genderInputValue = $uiState.activePerson.gender;
+		birthdateInputValue = $uiState.activePerson.birth.date;
+		birthplaceInputValue = $uiState.activePerson.birth.place;
+		birthtimeInputValue = $uiState.activePerson.birth.time;
+		hometownInputValue = $uiState.activePerson.hometown;
+		deceasedValue = $uiState.activePerson.deceased;
+		deathDateInputValue = $uiState.activePerson.death.date;
+		deathTimeInputValue = $uiState.activePerson.death.time;
+		deathPlaceInputValue = $uiState.activePerson.death.place;
+		deathCauseInputValue = $uiState.activePerson.death.cause;
+	};
+
+	const onClickBioEditButton = () => {
 		initializeAltNamesTempState();
 		setBioEditId(personId);
 	};
 
-	const onDoneButtonClick = () => {
+	const onClickDoneButton = () => {
 		setCachedPerson(getPersonById(personId));
 		saveAllInputs();
 		checkPersonForUnsavedChanges(personId);
 		unsetBioEditId();
 	};
 
-	const onCancelButtonClick = () => {
-		discardAllInputs();
+	const onClickCancelButton = () => {
+		syncAllInputs();
 		unsetBioEditId();
-	};
-
-	const captureAllOriginalInputValues = () => {
-		nameInputValueOriginal = nameInputValue;
-		genderInputValueOriginal = genderInputValue;
-		birthdateInputValueOriginal = birthdateInputValue;
-		birthplaceInputValueOriginal = birthplaceInputValue;
-		birthtimeInputValueOriginal = birthtimeInputValue;
-		hometownInputValueOriginal = hometownInputValue;
-		deceasedValueOriginal = deceasedValue;
-		deathDateInputValueOriginal = deathDateInputValue;
-		deathPlaceInputValueOriginal = deathPlaceInputValue;
-		deathTimeInputValueOriginal = deathTimeInputValue;
-		deathCauseInputValueOriginal = deathCauseInputValue;
-	};
-
-	const saveAllInputs = () => {
-		writeUIStateValueAtPath('activePerson.name', nameInputValue, nameInputValueOriginal);
-		writeTempAlternateNamesToUIState();
-		writeUIStateValueAtPath('activePerson.gender', genderInputValue, genderInputValueOriginal);
-		writeUIStateValueAtPath(
-			'activePerson.birth.place',
-			birthplaceInputValue,
-			birthplaceInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.birth.date',
-			birthdateInputValue,
-			birthdateInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.birth.time',
-			birthtimeInputValue,
-			birthtimeInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.hometown',
-			hometownInputValue,
-			hometownInputValueOriginal
-		);
-		writeUIStateValueAtPath('activePerson.deceased', deceasedValue, deceasedValueOriginal);
-		writeUIStateValueAtPath(
-			'activePerson.death.date',
-			deathDateInputValue,
-			deathDateInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.death.time',
-			deathTimeInputValue,
-			deathTimeInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.death.place',
-			deathPlaceInputValue,
-			deathPlaceInputValueOriginal
-		);
-		writeUIStateValueAtPath(
-			'activePerson.death.cause',
-			deathCauseInputValue,
-			deathCauseInputValueOriginal
-		);
-	};
-
-	const discardAllInputs = () => {
-		unsetCachedPerson();
-		nameInputValue = nameInputValueOriginal;
-		unsetAltNames();
-		genderInputValue = genderInputValueOriginal;
-		birthdateInputValue = birthdateInputValueOriginal;
-		birthplaceInputValue = birthplaceInputValueOriginal;
-		birthtimeInputValue = birthtimeInputValueOriginal;
-		hometownInputValue = hometownInputValueOriginal;
-		deceasedValue = deceasedValueOriginal;
-		deathDateInputValue = deathDateInputValueOriginal;
-		deathPlaceInputValue = deathPlaceInputValueOriginal;
-		deathTimeInputValue = deathTimeInputValueOriginal;
-		deathCauseInputValue = deathCauseInputValueOriginal;
 	};
 
 	$: {
@@ -164,6 +108,9 @@
 		} else {
 			isBioEditActive = false;
 		}
+		// ensure that if the bio was edited from some other source,
+		// the latest is always shown by setting all inputs to UI State
+		syncAllInputs();
 	}
 
 	onMount(() => {
@@ -182,9 +129,9 @@
 	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
 		<EditBioButton
 			{isBioEditActive}
-			{onBioEditButtonClick}
-			{onDoneButtonClick}
-			{onCancelButtonClick}
+			onBioEditButtonClick={onClickBioEditButton}
+			onDoneButtonClick={onClickDoneButton}
+			onCancelButtonClick={onClickCancelButton}
 		/>
 	</div>
 	<div id="bio-avatar-container" class="bio-avatar-container">
@@ -192,61 +139,61 @@
 	</div>
 	<Name isEnabled={isBioEditActive} bind:inputValue={nameInputValue} />
 	<div id="bio-facts" class="bio-facts">
-		<FieldContainer label={personDetailStrings.altNames}>
+		<InputContainer label={personDetailStrings.altNames}>
 			<AlternateNames isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
-		<FieldContainer label={personDetailStrings.gender}>
+		<InputContainer label={personDetailStrings.gender}>
 			<Selector
 				bind:inputValue={genderInputValue}
 				isEnabled={isBioEditActive}
 				optionsGroupObject={genderOptions}
 				optionValueKey="id"
 			/>
-		</FieldContainer>
+		</InputContainer>
 
-		<div class="side-by-side-fact-container">
-			<FieldContainer label={personDetailStrings.birthdate}>
+		<SideBySideContainer>
+			<InputContainer label={timelineEventStrings.birthdate}>
 				<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
-			</FieldContainer>
+			</InputContainer>
 
-			<FieldContainer label={personDetailStrings.birthtime}>
+			<InputContainer label={timelineEventStrings.birthtime}>
 				<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
-			</FieldContainer>
-		</div>
+			</InputContainer>
+		</SideBySideContainer>
 
-		<FieldContainer label={personDetailStrings.birthplace}>
+		<InputContainer label={timelineEventStrings.birthplace}>
 			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
-		<FieldContainer label={personDetailStrings.hometown}>
+		<InputContainer label={personDetailStrings.hometown}>
 			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
-		</FieldContainer>
+		</InputContainer>
 
 		<Checkbox
-			label={personDetailStrings.deceased}
+			label={timelineEventStrings.deceased}
 			bind:isChecked={deceasedValue}
 			isEnabled={isBioEditActive}
 		/>
 		{#if deceasedValue}
 			<div id="deceased-details-container" class="deceased-details-container">
-				<div class="side-by-side-fact-container">
-					<FieldContainer label={personDetailStrings.deathDate}>
+				<SideBySideContainer>
+					<InputContainer label={timelineEventStrings.deathDate}>
 						<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />
-					</FieldContainer>
+					</InputContainer>
 
-					<FieldContainer label={personDetailStrings.deathTime}>
+					<InputContainer label={timelineEventStrings.deathTime}>
 						<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isBioEditActive} />
-					</FieldContainer>
-				</div>
+					</InputContainer>
+				</SideBySideContainer>
 
-				<FieldContainer label={personDetailStrings.deathPlace}>
+				<InputContainer label={timelineEventStrings.deathPlace}>
 					<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isBioEditActive} />
-				</FieldContainer>
+				</InputContainer>
 
-				<FieldContainer label={personDetailStrings.deathCause}>
+				<InputContainer label={timelineEventStrings.deathCause}>
 					<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isBioEditActive} />
-				</FieldContainer>
+				</InputContainer>
 			</div>
 		{/if}
 	</div>
@@ -284,11 +231,6 @@
 		flex-direction: column;
 		justify-content: center;
 		width: 100%;
-		gap: 1vh;
-	}
-
-	.side-by-side-fact-container {
-		display: flex;
 		gap: 1vh;
 	}
 

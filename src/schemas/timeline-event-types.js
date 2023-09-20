@@ -1,34 +1,58 @@
-const timelineEvents = {
-	text: {
-		type: 'text',
+// the various types of timeline events and the content they can display
+// this is used for upgrading timeline events to ensure no errors when new data is supported
+const timelineEventTypes = {
+	birth: {
+		type: 'birth',
 		icon: '',
-		label: 'Text',
-		placeholder: 'Enter a memory, random fact, or other text-based record of this person...'
+		content: {
+			birthdate: '',
+			birthtime: '',
+			birthplace: '',
+			additionalContext: '',
+			media: []
+		}
 	},
-	photo: {
-		type: 'photo',
+	death: {
+		type: 'death',
 		icon: '',
-		label: 'Photo',
-		placeholder: 'Add photos...'
+		content: {
+			deathDate: '',
+			deathTime: '',
+			deathPlace: '',
+			deathCause: '',
+			disposition: '',
+			media: []
+		}
 	},
-	person: {
-		type: 'person',
+	generic: {
+		type: 'generic',
 		icon: '',
-		label: 'Person',
-		placeholder: 'What timeline event relates to this person?'
+		content: {
+			associatedPeople: [],
+			additionalContext: '',
+			media: []
+		}
 	},
 	residence: {
 		type: 'residence',
 		icon: '',
-		label: 'Residence',
-		placeholder: 'Where did this person live?'
+		content: {}
+	},
+	workplace: {
+		type: 'workplace',
+		icon: '',
+		content: {}
 	},
 	vehicle: {
 		type: 'vehicle',
 		icon: '',
-		label: 'Vehicle',
-		placeholder: 'What vehicle did this person drive?'
+		content: {}
+	},
+	child: {
+		type: 'child',
+		icon: '',
+		content: {}
 	}
 };
 
-export default timelineEvents;
+export default timelineEventTypes;

@@ -3,7 +3,12 @@
 	import stylingConstants from '../../../styling-constants';
 
 	export let isEnabled = true;
-	export let inputValue;
+	export let inputValue = new Date().toISOString().substr(0, 10);
+	export let onKeyUpFunction = undefined;
+
+	function handleDateChange(event) {
+		inputValue = event.target.value;
+	}
 
 	let datePickerDynamicClass = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
@@ -19,6 +24,8 @@
 		type="date"
 		disabled={!isEnabled}
 		bind:value={inputValue}
+		on:input={handleDateChange}
+		on:keyup={onKeyUpFunction}
 		class="{datePickerDynamicClass} date-picker"
 	/>
 </div>

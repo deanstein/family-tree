@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import FieldLabel from './FieldLabel.svelte';
+	import FieldLabel from './InputLabel.svelte';
 
 	export let label = 'Some Fact or Field Name';
 	export let grow = false;
