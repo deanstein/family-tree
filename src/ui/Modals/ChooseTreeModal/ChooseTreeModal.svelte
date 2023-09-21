@@ -101,7 +101,7 @@
 
 	.choose-tree-dev-message {
 		display: flex;
-		padding: 10px;
+		padding: 10px 10px 0px 10px;
 		font-size: 1.5vh;
 		font-style: italic;
 		justify-content: center;

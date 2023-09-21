@@ -7,10 +7,12 @@
 
 <style>
 	.modal-actions-bar {
-		width: 100%;
 		display: flex;
+		width: -webkit-fill-available;
+		width: -moz-available;
 		gap: 0.5vw;
 		margin-top: 1.5vh;
 		justify-content: right;
+		padding: 0 10px 10px 10px;
 	}
 </style>
