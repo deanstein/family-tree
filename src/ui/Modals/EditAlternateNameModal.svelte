@@ -104,6 +104,8 @@
 		<FieldContainer label="Context (optional)" grow={true}>
 			<TextArea {isEnabled} bind:inputValue={contextInputValue} />
 		</FieldContainer>
+	</div>
+	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
 			{#if isEnabled && nameInputValueOriginal !== ''}
 				<Button
@@ -129,7 +131,8 @@
 				/>
 			{/if}
 		</ModalActionsBar>
-	</div></Modal
+	</div>
+</Modal
 >
 
 <style>
