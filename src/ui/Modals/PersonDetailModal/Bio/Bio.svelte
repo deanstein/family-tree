@@ -21,8 +21,6 @@
 	import {
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
-		unsetAltNames,
-		unsetCachedPerson,
 		setCachedPerson,
 		unsetBioEditId,
 		initializeAltNamesTempState,
@@ -72,7 +70,7 @@
 	// synchronizes all inputs back to UI state values
 	const syncAllInputs = () => {
 		nameInputValue = $uiState.activePerson.name;
-		unsetAltNames();
+		initializeAltNamesTempState();
 		genderInputValue = $uiState.activePerson.gender;
 		birthdateInputValue = $uiState.activePerson.birth.date;
 		birthplaceInputValue = $uiState.activePerson.birth.place;
@@ -91,7 +89,6 @@
 	};
 
 	const onClickDoneButton = () => {
-		setCachedPerson(getPersonById(personId));
 		saveAllInputs();
 		checkPersonForUnsavedChanges(personId);
 		unsetBioEditId();
