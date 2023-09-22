@@ -76,7 +76,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		height: 100%;
 		cursor: pointer;
 	}
 
@@ -97,7 +96,7 @@
 
 	/* option icon */
 	.fa-solid {
-		font-size: 75px;
+		font-size: 60px;
 	}
 
 	.tree-description {
