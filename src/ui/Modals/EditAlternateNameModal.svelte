@@ -132,8 +132,7 @@
 			{/if}
 		</ModalActionsBar>
 	</div>
-</Modal
->
+</Modal>
 
 <style>
 	.edit-alt-name-modal-content {

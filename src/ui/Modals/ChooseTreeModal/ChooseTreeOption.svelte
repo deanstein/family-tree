@@ -27,10 +27,12 @@
 	`;
 
 	const iconContainerDynamicClass = css`
-		padding: ${stylingConstants.sizes.padding}`;
-	
+		padding: ${stylingConstants.sizes.padding};
+	`;
+
 	const iconDynamicClass = css`
-		color: ${stylingConstants.colors.activeColor}`;
+		color: ${stylingConstants.colors.activeColor};
+	`;
 
 	const treeDescriptionDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -48,8 +50,13 @@
 
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
 	<div id="button-and-icon-container" class="button-and-icon-container">
-		<div id="icon-container" class="{iconContainerDynamicClass} icon-container" on:click={buttonFunction} on:keypress={buttonFunction}>
-			<i class="{iconDynamicClass} fa-solid {faIcon}"></i>
+		<div
+			id="icon-container"
+			class="{iconContainerDynamicClass} icon-container"
+			on:click={buttonFunction}
+			on:keypress={buttonFunction}
+		>
+			<i class="{iconDynamicClass} fa-solid {faIcon}" />
 		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
@@ -80,11 +87,11 @@
 	}
 
 	.button-and-icon-container:hover :global(button) {
-		background-color: #50CBFC;
+		background-color: #50cbfc;
 	}
 
 	.button-and-icon-container:hover :global(.fa-solid) {
-		color:#50CBFC;
+		color: #50cbfc;
 	}
 
 	.icon-container {
