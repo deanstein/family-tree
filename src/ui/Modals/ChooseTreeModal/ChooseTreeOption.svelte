@@ -26,7 +26,7 @@
 	`;
 
 	const iconContainerDynamicClass = css`
-		border: 2px solid ${stylingConstants.colors.activeColor}`;
+		padding: ${stylingConstants.sizes.padding}`;
 	
 	const iconDynamicClass = css`
 		color: ${stylingConstants.colors.activeColor}`;
@@ -79,7 +79,7 @@
 	}
 
 	.icon-container {
-		width: 100%;
+		aspect-ratio: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -87,7 +87,7 @@
 
 	/* option icon */
 	.fa-solid {
-		font-size: 100px;
+		font-size: 75px;
 	}
 
 	.tree-description {
