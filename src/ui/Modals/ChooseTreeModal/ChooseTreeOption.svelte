@@ -5,6 +5,7 @@
 
 	import Button from '../../Button.svelte';
 
+	export let faIcon; // fontawesome font name
 	export let buttonText;
 	export let buttonFunction;
 	export let description;
@@ -25,6 +26,12 @@
 		}
 	`;
 
+	const iconContainerDynamicClass = css`
+		padding: ${stylingConstants.sizes.padding}`;
+	
+	const iconDynamicClass = css`
+		color: ${stylingConstants.colors.activeColor}`;
+
 	const treeDescriptionDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			position: relative;
@@ -40,7 +47,10 @@
 </script>
 
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
-	<div id="button-container" class="button-container">
+	<div id="button-and-icon-container" class="button-and-icon-container">
+		<div id="icon-container" class="{iconContainerDynamicClass} icon-container" on:click={buttonFunction} on:keypress={buttonFunction}>
+			<i class="{iconDynamicClass} fa-solid {faIcon}"></i>
+		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
 	<div id="example-tree-description" class="{treeDescriptionDynamicClass} tree-description">
@@ -61,10 +71,32 @@
 		border-radius: 10px;
 	}
 
-	.button-container {
+	.button-and-icon-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	.button-and-icon-container:hover :global(button) {
+		background-color: #50CBFC;
+	}
+
+	.button-and-icon-container:hover :global(.fa-solid) {
+		color:#50CBFC;
+	}
+
+	.icon-container {
+		aspect-ratio: 1;
 		display: flex;
 		align-items: center;
-		height: 100%;
+		justify-content: center;
+	}
+
+	/* option icon */
+	.fa-solid {
+		font-size: 60px;
 	}
 
 	.tree-description {
