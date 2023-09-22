@@ -5,6 +5,7 @@
 
 	import Button from '../../Button.svelte';
 
+	export let faIcon; // fontawesome font name
 	export let buttonText;
 	export let buttonFunction;
 	export let description;
@@ -48,7 +49,7 @@
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
 	<div id="button-and-icon-container" class="button-and-icon-container">
 		<div id="icon-container" class="{iconContainerDynamicClass} icon-container">
-			<i class="{iconDynamicClass} fa-solid fa-user"></i>
+			<i class="{iconDynamicClass} fa-solid {faIcon}"></i>
 		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>

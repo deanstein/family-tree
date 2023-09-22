@@ -63,16 +63,19 @@
 			class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
 		>
 			<ChooseTreeOption
+				faIcon={'fa-square-plus'}
 				buttonText={chooseTreeStrings.newTreeButton}
 				buttonFunction={newFamilyTreeButtonOnClick}
 				description={chooseTreeStrings.newTreeDescription}
 			/>
 			<ChooseTreeOption
+				faIcon={'fa-box-open'}
 				buttonText={chooseTreeStrings.exampleTreeButton}
 				buttonFunction={exampleFamilyTreeButtonOnClick}
 				description={chooseTreeStrings.exampleTreeDescription}
 			/>
 			<ChooseTreeOption
+				faIcon={'fa-people-roof'}
 				buttonText={chooseTreeStrings.loadTreeButton}
 				buttonFunction={loadFamilyTreeButtonOnClick}
 				description={chooseTreeStrings.loadTreeDescription}
