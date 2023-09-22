@@ -48,7 +48,7 @@
 
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
 	<div id="button-and-icon-container" class="button-and-icon-container">
-		<div id="icon-container" class="{iconContainerDynamicClass} icon-container">
+		<div id="icon-container" class="{iconContainerDynamicClass} icon-container" on:click={buttonFunction} on:keypress={buttonFunction}>
 			<i class="{iconDynamicClass} fa-solid {faIcon}"></i>
 		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
@@ -77,6 +77,15 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
+		cursor: pointer;
+	}
+
+	.button-and-icon-container:hover :global(button) {
+		background-color: #50CBFC;
+	}
+
+	.button-and-icon-container:hover :global(.fa-solid) {
+		color:#50CBFC;
 	}
 
 	.icon-container {
