@@ -183,6 +183,7 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 10px;
+		cursor: pointer;
 	}
 
 	.person-node-content-area {

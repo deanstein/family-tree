@@ -20,7 +20,9 @@
 	<div id="copyright" class="footer-item">(C) JDG {copyrightYear}</div>
 	<div id="version" class="footer-item">
 		| App: v{appVersion} | Schema: v{schemaVersion} | Build: {buildDate} |
-		<a on:click={toggleDevTools}>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a>
+		<a on:click={toggleDevTools} on:keypress={toggleDevTools}
+			>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a
+		>
 	</div>
 </div>
 
@@ -40,5 +42,9 @@
 
 	.footer-item {
 		padding-left: 5px;
+	}
+
+	a {
+		cursor: pointer;
 	}
 </style>

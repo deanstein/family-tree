@@ -150,6 +150,7 @@
 		padding: 3px;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		cursor: pointer;
 	}
 
 	.timeline-event-text {
