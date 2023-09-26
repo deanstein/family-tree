@@ -13,17 +13,19 @@
 	export let name;
 	export let compatibleGroups;
 
-	let actionsButtonText;
-	let nodeActionsButtonDynamicClass;
+	let actionsButtonDynamicClass;
+	let actionsButtonFaIcon = 'fa-ellipsis';
 
 	let onNodeActionButtonClick = () => {
 		showPersonNodeActionsModal(personId, name, relationshipId, groupId, compatibleGroups);
 	};
 
-	$: {
-		actionsButtonText = '...';
+	const iconDynamicClass = css`
+		color: ${stylingConstants.colors.nodeGroupHeaderColor};
+	`;
 
-		nodeActionsButtonDynamicClass = css`
+	$: {
+		actionsButtonDynamicClass = css`
 			z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
 			border: 2px solid transparent;
 			font-size: ${stylingConstants.sizes.personNodeFontSize};
@@ -39,9 +41,11 @@
 		<button
 			type="button"
 			id="settings-button"
-			class="{nodeActionsButtonDynamicClass} node-actions-button"
-			on:click|stopPropagation={onNodeActionButtonClick}>{actionsButtonText}</button
+			class="{actionsButtonDynamicClass} node-actions-button"
+			on:click|stopPropagation={onNodeActionButtonClick}
 		>
+			<i class="{iconDynamicClass} fa-solid {actionsButtonFaIcon}" />
+		</button>
 	</div>
 {/if}
 
