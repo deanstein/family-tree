@@ -13,6 +13,7 @@
 	let eventDateCorrected;
 
 	let eventRowDynamicClass;
+	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
 
 	const onTimelineEventClickAction = () => {
 		// do nothing if this is the "today" event (no death date)
@@ -49,6 +50,10 @@
 
 	const eventDetailLineDynamicClass = css`
 		background-color: ${stylingConstants.colors.textColor};
+	`;
+
+	const eventFaIconDynamicClass = css`
+		color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
 	const eventTextDynamicClass = css`
@@ -95,6 +100,7 @@
 		on:click={onTimelineEventClickAction}
 		on:keydown={onTimelineEventClickAction}
 	>
+		<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
 		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
 			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
 		</div>
@@ -142,8 +148,16 @@
 		width: 2vw;
 	}
 
+	/* font awesome icon */
+	.fa-solid {
+		display: flex;
+		align-items: center;
+		font-size: 20px;
+	}
+
 	.timeline-event-detail-content {
 		display: flex;
+		gap: 10px;
 		flex-basis: 0;
 		flex-grow: 1;
 		flex-shrink: 1;

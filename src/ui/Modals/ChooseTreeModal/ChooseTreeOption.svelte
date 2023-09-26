@@ -100,7 +100,7 @@
 		justify-content: center;
 	}
 
-	/* option icon */
+	/* font awesome icon */
 	.fa-solid {
 		font-size: 60px;
 	}
