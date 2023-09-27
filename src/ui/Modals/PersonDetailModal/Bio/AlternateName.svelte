@@ -43,6 +43,7 @@
 	.alternate-name-container {
 		display: flex;
 		align-items: center;
+		cursor: pointer;
 	}
 
 	.alternate-name {

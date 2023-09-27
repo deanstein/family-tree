@@ -5,6 +5,7 @@ export const breakpoints = {
 
 const colors = {
 	textColor: '#595959',
+	textColorLight: '#737373',
 	buttonColorPrimary: '#0092e4',
 	buttonColorSecondary: 'darkGray',
 	buttonColorDisabled: '#B5B5B5',

@@ -7,7 +7,7 @@
 	import tempState from '../../../../stores/temp-state';
 	import stylingConstants from '../../../styling-constants';
 
-	import CircuarButton from '../../../CircuarButton.svelte';
+	import CircuarButton from '../../../CircularButton.svelte';
 	import AlternateName from './AlternateName.svelte';
 
 	import { setEditAltName } from '../../../../logic/temp-management';

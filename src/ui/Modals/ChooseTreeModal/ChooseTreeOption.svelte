@@ -26,6 +26,16 @@
 		}
 	`;
 
+	const buttonAndIconContainerDynamicClass = css`
+		&:hover .fa-solid {
+			color: ${stylingConstants.colors.hoverColor};
+		}
+
+		&:hover button {
+			background-color: ${stylingConstants.colors.hoverColor};
+		}
+	`;
+
 	const iconContainerDynamicClass = css`
 		padding: ${stylingConstants.sizes.padding};
 	`;
@@ -49,7 +59,10 @@
 </script>
 
 <div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
-	<div id="button-and-icon-container" class="button-and-icon-container">
+	<div
+		id="button-and-icon-container"
+		class="{buttonAndIconContainerDynamicClass} button-and-icon-container"
+	>
 		<div
 			id="icon-container"
 			class="{iconContainerDynamicClass} icon-container"
@@ -86,21 +99,13 @@
 		cursor: pointer;
 	}
 
-	.button-and-icon-container:hover :global(button) {
-		background-color: #50cbfc;
-	}
-
-	.button-and-icon-container:hover :global(.fa-solid) {
-		color: #50cbfc;
-	}
-
 	.icon-container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
-	/* option icon */
+	/* font awesome icon */
 	.fa-solid {
 		font-size: 60px;
 	}

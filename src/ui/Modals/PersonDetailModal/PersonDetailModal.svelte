@@ -15,7 +15,7 @@
 
 <Modal
 	showModal={$uiState.showPersonDetailView}
-	title={null}
+	title={'Person details'}
 	subtitle={null}
 	width={'80vw'}
 	height={'80vh'}
