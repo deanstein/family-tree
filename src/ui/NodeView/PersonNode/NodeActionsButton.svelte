@@ -21,7 +21,7 @@
 	};
 
 	const iconDynamicClass = css`
-		color: ${stylingConstants.colors.nodeGroupHeaderColor};
+		color: ${stylingConstants.colors.textColorLight};
 	`;
 
 	$: {
@@ -44,7 +44,7 @@
 			class="{actionsButtonDynamicClass} node-actions-button"
 			on:click|stopPropagation={onNodeActionButtonClick}
 		>
-			<i class="{iconDynamicClass} fa-solid {actionsButtonFaIcon}" />
+			<i title="Edit relationship" class="{iconDynamicClass} fa-solid {actionsButtonFaIcon}" />
 		</button>
 	</div>
 {/if}
