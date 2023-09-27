@@ -26,6 +26,7 @@ const colors = {
 	personNodeColor: '#bfd0db',
 	personNodeConnectionLineColor: 'rgba(128, 128, 128, 0.45)',
 	activePersonNodeColor: '#87a9c0',
+	timelineEventBackgroundHoverColor: 'rgba(255, 255, 255, 0.75)',
 	hyperlinkColor: '#2373a3',
 	notificationColorError: 'palevioletred',
 	notificationColorWarning: 'lightYellow',
