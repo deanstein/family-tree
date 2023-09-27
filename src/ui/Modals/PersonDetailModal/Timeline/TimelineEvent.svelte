@@ -10,9 +10,8 @@
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
-	let eventDateCorrected;
 
-	let eventRowDynamicClass;
+	let eventDateCorrected;
 	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
 
 	const onTimelineEventClickAction = () => {
@@ -26,6 +25,30 @@
 		upgradeTimelineEvent(timelineEvent);
 		setTimelineEditEvent(timelineEvent);
 	};
+
+	let eventRowDynamicClass = css`
+	gap: ${stylingConstants.sizes.timelineEventGapSize};
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+		&:hover .timeline-event-date {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+		&:hover .timeline-event-year {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+		&:hover .timeline-event-detail-line {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+		&:hover .timeline-event-node {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+		&:hover i {
+			color: ${stylingConstants.colors.hoverColorSubtle};
+		}
+		&:hover .timeline-event-text {
+			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		}`
 
 	const eventDateDynamicClass = css`
 		font-size: ${stylingConstants.sizes.timelineDateFontSize};
@@ -53,14 +76,11 @@
 	`;
 
 	const eventFaIconDynamicClass = css`
-		color: ${stylingConstants.colors.activeColorSubtle};
+		color: ${stylingConstants.colors.textColor};
 	`;
 
 	const eventTextDynamicClass = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
-		:hover {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}
 	`;
 
 	$: {
@@ -68,7 +88,7 @@
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
 			eventRowDynamicClass = css`
-				gap: ${stylingConstants.sizes.timelineEventGapSize};
+				${eventRowDynamicClass}
 				grid-row: ${rowIndex};
 			`;
 		}
@@ -91,7 +111,7 @@
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div
-		id="timeline-timeline-event-detail-line"
+		id="timeline-event-detail-line"
 		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
 	/>
 	<div
@@ -114,6 +134,7 @@
 		align-items: center;
 		padding-top: 2px;
 		padding-bottom: 2px;
+		cursor: pointer;
 	}
 
 	.timeline-event-date-year-container {
