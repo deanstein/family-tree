@@ -27,28 +27,11 @@
 	};
 
 	let eventRowDynamicClass = css`
-	gap: ${stylingConstants.sizes.timelineEventGapSize};
-	&:hover {
-		background-color: rgba(255, 255, 255, 0.5);
-	}
-		&:hover .timeline-event-date {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
+		gap: ${stylingConstants.sizes.timelineEventGapSize};
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.75);
 		}
-		&:hover .timeline-event-year {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}
-		&:hover .timeline-event-detail-line {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}
-		&:hover .timeline-event-node {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}
-		&:hover i {
-			color: ${stylingConstants.colors.hoverColorSubtle};
-		}
-		&:hover .timeline-event-text {
-			background-color: ${stylingConstants.colors.hoverColorSubtle};
-		}`
+	`;
 
 	const eventDateDynamicClass = css`
 		font-size: ${stylingConstants.sizes.timelineDateFontSize};
