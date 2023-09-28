@@ -29,7 +29,7 @@
 	let eventRowDynamicClass = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
-			background-color: ${stylingConstants.colors.timelineEventBackgroundHoverColor};
+			background-color: ${stylingConstants.colors.rowHoverColor};
 		}
 	`;
 

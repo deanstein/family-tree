@@ -20,6 +20,7 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import { schemaVersion } from '../../../../versions';
+	import TimelineSpineCanvas from './TimelineSpineCanvas.svelte';
 
 	// if true, the timeline is spaced out
 	// to show relative spacing between events
@@ -36,11 +37,13 @@
 	birthEvent.eventId = uuidv4();
 	birthEvent.eventType = timelineEventTypes.birth.type;
 	birthEvent.eventVersion = schemaVersion;
+	let birthEventNodePosition = { x: 0, y: 0 };
 
 	const deathEvent = instantiateObject(timelineEvent);
 	deathEvent.eventId = uuidv4();
 	deathEvent.eventType = timelineEventTypes.death.type;
 	deathEvent.eventVersion = schemaVersion;
+	let deathEventNodePosition = { x: 100, y: 100 };
 
 	const onClickAddEventButton = () => {
 		// birth date must be set first
@@ -100,7 +103,8 @@
 		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
-		<TimelineSpine />
+		<!-- <TimelineSpine /> -->
+		<TimelineSpineCanvas {birthEventNodePosition} {deathEventNodePosition} />
 		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
 			<!-- the vertical line for the timeline -->
 			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">

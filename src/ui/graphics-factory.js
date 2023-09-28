@@ -7,15 +7,15 @@ import {
 	resetCanvasSize
 } from '../logic/ui-management';
 
-export const drawNodeConnectionLine = (context2d, position, thickness, color) => {
-	if (!context2d || !position || !color) {
+export const drawLineBetweenPoints = (context2d, startPosition, endPosition, thickness, color) => {
+	if (!context2d || !startPosition || !endPosition || !color) {
 		return;
 	}
 
 	// Draw lines from each node to the center of the canvas
 	context2d.beginPath();
-	context2d.moveTo(getScreenCentroid().x, getScreenCentroid().y);
-	context2d.lineTo(position.x, position.y);
+	context2d.moveTo(startPosition.x, startPosition.y);
+	context2d.lineTo(endPosition.x, endPosition.y);
 	context2d.lineWidth = thickness;
 	context2d.strokeStyle = color; // color may include transparency (rgba)
 	context2d.stroke();
@@ -24,13 +24,15 @@ export const drawNodeConnectionLine = (context2d, position, thickness, color) =>
 export const drawNodeConnectionLines = (canvasRef, nodePositions, thickness, color) => {
 	if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
 
+	// node connection lines always go from the center of the screen to the position
+	const startPosition = { x: getScreenCentroid().x, y: getScreenCentroid().y };
 	const ctx = canvasRef.getContext('2d');
 
 	// context needs to be adjusted for the device's pixel ratio
 	resetCanvasSize(canvasRef);
 
-	for (const position of nodePositions) {
-		drawNodeConnectionLine(ctx, position, thickness, color);
+	for (const endPosition of nodePositions) {
+		drawLineBetweenPoints(ctx, startPosition, endPosition, thickness, color);
 	}
 };
 

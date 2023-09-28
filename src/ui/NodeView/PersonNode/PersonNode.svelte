@@ -25,10 +25,11 @@
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
 		clearCanvas,
 		getDivCentroid,
+		getScreenCentroid,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '../../../logic/ui-management';
-	import { drawNodeConnectionLine, drawCrossfade } from '../../graphics-factory';
+	import { drawLineBetweenPoints, drawCrossfade } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 	const [send, receive] = drawCrossfade();
 
@@ -105,8 +106,9 @@
 
 	const onPersonNodeMouseEnterAction = () => {
 		// on hover, draw a thicker connection line
-		drawNodeConnectionLine(
+		drawLineBetweenPoints(
 			$uiState.personNodeConnectionLineCanvasHover.getContext('2d'),
+			getScreenCentroid(),
 			getDivCentroid(nodeDivRef),
 			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
 			stylingConstants.colors.hoverColorSubtleDark
