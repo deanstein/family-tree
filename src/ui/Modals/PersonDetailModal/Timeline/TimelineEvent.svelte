@@ -78,7 +78,12 @@
 	}
 </script>
 
-<div id="timeline-event-row" class="{eventRowDynamicClass} timeline-event-row">
+<div
+	id="timeline-event-row"
+	class="{eventRowDynamicClass} timeline-event-row"
+	on:click={onTimelineEventClickAction}
+	on:keydown={onTimelineEventClickAction}
+>
 	<div id="timeline-event-date-year-container" class="timeline-event-date-year-container">
 		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
 			<!-- show month name with three letters like AUG -->
@@ -97,12 +102,7 @@
 		id="timeline-event-detail-line"
 		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
 	/>
-	<div
-		id="timeline-event-detail-content"
-		class="timeline-event-detail-content"
-		on:click={onTimelineEventClickAction}
-		on:keydown={onTimelineEventClickAction}
-	>
+	<div id="timeline-event-detail-content" class="timeline-event-detail-content">
 		<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
 		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
 			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
