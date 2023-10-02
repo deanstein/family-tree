@@ -18,7 +18,7 @@
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
 	import { setActivePerson } from './logic/person-management';
-	import { clearCanvas, resetCanvasSize, set2DContextScale } from './logic/ui-management';
+	import { clearCanvas, resetCanvasSize } from './logic/ui-management';
 	import { appVersion, schemaVersion } from './versions';
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 
@@ -88,11 +88,11 @@
 		// set up the primary canvas
 		// used for drawing lines between every person node and the center of the screen
 		$uiState.personNodeConnectionLineCanvas = personNodeConnectionLineCanvasRef;
-		set2DContextScale(personNodeConnectionLineCanvasRef);
+		resetCanvasSize(personNodeConnectionLineCanvasRef);
 		// set up the hover canvas
 		// used for drawing a hover line when hovering over a person node
 		$uiState.personNodeConnectionLineCanvasHover = personNodeConnectionLineCanvasRefHover;
-		set2DContextScale(personNodeConnectionLineCanvasRefHover);
+		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
 	});
 </script>
 

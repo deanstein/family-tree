@@ -3,23 +3,22 @@
 
 	import { css } from '@emotion/css';
 
+	import stylingConstants from '../../../styling-constants';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import timelineEvent from '../../../../schemas/timeline-event';
 	import uiState from '../../../../stores/ui-state';
+	import { schemaVersion } from '../../../../versions';
 
 	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
-	import { instantiateObject } from '../../../../logic/utils';
-
-	import Button from '../../../Button.svelte';
-	import TimelineEvent from './TimelineEvent.svelte';
-	import TimelineSpine from './TimelineSpine.svelte';
 	import {
 		generateTimelineRowItems,
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
-	import stylingConstants from '../../../styling-constants';
+	import { instantiateObject } from '../../../../logic/utils';
+
+	import Button from '../../../Button.svelte';
 	import Checkbox from '../../../Checkbox.svelte';
-	import timelineEventTypes from '../../../../schemas/timeline-event-types';
-	import { schemaVersion } from '../../../../versions';
+	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpineCanvas from './TimelineSpineCanvas.svelte';
 
 	// if true, the timeline is spaced out
@@ -37,13 +36,11 @@
 	birthEvent.eventId = uuidv4();
 	birthEvent.eventType = timelineEventTypes.birth.type;
 	birthEvent.eventVersion = schemaVersion;
-	let birthEventNodePosition = { x: 0, y: 0 };
 
 	const deathEvent = instantiateObject(timelineEvent);
 	deathEvent.eventId = uuidv4();
 	deathEvent.eventType = timelineEventTypes.death.type;
 	deathEvent.eventVersion = schemaVersion;
-	let deathEventNodePosition = { x: 100, y: 100 };
 
 	const onClickAddEventButton = () => {
 		// birth date must be set first
@@ -104,9 +101,12 @@
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
 		<!-- <TimelineSpine /> -->
-		<TimelineSpineCanvas {birthEventNodePosition} {deathEventNodePosition} />
+		<TimelineSpineCanvas
+			birthEventNodePosition={$uiState.timelineFirstEventPosition}
+			deathEventNodePosition={$uiState.timelineLatestEventPosition}
+		/>
 		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
-			<!-- the vertical line for the timeline -->
+			<!-- the grid for all timeline events -->
 			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
@@ -141,7 +141,6 @@
 	}
 
 	.timeline-content-container {
-		position: relative;
 		display: flex;
 		height: -webkit-fill-available;
 		flex-grow: 1;

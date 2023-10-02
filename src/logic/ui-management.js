@@ -290,6 +290,31 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	}
 };
 
+export const setFirstTimelineEventPosition = (eventNodeRef) => {
+	uiState.update((currentValue) => {
+		currentValue.timelineFirstEventPosition = getDivCentroid(eventNodeRef);
+		return currentValue;
+	});
+};
+
+export const setLatestTimelineEventPosition = (eventNodeRef) => {
+	uiState.update((currentValue) => {
+		currentValue.timelineLatestEventPosition = getDivCentroid(eventNodeRef);
+		return currentValue;
+	});
+};
+
+// if this event is the first or latest event,
+// i.e. birth or death/today, record its position for the timeline spine
+export const trySetFirstOrLatestTimelineEventPosition = (eventType, eventNodeRef) => {
+	if (eventType === timelineEventTypes.birth.type) {
+		setFirstTimelineEventPosition(eventNodeRef);
+	}
+	if (eventType === timelineEventTypes.death.type) {
+		setLatestTimelineEventPosition(eventNodeRef);
+	}
+};
+
 export const getModalTitleByEventType = (eventType) => {
 	switch (eventType) {
 		case timelineEventTypes.birth.type:
@@ -378,22 +403,33 @@ export const clearCanvas = (canvasRef) => {
 	canvasRef.getContext('2d').clearRect(0, 0, canvasRef.width, canvasRef.height);
 };
 
-export const resetCanvasSize = (canvasRef) => {
+export const resetCanvasSize = (canvasRef, width, height) => {
 	if (!canvasRef) {
 		return;
 	}
+	set2DContextSize(
+		canvasRef,
+		width || window.innerWidth,
+		height || window.innerHeight,
+		window.devicePixelRatio
+	);
 	set2DContextScale(canvasRef);
-	canvasRef.width = window.innerWidth;
-	canvasRef.height = window.innerHeight;
 };
 
 // adjust the 2D context of a canvas to take into consideration the device pixel ratio
 export const set2DContextScale = (canvasRef) => {
-	const context2d = canvasRef.getContext('2d');
-	const pixelRatio = window.devicePixelRatio || 1;
-	canvasRef.width = window.innerWidth * pixelRatio;
-	canvasRef.height = window.innerHeight * pixelRatio;
-	context2d.scale(pixelRatio, pixelRatio);
+	if (canvasRef) {
+		const context2d = canvasRef.getContext('2d');
+		const pixelRatio = window.devicePixelRatio || 1;
+		context2d.scale(pixelRatio, pixelRatio);
+	}
+};
+
+export const set2DContextSize = (canvasRef, width, height, pixelRatio) => {
+	if (canvasRef) {
+		canvasRef.width = width * pixelRatio || 1;
+		canvasRef.height = height * pixelRatio || 1;
+	}
 };
 
 export const getDivCentroid = (element) => {
@@ -407,6 +443,19 @@ export const getDivCentroid = (element) => {
 	};
 
 	return position;
+};
+
+export const getDivSize = (element) => {
+	if (!element) {
+		return undefined;
+	}
+	const rect = element.getBoundingClientRect();
+	const size = {
+		x: rect.width,
+		y: rect.height
+	};
+
+	return size;
 };
 
 export const getScreenCentroid = () => {

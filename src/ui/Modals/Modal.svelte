@@ -1,6 +1,5 @@
 <script>
 	import { css } from '@emotion/css';
-	import { fade, blur } from 'svelte/transition';
 	import { drawCrossfade } from '../graphics-factory';
 	const [send, receive] = drawCrossfade(stylingConstants.durations.transitionDuration);
 

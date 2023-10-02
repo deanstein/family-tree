@@ -27,6 +27,7 @@ const colors = {
 	personNodeColor: '#bfd0db',
 	personNodeConnectionLineColor: 'rgba(128, 128, 128, 0.45)',
 	activePersonNodeColor: '#87a9c0',
+	timelineSpineColor: 'rgba(200, 200, 200, 0.75)',
 	hyperlinkColor: '#2373a3',
 	notificationColorError: 'palevioletred',
 	notificationColorWarning: 'lightYellow',
@@ -152,10 +153,13 @@ const sizes = {
 	get timelineYearFontSize() {
 		return this.nTimelineYearFontSize + 'vh';
 	},
+
 	nTimelineSpineLineThickness: 0.3,
 	get timelineSpineThickness() {
 		return this.nTimelineSpineLineThickness + 'vw';
 	},
+	nTimelineSpineCanvasLineThickness: 15,
+
 	nTimelineEventGapSize: 1,
 	get timelineEventGapSize() {
 		return this.nTimelineEventGapSize + 'vw';

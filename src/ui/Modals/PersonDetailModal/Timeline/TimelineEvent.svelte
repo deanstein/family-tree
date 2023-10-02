@@ -1,16 +1,21 @@
 <script>
 	import { css } from '@emotion/css';
+	import { onMount } from 'svelte';
 
 	import { monthNames } from '../../../strings';
 	import stylingConstants from '../../../styling-constants';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
-	import { upgradeTimelineEvent } from '../../../../logic/ui-management';
+	import {
+		trySetFirstOrLatestTimelineEventPosition,
+		upgradeTimelineEvent
+	} from '../../../../logic/ui-management';
 	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import uiState from '../../../../stores/ui-state';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
 
+	let eventNodeRef; // the div element of the circular node for this event on the timeline
 	let eventDateCorrected;
 	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
 
@@ -76,6 +81,14 @@
 			`;
 		}
 	}
+
+	onMount(() => {
+		trySetFirstOrLatestTimelineEventPosition(timelineEvent.eventType, eventNodeRef);
+	});
+
+	window.addEventListener('resize', () => {
+		trySetFirstOrLatestTimelineEventPosition(timelineEvent.eventType, eventNodeRef);
+	});
 </script>
 
 <div
@@ -97,7 +110,11 @@
 				: 'Year?'}
 		</div>
 	</div>
-	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
+	<div
+		id="timeline-event-node"
+		class="{eventNodeDynamicClass} timeline-event-node"
+		bind:this={eventNodeRef}
+	/>
 	<div
 		id="timeline-event-detail-line"
 		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
