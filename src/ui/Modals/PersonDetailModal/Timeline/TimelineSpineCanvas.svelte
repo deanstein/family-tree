@@ -1,9 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
-	import { clearCanvas, set2DContextSize } from '../../../../logic/ui-management';
-	import { drawLineBetweenPoints } from '../../../graphics-factory';
-	import stylingConstants from '../../../styling-constants';
+	import { set2DContextSize, setTimelineSpineCanvas } from '../../../../logic/ui-management';
 	import { css } from '@emotion/css';
+	import { drawTimelineSpine } from '../../../graphics-factory';
+	import uiState from '../../../../stores/ui-state';
 
 	export let birthEventNodePosition;
 	export let deathEventNodePosition;
@@ -16,22 +16,10 @@
 		left: -${window.scrollX}px;
 	`;
 
-	const drawTimelineSpine = () => {
-		clearCanvas(spineCanvasRef);
-		console.log(birthEventNodePosition, deathEventNodePosition);
-		drawLineBetweenPoints(
-			spineCanvasRefContext2d,
-			birthEventNodePosition,
-			deathEventNodePosition,
-			stylingConstants.sizes.nTimelineSpineCanvasLineThickness,
-			stylingConstants.colors.timelineSpineColor
-		);
-	};
-
 	// redraw the spine on window resize
 	window.addEventListener('resize', () => {
 		set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
-		drawTimelineSpine();
+		drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	// ensure the spine scrolls with the window
@@ -40,20 +28,27 @@
 			top: -${window.scrollY}px;
 			left: -${window.scrollX}px;
 		`;
-		drawTimelineSpine();
+		//drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	onMount(() => {
 		if (spineCanvasRef) {
 			spineCanvasRefContext2d = spineCanvasRef.getContext('2d');
 			set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
+			setTimelineSpineCanvas(spineCanvasRef);
 		}
-		drawTimelineSpine();
+		drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	$: {
-		if (spineCanvasRefContext2d && birthEventNodePosition && deathEventNodePosition) {
-			drawTimelineSpine();
+		// if statement only here to trigger updates when these variables run
+		if (
+			spineCanvasRefContext2d &&
+			birthEventNodePosition &&
+			deathEventNodePosition &&
+			$uiState.timelineSpineCanvasScrollY
+		) {
+			drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 		}
 	}
 </script>

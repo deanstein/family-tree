@@ -12,6 +12,9 @@
 	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
 	import {
 		generateTimelineRowItems,
+		setFirstTimelineEventPosition,
+		setLatestTimelineEventPosition,
+		setTimelineSpineCanvasScrollY,
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
 	import { instantiateObject } from '../../../../logic/utils';
@@ -20,6 +23,10 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpineCanvas from './TimelineSpineCanvas.svelte';
+	import { drawTimelineSpine } from '../../../graphics-factory';
+	import { onMount } from 'svelte';
+
+	let timelineScrollingCanvasRef;
 
 	// if true, the timeline is spaced out
 	// to show relative spacing between events
@@ -85,6 +92,14 @@
 			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
 		`;
 	}
+
+	window.addEventListener('scroll', () => {
+		setTimelineSpineCanvasScrollY(timelineScrollingCanvasRef);
+	});
+
+	onMount(() => {
+		// ensure the spine scrolls with the window
+	});
 </script>
 
 <div id="timeline-container" class="timeline-container">
@@ -105,7 +120,11 @@
 			birthEventNodePosition={$uiState.timelineFirstEventPosition}
 			deathEventNodePosition={$uiState.timelineLatestEventPosition}
 		/>
-		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
+		<div
+			id="timeline-scrolling-canvas"
+			class="timeline-scrolling-canvas"
+			bind:this={timelineScrollingCanvasRef}
+		>
 			<!-- the grid for all timeline events -->
 			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">
 				<!-- always present and always at the top: birth -->

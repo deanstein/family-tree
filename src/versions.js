@@ -5,7 +5,8 @@ export const appChangelog = {
 		Changes: ['Added password protection to the ChooseTree dialog']
 	},
 	'v0.14.x': {
-		Overview: 'v0.14.x adds iconography support via FontAwesome and improves the positioning and styling of the timeline spine',
+		Overview:
+			'v0.14.x adds iconography support via FontAwesome and improves the positioning and styling of the timeline spine',
 		Changes: ['Added FontAwesome', 'Refactored timeline spine into timeline spine canvas']
 	},
 	'v0.13.x': {

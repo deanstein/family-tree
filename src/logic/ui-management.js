@@ -290,16 +290,49 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	}
 };
 
-export const setFirstTimelineEventPosition = (eventNodeRef) => {
+export const setTimelineSpineCanvas = (spineCanvasRef) => {
 	uiState.update((currentValue) => {
-		currentValue.timelineFirstEventPosition = getDivCentroid(eventNodeRef);
+		currentValue.timelineSpineCanvas = spineCanvasRef;
+		return currentValue;
+	});
+};
+
+export const setTimelineSpineCanvasScrollY = (spineCanvasRef) => {
+	if (!spineCanvasRef) {
+		return;
+	}
+	uiState.update((currentValue) => {
+		currentValue.timelineSpineCanvasScrollY = spineCanvasRef.scrollTop;
+		return currentValue;
+	});
+};
+
+export const setFirstTimelineEventPosition = (eventNodeRef) => {
+	if (!eventNodeRef) {
+		return;
+	}
+	uiState.update((currentValue) => {
+		const initialPosition = getDivCentroid(eventNodeRef);
+		const updatedPosition = {
+			x: initialPosition.x - window.scrollX,
+			y: initialPosition.y - window.scrollY - currentValue.timelineSpineCanvasScrollY
+		};
+		currentValue.timelineFirstEventPosition = updatedPosition;
 		return currentValue;
 	});
 };
 
 export const setLatestTimelineEventPosition = (eventNodeRef) => {
+	if (!eventNodeRef) {
+		return;
+	}
 	uiState.update((currentValue) => {
-		currentValue.timelineLatestEventPosition = getDivCentroid(eventNodeRef);
+		const initialPosition = getDivCentroid(eventNodeRef);
+		const updatedPosition = {
+			x: initialPosition.x - window.scrollX,
+			y: initialPosition.y - currentValue.timelineSpineCanvasScrollY - window.scrollY
+		};
+		currentValue.timelineLatestEventPosition = updatedPosition;
 		return currentValue;
 	});
 };

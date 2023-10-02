@@ -3,9 +3,11 @@ import { crossfade } from 'svelte/transition';
 
 import {
 	addOrUpdatePersonNodePosition,
+	clearCanvas,
 	getScreenCentroid,
 	resetCanvasSize
 } from '../logic/ui-management';
+import stylingConstants from './styling-constants';
 
 export const drawLineBetweenPoints = (context2d, startPosition, endPosition, thickness, color) => {
 	if (!context2d || !startPosition || !endPosition || !color) {
@@ -60,4 +62,35 @@ export const drawCrossfade = (duration) => {
 			};
 		}
 	});
+};
+
+export const drawTimelineSpine = (
+	spineCanvasRef,
+	birthEventNodePosition,
+	deathEventNodePosition
+) => {
+	clearCanvas(spineCanvasRef);
+
+	if (spineCanvasRef && birthEventNodePosition && deathEventNodePosition) {
+		// trim the canvas so it doesn't bleed past the parent borders
+		const spineCanvasParent = spineCanvasRef?.parentNode;
+		const spineCanvasParentRect = spineCanvasParent.getBoundingClientRect();
+		const spineCanvasRefContext2d = spineCanvasRef.getContext('2d');
+		spineCanvasRefContext2d.beginPath();
+		spineCanvasRefContext2d.rect(
+			spineCanvasParentRect.left,
+			spineCanvasParentRect.top,
+			spineCanvasParentRect.width,
+			spineCanvasParentRect.height
+		);
+		spineCanvasRefContext2d.clip();
+
+		drawLineBetweenPoints(
+			spineCanvasRefContext2d,
+			birthEventNodePosition,
+			deathEventNodePosition,
+			stylingConstants.sizes.nTimelineSpineCanvasLineThickness,
+			stylingConstants.colors.timelineSpineColor
+		);
+	}
 };
