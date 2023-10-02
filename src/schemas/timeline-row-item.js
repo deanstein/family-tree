@@ -1,6 +1,6 @@
 const timelineRowItem = {
 	index: 0,
-	event: ''
+	event: {}
 };
 
 export default timelineRowItem;
