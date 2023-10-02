@@ -1,12 +1,12 @@
-export const appVersion = '0.14.2';
+export const appVersion = '0.14.3';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
 	},
 	'v0.14.x': {
-		Overview: 'v0.14.x adds iconography support via FontAwesome',
-		Changes: ['Added FontAwesome']
+		Overview: 'v0.14.x adds iconography support via FontAwesome and improves the positioning and styling of the timeline spine',
+		Changes: ['Added FontAwesome', 'Refactored timeline spine into timeline spine canvas']
 	},
 	'v0.13.x': {
 		Overview:
