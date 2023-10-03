@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { set2DContextSize, setTimelineSpineCanvas } from '../../../../logic/ui-management';
-	import { css } from '@emotion/css';
 	import { drawTimelineSpine } from '../../../graphics-factory';
 	import uiState from '../../../../stores/ui-state';
 
@@ -11,57 +10,45 @@
 	let spineCanvasRef;
 	let spineCanvasRefContext2d;
 
-	let spineCanvasRefDynamicClass = css`
-		top: -${window.scrollY}px;
-		left: -${window.scrollX}px;
-	`;
-
 	// redraw the spine on window resize
 	window.addEventListener('resize', () => {
-		set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
-		drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
-	});
-
-	// ensure the spine scrolls with the window
-	window.addEventListener('scroll', () => {
-		spineCanvasRefDynamicClass = css`
-			top: -${window.scrollY}px;
-			left: -${window.scrollX}px;
-		`;
-		//drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
+		set2DContextSize($uiState.timelineSpineCanvas, window.innerWidth, window.innerHeight, 1);
+		drawTimelineSpine($uiState.timelineSpineCanvas, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	onMount(() => {
 		if (spineCanvasRef) {
+			setTimelineSpineCanvas(spineCanvasRef);
 			spineCanvasRefContext2d = spineCanvasRef.getContext('2d');
 			set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
-			setTimelineSpineCanvas(spineCanvasRef);
+			drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 		}
-		drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	$: {
-		// if statement only here to trigger updates when these variables run
-		if (
-			spineCanvasRefContext2d &&
-			birthEventNodePosition &&
-			deathEventNodePosition &&
-			$uiState.timelineSpineCanvasScrollY
-		) {
-			drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
-		}
+		const updatedFirstEventPosition = {
+			x: $uiState.timelineFirstEventPosition?.x + $uiState.timelineCompositeScrollPos?.x,
+			y: $uiState.timelineFirstEventPosition?.y + $uiState.timelineCompositeScrollPos?.y
+		};
+		const updatedLastEventPosition = {
+			x: $uiState.timelineLatestEventPosition?.x + $uiState.timelineCompositeScrollPos?.x,
+			y: $uiState.timelineLatestEventPosition?.y + $uiState.timelineCompositeScrollPos?.y
+		};
+		drawTimelineSpine(
+			$uiState.timelineSpineCanvas,
+			updatedFirstEventPosition,
+			updatedLastEventPosition
+		);
 	}
 </script>
 
-<canvas
-	id="timeline-spine-canvas"
-	class="{spineCanvasRefDynamicClass} timeline-spine-canvas"
-	bind:this={spineCanvasRef}
-/>
+<canvas id="timeline-spine-canvas" class="timeline-spine-canvas" bind:this={spineCanvasRef} />
 
 <style>
 	.timeline-spine-canvas {
 		position: fixed;
+		top: 0;
+		left: 0;
 		pointer-events: none;
 	}
 </style>

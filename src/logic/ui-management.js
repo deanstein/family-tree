@@ -297,12 +297,16 @@ export const setTimelineSpineCanvas = (spineCanvasRef) => {
 	});
 };
 
-export const setTimelineSpineCanvasScrollY = (spineCanvasRef) => {
-	if (!spineCanvasRef) {
+export const setTimelineCompositeScrollPos = (scrollingCanvasRef) => {
+	if (!scrollingCanvasRef) {
 		return;
 	}
 	uiState.update((currentValue) => {
-		currentValue.timelineSpineCanvasScrollY = spineCanvasRef.scrollTop;
+		// composite scroll is the window scroll and the timeline scroll combined
+		const compositeScrollX = -window.scrollX - scrollingCanvasRef.scrollLeft;
+		const compositeScrollY = -window.scrollY - scrollingCanvasRef.scrollTop;
+		const compositePos = { x: compositeScrollX, y: compositeScrollY };
+		currentValue.timelineCompositeScrollPos = compositePos;
 		return currentValue;
 	});
 };
@@ -312,12 +316,7 @@ export const setFirstTimelineEventPosition = (eventNodeRef) => {
 		return;
 	}
 	uiState.update((currentValue) => {
-		const initialPosition = getDivCentroid(eventNodeRef);
-		const updatedPosition = {
-			x: initialPosition.x - window.scrollX,
-			y: initialPosition.y - window.scrollY - currentValue.timelineSpineCanvasScrollY
-		};
-		currentValue.timelineFirstEventPosition = updatedPosition;
+		currentValue.timelineFirstEventPosition = getDivCentroid(eventNodeRef);
 		return currentValue;
 	});
 };
@@ -327,12 +326,7 @@ export const setLatestTimelineEventPosition = (eventNodeRef) => {
 		return;
 	}
 	uiState.update((currentValue) => {
-		const initialPosition = getDivCentroid(eventNodeRef);
-		const updatedPosition = {
-			x: initialPosition.x - window.scrollX,
-			y: initialPosition.y - currentValue.timelineSpineCanvasScrollY - window.scrollY
-		};
-		currentValue.timelineLatestEventPosition = updatedPosition;
+		currentValue.timelineLatestEventPosition = getDivCentroid(eventNodeRef);
 		return currentValue;
 	});
 };

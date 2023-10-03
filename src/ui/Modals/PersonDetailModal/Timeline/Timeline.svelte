@@ -1,6 +1,7 @@
 <script>
 	import { v4 as uuidv4 } from 'uuid';
 
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../../styling-constants';
@@ -12,9 +13,7 @@
 	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
 	import {
 		generateTimelineRowItems,
-		setFirstTimelineEventPosition,
-		setLatestTimelineEventPosition,
-		setTimelineSpineCanvasScrollY,
+		setTimelineCompositeScrollPos,
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
 	import { instantiateObject } from '../../../../logic/utils';
@@ -23,8 +22,6 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpineCanvas from './TimelineSpineCanvas.svelte';
-	import { drawTimelineSpine } from '../../../graphics-factory';
-	import { onMount } from 'svelte';
 
 	let timelineScrollingCanvasRef;
 
@@ -93,12 +90,14 @@
 		`;
 	}
 
-	window.addEventListener('scroll', () => {
-		setTimelineSpineCanvasScrollY(timelineScrollingCanvasRef);
-	});
-
 	onMount(() => {
-		// ensure the spine scrolls with the window
+		setTimelineCompositeScrollPos(timelineScrollingCanvasRef);
+		window.addEventListener('scroll', () => {
+			setTimelineCompositeScrollPos(timelineScrollingCanvasRef);
+		});
+		timelineScrollingCanvasRef.addEventListener('scroll', () => {
+			setTimelineCompositeScrollPos(timelineScrollingCanvasRef);
+		});
 	});
 </script>
 

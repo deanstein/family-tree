@@ -69,9 +69,11 @@ export const drawTimelineSpine = (
 	birthEventNodePosition,
 	deathEventNodePosition
 ) => {
-	clearCanvas(spineCanvasRef);
-
 	if (spineCanvasRef && birthEventNodePosition && deathEventNodePosition) {
+		if (!(spineCanvasRef instanceof HTMLCanvasElement)) {
+			return;
+		}
+		clearCanvas(spineCanvasRef);
 		// trim the canvas so it doesn't bleed past the parent borders
 		const spineCanvasParent = spineCanvasRef?.parentNode;
 		const spineCanvasParentRect = spineCanvasParent.getBoundingClientRect();
