@@ -26,6 +26,7 @@ const colors = {
 	personNodeColor: '#bfd0db',
 	personNodeConnectionLineColor: 'rgba(128, 128, 128, 0.45)',
 	activePersonNodeColor: '#87a9c0',
+	timelineSpineColor: 'rgba(200, 200, 200, 0.75)',
 	timelineEventBackgroundHoverColor: 'rgba(255, 255, 255, 0.75)',
 	hyperlinkColor: '#2373a3',
 	notificationColorError: 'palevioletred',
@@ -152,7 +153,7 @@ const sizes = {
 	get timelineYearFontSize() {
 		return this.nTimelineYearFontSize + 'vh';
 	},
-	nTimelineSpineLineThickness: 0.3,
+	nTimelineSpineLineThickness: 0.9,
 	get timelineSpineThickness() {
 		return this.nTimelineSpineLineThickness + 'vw';
 	},

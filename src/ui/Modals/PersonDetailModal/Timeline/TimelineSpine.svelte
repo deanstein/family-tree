@@ -6,7 +6,7 @@
 
 	let lineDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
-		background-color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.timelineSpineColor};
 	`;
 
 	const lineColumnDynamicClass = css`

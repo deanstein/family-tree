@@ -63,15 +63,17 @@
 
 	export const onCheckRelativeSpacing = () => {
 		forceRelativeSpacing = true;
+		setTimelineCanvasScrollState(scrollingCanvasDivRef, forceRelativeSpacing);
 	};
 
 	export const onUncheckRelativeSpacing = () => {
 		forceRelativeSpacing = false;
+		setTimelineCanvasScrollState(scrollingCanvasDivRef, forceRelativeSpacing);
 	};
 
 	onMount(() => {
 		scrollingCanvasDivRef.addEventListener('scroll', () => {
-			setTimelineCanvasScrollState(scrollingCanvasDivRef);
+			setTimelineCanvasScrollState(scrollingCanvasDivRef, true);
 		});
 	});
 
