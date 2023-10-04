@@ -202,18 +202,22 @@ export const hidePersonDetailView = () => {
 	});
 };
 
-export const setTimelineCanvasScrollState = (scrollingCanvasRef, forceRelativeSpacing) => {
+export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
 	if (!scrollingCanvasRef) {
 		return;
 	}
+	// the cases to determine whether to show margin at the top and bottom of the timeline spine
+	const scrolledToTop = scrollingCanvasRef.scrollTop === 0;
+	const scrolledToBottom =
+		scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
+		scrollingCanvasRef.scrollHeight;
+	const noScrollAvailable = scrollingCanvasRef.clientHeight === scrollingCanvasRef.scrollHeight;
 	uiState.update((currentValue) => {
 		let updatedTimelineCanvasScroll = {
 			// scrolled to top?
-			top: scrollingCanvasRef.scrollTop === 0,
+			top: scrolledToTop,
 			// scrolled to bottom?
-			bottom:
-				scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
-					scrollingCanvasRef.scrollHeight || !forceRelativeSpacing
+			bottom: scrolledToBottom || noScrollAvailable
 		};
 		currentValue.timelineCanvasScrollState = updatedTimelineCanvasScroll;
 		return currentValue;
