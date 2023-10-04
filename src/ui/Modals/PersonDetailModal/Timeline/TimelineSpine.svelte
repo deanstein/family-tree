@@ -4,9 +4,7 @@
 	import stylingConstants from '../../../styling-constants';
 	import uiState from '../../../../stores/ui-state';
 
-	const lineDynamicClass = css`
-		margin-top: ${$uiState.timelineFirstEventHeight / 2 + 'px'};
-		margin-bottom: ${$uiState.timelineLastEventHeight / 2 + 'px'};
+	let lineDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
 		background-color: ${stylingConstants.colors.textColor};
 	`;
@@ -18,6 +16,18 @@
 		stylingConstants.sizes.nTimelineSpineLineThickness / 2 +
 		'vw'};
 	`;
+
+	$: {
+		lineDynamicClass = css`
+			${lineDynamicClass}
+			margin-top: ${$uiState.timelineCanvasScrollState.top
+				? $uiState.timelineFirstEventHeight / 2 + 'px'
+				: 0};
+			margin-bottom: ${$uiState.timelineCanvasScrollState.bottom
+				? $uiState.timelineLastEventHeight / 2 + 'px'
+				: 0};
+		`;
+	}
 </script>
 
 <div id="timeline-spine" class="timeline-spine">

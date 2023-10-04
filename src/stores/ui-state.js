@@ -11,6 +11,7 @@ const uiState = {
 	personNodePositions: [],
 	personNodeConnectionLineCanvas: undefined,
 	personNodeConnectionLineCanvasHover: undefined,
+	timelineCanvasScrollState: { top: true, bottom: false },
 	timelineFirstEventHeight: 0,
 	timelineLastEventHeight: 0,
 	showChooseTreeModal: true,

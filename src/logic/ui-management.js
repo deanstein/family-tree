@@ -202,6 +202,24 @@ export const hidePersonDetailView = () => {
 	});
 };
 
+export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
+	if (!scrollingCanvasRef) {
+		return;
+	}
+	uiState.update((currentValue) => {
+		let updatedTimelineCanvasScroll = {
+			// scrolled to top?
+			top: scrollingCanvasRef.scrollTop === 0,
+			// scrolled to bottom?
+			bottom:
+				scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
+				scrollingCanvasRef.scrollHeight
+		};
+		currentValue.timelineCanvasScrollState = updatedTimelineCanvasScroll;
+		return currentValue;
+	});
+};
+
 export const setFirstTimelineEventHeight = (rowHeight) => {
 	uiState.update((currentValue) => {
 		currentValue.timelineFirstEventHeight = rowHeight;
