@@ -202,7 +202,7 @@ export const hidePersonDetailView = () => {
 	});
 };
 
-export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
+export const setTimelineCanvasScrollState = (scrollingCanvasRef, forceRelativeSpacing) => {
 	if (!scrollingCanvasRef) {
 		return;
 	}
@@ -213,7 +213,7 @@ export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
 			// scrolled to bottom?
 			bottom:
 				scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
-				scrollingCanvasRef.scrollHeight
+					scrollingCanvasRef.scrollHeight || !forceRelativeSpacing
 		};
 		currentValue.timelineCanvasScrollState = updatedTimelineCanvasScroll;
 		return currentValue;
