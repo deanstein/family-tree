@@ -23,7 +23,9 @@
 	import Checkbox from '../../../Checkbox.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpineCanvas from './TimelineSpineCanvas.svelte';
+	import TimelineSpine from './TimelineSpine.svelte';
 
+	let useTimelineSpineCanvas = false;
 	let timelineScrollingCanvasRef;
 
 	// row items are converted from the activePerson's raw event data
@@ -112,11 +114,15 @@
 		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
-		<!-- <TimelineSpine /> -->
-		<TimelineSpineCanvas
-			birthEventNodePosition={$uiState.timelineFirstEventPosition}
-			deathEventNodePosition={$uiState.timelineLatestEventPosition}
-		/>
+		{#if useTimelineSpineCanvas}
+			<TimelineSpineCanvas
+				birthEventNodePosition={$uiState.timelineFirstEventPosition}
+				deathEventNodePosition={$uiState.timelineLatestEventPosition}
+			/>
+		{:else}
+			<TimelineSpine />
+		{/if}
+		
 		<div
 			id="timeline-scrolling-canvas"
 			class="timeline-scrolling-canvas"
@@ -157,6 +163,7 @@
 	}
 
 	.timeline-content-container {
+		position: relative;
 		display: flex;
 		height: -webkit-fill-available;
 		flex-grow: 1;
