@@ -2,10 +2,11 @@
 	import { css } from '@emotion/css';
 
 	import stylingConstants from '../../../styling-constants';
+	import uiState from '../../../../stores/ui-state';
 
 	const lineDynamicClass = css`
-		margin-top: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 + 'vw'};
-		margin-bottom: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 + 'vw'};
+		margin-top: ${$uiState.timelineFirstEventHeight / 2 + 'px'};
+		margin-bottom: ${$uiState.timelineLastEventHeight / 2 + 'px'};
 		width: ${stylingConstants.sizes.timelineSpineThickness};
 		background-color: ${stylingConstants.colors.textColor};
 	`;

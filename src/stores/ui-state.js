@@ -11,6 +11,8 @@ const uiState = {
 	personNodePositions: [],
 	personNodeConnectionLineCanvas: undefined,
 	personNodeConnectionLineCanvasHover: undefined,
+	timelineFirstEventHeight: 0,
+	timelineLastEventHeight: 0,
 	showChooseTreeModal: true,
 	showPersonDetailView: false,
 	showDevTools: false,

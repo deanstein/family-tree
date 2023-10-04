@@ -1,10 +1,15 @@
 <script>
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import { monthNames } from '../../../strings';
 	import stylingConstants from '../../../styling-constants';
 	import { setTimelineEditEvent } from '../../../../logic/temp-management';
-	import { upgradeTimelineEvent } from '../../../../logic/ui-management';
+	import {
+		setFirstTimelineEventHeight,
+		setLastTimelineEventHeight,
+		upgradeTimelineEvent
+	} from '../../../../logic/ui-management';
 	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import uiState from '../../../../stores/ui-state';
 
@@ -13,6 +18,7 @@
 
 	let eventDateCorrected;
 	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
+	let eventRowDivRef;
 
 	const onTimelineEventClickAction = () => {
 		// do nothing if this is the "today" event (no death date)
@@ -66,6 +72,18 @@
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
+	onMount(() => {
+		// birth and death events report their row height for the spine to align to
+		if (timelineEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
+			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
+			setFirstTimelineEventHeight(eventRowHeight);
+		}
+		if (timelineEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
+			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
+			setLastTimelineEventHeight(eventRowHeight);
+		}
+	});
+
 	$: {
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
@@ -83,6 +101,7 @@
 	class="{eventRowDynamicClass} timeline-event-row"
 	on:click={onTimelineEventClickAction}
 	on:keydown={onTimelineEventClickAction}
+	bind:this={eventRowDivRef}
 >
 	<div id="timeline-event-date-year-container" class="timeline-event-date-year-container">
 		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
