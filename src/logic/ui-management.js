@@ -202,6 +202,38 @@ export const hidePersonDetailView = () => {
 	});
 };
 
+export const setTimelineCanvasScrollState = (scrollingCanvasRef, forceRelativeSpacing) => {
+	if (!scrollingCanvasRef) {
+		return;
+	}
+	uiState.update((currentValue) => {
+		let updatedTimelineCanvasScroll = {
+			// scrolled to top?
+			top: scrollingCanvasRef.scrollTop === 0,
+			// scrolled to bottom?
+			bottom:
+				scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
+					scrollingCanvasRef.scrollHeight || !forceRelativeSpacing
+		};
+		currentValue.timelineCanvasScrollState = updatedTimelineCanvasScroll;
+		return currentValue;
+	});
+};
+
+export const setFirstTimelineEventHeight = (rowHeight) => {
+	uiState.update((currentValue) => {
+		currentValue.timelineFirstEventHeight = rowHeight;
+		return currentValue;
+	});
+};
+
+export const setLastTimelineEventHeight = (rowHeight) => {
+	uiState.update((currentValue) => {
+		currentValue.timelineLastEventHeight = rowHeight;
+		return currentValue;
+	});
+};
+
 export const getTimelineProportionByDate = (person, eventDate) => {
 	// this covers the case where the birthday is unknown, so force the div to the top (0 proportion)
 	if (eventDate === '') {

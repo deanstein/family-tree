@@ -3,23 +3,27 @@
 
 	import { css } from '@emotion/css';
 
+	import stylingConstants from '../../../styling-constants';
+	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import timelineEvent from '../../../../schemas/timeline-event';
 	import uiState from '../../../../stores/ui-state';
+	import { schemaVersion } from '../../../../versions';
 
+	import {
+		generateTimelineRowItems,
+		setTimelineCanvasScrollState,
+		updateTimelineRowItems
+	} from '../../../../logic/ui-management';
 	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
 	import { instantiateObject } from '../../../../logic/utils';
 
 	import Button from '../../../Button.svelte';
+	import Checkbox from '../../../Checkbox.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
-	import {
-		generateTimelineRowItems,
-		updateTimelineRowItems
-	} from '../../../../logic/ui-management';
-	import stylingConstants from '../../../styling-constants';
-	import Checkbox from '../../../Checkbox.svelte';
-	import timelineEventTypes from '../../../../schemas/timeline-event-types';
-	import { schemaVersion } from '../../../../versions';
+	import { onMount } from 'svelte';
+
+	let scrollingCanvasDivRef;
 
 	// if true, the timeline is spaced out
 	// to show relative spacing between events
@@ -59,11 +63,19 @@
 
 	export const onCheckRelativeSpacing = () => {
 		forceRelativeSpacing = true;
+		setTimelineCanvasScrollState(scrollingCanvasDivRef, forceRelativeSpacing);
 	};
 
 	export const onUncheckRelativeSpacing = () => {
 		forceRelativeSpacing = false;
+		setTimelineCanvasScrollState(scrollingCanvasDivRef, forceRelativeSpacing);
 	};
+
+	onMount(() => {
+		scrollingCanvasDivRef.addEventListener('scroll', () => {
+			setTimelineCanvasScrollState(scrollingCanvasDivRef, true);
+		});
+	});
 
 	$: {
 		// ensure birth event is kept updated
@@ -101,7 +113,11 @@
 	</div>
 	<div id="timeline-content-container" class="timeline-content-container">
 		<TimelineSpine />
-		<div id="timeline-scrolling-canvas" class="timeline-scrolling-canvas">
+		<div
+			id="timeline-scrolling-canvas"
+			class="timeline-scrolling-canvas"
+			bind:this={scrollingCanvasDivRef}
+		>
 			<!-- the vertical line for the timeline -->
 			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">
 				<!-- always present and always at the top: birth -->
