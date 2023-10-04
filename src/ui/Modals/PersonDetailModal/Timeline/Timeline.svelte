@@ -14,6 +14,7 @@
 	import {
 		generateTimelineRowItems,
 		setTimelineCompositeScrollPos,
+		setTimelineForceRelativeSpacing,
 		updateTimelineRowItems
 	} from '../../../../logic/ui-management';
 	import { instantiateObject } from '../../../../logic/utils';
@@ -25,9 +26,6 @@
 
 	let timelineScrollingCanvasRef;
 
-	// if true, the timeline is spaced out
-	// to show relative spacing between events
-	let forceRelativeSpacing = false;
 	// row items are converted from the activePerson's raw event data
 	// each row item is an object with the index and the event content
 	let timelineRowItems = [];
@@ -62,11 +60,11 @@
 	};
 
 	export const onCheckRelativeSpacing = () => {
-		forceRelativeSpacing = true;
+		setTimelineForceRelativeSpacing(true);
 	};
 
 	export const onUncheckRelativeSpacing = () => {
-		forceRelativeSpacing = false;
+		setTimelineForceRelativeSpacing(false);
 	};
 
 	$: {
@@ -86,7 +84,7 @@
 
 		// ensure custom css is kept updated
 		timelineEventGridDynamicClass = css`
-			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
+			row-gap: ${$uiState.timelineForceRelativeSpacing ? '1px' : 'auto'};
 		`;
 	}
 
@@ -107,7 +105,7 @@
 			isEnabled={true}
 			showLabel={true}
 			label="Relative Spacing"
-			isChecked={forceRelativeSpacing}
+			isChecked={$uiState.timelineForceRelativeSpacing}
 			onCheckAction={onCheckRelativeSpacing}
 			onUncheckAction={onUncheckRelativeSpacing}
 		/>

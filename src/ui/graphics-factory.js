@@ -5,7 +5,8 @@ import {
 	addOrUpdatePersonNodePosition,
 	clearCanvas,
 	getScreenCentroid,
-	resetCanvasSize
+	resetCanvasSize,
+	set2DContextSize
 } from '../logic/ui-management';
 import stylingConstants from './styling-constants';
 
@@ -73,6 +74,8 @@ export const drawTimelineSpine = (
 		if (!(spineCanvasRef instanceof HTMLCanvasElement)) {
 			return;
 		}
+		console.log('drawing...');
+		set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
 		clearCanvas(spineCanvasRef);
 		// trim the canvas so it doesn't bleed past the parent borders
 		const spineCanvasParent = spineCanvasRef?.parentNode;

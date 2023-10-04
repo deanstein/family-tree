@@ -85,10 +85,6 @@
 	onMount(() => {
 		trySetFirstOrLatestTimelineEventPosition(timelineEvent.eventType, eventNodeRef);
 	});
-
-	window.addEventListener('resize', () => {
-		trySetFirstOrLatestTimelineEventPosition(timelineEvent.eventType, eventNodeRef);
-	});
 </script>
 
 <div

@@ -8,20 +8,20 @@
 	export let deathEventNodePosition;
 
 	let spineCanvasRef;
-	let spineCanvasRefContext2d;
 
 	// redraw the spine on window resize
 	window.addEventListener('resize', () => {
-		set2DContextSize($uiState.timelineSpineCanvas, window.innerWidth, window.innerHeight, 1);
 		drawTimelineSpine($uiState.timelineSpineCanvas, birthEventNodePosition, deathEventNodePosition);
 	});
 
 	onMount(() => {
 		if (spineCanvasRef) {
 			setTimelineSpineCanvas(spineCanvasRef);
-			spineCanvasRefContext2d = spineCanvasRef.getContext('2d');
-			set2DContextSize(spineCanvasRef, window.innerWidth, window.innerHeight, 1);
-			drawTimelineSpine(spineCanvasRef, birthEventNodePosition, deathEventNodePosition);
+			drawTimelineSpine(
+				spineCanvasRef,
+				$uiState.timelineFirstEventPosition,
+				$uiState.timelineLatestEventPosition
+			);
 		}
 	});
 

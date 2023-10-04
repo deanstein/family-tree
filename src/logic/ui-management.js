@@ -290,6 +290,13 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	}
 };
 
+export const setTimelineForceRelativeSpacing = (isRelativeSpacing) => {
+	uiState.update((currentValue) => {
+		currentValue.timelineForceRelativeSpacing = isRelativeSpacing;
+		return currentValue;
+	});
+};
+
 export const setTimelineSpineCanvas = (spineCanvasRef) => {
 	uiState.update((currentValue) => {
 		currentValue.timelineSpineCanvas = spineCanvasRef;
@@ -301,6 +308,7 @@ export const setTimelineCompositeScrollPos = (scrollingCanvasRef) => {
 	if (!scrollingCanvasRef) {
 		return;
 	}
+	console.log('updating composite scroll position...');
 	uiState.update((currentValue) => {
 		// composite scroll is the window scroll and the timeline scroll combined
 		const compositeScrollX = -window.scrollX - scrollingCanvasRef.scrollLeft;
@@ -311,24 +319,56 @@ export const setTimelineCompositeScrollPos = (scrollingCanvasRef) => {
 	});
 };
 
+export const getFirstTimelineEventPosition = () => {
+	let firstTimelineEventPos;
+	uiState.subscribe((currentValue) => {
+		firstTimelineEventPos = currentValue.timelineFirstEventPosition;
+	});
+
+	return firstTimelineEventPos;
+};
+
 export const setFirstTimelineEventPosition = (eventNodeRef) => {
 	if (!eventNodeRef) {
 		return;
 	}
-	uiState.update((currentValue) => {
-		currentValue.timelineFirstEventPosition = getDivCentroid(eventNodeRef);
-		return currentValue;
+	// only set if the position is outdated
+	const thisPosition = getDivCentroid(eventNodeRef);
+	const lastKnownPosition = getFirstTimelineEventPosition();
+	// @ts-ignore
+	if (thisPosition.x !== lastKnownPosition.x || thisPosition.y !== lastKnownPosition.y) {
+		console.log('updating first timeline node position...');
+		uiState.update((currentValue) => {
+			currentValue.timelineFirstEventPosition = getDivCentroid(eventNodeRef);
+			return currentValue;
+		});
+	}
+};
+
+export const getLatestTimelineEventPosition = () => {
+	let latestTimelineEventPos;
+	uiState.subscribe((currentValue) => {
+		latestTimelineEventPos = currentValue.timelineLatestEventPosition;
 	});
+
+	return latestTimelineEventPos;
 };
 
 export const setLatestTimelineEventPosition = (eventNodeRef) => {
 	if (!eventNodeRef) {
 		return;
 	}
-	uiState.update((currentValue) => {
-		currentValue.timelineLatestEventPosition = getDivCentroid(eventNodeRef);
-		return currentValue;
-	});
+	// only set if the position is outdated
+	const thisPosition = getDivCentroid(eventNodeRef);
+	const lastKnownPosition = getLatestTimelineEventPosition();
+	// @ts-ignore
+	if (thisPosition.x !== lastKnownPosition.x || thisPosition.y !== lastKnownPosition.y) {
+		console.log('updating last timeline node position...');
+		uiState.update((currentValue) => {
+			currentValue.timelineLatestEventPosition = getDivCentroid(eventNodeRef);
+			return currentValue;
+		});
+	}
 };
 
 // if this event is the first or latest event,
