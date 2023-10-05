@@ -42,6 +42,24 @@ export const getLatestBuildDateFromPublicRepo = async (repoName) => {
 	return latestBuildDate;
 };
 
+export const getTotalSuccessfulBuildsInPublicRepo = async (repoName) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/actions/runs?status=success`;
+	let totalSuccessfulBuilds = 0;
+
+	await fetch(url)
+		.then((response) => response.json())
+		.then((data) => {
+			if (Array.isArray(data.workflow_runs)) {
+				totalSuccessfulBuilds = data.workflow_runs.length;
+			} else {
+				console.log('Unexpected data:', data);
+			}
+		})
+		.catch((error) => console.error('Error:', error));
+
+	return totalSuccessfulBuilds;
+};
+
 export const getFileFromRepo = async (fileName, password) => {
 	let fileData = undefined;
 	const url = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${fileName}`;

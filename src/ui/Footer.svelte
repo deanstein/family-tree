@@ -1,17 +1,14 @@
 <script>
 	import { onMount } from 'svelte';
-	import {
-		deploymentRepoName,
-		getLatestBuildDateFromPublicRepo,
-		getLatestCommitDateFromPublicRepo
-	} from '../logic/persistence-management';
-	import { getBuildFormattedDate } from '../logic/utils';
+
+	import { getBuildCode } from '../logic/utils';
 	import uiState from '../stores/ui-state';
 
 	export let appVersion;
 	export let schemaVersion;
 
-	let buildDate = 'YYYY.MM.DD';
+	let buildCode = 'yyymmdd.nnn'; // date and build number
+
 	const copyrightYear = new Date().getFullYear();
 
 	const toggleDevTools = () => {
@@ -22,15 +19,15 @@
 	};
 
 	onMount(async () => {
-		// get the latest build date from the deployment repo
-		buildDate = getBuildFormattedDate(await getLatestBuildDateFromPublicRepo(deploymentRepoName));
+		// get the lgetBuildCode the deployment repo
+		buildCode = await getBuildCode();
 	});
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">
 	<div id="copyright" class="footer-item">(C) JDG {copyrightYear}</div>
 	<div id="version" class="footer-item">
-		| App: v{appVersion} | Schema: v{schemaVersion} | Build: {buildDate} |
+		| App: v{appVersion} | Schema: v{schemaVersion} | Build: {buildCode} |
 		<a on:click={toggleDevTools} on:keypress={toggleDevTools}
 			>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a
 		>

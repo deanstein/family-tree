@@ -1,4 +1,9 @@
 import CryptoJS from 'crypto-js';
+import {
+	deploymentRepoName,
+	getLatestBuildDateFromPublicRepo,
+	getTotalSuccessfulBuildsInPublicRepo
+} from './persistence-management';
 
 //const encrypted = 'U2FsdGVkX18x2XAsTT+ga0NaH8JuAQJMIH0suT4KwFD2RFcke1+1GijSWbLsQKGH'
 
@@ -164,8 +169,12 @@ export const convertDateToUTC = (date) => {
 	);
 };
 
-export const getBuildFormattedDate = (date) => {
-	const newDate = new Date(date);
+// build code is in this format:
+// yyymmdd.nn where yymmdd is the date and nn is the build number
+export const getBuildCode = async () => {
+	const buildDate = await getLatestBuildDateFromPublicRepo(deploymentRepoName);
+	const buildNumber = await getTotalSuccessfulBuildsInPublicRepo(deploymentRepoName);
+	const newDate = new Date(buildDate);
 	const year = newDate.getFullYear().toString();
 	let month = (newDate.getMonth() + 1).toString();
 	if (month.length === 1) {
@@ -176,7 +185,10 @@ export const getBuildFormattedDate = (date) => {
 		day = '0' + day;
 	}
 
-	return year.concat('.' + month).concat('.' + day);
+	return year
+		.concat(month)
+		.concat(day)
+		.concat('.' + buildNumber);
 };
 
 export const largest = (a, b) => {
