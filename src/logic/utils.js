@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 import {
 	deploymentRepoName,
 	getLatestBuildDateFromPublicRepo,
-	getTotalSuccessfulBuildsInPublicRepo
+	getTotalCommitsInPublicRepo
 } from './persistence-management';
 
 //const encrypted = 'U2FsdGVkX18x2XAsTT+ga0NaH8JuAQJMIH0suT4KwFD2RFcke1+1GijSWbLsQKGH'
@@ -170,10 +170,11 @@ export const convertDateToUTC = (date) => {
 };
 
 // build code is in this format:
-// yyymmdd.nn where yymmdd is the date and nn is the build number
+// yyymmdd.nn where yymmdd is the date and nn is amount of commits
+// (only because it's apparently hard to get the total amount of deployments?)
 export const getBuildCode = async () => {
 	const buildDate = await getLatestBuildDateFromPublicRepo(deploymentRepoName);
-	const buildNumber = await getTotalSuccessfulBuildsInPublicRepo(deploymentRepoName);
+	const buildNumber = await getTotalCommitsInPublicRepo(deploymentRepoName);
 	const newDate = new Date(buildDate);
 	const year = newDate.getFullYear().toString();
 	let month = (newDate.getMonth() + 1).toString();

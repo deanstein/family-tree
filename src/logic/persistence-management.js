@@ -42,22 +42,24 @@ export const getLatestBuildDateFromPublicRepo = async (repoName) => {
 	return latestBuildDate;
 };
 
-export const getTotalSuccessfulBuildsInPublicRepo = async (repoName) => {
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/actions/runs?status=success`;
-	let totalSuccessfulBuilds = 0;
+export const getTotalCommitsInPublicRepo = async (repoName) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`;
+	let totalCommits = 0;
 
 	await fetch(url)
 		.then((response) => response.json())
 		.then((data) => {
-			if (Array.isArray(data.workflow_runs)) {
-				totalSuccessfulBuilds = data.workflow_runs.length;
+			if (Array.isArray(data)) {
+				data.forEach((contributor) => {
+					totalCommits += contributor.contributions;
+				});
 			} else {
 				console.log('Unexpected data:', data);
 			}
 		})
 		.catch((error) => console.error('Error:', error));
 
-	return totalSuccessfulBuilds;
+	return totalCommits;
 };
 
 export const getFileFromRepo = async (fileName, password) => {
@@ -207,11 +209,11 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	if (updateResponse.ok) {
 		setRepoState(repoStateStrings.saveSuccessful);
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
+
+		// required to ensure the latest version of the file is used for the next update
+		getRepoFamilyTreeAndSetActive(familyTreeId, password, false);
 	} else {
 		setRepoState(repoStateStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
-
-	// required to ensure the latest version of the file is used for the next update
-	getRepoFamilyTreeAndSetActive(familyTreeId, password, false);
 };

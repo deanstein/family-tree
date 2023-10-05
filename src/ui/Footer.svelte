@@ -7,7 +7,7 @@
 	export let appVersion;
 	export let schemaVersion;
 
-	let buildCode = 'yyymmdd.nnn'; // date and build number
+	let buildCode = 'yyymmdd.nnn'; // date and number of commits
 
 	const copyrightYear = new Date().getFullYear();
 
