@@ -1,5 +1,5 @@
 <script>
-	import { afterUpdate, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { getFileFromRepo } from '../logic/persistence-management';
 	import { getRepoFamilyTreeAndSetActive } from '../logic/ui-management';
 

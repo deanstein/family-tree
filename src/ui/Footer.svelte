@@ -1,12 +1,17 @@
 <script>
+	import { onMount } from 'svelte';
+	import {
+		deploymentRepoName,
+		getLatestCommitDateFromPublicRepo
+	} from '../logic/persistence-management';
 	import { getBuildFormattedDate } from '../logic/utils';
 	import uiState from '../stores/ui-state';
 
 	export let appVersion;
 	export let schemaVersion;
 
-	let copyrightYear = new Date().getFullYear();
-	let buildDate = getBuildFormattedDate(new Date());
+	let buildDate;
+	const copyrightYear = new Date().getFullYear();
 
 	const toggleDevTools = () => {
 		uiState.update((currentValue) => {
@@ -14,6 +19,11 @@
 			return currentValue;
 		});
 	};
+
+	onMount(async () => {
+		// get the latest build date from the deployment repo
+		buildDate = getBuildFormattedDate(await getLatestCommitDateFromPublicRepo(deploymentRepoName));
+	});
 </script>
 
 <div id="footer-outer-container" class="footer-outer-container">

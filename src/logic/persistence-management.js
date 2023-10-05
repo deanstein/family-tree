@@ -4,14 +4,29 @@ import { repoStateStrings } from '../ui/strings';
 import { getRepoFamilyTreeAndSetActive, setRepoState } from './ui-management';
 import { decrypt } from './utils';
 
-const repoOwner = 'deanstein';
-const repoName = 'family-tree-data';
-const encryptedPAT =
+export const repoOwner = 'deanstein';
+export const dataRepoName = 'family-tree-data';
+export const deploymentRepoName = 'family-tree-deploy';
+export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
+
+export const getLatestCommitDateFromPublicRepo = async (repoName) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/main`;
+	let latestCommitDate;
+
+	await fetch(url)
+		.then((response) => response.json())
+		.then((data) => {
+			latestCommitDate = new Date(data.commit.committer.date);
+		})
+		.catch((error) => console.error('Error:', error));
+
+	return latestCommitDate;
+};
 
 export const getFileFromRepo = async (fileName, password) => {
 	let fileData = undefined;
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`;
+	const url = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${fileName}`;
 
 	await fetch(url, {
 		headers: {
@@ -107,18 +122,18 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	});
 
 	const repos = await response.json();
-	const repo = repos.find((repo) => repo.name === repoName);
+	const repo = repos.find((repo) => repo.name === dataRepoName);
 
 	if (!repo) {
 		setRepoState(repoStateStrings.saveFailed);
-		console.error('Repository not found: ' + repoName);
+		console.error('Repository not found: ' + dataRepoName);
 		return;
 	}
 
 	const content = JSON.stringify(currentFamilyTreeData, null, 2);
 
 	const fileResponse = await fetch(
-		`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${familyTreeDataFileName}`,
+		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
 			method: 'HEAD',
 			headers: {
@@ -137,7 +152,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	const fileSHA = fileResponse.headers.get('etag').replace(/"/g, '');
 
 	const updateResponse = await fetch(
-		`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${familyTreeDataFileName}`,
+		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
 			method: 'PUT',
 			headers: {
