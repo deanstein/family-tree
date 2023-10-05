@@ -170,7 +170,7 @@ export const convertDateToUTC = (date) => {
 };
 
 // build code is in this format:
-// yyymmdd.nn where yymmdd is the date and nn is amount of commits
+// yyyymmdd.nn where yyyymmdd is the date and nn is amount of commits
 // (only because it's apparently hard to get the total amount of deployments?)
 export const getBuildCode = async () => {
 	const buildDate = await getLatestBuildDateFromPublicRepo(deploymentRepoName);
