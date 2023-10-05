@@ -19,9 +19,27 @@ export const getLatestCommitDateFromPublicRepo = async (repoName) => {
 		.then((data) => {
 			latestCommitDate = new Date(data.commit.committer.date);
 		})
-		.catch((error) => console.error('Error:', error));
+		.catch((error) => console.error('Failed to get latest commit date. Error:', error));
 
 	return latestCommitDate;
+};
+
+export const getLatestBuildDateFromPublicRepo = async (repoName) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/actions/runs?status=success`;
+	let latestBuildDate;
+
+	await fetch(url)
+		.then((response) => response.json())
+		.then((data) => {
+			if (data.total_count > 0) {
+				latestBuildDate = new Date(data.workflow_runs[0].created_at);
+			} else {
+				console.log('No successful builds found.');
+			}
+		})
+		.catch((error) => console.error('Failed to get latest build date. Error:', error));
+
+	return latestBuildDate;
 };
 
 export const getFileFromRepo = async (fileName, password) => {

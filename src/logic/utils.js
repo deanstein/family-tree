@@ -175,7 +175,7 @@ export const getBuildFormattedDate = (date) => {
 		day = '0' + day;
 	}
 
-	return year.concat(month).concat(day);
+	return year.concat('.' + month).concat('.' + day);
 };
 
 export const largest = (a, b) => {

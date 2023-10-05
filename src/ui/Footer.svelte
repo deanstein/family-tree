@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import {
 		deploymentRepoName,
+		getLatestBuildDateFromPublicRepo,
 		getLatestCommitDateFromPublicRepo
 	} from '../logic/persistence-management';
 	import { getBuildFormattedDate } from '../logic/utils';
@@ -10,7 +11,7 @@
 	export let appVersion;
 	export let schemaVersion;
 
-	let buildDate;
+	let buildDate = 'YYYY.MM.DD';
 	const copyrightYear = new Date().getFullYear();
 
 	const toggleDevTools = () => {
@@ -22,7 +23,7 @@
 
 	onMount(async () => {
 		// get the latest build date from the deployment repo
-		buildDate = getBuildFormattedDate(await getLatestCommitDateFromPublicRepo(deploymentRepoName));
+		buildDate = getBuildFormattedDate(await getLatestBuildDateFromPublicRepo(deploymentRepoName));
 	});
 </script>
 
