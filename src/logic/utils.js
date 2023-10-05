@@ -97,8 +97,9 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 		} else if (typeof dataToMatch[key] === 'object') {
 			deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 		}
-		return dataToChange;
 	}
+
+	return dataToChange;
 };
 
 export const setNestedObjectProperty = (obj, path, value) => {
