@@ -24,7 +24,7 @@
 		// do nothing if this is the "today" event (no death date)
 		if (
 			timelineEvent.eventType === timelineEventTypes.death.type &&
-			$uiState.activePerson.death.date === ''
+			!$uiState.activePerson.deceased
 		) {
 			return;
 		}

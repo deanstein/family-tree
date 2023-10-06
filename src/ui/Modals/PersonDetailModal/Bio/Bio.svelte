@@ -12,7 +12,7 @@
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
 	import InputContainer from '../../../InputContainer.svelte';
-	import Name from './Name.svelte';
+	import NameAge from './NameAge.svelte';
 	import Overlay from '../../Overlay.svelte';
 	import Selector from '../../../Select.svelte';
 	import SideBySideContainer from '../../../SideBySideContainer.svelte';
@@ -28,9 +28,12 @@
 	} from '../../../../logic/temp-management';
 	import { onMount } from 'svelte';
 	import { getPersonById } from '../../../../logic/person-management';
+	import { getNumberOfYearsBetweenEvents } from '../../../../logic/utils';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;
+
+	let age = 0;
 
 	// set the value of each input from the active person
 	let nameInputValue = $uiState.activePerson.name;
@@ -105,6 +108,12 @@
 		} else {
 			isBioEditActive = false;
 		}
+
+		age = getNumberOfYearsBetweenEvents(
+			$uiState.activePerson.birth.date,
+			$uiState.activePerson.deceased ? $uiState.activePerson.death.date : new Date()
+		);
+
 		// ensure that if the bio was edited from some other source,
 		// the latest is always shown by setting all inputs to UI State
 		syncAllInputs();
@@ -134,7 +143,7 @@
 	<div id="bio-avatar-container" class="bio-avatar-container">
 		<Avatar />
 	</div>
-	<Name isEnabled={isBioEditActive} bind:inputValue={nameInputValue} />
+	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
 	<div id="bio-facts" class="bio-facts">
 		<InputContainer label={personDetailStrings.altNames}>
 			<AlternateNames isEnabled={isBioEditActive} />
