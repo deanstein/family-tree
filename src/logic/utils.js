@@ -169,6 +169,24 @@ export const convertDateToUTC = (date) => {
 	);
 };
 
+export const getNumberOfYearsBetweenEvents = (startDate, endDate) => {
+	const correctedStartDate = new Date(startDate);
+	const correctedEndDate = new Date(endDate);
+
+	var years = correctedEndDate.getFullYear() - correctedStartDate.getFullYear();
+
+	// Subtract a year if the other date is earlier in the year than the birth date
+	if (
+		correctedEndDate.getMonth() < correctedStartDate.getMonth() ||
+		(correctedEndDate.getMonth() == correctedStartDate.getMonth() &&
+			correctedEndDate.getDate() < correctedStartDate.getDate())
+	) {
+		years--;
+	}
+
+	return years;
+};
+
 // build code is in this format:
 // yyyymmdd.nn where yyyymmdd is the date and nn is amount of commits
 // (only because it's apparently hard to get the total amount of deployments?)

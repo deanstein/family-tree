@@ -6,8 +6,14 @@ export const appChangelog = {
 	},
 	'v0.14.x': {
 		Overview:
-			'v0.14.x adds iconography support via FontAwesome and improves the styling and positioning of the timeline spine',
-		Changes: ['Added FontAwesome', 'Improved the timeline spine top and bottom positioning', 'Fixed various issues arising from bad object upgrade logic', 'Improve build code generation in footer']
+			'v0.14.x adds iconography support via FontAwesome, adds an age readout in the bio, and improves the styling and positioning of the timeline spine',
+		Changes: [
+			'Added FontAwesome',
+			'Added age readout to bio',
+			'Improved the timeline spine top and bottom positioning',
+			'Fixed various issues arising from bad object upgrade logic',
+			'Improve build code generation in footer'
+		]
 	},
 	'v0.13.x': {
 		Overview:
