@@ -184,6 +184,7 @@
 
 	.timeline-event-line {
 		display: flex;
+		flex-shrink: 0;
 		height: 0.5vh;
 		width: 2vw;
 	}
@@ -193,7 +194,7 @@
 		flex-basis: 0;
 		flex-grow: 1;
 		width: -webkit-fill-available;
-		padding: 5px;
+		padding: 5px 10px 5px 10px;
 		border-radius: 5px 5px 0px 0px;
 	}
 
