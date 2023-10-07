@@ -12,11 +12,13 @@
 	} from '../../../../logic/ui-management';
 	import timelineEventTypes from '../../../../schemas/timeline-event-types';
 	import uiState from '../../../../stores/ui-state';
+	import { getNumberOfYearsBetweenEvents } from '../../../../logic/utils';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
 
 	let eventDateCorrected;
+	let eventAge;
 	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
 	let eventRowDivRef;
 
@@ -64,7 +66,15 @@
 		background-color: ${stylingConstants.colors.textColor};
 	`;
 
+	const eventTitleBarDynamicClass = css`
+		background-color: ${stylingConstants.colors.timelineEventTitleBarColor};
+	`;
+
 	const eventFaIconDynamicClass = css`
+		color: ${stylingConstants.colors.textColor};
+	`;
+
+	const EventAgeDynamicClass = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
 
@@ -92,6 +102,11 @@
 				${eventRowDynamicClass}
 				grid-row: ${rowIndex};
 			`;
+
+			eventAge = getNumberOfYearsBetweenEvents(
+				$uiState.activePerson.birth.date,
+				eventDateCorrected
+			);
 		}
 	}
 </script>
@@ -117,12 +132,14 @@
 		</div>
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
-	<div
-		id="timeline-event-detail-line"
-		class="{eventDetailLineDynamicClass} timeline-event-detail-line"
-	/>
-	<div id="timeline-event-detail-content" class="timeline-event-detail-content">
-		<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
+	<div id="timeline-event-line" class="{eventDetailLineDynamicClass} timeline-event-line" />
+	<div id="timeline-event-content" class="timeline-event-content">
+		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
+			<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
+			<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
+				{eventAge}
+			</div>
+		</div>
 		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
 			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
 		</div>
@@ -165,10 +182,20 @@
 		aspect-ratio: 1;
 	}
 
-	.timeline-event-detail-line {
+	.timeline-event-line {
 		display: flex;
+		flex-shrink: 0;
 		height: 0.5vh;
 		width: 2vw;
+	}
+
+	.timeline-event-title-bar {
+		display: flex;
+		flex-basis: 0;
+		flex-grow: 1;
+		width: -webkit-fill-available;
+		padding: 5px 10px 5px 10px;
+		border-radius: 5px 5px 0px 0px;
 	}
 
 	/* font awesome icon */
@@ -178,12 +205,14 @@
 		font-size: 20px;
 	}
 
-	.timeline-event-detail-content {
+	.timeline-event-age {
+		padding-left: 10px;
+		font-style: italic;
+	}
+
+	.timeline-event-content {
 		display: flex;
-		gap: 10px;
-		flex-basis: 0;
-		flex-grow: 1;
-		flex-shrink: 1;
+		flex-direction: column;
 		padding: 3px;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -191,7 +220,7 @@
 	}
 
 	.timeline-event-text {
-		padding: 0 5px 0 5px;
-		border-radius: 5px;
+		padding: 5px 10px 5px 10px;
+		border-radius: 0px 0px 5px 5px;
 	}
 </style>
