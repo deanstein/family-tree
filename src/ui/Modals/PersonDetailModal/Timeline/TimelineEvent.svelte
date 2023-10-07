@@ -67,7 +67,7 @@
 	`;
 
 	const eventTitleBarDynamicClass = css`
-		background-color: ${stylingConstants.colors.nodeGroupHeaderColor};
+		background-color: ${stylingConstants.colors.timelineEventTitleBarColor};
 	`;
 
 	const eventFaIconDynamicClass = css`
