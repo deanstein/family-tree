@@ -74,6 +74,10 @@
 		color: ${stylingConstants.colors.textColor};
 	`;
 
+	const EventAgeDynamicClass = css`
+		color: ${stylingConstants.colors.textColor};
+	`;
+
 	const eventTextDynamicClass = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
@@ -132,7 +136,7 @@
 	<div id="timeline-event-content" class="timeline-event-content">
 		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
 			<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
-			<div id="timeline-event-age" class="timeline-event-age">
+			<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
 				{eventAge}
 			</div>
 		</div>
@@ -188,6 +192,7 @@
 		display: flex;
 		width: -webkit-fill-available;
 		padding: 5px;
+		border-radius: 5px 5px 0px 0px;
 	}
 
 	/* font awesome icon */
@@ -195,6 +200,11 @@
 		display: flex;
 		align-items: center;
 		font-size: 20px;
+	}
+
+	.timeline-event-age {
+		padding-left: 10px;
+		font-style: italic;
 	}
 
 	.timeline-event-content {
@@ -210,7 +220,7 @@
 	}
 
 	.timeline-event-text {
-		padding: 0 5px 0 5px;
-		border-radius: 5px;
+		padding: 5px 10px 5px 10px;
+		border-radius: 0px 0px 5px 5px;
 	}
 </style>
