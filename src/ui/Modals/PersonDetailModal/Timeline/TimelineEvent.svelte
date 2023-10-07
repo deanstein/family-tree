@@ -190,6 +190,8 @@
 
 	.timeline-event-title-bar {
 		display: flex;
+		flex-basis: 0;
+		flex-grow: 1;
 		width: -webkit-fill-available;
 		padding: 5px;
 		border-radius: 5px 5px 0px 0px;
@@ -210,9 +212,6 @@
 	.timeline-event-content {
 		display: flex;
 		flex-direction: column;
-		flex-basis: 0;
-		flex-grow: 1;
-		flex-shrink: 1;
 		padding: 3px;
 		overflow: hidden;
 		text-overflow: ellipsis;
