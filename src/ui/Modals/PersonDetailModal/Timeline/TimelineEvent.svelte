@@ -140,9 +140,12 @@
 				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
 					.icon}"
 			/>
-			<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
-				{eventAge}
-			</div>
+			<!-- hide age if this is the birth event -->
+			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
+				<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
+					{eventAge.toString() !== 'NaN' ? eventAge : ''}
+				</div>
+			{/if}
 		</div>
 		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
 			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
