@@ -3,7 +3,7 @@
 const timelineEventTypes = {
 	birth: {
 		type: 'birth',
-		icon: '',
+		icon: 'fa-wand-magic-sparkles',
 		content: {
 			birthdate: '',
 			birthtime: '',
@@ -14,7 +14,7 @@ const timelineEventTypes = {
 	},
 	death: {
 		type: 'death',
-		icon: '',
+		icon: 'fa-umbrella-beach',
 		content: {
 			deathDate: '',
 			deathTime: '',
@@ -24,14 +24,23 @@ const timelineEventTypes = {
 			media: []
 		}
 	},
+	today: {
+		type: 'today',
+		icon: 'fa-sun'
+	},
 	generic: {
 		type: 'generic',
-		icon: '',
+		icon: 'fa-rectangle-list',
 		content: {
 			associatedPeople: [],
 			additionalContext: '',
 			media: []
 		}
+	},
+	// also treat undefined type as generic
+	'': {
+		type: 'generic',
+		icon: 'fa-rectangle-list'
 	},
 	residence: {
 		type: 'residence',

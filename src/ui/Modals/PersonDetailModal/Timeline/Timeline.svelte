@@ -35,15 +35,16 @@
 	// dynamic classes using Emotion CSS
 	let timelineEventGridDynamicClass;
 
-	// define the two required events - birth and death (or today)
+	// set up the birth event with its static fields
+	// note that other fields are updated dynamically in a reactive block below
 	const birthEvent = instantiateObject(timelineEvent);
 	birthEvent.eventId = uuidv4();
 	birthEvent.eventType = timelineEventTypes.birth.type;
 	birthEvent.eventVersion = schemaVersion;
-
+	// set up the death event with its static fields - if not deceased, this is today
+	// note that other fields are updated dynamically in a reactive block below
 	const deathEvent = instantiateObject(timelineEvent);
 	deathEvent.eventId = uuidv4();
-	deathEvent.eventType = timelineEventTypes.death.type;
 	deathEvent.eventVersion = schemaVersion;
 
 	const onClickAddEventButton = () => {
@@ -91,6 +92,10 @@
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent = 'Born';
 		// ensure death event is kept updated
+		deathEvent.eventType =
+			$uiState.activePerson.death.date !== ''
+				? timelineEventTypes.death.type
+				: timelineEventTypes.today.type;
 		deathEvent.eventDate =
 			$uiState.activePerson.death.date !== ''
 				? $uiState.activePerson.death.date

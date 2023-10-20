@@ -19,7 +19,6 @@
 
 	let eventDateCorrected;
 	let eventAge;
-	let eventFaIcon = 'fa-rectangle-list'; // temporary; TODO: make this per event type
 	let eventRowDivRef;
 
 	const onTimelineEventClickAction = () => {
@@ -135,7 +134,10 @@
 	<div id="timeline-event-line" class="{eventDetailLineDynamicClass} timeline-event-line" />
 	<div id="timeline-event-content" class="timeline-event-content">
 		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
-			<i class="{eventFaIconDynamicClass} fa-solid {eventFaIcon}" />
+			<i
+				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent.eventType]
+					.icon}"
+			/>
 			<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
 				{eventAge}
 			</div>
