@@ -10,6 +10,7 @@ import { relationship } from '../schemas/relationship';
 import timelineRowItem from '../schemas/timeline-row-item';
 import timelineEventTypes from '../schemas/timeline-event-types';
 import { schemaVersion } from '../versions';
+import timelineEvent from '../schemas/timeline-event';
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different
@@ -322,7 +323,14 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 			case 'death':
 				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, {});
 				return eventToUpgrade;
+			default:
+				deepMatchObjects(timelineEvent, eventToUpgrade);
 		}
+	}
+	// legacy timeline events may not have a type defined
+	// if so, set these to generic
+	if (eventToUpgrade.eventType === '' || eventToUpgrade.eventType === undefined) {
+		eventToUpgrade.eventType = timelineEventTypes.generic.type;
 	}
 };
 

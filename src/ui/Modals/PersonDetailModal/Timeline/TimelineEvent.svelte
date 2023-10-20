@@ -29,7 +29,6 @@
 		) {
 			return;
 		}
-		upgradeTimelineEvent(timelineEvent);
 		setTimelineEditEvent(timelineEvent);
 	};
 
@@ -95,6 +94,9 @@
 
 	$: {
 		if (timelineEvent) {
+			// upgrade the timeline event so it has the right fields for downstream operations
+			upgradeTimelineEvent(timelineEvent);
+
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
 			eventRowDynamicClass = css`
@@ -135,7 +137,7 @@
 	<div id="timeline-event-content" class="timeline-event-content">
 		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
 			<i
-				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent.eventType]
+				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
 					.icon}"
 			/>
 			<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">

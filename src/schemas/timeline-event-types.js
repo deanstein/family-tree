@@ -37,11 +37,6 @@ const timelineEventTypes = {
 			media: []
 		}
 	},
-	// also treat undefined type as generic
-	'': {
-		type: 'generic',
-		icon: 'fa-rectangle-list'
-	},
 	residence: {
 		type: 'residence',
 		icon: '',
