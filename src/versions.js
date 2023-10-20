@@ -1,4 +1,4 @@
-export const appVersion = '0.14.5';
+export const appVersion = '0.14.6';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -9,6 +9,8 @@ export const appChangelog = {
 			'v0.14.x adds iconography support via FontAwesome, adds an age readout in the bio and on timeline events, and improves the styling and positioning of the timeline spine',
 		Changes: [
 			'Added FontAwesome',
+			'Added tree selection modal icons',
+			'Added timeline event icons',
 			'Added age readout to bio and timeline events',
 			'Improved the timeline spine top and bottom positioning',
 			'Fixed various issues arising from bad object upgrade logic',
