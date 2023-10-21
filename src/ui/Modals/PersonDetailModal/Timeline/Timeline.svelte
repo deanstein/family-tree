@@ -34,6 +34,9 @@
 
 	// dynamic classes using Emotion CSS
 	let timelineEventGridDynamicClass;
+	const timelineEventCountDynamicClass = css`
+		font-size: ${stylingConstants.sizes.bioFieldFontSize};
+	`;
 
 	// set up the birth event with its static fields
 	// note that other fields are updated dynamically in a reactive block below
@@ -115,6 +118,9 @@
 
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
+		<div id="timeline-event-count" class="{timelineEventCountDynamicClass} timeline-event-count">
+			Showing {timelineRowItems.length} timeline events
+		</div>
 		<Checkbox
 			isEnabled={true}
 			showLabel={true}
@@ -164,6 +170,12 @@
 		display: flex;
 		justify-content: right;
 		column-gap: 1vh;
+	}
+
+	.timeline-event-count {
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
 	}
 
 	.timeline-content-container {
