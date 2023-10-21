@@ -36,6 +36,7 @@
 	let timelineEventGridDynamicClass;
 	const timelineEventCountDynamicClass = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
+		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
 
 	// set up the birth event with its static fields
