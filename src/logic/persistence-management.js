@@ -217,3 +217,47 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
 };
+
+// temp code
+
+export const uploadFileToRepo = async (
+	repoName,
+	password,
+	filePath,
+	fileContent,
+	commitMessage
+) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+	const data = {
+		message: commitMessage,
+		content: btoa(fileContent) // Encode file content to Base64
+	};
+
+	await fetch(url, {
+		method: 'PUT',
+		headers: {
+			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+	})
+		.then((response) => response.json())
+		.then((data) => console.log(data))
+		.catch((error) => console.error('Failed to upload file. Error:', error));
+};
+
+export const readFileFromRepo = async (repoName, password, filePath) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+	await fetch(url, {
+		headers: {
+			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+		}
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			const fileContent = atob(data.content); // Decode file content from Base64
+			console.log(fileContent);
+		})
+		.catch((error) => console.error('Failed to read file. Error:', error));
+};

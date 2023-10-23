@@ -6,8 +6,8 @@
 	import uiState from '../../../../stores/ui-state';
 	import tempState from '../../../../stores/temp-state';
 
-	import Avatar from '../../../NodeView/PersonNode/Avatar.svelte';
 	import AlternateNames from './AlternateNames.svelte';
+	import BioPhoto from './BioPhoto.svelte';
 	import Checkbox from '../../../Checkbox.svelte';
 	import DatePicker from './DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
@@ -141,7 +141,7 @@
 		/>
 	</div>
 	<div id="bio-avatar-container" class="bio-avatar-container">
-		<Avatar />
+		<BioPhoto />
 	</div>
 	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
 	<div id="bio-facts" class="bio-facts">
