@@ -218,8 +218,6 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	}
 };
 
-// temp code
-
 export const uploadFileToRepo = async (
 	repoName,
 	password,
@@ -230,7 +228,7 @@ export const uploadFileToRepo = async (
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 	const data = {
 		message: commitMessage,
-		content: btoa(fileContent) // Encode file content to Base64
+		content: fileContent // File content is already in Base64
 	};
 
 	await fetch(url, {
