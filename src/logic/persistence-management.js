@@ -219,6 +219,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 };
 
 export const uploadFileToRepo = async (
+	repoOwner,
 	repoName,
 	password,
 	filePath,
@@ -226,22 +227,39 @@ export const uploadFileToRepo = async (
 	commitMessage
 ) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-	const data = {
-		message: commitMessage,
-		content: fileContent // File content is already in Base64
-	};
 
-	await fetch(url, {
-		method: 'PUT',
+	// First, check if the file exists
+	const response = await fetch(url, {
+		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
 			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(data)
-	})
-		.then((response) => response.json())
-		.then((data) => console.log(data))
-		.catch((error) => console.error('Failed to upload file. Error:', error));
+		}
+	});
+
+	if (response.ok) {
+		const existingFileData = await response.json();
+		const data = {
+			message: commitMessage,
+			content: fileContent, // File content is already in Base64
+			sha: existingFileData.sha // Include the SHA of the existing file for update
+		};
+
+		// Upload or update the file
+		await fetch(url, {
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+			.then((response) => response.json())
+			.then((data) => console.log(data))
+			.catch((error) => console.error('Failed to upload file. Error:', error));
+	} else {
+		console.error('Failed to check if file exists. Error:', response.statusText);
+	}
 };
 
 export const readFileFromRepo = async (repoName, password, filePath) => {

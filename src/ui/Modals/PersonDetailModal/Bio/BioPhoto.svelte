@@ -1,5 +1,9 @@
 <script>
-	import { dataRepoName, uploadFileToRepo } from '../../../../logic/persistence-management';
+	import {
+		dataRepoName,
+		repoOwner,
+		uploadFileToRepo
+	} from '../../../../logic/persistence-management';
 
 	let allowEdit = true;
 	let imageUrl;
@@ -12,6 +16,7 @@
 			// @ts-expect-error
 			const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
 			await uploadFileToRepo(
+				repoOwner,
 				dataRepoName,
 				'8890',
 				'test/image.jpg',
