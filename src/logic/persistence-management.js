@@ -322,10 +322,7 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 			const fileContent = atob(data.content); // Decode file content from Base64
 			return fileContent;
 		} else {
-			throw new Error(`Failed to read file. Status: ${response.status}`);
 		}
 	} catch (error) {
-		console.error('Failed to read file. Error:', error);
-		throw error;
 	}
 };

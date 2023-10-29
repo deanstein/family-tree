@@ -27,7 +27,6 @@
 				$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg'
 			);
 		} catch (error) {
-			console.error('Error reading file:', error);
 		}
 	};
 
@@ -70,7 +69,7 @@
 		imageUrl = bioPhotoContent
 			? 'data:image/jpeg;base64,' + btoa(bioPhotoContent)
 			: './img/avatar-placeholder.jpg';
-		getAndShowBioPhoto();
+		//getAndShowBioPhoto();
 	}
 </script>
 
