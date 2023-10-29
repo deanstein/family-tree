@@ -1,44 +1,47 @@
 import CryptoJS from 'crypto-js';
 import {
+	repoOwner,
 	deploymentRepoName,
 	getLatestBuildDateFromPublicRepo,
 	getTotalCommitsInPublicRepo
 } from './persistence-management';
 
-//const encrypted = 'U2FsdGVkX18x2XAsTT+ga0NaH8JuAQJMIH0suT4KwFD2RFcke1+1GijSWbLsQKGH'
-
 export const decrypt = (encrypted, password) => {
-	// TODO: add password input
-	// var password = document.getElementById('pw').value;
-	// console.log('Decrypting with password: ', password);
+	try {
+		var encryptedWA = CryptoJS.enc.Base64.parse(encrypted);
+		var saltWA = CryptoJS.lib.WordArray.create(encryptedWA.words.slice(8 / 4, 16 / 4));
+		var ciphertextWA = CryptoJS.lib.WordArray.create(
+			encryptedWA.words.slice(16 / 4, encryptedWA.words.length)
+		);
 
-	var encryptedWA = CryptoJS.enc.Base64.parse(encrypted);
-	var saltWA = CryptoJS.lib.WordArray.create(encryptedWA.words.slice(8 / 4, 16 / 4)); // 8 bytes salt: 0x0123456789ABCDEF
-	var ciphertextWA = CryptoJS.lib.WordArray.create(
-		encryptedWA.words.slice(16 / 4, encryptedWA.words.length)
-	); // ciphertext
+		var keyIvWA = CryptoJS.PBKDF2(password, saltWA, {
+			keySize: (32 + 16) / 4,
+			iterations: 10000,
+			hasher: CryptoJS.algo.SHA256
+		});
+		var keyWA = CryptoJS.lib.WordArray.create(keyIvWA.words.slice(0, 32 / 4));
+		var ivWA = CryptoJS.lib.WordArray.create(keyIvWA.words.slice(32 / 4, (32 + 16) / 4));
 
-	// Determine key and IV using PBKDF2
-	var keyIvWA = CryptoJS.PBKDF2(password, saltWA, {
-		keySize: (32 + 16) / 4, // key and IV
-		iterations: 10000,
-		hasher: CryptoJS.algo.SHA256
-	});
-	var keyWA = CryptoJS.lib.WordArray.create(keyIvWA.words.slice(0, 32 / 4));
-	var ivWA = CryptoJS.lib.WordArray.create(keyIvWA.words.slice(32 / 4, (32 + 16) / 4));
+		var decryptedWA = CryptoJS.AES.decrypt(
+			// @ts-ignore
+			{
+				ciphertext: ciphertextWA
+			},
+			keyWA,
+			{
+				iv: ivWA
+			}
+		);
+		var decrypted = decryptedWA.toString(CryptoJS.enc.Utf8);
 
-	// Decrypt
-	var decryptedWA = CryptoJS.AES.decrypt(
-		{
-			ciphertext: ciphertextWA
-		},
-		keyWA,
-		{
-			iv: ivWA
+		if (decrypted === '') {
+			throw new Error('Incorrect password. Decryption failed.');
 		}
-	);
-	var decrypted = decryptedWA.toString(CryptoJS.enc.Utf8);
-	return decrypted;
+
+		return decrypted;
+	} catch (error) {
+		throw new Error('Error decrypting: ' + error.message);
+	}
 };
 
 export const areObjectsEqual = (obj1, obj2) => {
@@ -191,8 +194,8 @@ export const getNumberOfYearsBetweenEvents = (startDate, endDate) => {
 // yyyymmdd.nn where yyyymmdd is the date and nn is amount of commits
 // (only because it's apparently hard to get the total amount of deployments?)
 export const getBuildCode = async () => {
-	const buildDate = await getLatestBuildDateFromPublicRepo(deploymentRepoName);
-	const buildNumber = await getTotalCommitsInPublicRepo(deploymentRepoName);
+	const buildDate = await getLatestBuildDateFromPublicRepo(repoOwner, deploymentRepoName);
+	const buildNumber = await getTotalCommitsInPublicRepo(repoOwner, deploymentRepoName);
 	const newDate = new Date(buildDate);
 	const year = newDate.getFullYear().toString();
 	let month = (newDate.getMonth() + 1).toString();
