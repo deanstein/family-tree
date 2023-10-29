@@ -28,5 +28,6 @@ export const person = {
 		});
 		return relationships;
 	})(),
-	timelineEvents: []
+	timelineEvents: [],
+	bioPhotoUrl: ''
 };

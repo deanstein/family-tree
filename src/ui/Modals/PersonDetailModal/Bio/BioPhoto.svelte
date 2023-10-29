@@ -1,37 +1,67 @@
 <script>
+	import { onMount } from 'svelte';
 	import {
 		dataRepoName,
 		repoOwner,
-		uploadFileToRepo
+		uploadFileToRepo,
+		bioPhotoFileName,
+		readFileFromRepo
 	} from '../../../../logic/persistence-management';
+	import { setPersonBioPhotoUrl } from '../../../../logic/person-management';
+	import { checkPersonForUnsavedChanges } from '../../../../logic/temp-management';
+
+	import uiState from '../../../../stores/ui-state';
 
 	let allowEdit = true;
 	let imageUrl;
 	let file;
+	let bioPhotoContent;
 
 	async function handleFileUpload(event) {
 		file = event.target.files[0];
 		const reader = new FileReader();
+		let url = undefined;
 		reader.onloadend = async function () {
 			// @ts-expect-error
 			const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-			await uploadFileToRepo(
+			url = await uploadFileToRepo(
 				repoOwner,
 				dataRepoName,
 				'8890',
-				'test/image.jpg',
+				$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg',
 				base64String,
 				'Upload image test'
 			);
+
+			console.log('URL: ' + url);
+
+			// Call setPersonBioPhotoUrl after the async function is done
+			setPersonBioPhotoUrl(url);
+			checkPersonForUnsavedChanges($uiState.activePerson.id);
 		};
 		reader.readAsDataURL(file);
 	}
+
+	onMount(async () => {
+		try {
+			bioPhotoContent = await readFileFromRepo(
+				repoOwner,
+				dataRepoName,
+				'8890',
+				$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg'
+			);
+		} catch (error) {
+			console.error('Error reading file:', error);
+		}
+	});
 </script>
 
 <div id="bio-photo-container" class="bio-photo-container">
 	<div id="avatar-container" class="avatar-container">
 		<img
-			src="./img/avatar-placeholder.jpg"
+			src={bioPhotoContent === undefined
+				? './img/avatar-placeholder.jpg'
+				: 'data:image/jpeg;base64,' + btoa(bioPhotoContent)}
 			id="avatar-image"
 			class="avatar-image"
 			alt="avatar of this person"
@@ -42,12 +72,6 @@
 			<input type="file" on:change={handleFileUpload} />
 		{/if}
 	</div>
-	{#if imageUrl}
-		<!-- Check if imageUrl is not null or undefined -->
-		<img src={imageUrl} alt="Uploaded image" />
-	{:else}
-		<p>Loading image...</p>
-	{/if}
 </div>
 
 <style>
@@ -58,8 +82,10 @@
 	}
 
 	.avatar-container {
+		display: flex;
 		height: 100%;
 		overflow: hidden;
+		justify-content: center;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: lightgray;

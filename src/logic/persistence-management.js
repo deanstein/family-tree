@@ -7,7 +7,7 @@ import { decrypt } from './utils';
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
-export const profilePhotoFileName = 'profile-photo';
+export const bioPhotoFileName = 'bio-photo';
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
 
@@ -104,20 +104,10 @@ export const getFamilyTreeDataFromRepo = async (
 	}
 
 	// get the file name from which to read the json data
-	const familyTreeDataFileName = await getFamilyTreeDataFileName(
-		repoOwner,
-		dataRepoName,
-		familyTreeDataId,
-		password
-	);
+	const familyTreeDataFileName = await getFamilyTreeDataFileName(repoOwner, dataRepoName, familyTreeDataId, password);
 
 	// the final family tree data is a json object
-	const familyTreeData = await getFileFromRepo(
-		repoOwner,
-		dataRepoName,
-		familyTreeDataFileName,
-		password
-	);
+	const familyTreeData = await getFileFromRepo(repoOwner, dataRepoName, familyTreeDataFileName, password);
 
 	if (showNotifications === true) {
 		setRepoState(repoStateStrings.loadSuccessful);
@@ -126,19 +116,9 @@ export const getFamilyTreeDataFromRepo = async (
 	return familyTreeData;
 };
 
-export const getFamilyTreeDataFileName = async (
-	repoOwner,
-	reponame,
-	familyTreeDataId,
-	password
-) => {
+export const getFamilyTreeDataFileName = async (repoOwner, reponame, familyTreeDataId, password) => {
 	// first, get the family tree data map
-	const familyTreeDataMap = await getFileFromRepo(
-		repoOwner,
-		reponame,
-		'family-tree-data-map.json',
-		password
-	);
+	const familyTreeDataMap = await getFileFromRepo(repoOwner, reponame, 'family-tree-data-map.json', password);
 
 	// get the family tree data from the map by id
 	const foundMapData = Object.values(familyTreeDataMap).find(
@@ -169,12 +149,7 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		currentFamilyTreeData = currentValue;
 	});
 
-	familyTreeDataFileName = await getFamilyTreeDataFileName(
-		repoOwner,
-		dataRepoName,
-		familyTreeId,
-		password
-	);
+	familyTreeDataFileName = await getFamilyTreeDataFileName(repoOwner, dataRepoName, familyTreeId, password);
 
 	setRepoState(repoStateStrings.saving);
 
@@ -245,61 +220,87 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 };
 
 export const uploadFileToRepo = async (
-	repoOwner,
-	repoName,
-	password,
-	filePath,
-	fileContent,
-	commitMessage
+    repoOwner,
+    repoName,
+    password,
+    filePath,
+    fileContent,
+    commitMessage
 ) => {
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 
-	// First, check if the file exists
-	const response = await fetch(url, {
-		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-			'Content-Type': 'application/json'
-		}
-	});
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+            'Content-Type': 'application/json'
+        }
+    });
 
-	if (response.ok) {
-		const existingFileData = await response.json();
-		const data = {
-			message: commitMessage,
-			content: fileContent, // File content is already in Base64
-			sha: existingFileData.sha // Include the SHA of the existing file for update
-		};
+    if (response.ok) {
+        const existingFileData = await response.json();
+        const data = {
+            message: commitMessage,
+            content: fileContent,
+            sha: existingFileData.sha
+        };
 
-		// Upload or update the file
-		await fetch(url, {
-			method: 'PUT',
-			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-			.catch((error) => console.error('Failed to upload file. Error:', error));
-	} else {
-		console.error('Failed to check if file exists. Error:', response.statusText);
-	}
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const updatedData = await updateResponse.json();
+        const updatedUrl = updatedData.content.url;
+
+        return updatedUrl;
+    } else {
+        console.log("^ The above error is expected. This photo wasn't already present.");
+
+        const data = {
+            message: commitMessage,
+            content: fileContent
+        };
+
+        const uploadResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const uploadedData = await uploadResponse.json();
+        const uploadedUrl = uploadedData.content.url;
+
+        return uploadedUrl;
+    }
 };
 
 export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 
-	await fetch(url, {
-		headers: {
-			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-		}
-	})
-		.then((response) => response.json())
-		.then((data) => {
-			const fileContent = atob(data.content); // Decode file content from Base64
-			console.log(fileContent);
-		})
-		.catch((error) => console.error('Failed to read file. Error:', error));
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const fileContent = atob(data.content); // Decode file content from Base64
+            return fileContent;
+        } else {
+            throw new Error(`Failed to read file. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Failed to read file. Error:', error);
+        throw error;
+    }
 };
