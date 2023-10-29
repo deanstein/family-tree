@@ -148,6 +148,13 @@ export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
 	});
 };
 
+export const unsetPersonBioPhotoUrl = () => {
+	uiState.update((currentValue) => {
+		currentValue.activePerson.bioPhotoUrl = undefined;
+		return currentValue;
+	});
+};
+
 export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRelationshipId) => {
 	removePersonFromActivePersonGroup(sPersonId, sExistingRelationshipId);
 	addOrUpdatePersonInActivePersonGroup(sPersonId, sNewRelationshipId);
