@@ -11,7 +11,8 @@
 
 	import uiState from '../../../../stores/ui-state';
 
-	let allowEdit = true;
+	export let allowEdit;
+	
 	let imageUrl;
 	let file;
 	let bioPhotoContent;
