@@ -12,21 +12,27 @@
 	import uiState from '../../../../stores/ui-state';
 
 	export let allowEdit;
-	
+
 	let imageUrl;
 	let file;
 	let bioPhotoContent;
 	let fileReader;
 
 	const getAndShowBioPhoto = async () => {
-		try {
-			bioPhotoContent = await readFileFromRepo(
-				repoOwner,
-				dataRepoName,
-				'8890',
-				$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg'
-			);
-		} catch (error) {
+		// only try fetching the photo from the repo
+		// if the person has a bioPhotoUrl field
+		if (
+			$uiState.activePerson.bioPhotoUrl !== '' &&
+			$uiState.activePerson.bioPhotoUrl !== undefined
+		) {
+			try {
+				bioPhotoContent = await readFileFromRepo(
+					repoOwner,
+					dataRepoName,
+					'8890',
+					$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg'
+				);
+			} catch (error) {}
 		}
 	};
 
@@ -69,7 +75,6 @@
 		imageUrl = bioPhotoContent
 			? 'data:image/jpeg;base64,' + btoa(bioPhotoContent)
 			: './img/avatar-placeholder.jpg';
-		//getAndShowBioPhoto();
 	}
 </script>
 

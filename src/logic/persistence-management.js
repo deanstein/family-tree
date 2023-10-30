@@ -323,6 +323,5 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 			return fileContent;
 		} else {
 		}
-	} catch (error) {
-	}
+	} catch (error) {}
 };
