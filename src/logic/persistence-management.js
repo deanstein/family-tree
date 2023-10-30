@@ -7,10 +7,11 @@ import { decrypt } from './utils';
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
+export const bioPhotoFileName = 'bio-photo';
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
 
-export const getLatestCommitDateFromPublicRepo = async (repoName) => {
+export const getLatestCommitDateFromPublicRepo = async (repoOwner, repoName) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/main`;
 	let latestCommitDate;
 
@@ -24,7 +25,7 @@ export const getLatestCommitDateFromPublicRepo = async (repoName) => {
 	return latestCommitDate;
 };
 
-export const getLatestBuildDateFromPublicRepo = async (repoName) => {
+export const getLatestBuildDateFromPublicRepo = async (repoOwner, repoName) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/actions/runs?status=success`;
 	let latestBuildDate;
 
@@ -42,7 +43,7 @@ export const getLatestBuildDateFromPublicRepo = async (repoName) => {
 	return latestBuildDate;
 };
 
-export const getTotalCommitsInPublicRepo = async (repoName) => {
+export const getTotalCommitsInPublicRepo = async (repoOwner, repoName) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`;
 	let totalCommits = 0;
 
@@ -62,9 +63,9 @@ export const getTotalCommitsInPublicRepo = async (repoName) => {
 	return totalCommits;
 };
 
-export const getFileFromRepo = async (fileName, password) => {
+export const getFileFromRepo = async (repoOwner, repoName, fileName, password) => {
 	let fileData = undefined;
-	const url = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${fileName}`;
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`;
 
 	await fetch(url, {
 		headers: {
@@ -103,10 +104,20 @@ export const getFamilyTreeDataFromRepo = async (
 	}
 
 	// get the file name from which to read the json data
-	const familyTreeDataFileName = await getFamilyTreeDataFileName(familyTreeDataId, password);
+	const familyTreeDataFileName = await getFamilyTreeDataFileName(
+		repoOwner,
+		dataRepoName,
+		familyTreeDataId,
+		password
+	);
 
 	// the final family tree data is a json object
-	const familyTreeData = await getFileFromRepo(familyTreeDataFileName, password);
+	const familyTreeData = await getFileFromRepo(
+		repoOwner,
+		dataRepoName,
+		familyTreeDataFileName,
+		password
+	);
 
 	if (showNotifications === true) {
 		setRepoState(repoStateStrings.loadSuccessful);
@@ -115,9 +126,19 @@ export const getFamilyTreeDataFromRepo = async (
 	return familyTreeData;
 };
 
-export const getFamilyTreeDataFileName = async (familyTreeDataId, password) => {
+export const getFamilyTreeDataFileName = async (
+	repoOwner,
+	reponame,
+	familyTreeDataId,
+	password
+) => {
 	// first, get the family tree data map
-	const familyTreeDataMap = await getFileFromRepo('family-tree-data-map.json', password);
+	const familyTreeDataMap = await getFileFromRepo(
+		repoOwner,
+		reponame,
+		'family-tree-data-map.json',
+		password
+	);
 
 	// get the family tree data from the map by id
 	const foundMapData = Object.values(familyTreeDataMap).find(
@@ -148,7 +169,12 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		currentFamilyTreeData = currentValue;
 	});
 
-	familyTreeDataFileName = await getFamilyTreeDataFileName(familyTreeId, password);
+	familyTreeDataFileName = await getFamilyTreeDataFileName(
+		repoOwner,
+		dataRepoName,
+		familyTreeId,
+		password
+	);
 
 	setRepoState(repoStateStrings.saving);
 
@@ -216,4 +242,86 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		setRepoState(repoStateStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
+};
+
+export const uploadFileToRepo = async (
+	repoOwner,
+	repoName,
+	password,
+	filePath,
+	fileContent,
+	commitMessage
+) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+	const response = await fetch(url, {
+		method: 'GET',
+		headers: {
+			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+			'Content-Type': 'application/json'
+		}
+	});
+
+	if (response.ok) {
+		const existingFileData = await response.json();
+		const data = {
+			message: commitMessage,
+			content: fileContent,
+			sha: existingFileData.sha
+		};
+
+		const updateResponse = await fetch(url, {
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+
+		const updatedData = await updateResponse.json();
+		const updatedUrl = updatedData.content.url;
+
+		return updatedUrl;
+	} else {
+		console.log("^ The above error is expected. This photo wasn't already present.");
+
+		const data = {
+			message: commitMessage,
+			content: fileContent
+		};
+
+		const uploadResponse = await fetch(url, {
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+
+		const uploadedData = await uploadResponse.json();
+		const uploadedUrl = uploadedData.content.url;
+
+		return uploadedUrl;
+	}
+};
+
+export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			const fileContent = atob(data.content); // Decode file content from Base64
+			return fileContent;
+		} else {
+		}
+	} catch (error) {}
 };

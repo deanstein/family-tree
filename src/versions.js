@@ -1,8 +1,12 @@
-export const appVersion = '0.14.7';
+export const appVersion = '0.15.0';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
+	},
+	'v0.15.x': {
+		Overview: 'v0.15.x adds the ability to set photos',
+		Changes: ['Added the ability to set a profile photo']
 	},
 	'v0.14.x': {
 		Overview:
@@ -125,8 +129,12 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.10.2';
+export const schemaVersion = '0.11.0';
 export const schemaChangelog = {
+	'v0.11.x': {
+		Overview: 'v0.11.x adds support for uploading images including a bio photo.',
+		Changes: ['Added ability to upload, replace, and delete images in GitHub']
+	},
 	'v0.10.x': {
 		Overview:
 			'v0.10.x adds timeline support for each person and support for different timeline event types.',

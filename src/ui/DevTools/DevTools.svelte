@@ -2,10 +2,7 @@
 	import StoreView from './StoreView.svelte';
 	import DevToolbar from './DevToolbar.svelte';
 
-	import {
-		getFamilyTreeDataFromRepo,
-		writeCurrentFamilyTreeDataToRepo
-	} from '../../logic/persistence-management';
+	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import uiState from '../../stores/ui-state';
 	import FamilyTreeDataSelector from '../FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
@@ -16,6 +13,7 @@
 	} from '../../logic/ui-management';
 	import { repoStateStrings } from '../strings';
 	import tempState from '../../stores/temp-state';
+	import { checkPersonForUnsavedChanges } from '../../logic/temp-management';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo('8890');
@@ -65,6 +63,11 @@
 		<button on:click={toggleChooseTreeModal}>
 			{!$uiState.showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
+		<button
+			on:click={() => {
+				checkPersonForUnsavedChanges($uiState.activePerson.id);
+			}}>Check For Unsaved Changes</button
+		>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
 	</DevToolbar>

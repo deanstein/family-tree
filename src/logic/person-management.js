@@ -141,6 +141,20 @@ export const setPersonName = (sPersonId, sName) => {
 	});
 };
 
+export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
+	uiState.update((currentValue) => {
+		currentValue.activePerson.bioPhotoUrl = bioPhotoUrl;
+		return currentValue;
+	});
+};
+
+export const unsetPersonBioPhotoUrl = () => {
+	uiState.update((currentValue) => {
+		currentValue.activePerson.bioPhotoUrl = undefined;
+		return currentValue;
+	});
+};
+
 export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRelationshipId) => {
 	removePersonFromActivePersonGroup(sPersonId, sExistingRelationshipId);
 	addOrUpdatePersonInActivePersonGroup(sPersonId, sNewRelationshipId);
