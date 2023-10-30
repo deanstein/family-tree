@@ -1,10 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
-	import Portal from 'svelte-portal';
-
-	import { quintOut } from 'svelte/easing';
-	import { crossfade } from 'svelte/transition';
 
 	import relationshipMap from '../../../schemas/relationship-map';
 	import tempState from '../../../stores/temp-state';
@@ -70,7 +66,8 @@
 		id="person-node-content-area"
 		class="{personNodeContentAreaDynamicClass} person-node-content-area"
 	>
-		<BioPhoto personId={$tempState.nodeEditPersonId} allowEdit={false} />
+		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
+
 		<div id="person-node-inputs-container" class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}
@@ -78,7 +75,7 @@
 				useFunction={isNewPerson ? useFunction : undefined}
 				{onKeyUpFunction}
 			/>
-			{#if $tempState.nodeEditPersonId !== $uiState.activePerson.id}
+			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id}
 				<div class="select-container">
 					<Select
 						optionValueKey="id"

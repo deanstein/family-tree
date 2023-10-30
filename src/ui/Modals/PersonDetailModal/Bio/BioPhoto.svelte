@@ -22,7 +22,7 @@
 	const getAndShowBioPhoto = async () => {
 		// only try fetching the photo from the repo
 		// if the person has a bioPhotoUrl field
-		if (person.bioPhotoUrl !== '' && person.bioPhotoUrl !== undefined) {
+		if (person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined) {
 			try {
 				bioPhotoContent = await readFileFromRepo(
 					repoOwner,
