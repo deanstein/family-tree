@@ -7,10 +7,9 @@
 		bioPhotoFileName,
 		readFileFromRepo
 	} from '../../../../logic/persistence-management';
-	import { setPersonBioPhotoUrl } from '../../../../logic/person-management';
+	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
 
-	import uiState from '../../../../stores/ui-state';
-
+	export let personId;
 	export let allowEdit;
 
 	let imageUrl;
@@ -18,19 +17,18 @@
 	let bioPhotoContent;
 	let fileReader;
 
+	let person = getPersonById(personId);
+
 	const getAndShowBioPhoto = async () => {
 		// only try fetching the photo from the repo
 		// if the person has a bioPhotoUrl field
-		if (
-			$uiState.activePerson.bioPhotoUrl !== '' &&
-			$uiState.activePerson.bioPhotoUrl !== undefined
-		) {
+		if (person.bioPhotoUrl !== '' && person.bioPhotoUrl !== undefined) {
 			try {
 				bioPhotoContent = await readFileFromRepo(
 					repoOwner,
 					dataRepoName,
 					'8890',
-					$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg'
+					person.id + '/' + bioPhotoFileName + '.jpg'
 				);
 			} catch (error) {}
 		}
@@ -43,7 +41,7 @@
 				repoOwner,
 				dataRepoName,
 				'8890',
-				$uiState.activePerson.id + '/' + bioPhotoFileName + '.jpg',
+				person.id + '/' + bioPhotoFileName + '.jpg',
 				base64String,
 				'Upload image test'
 			);
@@ -78,25 +76,20 @@
 	}
 </script>
 
-<div id="bio-photo-container" class="bio-photo-container">
-	<div id="avatar-container" class="avatar-container">
-		<img src={imageUrl} id="avatar-image" class="avatar-image" alt="avatar of this person" />
-	</div>
-	<div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
-		{#if allowEdit}
-			<input type="file" on:change={handleFileUpload} />
-		{/if}
-	</div>
+<div id="avatar-container" class="avatar-container">
+	<img src={imageUrl} id="avatar-image" class="avatar-image" alt="avatar of this person" />
+</div>
+<div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
+	{#if allowEdit}
+		<input type="file" on:change={handleFileUpload} />
+	{/if}
 </div>
 
 <style>
-	.bio-photo-container {
+	.avatar-container {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-	}
-
-	.avatar-container {
 		display: flex;
 		height: 100%;
 		overflow: hidden;
@@ -107,8 +100,8 @@
 	}
 
 	.avatar-image {
+		object-fit: cover;
 		height: 100%;
-		scale: 1.1; /* temporarily account for placeholder avatar */
 	}
 
 	.avatar-edit-button-overlay {

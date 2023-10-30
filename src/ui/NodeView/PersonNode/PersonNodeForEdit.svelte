@@ -11,7 +11,7 @@
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 
-	import Avatar from './Avatar.svelte';
+	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Select from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
@@ -70,7 +70,7 @@
 		id="person-node-content-area"
 		class="{personNodeContentAreaDynamicClass} person-node-content-area"
 	>
-		<Avatar />
+		<BioPhoto personId={$tempState.nodeEditPersonId} allowEdit={false} />
 		<div id="person-node-inputs-container" class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}

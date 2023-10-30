@@ -15,7 +15,7 @@
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
-	import Avatar from './Avatar.svelte';
+	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
 	import NodeActionsButton from './NodeActionsButton.svelte';
 	import RelationshipLabel from './RelationshipLabel.svelte';
 	import NameLabel from './NameLabel.svelte';
@@ -158,7 +158,7 @@
 			id="person-node-content-area"
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
-			<Avatar />
+			<BioPhoto personId={sPersonId} allowEdit={false} />
 			<NameLabel sInputValue={name} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}
 				<RelationshipLabel relationshipName={relationshipLabel} />

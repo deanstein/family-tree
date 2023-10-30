@@ -17,7 +17,7 @@
 
 	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
 
-	import Avatar from './Avatar.svelte';
+	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';
 
 	export let sPersonId;
@@ -50,7 +50,7 @@
 	on:keydown|stopPropagation
 >
 	<div id="person-node-content-area" class="person-node-content-area">
-		<Avatar />
+		<BioPhoto personId={sPersonId} allowEdit={false} />
 		<NameInput sInputValue={getPersonById(sPersonId)?.name} />
 	</div>
 </div>

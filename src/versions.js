@@ -6,7 +6,10 @@ export const appChangelog = {
 	},
 	'v0.15.x': {
 		Overview: 'v0.15.x adds the ability to set a bio photo',
-		Changes: ['Added support for a bio photo', 'Added additional GitHub file i/o functions for setting and updating files']
+		Changes: [
+			'Added support for a bio photo',
+			'Added additional GitHub file i/o functions for setting and updating files'
+		]
 	},
 	'v0.14.x': {
 		Overview:
