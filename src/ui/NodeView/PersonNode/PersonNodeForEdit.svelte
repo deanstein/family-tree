@@ -1,17 +1,13 @@
 <script>
 	import { css } from '@emotion/css';
 	import { onMount } from 'svelte';
-	import Portal from 'svelte-portal';
-
-	import { quintOut } from 'svelte/easing';
-	import { crossfade } from 'svelte/transition';
 
 	import relationshipMap from '../../../schemas/relationship-map';
 	import tempState from '../../../stores/temp-state';
 	import uiState from '../../../stores/ui-state';
 	import stylingConstants from '../../styling-constants';
 
-	import Avatar from './Avatar.svelte';
+	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '../PersonNodeScrollingWindow/PersonNodeScrollingWindow.svelte';
 	import Select from '../../Select.svelte';
 	import TextInput from '../../TextInput.svelte';
@@ -70,7 +66,8 @@
 		id="person-node-content-area"
 		class="{personNodeContentAreaDynamicClass} person-node-content-area"
 	>
-		<Avatar />
+		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
+
 		<div id="person-node-inputs-container" class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}
@@ -78,7 +75,7 @@
 				useFunction={isNewPerson ? useFunction : undefined}
 				{onKeyUpFunction}
 			/>
-			{#if $tempState.nodeEditPersonId !== $uiState.activePerson.id}
+			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id}
 				<div class="select-container">
 					<Select
 						optionValueKey="id"
