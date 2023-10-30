@@ -228,6 +228,7 @@
 	}
 
 	.bio-avatar-container {
+		position: relative;
 		width: 20vh;
 		height: 20vh;
 	}

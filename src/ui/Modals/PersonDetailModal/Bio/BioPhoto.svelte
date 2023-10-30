@@ -106,9 +106,8 @@
 
 	.avatar-edit-button-overlay {
 		position: absolute;
+		top: 50%;
 		display: flex;
 		align-items: center;
-		height: -webkit-fill-available;
-		height: -moz-available;
 	}
 </style>
