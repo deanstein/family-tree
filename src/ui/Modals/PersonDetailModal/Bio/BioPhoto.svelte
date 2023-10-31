@@ -5,7 +5,8 @@
 		repoOwner,
 		uploadFileToRepo,
 		bioPhotoFileName,
-		readFileFromRepo
+		readFileFromRepo,
+		getExtensionFromUrl
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
 
@@ -16,10 +17,16 @@
 	let file;
 	let bioPhotoContent;
 	let fileReader;
+	let fileExtension;
 
 	let person = getPersonById(personId);
 
 	const getAndShowBioPhoto = async () => {
+		// skip entirely if the bio photo URL isn't defined
+		if (!person?.bioPhotoUrl) {
+			return;
+		}
+
 		// only try fetching the photo from the repo
 		// if the person has a bioPhotoUrl field
 		if (person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined) {
@@ -28,7 +35,7 @@
 					repoOwner,
 					dataRepoName,
 					'8890',
-					person.id + '/' + bioPhotoFileName + '.jpg'
+					person.id + '/' + bioPhotoFileName + fileExtension
 				);
 			} catch (error) {}
 		}
@@ -36,12 +43,17 @@
 
 	const uploadBioPhotoFromFileReader = async () => {
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
+
+		// Get the file extension from the file name
+		const fileName = file.name;
+		const fileExtension = fileName.split('.').pop();
+
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				dataRepoName,
 				'8890',
-				person.id + '/' + bioPhotoFileName + '.jpg',
+				`${person.id}/${bioPhotoFileName}.${fileExtension}`,
 				base64String,
 				'Upload image test'
 			);
@@ -73,6 +85,7 @@
 		imageUrl = bioPhotoContent
 			? 'data:image/jpeg;base64,' + btoa(bioPhotoContent)
 			: './img/avatar-placeholder.jpg';
+		fileExtension = getExtensionFromUrl(imageUrl);
 	}
 </script>
 

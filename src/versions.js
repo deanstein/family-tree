@@ -5,7 +5,8 @@ export const appChangelog = {
 		Changes: ['Added password protection to the ChooseTree dialog']
 	},
 	'v0.15.x': {
-		Overview: 'v0.15.x adds the ability to set a biographic photo, and displays bio photos in the tree view and the detail view.',
+		Overview:
+			'v0.15.x adds the ability to set a biographic photo, and displays bio photos in the tree view and the detail view.',
 		Changes: [
 			'Added schema support for a bio photo',
 			'Replaced Avatar with BioPhoto in Bio and all PersonNode variants',

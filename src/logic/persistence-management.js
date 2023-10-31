@@ -244,6 +244,44 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	}
 };
 
+export const getExtensionFromUrl = (url) => {
+	let fileExtensionWithDot;
+
+	if (url) {
+		// Regular expression to match the file extension
+		const fileExtensionRegex = /(?:\.([^.]+))?$/;
+
+		// Extract the file extension
+		const matches = url.match(fileExtensionRegex);
+		const fileExtension = matches && matches[1] ? matches[1] : '';
+
+		fileExtensionWithDot = fileExtension ? `.${fileExtension}` : '';
+	}
+
+	console.log(fileExtensionWithDot);
+
+	return fileExtensionWithDot;
+};
+
+export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			const fileContent = atob(data.content); // Decode file content from Base64
+			return fileContent;
+		} else {
+		}
+	} catch (error) {}
+};
+
 export const uploadFileToRepo = async (
 	repoOwner,
 	repoName,
@@ -305,23 +343,4 @@ export const uploadFileToRepo = async (
 
 		return uploadedUrl;
 	}
-};
-
-export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-	try {
-		const response = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-			}
-		});
-
-		if (response.ok) {
-			const data = await response.json();
-			const fileContent = atob(data.content); // Decode file content from Base64
-			return fileContent;
-		} else {
-		}
-	} catch (error) {}
 };
