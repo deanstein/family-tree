@@ -244,25 +244,6 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 	}
 };
 
-export const getExtensionFromUrl = (url) => {
-	let fileExtensionWithDot;
-
-	if (url) {
-		// Regular expression to match the file extension
-		const fileExtensionRegex = /(?:\.([^.]+))?$/;
-
-		// Extract the file extension
-		const matches = url.match(fileExtensionRegex);
-		const fileExtension = matches && matches[1] ? matches[1] : '';
-
-		fileExtensionWithDot = fileExtension ? `.${fileExtension}` : '';
-	}
-
-	console.log(fileExtensionWithDot);
-
-	return fileExtensionWithDot;
-};
-
 export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 

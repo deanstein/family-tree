@@ -218,3 +218,52 @@ export const largest = (a, b) => {
 	else if (a === b) return a;
 	else return b;
 };
+
+export const getExtensionFromUrl = (url) => {
+	let fileExtensionWithDot = '';
+
+	if (url) {
+		try {
+			const parsedUrl = new URL(url);
+			const pathParts = parsedUrl.pathname.split('/');
+			const fileNameWithExtension = pathParts.pop();
+			const fileExtension = fileNameWithExtension.split('.').pop();
+
+			if (fileExtension) {
+				fileExtensionWithDot = `.${fileExtension}`;
+			}
+		} catch (error) {
+			console.error('Error parsing URL:', error);
+		}
+	}
+
+	return fileExtensionWithDot;
+};
+
+export const getMIMETypeFromBase64 = (base64Data) => {
+	if (!base64Data) {
+		return;
+	}
+
+	const signatures = {
+		'data:image/jpeg': [0xff, 0xd8],
+		'data:image/png': [0x89, 0x50, 0x4e, 0x47]
+		// Add more signatures as needed for other formats
+	};
+
+	const bytes = new Uint8Array(base64Data.length);
+
+	for (let i = 0; i < base64Data.length; i++) {
+		bytes[i] = base64Data.charCodeAt(i);
+	}
+
+	for (const format in signatures) {
+		const signature = signatures[format];
+		const matchesSignature = signature.every((byte, index) => byte === bytes[index]);
+		if (matchesSignature) {
+			return format;
+		}
+	}
+
+	return null; // Unknown format
+};

@@ -5,15 +5,16 @@
 		repoOwner,
 		uploadFileToRepo,
 		bioPhotoFileName,
-		readFileFromRepo,
-		getExtensionFromUrl
+		readFileFromRepo
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
+	import { getExtensionFromUrl, getMIMETypeFromBase64 } from '../../../../logic/utils';
 
 	export let personId;
 	export let allowEdit;
 
 	let imageUrl;
+	let imgSrc;
 	let file;
 	let bioPhotoContent;
 	let fileReader;
@@ -60,7 +61,7 @@
 
 			setPersonBioPhotoUrl(imageUrl);
 			bioPhotoContent = base64String;
-			imageUrl = btoa(bioPhotoContent);
+			imgSrc = btoa(bioPhotoContent);
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -82,15 +83,16 @@
 	});
 
 	$: {
-		imageUrl = bioPhotoContent
-			? 'data:image/jpeg;base64,' + btoa(bioPhotoContent)
+		const MIMEType = getMIMETypeFromBase64(bioPhotoContent);
+		imgSrc = bioPhotoContent
+			? MIMEType + ';base64,' + btoa(bioPhotoContent)
 			: './img/avatar-placeholder.jpg';
-		fileExtension = getExtensionFromUrl(imageUrl);
+		fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
 	}
 </script>
 
 <div id="avatar-container" class="avatar-container">
-	<img src={imageUrl} id="avatar-image" class="avatar-image" alt="avatar of this person" />
+	<img src={imgSrc} id="avatar-image" class="avatar-image" alt="avatar of this person" />
 </div>
 <div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
 	{#if allowEdit}
