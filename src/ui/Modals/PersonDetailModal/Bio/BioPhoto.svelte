@@ -37,11 +37,20 @@
 				// get the raw photo content
 				imgBinary = await readFileFromRepo(repoOwner, dataRepoName, '8890', filePath);
 
-				const imgBase64 = btoa(imgBinary);
-
-				const MIMEType = getMIMEType(imgBinary);
-				imgSrc = MIMEType + ';base64,' + imgBase64;
-			} catch (error) {}
+				if (imgBinary) {
+					const MIMEType = getMIMEType(imgBinary);
+					if (MIMEType) {
+						const imgBase64 = btoa(imgBinary);
+						imgSrc = MIMEType + ';base64,' + imgBase64;
+					} else {
+						console.error('Unknown MIME type');
+					}
+				} else {
+					console.log('no binary!');
+				}
+			} catch (error) {
+				console.error(error);
+			}
 		} else {
 			imgSrc = './img/avatar-placeholder.jpg';
 		}

@@ -259,8 +259,11 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 			const fileContent = atob(data.content); // Decode file content from Base64
 			return fileContent;
 		} else {
+			console.log('Bad response: ' + response);
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const uploadFileToRepo = async (

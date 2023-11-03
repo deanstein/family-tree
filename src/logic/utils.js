@@ -269,5 +269,5 @@ export const getMIMEType = (binaryData) => {
 		}
 	}
 
-	return null; // Unknown format
+	return 'data:image/png'; // Unknown format
 };
