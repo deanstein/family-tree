@@ -240,28 +240,32 @@ export const getExtensionFromUrl = (url) => {
 	return fileExtensionWithDot;
 };
 
-export const getMIMETypeFromBase64 = (base64Data) => {
-	if (!base64Data) {
+export const getMIMEType = (binaryData) => {
+	if (!binaryData) {
 		return;
 	}
 
 	const signatures = {
-		'data:image/jpeg': [0xff, 0xd8],
-		'data:image/png': [0x89, 0x50, 0x4e, 0x47]
-		// Add more signatures as needed for other formats
+		'data:image/jpeg': [[0xff, 0xd8, 0xff]],
+		'data:image/png': [
+			[0x89, 0x50, 0x4e, 0x47], // PNG signature
+			[0x89, 0x4c, 0x4e, 0x47] // Alternate PNG signature
+		]
 	};
 
-	const bytes = new Uint8Array(base64Data.length);
+	const bytes = new Uint8Array(binaryData.length);
 
-	for (let i = 0; i < base64Data.length; i++) {
-		bytes[i] = base64Data.charCodeAt(i);
+	for (let i = 0; i < binaryData.length; i++) {
+		bytes[i] = binaryData.charCodeAt(i);
 	}
 
 	for (const format in signatures) {
-		const signature = signatures[format];
-		const matchesSignature = signature.every((byte, index) => byte === bytes[index]);
-		if (matchesSignature) {
-			return format;
+		const formatSignatures = signatures[format];
+		for (const signature of formatSignatures) {
+			const matchesSignature = signature.every((byte, index) => byte === bytes[index]);
+			if (matchesSignature) {
+				return format;
+			}
 		}
 	}
 

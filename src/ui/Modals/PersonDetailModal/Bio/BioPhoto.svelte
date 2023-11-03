@@ -8,37 +8,42 @@
 		readFileFromRepo
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
-	import { getExtensionFromUrl, getMIMETypeFromBase64 } from '../../../../logic/utils';
+	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../../../../logic/utils';
 
 	export let personId;
 	export let allowEdit;
 
-	let imageUrl;
-	let imgSrc;
 	let file;
-	let bioPhotoContent;
 	let fileReader;
 	let fileExtension;
+	let imageUrl;
+	let imgSrc;
+	let imgBinary;
 
 	let person = getPersonById(personId);
 
 	const getAndShowBioPhoto = async () => {
-		// skip entirely if the bio photo URL isn't defined
-		if (!person?.bioPhotoUrl) {
-			return;
-		}
+		// only load the file if the person has a valid bioPhotoUrl field
+		const doLoadFile = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
 
-		// only try fetching the photo from the repo
-		// if the person has a bioPhotoUrl field
-		if (person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined) {
+		// only fetch the photo if the person has a bioPhotoUrl field
+		if (doLoadFile) {
 			try {
-				bioPhotoContent = await readFileFromRepo(
-					repoOwner,
-					dataRepoName,
-					'8890',
-					person.id + '/' + bioPhotoFileName + fileExtension
-				);
+				// get the extension from the stored URL
+				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
+
+				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
+
+				// get the raw photo content
+				imgBinary = await readFileFromRepo(repoOwner, dataRepoName, '8890', filePath);
+
+				const imgBase64 = btoa(imgBinary);
+
+				const MIMEType = getMIMEType(imgBinary);
+				imgSrc = MIMEType + ';base64,' + imgBase64;
 			} catch (error) {}
+		} else {
+			imgSrc = './img/avatar-placeholder.jpg';
 		}
 	};
 
@@ -60,8 +65,7 @@
 			);
 
 			setPersonBioPhotoUrl(imageUrl);
-			bioPhotoContent = base64String;
-			imgSrc = btoa(bioPhotoContent);
+			getAndShowBioPhoto();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -83,11 +87,7 @@
 	});
 
 	$: {
-		const MIMEType = getMIMETypeFromBase64(bioPhotoContent);
-		imgSrc = bioPhotoContent
-			? MIMEType + ';base64,' + btoa(bioPhotoContent)
-			: './img/avatar-placeholder.jpg';
-		fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
+		getAndShowBioPhoto();
 	}
 </script>
 
