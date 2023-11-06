@@ -22,9 +22,15 @@
 
 	let person = getPersonById(personId);
 
+	// Create a new Worker
+	const worker = new Worker(new URL('image-worker.js', import.meta.url), { type: 'module' });
+
 	const getAndShowBioPhoto = async () => {
 		// only load the file if the person has a valid bioPhotoUrl field
 		const doLoadFile = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
+
+		// initially set the image to the placeholder
+		imgSrc = './img/avatar-placeholder.jpg';
 
 		// only fetch the photo if the person has a bioPhotoUrl field
 		if (doLoadFile) {
@@ -34,25 +40,32 @@
 
 				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
-				// get the raw photo content
-				imgBinary = await readFileFromRepo(repoOwner, dataRepoName, '8890', filePath);
+				// Send a message to the worker with the image URL
+				worker.postMessage(filePath);
 
-				if (imgBinary) {
-					const MIMEType = getMIMEType(imgBinary);
-					if (MIMEType) {
-						const imgBase64 = btoa(imgBinary);
-						imgSrc = MIMEType + ';base64,' + imgBase64;
+				// Listen for messages from the worker
+				worker.onmessage = function (event) {
+					// The image data is in event.data
+					const imgBinary = event.data;
+
+					if (imgBinary) {
+						const MIMEType = getMIMEType(imgBinary);
+						if (MIMEType) {
+							const imgBase64 = btoa(imgBinary);
+							imgSrc = MIMEType + ';base64,' + imgBase64;
+						} else {
+							console.error('Unknown MIME type');
+						}
 					} else {
-						console.error('Unknown MIME type');
+						console.log('No binary data found for this image.');
 					}
-				} else {
-					console.log('no binary!');
-				}
+
+					// Terminate the worker
+					worker.terminate();
+				};
 			} catch (error) {
 				console.error(error);
 			}
-		} else {
-			imgSrc = './img/avatar-placeholder.jpg';
 		}
 	};
 
@@ -70,7 +83,7 @@
 				'8890',
 				`${person.id}/${bioPhotoFileName}.${fileExtension}`,
 				base64String,
-				'Upload image test'
+				'Upload image'
 			);
 
 			setPersonBioPhotoUrl(imageUrl);
@@ -96,7 +109,7 @@
 	});
 
 	$: {
-		getAndShowBioPhoto();
+		//getAndShowBioPhoto();
 	}
 </script>
 
