@@ -20,7 +20,7 @@
 	let fileExtension;
 	let imageUrl;
 	let imgSrc;
-	let imgBinary;
+	let isImageLoading = false;
 
 	let person = getPersonById(personId);
 
@@ -46,6 +46,7 @@
 				if (imageCache[filePath]) {
 					imgSrc = imageCache[filePath];
 				} else {
+					isImageLoading = true;
 					// Send a message to the worker with the image URL
 					worker.postMessage(filePath);
 
@@ -66,16 +67,20 @@
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.log('No binary data found for this image.');
+							console.warn('No valid bio photo data received for ' + person.name) + '.';
 						}
 
 						// Terminate the worker
 						worker.terminate();
+
+						isImageLoading = false;
 					};
 				}
 			} catch (error) {
 				console.error(error);
 			}
+		} else {
+			isImageLoading = false;
 		}
 	};
 
@@ -124,6 +129,9 @@
 </script>
 
 <div id="avatar-container" class="avatar-container">
+	{#if isImageLoading}
+		<div id="avatar-loading-overlay" class="avatar-loading-overlay" />
+	{/if}
 	<img src={imgSrc} id="avatar-image" class="avatar-image" alt="avatar of this person" />
 </div>
 <div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
@@ -151,10 +159,30 @@
 		height: 100%;
 	}
 
+	.avatar-loading-overlay {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		background-color: rgba(50, 50, 50, 0.5);
+		animation: fade 2s infinite;
+	}
+	@keyframes fade {
+		0% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
 	.avatar-edit-button-overlay {
 		position: absolute;
 		top: 50%;
 		display: flex;
-		align-items: center;
 	}
 </style>
