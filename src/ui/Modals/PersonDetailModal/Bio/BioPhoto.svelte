@@ -1,11 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
+
+	import imageCache from '../../../../stores/image-cache';
+
 	import {
 		dataRepoName,
 		repoOwner,
 		uploadFileToRepo,
-		bioPhotoFileName,
-		readFileFromRepo
+		bioPhotoFileName
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
 	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../../../../logic/utils';
@@ -40,29 +42,37 @@
 
 				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
-				// Send a message to the worker with the image URL
-				worker.postMessage(filePath);
+				// Check the cache first
+				if (imageCache[filePath]) {
+					imgSrc = imageCache[filePath];
+				} else {
+					// Send a message to the worker with the image URL
+					worker.postMessage(filePath);
 
-				// Listen for messages from the worker
-				worker.onmessage = function (event) {
-					// The image data is in event.data
-					const imgBinary = event.data;
+					// Listen for messages from the worker
+					worker.onmessage = function (event) {
+						// The image data is in event.data
+						const imgBinary = event.data;
 
-					if (imgBinary) {
-						const MIMEType = getMIMEType(imgBinary);
-						if (MIMEType) {
-							const imgBase64 = btoa(imgBinary);
-							imgSrc = MIMEType + ';base64,' + imgBase64;
+						if (imgBinary) {
+							const MIMEType = getMIMEType(imgBinary);
+							if (MIMEType) {
+								const imgBase64 = btoa(imgBinary);
+								imgSrc = MIMEType + ';base64,' + imgBase64;
+
+								// Add the image to the cache
+								imageCache[filePath] = imgSrc;
+							} else {
+								console.error('Unknown MIME type');
+							}
 						} else {
-							console.error('Unknown MIME type');
+							console.log('No binary data found for this image.');
 						}
-					} else {
-						console.log('No binary data found for this image.');
-					}
 
-					// Terminate the worker
-					worker.terminate();
-				};
+						// Terminate the worker
+						worker.terminate();
+					};
+				}
 			} catch (error) {
 				console.error(error);
 			}
