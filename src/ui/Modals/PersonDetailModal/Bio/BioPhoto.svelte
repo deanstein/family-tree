@@ -1,54 +1,103 @@
 <script>
 	import { onMount } from 'svelte';
+
+	import imageCache from '../../../../stores/image-cache';
+
 	import {
 		dataRepoName,
 		repoOwner,
 		uploadFileToRepo,
-		bioPhotoFileName,
-		readFileFromRepo
+		bioPhotoFileName
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
+	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../../../../logic/utils';
 
 	export let personId;
 	export let allowEdit;
 
-	let imageUrl;
 	let file;
-	let bioPhotoContent;
 	let fileReader;
+	let fileExtension;
+	let imageUrl;
+	let imgSrc;
+	let imgBinary;
 
 	let person = getPersonById(personId);
 
+	// Create a new Worker
+	const worker = new Worker(new URL('image-worker.js', import.meta.url), { type: 'module' });
+
 	const getAndShowBioPhoto = async () => {
-		// only try fetching the photo from the repo
-		// if the person has a bioPhotoUrl field
-		if (person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined) {
+		// only load the file if the person has a valid bioPhotoUrl field
+		const doLoadFile = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
+
+		// initially set the image to the placeholder
+		imgSrc = './img/avatar-placeholder.jpg';
+
+		// only fetch the photo if the person has a bioPhotoUrl field
+		if (doLoadFile) {
 			try {
-				bioPhotoContent = await readFileFromRepo(
-					repoOwner,
-					dataRepoName,
-					'8890',
-					person.id + '/' + bioPhotoFileName + '.jpg'
-				);
-			} catch (error) {}
+				// get the extension from the stored URL
+				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
+
+				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
+
+				// Check the cache first
+				if (imageCache[filePath]) {
+					imgSrc = imageCache[filePath];
+				} else {
+					// Send a message to the worker with the image URL
+					worker.postMessage(filePath);
+
+					// Listen for messages from the worker
+					worker.onmessage = function (event) {
+						// The image data is in event.data
+						const imgBinary = event.data;
+
+						if (imgBinary) {
+							const MIMEType = getMIMEType(imgBinary);
+							if (MIMEType) {
+								const imgBase64 = btoa(imgBinary);
+								imgSrc = MIMEType + ';base64,' + imgBase64;
+
+								// Add the image to the cache
+								imageCache[filePath] = imgSrc;
+							} else {
+								console.error('Unknown MIME type');
+							}
+						} else {
+							console.log('No binary data found for this image.');
+						}
+
+						// Terminate the worker
+						worker.terminate();
+					};
+				}
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	};
 
 	const uploadBioPhotoFromFileReader = async () => {
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
+
+		// Get the file extension from the file name
+		const fileName = file.name;
+		const fileExtension = fileName.split('.').pop();
+
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				dataRepoName,
 				'8890',
-				person.id + '/' + bioPhotoFileName + '.jpg',
+				`${person.id}/${bioPhotoFileName}.${fileExtension}`,
 				base64String,
-				'Upload image test'
+				'Upload image'
 			);
 
 			setPersonBioPhotoUrl(imageUrl);
-			bioPhotoContent = base64String;
-			imageUrl = btoa(bioPhotoContent);
+			getAndShowBioPhoto();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -70,14 +119,12 @@
 	});
 
 	$: {
-		imageUrl = bioPhotoContent
-			? 'data:image/jpeg;base64,' + btoa(bioPhotoContent)
-			: './img/avatar-placeholder.jpg';
+		//getAndShowBioPhoto();
 	}
 </script>
 
 <div id="avatar-container" class="avatar-container">
-	<img src={imageUrl} id="avatar-image" class="avatar-image" alt="avatar of this person" />
+	<img src={imgSrc} id="avatar-image" class="avatar-image" alt="avatar of this person" />
 </div>
 <div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
 	{#if allowEdit}

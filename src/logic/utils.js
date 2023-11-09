@@ -218,3 +218,56 @@ export const largest = (a, b) => {
 	else if (a === b) return a;
 	else return b;
 };
+
+export const getExtensionFromUrl = (url) => {
+	let fileExtensionWithDot = '';
+
+	if (url) {
+		try {
+			const parsedUrl = new URL(url);
+			const pathParts = parsedUrl.pathname.split('/');
+			const fileNameWithExtension = pathParts.pop();
+			const fileExtension = fileNameWithExtension.split('.').pop();
+
+			if (fileExtension) {
+				fileExtensionWithDot = `.${fileExtension}`;
+			}
+		} catch (error) {
+			console.error('Error parsing URL:', error);
+		}
+	}
+
+	return fileExtensionWithDot;
+};
+
+export const getMIMEType = (binaryData) => {
+	if (!binaryData) {
+		return;
+	}
+
+	const signatures = {
+		'data:image/jpeg': [[0xff, 0xd8, 0xff]],
+		'data:image/png': [
+			[0x89, 0x50, 0x4e, 0x47], // PNG signature
+			[0x89, 0x4c, 0x4e, 0x47] // Alternate PNG signature
+		]
+	};
+
+	const bytes = new Uint8Array(binaryData.length);
+
+	for (let i = 0; i < binaryData.length; i++) {
+		bytes[i] = binaryData.charCodeAt(i);
+	}
+
+	for (const format in signatures) {
+		const formatSignatures = signatures[format];
+		for (const signature of formatSignatures) {
+			const matchesSignature = signature.every((byte, index) => byte === bytes[index]);
+			if (matchesSignature) {
+				return format;
+			}
+		}
+	}
+
+	return 'data:image/png'; // Unknown format
+};
