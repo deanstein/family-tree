@@ -1,4 +1,4 @@
-export const appVersion = '0.15.2';
+export const appVersion = '0.15.3';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -12,7 +12,7 @@ export const appChangelog = {
 			'Replaced Avatar with BioPhoto in Bio and all PersonNode variants',
 			'Added image fetch web workers',
 			'Added image cache',
-			'Added additional GitHub file i/o functions for setting and updating files'
+			'Added binary large object read support'
 		]
 	},
 	'v0.14.x': {

@@ -20,12 +20,9 @@
 	let fileExtension;
 	let imageUrl;
 	let imgSrc;
-	let imgBinary;
+	let isImageLoading = false;
 
 	let person = getPersonById(personId);
-
-	// Create a new Worker
-	const worker = new Worker(new URL('image-worker.js', import.meta.url), { type: 'module' });
 
 	const getAndShowBioPhoto = async () => {
 		// only load the file if the person has a valid bioPhotoUrl field
@@ -37,21 +34,25 @@
 		// only fetch the photo if the person has a bioPhotoUrl field
 		if (doLoadFile) {
 			try {
-				// get the extension from the stored URL
+				// get the extension and construct a path from the stored URL
 				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
-
 				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
-				// Check the cache first
+				// check the cache first
 				if (imageCache[filePath]) {
 					imgSrc = imageCache[filePath];
 				} else {
-					// Send a message to the worker with the image URL
+					// use a web worker to fetch the bio photo asynchronously
+					const worker = new Worker(new URL('image-worker.js', import.meta.url), {
+						type: 'module'
+					});
+					isImageLoading = true;
+					// send a message to the worker with the image URL
 					worker.postMessage(filePath);
 
-					// Listen for messages from the worker
+					// listen for messages from the worker
 					worker.onmessage = function (event) {
-						// The image data is in event.data
+						// image data is in event.data
 						const imgBinary = event.data;
 
 						if (imgBinary) {
@@ -60,22 +61,26 @@
 								const imgBase64 = btoa(imgBinary);
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
-								// Add the image to the cache
+								// add the image to the cache
 								imageCache[filePath] = imgSrc;
 							} else {
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.log('No binary data found for this image.');
+							console.warn('No valid bio photo data received for ' + person.name) + '.';
 						}
 
 						// Terminate the worker
 						worker.terminate();
+
+						isImageLoading = false;
 					};
 				}
 			} catch (error) {
 				console.error(error);
 			}
+		} else {
+			isImageLoading = false;
 		}
 	};
 
@@ -124,6 +129,9 @@
 </script>
 
 <div id="avatar-container" class="avatar-container">
+	{#if isImageLoading}
+		<div id="avatar-loading-overlay" class="avatar-loading-overlay" />
+	{/if}
 	<img src={imgSrc} id="avatar-image" class="avatar-image" alt="avatar of this person" />
 </div>
 <div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
@@ -151,10 +159,30 @@
 		height: 100%;
 	}
 
+	.avatar-loading-overlay {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		background-color: rgba(50, 50, 50, 0.5);
+		animation: fade 2s infinite;
+	}
+	@keyframes fade {
+		0% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
 	.avatar-edit-button-overlay {
 		position: absolute;
 		top: 50%;
 		display: flex;
-		align-items: center;
 	}
 </style>
