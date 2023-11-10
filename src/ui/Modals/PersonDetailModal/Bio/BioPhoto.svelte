@@ -24,9 +24,6 @@
 
 	let person = getPersonById(personId);
 
-	// Create a new Worker
-	const worker = new Worker(new URL('image-worker.js', import.meta.url), { type: 'module' });
-
 	const getAndShowBioPhoto = async () => {
 		// only load the file if the person has a valid bioPhotoUrl field
 		const doLoadFile = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
@@ -37,22 +34,25 @@
 		// only fetch the photo if the person has a bioPhotoUrl field
 		if (doLoadFile) {
 			try {
-				// get the extension from the stored URL
+				// get the extension and construct a path from the stored URL
 				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
-
 				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
-				// Check the cache first
+				// check the cache first
 				if (imageCache[filePath]) {
 					imgSrc = imageCache[filePath];
 				} else {
+					// use a web worker to fetch the bio photo asynchronously
+					const worker = new Worker(new URL('image-worker.js', import.meta.url), {
+						type: 'module'
+					});
 					isImageLoading = true;
-					// Send a message to the worker with the image URL
+					// send a message to the worker with the image URL
 					worker.postMessage(filePath);
 
-					// Listen for messages from the worker
+					// listen for messages from the worker
 					worker.onmessage = function (event) {
-						// The image data is in event.data
+						// image data is in event.data
 						const imgBinary = event.data;
 
 						if (imgBinary) {
@@ -61,7 +61,7 @@
 								const imgBase64 = btoa(imgBinary);
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
-								// Add the image to the cache
+								// add the image to the cache
 								imageCache[filePath] = imgSrc;
 							} else {
 								console.error('Unknown MIME type');

@@ -266,6 +266,49 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 	}
 };
 
+// for binary large objects (blobs)
+export const readBlobFromRepo = async (repoOwner, repoName, password, filePath) => {
+	// First, get the file's SHA
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+	let sha;
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			sha = data.sha; // Get the file's SHA
+		} else {
+			console.log('Bad response: ' + response);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+
+	// Then, use the SHA to get the blob
+	const blobUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/blobs/${sha}`;
+	try {
+		const response = await fetch(blobUrl, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			const fileContent = atob(data.content); // Decode file content from Base64
+			return fileContent;
+		} else {
+			console.log('Bad response: ' + response);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const uploadFileToRepo = async (
 	repoOwner,
 	repoName,
