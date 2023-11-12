@@ -1,8 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import imageCache from '../../../../stores/image-cache';
-
 	import {
 		dataRepoName,
 		repoOwner,
@@ -11,6 +9,12 @@
 	} from '../../../../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
 	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../../../../logic/utils';
+	import {
+		addImageToCache,
+		getImageFromCache,
+		removeImageFromCache
+	} from '../../../../logic/temp-management';
+	import imageCache from '../../../../stores/image-cache';
 
 	export let personId;
 	export let allowEdit;
@@ -26,21 +30,22 @@
 
 	const getAndShowBioPhoto = async () => {
 		// only load the file if the person has a valid bioPhotoUrl field
-		const doLoadFile = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
+		const doLoadImage = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
 
 		// initially set the image to the placeholder
 		imgSrc = './img/avatar-placeholder.jpg';
 
 		// only fetch the photo if the person has a bioPhotoUrl field
-		if (doLoadFile) {
+		if (doLoadImage) {
 			try {
 				// get the extension and construct a path from the stored URL
 				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
 				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
 				// check the cache first
-				if (imageCache[filePath]) {
-					imgSrc = imageCache[filePath];
+				const imageFromCache = getImageFromCache(filePath);
+				if (imageFromCache) {
+					imgSrc = imageFromCache;
 				} else {
 					// use a web worker to fetch the bio photo asynchronously
 					const worker = new Worker(new URL('image-worker.js', import.meta.url), {
@@ -62,7 +67,7 @@
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
 								// add the image to the cache
-								imageCache[filePath] = imgSrc;
+								addImageToCache(filePath, imgSrc);
 							} else {
 								console.error('Unknown MIME type');
 							}
@@ -88,18 +93,22 @@
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
 
 		// Get the file extension from the file name
-		const fileName = file.name;
-		const fileExtension = fileName.split('.').pop();
+		const fileReaderFileName = file.name;
+		const fileExtension = fileReaderFileName.split('.').pop();
+		const targetFilePath = `${person.id}/${bioPhotoFileName}.${fileExtension}`;
 
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				dataRepoName,
 				'8890',
-				`${person.id}/${bioPhotoFileName}.${fileExtension}`,
+				targetFilePath,
 				base64String,
 				'Upload image'
 			);
+
+			// Remove the old image from the cache
+			removeImageFromCache(targetFilePath);
 
 			setPersonBioPhotoUrl(imageUrl);
 			getAndShowBioPhoto();
@@ -123,9 +132,9 @@
 		getAndShowBioPhoto();
 	});
 
-	$: {
-		//getAndShowBioPhoto();
-	}
+	imageCache.subscribe(() => {
+		getAndShowBioPhoto();
+	});
 </script>
 
 <div id="avatar-container" class="avatar-container">

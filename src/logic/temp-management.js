@@ -1,4 +1,5 @@
 import familyTreeData from '../stores/family-tree-data';
+import imageCache from '../stores/image-cache';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
 import { repoStateStrings } from '../ui/strings';
@@ -35,6 +36,29 @@ export const toggleBuildMode = () => {
 
 	tempState.update((currentValue) => {
 		currentValue.buildMode = !currentBuildModeValue;
+		return currentValue;
+	});
+};
+
+// manage the image cache
+export const getImageFromCache = (filePath) => {
+	let imgSrc;
+	imageCache.subscribe((currentValue) => {
+		imgSrc = currentValue[filePath];
+	});
+	return imgSrc;
+};
+
+export const addImageToCache = (filePath, imgSrc) => {
+	imageCache.update((currentValue) => {
+		currentValue[filePath] = imgSrc;
+		return currentValue;
+	});
+};
+
+export const removeImageFromCache = (filePath) => {
+	imageCache.update((currentValue) => {
+		delete currentValue[filePath];
 		return currentValue;
 	});
 };
