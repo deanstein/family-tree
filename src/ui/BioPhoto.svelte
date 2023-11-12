@@ -15,11 +15,17 @@
 		removeImageFromCache
 	} from '../logic/temp-management';
 	import imageCache from '../stores/image-cache';
+	import { css } from '@emotion/css';
+	import stylingConstants from './styling-constants';
 
 	export let personId;
 	export let allowEdit;
 
+	const bioPhotoEditFaIcon = 'fa-pen';
+	const bioPhotoDeleteFaIcon = 'fa-trash';
+
 	let file;
+	let fileInput;
 	let fileReader;
 	let fileExtension;
 	let imageUrl;
@@ -117,6 +123,12 @@
 		}
 	};
 
+	const onEditButtonClick = () => {
+		fileInput.click();
+	};
+
+	const onDeleteButtonClick = () => {};
+
 	const handleFileUpload = async (event) => {
 		file = event.target.files[0];
 		fileReader = new FileReader();
@@ -135,22 +147,54 @@
 	imageCache.subscribe(() => {
 		getAndShowBioPhoto();
 	});
+
+	const editButtonDynamicClass = css`
+		background-color: ${stylingConstants.colors.buttonColorPrimary};
+		:hover {
+			background-color: ${stylingConstants.colors.hoverColor};
+		}
+	`;
 </script>
 
-<div id="avatar-container" class="avatar-container">
+<div id="bio-photo-container" class="bio-photo-container">
 	{#if isImageLoading}
-		<div id="avatar-loading-overlay" class="avatar-loading-overlay" />
+		<div id="bio-photo-loading-overlay" class="bio-photo-loading-overlay" />
 	{/if}
-	<img src={imgSrc} id="avatar-image" class="avatar-image" alt="avatar of this person" />
-</div>
-<div id="avatar-edit-button-overlay" class="avatar-edit-button-overlay">
+	<!-- svelte-ignore a11y-img-redundant-alt -->
+	<img src={imgSrc} id="bio-photo-image" class="bio-photo-image" alt="Photo of this person" />
 	{#if allowEdit}
-		<input type="file" on:change={handleFileUpload} />
+		<div class="bio-photo-actions-container">
+			<div
+				id="bio-photo-edit-button"
+				class="{editButtonDynamicClass} bio-photo-action-button"
+				on:click={onEditButtonClick}
+				on:keypress={onEditButtonClick}
+				title="Choose another photo"
+			>
+				<i class="fa-solid {bioPhotoEditFaIcon}" />
+			</div>
+			<!-- TODO: enable this Delete button when the delete API is available-->
+			<!-- <div
+				id="bio-photo-delete-button"
+				class="{editButtonDynamicClass} bio-photo-action-button"
+				on:click={onDeleteButtonClick}
+				on:keypress={onDeleteButtonClick}
+			>
+				<i class="fa-solid {bioPhotoDeleteFaIcon}" />
+			</div> -->
+		</div>
+		<input
+			type="file"
+			id="file-input"
+			style="display: none;"
+			on:change={handleFileUpload}
+			bind:this={fileInput}
+		/>
 	{/if}
 </div>
 
 <style>
-	.avatar-container {
+	.bio-photo-container {
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -158,17 +202,18 @@
 		height: 100%;
 		overflow: hidden;
 		justify-content: center;
+		align-items: center;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: lightgray;
 	}
 
-	.avatar-image {
+	.bio-photo-image {
 		object-fit: cover;
 		height: 100%;
 	}
 
-	.avatar-loading-overlay {
+	.bio-photo-loading-overlay {
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -177,6 +222,31 @@
 		background-color: rgba(50, 50, 50, 0.5);
 		animation: fade 2s infinite;
 	}
+
+	.bio-photo-actions-container {
+		position: absolute;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: end;
+		height: 100%;
+		width: 100%;
+		gap: 0.5vw;
+	}
+
+	.bio-photo-action-button {
+		font-size: 1.5em;
+		width: 30%;
+		height: 30%;
+		border-radius: 50%;
+		opacity: 80%;
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
 	@keyframes fade {
 		0% {
 			opacity: 1;
@@ -187,11 +257,5 @@
 		100% {
 			opacity: 1;
 		}
-	}
-
-	.avatar-edit-button-overlay {
-		position: absolute;
-		top: 50%;
-		display: flex;
 	}
 </style>

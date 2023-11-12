@@ -11,14 +11,8 @@
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
 	} from '../../logic/temp-management';
-	import {
-		addOrReplaceTimelineEvent,
-		deleteTimelineEvent
-	} from '../../logic/person-management';
-	import {
-		getModalTitleByEventType,
-		writeUIStateValueAtPath
-	} from '../../logic/ui-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
+	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../logic/ui-management';
 	import { getObjectByKeyValue, instantiateObject, getIsDateValid } from '../../logic/utils';
 	import { timelineEventStrings } from '../strings';
 
