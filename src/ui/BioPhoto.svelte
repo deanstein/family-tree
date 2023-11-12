@@ -6,15 +6,15 @@
 		repoOwner,
 		uploadFileToRepo,
 		bioPhotoFileName
-	} from '../../../../logic/persistence-management';
-	import { getPersonById, setPersonBioPhotoUrl } from '../../../../logic/person-management';
-	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../../../../logic/utils';
+	} from '../logic/persistence-management';
+	import { getPersonById, setPersonBioPhotoUrl } from '../logic/person-management';
+	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../logic/utils';
 	import {
 		addImageToCache,
 		getImageFromCache,
 		removeImageFromCache
-	} from '../../../../logic/temp-management';
-	import imageCache from '../../../../stores/image-cache';
+	} from '../logic/temp-management';
+	import imageCache from '../stores/image-cache';
 
 	export let personId;
 	export let allowEdit;
@@ -48,7 +48,7 @@
 					imgSrc = imageFromCache;
 				} else {
 					// use a web worker to fetch the bio photo asynchronously
-					const worker = new Worker(new URL('image-worker.js', import.meta.url), {
+					const worker = new Worker(new URL('bio-photo-web-worker.js', import.meta.url), {
 						type: 'module'
 					});
 					isImageLoading = true;

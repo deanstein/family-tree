@@ -1,15 +1,15 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '../../../stores/ui-state';
-	import stylingConstants from '../../styling-constants';
+	import uiState from '../../stores/ui-state';
+	import stylingConstants from '../styling-constants';
 
-	import { chooseTreeStrings } from '../../strings';
+	import { chooseTreeStrings } from '../strings';
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../../logic/ui-management';
-	import Modal from '../Modal.svelte';
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/ui-management';
+	import Modal from './Modal.svelte';
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {

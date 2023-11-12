@@ -3,22 +3,22 @@
 
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../../styling-constants';
-	import timelineEventTypes from '../../../../schemas/timeline-event-types';
-	import timelineEvent from '../../../../schemas/timeline-event';
-	import uiState from '../../../../stores/ui-state';
-	import { schemaVersion } from '../../../../versions';
+	import stylingConstants from '../styling-constants';
+	import timelineEventTypes from '../../schemas/timeline-event-types';
+	import timelineEvent from '../../schemas/timeline-event';
+	import uiState from '../../stores/ui-state';
+	import { schemaVersion } from '../../versions';
 
 	import {
 		generateTimelineRowItems,
 		setTimelineCanvasScrollState,
 		updateTimelineRowItems
-	} from '../../../../logic/ui-management';
-	import { setTimelineEditEvent, setTimelineEditEventId } from '../../../../logic/temp-management';
-	import { instantiateObject } from '../../../../logic/utils';
+	} from '../../logic/ui-management';
+	import { setTimelineEditEvent, setTimelineEditEventId } from '../../logic/temp-management';
+	import { instantiateObject } from '../../logic/utils';
 
-	import Button from '../../../Button.svelte';
-	import Checkbox from '../../../Checkbox.svelte';
+	import Button from '../Button.svelte';
+	import Checkbox from '../Checkbox.svelte';
 	import TimelineEvent from './TimelineEvent.svelte';
 	import TimelineSpine from './TimelineSpine.svelte';
 	import { onMount } from 'svelte';

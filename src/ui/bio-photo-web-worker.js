@@ -1,5 +1,5 @@
-import { repoOwner, dataRepoName } from '../../../../logic/persistence-management';
-import { readBlobFromRepo } from '../../../../logic/persistence-management';
+import { repoOwner, dataRepoName } from '../logic/persistence-management';
+import { readBlobFromRepo } from '../logic/persistence-management';
 
 self.onmessage = async function (event) {
 	const filePath = event.data;

@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	import stylingConstants from '../../../styling-constants';
+	import stylingConstants from './styling-constants';
 
 	export let isEnabled = true;
 	export let inputValue = new Date().toISOString().substr(0, 10);

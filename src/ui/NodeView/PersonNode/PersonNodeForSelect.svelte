@@ -17,7 +17,7 @@
 
 	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
 
-	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
+	import BioPhoto from '../../BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';
 
 	export let sPersonId;

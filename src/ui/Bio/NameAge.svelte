@@ -1,8 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
-	import uiState from '../../../../stores/ui-state';
-	import stylingConstants from '../../../styling-constants';
-	import TextInput from '../../../TextInput.svelte';
+	import uiState from '../../stores/ui-state';
+	import stylingConstants from '../styling-constants';
+	import TextInput from '../TextInput.svelte';
 
 	export let isEnabled = true;
 	export let inputValue = 'John Doe';

@@ -4,7 +4,7 @@
 
 	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import uiState from '../../stores/ui-state';
-	import FamilyTreeDataSelector from '../FamilyTreeDataSelector.svelte';
+	import FamilyTreeDataSelector from './FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
 	import {
 		enableScrolling,

@@ -1,17 +1,17 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import alternateName from '../../../../schemas/alternate-name';
+	import alternateName from '../../schemas/alternate-name';
 
-	import uiState from '../../../../stores/ui-state';
-	import tempState from '../../../../stores/temp-state';
-	import stylingConstants from '../../../styling-constants';
+	import uiState from '../../stores/ui-state';
+	import tempState from '../../stores/temp-state';
+	import stylingConstants from '../styling-constants';
 
-	import CircuarButton from '../../../CircularButton.svelte';
+	import CircuarButton from '../CircularButton.svelte';
 	import AlternateName from './AlternateName.svelte';
 
-	import { setEditAltName } from '../../../../logic/temp-management';
-	import { instantiateObject } from '../../../../logic/utils';
+	import { setEditAltName } from '../../logic/temp-management';
+	import { instantiateObject } from '../../logic/utils';
 
 	export let isEnabled = true;
 

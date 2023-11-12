@@ -1,23 +1,23 @@
 <script>
 	import { css } from '@emotion/css';
-	import { personDetailStrings, timelineEventStrings } from '../../../strings';
-	import { gender } from '../../../../schemas/gender';
-	import stylingConstants from '../../../styling-constants';
-	import uiState from '../../../../stores/ui-state';
-	import tempState from '../../../../stores/temp-state';
+	import { personDetailStrings, timelineEventStrings } from '../strings';
+	import { gender } from '../../schemas/gender';
+	import stylingConstants from '../styling-constants';
+	import uiState from '../../stores/ui-state';
+	import tempState from '../../stores/temp-state';
 
 	import AlternateNames from './AlternateNames.svelte';
-	import BioPhoto from './BioPhoto.svelte';
-	import Checkbox from '../../../Checkbox.svelte';
-	import DatePicker from './DatePicker.svelte';
+	import BioPhoto from '../BioPhoto.svelte';
+	import Checkbox from '../Checkbox.svelte';
+	import DatePicker from '../DatePicker.svelte';
 	import EditBioButton from './EditBioButton.svelte';
-	import InputContainer from '../../../InputContainer.svelte';
+	import InputContainer from '../InputContainer.svelte';
 	import NameAge from './NameAge.svelte';
-	import Overlay from '../../Overlay.svelte';
-	import Selector from '../../../Select.svelte';
-	import SideBySideContainer from '../../../SideBySideContainer.svelte';
-	import TextInput from '../../../TextInput.svelte';
-	import { writeUIStateValueAtPath } from '../../../../logic/ui-management';
+	import Overlay from '../Modals/Overlay.svelte';
+	import Selector from '../Select.svelte';
+	import SideBySideContainer from '../SideBySideContainer.svelte';
+	import TextInput from '../TextInput.svelte';
+	import { writeUIStateValueAtPath } from '../../logic/ui-management';
 	import {
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
@@ -25,10 +25,10 @@
 		unsetBioEditId,
 		initializeAltNamesTempState,
 		setBioEditId
-	} from '../../../../logic/temp-management';
+	} from '../../logic/temp-management';
 	import { onMount } from 'svelte';
-	import { getPersonById } from '../../../../logic/person-management';
-	import { getNumberOfYearsBetweenEvents } from '../../../../logic/utils';
+	import { getPersonById } from '../../logic/person-management';
+	import { getNumberOfYearsBetweenEvents } from '../../logic/utils';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;

@@ -15,7 +15,7 @@
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
-	import BioPhoto from '../../Modals/PersonDetailModal/Bio/BioPhoto.svelte';
+	import BioPhoto from '../../BioPhoto.svelte';
 	import NodeActionsButton from './NodeActionsButton.svelte';
 	import RelationshipLabel from './RelationshipLabel.svelte';
 	import NameLabel from './NameLabel.svelte';

@@ -1,9 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '../styling-constants';
 
-	import Button from '../../Button.svelte';
+	import Button from '../Button.svelte';
 
 	export let faIcon; // fontawesome font name
 	export let buttonText;

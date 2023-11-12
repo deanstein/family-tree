@@ -22,11 +22,11 @@
 	import { appVersion, schemaVersion } from './versions';
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 
-	import ChooseTreeModal from './ui/Modals/ChooseTreeModal/ChooseTreeModal.svelte';
+	import ChooseTreeModal from './ui/Modals/ChooseTreeModal.svelte';
 	import EditAlternateNameModal from './ui/Modals/EditAlternateNameModal.svelte';
-	import EditTimelineEventModal from './ui/Modals/PersonDetailModal/Timeline/TimelineEventDetailModal.svelte';
+	import EditTimelineEventModal from './ui/Timeline/TimelineEventDetailModal.svelte';
 	import NodeActionsModal from './ui/Modals/NodeActionsModal.svelte';
-	import PersonDetailModal from './ui/Modals/PersonDetailModal/PersonDetailModal.svelte';
+	import PersonDetailModal from './ui/Modals/PersonDetailModal.svelte';
 	import Header from './ui/Header.svelte';
 	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
 	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';

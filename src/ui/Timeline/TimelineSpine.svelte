@@ -1,8 +1,8 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../../styling-constants';
-	import uiState from '../../../../stores/ui-state';
+	import stylingConstants from '../styling-constants';
+	import uiState from '../../stores/ui-state';
 
 	let lineDynamicClass = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
