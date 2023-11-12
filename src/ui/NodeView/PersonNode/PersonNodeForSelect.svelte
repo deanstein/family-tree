@@ -15,7 +15,7 @@
 		removePersonFromActivePersonGroup
 	} from '../../../logic/ui-management';
 
-	import { hidePersonNodeActionsModal } from '../../../logic/temp-management';
+	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '../../../logic/temp-management';
 
 	import BioPhoto from '../../BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';
@@ -29,6 +29,7 @@
 		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, sRelationshipId);
 		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
 		hidePersonNodeActionsModal();
+		checkPersonForUnsavedChanges(sPersonId);
 		// TODO: try to keep the actions modal open
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
