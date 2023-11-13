@@ -30,6 +30,7 @@ const timelineEventTypes = {
 	},
 	generic: {
 		type: 'generic',
+		label: 'Generic',
 		icon: 'fa-rectangle-list',
 		content: {
 			associatedPeople: [],
@@ -39,21 +40,25 @@ const timelineEventTypes = {
 	},
 	residence: {
 		type: 'residence',
+		label: 'Residence',
 		icon: '',
 		content: {}
 	},
 	workplace: {
 		type: 'workplace',
+		label: 'Workplace',
 		icon: '',
 		content: {}
 	},
 	vehicle: {
 		type: 'vehicle',
+		label: 'Vehicle',
 		icon: '',
 		content: {}
 	},
 	child: {
 		type: 'child',
+		label: 'Childbirth',
 		icon: '',
 		content: {}
 	}

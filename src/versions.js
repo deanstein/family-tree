@@ -136,11 +136,11 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.11.0';
+export const schemaVersion = '0.11.1';
 export const schemaChangelog = {
 	'v0.11.x': {
 		Overview: 'v0.11.x adds support for uploading images including a bio photo.',
-		Changes: ['Added ability to upload, replace, and delete images in GitHub']
+		Changes: ['Added bioUrl field to person schema, restored label field for timeline-event-types schema']
 	},
 	'v0.10.x': {
 		Overview:

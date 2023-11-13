@@ -225,7 +225,7 @@
 					bind:inputValue={eventTypeInputValue}
 					optionsGroupObject={timelineEventOptions}
 					optionValueKey="type"
-					optionLabelKey="typeLabel"
+					optionLabelKey="label"
 				/>
 			</FieldContainer>
 			<FieldContainer label="Event Content" grow={true}>
