@@ -24,6 +24,7 @@
 	const bioPhotoEditFaIcon = 'fa-pen';
 	const bioPhotoDeleteFaIcon = 'fa-trash';
 
+	let person;
 	let file;
 	let fileInput;
 	let fileReader;
@@ -31,8 +32,6 @@
 	let imageUrl;
 	let imgSrc;
 	let isImageLoading = false;
-
-	let person = getPersonById(personId);
 
 	const getAndShowBioPhoto = async () => {
 		// only load the file if the person has a valid bioPhotoUrl field
@@ -147,6 +146,11 @@
 	imageCache.subscribe(() => {
 		getAndShowBioPhoto();
 	});
+
+	$: {
+		person = getPersonById(personId);
+		getAndShowBioPhoto();
+	}
 
 	const editButtonDynamicClass = css`
 		background-color: ${stylingConstants.colors.buttonColorPrimary};
