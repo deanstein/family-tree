@@ -90,7 +90,7 @@
 		</div>
 	</div>
 	{#if $tempState.personIdsOffScreenFiltered.length > 0}
-		<PersonNodeScrollingWindow sRelationshipId={$tempState.nodeEditRelationshipId} />
+		<PersonNodeScrollingWindow relationshipId={$tempState.nodeEditRelationshipId} />
 	{/if}
 </div>
 

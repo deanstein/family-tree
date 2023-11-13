@@ -163,11 +163,11 @@ export const updateOffScreenPeopleIdsArray = () => {
 	});
 };
 
-export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
-	const sFilterUppercase = sFilter.toUpperCase();
+export const updateFilteredOffScreenPeopleIdsArray = (filter) => {
+	const filterUppercase = filter.toUpperCase();
 	let activePersonName;
 	uiState.subscribe((currentValue) => {
-		activePersonName = currentValue.activePerson.id;
+		activePersonName = currentValue.activePerson.name.toUpperCase();
 	});
 
 	tempState.update((currentValue) => {
@@ -176,7 +176,7 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 		// for each id, get name and see if the filter is contained in the name
 		currentValue.personIdsOffScreen.forEach((sPersonId) => {
 			const sPersonName = getPersonById(sPersonId).name.toUpperCase();
-			if (sPersonName.indexOf(sFilterUppercase) > -1 && sPersonName !== activePersonName) {
+			if (sPersonName.indexOf(filterUppercase) > -1 && sPersonName !== activePersonName) {
 				currentValue.personIdsOffScreenFiltered.push(sPersonId);
 			} else {
 				const nPersonIdIndex = currentValue.personIdsOffScreenFiltered.indexOf(sPersonId);
@@ -187,7 +187,7 @@ export const updateFilteredOffScreenPeopleIdsArray = (sFilter) => {
 		});
 
 		// if nothing in the text box, show all available people
-		if (sFilterUppercase === '') {
+		if (filterUppercase === '') {
 			currentValue.personIdsOffScreenFiltered = currentValue.personIdsOffScreen;
 		}
 

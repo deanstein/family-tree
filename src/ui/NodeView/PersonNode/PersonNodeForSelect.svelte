@@ -23,16 +23,16 @@
 	import BioPhoto from '../../BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';
 
-	export let sPersonId;
-	export let sRelationshipId;
+	export let personId;
+	export let relationshipId;
 
 	const onPersonNodeForSelectClickAction = () => {
-		addOrUpdatePersonInActivePersonGroup(sPersonId, sRelationshipId);
-		addOrUpdateActivePersonInNewPersonGroup(sPersonId, $tempState.nodeEditGroupId);
-		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, sRelationshipId);
+		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
+		addOrUpdateActivePersonInNewPersonGroup(personId, $tempState.nodeEditGroupId);
+		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, relationshipId);
 		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
 		hidePersonNodeActionsModal();
-		checkPersonForUnsavedChanges(sPersonId);
+		checkPersonForUnsavedChanges(personId);
 		// TODO: try to keep the actions modal open
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
@@ -48,14 +48,14 @@
 </script>
 
 <div
-	id="person-node-for-select-{sPersonId}"
+	id="person-node-for-select-{personId}"
 	class="person-node {personNodeForSelectDynamicClass}"
 	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >
 	<div id="person-node-content-area" class="person-node-content-area">
-		<BioPhoto personId={sPersonId} allowEdit={false} />
-		<NameInput sInputValue={getPersonById(sPersonId)?.name} />
+		<BioPhoto {personId} allowEdit={false} />
+		<NameInput sInputValue={getPersonById(personId)?.name} />
 	</div>
 </div>
 

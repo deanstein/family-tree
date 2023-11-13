@@ -4,7 +4,7 @@
 
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';
 
-	export let sRelationshipId;
+	export let relationshipId;
 </script>
 
 <div
@@ -18,8 +18,8 @@
 		on:keypress|stopPropagation
 		on:wheel={scrollHorizontal}
 	>
-		{#each $tempState.personIdsOffScreenFiltered as sPersonId}
-			<PersonNodeForSelect {sPersonId} {sRelationshipId} />
+		{#each $tempState.personIdsOffScreenFiltered as personId}
+			<PersonNodeForSelect {personId} {relationshipId} />
 		{/each}
 	</div>
 </div>

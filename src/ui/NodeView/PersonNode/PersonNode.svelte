@@ -156,9 +156,6 @@
 				<RelationshipLabel relationshipName={relationshipLabel} />
 			{/if}
 		</div>
-		{#if $tempState.nodeActionsModalPersonId === sPersonId && $tempState.personIdsOffScreenFiltered.length > 0}
-			<PersonNodeScrollingWindow {sRelationshipId} />
-		{/if}
 	</div>
 {/key}
 
