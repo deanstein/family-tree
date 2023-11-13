@@ -7,18 +7,10 @@
 	export let flank; // which side of the middle section should this appear?
 
 	let rowFlankOuterContainerDynamicClass;
-	let rowFlankInnerContainerDynamicClass;
 
 	$: {
 		rowFlankOuterContainerDynamicClass = css`
 			justify-content: ${flank === 'left' ? 'flex-end' : 'flex-start'};
-			overflow-x: ${$uiState.personIdForNodeEdit !== undefined ? `clip` : `initial`};
-			overflow-y: ${$uiState.personIdForNodeEdit !== undefined ? `initial` : `auto`};
-		`;
-
-		rowFlankInnerContainerDynamicClass = css`
-			overflow-x: ${$uiState.personIdForNodeEdit !== undefined ? `clip` : `initial`};
-			overflow-y: ${$uiState.personIdForNodeEdit !== undefined ? `initial` : `auto`};
 		`;
 	}
 </script>
@@ -27,11 +19,7 @@
 	id="row-flank-outer-container"
 	class="row-flank-outer-container {rowFlankOuterContainerDynamicClass}"
 >
-	<div
-		id="row-flank-inner-container"
-		class="row-flank-inner-container {rowFlankInnerContainerDynamicClass}"
-		on:wheel={scrollHorizontal}
-	>
+	<div id="row-flank-inner-container" class="row-flank-inner-container" on:wheel={scrollHorizontal}>
 		<slot />
 	</div>
 </div>

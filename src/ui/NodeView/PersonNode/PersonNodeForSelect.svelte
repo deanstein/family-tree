@@ -15,7 +15,10 @@
 		removePersonFromActivePersonGroup
 	} from '../../../logic/ui-management';
 
-	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '../../../logic/temp-management';
+	import {
+		checkPersonForUnsavedChanges,
+		hidePersonNodeActionsModal
+	} from '../../../logic/temp-management';
 
 	import BioPhoto from '../../BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';

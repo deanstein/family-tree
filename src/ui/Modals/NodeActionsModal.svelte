@@ -96,7 +96,7 @@
 </script>
 
 <Modal
-	showModal={$tempState.nodeActionsModalPersonId}
+	showModal={$tempState.nodeActionsModalPersonId === personId}
 	title={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
 	subtitle={'to ' + $uiState.activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}

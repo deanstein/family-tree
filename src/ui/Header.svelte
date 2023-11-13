@@ -46,7 +46,7 @@
 			/>
 		</div>
 		<div id="header-right-flank" class="header-right-flank">
-			{#if $uiState.personIdForNodeEdit === undefined}
+			{#if $tempState.nodeActionsModalPersonId === undefined}
 				<SaveStateBanner />
 			{/if}
 			<div id="edit-tree-button-container" class="edit-tree-button-container">

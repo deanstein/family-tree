@@ -1,6 +1,5 @@
 <script>
 	import { css } from '@emotion/css';
-	import { fade } from 'svelte/transition';
 	import { afterUpdate, onDestroy } from 'svelte';
 	import Portal from 'svelte-portal';
 
@@ -36,7 +35,6 @@
 	export let sRelationshipId = undefined;
 	export let groupId = undefined;
 	export let bIsActivePerson = false;
-	export let bIsNodeInEditMode = false;
 	export let compatibleGroups = undefined;
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
@@ -57,22 +55,16 @@
 			bIsActivePerson = false;
 		}
 
-		// is this node in edit mode?
-		if (sPersonId === $uiState.personIdForNodeEdit && sPersonId !== undefined) {
-			bIsNodeInEditMode = true;
-		} else {
-			bIsNodeInEditMode = false;
-		}
-
 		personNodeDynamicClass = css`
 			width: ${sNodeSize};
 			height: ${sNodeSize};
-			z-index: ${bIsNodeInEditMode ? `${stylingConstants.zIndices.personNodeEditZIndex}` : 'auto'};
+			z-index: ${$tempState.nodeActionsModalPersonId === sPersonId
+				? `${stylingConstants.zIndices.personNodeEditZIndex}`
+				: 'auto'};
 			background-color: ${bIsActivePerson
 				? stylingConstants.colors.activePersonNodeColor
 				: stylingConstants.colors.personNodeColor};
-			border: ${$uiState.personIdForNodeEdit == sPersonId ||
-			$uiState.personIdForNodeSettingsFlyout == sPersonId
+			border: ${$tempState.nodeActionsModalPersonId == sPersonId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 			:hover {
@@ -120,7 +112,7 @@
 
 	const onPersonNodeClickAction = () => {
 		// don't do anything on click if the node is in edit mode
-		if (bIsNodeInEditMode) {
+		if ($tempState.nodeActionsModalPersonId === sPersonId) {
 			return;
 		}
 
@@ -164,15 +156,10 @@
 				<RelationshipLabel relationshipName={relationshipLabel} />
 			{/if}
 		</div>
-		{#if bIsNodeInEditMode && $tempState.personIdsOffScreenFiltered.length > 0}
+		{#if $tempState.nodeActionsModalPersonId === sPersonId && $tempState.personIdsOffScreenFiltered.length > 0}
 			<PersonNodeScrollingWindow {sRelationshipId} />
 		{/if}
 	</div>
-	{#if bIsNodeInEditMode}
-		<Portal target="#app-container">
-			<Overlay />
-		</Portal>
-	{/if}
 {/key}
 
 <style>

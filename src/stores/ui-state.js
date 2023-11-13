@@ -6,8 +6,6 @@ const uiState = {
 	saveToRepoStatus: undefined,
 	activeFamilyTreeDataId: {},
 	activePerson: {},
-	personIdForNodeEdit: undefined,
-	personIdForNodeSettingsFlyout: undefined,
 	personNodePositions: [],
 	personNodeConnectionLineCanvas: undefined,
 	personNodeConnectionLineCanvasHover: undefined,
