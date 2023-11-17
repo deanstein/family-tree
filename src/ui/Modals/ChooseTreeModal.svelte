@@ -82,7 +82,7 @@
 			/>
 		</div>
 		<div id="dev-message" class="choose-tree-dev-message">
-			This app is in development and may have bugs.
+			This app is in development and may be buggy.
 		</div>
 	</div>
 </Modal>

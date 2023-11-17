@@ -120,7 +120,8 @@
 <div id="timeline-container" class="timeline-container">
 	<div id="timeline-actions-bar" class="timeline-actions-bar">
 		<div id="timeline-event-count" class="{timelineEventCountDynamicClass} timeline-event-count">
-			Showing {timelineRowItems.length} timeline events
+			<!-- birth and death/today are always shown, so add 2 to the count -->
+			Showing {timelineRowItems.length + 2} timeline events
 		</div>
 		<Checkbox
 			isEnabled={true}
