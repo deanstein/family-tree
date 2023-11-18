@@ -30,9 +30,7 @@
 	import AssociatedPersonNodeGroup from './AssociatedPersonNodeGroup.svelte';
 
 	// get the event data
-	let eventDate = $tempState?.timelineEditEvent?.eventDate;
 	let eventType = $tempState?.timelineEditEvent?.eventType;
-	let eventContent = $tempState?.timelineEditEvent?.eventContent;
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
 	let isValidDate = false; // if true, the current date in the field is valid
@@ -45,7 +43,7 @@
 	// all possible input values
 	let eventDateInputValue = $tempState?.timelineEditEvent?.eventDate;
 	let eventTypeInputValue = $tempState?.timelineEditEvent?.eventType;
-	let eventContentInputValue = $tempState?.timelineEditEvent?.eventContent;
+	let eventContentInputValue = $tempState?.timelineEditEvent?.eventContent.description;
 	let birthdateInputValue = $uiState?.activePerson?.birth?.date;
 	let birthtimeInputValue = $uiState?.activePerson?.birth?.time;
 	let birthplaceInputValue = $uiState?.activePerson?.birth?.place;
@@ -74,7 +72,7 @@
 				newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
 				newEventFromInputs.eventDate = eventDateInputValue;
 				newEventFromInputs.eventType = eventTypeInputValue;
-				newEventFromInputs.eventContent = eventContentInputValue;
+				newEventFromInputs.eventContent.description = eventContentInputValue;
 				addOrReplaceTimelineEvent(newEventFromInputs);
 		}
 	};
@@ -96,7 +94,7 @@
 			default:
 				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
 				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
-				eventContentInputValue = $tempState.timelineEditEvent.eventContent;
+				eventContentInputValue = $tempState.timelineEditEvent.eventContent.description;
 		}
 	};
 

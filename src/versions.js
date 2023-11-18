@@ -143,9 +143,9 @@ export const schemaChangelog = {
 			'v0.11.x adds support for uploading images including a bio photo and adds richer event content support, including images and associated people.',
 		Changes: [
 			'Added bioUrl field to person schema, restored label field for timeline-event-types schema',
-			'Added richer event content support',
 			'Added image support for event content',
-			'Added associated people support for event content'
+			'Added associated people support for event content',
+			'Migrated legacy string event content to a description field'
 		]
 	},
 	'v0.10.x': {

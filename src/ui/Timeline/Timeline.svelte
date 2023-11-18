@@ -94,7 +94,7 @@
 	$: {
 		// ensure birth event is kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
-		birthEvent.eventContent = 'Born';
+		birthEvent.eventContent.description = 'Born';
 		// ensure death event is kept updated
 		deathEvent.eventType =
 			$uiState.activePerson.death.date !== ''
@@ -104,7 +104,8 @@
 			$uiState.activePerson.death.date !== ''
 				? $uiState.activePerson.death.date
 				: new Date().toLocaleDateString();
-		deathEvent.eventContent = $uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
+		deathEvent.eventContent.description =
+			$uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid

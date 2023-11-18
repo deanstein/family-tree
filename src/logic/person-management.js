@@ -63,12 +63,19 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 // ensures a timeline event has the necessary fields
 export const upgradeTimelineEvent = (eventToUpgrade) => {
 	const originalVersion = eventToUpgrade.eventVersion;
+	let originalContentString; // handle legacy timeline events
 	let upgraded = false;
 
 	// legacy timeline events may not have a type defined
 	// if so, set these to generic
 	if (eventToUpgrade.eventType === '' || eventToUpgrade.eventType === undefined) {
 		eventToUpgrade.eventType = timelineEventTypes.generic.type;
+	}
+
+	// legacy timeline event content may be a single string,
+	// so capture that before upgrading so it can be used later as the description
+	if (typeof eventToUpgrade.eventContent === 'string') {
+		originalContentString = eventToUpgrade.eventContent;
 	}
 
 	// only upgrade if the schema version doesn't match
@@ -84,6 +91,10 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 				return eventToUpgrade;
 			default:
 				deepMatchObjects(timelineEvent, eventToUpgrade, true);
+				// set the description field to the original content if applicable
+				if (originalContentString) {
+					eventToUpgrade.eventContent.description = originalContentString;
+				}
 		}
 
 		upgraded = true;
