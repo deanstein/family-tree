@@ -2,17 +2,21 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
-	import { monthNames } from '../strings';
-	import stylingConstants from '../styling-constants';
-	import { setTimelineEditEvent } from '../../logic/temp-management';
+	import timelineEventTypes from '../../../schemas/timeline-event-types';
+
+	import uiState from '../../../stores/ui-state';
+
+	import { getNumberOfYearsBetweenEvents } from '../../../logic/utils';
+	import { monthNames } from '../../strings';
+	import stylingConstants from '../../styling-constants';
+
+	import { upgradeTimelineEvent } from '../../../logic/person-management';
+
+	import { setTimelineEditEvent } from '../../../logic/temp-management';
 	import {
 		setFirstTimelineEventHeight,
-		setLastTimelineEventHeight,
-		upgradeTimelineEvent
-	} from '../../logic/ui-management';
-	import timelineEventTypes from '../../schemas/timeline-event-types';
-	import uiState from '../../stores/ui-state';
-	import { getNumberOfYearsBetweenEvents } from '../../logic/utils';
+		setLastTimelineEventHeight
+	} from '../../../logic/ui-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
@@ -23,10 +27,7 @@
 
 	const onTimelineEventClickAction = () => {
 		// do nothing if this is the "today" event (no death date)
-		if (
-			timelineEvent.eventType === timelineEventTypes.death.type &&
-			!$uiState.activePerson.deceased
-		) {
+		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
 		}
 		setTimelineEditEvent(timelineEvent);
@@ -76,17 +77,20 @@
 		color: ${stylingConstants.colors.textColor};
 	`;
 
-	const eventTextDynamicClass = css`
+	const eventDescriptionCss = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
 	onMount(() => {
+		// upgrade the timeline event so it has the right fields for downstream operations
+		const upgradedEvent = upgradeTimelineEvent(timelineEvent);
+
 		// birth and death events report their row height for the spine to align to
-		if (timelineEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
+		if (upgradedEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
 			setFirstTimelineEventHeight(eventRowHeight);
 		}
-		if (timelineEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
+		if (upgradedEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
 			setLastTimelineEventHeight(eventRowHeight);
 		}
@@ -94,9 +98,6 @@
 
 	$: {
 		if (timelineEvent) {
-			// upgrade the timeline event so it has the right fields for downstream operations
-			upgradeTimelineEvent(timelineEvent);
-
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
 			eventRowDynamicClass = css`
@@ -147,8 +148,10 @@
 				</div>
 			{/if}
 		</div>
-		<div id="timeline-event-text" class="{eventTextDynamicClass} timeline-event-text">
-			{timelineEvent?.eventContent ? timelineEvent?.eventContent : 'Event details'}
+		<div id="timeline-event-description" class="{eventDescriptionCss} timeline-event-description">
+			{timelineEvent?.eventContent.description
+				? timelineEvent?.eventContent.description
+				: 'Event description'}
 		</div>
 	</div>
 </div>
@@ -226,7 +229,7 @@
 		cursor: pointer;
 	}
 
-	.timeline-event-text {
+	.timeline-event-description {
 		padding: 5px 10px 5px 10px;
 		border-radius: 0px 0px 5px 5px;
 	}

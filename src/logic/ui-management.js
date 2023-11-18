@@ -307,33 +307,6 @@ export const updateTimelineRowItems = (rowItems) => {
 	return sortedRowItems;
 };
 
-// ensures a timeline event has the necessary fields
-export const upgradeTimelineEvent = (eventToUpgrade) => {
-	// only upgrade if the schema version doesn't match
-	if (!eventToUpgrade?.eventVersion || eventToUpgrade?.eventVersion !== schemaVersion) {
-		console.log(
-			'Timeline event upgraded: ' + eventToUpgrade?.eventVersion + ' -> ' + schemaVersion
-		);
-		eventToUpgrade.eventVersion = schemaVersion;
-
-		switch (eventToUpgrade.eventType) {
-			case 'birth':
-				deepMatchObjects(timelineEventTypes.birth.content, eventToUpgrade.eventContent, {});
-				return eventToUpgrade;
-			case 'death':
-				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, {});
-				return eventToUpgrade;
-			default:
-				deepMatchObjects(timelineEvent, eventToUpgrade);
-		}
-	}
-	// legacy timeline events may not have a type defined
-	// if so, set these to generic
-	if (eventToUpgrade.eventType === '' || eventToUpgrade.eventType === undefined) {
-		eventToUpgrade.eventType = timelineEventTypes.generic.type;
-	}
-};
-
 export const getModalTitleByEventType = (eventType) => {
 	switch (eventType) {
 		case timelineEventTypes.birth.type:

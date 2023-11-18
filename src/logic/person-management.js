@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { person } from '../schemas/person';
 import relationshipMap from '../schemas/relationship-map';
+import { schemaVersion } from '../versions';
+import { person } from '../schemas/person';
+import timelineEventTypes from '../schemas/timeline-event-types';
+import timelineEvent from '../schemas/timeline-event';
 
 import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
@@ -55,6 +58,53 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 	}
 
 	return personDataToModify;
+};
+
+// ensures a timeline event has the necessary fields
+export const upgradeTimelineEvent = (eventToUpgrade) => {
+	const originalVersion = eventToUpgrade.eventVersion;
+	let originalContentString; // handle legacy timeline events
+	let upgraded = false;
+
+	// legacy timeline events may not have a type defined
+	// if so, set these to generic
+	if (eventToUpgrade.eventType === '' || eventToUpgrade.eventType === undefined) {
+		eventToUpgrade.eventType = timelineEventTypes.generic.type;
+	}
+
+	// legacy timeline event content may be a single string,
+	// so capture that before upgrading so it can be used later as the description
+	if (typeof eventToUpgrade.eventContent === 'string') {
+		originalContentString = eventToUpgrade.eventContent;
+	}
+
+	// only upgrade if the schema version doesn't match
+	if (!eventToUpgrade?.eventVersion || eventToUpgrade?.eventVersion !== schemaVersion) {
+		eventToUpgrade.eventVersion = schemaVersion;
+
+		switch (eventToUpgrade.eventType) {
+			case 'birth':
+				deepMatchObjects(timelineEventTypes.birth.content, eventToUpgrade.eventContent, true);
+				return eventToUpgrade;
+			case 'death':
+				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, true);
+				return eventToUpgrade;
+			default:
+				deepMatchObjects(timelineEvent, eventToUpgrade, true);
+				// set the description field to the original content if applicable
+				if (originalContentString) {
+					eventToUpgrade.eventContent.description = originalContentString;
+				}
+		}
+
+		upgraded = true;
+	}
+
+	if (upgraded) {
+		console.log('Timeline event upgraded: ' + originalVersion + ' -> ' + schemaVersion);
+	}
+
+	return eventToUpgrade;
 };
 
 export const getPersonById = (id) => {
@@ -136,6 +186,7 @@ export const setActivePerson = (person) => {
 export const setPersonName = (sPersonId, sName) => {
 	familyTreeData.update((currentValue) => {
 		let personIndex = getPersonIndexById(sPersonId);
+		// @ts-ignore
 		currentValue.allPeople[personIndex].name = sName;
 		return currentValue;
 	});
@@ -205,6 +256,7 @@ export const addActivePersonToPeopleArray = () => {
 			allPeople: [
 				...currentValue.allPeople.slice(0, index),
 				activePerson,
+				// @ts-ignore
 				...currentValue.allPeople.slice(index + 1)
 			]
 		};
@@ -221,8 +273,10 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
+		// @ts-ignore
 		const person = currentValue.allPeople[nPersonIndex];
 		const nActivePersonIndex = getPersonIndexById(activePersonId);
+		// @ts-ignore
 		const activePerson = currentValue.allPeople[nActivePersonIndex];
 
 		const activePersonRelationship = {
