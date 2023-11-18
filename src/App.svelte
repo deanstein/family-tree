@@ -24,7 +24,7 @@
 
 	import ChooseTreeModal from './ui/Modals/ChooseTreeModal.svelte';
 	import EditAlternateNameModal from './ui/Modals/EditAlternateNameModal.svelte';
-	import EditTimelineEventModal from './ui/Timeline/TimelineEventDetailModal.svelte';
+	import EditTimelineEventModal from './ui/Timeline/EventDetail/EventDetailModal.svelte';
 	import NodeActionsModal from './ui/Modals/NodeActionsModal.svelte';
 	import PersonDetailModal from './ui/Modals/PersonDetailModal.svelte';
 	import Header from './ui/Header.svelte';

@@ -2,17 +2,23 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
-	import { monthNames } from '../strings';
-	import stylingConstants from '../styling-constants';
-	import { setTimelineEditEvent } from '../../logic/temp-management';
+	import timelineEventTypes from '../../../schemas/timeline-event-types';
+
+	import { getNumberOfYearsBetweenEvents } from '../../../logic/utils';
+	import { monthNames } from '../../strings';
+	import stylingConstants from '../../styling-constants';
+
+	import {
+		addOrReplaceTimelineEvent,
+		upgradeTimelineEvent
+	} from '../../../logic/person-management';
+	import uiState from '../../../stores/ui-state';
+
+	import { setTimelineEditEvent } from '../../../logic/temp-management';
 	import {
 		setFirstTimelineEventHeight,
-		setLastTimelineEventHeight,
-		upgradeTimelineEvent
-	} from '../../logic/ui-management';
-	import timelineEventTypes from '../../schemas/timeline-event-types';
-	import uiState from '../../stores/ui-state';
-	import { getNumberOfYearsBetweenEvents } from '../../logic/utils';
+		setLastTimelineEventHeight
+	} from '../../../logic/ui-management';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
@@ -23,10 +29,7 @@
 
 	const onTimelineEventClickAction = () => {
 		// do nothing if this is the "today" event (no death date)
-		if (
-			timelineEvent.eventType === timelineEventTypes.death.type &&
-			!$uiState.activePerson.deceased
-		) {
+		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
 		}
 		setTimelineEditEvent(timelineEvent);
@@ -81,12 +84,24 @@
 	`;
 
 	onMount(() => {
+		// upgrade the timeline event so it has the right fields for downstream operations
+		const upgradedEvent = upgradeTimelineEvent(timelineEvent);
+
+		if (
+			timelineEvent.eventType !== timelineEventTypes.birth.type &&
+			timelineEvent.eventType !== timelineEventTypes.death.type &&
+			timelineEvent.eventType !== timelineEventTypes.today.type
+		) {
+			// write the upgraded timeline event to the uiState
+			//addOrReplaceTimelineEvent(upgradedEvent);
+		}
+
 		// birth and death events report their row height for the spine to align to
-		if (timelineEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
+		if (upgradedEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
 			setFirstTimelineEventHeight(eventRowHeight);
 		}
-		if (timelineEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
+		if (upgradedEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
 			setLastTimelineEventHeight(eventRowHeight);
 		}
@@ -94,7 +109,6 @@
 
 	$: {
 		if (timelineEvent) {
-			// upgrade the timeline event so it has the right fields for downstream operations
 			upgradeTimelineEvent(timelineEvent);
 
 			eventDateCorrected = new Date(timelineEvent.eventDate);

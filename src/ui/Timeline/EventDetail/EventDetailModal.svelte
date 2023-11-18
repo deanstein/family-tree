@@ -1,32 +1,33 @@
 <script>
-	import uiState from '../../stores/ui-state';
-	import tempState from '../../stores/temp-state';
+	import uiState from '../../../stores/ui-state';
+	import tempState from '../../../stores/temp-state';
 
-	import timelineEvent from '../../schemas/timeline-event';
-	import timelineEventTypes from '../../schemas/timeline-event-types';
+	import timelineEvent from '../../../schemas/timeline-event';
+	import timelineEventTypes from '../../../schemas/timeline-event-types';
 
 	import {
 		checkPersonForUnsavedChanges,
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
-	} from '../../logic/temp-management';
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../logic/person-management';
-	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../logic/ui-management';
-	import { getObjectByKeyValue, instantiateObject, getIsDateValid } from '../../logic/utils';
-	import { timelineEventStrings } from '../strings';
+	} from '../../../logic/temp-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
+	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../../logic/ui-management';
+	import { getObjectByKeyValue, instantiateObject, getIsDateValid } from '../../../logic/utils';
+	import { timelineEventStrings } from '../../strings';
 
-	import stylingConstants from '../styling-constants';
+	import stylingConstants from '../../styling-constants';
 
-	import Button from '../Button.svelte';
-	import DatePicker from '../DatePicker.svelte';
-	import FieldContainer from '../InputContainer.svelte';
-	import Modal from '../Modals/Modal.svelte';
-	import ModalActionsBar from '../Modals/ModalActionsBar.svelte';
-	import Select from '../Select.svelte';
-	import TextArea from '../TextArea.svelte';
-	import TextInput from '../TextInput.svelte';
-	import SideBySideContainer from '../SideBySideContainer.svelte';
+	import Button from '../../Button.svelte';
+	import DatePicker from '../../DatePicker.svelte';
+	import FieldContainer from '../../InputContainer.svelte';
+	import Modal from '../../Modals/Modal.svelte';
+	import ModalActionsBar from '../../Modals/ModalActionsBar.svelte';
+	import Select from '../../Select.svelte';
+	import TextArea from '../../TextArea.svelte';
+	import TextInput from '../../TextInput.svelte';
+	import SideBySideContainer from '../../SideBySideContainer.svelte';
+	import AssociatedPersonNodeGroup from './AssociatedPersonNodeGroup.svelte';
 
 	// get the event data
 	let eventDate = $tempState?.timelineEditEvent?.eventDate;
@@ -230,6 +231,9 @@
 			</FieldContainer>
 			<FieldContainer label="Event Content" grow={true}>
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
+			</FieldContainer>
+			<FieldContainer label="Associated People" grow={true}>
+				<AssociatedPersonNodeGroup />
 			</FieldContainer>
 		{/if}
 	</div>

@@ -133,15 +133,9 @@ export const updateOffScreenPeopleIdsArray = () => {
 
 	tempState.update((currentValue) => {
 		const activePersonIndex = currentValue.personIdsOffScreen.indexOf(activePerson.id);
-		const editedPersonIndex = currentValue.personIdsOffScreen.indexOf(
-			currentValue.nodeEditPersonId
-		);
 		// remove the active person from the list of candidates to show
 		if (activePersonIndex > -1) {
 			currentValue.personIdsOffScreen.splice(activePersonIndex, 1);
-		}
-		if (editedPersonIndex > -1) {
-			currentValue.personIdsOffScreen.splice(editedPersonIndex, 1);
 		}
 
 		// get all the active person's relationships

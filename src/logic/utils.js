@@ -86,8 +86,19 @@ export const instantiateObject = (object) => {
 };
 
 export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = undefined) => {
-	if (forceChangeToType && typeof dataToChange !== 'object') {
-		dataToChange = forceChangeToType;
+	if (forceChangeToType) {
+		if (typeof dataToMatch === 'string' && typeof dataToChange !== 'string') {
+			dataToChange = String(dataToChange);
+		} else if (typeof dataToMatch === 'number' && typeof dataToChange !== 'number') {
+			dataToChange = Number(dataToChange);
+		} else if (typeof dataToMatch === 'boolean' && typeof dataToChange !== 'boolean') {
+			dataToChange = Boolean(dataToChange);
+		} else if (Array.isArray(dataToMatch) && !Array.isArray(dataToChange)) {
+			dataToChange = [dataToChange];
+		} else if (typeof dataToMatch === 'object' && typeof dataToChange !== 'object') {
+			dataToChange = { value: dataToChange };
+			console.log('here', dataToChange);
+		}
 	}
 
 	for (var key in dataToMatch) {
@@ -103,6 +114,9 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 				deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 			}
 		} else if (typeof dataToMatch[key] === 'object') {
+			if (typeof dataToChange[key] !== 'object') {
+				dataToChange[key] = { value: dataToChange[key] };
+			}
 			deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 		}
 	}
