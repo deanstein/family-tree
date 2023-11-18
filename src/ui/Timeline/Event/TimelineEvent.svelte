@@ -4,15 +4,15 @@
 
 	import timelineEventTypes from '../../../schemas/timeline-event-types';
 
+	import uiState from '../../../stores/ui-state';
+
 	import { getNumberOfYearsBetweenEvents } from '../../../logic/utils';
 	import { monthNames } from '../../strings';
 	import stylingConstants from '../../styling-constants';
 
 	import {
-		addOrReplaceTimelineEvent,
 		upgradeTimelineEvent
 	} from '../../../logic/person-management';
-	import uiState from '../../../stores/ui-state';
 
 	import { setTimelineEditEvent } from '../../../logic/temp-management';
 	import {
@@ -86,15 +86,6 @@
 	onMount(() => {
 		// upgrade the timeline event so it has the right fields for downstream operations
 		const upgradedEvent = upgradeTimelineEvent(timelineEvent);
-
-		if (
-			timelineEvent.eventType !== timelineEventTypes.birth.type &&
-			timelineEvent.eventType !== timelineEventTypes.death.type &&
-			timelineEvent.eventType !== timelineEventTypes.today.type
-		) {
-			// write the upgraded timeline event to the uiState
-			//addOrReplaceTimelineEvent(upgradedEvent);
-		}
 
 		// birth and death events report their row height for the spine to align to
 		if (upgradedEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
