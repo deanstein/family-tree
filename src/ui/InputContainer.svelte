@@ -27,6 +27,8 @@
 	}
 
 	.bio-field-content {
+		display: flex;
+		flex-direction: column;
 		min-height: 2vh;
 		height: 100%;
 	}

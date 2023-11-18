@@ -215,10 +215,10 @@
 
 			<!-- standard content box if no event type or generic type -->
 		{:else}
-			<FieldContainer label="Event Date">
+			<FieldContainer label="Date">
 				<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
 			</FieldContainer>
-			<FieldContainer label="Event Type">
+			<FieldContainer label="Type">
 				<Select
 					isEnabled={isInEditMode}
 					bind:inputValue={eventTypeInputValue}
@@ -227,7 +227,7 @@
 					optionLabelKey="label"
 				/>
 			</FieldContainer>
-			<FieldContainer label="Event Content" grow={true}>
+			<FieldContainer label="Description" grow={true}>
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</FieldContainer>
 			<FieldContainer label="Associated People" grow={true}>
