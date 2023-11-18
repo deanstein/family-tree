@@ -88,15 +88,15 @@ export const instantiateObject = (object) => {
 export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = undefined) => {
 	if (forceChangeToType) {
 		if (typeof dataToMatch === 'string' && typeof dataToChange !== 'string') {
-			dataToChange = String(dataToChange);
+			dataToChange = String();
 		} else if (typeof dataToMatch === 'number' && typeof dataToChange !== 'number') {
-			dataToChange = Number(dataToChange);
+			dataToChange = Number();
 		} else if (typeof dataToMatch === 'boolean' && typeof dataToChange !== 'boolean') {
-			dataToChange = Boolean(dataToChange);
-		} else if (Array.isArray(dataToMatch) && !Array.isArray(dataToChange)) {
+			dataToChange = Boolean();
+		} else if (Array.isArray() && !Array.isArray(dataToChange)) {
 			dataToChange = [dataToChange];
 		} else if (typeof dataToMatch === 'object' && typeof dataToChange !== 'object') {
-			dataToChange = { value: dataToChange };
+			dataToChange = { };
 		}
 	}
 
