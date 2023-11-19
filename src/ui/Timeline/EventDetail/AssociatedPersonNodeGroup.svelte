@@ -10,8 +10,11 @@
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 
-	import PersonNodePlaceholder from '../../NodeView/PersonNode/PersonNodePlaceholder.svelte';
 	import AddButtonCircular from '../../AddButtonCircular.svelte';
+	import AddButtonSquare from '../../AddButtonSquare.svelte';
+	import MediaGroupTitle from '../../MediaGroupTitle.svelte';
+
+	export let showGroupTitle = true;
 
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
@@ -27,11 +30,6 @@
 		height: ${stylingConstants.sizes.personNodeGroupHeight};
 		gap: ${stylingConstants.sizes.padding};
 	`;
-	const personNodeGroupTitleDynamicClass = css`
-		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
-		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
-		background-color: ${stylingConstants.colors.nodeGroupHeaderColor};
-	`;
 
 	$: {
 		personNodeGroupData.groupMembers =
@@ -45,45 +43,30 @@
 	}
 </script>
 
-<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
-	<div
-		id="person-node-group-outer-container"
-		class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
-	>
-		<div
-			id="person-node-group-title"
-			class="{personNodeGroupTitleDynamicClass} person-node-group-title"
-		>
-			With
-		</div>
-		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
-			{#if personNodeGroupData?.groupMembers?.length == 0}
-				<PersonNodePlaceholder
-					relationshipId={personNodeGroupData.groupId}
-					compatibleGroups={personNodeGroupData.compatibleGroups}
-				/>
-			{/if}
-			<!-- {#each personNodeGroupData.groupMembers as groupMember}
+<div
+	id="person-node-group-outer-container"
+	class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
+>
+	{#if showGroupTitle}
+		<MediaGroupTitle groupTitle={'With'} />
+	{/if}
+
+	<div id="person-node-group-interior-container" class="person-node-group-inner-container">
+		{#if personNodeGroupData?.groupMembers?.length == 0}
+			<AddButtonSquare />
+		{/if}
+		<!-- {#each personNodeGroupData.groupMembers as groupMember}
 				<PersonNode
 
 				/>
 			{/each} -->
-		</div>
 	</div>
-	{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
-		<AddButtonCircular />
-	{/if}
 </div>
+{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
+	<AddButtonCircular />
+{/if}
 
 <style>
-	.person-node-group-plus-button {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		border-radius: 10px;
-	}
-
 	.person-node-group-outer-container {
 		display: flex;
 		flex-direction: column;
@@ -94,14 +77,5 @@
 		display: flex;
 		flex-direction: row;
 		gap: 1vh;
-	}
-
-	.person-node-group-title {
-		align-items: center;
-		justify-content: center;
-		display: inline-flex;
-		width: 100%;
-		color: white;
-		border-radius: 5px;
 	}
 </style>

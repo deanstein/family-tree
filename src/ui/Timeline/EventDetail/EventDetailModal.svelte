@@ -240,7 +240,7 @@
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
 				<div class="media-content-container">
-					<AssociatedPersonNodeGroup />
+					<AssociatedPersonNodeGroup showGroupTitle={false} />
 				</div>
 			</InputContainer>
 		{/if}
@@ -294,7 +294,7 @@
 	}
 
 	.media-content-container {
-		width: 100%;
+		padding: 10px;
 		background-color: white;
 	}
 </style>

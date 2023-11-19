@@ -15,6 +15,5 @@
 <style>
 	.image-thumbnail-group-container {
 		width: 100%;
-		padding: 10px;
 	}
 </style>
