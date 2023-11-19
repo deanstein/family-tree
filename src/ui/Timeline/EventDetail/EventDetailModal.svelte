@@ -20,7 +20,7 @@
 
 	import Button from '../../Button.svelte';
 	import DatePicker from '../../DatePicker.svelte';
-	import FieldContainer from '../../InputContainer.svelte';
+	import InputContainer from '../../InputContainer.svelte';
 	import Modal from '../../Modals/Modal.svelte';
 	import ModalActionsBar from '../../Modals/ModalActionsBar.svelte';
 	import Select from '../../Select.svelte';
@@ -28,6 +28,8 @@
 	import TextInput from '../../TextInput.svelte';
 	import SideBySideContainer from '../../SideBySideContainer.svelte';
 	import AssociatedPersonNodeGroup from './AssociatedPersonNodeGroup.svelte';
+	import InputLabel from '../../InputLabel.svelte';
+	import ImageThumbnails from '../../ImageThumbnails.svelte';
 
 	// get the event data
 	let eventType = $tempState?.timelineEditEvent?.eventType;
@@ -181,58 +183,67 @@
 		<!-- birth -->
 		{#if eventType === timelineEventTypes.birth.type}
 			<SideBySideContainer>
-				<FieldContainer label={timelineEventStrings.birthdate}>
+				<InputContainer label={timelineEventStrings.birthdate}>
 					<DatePicker
 						bind:inputValue={birthdateInputValue}
 						isEnabled={isInEditMode}
 						onKeyUpFunction={getIsDateInputValid}
 					/>
-				</FieldContainer>
-				<FieldContainer label={timelineEventStrings.birthtime}>
+				</InputContainer>
+				<InputContainer label={timelineEventStrings.birthtime}>
 					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
-				</FieldContainer>
+				</InputContainer>
 			</SideBySideContainer>
-			<FieldContainer label={timelineEventStrings.birthplace}>
+			<InputContainer label={timelineEventStrings.birthplace}>
 				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isInEditMode} />
-			</FieldContainer>
+			</InputContainer>
 
 			<!-- death -->
 		{:else if eventType === timelineEventTypes.death.type}
 			<SideBySideContainer>
-				<FieldContainer label={timelineEventStrings.deathDate}>
+				<InputContainer label={timelineEventStrings.deathDate}>
 					<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isInEditMode} />
-				</FieldContainer>
-				<FieldContainer label={timelineEventStrings.deathTime}>
+				</InputContainer>
+				<InputContainer label={timelineEventStrings.deathTime}>
 					<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isInEditMode} />
-				</FieldContainer>
+				</InputContainer>
 			</SideBySideContainer>
-			<FieldContainer label={timelineEventStrings.deathPlace}>
+			<InputContainer label={timelineEventStrings.deathPlace}>
 				<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isInEditMode} />
-			</FieldContainer>
-			<FieldContainer label={timelineEventStrings.deathCause}>
+			</InputContainer>
+			<InputContainer label={timelineEventStrings.deathCause}>
 				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isInEditMode} />
-			</FieldContainer>
+			</InputContainer>
 
 			<!-- standard content box if no event type or generic type -->
 		{:else}
-			<FieldContainer label="Date">
-				<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
-			</FieldContainer>
-			<FieldContainer label="Type">
-				<Select
-					isEnabled={isInEditMode}
-					bind:inputValue={eventTypeInputValue}
-					optionsGroupObject={timelineEventOptions}
-					optionValueKey="type"
-					optionLabelKey="label"
-				/>
-			</FieldContainer>
-			<FieldContainer label="Description" grow={true}>
+			<SideBySideContainer>
+				<InputContainer label="Date">
+					<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
+				</InputContainer>
+				<InputContainer label="Type">
+					<Select
+						isEnabled={isInEditMode}
+						bind:inputValue={eventTypeInputValue}
+						optionsGroupObject={timelineEventOptions}
+						optionValueKey="type"
+						optionLabelKey="label"
+					/>
+				</InputContainer>
+			</SideBySideContainer>
+			<InputContainer label="Description">
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
-			</FieldContainer>
-			<FieldContainer label="Associated People" grow={true}>
-				<AssociatedPersonNodeGroup />
-			</FieldContainer>
+			</InputContainer>
+			<InputContainer label="Images">
+				<div class="media-content-container">
+					<ImageThumbnails />
+				</div>
+			</InputContainer>
+			<InputContainer label="Associated People" grow={true}>
+				<div class="media-content-container">
+					<AssociatedPersonNodeGroup />
+				</div>
+			</InputContainer>
 		{/if}
 	</div>
 	<div slot="modal-toolbar-slot">
@@ -281,5 +292,11 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vh;
+	}
+
+	.media-content-container {
+		width: 100%;
+		height: 20px;
+		background-color: white;
 	}
 </style>
