@@ -2,31 +2,36 @@
 	import { css } from '@emotion/css';
 	import stylingConstants from './styling-constants';
 
-	export let buttonText = '+';
 	export let onClickFunction = undefined;
+	export let colorOverride = undefined;
 
-	const circularButtonDynamicClass = css`
+	let circularButtonCss = css`
 		width: ${stylingConstants.sizes.personNodeAddButtonSize};
 		height: ${stylingConstants.sizes.personNodeAddButtonSize};
-		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		color: white;
-		background-color: ${stylingConstants.colors.activeColor};
-		:hover {
+		&:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
 		}
 	`;
+
+	$: {
+		// handle the override
+		// for example, if the parent is hovered and the override is triggered
+		circularButtonCss = css`
+			${circularButtonCss}
+			background-color: ${colorOverride ? colorOverride : stylingConstants.colors.activeColor};
+		`;
+	}
 </script>
 
 <div id="circular-button-container" class="circular-button-container">
 	<div
 		id="circular-button"
-		class="{circularButtonDynamicClass} circular-button"
+		class="{circularButtonCss} circular-button"
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 	>
-		<div id="circular-button-label" class="circular-button-label">{buttonText}</div>
+		<div id="circular-button-label" class="circular-button-label">+</div>
 	</div>
 </div>
 
@@ -35,6 +40,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border-radius: 50%;
 		cursor: pointer;
 	}
 

@@ -96,7 +96,7 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 		} else if (Array.isArray() && !Array.isArray(dataToChange)) {
 			dataToChange = [dataToChange];
 		} else if (typeof dataToMatch === 'object' && typeof dataToChange !== 'object') {
-			dataToChange = { };
+			dataToChange = {};
 		}
 	}
 
