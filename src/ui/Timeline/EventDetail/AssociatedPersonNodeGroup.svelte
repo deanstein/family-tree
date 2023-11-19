@@ -11,7 +11,7 @@
 	import stylingConstants from '../../styling-constants';
 
 	import PersonNodePlaceholder from '../../NodeView/PersonNode/PersonNodePlaceholder.svelte';
-	import CircularButton from '../../CircularButton.svelte';
+	import AddButtonCircular from '../../AddButtonCircular.svelte';
 
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
@@ -71,7 +71,7 @@
 		</div>
 	</div>
 	{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
-		<CircularButton />
+		<AddButtonCircular />
 	{/if}
 </div>
 

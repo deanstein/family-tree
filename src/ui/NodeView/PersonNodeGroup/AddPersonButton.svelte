@@ -19,9 +19,6 @@
 	const personNodeAddButtonDynamicStyle = css`
 		width: ${stylingConstants.sizes.personNodeAddButtonSize};
 		height: ${stylingConstants.sizes.personNodeAddButtonSize};
-		-moz-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		-webkit-border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
-		border-radius: ${stylingConstants.sizes.personNodeAddButtonRadius};
 		color: white;
 		background: ${stylingConstants.colors.activePersonNodeColor};
 		:hover {
@@ -61,6 +58,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border-radius: 50%;
 	}
 
 	.person-add-button-label {

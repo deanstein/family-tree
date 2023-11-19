@@ -1,5 +1,5 @@
 <script>
-	import AddPersonOrMediaButton from './AddPersonOrMediaButton.svelte';
+	import AddPersonOrMediaButton from './AddButtonSquare.svelte';
 	import ImageThumbnail from './ImageThumbnail.svelte';
 
 	export let images = [];

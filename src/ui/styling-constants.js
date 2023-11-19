@@ -136,15 +136,13 @@ const sizes = {
 	get personNodeAddButtonSize() {
 		return this.nPersonNodeAddButtonSize.toString() + 'vh';
 	},
-	get nPersonNodeAddButtonRadius() {
-		return this.nPersonNodeAddButtonSize / 2;
-	},
-	get personNodeAddButtonRadius() {
-		return this.nPersonNodeAddButtonRadius.toString() + 'vh';
-	},
 	nBioFieldFontSize: 1.5,
 	get bioFieldFontSize() {
 		return this.nBioFieldFontSize + 'vh';
+	},
+	nBioFieldBorderRadius: 10,
+	get bioFieldBorderRadius() {
+		return this.nBioFieldBorderRadius + 'px';
 	},
 	nTimelineDateFontSize: 1.5,
 	get timelineDateFontSize() {
