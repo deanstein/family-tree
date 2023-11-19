@@ -18,18 +18,17 @@
 
 	import stylingConstants from '../../styling-constants';
 
+	import AssociatedPersonNodeGroup from './AssociatedPersonNodeGroup.svelte';
 	import Button from '../../Button.svelte';
 	import DatePicker from '../../DatePicker.svelte';
+	import ImageThumbnailGroup from '../../ImageThumbnailGroup.svelte';
 	import InputContainer from '../../InputContainer.svelte';
 	import Modal from '../../Modals/Modal.svelte';
 	import ModalActionsBar from '../../Modals/ModalActionsBar.svelte';
 	import Select from '../../Select.svelte';
+	import SideBySideContainer from '../../SideBySideContainer.svelte';
 	import TextArea from '../../TextArea.svelte';
 	import TextInput from '../../TextInput.svelte';
-	import SideBySideContainer from '../../SideBySideContainer.svelte';
-	import AssociatedPersonNodeGroup from './AssociatedPersonNodeGroup.svelte';
-	import InputLabel from '../../InputLabel.svelte';
-	import ImageThumbnails from '../../ImageThumbnails.svelte';
 
 	// get the event data
 	let eventType = $tempState?.timelineEditEvent?.eventType;
@@ -236,10 +235,10 @@
 			</InputContainer>
 			<InputContainer label="Images">
 				<div class="media-content-container">
-					<ImageThumbnails />
+					<ImageThumbnailGroup />
 				</div>
 			</InputContainer>
-			<InputContainer label="Associated People" grow={true}>
+			<InputContainer label="With" grow={true}>
 				<div class="media-content-container">
 					<AssociatedPersonNodeGroup />
 				</div>
@@ -296,7 +295,6 @@
 
 	.media-content-container {
 		width: 100%;
-		height: 20px;
 		background-color: white;
 	}
 </style>

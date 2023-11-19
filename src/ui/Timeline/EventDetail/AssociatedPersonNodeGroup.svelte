@@ -12,7 +12,6 @@
 
 	import PersonNodePlaceholder from '../../NodeView/PersonNode/PersonNodePlaceholder.svelte';
 	import CircularButton from '../../CircularButton.svelte';
-	import PersonNode from '../../NodeView/PersonNode/PersonNode.svelte';
 
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
@@ -55,7 +54,7 @@
 			id="person-node-group-title"
 			class="{personNodeGroupTitleDynamicClass} person-node-group-title"
 		>
-			Was With:
+			With
 		</div>
 		<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 			{#if personNodeGroupData?.groupMembers?.length == 0}
