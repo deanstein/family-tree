@@ -27,7 +27,6 @@
 	`;
 
 	const personNodeGroupOuterContainerDynamicClass = css`
-		height: ${stylingConstants.sizes.personNodeGroupHeight};
 		gap: ${stylingConstants.sizes.padding};
 	`;
 
