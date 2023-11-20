@@ -22,7 +22,7 @@
 	export let allowEdit;
 
 	const bioPhotoEditFaIcon = 'fa-pen';
-	const bioPhotoDeleteFaIcon = 'fa-trash';
+	const bioPhotoDeleteFaIcon = 'fa-trash'; // TODO
 
 	let person;
 	let file;
@@ -144,6 +144,8 @@
 	});
 
 	$: {
+		// update when the image cache changes
+		$imageCache;
 		person = getPersonById(personId);
 		getAndShowBioPhoto();
 	}

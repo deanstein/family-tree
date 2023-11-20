@@ -109,7 +109,6 @@
 				$uiState.activePerson.birth.date,
 				eventDateCorrected
 			);
-			console.log('here');
 		}
 	}
 </script>
