@@ -26,6 +26,7 @@
 
 	let person;
 	let file;
+	let filePath;
 	let fileInput;
 	let fileReader;
 	let fileExtension;
@@ -45,7 +46,7 @@
 			try {
 				// get the extension and construct a path from the stored URL
 				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
-				const filePath = person.id + '/' + bioPhotoFileName + fileExtension;
+				filePath = person.id + '/' + bioPhotoFileName + fileExtension;
 
 				// check the cache first
 				const imageFromCache = getImageFromCache(filePath);
@@ -144,10 +145,10 @@
 	});
 
 	$: {
-		// update when the image cache changes
-		$imageCache;
+		if ($imageCache[filePath]) {
+			getAndShowBioPhoto();
+		}
 		person = getPersonById(personId);
-		getAndShowBioPhoto();
 	}
 
 	const editButtonDynamicClass = css`

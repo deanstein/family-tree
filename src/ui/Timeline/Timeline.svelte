@@ -86,9 +86,9 @@
 
 	onMount(() => {
 		setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		// scrollingCanvasDivRef.addEventListener('scroll', () => {
-		// 	setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		// });
+		scrollingCanvasDivRef.addEventListener('scroll', () => {
+			setTimelineCanvasScrollState(scrollingCanvasDivRef);
+		});
 	});
 
 	$: {
