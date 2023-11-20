@@ -143,10 +143,6 @@
 		getAndShowBioPhoto();
 	});
 
-	imageCache.subscribe(() => {
-		getAndShowBioPhoto();
-	});
-
 	$: {
 		person = getPersonById(personId);
 		getAndShowBioPhoto();
