@@ -11,20 +11,15 @@
 	import stylingConstants from '../../styling-constants';
 
 	import AddButtonCircular from '../../AddButtonCircular.svelte';
-	import AddButtonSquare from '../../AddButtonSquare.svelte';
 	import MediaGroupTitle from '../../MediaGroupTitle.svelte';
+	import MediaGroupHorizontal from '../../MediaGroupHorizontal.svelte';
+	import AddButtonSquare from '../../AddButtonSquare.svelte';
 
 	export let showGroupTitle = true;
+	export let showAddButton = true;
 
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
-
-	const personNodeGroupPlusButtonDynamicClass = css`
-		background-color: ${stylingConstants.colors.nodeGroupColor};
-		gap: ${stylingConstants.sizes.padding};
-		padding-left: ${stylingConstants.sizes.padding};
-		padding-right: ${stylingConstants.sizes.padding};
-	`;
 
 	const personNodeGroupOuterContainerDynamicClass = css`
 		gap: ${stylingConstants.sizes.padding};
@@ -46,12 +41,14 @@
 	id="person-node-group-outer-container"
 	class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
 >
-	{#if showGroupTitle}
-		<MediaGroupTitle groupTitle={'With'} />
-	{/if}
+	<MediaGroupHorizontal
+		showEmptyState={personNodeGroupData?.groupMembers?.length === 0 && !showAddButton}
+	>
+		{#if showGroupTitle}
+			<MediaGroupTitle groupTitle={'With'} />
+		{/if}
 
-	<div id="person-node-group-interior-container" class="person-node-group-inner-container">
-		{#if personNodeGroupData?.groupMembers?.length == 0}
+		{#if showAddButton}
 			<AddButtonSquare />
 		{/if}
 		<!-- {#each personNodeGroupData.groupMembers as groupMember}
@@ -59,7 +56,7 @@
 
 				/>
 			{/each} -->
-	</div>
+	</MediaGroupHorizontal>
 </div>
 {#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
 	<AddButtonCircular />

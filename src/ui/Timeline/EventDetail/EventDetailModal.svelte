@@ -235,12 +235,12 @@
 			</InputContainer>
 			<InputContainer label="Images">
 				<div class="media-content-container">
-					<ImageThumbnailGroup />
+					<ImageThumbnailGroup showGroupTitle={false} showAddButton={isInEditMode} />
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
 				<div class="media-content-container">
-					<AssociatedPersonNodeGroup showGroupTitle={false} />
+					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
 				</div>
 			</InputContainer>
 		{/if}
@@ -294,6 +294,8 @@
 	}
 
 	.media-content-container {
+		display: flex;
+		flex-direction: column;
 		padding: 10px;
 		background-color: white;
 	}
