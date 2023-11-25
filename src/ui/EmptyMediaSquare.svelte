@@ -9,10 +9,6 @@
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		background-color: rgb(200, 200, 200, 0.4);
 		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
-
-		&:hover {
-			border: 2px solid ${stylingConstants.colors.hoverColor};
-		}
 	`;
 </script>
 
