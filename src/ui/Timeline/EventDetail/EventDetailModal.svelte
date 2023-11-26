@@ -1,4 +1,6 @@
 <script>
+	import { css } from '@emotion/css';
+
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 
@@ -52,6 +54,9 @@
 	let deathPlaceInputValue = $uiState?.activePerson?.death?.place;
 	let deathTimeInputValue = $uiState?.activePerson?.death?.time;
 	let deathCauseInputValue = $uiState?.activePerson?.death?.cause;
+
+	// dynamic styles
+	let mediaContentContainerCss;
 
 	// saves available inputs to the UI state
 	const saveAllInputs = () => {
@@ -160,6 +165,10 @@
 		)
 			? true
 			: false;
+
+		mediaContentContainerCss = css`
+			border: 2px solid ${isInEditMode ? stylingConstants.colors.activeColor : 'transparent'};
+		`;
 	}
 </script>
 
@@ -234,12 +243,12 @@
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</InputContainer>
 			<InputContainer label="Images">
-				<div class="media-content-container">
+				<div class="{mediaContentContainerCss} media-content-container">
 					<ImageThumbnailGroup showGroupTitle={false} showAddButton={isInEditMode} />
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
-				<div class="media-content-container">
+				<div class="{mediaContentContainerCss} media-content-container">
 					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
 				</div>
 			</InputContainer>
