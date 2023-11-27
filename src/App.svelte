@@ -34,6 +34,7 @@
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
 	import Footer from './ui/Footer.svelte';
 	import DevTools from './ui/DevTools/DevTools.svelte';
+	import ImageDetailModal from './ui/ImageDetailModal.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -118,6 +119,9 @@
 		{/if}
 		{#if $tempState.timelineEditEvent !== undefined}
 			<EditTimelineEventModal />
+		{/if}
+		{#if $tempState.imageEditId !== undefined}
+			<ImageDetailModal />
 		{/if}
 		<Header />
 		<div id="tree-content" class="{treeContentDynamicClass} tree-content">

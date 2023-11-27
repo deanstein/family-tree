@@ -111,8 +111,7 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 			} else if (typeof dataToMatch[key] === 'object') {
 				dataToChange[key] = {};
 				deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
-			}
-			else if (typeof dataToMatch[key] === 'object') {
+			} else if (typeof dataToMatch[key] === 'object') {
 				if (typeof dataToChange[key] !== 'object' && typeof dataToChange[key] !== 'string') {
 					dataToChange[key] = { value: dataToChange[key] };
 				}

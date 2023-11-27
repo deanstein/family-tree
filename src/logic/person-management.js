@@ -20,8 +20,10 @@ import {
 	deepMatchObjects,
 	deleteObjectByKeyValue,
 	getObjectByKeyValue,
+	instantiateObject,
 	replaceObjectByKeyValue
 } from './utils';
+import timelineEventImage from '../schemas/timeline-event-image';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -91,10 +93,19 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 				return eventToUpgrade;
 			default:
 				deepMatchObjects(timelineEvent, eventToUpgrade, true);
-				// set the description field to the original content if applicable
+				// set the description field to the original string content, if applicable
 				if (originalContentString) {
 					eventToUpgrade.eventContent.description = originalContentString;
 				}
+		}
+
+		// also upgrade nested pieces of the timeline event content
+		// like images:
+		if (timelineEvent?.eventContent?.images?.length > 0) {
+			const imageObject = instantiateObject(timelineEventImage);
+			for (let image in timelineEvent.eventContent.images) {
+				deepMatchObjects(imageObject, image);
+			}
 		}
 
 		upgraded = true;
@@ -625,6 +636,7 @@ export function getDefaultRelationshipType(relationshipGroup) {
 	return null;
 }
 
+// timeline event management
 export const addOrReplaceTimelineEvent = (event) => {
 	if (!event) {
 		return;
@@ -655,3 +667,8 @@ export const deleteTimelineEvent = (event) => {
 		return currentValue;
 	});
 };
+
+// timeline event media management
+export const addOrReplaceTimelineEventImage = (imageContent) => {};
+
+export const deleteTimelineEventImage = (imageId) => {};
