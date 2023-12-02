@@ -232,21 +232,6 @@ export const hidePersonNodeActionsModalAndDiscard = () => {};
 
 export const hidePersonNodeActionsModalAndSave = () => {};
 
-// node edit
-export const setNodeEditId = (personId) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditPersonId = personId;
-		return currentValue;
-	});
-};
-
-export const unsetNodeEditId = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditPersonId = undefined;
-		return currentValue;
-	});
-};
-
 export const setNodeEditName = (name) => {
 	tempState.update((currentValue) => {
 		currentValue.nodeEditName = name;
@@ -412,6 +397,35 @@ export const setTimelineEditEvent = (timelineEvent) => {
 export const unsetTimelineEditEvent = () => {
 	tempState.update((currentValue) => {
 		currentValue.timelineEditEvent = undefined;
+		return currentValue;
+	});
+};
+
+// timeline event media
+export const setImageEditId = (imageId) => {
+	tempState.update((currentValue) => {
+		currentValue.imageEditId = imageId;
+		return currentValue;
+	});
+};
+
+export const unsetImageEditId = () => {
+	tempState.update((currentValue) => {
+		currentValue.imageEditId = undefined;
+		return currentValue;
+	});
+};
+
+export const setImageEditContent = (imageEditContent) => {
+	tempState.update((currentValue) => {
+		currentValue.imageEditContent = imageEditContent;
+		return currentValue;
+	});
+};
+
+export const unsetImageEditContent = () => {
+	tempState.update((currentValue) => {
+		currentValue.imageEditContent = undefined;
 		return currentValue;
 	});
 };

@@ -1,5 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
+	import { v4 as uuidv4 } from 'uuid';
 
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
@@ -9,6 +10,8 @@
 
 	import {
 		checkPersonForUnsavedChanges,
+		setImageEditContent,
+		setImageEditId,
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
@@ -31,6 +34,7 @@
 	import SideBySideContainer from '../../SideBySideContainer.svelte';
 	import TextArea from '../../TextArea.svelte';
 	import TextInput from '../../TextInput.svelte';
+	import timelineEventImage from '../../../schemas/timeline-event-image';
 
 	// get the event data
 	let eventType = $tempState?.timelineEditEvent?.eventType;
@@ -114,7 +118,6 @@
 		syncAllInputs();
 		unsetTimelineEditEventId();
 	};
-
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
 		unsetTimelineEditEventId();
@@ -138,6 +141,13 @@
 	const onClickCloseButton = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
+	};
+
+	const onClickAddImageButton = () => {
+		const newTimelineEventImage = instantiateObject(timelineEventImage);
+		newTimelineEventImage.id = uuidv4();
+		setImageEditId(newTimelineEventImage.id);
+		setImageEditContent(newTimelineEventImage);
 	};
 
 	// checks whether the value in the date input field is valid
@@ -244,7 +254,11 @@
 			</InputContainer>
 			<InputContainer label="Images">
 				<div class="{mediaContentContainerCss} media-content-container">
-					<ImageThumbnailGroup showGroupTitle={false} showAddButton={isInEditMode} />
+					<ImageThumbnailGroup
+						showGroupTitle={false}
+						showAddButton={isInEditMode}
+						onClickAddButtonFunction={onClickAddImageButton}
+					/>
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>

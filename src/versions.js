@@ -1,4 +1,4 @@
-export const appVersion = '0.15.6';
+export const appVersion = '0.15.7';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -6,9 +6,9 @@ export const appChangelog = {
 	},
 	'v0.15.x': {
 		Overview:
-			'v0.15.x adds the ability to set a biographic photo which displays in the node and bio views, and adds the ability to add associated people to timeline events.',
+			'v0.15.x adds the ability to set a biographic photo which displays in the node and bio views, adds timeline event photos, and adds the ability to add associated people to timeline events.',
 		Changes: [
-			'Added schema support for a bio photo, and timeline event images, and associated people',
+			'Added schema support for a bio photo, timeline event images, and associated people',
 			'Replaced Avatar with BioPhoto in Bio and all PersonNode variants',
 			'Added event media content like image thumbnails and associated people',
 			'Added image fetch web workers',
@@ -137,7 +137,7 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.11.2';
+export const schemaVersion = '0.11.3';
 export const schemaChangelog = {
 	'v0.11.x': {
 		Overview:

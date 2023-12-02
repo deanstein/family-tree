@@ -12,9 +12,7 @@ const tempState = {
 
 	// if set, the node actions modal will display
 	nodeActionsModalPersonId: undefined,
-
-	// these are from the former node edit workflow, are they still used?
-	nodeEditPersonId: undefined,
+	// individual fields for node actions modal
 	nodeEditName: undefined,
 	nodeEditRelationshipId: undefined,
 	nodeEditGroupId: undefined,
@@ -23,7 +21,6 @@ const tempState = {
 	// if set, the bio edit mode becomes active
 	// and the inputs will be enabled
 	bioEditPersonId: undefined,
-
 	// if set, the alternate name modal will display
 	bioEditAltName: undefined,
 	// the various alternate names associated with the active person
@@ -32,7 +29,12 @@ const tempState = {
 	// if set, the edit timeline event modal is displayed
 	timelineEditEventId: undefined,
 	// if set, the timeline event modal inputs are enabled
-	timelineEditEvent: undefined
+	timelineEditEvent: undefined,
+
+	// if set, the image editing modal is displayed
+	imageEditId: undefined,
+	// if set, the image editing modal inputs are enabled
+	imageEditContent: undefined
 };
 
 export default writable(tempState);
