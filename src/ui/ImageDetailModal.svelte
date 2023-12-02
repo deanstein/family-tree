@@ -11,19 +11,19 @@
 		unsetImageEditId
 	} from '../logic/temp-management';
 
+	import { addOrReplaceTimelineEventImage } from '../logic/person-management';
 	import { writeUIStateValueAtPath } from '../logic/ui-management';
 	import { getObjectByKeyValue, instantiateObject } from '../logic/utils';
 
 	import stylingConstants from './styling-constants';
 
+	import AddButtonSquare from './AddButtonSquare.svelte';
 	import Button from './Button.svelte';
 	import InputContainer from './InputContainer.svelte';
 	import Modal from './Modals/Modal.svelte';
 	import ModalActionsBar from './Modals/ModalActionsBar.svelte';
 	import TextArea from './TextArea.svelte';
 	import TextInput from './TextInput.svelte';
-	import { addOrReplaceTimelineEventImage } from '../logic/person-management';
-	import AddButtonSquare from './AddButtonSquare.svelte';
 
 	let isInEditMode;
 
@@ -71,6 +71,7 @@
 
 	$: {
 		isInEditMode = $tempState.imageEditContent;
+		isValidUrl = $tempState?.imageEditContent?.url;
 	}
 </script>
 
@@ -80,16 +81,14 @@
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
-	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
+	transparency="255"
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div
-		id="edit-timeline-event-modal-content"
-		class="edit-timeline-event-modal-content"
-		slot="modal-content-slot"
-	>
+	<div class="image-modal-content" slot="modal-content-slot">
 		<InputContainer label="Image">
-			<AddButtonSquare />
+			<div class="image-container">
+				<AddButtonSquare />
+			</div>
 		</InputContainer>
 		<InputContainer label="Title">
 			<TextInput isEnabled={isInEditMode} bind:inputValue={imageTitleInputValue} />
@@ -134,7 +133,7 @@
 </Modal>
 
 <style>
-	.edit-timeline-event-modal-content {
+	.image-modal-content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -142,5 +141,13 @@
 		height: 100%;
 		width: 100%;
 		gap: 1vh;
+	}
+
+	.image-container {
+		background-color: white;
+		display: flex;
+		padding: 10px;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
