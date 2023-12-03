@@ -34,6 +34,8 @@
 	let isNewImage; // if true, this image is not already found in this timeline event
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
+	const getAndShowImage = () => {};
+
 	const onClickEditButton = () => {
 		setImageEditId('some id');
 	};
@@ -71,7 +73,8 @@
 
 	$: {
 		isInEditMode = $tempState.imageEditContent;
-		isValidUrl = $tempState?.imageEditContent?.url;
+		isValidUrl =
+			$tempState?.imageEditContent?.url !== '' && $tempState?.imageEditContent?.url !== undefined;
 	}
 </script>
 

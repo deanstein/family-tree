@@ -2,7 +2,7 @@
 	import StoreView from './StoreView.svelte';
 	import DevToolbar from './DevToolbar.svelte';
 
-	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
+	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import uiState from '../../stores/ui-state';
 	import FamilyTreeDataSelector from './FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
@@ -16,7 +16,7 @@
 	import { checkPersonForUnsavedChanges } from '../../logic/temp-management';
 
 	const setDataButtonOnClickAction = () => {
-		writeCurrentFamilyTreeDataToRepo('8890');
+		writeCurrentFamilyTreeDataToRepo(tempPw);
 	};
 
 	const toggleStoreView = () => {

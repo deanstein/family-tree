@@ -1,6 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
-	import { repoOwner, dataRepoName, getFileFromRepo } from '../../logic/persistence-management';
+	import {
+		repoOwner,
+		dataRepoName,
+		getFileFromRepo,
+		tempPw
+	} from '../../logic/persistence-management';
 	import { getRepoFamilyTreeAndSetActive } from '../../logic/ui-management';
 
 	let sInputValue;
@@ -16,7 +21,7 @@
 			repoOwner,
 			dataRepoName,
 			'family-tree-data-map.json',
-			'8890'
+			tempPw
 		);
 	};
 

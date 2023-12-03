@@ -1,66 +1,60 @@
 <script>
 	import { onMount } from 'svelte';
+	import { css } from '@emotion/css';
 
-	import {
-		dataRepoName,
-		repoOwner,
-		uploadFileToRepo,
-		bioPhotoFileName,
-		tempPw
-	} from '../logic/persistence-management';
+	import imageCache from '../stores/image-cache';
+
+	import stylingConstants from './styling-constants';
+
+	import { uploadFileToRepo } from '../logic/persistence-management';
 	import { getPersonById, setPersonBioPhotoUrl } from '../logic/person-management';
-	import { getExtensionFromUrl, getMIMEType as getMIMEType } from '../logic/utils';
+	import { getMIMEType as getMIMEType, isUrlValid } from '../logic/utils';
 	import {
 		addImageToCache,
 		getImageFromCache,
 		removeImageFromCache
 	} from '../logic/temp-management';
-	import imageCache from '../stores/image-cache';
-	import { css } from '@emotion/css';
-	import stylingConstants from './styling-constants';
+
+	export let repoOwner;
+	export let repoName;
+	export let password;
+	export let imageUrl; // the github url
+	export let imageFilePath; // the path from the root of the repo
+	export let imagePlaceholderSrc; // used if the url is not valid
 
 	export let personId;
-	export let allowEdit;
+	export let allowEdit; // shows overlay buttons like edit and delete
 
-	const bioPhotoEditFaIcon = 'fa-pen';
-	const bioPhotoDeleteFaIcon = 'fa-trash'; // TODO
+	// fontawesome icons
+	const imageEditFaIcon = 'fa-pen';
+	const imageDeleteFaIcon = 'fa-trash'; // TODO
 
 	let person;
 	let file;
-	let filePath;
 	let fileInput;
-	let fileReader;
-	let fileExtension;
-	let imageUrl;
+	let fileReader; // the edit button acts as a file reader, when shown
 	let imgSrc;
 	let isImageLoading = false;
 
-	const getAndShowBioPhoto = async () => {
-		// only load the file if the person has a valid bioPhotoUrl field
-		const doLoadImage = person?.bioPhotoUrl !== '' && person?.bioPhotoUrl !== undefined;
-
+	const getAndShowImage = async () => {
 		// initially set the image to the placeholder
-		imgSrc = './img/avatar-placeholder.jpg';
+		imgSrc = imagePlaceholderSrc;
 
-		// only fetch the photo if the person has a bioPhotoUrl field
-		if (doLoadImage) {
+		// only proceed if there's an image to load
+		if (isUrlValid(imageUrl)) {
 			try {
-				// get the extension and construct a path from the stored URL
-				fileExtension = getExtensionFromUrl(person.bioPhotoUrl);
-				filePath = person.id + '/' + bioPhotoFileName + fileExtension;
-
 				// check the cache first
-				const imageFromCache = getImageFromCache(filePath);
+				const imageFromCache = getImageFromCache(imageFilePath);
 				if (imageFromCache) {
 					imgSrc = imageFromCache;
 				} else {
-					// use a web worker to fetch the bio photo asynchronously
-					const worker = new Worker(new URL('bio-photo-web-worker.js', import.meta.url), {
+					// use a web worker to fetch the image asynchronously
+					const worker = new Worker(new URL('image-async-web-worker.js', import.meta.url), {
 						type: 'module'
 					});
 					isImageLoading = true;
 					// send a message to the worker with the image URL
-					worker.postMessage(filePath);
+					worker.postMessage(imageFilePath);
 
 					// listen for messages from the worker
 					worker.onmessage = function (event) {
@@ -74,12 +68,12 @@
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
 								// add the image to the cache
-								addImageToCache(filePath, imgSrc);
+								addImageToCache(imageFilePath, imgSrc);
 							} else {
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.warn('No valid bio photo data received for ' + person.name) + '.';
+							console.warn('No valid image data received for ' + imageFilePath) + '.';
 						}
 
 						// Terminate the worker
@@ -96,29 +90,24 @@
 		}
 	};
 
-	const uploadBioPhotoFromFileReader = async () => {
+	const uploadImageFromFileReader = async () => {
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
-
-		// Get the file extension from the file name
-		const fileReaderFileName = file.name;
-		const fileExtension = fileReaderFileName.split('.').pop();
-		const targetFilePath = `${person.id}/${bioPhotoFileName}.${fileExtension}`;
 
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
-				dataRepoName,
-				tempPw,
-				targetFilePath,
+				repoName,
+				password,
+				imageFilePath,
 				base64String,
 				'Upload image'
 			);
 
 			// Remove the old image from the cache
-			removeImageFromCache(targetFilePath);
+			removeImageFromCache(imageFilePath);
 
 			setPersonBioPhotoUrl(imageUrl);
-			getAndShowBioPhoto();
+			getAndShowImage();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -135,19 +124,19 @@
 		fileReader = new FileReader();
 
 		fileReader.onloadend = async function () {
-			uploadBioPhotoFromFileReader();
+			uploadImageFromFileReader();
 		};
 
 		fileReader.readAsDataURL(file);
 	};
 
 	onMount(async () => {
-		getAndShowBioPhoto();
+		getAndShowImage();
 	});
 
 	$: {
-		if ($imageCache[filePath]) {
-			getAndShowBioPhoto();
+		if ($imageCache[imageFilePath]) {
+			getAndShowImage();
 		}
 		person = getPersonById(personId);
 	}
@@ -160,27 +149,27 @@
 	`;
 </script>
 
-<div id="bio-photo-container" class="bio-photo-container">
+<div id="image-container" class="image-container">
 	{#if isImageLoading}
-		<div id="bio-photo-loading-overlay" class="bio-photo-loading-overlay" />
+		<div id="image-loading-overlay" class="image-loading-overlay" />
 	{/if}
 	<!-- svelte-ignore a11y-img-redundant-alt -->
-	<img src={imgSrc} id="bio-photo-image" class="bio-photo-image" alt="Photo of this person" />
+	<img src={imgSrc} id="image" class="image" alt="Photo of this person" />
 	{#if allowEdit}
-		<div class="bio-photo-actions-container">
+		<div class="image-actions-container">
 			<div
-				id="bio-photo-edit-button"
-				class="{editButtonDynamicClass} bio-photo-action-button"
+				id="image-edit-button"
+				class="{editButtonDynamicClass} image-action-button"
 				on:click={onEditButtonClick}
 				on:keypress={onEditButtonClick}
 				title="Choose another photo"
 			>
-				<i class="fa-solid {bioPhotoEditFaIcon}" />
+				<i class="fa-solid {imageEditFaIcon}" />
 			</div>
 			<!-- TODO: enable this Delete button when the delete API is available-->
 			<!-- <div
-				id="bio-photo-delete-button"
-				class="{editButtonDynamicClass} bio-photo-action-button"
+				id="image-delete-button"
+				class="{editButtonDynamicClass} image-action-button"
 				on:click={onDeleteButtonClick}
 				on:keypress={onDeleteButtonClick}
 			>
@@ -198,27 +187,21 @@
 </div>
 
 <style>
-	.bio-photo-container {
+	.image-container {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		display: flex;
-		height: 100%;
-		overflow: hidden;
-		justify-content: center;
-		align-items: center;
-		aspect-ratio: 1;
-		border-radius: 50%;
 		background-color: lightgray;
 	}
 
-	.bio-photo-image {
+	.image {
 		object-fit: cover;
 		height: 100%;
 		width: 100%;
 	}
 
-	.bio-photo-loading-overlay {
+	.image-loading-overlay {
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -228,7 +211,7 @@
 		animation: fade 2s infinite;
 	}
 
-	.bio-photo-actions-container {
+	.image-actions-container {
 		position: absolute;
 		display: flex;
 		flex-direction: row;
@@ -239,7 +222,7 @@
 		gap: 0.5vw;
 	}
 
-	.bio-photo-action-button {
+	.image-action-button {
 		font-size: 1.5em;
 		width: 30%;
 		height: 30%;
@@ -252,6 +235,7 @@
 		cursor: pointer;
 	}
 
+	/* used for a fading effect while the image is loading */
 	@keyframes fade {
 		0% {
 			opacity: 1;

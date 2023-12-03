@@ -112,7 +112,7 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	}
 
 	if (upgraded) {
-		console.log('Timeline event upgraded: ' + originalVersion + ' -> ' + schemaVersion);
+		console.log('Timeline event upgraded (' + originalVersion + ') -> (' + schemaVersion + ').');
 	}
 
 	return eventToUpgrade;
