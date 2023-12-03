@@ -7,7 +7,7 @@
 	import stylingConstants from './styling-constants';
 
 	import { uploadFileToRepo } from '../logic/persistence-management';
-	import { getPersonById, setPersonBioPhotoUrl } from '../logic/person-management';
+	import { setPersonBioPhotoUrl } from '../logic/person-management';
 	import { getMIMEType as getMIMEType, isUrlValid } from '../logic/utils';
 	import {
 		addImageToCache,
@@ -22,14 +22,12 @@
 	export let imageFilePath; // the path from the root of the repo
 	export let imagePlaceholderSrc; // used if the url is not valid
 
-	export let personId;
 	export let allowEdit; // shows overlay buttons like edit and delete
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-pen';
 	const imageDeleteFaIcon = 'fa-trash'; // TODO
 
-	let person;
 	let file;
 	let fileInput;
 	let fileReader; // the edit button acts as a file reader, when shown
@@ -138,7 +136,6 @@
 		if ($imageCache[imageFilePath]) {
 			getAndShowImage();
 		}
-		person = getPersonById(personId);
 	}
 
 	const editButtonDynamicClass = css`
@@ -191,7 +188,8 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		display: flex;
+		height: 100%;
+		width: 100%;
 		background-color: lightgray;
 	}
 
