@@ -106,6 +106,7 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 	for (var key in dataToMatch) {
 		// if the key isn't in the dataToChange, add it
 		if (!dataToChange.hasOwnProperty(key)) {
+			console.log("DeepMatchObjects: Key '" + key + "' not found and will be added.")
 			if (typeof dataToMatch[key] === 'boolean') {
 				dataToChange[key] = false;
 			} else if (typeof dataToMatch[key] === 'string') {
