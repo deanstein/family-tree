@@ -85,36 +85,66 @@ export const instantiateObject = (object) => {
 	return JSON.parse(JSON.stringify(object)); // required to make a deep copy
 };
 
+// matches every key and its type between two objects (match object and change object)
 export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = undefined) => {
-	if (forceChangeToType) {
-		if (typeof dataToMatch === 'string' && typeof dataToChange !== 'string') {
-			dataToChange = String();
-		} else if (typeof dataToMatch === 'number' && typeof dataToChange !== 'number') {
-			dataToChange = Number();
-		} else if (typeof dataToMatch === 'boolean' && typeof dataToChange !== 'boolean') {
-			dataToChange = Boolean();
-		} else if (Array.isArray(dataToMatch) && !Array.isArray(dataToChange)) {
-			dataToChange = [dataToChange];
-		} else if (typeof dataToMatch === 'object' && typeof dataToChange !== 'object') {
-			dataToChange = {};
-		}
-	}
+	// console message to alert when forceChangeToType encounters existing mismatched data
+	const showConversionConsoleMessage = (existingKey, existingValue, newType) => {
+		console.warn(
+			"DeepMatchObjects: Existing key '" +
+				existingKey +
+				"' of type " +
+				typeof existingValue +
+				' will be force converted to ' +
+				newType +
+				'.\nPrevious value was: ' +
+				existingValue +
+				'.'
+		);
+	};
 
+	// ensure each key in the match object exists and is of the correct type in the change object
 	for (var key in dataToMatch) {
 		// if the key isn't in the dataToChange, add it
 		if (!dataToChange.hasOwnProperty(key)) {
-			if (Array.isArray(dataToMatch[key])) {
-				dataToChange[key] = [];
+			if (typeof dataToMatch[key] === 'boolean') {
+				dataToChange[key] = false;
 			} else if (typeof dataToMatch[key] === 'string') {
 				dataToChange[key] = '';
-			} else if (typeof dataToMatch[key] === 'boolean') {
-				dataToChange[key] = false;
+			} else if (Array.isArray(dataToMatch[key])) {
+				dataToChange[key] = [];
 			} else if (typeof dataToMatch[key] === 'object') {
 				dataToChange[key] = {};
 				deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 			}
 			// otherwise, if the key already exists in dataToChange, but it's the wrong type
-		} else if (typeof dataToMatch[key] === 'object' && typeof dataToChange[key] !== 'object') {
+			// note that if any data already existed, it will be deleted
+		} else if (
+			forceChangeToType &&
+			typeof dataToMatch[key] === 'boolean' &&
+			typeof dataToChange[key] !== 'boolean'
+		) {
+			showConversionConsoleMessage(key, dataToChange[key], 'boolean');
+			dataToChange[key] = false;
+		} else if (
+			forceChangeToType &&
+			typeof dataToMatch[key] === 'string' &&
+			typeof dataToChange[key] !== 'string'
+		) {
+			showConversionConsoleMessage(key, dataToChange[key], 'string');
+			dataToChange[key] = '';
+		} else if (
+			forceChangeToType &&
+			Array.isArray(dataToMatch[key]) &&
+			!Array.isArray(dataToChange[key])
+		) {
+			showConversionConsoleMessage(key, dataToChange[key], 'array');
+			dataToChange[key] = [];
+		} else if (
+			forceChangeToType &&
+			typeof dataToMatch[key] === 'object' &&
+			typeof dataToChange[key] !== 'object'
+		) {
+			showConversionConsoleMessage(key, dataToChange[key], 'object');
 			dataToChange[key] = {};
 			deepMatchObjects(dataToMatch[key], dataToChange[key], forceChangeToType);
 		}
