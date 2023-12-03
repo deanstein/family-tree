@@ -21,9 +21,11 @@ import {
 	deleteObjectByKeyValue,
 	getObjectByKeyValue,
 	instantiateObject,
+	isUrlValid,
 	replaceObjectByKeyValue
 } from './utils';
 import timelineEventImage from '../schemas/timeline-event-image';
+import tempState from '../stores/temp-state';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -206,6 +208,26 @@ export const setPersonName = (sPersonId, sName) => {
 export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
 	uiState.update((currentValue) => {
 		currentValue.activePerson.bioPhotoUrl = bioPhotoUrl;
+		return currentValue;
+	});
+};
+
+export const setBioPhotoUrlFromTempState = () => {
+	let tempStateUrl;
+
+	// get the url from the temp state
+	tempState.subscribe((currentValue) => {
+		tempStateUrl = currentValue.uploadedMediaUrl;
+	});
+
+	// if the url is valid, set it as the bio photo url fot the active person
+	if (isUrlValid(tempStateUrl)) {
+		setPersonBioPhotoUrl(tempStateUrl);
+	}
+
+	// clear the temp state
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
 		return currentValue;
 	});
 };

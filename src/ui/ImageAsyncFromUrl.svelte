@@ -7,12 +7,13 @@
 	import stylingConstants from './styling-constants';
 
 	import { uploadFileToRepo } from '../logic/persistence-management';
-	import { setPersonBioPhotoUrl } from '../logic/person-management';
+
 	import { getMIMEType as getMIMEType, isUrlValid } from '../logic/utils';
 	import {
 		addImageToCache,
 		getImageFromCache,
-		removeImageFromCache
+		removeImageFromCache,
+		setMediaUploadedUrl
 	} from '../logic/temp-management';
 
 	export let repoOwner;
@@ -21,8 +22,8 @@
 	export let imageUrl; // the github url
 	export let imageFilePath; // the path from the root of the repo
 	export let imagePlaceholderSrc; // used if the url is not valid
-
 	export let allowEdit; // shows overlay buttons like edit and delete
+	export let afterUploadFunction = () => {}; // optional; runs after an image was uploaded
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-pen';
@@ -101,10 +102,16 @@
 				'Upload image'
 			);
 
-			// Remove the old image from the cache
+			// remove the old image from the cache
 			removeImageFromCache(imageFilePath);
 
-			setPersonBioPhotoUrl(imageUrl);
+			// set the url in the temp state so other components can record it in the active person
+			setMediaUploadedUrl(imageUrl);
+
+			// run any post-upload functions the parent using this image may require
+			afterUploadFunction();
+
+			// refresh the image
 			getAndShowImage();
 		} catch (error) {
 			console.error('Error uploading file:', error);

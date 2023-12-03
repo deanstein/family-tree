@@ -408,7 +408,6 @@ export const setImageEditId = (imageId) => {
 		return currentValue;
 	});
 };
-
 export const unsetImageEditId = () => {
 	tempState.update((currentValue) => {
 		currentValue.imageEditId = undefined;
@@ -422,10 +421,13 @@ export const setImageEditContent = (imageEditContent) => {
 		return currentValue;
 	});
 };
-
 export const unsetImageEditContent = () => {
 	tempState.update((currentValue) => {
 		currentValue.imageEditContent = undefined;
 		return currentValue;
 	});
 };
+
+// the just-uploaded media url for writing to the correct place in the active person later
+export const setMediaUploadedUrl = (imageUrl) => {};
+export const unsetMediaUploadedUrl = () => {};
