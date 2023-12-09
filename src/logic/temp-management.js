@@ -43,9 +43,11 @@ export const toggleBuildMode = () => {
 // manage the image cache
 export const getImageFromCache = (filePath) => {
 	let imgSrc;
-	imageCache.subscribe((currentValue) => {
-		imgSrc = currentValue[filePath];
-	});
+	if (filePath) {
+		imageCache.subscribe((currentValue) => {
+			imgSrc = currentValue[filePath];
+		});
+	}
 	return imgSrc;
 };
 
@@ -429,5 +431,15 @@ export const unsetImageEditContent = () => {
 };
 
 // the just-uploaded media url for writing to the correct place in the active person later
-export const setMediaUploadedUrl = (imageUrl) => {};
-export const unsetMediaUploadedUrl = () => {};
+export const setMediaUploadedUrl = (imageUrl) => {
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = imageUrl;
+		return currentValue;
+	});
+};
+export const unsetMediaUploadedUrl = () => {
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
+		return currentValue;
+	});
+};

@@ -5,11 +5,7 @@
 		bioPhotoFileName,
 		tempPw
 	} from '../logic/persistence-management';
-	import {
-		getPersonById,
-		setBioPhotoUrlFromTempState,
-		setPersonBioPhotoUrl
-	} from '../logic/person-management';
+	import { getPersonById, setBioPhotoUrlFromTempState } from '../logic/person-management';
 	import { getExtensionFromUrl } from '../logic/utils';
 
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
@@ -37,7 +33,7 @@
 		repoName={dataRepoName}
 		password={tempPw}
 		imageUrl={person?.bioPhotoUrl}
-		imageFilePath={bioPhotoFilePath}
+		imageUploadPathNoExt={bioPhotoFilePath}
 		imagePlaceholderSrc={bioPhotoPlaceholderSrc}
 		{allowEdit}
 		{afterUploadFunction}

@@ -220,7 +220,7 @@ export const setBioPhotoUrlFromTempState = () => {
 		tempStateUrl = currentValue.uploadedMediaUrl;
 	});
 
-	// if the url is valid, set it as the bio photo url fot the active person
+	// if the url is valid, set it as the bio photo url for the active person
 	if (isUrlValid(tempStateUrl)) {
 		setPersonBioPhotoUrl(tempStateUrl);
 	}
@@ -691,6 +691,38 @@ export const deleteTimelineEvent = (event) => {
 };
 
 // timeline event media management
+export const setTimelineEventImageUrlFromTempState = () => {
+	// get these values from the temp state
+	let tempStateUrl;
+	let timelineEventId;
+	let timelineEventContent;
+	let imageId;
+	tempState.subscribe((currentValue) => {
+		tempStateUrl = currentValue.uploadedMediaUrl;
+		timelineEventId = currentValue.timelineEditEventId;
+		timelineEventContent = currentValue.timelineEditEvent;
+		imageId = currentValue.imageEditId;
+	});
+
+	// make a copy of the current event
+	const newEvent = instantiateObject(timelineEventContent);
+
+	// if the url is valid, set it as the timeline event image url for the active event image
+	if (isUrlValid(tempStateUrl)) {
+		// @ts-expect-error
+		replaceObjectByKeyValue(timelineEventContent.images, 'url', tempStateUrl, newEvent);
+
+		// update the entire timeline event
+		addOrReplaceTimelineEvent(newEvent);
+	}
+
+	// clear the temp state
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
+		return currentValue;
+	});
+};
+
 export const addOrReplaceTimelineEventImage = (imageContent) => {};
 
 export const deleteTimelineEventImage = (imageId) => {};

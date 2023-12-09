@@ -19,8 +19,8 @@
 	export let repoOwner;
 	export let repoName;
 	export let password;
-	export let imageUrl; // the github url
-	export let imageFilePath; // the path from the root of the repo
+	export let imageUrl; // the full github url
+	export let imageUploadPathNoExt; // file path (no extension) from the root of the repo where an uploaded photo would go
 	export let imagePlaceholderSrc; // used if the url is not valid
 	export let allowEdit; // shows overlay buttons like edit and delete
 	export let afterUploadFunction = () => {}; // optional; runs after an image was uploaded
@@ -43,7 +43,7 @@
 		if (isUrlValid(imageUrl)) {
 			try {
 				// check the cache first
-				const imageFromCache = getImageFromCache(imageFilePath);
+				const imageFromCache = getImageFromCache(imageUploadPathNoExt);
 				if (imageFromCache) {
 					imgSrc = imageFromCache;
 				} else {
@@ -51,9 +51,11 @@
 					const worker = new Worker(new URL('image-async-web-worker.js', import.meta.url), {
 						type: 'module'
 					});
+
 					isImageLoading = true;
+
 					// send a message to the worker with the image URL
-					worker.postMessage(imageFilePath);
+					worker.postMessage(imageUploadPathNoExt);
 
 					// listen for messages from the worker
 					worker.onmessage = function (event) {
@@ -67,12 +69,12 @@
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
 								// add the image to the cache
-								addImageToCache(imageFilePath, imgSrc);
+								addImageToCache(imageUploadPathNoExt, imgSrc);
 							} else {
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.warn('No valid image data received for ' + imageFilePath) + '.';
+							console.warn('No valid image data received for ' + imageUploadPathNoExt) + '.';
 						}
 
 						// Terminate the worker
@@ -92,18 +94,22 @@
 	const uploadImageFromFileReader = async () => {
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
 
+		// Get the file extension from the file name
+		const fileReaderFileName = file.name;
+		const fileExtension = fileReaderFileName.split('.').pop();
+
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				repoName,
 				password,
-				imageFilePath,
+				`${imageUploadPathNoExt}.${fileExtension}`,
 				base64String,
 				'Upload image'
 			);
 
 			// remove the old image from the cache
-			removeImageFromCache(imageFilePath);
+			removeImageFromCache(imageUploadPathNoExt);
 
 			// set the url in the temp state so other components can record it in the active person
 			setMediaUploadedUrl(imageUrl);
@@ -140,9 +146,11 @@
 	});
 
 	$: {
-		if ($imageCache[imageFilePath]) {
-			getAndShowImage();
-		}
+		if (!imageUploadPathNoExt)
+			if ($imageCache[imageUploadPathNoExt]) {
+				// show the image from the cache, always
+				getAndShowImage();
+			}
 	}
 
 	const editButtonDynamicClass = css`
@@ -229,8 +237,8 @@
 
 	.image-action-button {
 		font-size: 1.5em;
-		width: 30%;
 		height: 30%;
+		aspect-ratio: 1;
 		border-radius: 50%;
 		opacity: 80%;
 		color: white;

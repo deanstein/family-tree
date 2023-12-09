@@ -34,7 +34,10 @@ const tempState = {
 	// if set, the image editing modal is displayed
 	imageEditId: undefined,
 	// if set, the image editing modal inputs are enabled
-	imageEditContent: undefined
+	imageEditContent: undefined,
+
+	// if set, media was just uploaded and this is the url to it
+	uploadedMediaUrl: undefined
 };
 
 export default writable(tempState);
