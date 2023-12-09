@@ -106,7 +106,7 @@ export const deepMatchObjects = (dataToMatch, dataToChange, forceChangeToType = 
 	for (var key in dataToMatch) {
 		// if the key isn't in the dataToChange, add it
 		if (!dataToChange.hasOwnProperty(key)) {
-			console.log("DeepMatchObjects: Key '" + key + "' not found and will be added.")
+			console.log("DeepMatchObjects: Key '" + key + "' not found and will be added.");
 			if (typeof dataToMatch[key] === 'boolean') {
 				dataToChange[key] = false;
 			} else if (typeof dataToMatch[key] === 'string') {
@@ -166,7 +166,7 @@ export const setNestedObjectProperty = (obj, path, value) => {
 };
 
 // gets an object from an array of objects
-export const getObjectByKeyValue = (arr, key, value) => {
+export const getObjectByKeyValueInArray = (arr, key, value) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i][key] === value) {
 			return arr[i];
@@ -176,15 +176,22 @@ export const getObjectByKeyValue = (arr, key, value) => {
 };
 
 // replaces an object in an array of objects
-export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i][key] === value) {
-			arr[i] = replacementObject;
-			return true; // indicate that object was replaced
+export const addOrReplaceObjectInArray = (arr, key, value, replacementObject) => {
+	let found = false;
+	if (arr) {
+		for (let i = 0; i < arr.length; i++) {
+			if (arr[i][key] === value) {
+				arr[i] = replacementObject;
+				found = true;
+				break; // exit the loop as we've found and replaced the object
+			}
 		}
+		if (!found) {
+			// If the object was not found and replaced, add it to the array
+			arr.push(replacementObject);
+		}
+		return true; // indicate that object was replaced or added
 	}
-	console.log('Failed to find and replace object.');
-	return false; // indicate that object was not found
 };
 
 // deletes an object in an array of objects
@@ -263,25 +270,34 @@ export const largest = (a, b) => {
 	else return b;
 };
 
+export const isUrlValid = (string) => {
+	try {
+		new URL(string);
+		return true;
+	} catch (_) {
+		return false;
+	}
+};
+
 export const getExtensionFromUrl = (url) => {
-	let fileExtensionWithDot = '';
+	let fileExtension = '';
 
 	if (url) {
 		try {
 			const parsedUrl = new URL(url);
 			const pathParts = parsedUrl.pathname.split('/');
 			const fileNameWithExtension = pathParts.pop();
-			const fileExtension = fileNameWithExtension.split('.').pop();
-
-			if (fileExtension) {
-				fileExtensionWithDot = `.${fileExtension}`;
-			}
+			fileExtension = fileNameWithExtension.split('.').pop();
 		} catch (error) {
-			console.error('Error parsing URL:', error);
+			console.error('Failed to parse URL for extension: ', error);
 		}
 	}
 
-	return fileExtensionWithDot;
+	return fileExtension;
+};
+
+export const getExtensionFromFileNameOrPath = (fileName) => {
+	return fileName.split('.').pop();
 };
 
 export const getMIMEType = (binaryData) => {

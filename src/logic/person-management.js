@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import relationshipMap from '../schemas/relationship-map';
+import timelineEventImage from '../schemas/timeline-event-image';
 import { schemaVersion } from '../versions';
 import { person } from '../schemas/person';
 import timelineEventTypes from '../schemas/timeline-event-types';
@@ -9,7 +10,12 @@ import timelineEvent from '../schemas/timeline-event';
 import uiState from '../stores/ui-state';
 import familyTreeData from '../stores/family-tree-data';
 
-import { updateOffScreenPeopleIdsArray } from './temp-management';
+import {
+	checkActivePersonForUnsavedChanges,
+	setImageEditContent,
+	setTimelineEditEvent,
+	updateOffScreenPeopleIdsArray
+} from './temp-management';
 
 import {
 	addOrUpdatePersonInActivePersonGroup,
@@ -19,11 +25,13 @@ import {
 import {
 	deepMatchObjects,
 	deleteObjectByKeyValue,
-	getObjectByKeyValue,
+	getObjectByKeyValueInArray,
 	instantiateObject,
-	replaceObjectByKeyValue
+	isUrlValid,
+	addOrReplaceObjectInArray
 } from './utils';
-import timelineEventImage from '../schemas/timeline-event-image';
+
+import tempState from '../stores/temp-state';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -112,10 +120,18 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	}
 
 	if (upgraded) {
-		console.log('Timeline event upgraded: ' + originalVersion + ' -> ' + schemaVersion);
+		console.log('Timeline event upgraded (' + originalVersion + ') -> (' + schemaVersion + ').');
 	}
 
 	return eventToUpgrade;
+};
+
+export const getActivePerson = () => {
+	let activePerson;
+	uiState.subscribe((currentValue) => {
+		activePerson = currentValue.activePerson;
+	});
+	return activePerson;
 };
 
 export const getPersonById = (id) => {
@@ -210,6 +226,26 @@ export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
 	});
 };
 
+export const setBioPhotoUrlFromTempState = () => {
+	let tempStateUrl;
+
+	// get the url from the temp state
+	tempState.subscribe((currentValue) => {
+		tempStateUrl = currentValue.uploadedMediaUrl;
+	});
+
+	// if the url is valid, set it as the bio photo url for the active person
+	if (isUrlValid(tempStateUrl)) {
+		setPersonBioPhotoUrl(tempStateUrl);
+	}
+
+	// clear the temp state
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
+		return currentValue;
+	});
+};
+
 export const unsetPersonBioPhotoUrl = () => {
 	uiState.update((currentValue) => {
 		currentValue.activePerson.bioPhotoUrl = undefined;
@@ -295,7 +331,7 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			relationshipId: sInverseRelationshipId
 		};
 
-		const matchingRelationship = getObjectByKeyValue(
+		const matchingRelationship = getObjectByKeyValueInArray(
 			person.relationships[sInverseGroupId],
 			'id',
 			activePersonId
@@ -637,13 +673,30 @@ export function getDefaultRelationshipType(relationshipGroup) {
 }
 
 // timeline event management
+export const getTimelineEventById = (eventId) => {
+	let timelineEvent;
+	if (eventId) {
+		uiState.subscribe((currentValue) => {
+			timelineEvent = getObjectByKeyValueInArray(
+				currentValue.activePerson.timelineEvents,
+				'eventId',
+				eventId
+			);
+		});
+	}
+
+	return timelineEvent;
+};
+
 export const addOrReplaceTimelineEvent = (event) => {
 	if (!event) {
 		return;
 	}
 	uiState.update((currentValue) => {
-		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
-			replaceObjectByKeyValue(
+		if (
+			getObjectByKeyValueInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)
+		) {
+			addOrReplaceObjectInArray(
 				currentValue.activePerson.timelineEvents,
 				'eventId',
 				event.eventId,
@@ -661,14 +714,62 @@ export const deleteTimelineEvent = (event) => {
 		return;
 	}
 	uiState.update((currentValue) => {
-		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
+		if (
+			getObjectByKeyValueInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)
+		) {
 			deleteObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
 		}
 		return currentValue;
 	});
 };
 
+export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
+	const timelineEvent = getTimelineEventById(timelineEventId);
+	// update the timeline event with the new image
+	addOrReplaceObjectInArray(
+		//@ts-expect-error
+		timelineEvent?.eventContent?.images,
+		'id',
+		newImageContent.id,
+		newImageContent
+	);
+	// update the timeline event in the ui state
+	addOrReplaceTimelineEvent(timelineEvent);
+	// update the temp state event so the modal shows the updated content
+	console.log('Set timeline event in temp state: ', timelineEvent);
+	setTimelineEditEvent(timelineEvent);
+	setImageEditContent(newImageContent);
+	checkActivePersonForUnsavedChanges();
+};
+
 // timeline event media management
-export const addOrReplaceTimelineEventImage = (imageContent) => {};
+export const setTimelineEventImageUrlFromTempState = () => {
+	// get these values from the temp state
+	let timelineEventFromTempState;
+	let timelineEventImageContentFromTempState;
+	let uploadedMediaUrl;
+	tempState.subscribe((currentValue) => {
+		timelineEventFromTempState = currentValue.timelineEditEvent;
+		timelineEventImageContentFromTempState = currentValue.imageEditContent;
+		uploadedMediaUrl = currentValue.uploadedMediaUrl;
+	});
+
+	// make a copy of the current event
+	const newImage = instantiateObject(timelineEventImageContentFromTempState);
+	newImage.url = uploadedMediaUrl;
+	console.log('New image', newImage);
+
+	// if the url is valid, update the image in the active person
+	if (isUrlValid(uploadedMediaUrl)) {
+		//@ts-expect-error
+		addOrReplaceTimelineEventImage(timelineEventFromTempState.eventId, newImage);
+	}
+
+	// clear the temp state
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
+		return currentValue;
+	});
+};
 
 export const deleteTimelineEventImage = (imageId) => {};

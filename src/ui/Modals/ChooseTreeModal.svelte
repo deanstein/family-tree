@@ -10,6 +10,7 @@
 
 	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/ui-management';
 	import Modal from './Modal.svelte';
+	import { tempPw } from '../../logic/persistence-management';
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -36,7 +37,7 @@
 		// hide the modal
 		hideChooseTreeModal();
 		// load the Roy family tree
-		getRepoFamilyTreeAndSetActive('0', '8890');
+		getRepoFamilyTreeAndSetActive('0', tempPw);
 	};
 
 	const loadFamilyTreeButtonOnClick = () => {
@@ -44,7 +45,7 @@
 		hideChooseTreeModal();
 		// load the family tree
 		// TODO: add ability to choose, rather than hard-code
-		getRepoFamilyTreeAndSetActive('1', '8890');
+		getRepoFamilyTreeAndSetActive('1', tempPw);
 	};
 </script>
 

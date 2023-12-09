@@ -8,6 +8,9 @@ export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
 export const bioPhotoFileName = 'bio-photo';
+export const repoContentsUrlPrefix = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/`;
+export const timelineEventImageFolderName = 'timeline-event-images';
+export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
 
@@ -267,12 +270,10 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 };
 
 // for binary large objects (blobs)
-export const readBlobFromRepo = async (repoOwner, repoName, password, filePath) => {
-	// First, get the file's SHA
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+export const readBlobFromRepo = async (repoOwner, repoName, password, gitHubUrl) => {
 	let sha;
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(gitHubUrl, {
 			headers: {
 				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
 			}
@@ -282,7 +283,7 @@ export const readBlobFromRepo = async (repoOwner, repoName, password, filePath) 
 			const data = await response.json();
 			sha = data.sha; // Get the file's SHA
 		} else {
-			console.log('Bad response: ' + response);
+			console.log('Bad response: ' + JSON.stringify(response));
 		}
 	} catch (error) {
 		console.error(error);
@@ -349,8 +350,10 @@ export const uploadFileToRepo = async (
 
 		return updatedUrl;
 	} else {
-		console.log("^ The above error is expected. This photo wasn't already present.");
-
+		console.log(
+			"%c^ The above error is expected. This photo wasn't already present.",
+			'color: green; font-weight: bold;'
+		);
 		const data = {
 			message: commitMessage,
 			content: fileContent

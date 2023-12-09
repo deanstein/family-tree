@@ -5,12 +5,10 @@ import { repoStateStrings, timelineEventStrings } from '../ui/strings';
 
 import { getFamilyTreeDataFromRepo } from './persistence-management';
 import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
-import { deepMatchObjects, instantiateObject, largest, setNestedObjectProperty } from './utils';
+import { instantiateObject, largest, setNestedObjectProperty } from './utils';
 import { relationship } from '../schemas/relationship';
 import timelineRowItem from '../schemas/timeline-row-item';
 import timelineEventTypes from '../schemas/timeline-event-types';
-import { schemaVersion } from '../versions';
-import timelineEvent from '../schemas/timeline-event';
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different

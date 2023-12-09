@@ -1,46 +1,51 @@
 <script>
-	import { css } from '@emotion/css';
-
 	import uiState from '../stores/ui-state';
 	import tempState from '../stores/temp-state';
 
 	import {
-		checkPersonForUnsavedChanges,
-		setImageEditId,
+		repoOwner,
+		dataRepoName,
+		tempPw,
+		timelineEventImageFolderName
+	} from '../logic/persistence-management';
+
+	import {
+		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,
 		unsetImageEditId
 	} from '../logic/temp-management';
 
-	import { addOrReplaceTimelineEventImage } from '../logic/person-management';
-	import { writeUIStateValueAtPath } from '../logic/ui-management';
-	import { getObjectByKeyValue, instantiateObject } from '../logic/utils';
+	import { setTimelineEventImageUrlFromTempState } from '../logic/person-management';
 
 	import stylingConstants from './styling-constants';
+	import { isUrlValid } from '../logic/utils';
 
-	import AddButtonSquare from './AddButtonSquare.svelte';
 	import Button from './Button.svelte';
+	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
 	import InputContainer from './InputContainer.svelte';
 	import Modal from './Modals/Modal.svelte';
 	import ModalActionsBar from './Modals/ModalActionsBar.svelte';
 	import TextArea from './TextArea.svelte';
 	import TextInput from './TextInput.svelte';
 
-	let isInEditMode;
-
 	// all possible input values
 	let imageTitleInputValue;
 	let imageDescriptionInputValue;
 
+	let isInEditMode;
+	let imageUploadPathNoExt; // folder path (no file name)
 	let isNewImage; // if true, this image is not already found in this timeline event
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
+	const imagePlaceholderSrc = './img/image-placeholder.jpg';
 	const onClickEditButton = () => {
-		setImageEditId('some id');
+		isInEditMode = true;
 	};
 
 	// cancel, but when used for editing an existing image
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
+		// TODO: match the store
 		unsetImageEditId();
 		unsetImageEditContent();
 	};
@@ -51,15 +56,15 @@
 	};
 
 	const onClickDoneButton = () => {
-		addOrReplaceTimelineEventImage();
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		//addOrReplaceTimelineEventImage();
+		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
 	};
 
 	const onClickDeleteButton = () => {
 		// TODO: implement delete
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
 	};
@@ -69,9 +74,14 @@
 		unsetImageEditContent();
 	};
 
+	const afterUploadFunction = () => {
+		setTimelineEventImageUrlFromTempState();
+	};
+
 	$: {
-		isInEditMode = $tempState.imageEditContent;
-		isValidUrl = $tempState?.imageEditContent?.url;
+		isInEditMode = $tempState?.imageEditContent;
+		imageUploadPathNoExt = `${$uiState.activePerson.id}/${timelineEventImageFolderName}/${$tempState.timelineEditEventId}/${$tempState.imageEditId}`;
+		isValidUrl = isUrlValid($tempState?.imageEditContent?.url);
 	}
 </script>
 
@@ -87,7 +97,16 @@
 	<div class="image-modal-content" slot="modal-content-slot">
 		<InputContainer label="Image">
 			<div class="image-container">
-				<AddButtonSquare />
+				<ImageAsyncFromUrl
+					{repoOwner}
+					repoName={dataRepoName}
+					password={tempPw}
+					imageUrl={$tempState.imageEditContent.url}
+					{imageUploadPathNoExt}
+					{imagePlaceholderSrc}
+					allowEdit={isInEditMode}
+					{afterUploadFunction}
+				/>
 			</div>
 		</InputContainer>
 		<InputContainer label="Title">

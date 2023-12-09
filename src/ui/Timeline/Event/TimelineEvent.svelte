@@ -139,7 +139,7 @@
 		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
 			<i
 				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
-					.icon}"
+					?.icon}"
 			/>
 			<!-- hide age if this is the birth event -->
 			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}

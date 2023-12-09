@@ -1,5 +1,5 @@
 <script>
-	import { writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
+	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
 	import { getNotificationConfigFromRepoState, setRepoState } from '../../logic/ui-management';
 	import uiState from '../../stores/ui-state';
 	import { repoStateStrings } from '../strings';
@@ -11,7 +11,7 @@
 	let color;
 
 	let onSaveButtonClick = () => {
-		writeCurrentFamilyTreeDataToRepo('8890');
+		writeCurrentFamilyTreeDataToRepo(tempPw);
 	};
 
 	$: {

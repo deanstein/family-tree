@@ -3,13 +3,12 @@ import imageCache from '../stores/image-cache';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
 import { repoStateStrings } from '../ui/strings';
-import { getPersonById } from './person-management';
+import { getActivePerson, getPersonById } from './person-management';
 import {
 	areObjectsEqual,
-	replaceObjectByKeyValue,
+	addOrReplaceObjectInArray,
 	deleteObjectByKeyValue,
-	getObjectByKeyValue,
-	instantiateObject
+	getObjectByKeyValueInArray
 } from './utils';
 
 // manage build mode
@@ -43,9 +42,11 @@ export const toggleBuildMode = () => {
 // manage the image cache
 export const getImageFromCache = (filePath) => {
 	let imgSrc;
-	imageCache.subscribe((currentValue) => {
-		imgSrc = currentValue[filePath];
-	});
+	if (filePath) {
+		imageCache.subscribe((currentValue) => {
+			imgSrc = currentValue[filePath];
+		});
+	}
 	return imgSrc;
 };
 
@@ -110,6 +111,11 @@ export const checkPersonForUnsavedChanges = (personId) => {
 		}
 		return currentValue;
 	});
+};
+
+export const checkActivePersonForUnsavedChanges = () => {
+	//@ts-expect-error
+	checkPersonForUnsavedChanges(getActivePerson().id);
 };
 
 // manage on/off screen people IDs
@@ -339,8 +345,8 @@ export const unsetAltNames = () => {
 
 export const addOrEditAlternateNameInTempState = (alternateName) => {
 	tempState.update((currentValue) => {
-		if (getObjectByKeyValue(currentValue.bioEditAltNames, 'name', alternateName.name)) {
-			replaceObjectByKeyValue(
+		if (getObjectByKeyValueInArray(currentValue.bioEditAltNames, 'name', alternateName.name)) {
+			addOrReplaceObjectInArray(
 				currentValue.bioEditAltNames,
 				'name',
 				alternateName.name,
@@ -408,7 +414,6 @@ export const setImageEditId = (imageId) => {
 		return currentValue;
 	});
 };
-
 export const unsetImageEditId = () => {
 	tempState.update((currentValue) => {
 		currentValue.imageEditId = undefined;
@@ -422,10 +427,23 @@ export const setImageEditContent = (imageEditContent) => {
 		return currentValue;
 	});
 };
-
 export const unsetImageEditContent = () => {
 	tempState.update((currentValue) => {
 		currentValue.imageEditContent = undefined;
+		return currentValue;
+	});
+};
+
+// the just-uploaded media url for writing to the correct place in the active person later
+export const setMediaUploadedUrl = (imageUrl) => {
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = imageUrl;
+		return currentValue;
+	});
+};
+export const unsetMediaUploadedUrl = () => {
+	tempState.update((currentValue) => {
+		currentValue.uploadedMediaUrl = undefined;
 		return currentValue;
 	});
 };
