@@ -6,7 +6,7 @@ import { repoStateStrings } from '../ui/strings';
 import { getPersonById } from './person-management';
 import {
 	areObjectsEqual,
-	replaceObjectByKeyValue,
+	addOrReplaceObjectInArray,
 	deleteObjectByKeyValue,
 	getObjectByKeyValue,
 	instantiateObject
@@ -342,7 +342,7 @@ export const unsetAltNames = () => {
 export const addOrEditAlternateNameInTempState = (alternateName) => {
 	tempState.update((currentValue) => {
 		if (getObjectByKeyValue(currentValue.bioEditAltNames, 'name', alternateName.name)) {
-			replaceObjectByKeyValue(
+			addOrReplaceObjectInArray(
 				currentValue.bioEditAltNames,
 				'name',
 				alternateName.name,

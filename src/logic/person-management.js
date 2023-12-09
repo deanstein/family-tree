@@ -22,7 +22,7 @@ import {
 	getObjectByKeyValue,
 	instantiateObject,
 	isUrlValid,
-	replaceObjectByKeyValue
+	addOrReplaceObjectInArray as addOrReplaceObjectInArray
 } from './utils';
 import timelineEventImage from '../schemas/timeline-event-image';
 import tempState from '../stores/temp-state';
@@ -665,7 +665,7 @@ export const addOrReplaceTimelineEvent = (event) => {
 	}
 	uiState.update((currentValue) => {
 		if (getObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)) {
-			replaceObjectByKeyValue(
+			addOrReplaceObjectInArray(
 				currentValue.activePerson.timelineEvents,
 				'eventId',
 				event.eventId,
@@ -710,7 +710,7 @@ export const setTimelineEventImageUrlFromTempState = () => {
 	// if the url is valid, set it as the timeline event image url for the active event image
 	if (isUrlValid(tempStateUrl)) {
 		// @ts-expect-error
-		replaceObjectByKeyValue(timelineEventContent.images, 'url', tempStateUrl, newEvent);
+		addOrReplaceObjectInArray(timelineEventContent.images, 'url', tempStateUrl, newEvent);
 
 		// update the entire timeline event
 		addOrReplaceTimelineEvent(newEvent);

@@ -175,26 +175,8 @@ export const getObjectByKeyValue = (arr, key, value) => {
 	return undefined;
 };
 
-export const replaceOrAddObjectByKeyValue = (arr, key, value, replacementObject) => {
-	let found = false;
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i][key] === value) {
-			arr[i] = replacementObject;
-			found = true;
-			break; // exit the loop as we've found and replaced the object
-		}
-	}
-	if (!found) {
-		// If the object was not found and replaced, add it to the array
-		arr.push(replacementObject);
-		console.log('Object added to the array.');
-		found = true;
-	}
-	return found; // indicate that object was replaced or added
-};
-
 // replaces an object in an array of objects
-export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
+export const addOrReplaceObjectInArray = (arr, key, value, replacementObject) => {
 	if (arr) {
 		let found = false;
 		for (let i = 0; i < arr.length; i++) {
@@ -207,10 +189,8 @@ export const replaceObjectByKeyValue = (arr, key, value, replacementObject) => {
 		if (!found) {
 			// If the object was not found and replaced, add it to the array
 			arr.push(replacementObject);
-			console.log('Object added to the array.');
-			found = true;
 		}
-		return found; // indicate that object was replaced or added
+		return true; // indicate that object was replaced or added
 	}
 };
 
