@@ -19,9 +19,11 @@
 		{#if showAddButton}
 			<AddButtonSquare onClickFunction={onClickAddButtonFunction} />
 		{/if}
-		{#each images as image}
-			<ImageThumbnail imgSrc={image.src} />
-		{/each}
+		{#if images}
+			{#each images as image}
+				<ImageThumbnail imageContent={image} />
+			{/each}
+		{/if}
 	</MediaGroupHorizontal>
 </div>
 

@@ -25,10 +25,11 @@
 	export let repoName;
 	export let password;
 	export let imageUrl; // the full github url
-	export let imageUploadPathNoExt; // file path (no extension) from the root of the repo where an uploaded photo would go
 	export let imagePlaceholderSrc; // used if the url is not valid
 	export let allowEdit; // shows overlay buttons like edit and delete
-	export let afterUploadFunction = () => {}; // optional; runs after an image was uploaded
+	// optional
+	export let imageUploadPathNoExt = undefined; // path (no ext) of the repo where an uploaded photo would go
+	export let afterUploadFunction = () => {}; // runs after an image was uploaded
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-pen';
@@ -49,7 +50,7 @@
 		if (isUrlValid(imageUrl)) {
 			try {
 				// check the cache first
-				const imageFromCache = getImageFromCache(imageUploadPathNoExt);
+				const imageFromCache = getImageFromCache(imageUrl);
 				if (imageFromCache) {
 					//console.log("Image was found in cache", imageUploadPathNoExt)
 					imgSrc = imageFromCache;
@@ -63,7 +64,7 @@
 					isImageLoading = true;
 
 					// send a message to the web worker with the image URL
-					worker.postMessage(`${imageUploadPathNoExt}.${imageExtension}`);
+					worker.postMessage(imageUrl);
 
 					// listen for messages from the worker
 					worker.onmessage = function (event) {
@@ -77,14 +78,12 @@
 								imgSrc = MIMEType + ';base64,' + imgBase64;
 
 								// add the image to the cache
-								addImageToCache(imageUploadPathNoExt, imgSrc);
+								addImageToCache(imageUrl, imgSrc);
 							} else {
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.warn(
-								`No valid image data received for: ${imageUploadPathNoExt}.${imageExtension}.`
-							);
+							console.warn(`No valid image data received for: ${imageUrl}.`);
 						}
 
 						// Terminate the worker
@@ -117,7 +116,7 @@
 			);
 
 			// remove the old image from the cache
-			removeImageFromCache(imageUploadPathNoExt);
+			removeImageFromCache(imageUrl);
 
 			// set the url in the temp state so other components can record it in the active person
 			setMediaUploadedUrl(imageUrl);
@@ -154,10 +153,9 @@
 	});
 
 	$: {
-		// for bio photos, refresh the image from the cache
+		// if bio photo, refresh the image from the cache often
 		// in case it's been updated from somewhere else
-		// this breaks timeline event images for some reason
-		if ($imageCache[imageUploadPathNoExt] && imageUploadPathNoExt.includes(bioPhotoFileName)) {
+		if ($imageCache[imageUrl] && imageUrl.includes(bioPhotoFileName)) {
 			getAndShowImage();
 		}
 

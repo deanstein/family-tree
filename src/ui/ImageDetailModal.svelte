@@ -15,9 +15,7 @@
 		unsetImageEditId
 	} from '../logic/temp-management';
 
-	import {
-		setTimelineEventImageUrlFromTempState
-	} from '../logic/person-management';
+	import { setTimelineEventImageUrlFromTempState } from '../logic/person-management';
 
 	import stylingConstants from './styling-constants';
 	import { isUrlValid } from '../logic/utils';
@@ -84,7 +82,6 @@
 		isInEditMode = $tempState?.imageEditContent;
 		imageUploadPathNoExt = `${$uiState.activePerson.id}/${timelineEventImageFolderName}/${$tempState.timelineEditEventId}/${$tempState.imageEditId}`;
 		isValidUrl = isUrlValid($tempState?.imageEditContent?.url);
-		console.log(isValidUrl);
 	}
 </script>
 

@@ -8,6 +8,7 @@ export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
 export const bioPhotoFileName = 'bio-photo';
+export const repoContentsUrlPrefix = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/`;
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
@@ -269,12 +270,10 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 };
 
 // for binary large objects (blobs)
-export const readBlobFromRepo = async (repoOwner, repoName, password, filePathWithExt) => {
-	// First, get the file's SHA
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePathWithExt}`;
+export const readBlobFromRepo = async (repoOwner, repoName, password, gitHubUrl) => {
 	let sha;
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(gitHubUrl, {
 			headers: {
 				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
 			}
