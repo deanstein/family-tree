@@ -10,17 +10,17 @@
 	} from '../logic/persistence-management';
 
 	import {
-		checkPersonForUnsavedChanges,
+		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,
 		unsetImageEditId
 	} from '../logic/temp-management';
 
 	import {
-		addOrReplaceTimelineEventImage,
 		setTimelineEventImageUrlFromTempState
 	} from '../logic/person-management';
 
 	import stylingConstants from './styling-constants';
+	import { isUrlValid } from '../logic/utils';
 
 	import Button from './Button.svelte';
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
@@ -29,7 +29,6 @@
 	import ModalActionsBar from './Modals/ModalActionsBar.svelte';
 	import TextArea from './TextArea.svelte';
 	import TextInput from './TextInput.svelte';
-	import { getExtensionFromUrl, isUrlValid } from '../logic/utils';
 
 	// all possible input values
 	let imageTitleInputValue;
@@ -59,15 +58,15 @@
 	};
 
 	const onClickDoneButton = () => {
-		addOrReplaceTimelineEventImage();
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		//addOrReplaceTimelineEventImage();
+		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
 	};
 
 	const onClickDeleteButton = () => {
 		// TODO: implement delete
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
 	};
@@ -85,6 +84,7 @@
 		isInEditMode = $tempState?.imageEditContent;
 		imageUploadPathNoExt = `${$uiState.activePerson.id}/${timelineEventImageFolderName}/${$tempState.timelineEditEventId}/${$tempState.imageEditId}`;
 		isValidUrl = isUrlValid($tempState?.imageEditContent?.url);
+		console.log(isValidUrl);
 	}
 </script>
 

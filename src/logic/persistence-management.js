@@ -269,9 +269,9 @@ export const readFileFromRepo = async (repoOwner, repoName, password, filePath) 
 };
 
 // for binary large objects (blobs)
-export const readBlobFromRepo = async (repoOwner, repoName, password, filePath) => {
+export const readBlobFromRepo = async (repoOwner, repoName, password, filePathWithExt) => {
 	// First, get the file's SHA
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePathWithExt}`;
 	let sha;
 	try {
 		const response = await fetch(url, {
@@ -284,7 +284,7 @@ export const readBlobFromRepo = async (repoOwner, repoName, password, filePath) 
 			const data = await response.json();
 			sha = data.sha; // Get the file's SHA
 		} else {
-			console.log('Bad response: ' + response);
+			console.log('Bad response: ' + JSON.stringify(response));
 		}
 	} catch (error) {
 		console.error(error);
@@ -353,7 +353,7 @@ export const uploadFileToRepo = async (
 	} else {
 		console.log(
 			"%c^ The above error is expected. This photo wasn't already present.",
-			'color: lightBlue;'
+			'color: green; font-weight: bold;'
 		);
 		const data = {
 			message: commitMessage,

@@ -6,9 +6,14 @@
 
 	import stylingConstants from './styling-constants';
 
-	import { uploadFileToRepo } from '../logic/persistence-management';
+	import { bioPhotoFileName, uploadFileToRepo } from '../logic/persistence-management';
 
-	import { getMIMEType as getMIMEType, isUrlValid } from '../logic/utils';
+	import {
+		getExtensionFromFileNameOrPath,
+		getExtensionFromUrl,
+		getMIMEType,
+		isUrlValid
+	} from '../logic/utils';
 	import {
 		addImageToCache,
 		getImageFromCache,
@@ -34,6 +39,7 @@
 	let fileReader; // the edit button acts as a file reader, when shown
 	let imgSrc;
 	let isImageLoading = false;
+	let imageExtension;
 
 	const getAndShowImage = async () => {
 		// initially set the image to the placeholder
@@ -45,8 +51,10 @@
 				// check the cache first
 				const imageFromCache = getImageFromCache(imageUploadPathNoExt);
 				if (imageFromCache) {
+					//console.log("Image was found in cache", imageUploadPathNoExt)
 					imgSrc = imageFromCache;
 				} else {
+					//console.log("Using a web worker to get the image", imageUploadPathNoExt)
 					// use a web worker to fetch the image asynchronously
 					const worker = new Worker(new URL('image-async-web-worker.js', import.meta.url), {
 						type: 'module'
@@ -54,8 +62,8 @@
 
 					isImageLoading = true;
 
-					// send a message to the worker with the image URL
-					worker.postMessage(imageUploadPathNoExt);
+					// send a message to the web worker with the image URL
+					worker.postMessage(`${imageUploadPathNoExt}.${imageExtension}`);
 
 					// listen for messages from the worker
 					worker.onmessage = function (event) {
@@ -74,7 +82,9 @@
 								console.error('Unknown MIME type');
 							}
 						} else {
-							console.warn('No valid image data received for ' + imageUploadPathNoExt) + '.';
+							console.warn(
+								`No valid image data received for: ${imageUploadPathNoExt}.${imageExtension}.`
+							);
 						}
 
 						// Terminate the worker
@@ -92,18 +102,16 @@
 	};
 
 	const uploadImageFromFileReader = async () => {
+		// afterUploadFunction();
+		// return;
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
-
-		// Get the file extension from the file name
-		const fileReaderFileName = file.name;
-		const fileExtension = fileReaderFileName.split('.').pop();
 
 		try {
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				repoName,
 				password,
-				`${imageUploadPathNoExt}.${fileExtension}`,
+				`${imageUploadPathNoExt}.${imageExtension}`,
 				base64String,
 				'Upload image'
 			);
@@ -118,7 +126,7 @@
 			afterUploadFunction();
 
 			// refresh the image
-			getAndShowImage();
+			await getAndShowImage();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -142,15 +150,21 @@
 	};
 
 	onMount(async () => {
-		getAndShowImage();
+		await getAndShowImage();
 	});
 
 	$: {
-		if (!imageUploadPathNoExt)
-			if ($imageCache[imageUploadPathNoExt]) {
-				// show the image from the cache, always
-				getAndShowImage();
-			}
+		// for bio photos, refresh the image from the cache
+		// in case it's been updated from somewhere else
+		// this breaks timeline event images for some reason
+		if ($imageCache[imageUploadPathNoExt] && imageUploadPathNoExt.includes(bioPhotoFileName)) {
+			getAndShowImage();
+		}
+
+		// Get the file extension from the file name
+		imageExtension = file
+			? getExtensionFromFileNameOrPath(file.name)
+			: getExtensionFromUrl(imageUrl);
 	}
 
 	const editButtonDynamicClass = css`

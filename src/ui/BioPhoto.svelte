@@ -14,7 +14,7 @@
 	export let allowEdit;
 
 	let person;
-	let bioPhotoFilePath;
+	let bioPhotoPathNoExt;
 
 	const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 	const afterUploadFunction = () => {
@@ -23,7 +23,7 @@
 
 	$: {
 		person = getPersonById(personId);
-		bioPhotoFilePath = `${personId}/${bioPhotoFileName}${getExtensionFromUrl(person?.bioPhotoUrl)}`;
+		bioPhotoPathNoExt = `${personId}/${bioPhotoFileName}`;
 	}
 </script>
 
@@ -33,7 +33,7 @@
 		repoName={dataRepoName}
 		password={tempPw}
 		imageUrl={person?.bioPhotoUrl}
-		imageUploadPathNoExt={bioPhotoFilePath}
+		imageUploadPathNoExt={bioPhotoPathNoExt}
 		imagePlaceholderSrc={bioPhotoPlaceholderSrc}
 		{allowEdit}
 		{afterUploadFunction}

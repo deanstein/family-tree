@@ -18,7 +18,11 @@
 	} from '../../../logic/temp-management';
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
 	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../../logic/ui-management';
-	import { getObjectByKeyValue, instantiateObject, getIsDateValid } from '../../../logic/utils';
+	import {
+		getObjectByKeyValueInArray,
+		instantiateObject,
+		getIsDateValid
+	} from '../../../logic/utils';
 	import { timelineEventStrings } from '../../strings';
 
 	import stylingConstants from '../../styling-constants';
@@ -168,7 +172,7 @@
 		isInEditMode = $tempState.timelineEditEventId !== undefined;
 		isBirthOrDeathEvent =
 			eventType === timelineEventTypes.birth.type || eventType === timelineEventTypes.death.type;
-		isNewEvent = !getObjectByKeyValue(
+		isNewEvent = !getObjectByKeyValueInArray(
 			$uiState.activePerson.timelineEvents,
 			'eventId',
 			$tempState.timelineEditEventId

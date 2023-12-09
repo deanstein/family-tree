@@ -3,13 +3,12 @@ import imageCache from '../stores/image-cache';
 import tempState from '../stores/temp-state';
 import uiState from '../stores/ui-state';
 import { repoStateStrings } from '../ui/strings';
-import { getPersonById } from './person-management';
+import { getActivePerson, getPersonById } from './person-management';
 import {
 	areObjectsEqual,
 	addOrReplaceObjectInArray,
 	deleteObjectByKeyValue,
-	getObjectByKeyValue,
-	instantiateObject
+	getObjectByKeyValueInArray
 } from './utils';
 
 // manage build mode
@@ -112,6 +111,11 @@ export const checkPersonForUnsavedChanges = (personId) => {
 		}
 		return currentValue;
 	});
+};
+
+export const checkActivePersonForUnsavedChanges = () => {
+	//@ts-expect-error
+	checkPersonForUnsavedChanges(getActivePerson().id);
 };
 
 // manage on/off screen people IDs
@@ -341,7 +345,7 @@ export const unsetAltNames = () => {
 
 export const addOrEditAlternateNameInTempState = (alternateName) => {
 	tempState.update((currentValue) => {
-		if (getObjectByKeyValue(currentValue.bioEditAltNames, 'name', alternateName.name)) {
+		if (getObjectByKeyValueInArray(currentValue.bioEditAltNames, 'name', alternateName.name)) {
 			addOrReplaceObjectInArray(
 				currentValue.bioEditAltNames,
 				'name',
