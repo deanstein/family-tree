@@ -12,8 +12,8 @@
 	const imagePlaceholderSrc = './img/image-placeholder.jpg';
 
 	const imageThumbnailContainerCss = css`
-		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
+		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
@@ -34,5 +34,6 @@
 <style>
 	.image-thumbnail-container {
 		border: 2px solid transparent;
+		overflow: hidden;
 	}
 </style>
