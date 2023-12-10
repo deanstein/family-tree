@@ -17,6 +17,7 @@
 		setFirstTimelineEventHeight,
 		setLastTimelineEventHeight
 	} from '../../../logic/ui-management';
+	import ImageThumbnailGroup from '../../ImageThumbnailGroup.svelte';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
 	export let rowIndex;
@@ -152,6 +153,16 @@
 			{timelineEvent?.eventContent.description
 				? timelineEvent?.eventContent.description
 				: 'Event description'}
+		</div>
+		<div class="timeline-event-image-preview">
+			<!-- show a few of the timeline event images, if there are any -->
+			{#if timelineEvent?.eventContent?.images.length > 0}
+			<ImageThumbnailGroup
+				images={timelineEvent?.eventContent?.images}
+				showGroupTitle={false}
+				showAddButton={false}
+			/>
+			{/if}
 		</div>
 	</div>
 </div>
