@@ -7,6 +7,7 @@
 	import NotificationBanner from './NotificationBanner.svelte';
 	import Button from '../Button.svelte';
 
+	let showBanner;
 	let message;
 	let color;
 
@@ -15,6 +16,15 @@
 	};
 
 	$: {
+		showBanner =
+			$uiState.saveToRepoStatus !== repoStateStrings.undefined &&
+			$uiState.saveToRepoStatus !== repoStateStrings.saved &&
+			$uiState.saveToRepoStatus !== undefined;
+		// when the banner is shown, make sure page is scrolled up
+		if (showBanner) {
+			window.scrollTo(window.scrollX, 0);
+		}
+
 		// success messages get a delay before dismissing
 		if (
 			$uiState.saveToRepoStatus === repoStateStrings.loadSuccessful ||
@@ -32,7 +42,7 @@
 	});
 </script>
 
-{#if $uiState.saveToRepoStatus != repoStateStrings.undefined && $uiState.saveToRepoStatus != repoStateStrings.saved && $uiState.saveToRepoStatus != undefined}
+{#if showBanner}
 	<NotificationBanner {message} {color} standalone={false}>
 		{#if $uiState.saveToRepoStatus === repoStateStrings.unsavedChanges}
 			<Button
