@@ -11,7 +11,8 @@
 	}
 
 	let datePickerDynamicClass = css`
-		height: ${stylingConstants.sizes.bioFieldHeight};
+		font-size: ${stylingConstants.sizes.bioFieldFontSize};
+		color: ${stylingConstants.colors.textColor};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
@@ -42,6 +43,7 @@
 		width: 100%;
 		outline: none;
 		padding: 4px;
+		font-family: sans-serif;
 	}
 
 	input:disabled {

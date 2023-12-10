@@ -13,7 +13,7 @@
 	export let onKeyUpFunction = (event) => {};
 
 	const textInputDynamicClass = css`
-		height: ${stylingConstants.sizes.bioFieldHeight};
+		min-height: ${stylingConstants.sizes.bioFieldHeight};
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
 		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};

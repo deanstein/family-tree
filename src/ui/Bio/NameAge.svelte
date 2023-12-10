@@ -44,7 +44,7 @@
 	.name-disabled {
 		text-align: center;
 		border: 2px solid transparent;
-		padding: 10px;
+		padding: 14px;
 		font-size: 5vh;
 	}
 

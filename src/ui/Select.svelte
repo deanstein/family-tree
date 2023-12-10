@@ -12,6 +12,7 @@
 	export let textAlignOverride = undefined;
 
 	const selectDynamicClass = css`
+		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
@@ -68,7 +69,7 @@
 		background-color: white;
 		-webkit-appearance: none; /* for webkit-based browsers */
 		-moz-appearance: none; /* for Firefox */
-		border: none;
+		border: 2px solid transparent;
 		appearance: none;
 	}
 
