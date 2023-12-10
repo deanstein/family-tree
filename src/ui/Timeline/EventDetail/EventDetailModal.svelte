@@ -5,11 +5,11 @@
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
 
-	import timelineEvent from '../../../schemas/timeline-event';
 	import timelineEventTypes from '../../../schemas/timeline-event-types';
+	import timelineEventImage from '../../../schemas/timeline-event-image';
 
 	import {
-		checkPersonForUnsavedChanges,
+	checkActivePersonForUnsavedChanges,
 		setImageEditContent,
 		setImageEditId,
 		setTimelineEditEventId,
@@ -38,7 +38,6 @@
 	import SideBySideContainer from '../../SideBySideContainer.svelte';
 	import TextArea from '../../TextArea.svelte';
 	import TextInput from '../../TextInput.svelte';
-	import timelineEventImage from '../../../schemas/timeline-event-image';
 
 	// get the event data
 	let eventType = $tempState?.timelineEditEvent?.eventType;
@@ -82,7 +81,7 @@
 				break;
 			case timelineEventTypes.generic.type:
 			default:
-				const newEventFromInputs = instantiateObject(timelineEvent);
+				const newEventFromInputs = instantiateObject($tempState.timelineEditEvent);
 				newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
 				newEventFromInputs.eventDate = eventDateInputValue;
 				newEventFromInputs.eventType = eventTypeInputValue;
@@ -130,14 +129,14 @@
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		checkActivePersonForUnsavedChanges();
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
 
 	const onClickDeleteButton = () => {
 		deleteTimelineEvent($tempState.timelineEditEvent);
-		checkPersonForUnsavedChanges($uiState.activePerson.id);
+		checkActivePersonForUnsavedChanges();
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
 	};
