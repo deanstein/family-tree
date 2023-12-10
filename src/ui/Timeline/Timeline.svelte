@@ -62,6 +62,7 @@
 			const newTimelineEvent = instantiateObject(timelineEvent);
 			newTimelineEvent.eventId = uuidv4();
 			newTimelineEvent.eventVersion = schemaVersion;
+			newTimelineEvent.eventType = timelineEventTypes.generic.type;
 			setTimelineEditEvent(newTimelineEvent);
 			setTimelineEditEventId(newTimelineEvent.eventId);
 		}
