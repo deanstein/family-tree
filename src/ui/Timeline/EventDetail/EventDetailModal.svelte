@@ -181,7 +181,7 @@
 
 		mediaContentContainerCss = css`
 			border: 2px solid ${isInEditMode ? stylingConstants.colors.activeColor : 'transparent'};
-			border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
+			border-radius: ${isInEditMode ? "0px" : stylingConstants.sizes.bioFieldBorderRadius};
 		`;
 	}
 </script>
