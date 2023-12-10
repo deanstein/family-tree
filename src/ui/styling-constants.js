@@ -136,11 +136,15 @@ const sizes = {
 	get personNodeAddButtonSize() {
 		return this.nPersonNodeAddButtonSize.toString() + 'vh';
 	},
+	nBioFieldHeight: 1.25,
+	get bioFieldHeight() {
+		return this.nBioFieldFontSize + 'vh';
+	},
 	nBioFieldFontSize: 1.5,
 	get bioFieldFontSize() {
 		return this.nBioFieldFontSize + 'vh';
 	},
-	nBioFieldBorderRadius: 10,
+	nBioFieldBorderRadius: 8,
 	get bioFieldBorderRadius() {
 		return this.nBioFieldBorderRadius + 'px';
 	},

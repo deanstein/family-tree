@@ -68,6 +68,8 @@
 
 	const eventTitleBarDynamicClass = css`
 		background-color: ${stylingConstants.colors.timelineEventTitleBarColor};
+		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius}
+			${stylingConstants.sizes.bioFieldBorderRadius} 0px 0px;
 	`;
 
 	const eventFaIconDynamicClass = css`
@@ -80,6 +82,8 @@
 
 	const eventContentCss = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
+		border-radius: 0px 0px ${stylingConstants.sizes.bioFieldBorderRadius}
+			${stylingConstants.sizes.bioFieldBorderRadius};
 	`;
 
 	onMount(() => {
@@ -218,7 +222,6 @@
 		flex-grow: 1;
 		width: -webkit-fill-available;
 		padding: 5px 10px 5px 10px;
-		border-radius: 5px 5px 0px 0px;
 	}
 
 	/* font awesome icon */
@@ -244,7 +247,6 @@
 
 	.timeline-event-content {
 		padding: 0px 8px 0px 8px;
-		border-radius: 0px 0px 5px 5px;
 	}
 
 	.timeline-event-description {

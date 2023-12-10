@@ -14,11 +14,15 @@
 	let textArea;
 
 	const textInputDynamicClass = css`
-        border: 2px solid ${stylingConstants.colors.activeColor};
+		border: 2px solid ${stylingConstants.colors.activeColor};
 		resize: ${resizable};
-        :hover {
-            border: 2px solid ${stylingConstants.colors.hoverColor};
-		`;
+		:hover {
+			border: 2px solid ${stylingConstants.colors.hoverColor};
+		}
+		:disabled {
+			border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
+		}
+	`;
 
 	const autoGrow = (textArea) => {
 		textArea.style.height = textArea.scrollHeight + 'px';
@@ -50,6 +54,7 @@
 		height: min-content;
 		width: 100%;
 		outline: none;
+		padding: 4px;
 	}
 
 	textarea:disabled {

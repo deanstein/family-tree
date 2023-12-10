@@ -12,12 +12,14 @@
 	export let textAlignOverride = undefined;
 
 	const selectDynamicClass = css`
+		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
-		font-size: ${stylingConstants.sizes.personNodeFontSize};
-		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
+		:disabled {
+			border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
+		}
 	`;
 </script>
 
@@ -56,9 +58,10 @@
 	}
 
 	select {
-		height: 1vw;
+		height: auto;
 		width: 100%;
 		outline: none;
+		padding: 4px;
 	}
 	select:disabled {
 		opacity: 1;
@@ -67,7 +70,6 @@
 		-moz-appearance: none; /* for Firefox */
 		border: none;
 		appearance: none;
-		padding-left: 5px;
 	}
 
 	.select {

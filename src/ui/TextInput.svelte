@@ -13,13 +13,18 @@
 	export let onKeyUpFunction = (event) => {};
 
 	const textInputDynamicClass = css`
+		height: ${stylingConstants.sizes.bioFieldHeight};
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
 		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
-        border: 2px solid ${stylingConstants.colors.activeColor};
-        :hover {
-            border: 2px solid ${stylingConstants.colors.hoverColor};
-		`;
+		border: 2px solid ${stylingConstants.colors.activeColor};
+		:hover {
+			border: 2px solid ${stylingConstants.colors.hoverColor};
+		}
+		:disabled {
+			border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
+		}
+	`;
 </script>
 
 <div id="input-container" class="input-container">
@@ -43,6 +48,7 @@
 		min-width: -webkit-fill-available;
 		min-width: -moz-available;
 		outline: none;
+		padding: 4px;
 	}
 
 	input:disabled {

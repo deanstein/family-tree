@@ -31,6 +31,7 @@
 
 	let altNamesContainerDisabledDynamicClass = css`
 		border: 2px solid transparent;
+		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
 		:hover {
 			border: 2px solid none;
 		}

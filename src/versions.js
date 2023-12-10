@@ -13,7 +13,8 @@ export const appChangelog = {
 			'Added event media content like images and associated people',
 			'Added image fetch web workers',
 			'Added image cache',
-			'Added binary large object read support'
+			'Added binary large object read support',
+			'Added radius to input elements'
 		]
 	},
 	'v0.14.x': {
