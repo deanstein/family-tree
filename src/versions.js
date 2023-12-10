@@ -10,7 +10,7 @@ export const appChangelog = {
 		Changes: [
 			'Added schema support for a bio photo, timeline event images, and associated people',
 			'Replaced Avatar with BioPhoto in Bio and all PersonNode variants',
-			'Added event media content like image thumbnails and associated people',
+			'Added event media content like images and associated people',
 			'Added image fetch web workers',
 			'Added image cache',
 			'Added binary large object read support'

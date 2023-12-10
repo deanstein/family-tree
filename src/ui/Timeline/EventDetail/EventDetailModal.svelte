@@ -9,7 +9,7 @@
 	import timelineEventImage from '../../../schemas/timeline-event-image';
 
 	import {
-	checkActivePersonForUnsavedChanges,
+		checkActivePersonForUnsavedChanges,
 		setImageEditContent,
 		setImageEditId,
 		setTimelineEditEventId,

@@ -14,6 +14,6 @@
 <style>
 	.media-group-container {
 		display: flex;
-		gap: 0.5vw;
+		gap: 8px;
 	}
 </style>

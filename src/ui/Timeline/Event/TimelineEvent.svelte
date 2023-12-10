@@ -78,7 +78,7 @@
 		color: ${stylingConstants.colors.textColor};
 	`;
 
-	const eventDescriptionCss = css`
+	const eventContentCss = css`
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
@@ -136,7 +136,7 @@
 	</div>
 	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
 	<div id="timeline-event-line" class="{eventDetailLineDynamicClass} timeline-event-line" />
-	<div id="timeline-event-content" class="timeline-event-content">
+	<div id="timeline-event-content-outer-container" class="timeline-event-content-outer-container">
 		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
 			<i
 				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
@@ -149,19 +149,21 @@
 				</div>
 			{/if}
 		</div>
-		<div id="timeline-event-description" class="{eventDescriptionCss} timeline-event-description">
-			{timelineEvent?.eventContent.description
-				? timelineEvent?.eventContent.description
-				: 'Event description'}
-		</div>
-		<div class="timeline-event-image-preview">
-			<!-- show a few of the timeline event images, if there are any -->
-			{#if timelineEvent?.eventContent?.images.length > 0}
-			<ImageThumbnailGroup
-				images={timelineEvent?.eventContent?.images}
-				showGroupTitle={false}
-				showAddButton={false}
-			/>
+		<div class="{eventContentCss} timeline-event-content">
+			<div id="timeline-event-description" class="timeline-event-description">
+				{timelineEvent?.eventContent.description
+					? timelineEvent?.eventContent.description
+					: 'Event description'}
+			</div>
+			{#if timelineEvent?.eventContent?.images?.length > 0}
+				<div class="timeline-event-image-preview">
+					<!-- show a few of the timeline event images, if there are any -->
+					<ImageThumbnailGroup
+						images={timelineEvent?.eventContent?.images}
+						showGroupTitle={false}
+						showAddButton={false}
+					/>
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -231,7 +233,7 @@
 		font-style: italic;
 	}
 
-	.timeline-event-content {
+	.timeline-event-content-outer-container {
 		display: flex;
 		flex-direction: column;
 		padding: 3px;
@@ -240,8 +242,16 @@
 		cursor: pointer;
 	}
 
-	.timeline-event-description {
-		padding: 5px 10px 5px 10px;
+	.timeline-event-content {
+		padding: 0px 8px 0px 8px;
 		border-radius: 0px 0px 5px 5px;
+	}
+
+	.timeline-event-description {
+		padding: 8px 0px 8px 0px;
+	}
+
+	.timeline-event-image-preview {
+		padding-bottom: 8px;
 	}
 </style>
