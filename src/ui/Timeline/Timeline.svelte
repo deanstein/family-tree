@@ -61,6 +61,7 @@
 		} else {
 			const newTimelineEvent = instantiateObject(timelineEvent);
 			newTimelineEvent.eventId = uuidv4();
+			newTimelineEvent.eventVersion = schemaVersion;
 			setTimelineEditEvent(newTimelineEvent);
 			setTimelineEditEventId(newTimelineEvent.eventId);
 		}
