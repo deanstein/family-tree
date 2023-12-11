@@ -40,26 +40,27 @@ export const toggleBuildMode = () => {
 };
 
 // manage the image cache
-export const getImageFromCache = (filePath) => {
+// image identifier could be a path or a GitHub url
+export const getImageFromCache = (imageIdentifier) => {
 	let imgSrc;
-	if (filePath) {
+	if (imageIdentifier) {
 		imageCache.subscribe((currentValue) => {
-			imgSrc = currentValue[filePath];
+			imgSrc = currentValue[imageIdentifier];
 		});
 	}
 	return imgSrc;
 };
 
-export const addImageToCache = (filePath, imgSrc) => {
+export const addImageToCache = (imageIdentifier, imgSrc) => {
 	imageCache.update((currentValue) => {
-		currentValue[filePath] = imgSrc;
+		currentValue[imageIdentifier] = imgSrc;
 		return currentValue;
 	});
 };
 
-export const removeImageFromCache = (filePath) => {
+export const removeImageFromCache = (imageIdentifier) => {
 	imageCache.update((currentValue) => {
-		delete currentValue[filePath];
+		delete currentValue[imageIdentifier];
 		return currentValue;
 	});
 };

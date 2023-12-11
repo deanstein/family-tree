@@ -380,6 +380,27 @@ export const uploadFileToRepo = async (
 
 export const deleteFileFromRepoByUrl = async (password, url) => {
 	let deleted;
+	let sha;
+
+	// try to get the sha
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			sha = data.sha; // Get the file's SHA
+		} else {
+			console.log('Bad response: ' + JSON.stringify(response));
+		}
+	} catch (error) {
+		console.error(error);
+	}
+
+	// try to delete the file with the given sha
 	try {
 		const response = await fetch(url, {
 			method: 'DELETE',
@@ -388,7 +409,7 @@ export const deleteFileFromRepoByUrl = async (password, url) => {
 			},
 			body: JSON.stringify({
 				message: `delete ${url}`,
-				sha: (await (await fetch(url)).json()).sha
+				sha: sha
 			})
 		});
 
@@ -396,7 +417,12 @@ export const deleteFileFromRepoByUrl = async (password, url) => {
 			console.log(`File ${url} deleted successfully.`);
 			deleted = true;
 		} else {
-			console.log('Bad response trying to delete file: ' + response);
+			console.error(
+				'Bad response trying to delete file: ' +
+					response.status +
+					', text: ' +
+					(await response.text())
+			);
 			deleted = false;
 		}
 	} catch (error) {

@@ -141,12 +141,18 @@
 		fileInput.click();
 	};
 
-	const onDeleteButtonClick = () => {
+	const onDeleteButtonClick = async () => {
 		// try to delete the file first
 		// if this works, then run the afterDelete function
-		if (deleteFileFromRepoByUrl(tempPw, imageUrl)) {
+		if (await deleteFileFromRepoByUrl(tempPw, imageUrl)) {
 			// run a post-delete function as desired (for example to clean up any references to this file)
 			afterDeleteFunction();
+			removeImageFromCache(imageUrl);
+		} else {
+			console.error(
+				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
+					imageUrl
+			);
 		}
 	};
 
