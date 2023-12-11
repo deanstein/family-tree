@@ -107,8 +107,6 @@
 	};
 
 	const uploadImageFromFileReader = async () => {
-		// afterUploadFunction();
-		// return;
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
 
 		try {
@@ -146,8 +144,10 @@
 		// if this works, then run the afterDelete function
 		if (await deleteFileFromRepoByUrl(tempPw, imageUrl)) {
 			// run a post-delete function as desired (for example to clean up any references to this file)
-			afterDeleteFunction();
 			removeImageFromCache(imageUrl);
+			imageUrl = '';
+			getAndShowImage();
+			afterDeleteFunction();
 		} else {
 			console.error(
 				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
@@ -210,7 +210,7 @@
 				<i class="fa-solid {imageEditFaIcon}" />
 			</div>
 			<!-- only show the delete button if the recorded url is valid -->
-			{#if isUrlValid}
+			{#if isUrlValid(imageUrl)}
 				<div
 					id="image-delete-button"
 					class="{editButtonDynamicClass} image-action-button"
