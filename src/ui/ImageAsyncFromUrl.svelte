@@ -6,7 +6,12 @@
 
 	import stylingConstants from './styling-constants';
 
-	import { bioPhotoFileName, uploadFileToRepo } from '../logic/persistence-management';
+	import {
+		bioPhotoFileName,
+		deleteFileFromRepoByUrl,
+		tempPw,
+		uploadFileToRepo
+	} from '../logic/persistence-management';
 
 	import {
 		getExtensionFromFileNameOrPath,
@@ -30,6 +35,7 @@
 	// optional
 	export let imageUploadPathNoExt = undefined; // path (no ext) of the repo where an uploaded photo would go
 	export let afterUploadFunction = () => {}; // runs after an image was uploaded
+	export let afterDeleteFunction = () => {}; // runs after this image was deleted (for state cleanup)
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-pen';
@@ -135,7 +141,14 @@
 		fileInput.click();
 	};
 
-	const onDeleteButtonClick = () => {};
+	const onDeleteButtonClick = () => {
+		// try to delete the file first
+		// if this works, then run the afterDelete function
+		if (deleteFileFromRepoByUrl(tempPw, imageUrl)) {
+			// run a post-delete function as desired (for example to clean up any references to this file)
+			afterDeleteFunction();
+		}
+	};
 
 	const handleFileUpload = async (event) => {
 		file = event.target.files[0];
@@ -190,15 +203,17 @@
 			>
 				<i class="fa-solid {imageEditFaIcon}" />
 			</div>
-			<!-- TODO: enable this Delete button when the delete API is available-->
-			<!-- <div
-				id="image-delete-button"
-				class="{editButtonDynamicClass} image-action-button"
-				on:click={onDeleteButtonClick}
-				on:keypress={onDeleteButtonClick}
-			>
-				<i class="fa-solid {bioPhotoDeleteFaIcon}" />
-			</div> -->
+			<!-- only show the delete button if the recorded url is valid -->
+			{#if isUrlValid}
+				<div
+					id="image-delete-button"
+					class="{editButtonDynamicClass} image-action-button"
+					on:click={onDeleteButtonClick}
+					on:keypress={onDeleteButtonClick}
+				>
+					<i class="fa-solid {imageDeleteFaIcon}" />
+				</div>
+			{/if}
 		</div>
 		<input
 			type="file"

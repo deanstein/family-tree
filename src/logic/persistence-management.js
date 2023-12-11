@@ -8,11 +8,14 @@ export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
 export const bioPhotoFileName = 'bio-photo';
-export const repoContentsUrlPrefix = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/`;
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
+
+export const getRepoContentUrlPrefix = (repoOwner, repoName) => {
+	return `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+};
 
 export const getLatestCommitDateFromPublicRepo = async (repoOwner, repoName) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/main`;
@@ -373,4 +376,32 @@ export const uploadFileToRepo = async (
 
 		return uploadedUrl;
 	}
+};
+
+export const deleteFileFromRepoByUrl = async (password, url) => {
+	let deleted;
+	try {
+		const response = await fetch(url, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			},
+			body: JSON.stringify({
+				message: `delete ${url}`,
+				sha: (await (await fetch(url)).json()).sha
+			})
+		});
+
+		if (response.ok) {
+			console.log(`File ${url} deleted successfully.`);
+			deleted = true;
+		} else {
+			console.log('Bad response trying to delete file: ' + response);
+			deleted = false;
+		}
+	} catch (error) {
+		console.error(error);
+		deleted = false;
+	}
+	return deleted;
 };

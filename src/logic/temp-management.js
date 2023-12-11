@@ -7,7 +7,7 @@ import { getActivePerson, getPersonById } from './person-management';
 import {
 	areObjectsEqual,
 	addOrReplaceObjectInArray,
-	deleteObjectByKeyValue,
+	deleteObjectInArray,
 	getObjectByKeyValueInArray
 } from './utils';
 
@@ -361,7 +361,7 @@ export const addOrEditAlternateNameInTempState = (alternateName) => {
 
 export const removeAlternateNameFromTempState = (name /* just the name, not the object */) => {
 	tempState.update((currentValue) => {
-		deleteObjectByKeyValue(currentValue.bioEditAltNames, 'name', name);
+		deleteObjectInArray(currentValue.bioEditAltNames, 'name', name);
 		return currentValue;
 	});
 };

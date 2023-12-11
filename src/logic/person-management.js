@@ -14,6 +14,8 @@ import {
 	checkActivePersonForUnsavedChanges,
 	setImageEditContent,
 	setTimelineEditEvent,
+	unsetImageEditContent,
+	unsetImageEditId,
 	updateOffScreenPeopleIdsArray
 } from './temp-management';
 
@@ -24,7 +26,7 @@ import {
 
 import {
 	deepMatchObjects,
-	deleteObjectByKeyValue,
+	deleteObjectInArray,
 	getObjectByKeyValueInArray,
 	instantiateObject,
 	isUrlValid,
@@ -717,28 +719,28 @@ export const deleteTimelineEvent = (event) => {
 		if (
 			getObjectByKeyValueInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)
 		) {
-			deleteObjectByKeyValue(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
+			deleteObjectInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
 		}
 		return currentValue;
 	});
 };
 
 export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
-	const timelineEvent = getTimelineEventById(timelineEventId);
+	const newTimelineEvent = getTimelineEventById(timelineEventId);
 	// update the timeline event with the new image
 	addOrReplaceObjectInArray(
 		//@ts-expect-error
-		timelineEvent?.eventContent?.images,
+		newTimelineEvent?.eventContent?.images,
 		'id',
 		newImageContent.id,
 		newImageContent
 	);
 	// update the timeline event in the ui state
-	addOrReplaceTimelineEvent(timelineEvent);
+	addOrReplaceTimelineEvent(newTimelineEvent);
 	// update the temp state event so the modal shows the updated content
-	console.log('Set timeline event in temp state: ', timelineEvent);
-	setTimelineEditEvent(timelineEvent);
+	setTimelineEditEvent(newTimelineEvent);
 	setImageEditContent(newImageContent);
+	// show the unsaved changes notification
 	checkActivePersonForUnsavedChanges();
 };
 
@@ -757,7 +759,6 @@ export const setTimelineEventImageUrlFromTempState = () => {
 	// make a copy of the current event
 	const newImage = instantiateObject(timelineEventImageContentFromTempState);
 	newImage.url = uploadedMediaUrl;
-	console.log('New image', newImage);
 
 	// if the url is valid, update the image in the active person
 	if (isUrlValid(uploadedMediaUrl)) {
@@ -772,4 +773,29 @@ export const setTimelineEventImageUrlFromTempState = () => {
 	});
 };
 
-export const deleteTimelineEventImage = (imageId) => {};
+// delete references to repo images in the active person
+// typically used as "afterDelete" functions, after the actual image in the repo is deleted
+export const deleteBioPhotoReference = () => {
+	uiState.update((currentValue) => {
+		currentValue.activePerson.bioPhotoUrl = '';
+		return currentValue;
+	});
+};
+export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
+	// make a copy of the timeline event to modify
+	const newTimelineEvent = getTimelineEventById(timelineEventId);
+	// delete the image from the timeline event
+	deleteObjectInArray(
+		//@ts-expect-error
+		newTimelineEvent?.eventContent?.images,
+		'id',
+		imageId
+	);
+	// update the temp state event so the modal shows the updated content
+	setTimelineEditEvent(newTimelineEvent);
+	// remove the id and content of the edited image in the temp state
+	unsetImageEditId();
+	unsetImageEditContent();
+	// show the unsaved changes notification
+	checkActivePersonForUnsavedChanges();
+};
