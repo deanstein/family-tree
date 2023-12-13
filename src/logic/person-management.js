@@ -16,6 +16,7 @@ import {
 	setTimelineEditEvent,
 	unsetImageEditContent,
 	unsetImageEditId,
+	unsetMediaUploadedUrl,
 	updateOffScreenPeopleIdsArray
 } from './temp-management';
 
@@ -242,10 +243,7 @@ export const setBioPhotoUrlFromTempState = () => {
 	}
 
 	// clear the temp state
-	tempState.update((currentValue) => {
-		currentValue.uploadedMediaUrl = undefined;
-		return currentValue;
-	});
+	unsetMediaUploadedUrl();
 };
 
 export const unsetPersonBioPhotoUrl = () => {
@@ -767,10 +765,7 @@ export const setTimelineEventImageUrlFromTempState = () => {
 	}
 
 	// clear the temp state
-	tempState.update((currentValue) => {
-		currentValue.uploadedMediaUrl = undefined;
-		return currentValue;
-	});
+	unsetMediaUploadedUrl();
 };
 
 // delete references to repo images in the active person
