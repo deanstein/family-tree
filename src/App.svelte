@@ -23,18 +23,18 @@
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 
 	import ChooseTreeModal from './ui/Modals/ChooseTreeModal.svelte';
+	import DevTools from './ui/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from './ui/Modals/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from './ui/Timeline/EventDetail/EventDetailModal.svelte';
+	import Footer from './ui/Footer.svelte';
+	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
+	import Header from './ui/Header.svelte';
 	import NodeActionsModal from './ui/Modals/NodeActionsModal.svelte';
 	import PersonDetailModal from './ui/Modals/PersonDetailModal.svelte';
-	import Header from './ui/Header.svelte';
-	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
-	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
-	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
 	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
-	import Footer from './ui/Footer.svelte';
-	import DevTools from './ui/DevTools/DevTools.svelte';
-	import ImageDetailModal from './ui/ImageDetailModal.svelte';
+	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
+	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
+	import TimelineEventImageDetailModal from './ui/Timeline/TimelineEventImageDetailModal.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -121,7 +121,7 @@
 			<EditTimelineEventModal />
 		{/if}
 		{#if $tempState.imageEditId !== undefined}
-			<ImageDetailModal />
+			<TimelineEventImageDetailModal />
 		{/if}
 		<Header />
 		<div id="tree-content" class="{treeContentDynamicClass} tree-content">

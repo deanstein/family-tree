@@ -8,11 +8,14 @@ export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
 export const bioPhotoFileName = 'bio-photo';
-export const repoContentsUrlPrefix = `https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/`;
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
+
+export const getRepoContentUrlPrefix = (repoOwner, repoName) => {
+	return `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+};
 
 export const getLatestCommitDateFromPublicRepo = async (repoOwner, repoName) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/main`;
@@ -351,7 +354,7 @@ export const uploadFileToRepo = async (
 		return updatedUrl;
 	} else {
 		console.log(
-			"%c^ The above error is expected. This photo wasn't already present.",
+			"%c^^^ Ignore the above error. This photo simply wasn't already present in the repo, either because it didn't exist yet or had been deleted for a full refresh.",
 			'color: green; font-weight: bold;'
 		);
 		const data = {
@@ -373,4 +376,68 @@ export const uploadFileToRepo = async (
 
 		return uploadedUrl;
 	}
+};
+
+export const deleteFileFromRepoByUrl = async (password, url, logFailures = false) => {
+	let deleted = false;
+	let sha;
+
+	// try to get the sha
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			}
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			sha = data.sha; // Get the file's SHA
+		} else {
+			if (logFailures) {
+				console.log('Bad response: ' + JSON.stringify(response));
+			}
+			return false;
+		}
+	} catch (error) {
+		if (logFailures) {
+			console.error(error);
+		}
+		return false;
+	}
+
+	// try to delete the file with the given sha
+	try {
+		const response = await fetch(url, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+			},
+			body: JSON.stringify({
+				message: `delete ${url}`,
+				sha: sha
+			})
+		});
+
+		if (response.ok) {
+			//console.log(`File ${url} deleted successfully.`);
+			deleted = true;
+		} else {
+			if (logFailures) {
+				console.error(
+					'Bad response trying to delete file: ' +
+						response.status +
+						', text: ' +
+						(await response.text())
+				);
+			}
+			deleted = false;
+		}
+	} catch (error) {
+		if (logFailures) {
+			console.error(error);
+		}
+		deleted = false;
+	}
+	return deleted;
 };

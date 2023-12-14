@@ -1,4 +1,4 @@
-export const appVersion = '0.15.8';
+export const appVersion = '0.15.9';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -14,6 +14,7 @@ export const appChangelog = {
 			'Added image fetch web workers',
 			'Added image cache',
 			'Added binary large object read support',
+			'Added ability to delete files on GitHub',
 			'Added radius to input elements'
 		]
 	},

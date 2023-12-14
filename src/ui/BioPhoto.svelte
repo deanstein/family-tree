@@ -5,7 +5,11 @@
 		bioPhotoFileName,
 		tempPw
 	} from '../logic/persistence-management';
-	import { getPersonById, setBioPhotoUrlFromTempState } from '../logic/person-management';
+	import {
+		deleteBioPhotoReference,
+		getPersonById,
+		setBioPhotoUrlFromTempState
+	} from '../logic/person-management';
 	import { getExtensionFromUrl } from '../logic/utils';
 
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
@@ -19,6 +23,10 @@
 	const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 	const afterUploadFunction = () => {
 		setBioPhotoUrlFromTempState();
+	};
+
+	const afterDeleteFunction = () => {
+		deleteBioPhotoReference();
 	};
 
 	$: {
@@ -37,6 +45,7 @@
 		imagePlaceholderSrc={bioPhotoPlaceholderSrc}
 		{allowEdit}
 		{afterUploadFunction}
+		{afterDeleteFunction}
 	/>
 </div>
 

@@ -1,21 +1,13 @@
 <script>
-	import uiState from '../stores/ui-state';
 	import tempState from '../stores/temp-state';
 
-	import {
-		repoOwner,
-		dataRepoName,
-		tempPw,
-		timelineEventImageFolderName
-	} from '../logic/persistence-management';
+	import { repoOwner, dataRepoName, tempPw } from '../logic/persistence-management';
 
 	import {
 		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,
 		unsetImageEditId
 	} from '../logic/temp-management';
-
-	import { setTimelineEventImageUrlFromTempState } from '../logic/person-management';
 
 	import stylingConstants from './styling-constants';
 	import { isUrlValid } from '../logic/utils';
@@ -28,13 +20,16 @@
 	import TextArea from './TextArea.svelte';
 	import TextInput from './TextInput.svelte';
 
+	export let isNewImage;
+	export let afterUploadFunction;
+	export let afterDeleteFunction;
+
 	// all possible input values
 	let imageTitleInputValue;
 	let imageDescriptionInputValue;
 
 	let isInEditMode;
 	let imageUploadPathNoExt; // folder path (no file name)
-	let isNewImage; // if true, this image is not already found in this timeline event
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
 	const imagePlaceholderSrc = './img/image-placeholder.jpg';
@@ -56,7 +51,6 @@
 	};
 
 	const onClickDoneButton = () => {
-		//addOrReplaceTimelineEventImage();
 		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
@@ -74,13 +68,8 @@
 		unsetImageEditContent();
 	};
 
-	const afterUploadFunction = () => {
-		setTimelineEventImageUrlFromTempState();
-	};
-
 	$: {
 		isInEditMode = $tempState?.imageEditContent;
-		imageUploadPathNoExt = `${$uiState.activePerson.id}/${timelineEventImageFolderName}/${$tempState.timelineEditEventId}/${$tempState.imageEditId}`;
 		isValidUrl = isUrlValid($tempState?.imageEditContent?.url);
 	}
 </script>
@@ -106,6 +95,7 @@
 					{imagePlaceholderSrc}
 					allowEdit={isInEditMode}
 					{afterUploadFunction}
+					{afterDeleteFunction}
 				/>
 			</div>
 		</InputContainer>
@@ -118,7 +108,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $tempState.timelineEditEventId === undefined}
+			{#if $tempState.imageEditId === undefined}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

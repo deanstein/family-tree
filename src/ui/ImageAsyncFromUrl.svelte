@@ -6,7 +6,12 @@
 
 	import stylingConstants from './styling-constants';
 
-	import { bioPhotoFileName, uploadFileToRepo } from '../logic/persistence-management';
+	import {
+		bioPhotoFileName,
+		deleteFileFromRepoByUrl,
+		tempPw,
+		uploadFileToRepo
+	} from '../logic/persistence-management';
 
 	import {
 		getExtensionFromFileNameOrPath,
@@ -30,6 +35,7 @@
 	// optional
 	export let imageUploadPathNoExt = undefined; // path (no ext) of the repo where an uploaded photo would go
 	export let afterUploadFunction = () => {}; // runs after an image was uploaded
+	export let afterDeleteFunction = () => {}; // runs after this image was deleted (for state cleanup)
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-pen';
@@ -52,10 +58,10 @@
 				// check the cache first
 				const imageFromCache = getImageFromCache(imageUrl);
 				if (imageFromCache) {
-					//console.log("Image was found in cache", imageUploadPathNoExt)
+					//console.log("Image was found in cache", imageUrl)
 					imgSrc = imageFromCache;
 				} else {
-					//console.log("Using a web worker to get the image", imageUploadPathNoExt)
+					//console.log("Using a web worker to get the image", imageUrl)
 					// use a web worker to fetch the image asynchronously
 					const worker = new Worker(new URL('image-async-web-worker.js', import.meta.url), {
 						type: 'module'
@@ -67,7 +73,7 @@
 					worker.postMessage(imageUrl);
 
 					// listen for messages from the worker
-					worker.onmessage = function (event) {
+					worker.onmessage = (event) => {
 						// image data is in event.data
 						const imgBinary = event.data;
 
@@ -101,11 +107,13 @@
 	};
 
 	const uploadImageFromFileReader = async () => {
-		// afterUploadFunction();
-		// return;
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
 
 		try {
+			// delete the file if it exists
+			// this is (unfortunately) required to force refresh the image in the app
+			await deleteFileFromRepoByUrl(tempPw, imageUrl);
+
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				repoName,
@@ -118,14 +126,14 @@
 			// remove the old image from the cache
 			removeImageFromCache(imageUrl);
 
+			// refresh the image
+			getAndShowImage();
+
 			// set the url in the temp state so other components can record it in the active person
 			setMediaUploadedUrl(imageUrl);
 
 			// run any post-upload functions the parent using this image may require
 			afterUploadFunction();
-
-			// refresh the image
-			await getAndShowImage();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
@@ -135,7 +143,22 @@
 		fileInput.click();
 	};
 
-	const onDeleteButtonClick = () => {};
+	const onDeleteButtonClick = async () => {
+		// try to delete the file first
+		// if this works, then run the afterDelete function
+		if (await deleteFileFromRepoByUrl(tempPw, imageUrl)) {
+			// run a post-delete function as desired (for example to clean up any references to this file)
+			removeImageFromCache(imageUrl);
+			imageUrl = '';
+			getAndShowImage();
+			afterDeleteFunction();
+		} else {
+			console.warn(
+				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
+					imageUrl
+			);
+		}
+	};
 
 	const handleFileUpload = async (event) => {
 		file = event.target.files[0];
@@ -153,9 +176,9 @@
 	});
 
 	$: {
-		// if bio photo, refresh the image from the cache often
+		// refresh the image from the cache as needed
 		// in case it's been updated from somewhere else
-		if ($imageCache[imageUrl] && imageUrl.includes(bioPhotoFileName)) {
+		if ($imageCache[imageUrl]) {
 			getAndShowImage();
 		}
 
@@ -190,15 +213,17 @@
 			>
 				<i class="fa-solid {imageEditFaIcon}" />
 			</div>
-			<!-- TODO: enable this Delete button when the delete API is available-->
-			<!-- <div
-				id="image-delete-button"
-				class="{editButtonDynamicClass} image-action-button"
-				on:click={onDeleteButtonClick}
-				on:keypress={onDeleteButtonClick}
-			>
-				<i class="fa-solid {bioPhotoDeleteFaIcon}" />
-			</div> -->
+			<!-- only show the delete button if the recorded url is valid -->
+			{#if isUrlValid(imageUrl)}
+				<div
+					id="image-delete-button"
+					class="{editButtonDynamicClass} image-action-button"
+					on:click={onDeleteButtonClick}
+					on:keypress={onDeleteButtonClick}
+				>
+					<i class="fa-solid {imageDeleteFaIcon}" />
+				</div>
+			{/if}
 		</div>
 		<input
 			type="file"

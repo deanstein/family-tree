@@ -195,14 +195,19 @@ export const addOrReplaceObjectInArray = (arr, key, value, replacementObject) =>
 };
 
 // deletes an object in an array of objects
-export const deleteObjectByKeyValue = (arr, key, value) => {
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i][key] === value) {
-			arr.splice(i, 1);
-			return true; // indicate that object was deleted
+export const deleteObjectInArray = (arr, key, value) => {
+	let deleted = false;
+	if (arr && key && value) {
+		for (let i = 0; i < arr?.length; i++) {
+			if (arr[i][key] === value) {
+				arr.splice(i, 1);
+				deleted = true;
+			}
 		}
+	} else {
+		deleted = false;
 	}
-	return false; // indicate that object was not found
+	return deleted;
 };
 
 export const getIsDateValid = (dateToTest) => {
