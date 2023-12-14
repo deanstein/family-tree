@@ -1,4 +1,5 @@
 <script>
+	import { setImageEditContent, setImageEditId } from '../logic/temp-management';
 	import AddButtonSquare from './AddButtonSquare.svelte';
 	import ImageThumbnail from './ImageThumbnail.svelte';
 	import MediaGroupHorizontal from './MediaGroupHorizontal.svelte';
@@ -21,7 +22,13 @@
 		{/if}
 		{#if images}
 			{#each images as image}
-				<ImageThumbnail imageContent={image} />
+				<ImageThumbnail
+					imageContent={image}
+					onClickFunction={() => {
+						setImageEditId(image.id);
+						setImageEditContent(image);
+					}}
+				/>
 			{/each}
 		{/if}
 	</MediaGroupHorizontal>

@@ -27,7 +27,7 @@
 	$: {
 		// if this image id is not found in the active person's timeline events, it's a new image
 		isNewImage = !getObjectByKeyValueInArray(
-			$tempState.timelineEditEvent.eventContent.images,
+			$tempState?.timelineEditEvent?.eventContent?.images,
 			'id',
 			$tempState.imageEditId
 		);

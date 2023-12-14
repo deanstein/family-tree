@@ -167,12 +167,14 @@ export const setNestedObjectProperty = (obj, path, value) => {
 
 // gets an object from an array of objects
 export const getObjectByKeyValueInArray = (arr, key, value) => {
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i][key] === value) {
-			return arr[i];
+	if (arr) {
+		for (let i = 0; i < arr.length; i++) {
+			if (arr[i][key] === value) {
+				return arr[i];
+			}
 		}
+		return undefined;
 	}
-	return undefined;
 };
 
 // replaces an object in an array of objects

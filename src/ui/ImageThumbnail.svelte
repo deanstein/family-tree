@@ -8,6 +8,7 @@
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
 
 	export let imageContent;
+	export let onClickFunction = () => {};
 
 	const imagePlaceholderSrc = './img/image-placeholder.jpg';
 
@@ -20,7 +21,11 @@
 	`;
 </script>
 
-<div class="{imageThumbnailContainerCss} image-thumbnail-container">
+<div
+	class="{imageThumbnailContainerCss} image-thumbnail-container"
+	on:click|stopPropagation={onClickFunction}
+	on:keypress|stopPropagation={onClickFunction}
+>
 	<ImageAsyncFromUrl
 		{repoOwner}
 		repoName={dataRepoName}
