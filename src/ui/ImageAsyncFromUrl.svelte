@@ -110,9 +110,6 @@
 		const base64String = fileReader.result.replace('data:', '').replace(/^.+,/, '');
 
 		try {
-			// remove the old image from the cache
-			removeImageFromCache(imageUrl);
-
 			// delete the file if it exists
 			// this is (unfortunately) required to force refresh the image in the app
 			await deleteFileFromRepoByUrl(tempPw, imageUrl);
@@ -125,6 +122,9 @@
 				base64String,
 				'Upload image'
 			);
+
+			// remove the old image from the cache
+			removeImageFromCache(imageUrl);
 
 			// refresh the image
 			getAndShowImage();
@@ -153,7 +153,7 @@
 			getAndShowImage();
 			afterDeleteFunction();
 		} else {
-			console.error(
+			console.warn(
 				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
 					imageUrl
 			);
