@@ -354,7 +354,7 @@ export const uploadFileToRepo = async (
 		return updatedUrl;
 	} else {
 		console.log(
-			"%c^ The above error is expected. This photo wasn't already present - either because it didn't exist yet or had been deleted for a full refresh.",
+			"%c^^^ Ignore the above error. This photo simply wasn't already present in the repo, either because it didn't exist yet or had been deleted for a full refresh.",
 			'color: green; font-weight: bold;'
 		);
 		const data = {
