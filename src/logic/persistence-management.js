@@ -354,7 +354,7 @@ export const uploadFileToRepo = async (
 		return updatedUrl;
 	} else {
 		console.log(
-			"%c^ The above error is expected. This photo wasn't already present.",
+			"%c^ The above error is expected. This photo wasn't already present - either because it didn't exist yet or had been deleted for a full refresh.",
 			'color: green; font-weight: bold;'
 		);
 		const data = {
@@ -378,8 +378,8 @@ export const uploadFileToRepo = async (
 	}
 };
 
-export const deleteFileFromRepoByUrl = async (password, url) => {
-	let deleted;
+export const deleteFileFromRepoByUrl = async (password, url, logFailures = false) => {
+	let deleted = false;
 	let sha;
 
 	// try to get the sha
@@ -394,10 +394,16 @@ export const deleteFileFromRepoByUrl = async (password, url) => {
 			const data = await response.json();
 			sha = data.sha; // Get the file's SHA
 		} else {
-			console.log('Bad response: ' + JSON.stringify(response));
+			if (logFailures) {
+				console.log('Bad response: ' + JSON.stringify(response));
+			}
+			return false;
 		}
 	} catch (error) {
-		console.error(error);
+		if (logFailures) {
+			console.error(error);
+		}
+		return false;
 	}
 
 	// try to delete the file with the given sha
@@ -414,19 +420,23 @@ export const deleteFileFromRepoByUrl = async (password, url) => {
 		});
 
 		if (response.ok) {
-			console.log(`File ${url} deleted successfully.`);
+			//console.log(`File ${url} deleted successfully.`);
 			deleted = true;
 		} else {
-			console.error(
-				'Bad response trying to delete file: ' +
-					response.status +
-					', text: ' +
-					(await response.text())
-			);
+			if (logFailures) {
+				console.error(
+					'Bad response trying to delete file: ' +
+						response.status +
+						', text: ' +
+						(await response.text())
+				);
+			}
 			deleted = false;
 		}
 	} catch (error) {
-		console.error(error);
+		if (logFailures) {
+			console.error(error);
+		}
 		deleted = false;
 	}
 	return deleted;
