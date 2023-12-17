@@ -5,7 +5,7 @@ import relationshipMap from '$lib/schemas/relationship-map';
 import timelineEventImage from '$lib/schemas/timeline-event-image';
 import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
-import { schemaVersion } from './versions';
+import { schemaVersion } from '$lib/versions';
 
 import tempState from '$lib/stores/temp-state';
 import uiState from '$lib/stores/ui-state';

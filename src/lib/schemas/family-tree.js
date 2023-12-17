@@ -1,4 +1,4 @@
-import { schemaVersion } from '../versions';
+import { schemaVersion } from '$lib/versions';
 
 export const familyTree = {
 	version: schemaVersion,

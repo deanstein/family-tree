@@ -19,7 +19,7 @@
 
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
-	import { appVersion, schemaVersion } from './lib/versions';
+	import { appVersion, schemaVersion } from '$lib/versions';
 
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';

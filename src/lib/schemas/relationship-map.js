@@ -1,4 +1,4 @@
-import { schemaVersion } from '../versions';
+import { schemaVersion } from '$lib/versions';
 
 const relationshipMap = {
 	dataVersion: schemaVersion,
