@@ -1,8 +1,10 @@
-import familyTreeData from '../stores/family-tree-data';
-import uiState from '../stores/ui-state';
-import { repoStateStrings } from '../ui/strings';
-import { getRepoFamilyTreeAndSetActive, setRepoState } from './ui-management';
-import { decrypt } from './utils';
+import familyTreeData from './stores/family-tree-data';
+import uiState from './stores/ui-state';
+
+import { getRepoFamilyTreeAndSetActive, setRepoState } from '$lib/ui-management';
+import { decrypt } from '$lib/utils';
+
+import { repoStateStrings } from '$lib/components/strings';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';

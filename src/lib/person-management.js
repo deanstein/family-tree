@@ -1,14 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import relationshipMap from '../schemas/relationship-map';
-import timelineEventImage from '../schemas/timeline-event-image';
-import { schemaVersion } from '../versions';
-import { person } from '../schemas/person';
-import timelineEventTypes from '../schemas/timeline-event-types';
-import timelineEvent from '../schemas/timeline-event';
+import { person } from '$lib/schemas/person';
+import relationshipMap from '$lib/schemas/relationship-map';
+import timelineEventImage from '$lib/schemas/timeline-event-image';
+import timelineEventTypes from '$lib/schemas/timeline-event-types';
+import timelineEvent from '$lib/schemas/timeline-event';
+import { schemaVersion } from './versions';
 
-import uiState from '../stores/ui-state';
-import familyTreeData from '../stores/family-tree-data';
+import tempState from '$lib/stores/temp-state';
+import uiState from '$lib/stores/ui-state';
+import familyTreeData from '$lib/stores/family-tree-data';
 
 import {
 	checkActivePersonForUnsavedChanges,
@@ -18,13 +19,11 @@ import {
 	unsetImageEditId,
 	unsetMediaUploadedUrl,
 	updateOffScreenPeopleIdsArray
-} from './temp-management';
-
+} from '$lib/temp-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	removePersonFromActivePersonGroup
-} from './ui-management';
-
+} from '$lib/ui-management';
 import {
 	deepMatchObjects,
 	deleteObjectInArray,
@@ -32,9 +31,7 @@ import {
 	instantiateObject,
 	isUrlValid,
 	addOrReplaceObjectInArray
-} from './utils';
-
-import tempState from '../stores/temp-state';
+} from '$lib/utils';
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy

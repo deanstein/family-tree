@@ -1,14 +1,16 @@
-import familyTreeData from '../stores/family-tree-data';
-import uiState from '../stores/ui-state';
-import stylingConstants from '../ui/styling-constants';
-import { repoStateStrings, timelineEventStrings } from '../ui/strings';
+import { relationship } from './schemas/relationship';
+import timelineRowItem from './schemas/timeline-row-item';
+import timelineEventTypes from './schemas/timeline-event-types';
 
-import { getFamilyTreeDataFromRepo } from './persistence-management';
-import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from './person-management';
+import familyTreeData from '$lib/stores/family-tree-data';
+import uiState from '$lib/stores/ui-state';
+
+import { getFamilyTreeDataFromRepo } from '$lib/persistence-management';
+import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from '$lib/person-management';
 import { instantiateObject, largest, setNestedObjectProperty } from './utils';
-import { relationship } from '../schemas/relationship';
-import timelineRowItem from '../schemas/timeline-row-item';
-import timelineEventTypes from '../schemas/timeline-event-types';
+
+import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';
+import stylingConstants from '$lib/components/styling-constants';
 
 export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
 	// only bother doing anything if the value is different

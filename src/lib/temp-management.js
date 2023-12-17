@@ -1,15 +1,17 @@
-import familyTreeData from '../stores/family-tree-data';
-import imageCache from '../stores/image-cache';
-import tempState from '../stores/temp-state';
-import uiState from '../stores/ui-state';
-import { repoStateStrings } from '../ui/strings';
+import familyTreeData from './stores/family-tree-data';
+import imageCache from './stores/image-cache';
+import tempState from './stores/temp-state';
+import uiState from './stores/ui-state';
+
 import { getActivePerson, getPersonById } from './person-management';
 import {
 	areObjectsEqual,
 	addOrReplaceObjectInArray,
 	deleteObjectInArray,
 	getObjectByKeyValueInArray
-} from './utils';
+} from '$lib/utils';
+
+import { repoStateStrings } from '$lib/components/strings';
 
 // manage build mode
 export const startBuildMode = () => {

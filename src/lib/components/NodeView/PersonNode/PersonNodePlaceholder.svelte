@@ -1,0 +1,31 @@
+<script>
+	import { css } from '@emotion/css';
+
+	import stylingConstants from '$lib/components/styling-constants';
+
+	import PersonNodeAddButton from '$lib/components/NodeView/PersonNode/PersonNodeGroup/AddPersonButton.svelte';
+
+	export let relationshipId;
+	export let compatibleGroups;
+
+	let personNodePlaceholderDynamicStyle = css`
+		width: ${stylingConstants.sizes.personNodeSize};
+		height: ${stylingConstants.sizes.personNodeSize};
+		background-color: rgb(200, 200, 200, 0.4);
+	`;
+</script>
+
+<div
+	id="person-node-placeholder-container"
+	class="{personNodePlaceholderDynamicStyle} person-node-placeholder-container"
+>
+	<PersonNodeAddButton groupId={relationshipId} {compatibleGroups} />
+</div>
+
+<style>
+	.person-node-placeholder-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
