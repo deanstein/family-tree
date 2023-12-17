@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
-	import familyTreeData from './stores/family-tree-data';
-	import tempState from './stores/temp-state';
-	import uiState from './stores/ui-state';
+	import familyTreeData from '$lib/stores/family-tree-data';
+	import tempState from '$lib/stores/temp-state';
+	import uiState from '$lib/stores/ui-state';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
 		greatAunclesCompatibleGroups,
@@ -15,26 +15,28 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
-	} from './schemas/relationship-map';
-	import stylingConstants from './ui/styling-constants';
-	import { setActivePerson } from './logic/person-management';
-	import { clearCanvas, resetCanvasSize, set2DContextScale } from './logic/ui-management';
-	import { appVersion, schemaVersion } from './versions';
-	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
+	} from './lib/schemas/relationship-map';
 
-	import ChooseTreeModal from './ui/Modals/ChooseTreeModal.svelte';
-	import DevTools from './ui/DevTools/DevTools.svelte';
-	import EditAlternateNameModal from './ui/Modals/EditAlternateNameModal.svelte';
-	import EditTimelineEventModal from './ui/Timeline/EventDetail/EventDetailModal.svelte';
-	import Footer from './ui/Footer.svelte';
-	import GenerationRow from './ui/NodeView/GenerationRow/GenerationRow.svelte';
-	import Header from './ui/Header.svelte';
-	import NodeActionsModal from './ui/Modals/NodeActionsModal.svelte';
-	import PersonDetailModal from './ui/Modals/PersonDetailModal.svelte';
-	import PersonNode from './ui/NodeView/PersonNode/PersonNode.svelte';
-	import PersonNodeGroup from './ui/NodeView/PersonNodeGroup/PersonNodeGroup.svelte';
-	import ScrollingRowFlank from './ui/NodeView/GenerationRow/ScrollingRowFlank.svelte';
-	import TimelineEventImageDetailModal from './ui/Timeline/TimelineEventImageDetailModal.svelte';
+	import { setActivePerson } from '$lib/person-management';
+	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
+	import { appVersion, schemaVersion } from '$lib/versions';
+
+	import { drawNodeConnectionLines, redrawNodeConnectionLines } from '$lib/components/graphics-factory';
+	import stylingConstants from '$lib/components/styling-constants';
+
+	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
+	import DevTools from '$lib/components/DevTools/DevTools.svelte';
+	import EditAlternateNameModal from '$lib/components/Modals/EditAlternateNameModal.svelte';
+	import EditTimelineEventModal from '$lib/components/Timeline/EventDetail/EventDetailModal.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import GenerationRow from '$lib/components/NodeView/GenerationRow/GenerationRow.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import NodeActionsModal from '$lib/components/Modals/NodeActionsModal.svelte';
+	import PersonDetailModal from '$lib/components/Modals/PersonDetailModal.svelte';
+	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
+	import PersonNodeGroup from '$lib/components/NodeView/PersonNode/PersonNodeGroup/PersonNodeGroup.svelte';
+	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
+	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
