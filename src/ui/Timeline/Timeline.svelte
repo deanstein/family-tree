@@ -13,9 +13,9 @@
 		generateTimelineRowItems,
 		setTimelineCanvasScrollState,
 		updateTimelineRowItems
-	} from '../../logic/ui-management';
-	import { setTimelineEditEvent, setTimelineEditEventId } from '../../logic/temp-management';
-	import { instantiateObject } from '../../logic/utils';
+	} from '../../lib/ui-management';
+	import { setTimelineEditEvent, setTimelineEditEventId } from '../../lib/temp-management';
+	import { instantiateObject } from '../../lib/utils';
 
 	import Button from '../Button.svelte';
 	import Checkbox from '../Checkbox.svelte';

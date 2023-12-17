@@ -8,9 +8,9 @@
 
 	import ChooseTreeOption from './ChooseTreeOption.svelte';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../logic/ui-management';
+	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '../../lib/ui-management';
 	import Modal from './Modal.svelte';
-	import { tempPw } from '../../logic/persistence-management';
+	import { tempPw } from '../../lib/persistence-management';
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {

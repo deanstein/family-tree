@@ -10,8 +10,8 @@
 	import AddButtonCircular from '../AddButtonCircular.svelte';
 	import AlternateName from './AlternateName.svelte';
 
-	import { setEditAltName } from '../../logic/temp-management';
-	import { instantiateObject } from '../../logic/utils';
+	import { setEditAltName } from '../../lib/temp-management';
+	import { instantiateObject } from '../../lib/utils';
 
 	export let isEnabled = true;
 

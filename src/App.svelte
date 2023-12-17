@@ -17,8 +17,8 @@
 		grandchildrenCompatibleGroups
 	} from './schemas/relationship-map';
 	import stylingConstants from './ui/styling-constants';
-	import { setActivePerson } from './logic/person-management';
-	import { clearCanvas, resetCanvasSize, set2DContextScale } from './logic/ui-management';
+	import { setActivePerson } from './lib/person-management';
+	import { clearCanvas, resetCanvasSize, set2DContextScale } from './lib/ui-management';
 	import { appVersion, schemaVersion } from './versions';
 	import { drawNodeConnectionLines, redrawNodeConnectionLines } from './ui/graphics-factory';
 

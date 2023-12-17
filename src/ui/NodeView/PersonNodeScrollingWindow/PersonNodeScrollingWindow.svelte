@@ -1,5 +1,5 @@
 <script>
-	import { scrollHorizontal } from '../../../logic/ui-management';
+	import { scrollHorizontal } from '../../../lib/ui-management';
 	import tempState from '../../../stores/temp-state';
 
 	import PersonNodeForSelect from '../PersonNode/PersonNodeForSelect.svelte';

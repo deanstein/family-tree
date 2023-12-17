@@ -16,11 +16,11 @@
 		hidePersonNodeActionsModal,
 		setCachedPerson,
 		unsetCachedPerson
-	} from '../../logic/temp-management';
+	} from '../../lib/temp-management';
 	import {
 		removePersonFromActivePersonGroup,
 		showPersonDetailView
-	} from '../../logic/ui-management.js';
+	} from '../../lib/ui-management.js';
 	import PersonNodeForEdit from '../NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import {
 		getPersonById,
@@ -28,7 +28,7 @@
 		setPersonRelationship,
 		removePersonFromPeopleArray,
 		setActivePerson
-	} from '../../logic/person-management';
+	} from '../../lib/person-management';
 
 	export let personId;
 	export let relationshipId;

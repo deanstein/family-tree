@@ -11,20 +11,20 @@
 		deleteFileFromRepoByUrl,
 		tempPw,
 		uploadFileToRepo
-	} from '../logic/persistence-management';
+	} from '../lib/persistence-management';
 
 	import {
 		getExtensionFromFileNameOrPath,
 		getExtensionFromUrl,
 		getMIMEType,
 		isUrlValid
-	} from '../logic/utils';
+	} from '../lib/utils';
 	import {
 		addImageToCache,
 		getImageFromCache,
 		removeImageFromCache,
 		setMediaUploadedUrl
-	} from '../logic/temp-management';
+	} from '../lib/temp-management';
 
 	export let repoOwner;
 	export let repoName;

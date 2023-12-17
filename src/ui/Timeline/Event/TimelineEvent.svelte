@@ -6,17 +6,17 @@
 
 	import uiState from '../../../stores/ui-state';
 
-	import { getNumberOfYearsBetweenEvents } from '../../../logic/utils';
+	import { getNumberOfYearsBetweenEvents } from '../../../lib/utils';
 	import { monthNames } from '../../strings';
 	import stylingConstants from '../../styling-constants';
 
-	import { upgradeTimelineEvent } from '../../../logic/person-management';
+	import { upgradeTimelineEvent } from '../../../lib/person-management';
 
-	import { setTimelineEditEvent } from '../../../logic/temp-management';
+	import { setTimelineEditEvent } from '../../../lib/temp-management';
 	import {
 		setFirstTimelineEventHeight,
 		setLastTimelineEventHeight
-	} from '../../../logic/ui-management';
+	} from '../../../lib/ui-management';
 	import ImageThumbnailGroup from '../../ImageThumbnailGroup.svelte';
 
 	export let timelineEvent = undefined; // one object to carry all event properties

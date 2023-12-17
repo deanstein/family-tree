@@ -1,16 +1,16 @@
 <script>
 	import tempState from '../stores/temp-state';
 
-	import { repoOwner, dataRepoName, tempPw } from '../logic/persistence-management';
+	import { repoOwner, dataRepoName, tempPw } from '../lib/persistence-management';
 
 	import {
 		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,
 		unsetImageEditId
-	} from '../logic/temp-management';
+	} from '../lib/temp-management';
 
 	import stylingConstants from './styling-constants';
-	import { isUrlValid } from '../logic/utils';
+	import { isUrlValid } from '../lib/utils';
 
 	import Button from './Button.svelte';
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';

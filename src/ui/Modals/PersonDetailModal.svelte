@@ -1,7 +1,7 @@
 <script>
 	import uiState from '../../stores/ui-state';
 	import stylingConstants from '../styling-constants';
-	import { hidePersonDetailView } from '../../logic/ui-management';
+	import { hidePersonDetailView } from '../../lib/ui-management';
 
 	import Button from '../Button.svelte';
 	import Timeline from '../Timeline/Timeline.svelte';

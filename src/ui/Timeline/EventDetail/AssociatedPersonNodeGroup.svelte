@@ -6,7 +6,7 @@
 	import uiState from '../../../stores/ui-state';
 	import familyTreeData from '../../../stores/family-tree-data';
 
-	import { instantiateObject } from '../../../logic/utils';
+	import { instantiateObject } from '../../../lib/utils';
 	import tempState from '../../../stores/temp-state';
 	import stylingConstants from '../../styling-constants';
 

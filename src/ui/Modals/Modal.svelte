@@ -7,7 +7,7 @@
 	import stylingConstants from '../styling-constants';
 	import Portal from 'svelte-portal';
 	import Overlay from './Overlay.svelte';
-	import { adjustRgbaColorTransparency } from '../../logic/ui-management';
+	import { adjustRgbaColorTransparency } from '../../lib/ui-management';
 
 	export let showModal = true;
 	export let showCloseButton = false;

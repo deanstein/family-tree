@@ -5,8 +5,8 @@
 		dataRepoName,
 		getFileFromRepo,
 		tempPw
-	} from '../../logic/persistence-management';
-	import { getRepoFamilyTreeAndSetActive } from '../../logic/ui-management';
+	} from '../../lib/persistence-management';
+	import { getRepoFamilyTreeAndSetActive } from '../../lib/ui-management';
 
 	let sInputValue;
 	let familyTreeDataMap;

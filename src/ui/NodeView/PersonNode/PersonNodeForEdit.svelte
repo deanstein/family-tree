@@ -16,7 +16,7 @@
 		updateOffScreenPeopleIdsArray,
 		updateFilteredOffScreenPeopleIdsArray,
 		initializeOffScreenPeopleIdsArray
-	} from '../../../logic/temp-management';
+	} from '../../../lib/temp-management';
 
 	export let nameInputValue;
 	export let relationshipInputValue;

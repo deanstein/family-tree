@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import { getBuildCode } from '../logic/utils';
+	import { getBuildCode } from '../lib/utils';
 	import uiState from '../stores/ui-state';
 
 	export let appVersion;

@@ -2,7 +2,7 @@
 	import StoreView from './StoreView.svelte';
 	import DevToolbar from './DevToolbar.svelte';
 
-	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
+	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../lib/persistence-management';
 	import uiState from '../../stores/ui-state';
 	import FamilyTreeDataSelector from './FamilyTreeDataSelector.svelte';
 	import DevToolsSubheader from './DevToolsSubheader.svelte';
@@ -10,10 +10,10 @@
 		enableScrolling,
 		disableScrolling,
 		scrollToTopAndCenter
-	} from '../../logic/ui-management';
+	} from '../../lib/ui-management';
 	import { repoStateStrings } from '../strings';
 	import tempState from '../../stores/temp-state';
-	import { checkPersonForUnsavedChanges } from '../../logic/temp-management';
+	import { checkPersonForUnsavedChanges } from '../../lib/temp-management';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo(tempPw);

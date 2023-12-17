@@ -1,5 +1,5 @@
 <script>
-	import { setImageEditContent, setImageEditId } from '../logic/temp-management';
+	import { setImageEditContent, setImageEditId } from '../lib/temp-management';
 	import AddButtonSquare from './AddButtonSquare.svelte';
 	import ImageThumbnail from './ImageThumbnail.svelte';
 	import MediaGroupHorizontal from './MediaGroupHorizontal.svelte';

@@ -4,7 +4,7 @@
 	import tempState from '../stores/temp-state';
 	import stylingConstants from './styling-constants';
 
-	import { toggleBuildMode } from '../logic/temp-management';
+	import { toggleBuildMode } from '../lib/temp-management';
 
 	import Button from './Button.svelte';
 	import SaveStateBanner from './Notifications/SaveStateBanner.svelte';

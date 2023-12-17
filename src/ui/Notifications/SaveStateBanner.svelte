@@ -1,6 +1,6 @@
 <script>
-	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../logic/persistence-management';
-	import { getNotificationConfigFromRepoState, setRepoState } from '../../logic/ui-management';
+	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '../../lib/persistence-management';
+	import { getNotificationConfigFromRepoState, setRepoState } from '../../lib/ui-management';
 	import uiState from '../../stores/ui-state';
 	import { repoStateStrings } from '../strings';
 

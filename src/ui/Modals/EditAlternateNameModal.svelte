@@ -17,8 +17,8 @@
 		initializeAltNamesTempState,
 		removeAlternateNameFromTempState,
 		unsetEditAltName
-	} from '../../logic/temp-management';
-	import { instantiateObject } from '../../logic/utils';
+	} from '../../lib/temp-management';
+	import { instantiateObject } from '../../lib/utils';
 	import TextArea from '../TextArea.svelte';
 	import Modal from './Modal.svelte';
 	import ModalActionsBar from './ModalActionsBar.svelte';

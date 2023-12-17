@@ -5,7 +5,7 @@ import {
 	addOrUpdatePersonNodePosition,
 	getScreenCentroid,
 	resetCanvasSize
-} from '../logic/ui-management';
+} from '../lib/ui-management';
 
 export const drawNodeConnectionLine = (context2d, position, thickness, color) => {
 	if (!context2d || !position || !color) {

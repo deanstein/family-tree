@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { repoOwner, dataRepoName, tempPw } from '../logic/persistence-management';
+	import { repoOwner, dataRepoName, tempPw } from '../lib/persistence-management';
 
 	import stylingConstants from './styling-constants';
 

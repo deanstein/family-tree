@@ -2,15 +2,15 @@
 	import uiState from '../../stores/ui-state';
 	import tempState from '../../stores/temp-state';
 
-	import { timelineEventImageFolderName } from '../../logic/persistence-management';
+	import { timelineEventImageFolderName } from '../../lib/persistence-management';
 
 	import {
 		deleteTimelineEventImageReference,
 		setTimelineEventImageUrlFromTempState
-	} from '../../logic/person-management';
+	} from '../../lib/person-management';
 
 	import ImageDetailModal from '../ImageDetailModal.svelte';
-	import { getObjectByKeyValueInArray } from '../../logic/utils';
+	import { getObjectByKeyValueInArray } from '../../lib/utils';
 
 	let imageUploadPathNoExt; // folder path (no file name)
 	let isNewImage;

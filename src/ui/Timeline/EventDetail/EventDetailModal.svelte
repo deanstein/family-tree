@@ -15,14 +15,14 @@
 		setTimelineEditEventId,
 		unsetTimelineEditEvent,
 		unsetTimelineEditEventId
-	} from '../../../logic/temp-management';
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../logic/person-management';
-	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../../logic/ui-management';
+	} from '../../../lib/temp-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '../../../lib/person-management';
+	import { getModalTitleByEventType, writeUIStateValueAtPath } from '../../../lib/ui-management';
 	import {
 		getObjectByKeyValueInArray,
 		instantiateObject,
 		getIsDateValid
-	} from '../../../logic/utils';
+	} from '../../../lib/utils';
 	import { timelineEventStrings } from '../../strings';
 
 	import stylingConstants from '../../styling-constants';

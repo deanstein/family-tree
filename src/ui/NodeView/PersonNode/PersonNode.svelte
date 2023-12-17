@@ -8,7 +8,7 @@
 		setActivePerson,
 		addActivePersonToPeopleArray,
 		getRelationshipNameById
-	} from '../../../logic/person-management';
+	} from '../../../lib/person-management';
 
 	import uiState from '../../../stores/ui-state';
 	import tempState from '../../../stores/temp-state';
@@ -26,7 +26,7 @@
 		getDivCentroid,
 		removePersonNodePosition,
 		showPersonDetailView
-	} from '../../../logic/ui-management';
+	} from '../../../lib/ui-management';
 	import { drawNodeConnectionLine, drawCrossfade } from '../../graphics-factory';
 	addOrUpdatePersonNodePosition;
 	const [send, receive] = drawCrossfade();

@@ -5,7 +5,7 @@
 
 	import stylingConstants from '../../styling-constants';
 
-	import { showPersonNodeActionsModal } from '../../../logic/temp-management';
+	import { showPersonNodeActionsModal } from '../../../lib/temp-management';
 
 	export let personId;
 	export let relationshipId;

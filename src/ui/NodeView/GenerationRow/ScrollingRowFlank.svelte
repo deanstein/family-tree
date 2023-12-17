@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { scrollHorizontal } from '../../../logic/ui-management';
+	import { scrollHorizontal } from '../../../lib/ui-management';
 	import uiState from '../../../stores/ui-state';
 
 	export let flank; // which side of the middle section should this appear?

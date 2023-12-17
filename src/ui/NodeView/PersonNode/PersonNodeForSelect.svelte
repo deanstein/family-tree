@@ -8,17 +8,17 @@
 		getPersonById,
 		addOrUpdateActivePersonInNewPersonGroup,
 		removePersonFromPeopleArray
-	} from '../../../logic/person-management';
+	} from '../../../lib/person-management';
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup
-	} from '../../../logic/ui-management';
+	} from '../../../lib/ui-management';
 
 	import {
 		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal
-	} from '../../../logic/temp-management';
+	} from '../../../lib/temp-management';
 
 	import BioPhoto from '../../BioPhoto.svelte';
 	import NameInput from './NameLabel.svelte';

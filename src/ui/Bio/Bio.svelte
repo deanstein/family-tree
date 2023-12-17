@@ -17,7 +17,7 @@
 	import Selector from '../Select.svelte';
 	import SideBySideContainer from '../SideBySideContainer.svelte';
 	import TextInput from '../TextInput.svelte';
-	import { writeUIStateValueAtPath } from '../../logic/ui-management';
+	import { writeUIStateValueAtPath } from '../../lib/ui-management';
 	import {
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
@@ -25,10 +25,10 @@
 		unsetBioEditId,
 		initializeAltNamesTempState,
 		setBioEditId
-	} from '../../logic/temp-management';
+	} from '../../lib/temp-management';
 	import { onMount } from 'svelte';
-	import { getPersonById } from '../../logic/person-management';
-	import { getNumberOfYearsBetweenEvents } from '../../logic/utils';
+	import { getPersonById } from '../../lib/person-management';
+	import { getNumberOfYearsBetweenEvents } from '../../lib/utils';
 
 	let personId = $uiState.activePerson.id;
 	let isBioEditActive = false;

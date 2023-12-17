@@ -1,5 +1,5 @@
-import { repoOwner, dataRepoName, tempPw } from '../logic/persistence-management';
-import { readBlobFromRepo } from '../logic/persistence-management';
+import { repoOwner, dataRepoName, tempPw } from '../lib/persistence-management';
+import { readBlobFromRepo } from '../lib/persistence-management';
 
 self.onmessage = async function (event) {
 	const gitHubUrl = event.data;

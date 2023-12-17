@@ -4,13 +4,13 @@
 		repoOwner,
 		bioPhotoFileName,
 		tempPw
-	} from '../logic/persistence-management';
+	} from '../lib/persistence-management';
 	import {
 		deleteBioPhotoReference,
 		getPersonById,
 		setBioPhotoUrlFromTempState
-	} from '../logic/person-management';
-	import { getExtensionFromUrl } from '../logic/utils';
+	} from '../lib/person-management';
+	import { getExtensionFromUrl } from '../lib/utils';
 
 	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
 
