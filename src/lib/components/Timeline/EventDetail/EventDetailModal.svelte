@@ -18,11 +18,7 @@
 		unsetTimelineEditEventId
 	} from '$lib/temp-management';
 	import { getModalTitleByEventType, writeUIStateValueAtPath } from '$lib/ui-management';
-	import {
-		getObjectByKeyValueInArray,
-		instantiateObject,
-		getIsDateValid
-	} from '$lib/utils';
+	import { getObjectByKeyValueInArray, instantiateObject, getIsDateValid } from '$lib/utils';
 
 	import { timelineEventStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -262,7 +258,7 @@
 						images={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={isInEditMode}
-						onClickAddButtonFunction={onClickAddImageButton}
+						onClickAddButton={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>

@@ -72,6 +72,14 @@ const sizes = {
 	get modalFormHeight() {
 		return this.nModalFormHeight.toString() + 'vh';
 	},
+	nModalFullScreenWidth: 95,
+	get modalFullScreenWidth() {
+		return this.nModalFullScreenWidth.toString() + 'vw';
+	},
+	nModalFullScreenHeight: 95,
+	get modalFullScreenHeight() {
+		return this.nModalFullScreenHeight.toString() + 'vh';
+	},
 
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,
@@ -191,7 +199,8 @@ const zIndices = {
 	personNodeSettingsFlyoutZIndex: 5,
 	personDetailViewZIndex: 6,
 	addEditAltNameZIndex: 7,
-	notificationZIndex: 8
+	notificationZIndex: 8,
+	mediaGalleryZIndex: 9
 };
 
 const stylingConstants = {

@@ -3,7 +3,8 @@
 		dataRepoName,
 		repoOwner,
 		bioPhotoFileName,
-		tempPw
+		tempPw,
+		bioPhotoPlaceholderSrc
 	} from '$lib/persistence-management';
 	import {
 		deleteBioPhotoReference,
@@ -19,7 +20,6 @@
 	let person;
 	let bioPhotoPathNoExt;
 
-	const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 	const afterUploadFunction = () => {
 		setBioPhotoUrlFromTempState();
 	};

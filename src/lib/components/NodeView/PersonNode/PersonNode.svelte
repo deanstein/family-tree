@@ -22,10 +22,10 @@
 	import { drawNodeConnectionLine, drawCrossfade } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import BioPhoto from '../../BioPhoto.svelte';
-	import NodeActionsButton from './NodeActionsButton.svelte';
-	import RelationshipLabel from './RelationshipLabel.svelte';
-	import NameLabel from './NameLabel.svelte';
+	import BioPhoto from '$lib/components/BioPhoto.svelte';
+	import NameLabel from '$lib/components/NodeView/PersonNode/NameLabel.svelte';
+	import NodeActionsButton from '$lib/components/NodeView/PersonNode/NodeActionsButton.svelte';
+	import RelationshipLabel from '$lib/components/NodeView/PersonNode/RelationshipLabel.svelte';
 
 	addOrUpdatePersonNodePosition;
 	const [send, receive] = drawCrossfade();

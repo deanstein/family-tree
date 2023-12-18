@@ -1,11 +1,13 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from './styling-constants';
+	import stylingConstants from '$lib/components/styling-constants';
 
-	import AddButtonCircular from './AddButtonCircular.svelte';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
 	export let onClickFunction = () => {};
+	export let colorOverride = undefined;
+
 	let isHovering = false;
 
 	const onHoverFunction = () => {
@@ -20,11 +22,16 @@
 		height: ${stylingConstants.sizes.personNodeSize};
 		background-color: rgb(200, 200, 200, 0.4);
 		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
-
-		&:hover {
-			border: 2px solid ${stylingConstants.colors.hoverColor};
-		}
 	`;
+
+	$: {
+		squareContainerCss = css`
+			${squareContainerCss}
+			border: ${isHovering
+				? `2px solid ${stylingConstants.colors.hoverColor}`
+				: '2px solid transparent'};
+		`;
+	}
 </script>
 
 <div
@@ -36,9 +43,9 @@
 	on:focus={onHoverFunction}
 	on:mouseleave={onBlurFunction}
 >
-	<AddButtonCircular
+	<ButtonCircular
 		{onClickFunction}
-		colorOverride={isHovering ? stylingConstants.colors.hoverColor : undefined}
+		colorOverride={isHovering ? stylingConstants.colors.hoverColor : colorOverride}
 	/>
 </div>
 
@@ -47,7 +54,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 2px solid transparent;
 		cursor: pointer;
 	}
 </style>

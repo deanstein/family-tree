@@ -15,13 +15,16 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
-	} from './lib/schemas/relationship-map';
+	} from '$lib/schemas/relationship-map';
 
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
 
-	import { drawNodeConnectionLines, redrawNodeConnectionLines } from '$lib/components/graphics-factory';
+	import {
+		drawNodeConnectionLines,
+		redrawNodeConnectionLines
+	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
@@ -34,9 +37,10 @@
 	import NodeActionsModal from '$lib/components/Modals/NodeActionsModal.svelte';
 	import PersonDetailModal from '$lib/components/Modals/PersonDetailModal.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
-	import PersonNodeGroup from '$lib/components/NodeView/PersonNode/PersonNodeGroup/PersonNodeGroup.svelte';
+	import PersonNodeGroup from '$lib/components/NodeView/PersonNode/PersonNodeGroup.svelte';
 	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
+	import MediaGallery from '$lib/components/MediaGallery.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -109,6 +113,9 @@
 		on:contextmenu={blockContextMenu}
 	>
 		<ChooseTreeModal />
+		{#if $tempState.mediaGalleryActiveId !== undefined}
+			<MediaGallery />
+		{/if}
 		{#if $tempState.nodeActionsModalPersonId !== undefined}
 			<NodeActionsModal
 				personId={$tempState.nodeActionsModalPersonId}

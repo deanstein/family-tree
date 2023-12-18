@@ -14,10 +14,7 @@
 		removePersonFromActivePersonGroup
 	} from '$lib/ui-management';
 
-	import {
-		checkPersonForUnsavedChanges,
-		hidePersonNodeActionsModal
-	} from '$lib/temp-management';
+	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 

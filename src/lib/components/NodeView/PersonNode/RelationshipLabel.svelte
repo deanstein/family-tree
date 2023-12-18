@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../../styling-constants';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let relationshipName;
 

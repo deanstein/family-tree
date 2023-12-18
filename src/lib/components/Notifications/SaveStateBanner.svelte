@@ -1,13 +1,13 @@
 <script>
-	import uiState from '../../stores/ui-state';
+	import uiState from '$lib/stores/ui-state';
 
 	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState, setRepoState } from '$lib/ui-management';
-	
+
 	import { repoStateStrings } from '$lib/components/strings';
 
-	import Button from '../Button.svelte';
-	import NotificationBanner from './NotificationBanner.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import NotificationBanner from '$lib/components/Notifications/NotificationBanner.svelte';
 
 	let showBanner;
 	let message;
@@ -56,6 +56,3 @@
 		{/if}
 	</NotificationBanner>
 {/if}
-
-<style>
-</style>

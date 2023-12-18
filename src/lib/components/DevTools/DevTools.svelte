@@ -5,17 +5,13 @@
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
-	import {
-		enableScrolling,
-		disableScrolling,
-		scrollToTopAndCenter
-	} from '$lib/ui-management';
+	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
 	import { repoStateStrings } from '$lib/components/strings';
 
 	import DevToolbar from '$lib/components/DevTools/DevToolbar.svelte';
-	import DevToolsSubheader from './DevToolsSubheader.svelte';
-	import FamilyTreeDataSelector from './FamilyTreeDataSelector.svelte';
+	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
+	import FamilyTreeDataSelector from '$lib/components/DevTools/FamilyTreeDataSelector.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
 
 	const setDataButtonOnClickAction = () => {

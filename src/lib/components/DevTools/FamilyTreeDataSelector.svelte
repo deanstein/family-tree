@@ -1,12 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import {
-		repoOwner,
-		dataRepoName,
-		getFileFromRepo,
-		tempPw
-	} from '$lib/persistence-management';
+	import { repoOwner, dataRepoName, getFileFromRepo, tempPw } from '$lib/persistence-management';
 	import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
 
 	let sInputValue;

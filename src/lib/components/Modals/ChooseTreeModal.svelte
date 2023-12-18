@@ -9,8 +9,8 @@
 	import { chooseTreeStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import ChooseTreeOption from './ChooseTreeOption.svelte';
-	import Modal from './Modal.svelte';
+	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
+	import Modal from '$lib/components/Modals/Modal.svelte';
 
 	const chooseTreeModalGridDynamicClass = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {

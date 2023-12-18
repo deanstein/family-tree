@@ -1,7 +1,12 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { repoOwner, dataRepoName, tempPw } from '$lib/persistence-management';
+	import {
+		repoOwner,
+		dataRepoName,
+		tempPw,
+		imagePlaceholderSrc
+	} from '$lib/persistence-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -9,8 +14,6 @@
 
 	export let imageContent;
 	export let onClickFunction = () => {};
-
-	const imagePlaceholderSrc = './img/image-placeholder.jpg';
 
 	const imageThumbnailContainerCss = css`
 		height: ${stylingConstants.sizes.personNodeSize};
@@ -40,5 +43,6 @@
 	.image-thumbnail-container {
 		border: 2px solid transparent;
 		overflow: hidden;
+		cursor: pointer;
 	}
 </style>

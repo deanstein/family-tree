@@ -13,24 +13,21 @@
 		removePersonFromPeopleArray,
 		setActivePerson
 	} from '$lib/person-management';
-	import {
-		removePersonFromActivePersonGroup,
-		showPersonDetailView
-	} from '$lib/ui-management.js';
+	import { removePersonFromActivePersonGroup, showPersonDetailView } from '$lib/ui-management.js';
 	import {
 		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal,
 		setCachedPerson,
 		unsetCachedPerson
 	} from '$lib/temp-management';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import Button from '$lib/components/Button.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 
-	import PersonNodeForEdit from '../NodeView/PersonNode/PersonNodeForEdit.svelte';
+	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 
 	export let personId;
 	export let relationshipId;
@@ -99,7 +96,7 @@
 
 <Modal
 	showModal={$tempState.nodeActionsModalPersonId === personId}
-	title={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
+	title={isNewPerson ? 'Add Relationship ' : 'Edit Relationship '}
 	subtitle={'to ' + $uiState.activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}

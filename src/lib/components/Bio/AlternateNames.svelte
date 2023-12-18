@@ -7,8 +7,8 @@
 	import tempState from '$lib/stores/temp-state';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import AddButtonCircular from '$lib/components/AddButtonCircular.svelte';
 	import AlternateName from '$lib/components/Bio/AlternateName.svelte';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
 	import { setEditAltName } from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
@@ -51,7 +51,7 @@
 	</div>
 	<div id="add-button-container" class="add-button-container">
 		{#if isEnabled}
-			<AddButtonCircular onClickFunction={addAlternateNameButtonAction} />
+			<ButtonCircular onClickFunction={addAlternateNameButtonAction} />
 		{/if}
 	</div>
 </div>

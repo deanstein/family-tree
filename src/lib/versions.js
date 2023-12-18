@@ -1,4 +1,4 @@
-export const appVersion = '0.15.10';
+export const appVersion = '0.15.11';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -6,17 +6,19 @@ export const appChangelog = {
 	},
 	'v0.15.x': {
 		Overview:
-			'v0.15.x adds the ability to set a biographic photo which displays in the node and bio views, adds timeline event photos, and adds the ability to add associated people to timeline events.',
+			'v0.15.x adds image support, including the ability to view and set images including bio photo and timeline event images, and adds the ability to add associated people to timeline events.',
 		Changes: [
 			'Added schema support for a bio photo, timeline event images, and associated people',
-			'Replaced Avatar with BioPhoto in Bio and all PersonNode variants',
+			'Added media gallery, images, image thumbnails, and image detail modal',
 			'Added event media content like images and associated people',
 			'Added image fetch web workers',
 			'Added image cache',
 			'Added binary large object read support',
 			'Added ability to delete files on GitHub',
-			'Added radius to input elements',
-			'Added $lib notation for all imports'
+			'Added radius to all input elements',
+			'Added $lib notation for all imports',
+			'Added modal title bar actions including close button support',
+			'Replaced specialized components with generic ones where possible'
 		]
 	},
 	'v0.14.x': {

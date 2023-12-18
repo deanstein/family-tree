@@ -9,10 +9,7 @@
 	import { getNumberOfYearsBetweenEvents } from '$lib/utils';
 	import { upgradeTimelineEvent } from '$lib/person-management';
 	import { setTimelineEditEvent } from '$lib/temp-management';
-	import {
-		setFirstTimelineEventHeight,
-		setLastTimelineEventHeight
-	} from '$lib/ui-management';
+	import { setFirstTimelineEventHeight, setLastTimelineEventHeight } from '$lib/ui-management';
 
 	import { monthNames } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';

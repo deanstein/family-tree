@@ -1,7 +1,12 @@
 <script>
 	import tempState from '$lib/stores/temp-state';
 
-	import { repoOwner, dataRepoName, tempPw } from '$lib/persistence-management';
+	import {
+		repoOwner,
+		dataRepoName,
+		tempPw,
+		imagePlaceholderSrc
+	} from '$lib/persistence-management';
 	import {
 		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,
@@ -9,7 +14,6 @@
 	} from '$lib/temp-management';
 	import { isUrlValid } from '$lib/utils';
 
-	
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import Button from '$lib/components/Button.svelte';
@@ -32,7 +36,6 @@
 	let imageUploadPathNoExt; // folder path (no file name)
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
-	const imagePlaceholderSrc = './img/image-placeholder.jpg';
 	const onClickEditButton = () => {
 		isInEditMode = true;
 	};

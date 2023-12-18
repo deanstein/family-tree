@@ -6,7 +6,11 @@ import familyTreeData from '$lib/stores/family-tree-data';
 import uiState from '$lib/stores/ui-state';
 
 import { getFamilyTreeDataFromRepo } from '$lib/persistence-management';
-import { getPersonById, getGroupIdFromRelationshipId, setActivePerson } from '$lib/person-management';
+import {
+	getPersonById,
+	getGroupIdFromRelationshipId,
+	setActivePerson
+} from '$lib/person-management';
 import { instantiateObject, largest, setNestedObjectProperty } from './utils';
 
 import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';

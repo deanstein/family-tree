@@ -1,23 +1,25 @@
 <script>
 	import uiState from '$lib/stores/ui-state';
-	
+
 	import { hidePersonDetailView } from '$lib/ui-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import Button from '../Button.svelte';
-	import Timeline from '../Timeline/Timeline.svelte';
-	import Bio from '../Bio/Bio.svelte';
-	import Modal from './Modal.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Timeline from '$lib/components/Timeline/Timeline.svelte';
+	import Bio from '$lib/components/Bio/Bio.svelte';
+	import Modal from '$lib/components/Modals/Modal.svelte';
 
-	const closeButtonOnClick = () => {
+	const onClickCloseButton = () => {
 		hidePersonDetailView();
 	};
 </script>
 
 <Modal
 	showModal={$uiState.showPersonDetailView}
-	title={'Person details'}
+	showCloseButton={true}
+	{onClickCloseButton}
+	title={'Person Details'}
 	subtitle={null}
 	width={'80vw'}
 	height={'80vh'}
@@ -36,11 +38,8 @@
 				<Timeline />
 			</div>
 		</div>
-		<div id="temp-close-button" class="temp-close-button">
-			<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
-		</div>
-	</div></Modal
->
+	</div>
+</Modal>
 
 <style>
 	.person-detail-modal-content {

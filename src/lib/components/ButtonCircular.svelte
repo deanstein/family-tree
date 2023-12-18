@@ -1,8 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
-	import stylingConstants from './styling-constants';
+
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let onClickFunction = undefined;
+	export let faIcon = 'fa-plus'; // default icon
 	export let colorOverride = undefined;
 
 	let circularButtonCss = css`
@@ -31,7 +33,9 @@
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 	>
-		<div id="circular-button-label" class="circular-button-label">+</div>
+		<div id="circular-button-label" class="circular-button-label">
+			<i class="fa-solid {faIcon}" />
+		</div>
 	</div>
 </div>
 
@@ -45,6 +49,6 @@
 	}
 
 	.circular-button-label {
-		font-size: 3vh;
+		display: flex;
 	}
 </style>

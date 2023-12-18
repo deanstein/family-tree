@@ -9,7 +9,7 @@
 	} from '$lib/person-management';
 	import { getObjectByKeyValueInArray } from '$lib/utils';
 
-	import ImageDetailModal from '../ImageDetailModal.svelte';
+	import ImageDetailModal from '$lib/components/ImageDetailModal.svelte';
 
 	let imageUploadPathNoExt; // folder path (no file name)
 	let isNewImage;
@@ -36,6 +36,3 @@
 </script>
 
 <ImageDetailModal {isNewImage} {afterUploadFunction} {afterDeleteFunction} />
-
-<style>
-</style>
