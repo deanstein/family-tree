@@ -1,5 +1,5 @@
 <script>
-	import { dataRepoName, repoOwner, bioPhotoFileName, tempPw } from '$lib/persistence-management';
+	import { dataRepoName, repoOwner, bioPhotoFileName, tempPw, bioPhotoPlaceholderSrc } from '$lib/persistence-management';
 	import {
 		deleteBioPhotoReference,
 		getPersonById,
@@ -14,7 +14,6 @@
 	let person;
 	let bioPhotoPathNoExt;
 
-	const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 	const afterUploadFunction = () => {
 		setBioPhotoUrlFromTempState();
 	};

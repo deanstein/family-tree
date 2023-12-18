@@ -12,6 +12,7 @@ export const deploymentRepoName = 'family-tree-deploy';
 export const bioPhotoFileName = 'bio-photo';
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
+export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
