@@ -27,20 +27,20 @@ export const personDetailStrings = {
 };
 
 export const timelineEventStrings = {
-	birthEventModalTitle: 'Birth event details',
+	birthEventModalTitle: 'Birth Event Details',
 	birthdate: 'Date of Birth',
 	birthplace: 'Place of Birth',
 	birthtime: 'Time of Birth: ',
-	deathEventModalTitle: 'Death event details',
+	deathEventModalTitle: 'Death Event Details',
 	deceased: 'Deceased',
 	deathDate: 'Date of Death',
 	deathPlace: 'Place of Death',
 	deathTime: 'Time of Death',
 	deathCause: 'Cause of Death',
-	childEventModalTitle: 'Child event details',
-	residenceEventModalTitle: 'Residence event details',
-	vehicleEventModalTitle: 'Vehicle event details',
-	textEventModalTitle: 'Event details',
+	childEventModalTitle: 'Child Event Details',
+	residenceEventModalTitle: 'Residence Event Details',
+	vehicleEventModalTitle: 'Vehicle Event Details',
+	textEventModalTitle: 'Event Details',
 	additionalContext: 'Additional Context'
 };
 
