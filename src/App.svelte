@@ -15,7 +15,7 @@
 		niblingsCompatibleGroups,
 		childrenCompatibleGroups,
 		grandchildrenCompatibleGroups
-	} from './lib/schemas/relationship-map';
+	} from '$lib/schemas/relationship-map';
 
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';

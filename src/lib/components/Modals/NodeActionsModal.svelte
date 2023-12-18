@@ -27,7 +27,7 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 
-	import PersonNodeForEdit from '../NodeView/PersonNode/PersonNodeForEdit.svelte';
+	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 
 	export let personId;
 	export let relationshipId;

@@ -7,11 +7,11 @@
 	} from '$lib/persistence-management';
 	import tempState from '$lib/stores/temp-state';
 
-	import stylingConstants from './styling-constants';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	import Modal from '$lib/components/Modals/Modal.svelte';
-	import MediaGroupHorizontal from './MediaGroupHorizontal.svelte';
-	import ImageAsyncFromUrl from './ImageAsyncFromUrl.svelte';
+	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
+	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
 </script>
 
 <div class="media-gallery-container">

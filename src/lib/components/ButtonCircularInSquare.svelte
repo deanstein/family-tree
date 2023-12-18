@@ -1,9 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from './styling-constants';
+	import stylingConstants from '$lib/components/styling-constants';
 
-	import ButtonCircular from './ButtonCircular.svelte';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
 	export let onClickFunction = () => {};
 	export let colorOverride = undefined;

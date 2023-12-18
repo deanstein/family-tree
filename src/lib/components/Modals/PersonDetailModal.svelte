@@ -5,10 +5,10 @@
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import Button from '../Button.svelte';
-	import Timeline from '../Timeline/Timeline.svelte';
-	import Bio from '../Bio/Bio.svelte';
-	import Modal from './Modal.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Timeline from '$lib/components/Timeline/Timeline.svelte';
+	import Bio from '$lib/components/Bio/Bio.svelte';
+	import Modal from '$lib/components/Modals/Modal.svelte';
 
 	const closeButtonOnClick = () => {
 		hidePersonDetailView();

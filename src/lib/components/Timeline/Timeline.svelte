@@ -3,8 +3,6 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '../styling-constants';
-
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEvent from '$lib/schemas/timeline-event';
 
@@ -18,6 +16,8 @@
 	} from '$lib/ui-management';
 	import { instantiateObject } from '$lib/utils';
 	import { setTimelineEditEvent, setTimelineEditEventId } from '$lib/temp-management';
+
+	import stylingConstants from '$lib/components/styling-constants';
 
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';

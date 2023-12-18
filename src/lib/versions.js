@@ -17,7 +17,7 @@ export const appChangelog = {
 			'Added ability to delete files on GitHub',
 			'Added radius to all input elements',
 			'Added $lib notation for all imports',
-			'Replaced specialized components with generic ones where possible',
+			'Replaced specialized components with generic ones where possible'
 		]
 	},
 	'v0.14.x': {

@@ -7,7 +7,7 @@
 	import { drawCrossfade } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import Overlay from './Overlay.svelte';
+	import Overlay from '$lib/components/Modals/Overlay.svelte';
 
 	export let showModal = true;
 	export let showCloseButton = false;

@@ -1,7 +1,7 @@
 <script>
 	import { scrollHorizontal } from '$lib/ui-management';
 
-	import tempState from '../../../stores/temp-state';
+	import tempState from '$lib/stores/temp-state';
 
 	import PersonNodeForSelect from '$lib/components/NodeView/PersonNode/PersonNodeForSelect.svelte';
 
