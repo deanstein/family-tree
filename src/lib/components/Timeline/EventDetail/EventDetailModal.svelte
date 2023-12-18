@@ -258,7 +258,7 @@
 						images={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={isInEditMode}
-						onClickAddButtonFunction={onClickAddImageButton}
+						onClickAddButton={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>

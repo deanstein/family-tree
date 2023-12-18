@@ -10,13 +10,15 @@
 	import Bio from '$lib/components/Bio/Bio.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 
-	const closeButtonOnClick = () => {
+	const onClickCloseButton = () => {
 		hidePersonDetailView();
 	};
 </script>
 
 <Modal
 	showModal={$uiState.showPersonDetailView}
+	showCloseButton={true}
+	{onClickCloseButton}
 	title={'Person details'}
 	subtitle={null}
 	width={'80vw'}
@@ -36,11 +38,8 @@
 				<Timeline />
 			</div>
 		</div>
-		<div id="temp-close-button" class="temp-close-button">
-			<Button buttonText={'X'} onClickFunction={closeButtonOnClick} />
-		</div>
-	</div></Modal
->
+	</div>
+</Modal>
 
 <style>
 	.person-detail-modal-content {

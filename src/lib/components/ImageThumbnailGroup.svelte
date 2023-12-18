@@ -9,7 +9,7 @@
 	export let images = [];
 	export let showGroupTitle = true;
 	export let showAddButton = true;
-	export let onClickAddButtonFunction = undefined;
+	export let onClickAddButton = () => {};
 </script>
 
 <div class="image-thumbnail-group-outer-container">
@@ -19,7 +19,7 @@
 
 	<MediaGroupHorizontal showEmptyState={images?.length === 0 && !showAddButton}>
 		{#if showAddButton}
-			<AddButtonSquare onClickFunction={onClickAddButtonFunction} />
+			<AddButtonSquare onClickFunction={onClickAddButton} />
 		{/if}
 		{#if images}
 			{#each images as image}

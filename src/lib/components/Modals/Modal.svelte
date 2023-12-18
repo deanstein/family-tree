@@ -7,10 +7,12 @@
 	import { drawCrossfade } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
+	import ButtonCircular from '../ButtonCircular.svelte';
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
 
 	export let showModal = true;
 	export let showCloseButton = false;
+	export let onClickCloseButton = () => {};
 	export let title = 'This is a modal title';
 	export let subtitle = 'This is a modal subtitle';
 	export let width = 'auto';
@@ -22,7 +24,7 @@
 
 	const [send, receive] = drawCrossfade(stylingConstants.durations.transitionDuration);
 
-	const modalContentContainerDynamicClass = css`
+	const modalContentContainerCss = css`
 		width: ${width};
 		height: ${height};
 		overflow: ${overflow};
@@ -32,20 +34,22 @@
 			: stylingConstants.colors.modalContentBackground};
 	`;
 
-	const modalContentSlotDynamicClass = css`
+	const modalContentSlotCss = css`
 		padding: ${padding};
 	`;
 
-	const modalTitleDynamicClass = css`
-		font-size: ${stylingConstants.sizes.modalTitleFontSize};
-		color: ${stylingConstants.colors.textColor};
+	const modalTitleContainerCss = css`
 		background-color: ${stylingConstants.colors.modalTitleBackground};
 	`;
 
-	const modalSubtitleDynamicClass = css`
+	const modalTitleCss = css`
+		font-size: ${stylingConstants.sizes.modalTitleFontSize};
+		color: ${stylingConstants.colors.textColor};
+	`;
+
+	const modalSubtitleCss = css`
 		font-size: ${stylingConstants.sizes.modalSubtitleFontSize};
 		color: ${stylingConstants.colors.textColor};
-		background-color: ${stylingConstants.colors.modalTitleBackground};
 	`;
 </script>
 
@@ -56,28 +60,25 @@
 		id="modal-outer-container"
 		class="modal-outer-container"
 	>
-		<div
-			id="modal-content-container"
-			class="{modalContentContainerDynamicClass} modal-content-container"
-		>
-			{#if title}
-				<div id="modal-title-container" class="modal-title-container">
-					<div id="modal-title" class="{modalTitleDynamicClass} modal-title">
+		<div id="modal-content-container" class="{modalContentContainerCss} modal-content-container">
+			{#if title || showCloseButton}
+				<div id="modal-title-container" class="{modalTitleContainerCss} modal-title-container">
+					<div id="modal-title" class="{modalTitleCss} modal-title">
 						{title}
 					</div>
+					{#if showCloseButton}
+						<ButtonCircular faIcon={'fa-xmark'} onClickFunction={onClickCloseButton} />
+					{/if}
+					{#if subtitle}
+						<div id="modal-subtitle-container" class="modal-subtitle-container">
+							<div id="modal-subtitle" class="{modalSubtitleCss} modal-subtitle">
+								{subtitle}
+							</div>
+						</div>
+					{/if}
 				</div>
 			{/if}
-			{#if subtitle}
-				<div id="modal-subtitle-container" class="modal-subtitle-container">
-					<div id="modal-subtitle" class="{modalSubtitleDynamicClass} modal-subtitle">
-						{subtitle}
-					</div>
-				</div>
-			{/if}
-			{#if showCloseButton}
-				<div id="choose-tree-close-button" class="choose-tree-close-button" />
-			{/if}
-			<div id="modal-content-slot" class="{modalContentSlotDynamicClass} modal-content-slot">
+			<div id="modal-content-slot" class="{modalContentSlotCss} modal-content-slot">
 				<slot name="modal-content-slot" />
 			</div>
 			<div id="modal-toolbar-slot" class="modal-toolbar-slot">
@@ -109,7 +110,13 @@
 	}
 
 	.modal-title-container {
-		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: -webkit-fill-available;
+		width: -moz-available;
+		padding: 0px 5px 0px 5px;
+		border-radius: 10px 10px 0px 0px;
 	}
 
 	.modal-title {
@@ -120,7 +127,6 @@
 		text-align: center;
 		font-weight: bold;
 		padding: 7px 0px 5px 0px;
-		border-radius: 10px 10px 0px 0px;
 	}
 
 	.modal-subtitle-container {
