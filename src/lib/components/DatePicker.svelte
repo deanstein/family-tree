@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	export let isEnabled = true;

@@ -1,6 +1,6 @@
 <script>
 	import uiState from '$lib/stores/ui-state';
-	
+
 	import { hidePersonDetailView } from '$lib/ui-management';
 
 	import stylingConstants from '$lib/components/styling-constants';

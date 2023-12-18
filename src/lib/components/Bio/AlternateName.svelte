@@ -1,6 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 	import { setEditAltName } from '$lib/temp-management';
 

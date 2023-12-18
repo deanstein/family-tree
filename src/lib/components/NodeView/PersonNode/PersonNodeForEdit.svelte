@@ -5,7 +5,7 @@
 	import relationshipMap from '$lib/schemas/relationship-map';
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import {

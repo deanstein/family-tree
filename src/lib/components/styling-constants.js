@@ -72,6 +72,14 @@ const sizes = {
 	get modalFormHeight() {
 		return this.nModalFormHeight.toString() + 'vh';
 	},
+	nModalFullScreenWidth: 95,
+	get modalFullScreenWidth() {
+		return this.nModalFullScreenWidth.toString() + 'vw';
+	},
+	nModalFullScreenHeight: 95,
+	get modalFullScreenHeight() {
+		return this.nModalFullScreenWidth.toString() + 'vw';
+	},
 
 	nShowGenerationsUp: 2,
 	nShowGenerationsDown: 2,

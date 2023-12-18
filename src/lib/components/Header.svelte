@@ -5,7 +5,7 @@
 	import uiState from '$lib/stores/ui-state';
 
 	import { toggleBuildMode } from '$lib/temp-management';
-	
+
 	import { repoStateStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
 

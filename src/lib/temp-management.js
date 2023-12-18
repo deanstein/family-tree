@@ -41,6 +41,32 @@ export const toggleBuildMode = () => {
 	});
 };
 
+// general media
+export const setImageGalleryId = (imageId) => {
+	tempState.update((currentValue) => {
+		currentValue.imageGalleryId = imageId;
+		return currentValue;
+	});
+};
+export const unsetImageGalleryId = () => {
+	tempState.update((currentValue) => {
+		currentValue.imageGalleryId = undefined;
+		return currentValue;
+	});
+};
+export const setImageGalleryContent = (imageContent) => {
+	tempState.update((currentValue) => {
+		currentValue.imageGalleryContent = imageContent;
+		return currentValue;
+	});
+};
+export const unsetGalleryImageContent = () => {
+	tempState.update((currentValue) => {
+		currentValue.imageGalleryContent = undefined;
+		return currentValue;
+	});
+};
+
 // manage the image cache
 // image identifier could be a path or a GitHub url
 export const getImageFromCache = (imageIdentifier) => {

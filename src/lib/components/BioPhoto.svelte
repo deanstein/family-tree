@@ -1,10 +1,5 @@
 <script>
-	import {
-		dataRepoName,
-		repoOwner,
-		bioPhotoFileName,
-		tempPw
-	} from '$lib/persistence-management';
+	import { dataRepoName, repoOwner, bioPhotoFileName, tempPw } from '$lib/persistence-management';
 	import {
 		deleteBioPhotoReference,
 		getPersonById,

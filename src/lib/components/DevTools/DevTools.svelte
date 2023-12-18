@@ -5,11 +5,7 @@
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
-	import {
-		enableScrolling,
-		disableScrolling,
-		scrollToTopAndCenter
-	} from '$lib/ui-management';
+	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
 	import { repoStateStrings } from '$lib/components/strings';
 

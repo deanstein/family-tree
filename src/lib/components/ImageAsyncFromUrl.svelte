@@ -4,11 +4,7 @@
 
 	import imageCache from '$lib/stores/image-cache';
 
-	import {
-		deleteFileFromRepoByUrl,
-		tempPw,
-		uploadFileToRepo
-	} from '$lib/persistence-management';
+	import { deleteFileFromRepoByUrl, tempPw, uploadFileToRepo } from '$lib/persistence-management';
 	import {
 		addImageToCache,
 		getImageFromCache,

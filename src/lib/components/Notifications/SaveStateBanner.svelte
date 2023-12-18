@@ -3,7 +3,7 @@
 
 	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState, setRepoState } from '$lib/ui-management';
-	
+
 	import { repoStateStrings } from '$lib/components/strings';
 
 	import Button from '../Button.svelte';
@@ -56,6 +56,3 @@
 		{/if}
 	</NotificationBanner>
 {/if}
-
-<style>
-</style>

@@ -13,17 +13,14 @@
 		removePersonFromPeopleArray,
 		setActivePerson
 	} from '$lib/person-management';
-	import {
-		removePersonFromActivePersonGroup,
-		showPersonDetailView
-	} from '$lib/ui-management.js';
+	import { removePersonFromActivePersonGroup, showPersonDetailView } from '$lib/ui-management.js';
 	import {
 		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal,
 		setCachedPerson,
 		unsetCachedPerson
 	} from '$lib/temp-management';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import Button from '$lib/components/Button.svelte';

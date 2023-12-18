@@ -2,7 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import uiState from '$lib/stores/ui-state';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import TextInput from '$lib/components/TextInput.svelte';
