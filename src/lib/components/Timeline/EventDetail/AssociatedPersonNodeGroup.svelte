@@ -11,8 +11,7 @@
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import AddButtonCircular from '$lib/components/AddButtonCircular.svelte';
-	import AddButtonSquare from '$lib/components/AddButtonSquare.svelte';
+	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
 	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
 
@@ -50,7 +49,7 @@
 		{/if}
 
 		{#if showAddButton}
-			<AddButtonSquare />
+			<ButtonCircularInSquare />
 		{/if}
 		<!-- {#each personNodeGroupData.groupMembers as groupMember}
 				<PersonNode
@@ -59,9 +58,6 @@
 			{/each} -->
 	</MediaGroupHorizontal>
 </div>
-{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
-	<AddButtonCircular />
-{/if}
 
 <style>
 	.person-node-group-outer-container {

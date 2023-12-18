@@ -1,15 +1,43 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import relationshipMap from '$lib/schemas/relationship-map';
+
 	import tempState from '$lib/stores/temp-state';
+
+	import {
+		addOrUpdateActivePersonInNewPersonGroup,
+		addPersonToPeopleArray,
+		createNewPerson,
+		getDefaultRelationshipType
+	} from '$lib/person-management';
+	import { addOrUpdatePersonInActivePersonGroup } from '$lib/ui-management';
+	import { showPersonNodeActionsModal } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import PersonNodeAddButton from '$lib/components/NodeView/PersonNode/PersonNodeGroup/AddPersonButton.svelte';
-	import PersonNodePlaceholder from '$lib/components/NodeView/PersonNode/PersonNodePlaceholder.svelte';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
+	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
 
 	export let personNodeGroupData;
+
+	const onClickAddPersonButton = () => {
+		let newPerson = createNewPerson();
+		addPersonToPeopleArray(newPerson);
+		let defaultRelationshipType = getDefaultRelationshipType(
+			relationshipMap[personNodeGroupData.groupId]
+		).id;
+		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
+		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, personNodeGroupData.groupId);
+		showPersonNodeActionsModal(
+			newPerson.id,
+			newPerson.name,
+			defaultRelationshipType,
+			personNodeGroupData.groupId,
+			personNodeGroupData.compatibleGroups
+		);
+	};
 
 	const personNodeGroupPlusButtonDynamicClass = css`
 		background-color: ${stylingConstants.colors.nodeGroupColor};
@@ -43,9 +71,9 @@
 			</div>
 			<div id="person-node-group-interior-container" class="person-node-group-inner-container">
 				{#if personNodeGroupData.groupMembers.length == 0}
-					<PersonNodePlaceholder
-						relationshipId={personNodeGroupData.groupId}
-						compatibleGroups={personNodeGroupData.compatibleGroups}
+					<ButtonCircularInSquare
+						onClickFunction={onClickAddPersonButton}
+						colorOverride={stylingConstants.colors.activePersonNodeColor}
 					/>
 				{/if}
 				{#each personNodeGroupData.groupMembers as { }, i (personNodeGroupData.groupMembers[i])}
@@ -59,9 +87,9 @@
 			</div>
 		</div>
 		{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
-			<PersonNodeAddButton
-				groupId={personNodeGroupData.groupId}
-				compatibleGroups={personNodeGroupData.compatibleGroups}
+			<ButtonCircular
+				onClickFunction={onClickAddPersonButton}
+				colorOverride={stylingConstants.colors.activePersonNodeColor}
 			/>
 		{/if}
 	</div>

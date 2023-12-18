@@ -1,7 +1,7 @@
 <script>
-	import { setImageEditContent, setImageEditId } from '$lib/temp-management';
+	import { setImageGalleryContent, setImageGalleryId } from '$lib/temp-management';
 
-	import AddButtonSquare from '$lib/components/AddButtonSquare.svelte';
+	import AddButtonSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import ImageThumbnail from '$lib/components/ImageThumbnail.svelte';
 	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
@@ -26,8 +26,8 @@
 				<ImageThumbnail
 					imageContent={image}
 					onClickFunction={() => {
-						setImageEditId(image.id);
-						setImageEditContent(image);
+						setImageGalleryId(image.id);
+						setImageGalleryContent(image);
 					}}
 				/>
 			{/each}

@@ -17,13 +17,13 @@
 <div class="media-gallery-container">
 	<Modal
 		showModal={$tempState.imageGalleryId}
-		height={stylingConstants.sizes.modalFullScreenWidth}
 		width={stylingConstants.sizes.modalFullScreenWidth}
+		height={stylingConstants.sizes.modalFullScreenHeight}
 		subtitle={null}
 		transparency="200"
 		zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 	>
-		<div class="media-gallery-content">
+		<div class="media-gallery-content" slot="modal-content-slot">
 			<ImageAsyncFromUrl
 				{repoOwner}
 				repoName={dataRepoName}
@@ -32,7 +32,9 @@
 				{imagePlaceholderSrc}
 				allowEdit={false}
 			/>
-			<MediaGroupHorizontal />
+			<div class="media-gallery-thumbnail-container">
+				<MediaGroupHorizontal />
+			</div>
 		</div>
 	</Modal>
 </div>
@@ -40,5 +42,12 @@
 <style>
 	.media-gallery-content {
 		display: flex;
+		flex-direction: column;
+	}
+
+	.media-gallery-thumbnail-container {
+		padding: 10px;
+		margin-top: 10px;
+		background-color: white;
 	}
 </style>
