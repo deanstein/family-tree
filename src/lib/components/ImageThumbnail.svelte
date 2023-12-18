@@ -43,5 +43,6 @@
 	.image-thumbnail-container {
 		border: 2px solid transparent;
 		overflow: hidden;
+		cursor: pointer;
 	}
 </style>

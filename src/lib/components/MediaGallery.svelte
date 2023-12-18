@@ -29,15 +29,14 @@
 		height={stylingConstants.sizes.modalFullScreenHeight}
 		title={'Gallery'}
 		subtitle={null}
-		transparency="200"
-		zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
+		zIndex={stylingConstants.zIndices.mediaGalleryZIndex}
 	>
 		<div class="media-gallery-content" slot="modal-content-slot">
 			<ImageAsyncFromUrl
 				{repoOwner}
 				repoName={dataRepoName}
 				password={tempPw}
-				imageUrl={$tempState?.imageEditContent?.url}
+				imageUrl={$tempState?.mediaGalleryActiveContent?.url}
 				{imagePlaceholderSrc}
 				allowEdit={false}
 			/>

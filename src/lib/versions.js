@@ -17,6 +17,7 @@ export const appChangelog = {
 			'Added ability to delete files on GitHub',
 			'Added radius to all input elements',
 			'Added $lib notation for all imports',
+			'Added modal title bar actions including close button support',
 			'Replaced specialized components with generic ones where possible'
 		]
 	},

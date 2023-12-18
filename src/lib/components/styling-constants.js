@@ -199,7 +199,8 @@ const zIndices = {
 	personNodeSettingsFlyoutZIndex: 5,
 	personDetailViewZIndex: 6,
 	addEditAltNameZIndex: 7,
-	notificationZIndex: 8
+	notificationZIndex: 8,
+	mediaGalleryZIndex: 9
 };
 
 const stylingConstants = {
