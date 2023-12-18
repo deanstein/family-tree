@@ -20,11 +20,9 @@
 	};
 </script>
 
-mediaGalleryId
-
 <div class="media-gallery-container">
 	<Modal
-		showModal={$tempState.mediaGalleryId}
+		showModal={$tempState.mediaGalleryActiveId}
 		showCloseButton={true}
 		{onClickCloseButton}
 		width={stylingConstants.sizes.modalFullScreenWidth}
