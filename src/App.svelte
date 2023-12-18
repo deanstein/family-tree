@@ -113,7 +113,7 @@
 		on:contextmenu={blockContextMenu}
 	>
 		<ChooseTreeModal />
-		{#if $tempState.imageGalleryId !== undefined}
+		{#if $tempState.mediaGalleryActiveId !== undefined}
 			<MediaGallery />
 		{/if}
 		{#if $tempState.nodeActionsModalPersonId !== undefined}

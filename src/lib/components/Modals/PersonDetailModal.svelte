@@ -19,7 +19,7 @@
 	showModal={$uiState.showPersonDetailView}
 	showCloseButton={true}
 	{onClickCloseButton}
-	title={'Person details'}
+	title={'Person Details'}
 	subtitle={null}
 	width={'80vw'}
 	height={'80vh'}

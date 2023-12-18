@@ -38,7 +38,7 @@
 		padding: ${padding};
 	`;
 
-	const modalTitleContainerCss = css`
+	const modalTitleBarContainerCss = css`
 		background-color: ${stylingConstants.colors.modalTitleBackground};
 	`;
 
@@ -60,15 +60,19 @@
 		id="modal-outer-container"
 		class="modal-outer-container"
 	>
-		<div id="modal-content-container" class="{modalContentContainerCss} modal-content-container">
+		<div class="{modalContentContainerCss} modal-content-container">
 			{#if title || showCloseButton}
-				<div id="modal-title-container" class="{modalTitleContainerCss} modal-title-container">
-					<div id="modal-title" class="{modalTitleCss} modal-title">
-						{title}
+				<div class="{modalTitleBarContainerCss} modal-title-bar-container">
+					<div id="modal-title-container" class="modal-title-container">
+						<div id="modal-title" class="{modalTitleCss} modal-title">
+							{title}
+						</div>
+						<div class="modal-title-bar-actions-container">
+							{#if showCloseButton}
+								<ButtonCircular faIcon={'fa-xmark'} onClickFunction={onClickCloseButton} />
+							{/if}
+						</div>
 					</div>
-					{#if showCloseButton}
-						<ButtonCircular faIcon={'fa-xmark'} onClickFunction={onClickCloseButton} />
-					{/if}
 					{#if subtitle}
 						<div id="modal-subtitle-container" class="modal-subtitle-container">
 							<div id="modal-subtitle" class="{modalSubtitleCss} modal-subtitle">
@@ -109,22 +113,31 @@
 		border-radius: 10px;
 	}
 
-	.modal-title-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	.modal-title-bar-container {
 		width: -webkit-fill-available;
 		width: -moz-available;
-		padding: 0px 5px 0px 5px;
 		border-radius: 10px 10px 0px 0px;
 	}
 
-	.modal-title {
-		width: 100%;
+	.modal-title-bar-actions-container {
+		position: absolute;
 		display: flex;
-		flex-direction: column;
+		justify-content: right;
+		align-items: center;
+		padding: 0px 5px 0px 5px;
+		width: -webkit-fill-available;
+		width: -moz-available;
+	}
+
+	.modal-title-container {
+		display: flex;
 		justify-content: center;
+		align-items: center;
+	}
+
+	.modal-title {
 		text-align: center;
+		width: 100%;
 		font-weight: bold;
 		padding: 7px 0px 5px 0px;
 	}

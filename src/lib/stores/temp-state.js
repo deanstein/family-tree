@@ -31,9 +31,12 @@ const tempState = {
 	// if set, the timeline event modal inputs are enabled
 	timelineEditEvent: undefined,
 
-	// if set, the image gallery displays this image id
-	imageGalleryId: undefined,
-	imageGalleryContent: undefined,
+	// if set, the media gallery displays this media id
+	mediaGalleryActiveId: undefined,
+	// if set, the media gallery displays this media content
+	mediaGalleryActiveContent: undefined,
+	// if set, the media gallery displays these media items in the thumbnail group
+	mediaGalleryContentArray: undefined,
 
 	// if set, the image editing modal is displayed
 	imageEditId: undefined,

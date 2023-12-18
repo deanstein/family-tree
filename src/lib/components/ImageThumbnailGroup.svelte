@@ -1,5 +1,5 @@
 <script>
-	import { setImageGalleryContent, setImageGalleryId } from '$lib/temp-management';
+	import { setMediaGalleryActiveContent, setMediaGalleryActiveId } from '$lib/temp-management';
 
 	import AddButtonSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import ImageThumbnail from '$lib/components/ImageThumbnail.svelte';
@@ -26,8 +26,8 @@
 				<ImageThumbnail
 					imageContent={image}
 					onClickFunction={() => {
-						setImageGalleryId(image.id);
-						setImageGalleryContent(image);
+						setMediaGalleryActiveId(image.id);
+						setMediaGalleryActiveContent(image);
 					}}
 				/>
 			{/each}

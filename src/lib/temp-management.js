@@ -42,27 +42,27 @@ export const toggleBuildMode = () => {
 };
 
 // general media
-export const setImageGalleryId = (imageId) => {
+export const setMediaGalleryActiveId = (mediaId) => {
 	tempState.update((currentValue) => {
-		currentValue.imageGalleryId = imageId;
+		currentValue.mediaGalleryActiveId = mediaId;
 		return currentValue;
 	});
 };
-export const unsetImageGalleryId = () => {
+export const unsetMediaGalleryActiveId = () => {
 	tempState.update((currentValue) => {
-		currentValue.imageGalleryId = undefined;
+		currentValue.mediaGalleryActiveId = undefined;
 		return currentValue;
 	});
 };
-export const setImageGalleryContent = (imageContent) => {
+export const setMediaGalleryActiveContent = (mediaContent) => {
 	tempState.update((currentValue) => {
-		currentValue.imageGalleryContent = imageContent;
+		currentValue.mediaGalleryActiveContent = mediaContent;
 		return currentValue;
 	});
 };
-export const unsetGalleryImageContent = () => {
+export const unsetMediaGalleryActiveContent = () => {
 	tempState.update((currentValue) => {
-		currentValue.imageGalleryContent = undefined;
+		currentValue.mediaGalleryActiveContent = undefined;
 		return currentValue;
 	});
 };

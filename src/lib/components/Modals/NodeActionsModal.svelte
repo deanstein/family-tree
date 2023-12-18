@@ -96,7 +96,7 @@
 
 <Modal
 	showModal={$tempState.nodeActionsModalPersonId === personId}
-	title={isNewPerson ? 'Add relationship ' : 'Edit relationship '}
+	title={isNewPerson ? 'Add Relationship ' : 'Edit Relationship '}
 	subtitle={'to ' + $uiState.activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}

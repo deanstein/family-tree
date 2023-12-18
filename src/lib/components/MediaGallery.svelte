@@ -12,13 +12,24 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
+	import { unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
+
+	const onClickCloseButton = () => {
+		unsetMediaGalleryActiveId();
+		unsetMediaGalleryActiveContent();
+	};
 </script>
+
+mediaGalleryId
 
 <div class="media-gallery-container">
 	<Modal
-		showModal={$tempState.imageGalleryId}
+		showModal={$tempState.mediaGalleryId}
+		showCloseButton={true}
+		{onClickCloseButton}
 		width={stylingConstants.sizes.modalFullScreenWidth}
 		height={stylingConstants.sizes.modalFullScreenHeight}
+		title={'Gallery'}
 		subtitle={null}
 		transparency="200"
 		zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
