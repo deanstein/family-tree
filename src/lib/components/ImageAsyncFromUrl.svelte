@@ -27,6 +27,7 @@
 	export let imagePlaceholderSrc; // used if the url is not valid
 	export let allowEdit; // shows overlay buttons like edit and delete
 	// optional
+	export let imageFit = 'cover';
 	export let imageUploadPathNoExt = undefined; // path (no ext) of the repo where an uploaded photo would go
 	export let afterUploadFunction = () => {}; // runs after an image was uploaded
 	export let afterDeleteFunction = () => {}; // runs after this image was deleted (for state cleanup)
@@ -182,6 +183,9 @@
 			: getExtensionFromUrl(imageUrl);
 	}
 
+	const imageCss = css`
+		object-fit: ${imageFit}`
+
 	const editButtonCss = css`
 		background-color: ${stylingConstants.colors.buttonColorPrimary};
 		:hover {
@@ -195,7 +199,7 @@
 		<div class="image-loading-overlay" />
 	{/if}
 	<!-- svelte-ignore a11y-img-redundant-alt -->
-	<img src={imgSrc} class="image" alt="Photo of this person" />
+	<img src={imgSrc} class="image {imageCss}" alt="Photo of this person" />
 	{#if allowEdit}
 		<div class="image-actions-container">
 			<div
@@ -228,11 +232,9 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
-		background-color: lightgray;
 	}
 
 	.image {
-		object-fit: cover;
 		height: 100%;
 		width: 100%;
 	}

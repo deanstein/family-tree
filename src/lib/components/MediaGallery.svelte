@@ -32,14 +32,17 @@
 		zIndex={stylingConstants.zIndices.mediaGalleryZIndex}
 	>
 		<div class="media-gallery-content" slot="modal-content-slot">
-			<ImageAsyncFromUrl
+			<div class="image-container">
+				<ImageAsyncFromUrl
 				{repoOwner}
 				repoName={dataRepoName}
 				password={tempPw}
 				imageUrl={$tempState?.mediaGalleryActiveContent?.url}
 				{imagePlaceholderSrc}
 				allowEdit={false}
+				imageFit="contain"
 			/>
+			</div>
 			<div class="media-gallery-thumbnail-container">
 				<MediaGroupHorizontal />
 			</div>
@@ -51,6 +54,13 @@
 	.media-gallery-content {
 		display: flex;
 		flex-direction: column;
+		height: -webkit-fill-available;
+		height: -moz-available;
+	}
+
+	.image-container {
+		flex-shrink: 1;
+		min-height: 0;
 	}
 
 	.media-gallery-thumbnail-container {
