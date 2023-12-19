@@ -1,4 +1,4 @@
-export const appVersion = '0.15.11';
+export const appVersion = '0.15.12';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -16,6 +16,7 @@ export const appChangelog = {
 			'Added binary large object read support',
 			'Added ability to delete files on GitHub',
 			'Added radius to all input elements',
+			'Added blur to modal background',
 			'Added $lib notation for all imports',
 			'Added modal title bar actions including close button support',
 			'Replaced specialized components with generic ones where possible'
