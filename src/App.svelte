@@ -133,14 +133,13 @@
 			<TimelineEventImageDetailModal />
 		{/if}
 		<Header />
-		<div id="tree-content" class="{treeContentDynamicClass} tree-content">
-			<canvas id="tree-canvas" class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
+		<div class="{treeContentDynamicClass} tree-content">
+			<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
 			<canvas
-				id="hover-canvas"
 				class="tree-canvas"
 				bind:this={personNodeConnectionLineCanvasRefHover}
 			/>
-			<div id="upper-generation-block" class="{generationBlockDynamicClass} generation-block">
+			<div class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -240,7 +239,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="siblings-generation-block" class="{generationBlockDynamicClass} generation-block">
+			<div class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -279,7 +278,6 @@
 
 					<div
 						slot="row-middle-section"
-						id="active-person-container"
 						class="active-person-container"
 					>
 						<PersonNode
@@ -325,7 +323,7 @@
 				</GenerationRow>
 			</div>
 
-			<div id="lower-generation-block" class="{generationBlockDynamicClass} generation-block">
+			<div class="{generationBlockDynamicClass} generation-block">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup

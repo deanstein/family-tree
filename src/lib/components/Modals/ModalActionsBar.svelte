@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<div id="modal-actions-bar" class="modal-actions-bar">
+<div class="modal-actions-bar">
 	<slot />
 </div>
 

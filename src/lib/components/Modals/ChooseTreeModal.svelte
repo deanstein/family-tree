@@ -60,7 +60,6 @@
 >
 	<div class="choose-tree-modal-content" slot="modal-content-slot">
 		<div
-			id="choose-tree-options-grid"
 			class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
 		>
 			<ChooseTreeOption
@@ -82,7 +81,7 @@
 				description={chooseTreeStrings.loadTreeDescription}
 			/>
 		</div>
-		<div id="dev-message" class="choose-tree-dev-message">
+		<div class="choose-tree-dev-message">
 			This app is in development and may be buggy.
 		</div>
 	</div>

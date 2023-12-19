@@ -190,16 +190,15 @@
 	`;
 </script>
 
-<div id="image-container" class="image-container">
+<div class="image-container">
 	{#if isImageLoading}
-		<div id="image-loading-overlay" class="image-loading-overlay" />
+		<div class="image-loading-overlay" />
 	{/if}
 	<!-- svelte-ignore a11y-img-redundant-alt -->
-	<img src={imgSrc} id="image" class="image" alt="Photo of this person" />
+	<img src={imgSrc} class="image" alt="Photo of this person" />
 	{#if allowEdit}
 		<div class="image-actions-container">
 			<div
-				id="image-edit-button"
 				class="{editButtonDynamicClass} image-action-button"
 				on:click={onEditButtonClick}
 				on:keypress={onEditButtonClick}
@@ -210,7 +209,6 @@
 			<!-- only show the delete button if the recorded url is valid -->
 			{#if isUrlValid(imageUrl)}
 				<div
-					id="image-delete-button"
 					class="{editButtonDynamicClass} image-action-button"
 					on:click={onDeleteButtonClick}
 					on:keypress={onDeleteButtonClick}
@@ -221,7 +219,6 @@
 		</div>
 		<input
 			type="file"
-			id="file-input"
 			style="display: none;"
 			on:change={handleFileUpload}
 			bind:this={fileInput}

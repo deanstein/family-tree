@@ -192,7 +192,6 @@
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
 	<div
-		id="edit-timeline-event-modal-content"
 		class="edit-timeline-event-modal-content"
 		slot="modal-content-slot"
 	>

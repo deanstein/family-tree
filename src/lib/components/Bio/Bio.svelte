@@ -135,8 +135,8 @@
 {#if isBioEditActive}
 	<Overlay />
 {/if}
-<div id="bio-content-container" class="{bioContentContainerDynamicClass} bio-content-container">
-	<div id="bio-edit-toolbar" class="bio-edit-toolbar">
+<div class="{bioContentContainerDynamicClass} bio-content-container">
+	<div class="bio-edit-toolbar">
 		<EditBioButton
 			{isBioEditActive}
 			onBioEditButtonClick={onClickBioEditButton}
@@ -144,11 +144,11 @@
 			onCancelButtonClick={onClickCancelButton}
 		/>
 	</div>
-	<div id="bio-avatar-container" class="bio-avatar-container">
+	<div class="bio-avatar-container">
 		<BioPhoto personId={$uiState.activePerson.id} allowEdit={isBioEditActive} />
 	</div>
 	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
-	<div id="bio-facts" class="bio-facts">
+	<div class="bio-facts">
 		<InputContainer label={personDetailStrings.altNames}>
 			<AlternateNames isEnabled={isBioEditActive} />
 		</InputContainer>
@@ -186,7 +186,7 @@
 			isEnabled={isBioEditActive}
 		/>
 		{#if deceasedValue}
-			<div id="deceased-details-container" class="deceased-details-container">
+			<div class="deceased-details-container">
 				<SideBySideContainer>
 					<InputContainer label={timelineEventStrings.deathDate}>
 						<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />

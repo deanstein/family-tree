@@ -58,13 +58,11 @@
 	`;
 </script>
 
-<div id="tree-option-container" class="{treeOptionContainerDynamicClass} tree-option-container">
+<div class="{treeOptionContainerDynamicClass} tree-option-container">
 	<div
-		id="button-and-icon-container"
 		class="{buttonAndIconContainerDynamicClass} button-and-icon-container"
 	>
 		<div
-			id="icon-container"
 			class="{iconContainerDynamicClass} icon-container"
 			on:click={buttonFunction}
 			on:keypress={buttonFunction}
@@ -73,7 +71,7 @@
 		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
-	<div id="example-tree-description" class="{treeDescriptionDynamicClass} tree-description">
+	<div class="{treeDescriptionDynamicClass} tree-description">
 		{description}
 	</div>
 </div>

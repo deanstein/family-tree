@@ -24,7 +24,7 @@
 	`;
 </script>
 
-<div id="date-picker-container" class="date-picker-container">
+<div class="date-picker-container">
 	<input
 		type="date"
 		disabled={!isEnabled}

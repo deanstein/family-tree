@@ -9,11 +9,9 @@
 </script>
 
 <div
-	id="person-node-scrolling-window-outer-container"
 	class="person-node-scrolling-window-outer-container"
 >
 	<div
-		id="person-node-scrolling-window-inner-container"
 		class="person-node-scrolling-window-inner-container"
 		on:click|stopPropagation
 		on:keypress|stopPropagation

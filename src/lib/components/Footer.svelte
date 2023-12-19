@@ -24,9 +24,9 @@
 	});
 </script>
 
-<div id="footer-outer-container" class="footer-outer-container">
-	<div id="copyright" class="footer-item">(C) JDG {copyrightYear}</div>
-	<div id="version" class="footer-item">
+<div class="footer-outer-container">
+	<div class="footer-item">(C) JDG {copyrightYear}</div>
+	<div class="footer-item">
 		| App: v{appVersion} | Schema: v{schemaVersion} | Build: {buildCode} |
 		<a on:click={toggleDevTools} on:keypress={toggleDevTools}
 			>{!$uiState.showDevTools ? 'Show Dev Tools' : 'Hide Dev Tools'}</a

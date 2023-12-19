@@ -116,42 +116,41 @@
 </script>
 
 <div
-	id="timeline-event-row"
 	class="{eventRowDynamicClass} timeline-event-row"
 	on:click={onTimelineEventClickAction}
 	on:keydown={onTimelineEventClickAction}
 	bind:this={eventRowDivRef}
 >
-	<div id="timeline-event-date-year-container" class="timeline-event-date-year-container">
-		<div id="timeline-event-date" class="{eventDateDynamicClass} timeline-event-date">
+	<div class="timeline-event-date-year-container">
+		<div class="{eventDateDynamicClass} timeline-event-date">
 			<!-- show month name with three letters like AUG -->
 			{eventDateCorrected.toString() !== 'Invalid Date'
 				? monthNames[eventDateCorrected.getUTCMonth()] + ' ' + eventDateCorrected.getUTCDate()
 				: 'Date?'}
 		</div>
-		<div id="timeline-event-year" class="{eventYearDynamicClass} timeline-event-year">
+		<div class="{eventYearDynamicClass} timeline-event-year">
 			{eventDateCorrected.toString() !== 'Invalid Date'
 				? eventDateCorrected.getUTCFullYear()
 				: 'Year?'}
 		</div>
 	</div>
-	<div id="timeline-event-node" class="{eventNodeDynamicClass} timeline-event-node" />
-	<div id="timeline-event-line" class="{eventDetailLineDynamicClass} timeline-event-line" />
-	<div id="timeline-event-content-outer-container" class="timeline-event-content-outer-container">
-		<div id="timeline-event-title-bar" class="{eventTitleBarDynamicClass} timeline-event-title-bar">
+	<div class="{eventNodeDynamicClass} timeline-event-node" />
+	<div class="{eventDetailLineDynamicClass} timeline-event-line" />
+	<div class="timeline-event-content-outer-container">
+		<div class="{eventTitleBarDynamicClass} timeline-event-title-bar">
 			<i
 				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
 					?.icon}"
 			/>
 			<!-- hide age if this is the birth event -->
 			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
-				<div id="timeline-event-age" class="{EventAgeDynamicClass} timeline-event-age">
+				<div class="{EventAgeDynamicClass} timeline-event-age">
 					{eventAge.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
 		</div>
 		<div class="{eventContentCss} timeline-event-content">
-			<div id="timeline-event-description" class="timeline-event-description">
+			<div class="timeline-event-description">
 				{timelineEvent?.eventContent.description
 					? timelineEvent?.eventContent.description
 					: 'Event description'}

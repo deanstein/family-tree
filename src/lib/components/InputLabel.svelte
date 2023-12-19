@@ -11,8 +11,8 @@
 	`;
 </script>
 
-<div id="bio-fact-label-container" class="bio-fact-label-container">
-	<div id="bio-fact-label" class={fieldLabelDynamicClass}>
+<div class="bio-fact-label-container">
+	<div class={fieldLabelDynamicClass}>
 		{label}
 	</div>
 </div>

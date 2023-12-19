@@ -35,7 +35,6 @@
 </script>
 
 <div
-	id="square-container"
 	class="{squareContainerCss} square-container"
 	on:click={onClickFunction}
 	on:keypress={onClickFunction}

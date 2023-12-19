@@ -24,10 +24,10 @@
 	}
 </script>
 
-<div id="checkbox-wrapper" class="checkbox-wrapper">
+<div class="checkbox-wrapper">
 	<input type="checkbox" bind:checked={isChecked} disabled={!isEnabled} class="checkbox" />
 	{#if showLabel}
-		<div id="checkbox-label" class={checkboxLabelDynamicClass}>
+		<div class={checkboxLabelDynamicClass}>
 			{label}
 		</div>
 	{/if}

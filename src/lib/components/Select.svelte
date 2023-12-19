@@ -24,9 +24,8 @@
 	`;
 </script>
 
-<div id="select-container" class="select-container">
+<div class="select-container">
 	<select
-		id="select"
 		class={selectDynamicClass}
 		bind:value={inputValue}
 		on:click|stopPropagation

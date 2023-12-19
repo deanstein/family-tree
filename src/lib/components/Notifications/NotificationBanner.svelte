@@ -20,11 +20,10 @@
 </script>
 
 <div
-	id="notification-banner-outer-container"
 	class="notification-banner-outer-container {headerContainerDynamicClass}"
 >
 	{message}
-	<div id="notification-button-container" class="notification-button-container">
+	<div class="notification-button-container">
 		<slot />
 	</div>
 </div>

@@ -27,12 +27,11 @@
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
 	<div class="person-detail-modal-content" slot="modal-content-slot">
-		<div id="person-detail-bio-container" class="person-detail-bio-container">
+		<div class="person-detail-bio-container">
 			<Bio />
 		</div>
-		<div id="person-detail-timeline-container" class="person-detail-timeline-container">
+		<div class="person-detail-timeline-container">
 			<div
-				id="person-detail-timeline-content-container"
 				class="person-detail-timeline-content-container"
 			>
 				<Timeline />

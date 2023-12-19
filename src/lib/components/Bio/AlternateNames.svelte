@@ -39,17 +39,16 @@
 </script>
 
 <div
-	id="bio-alt-names-container"
 	class="{isEnabled
 		? altNamesContainerDynamicClass
 		: altNamesContainerDisabledDynamicClass} bio-alt-names-container"
 >
-	<div id="alt-names-scrollable-container" class="alt-names-scrollable-container">
+	<div class="alt-names-scrollable-container">
 		{#each isEnabled ? $tempState.bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}
 			<AlternateName {isEnabled} {alternateName} />
 		{/each}
 	</div>
-	<div id="add-button-container" class="add-button-container">
+	<div class="add-button-container">
 		{#if isEnabled}
 			<ButtonCircular onClickFunction={addAlternateNameButtonAction} />
 		{/if}

@@ -15,10 +15,9 @@
 </script>
 
 <div
-	id="row-flank-outer-container"
 	class="row-flank-outer-container {rowFlankOuterContainerDynamicClass}"
 >
-	<div id="row-flank-inner-container" class="row-flank-inner-container" on:wheel={scrollHorizontal}>
+	<div class="row-flank-inner-container" on:wheel={scrollHorizontal}>
 		<slot />
 	</div>
 </div>

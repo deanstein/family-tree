@@ -38,7 +38,6 @@
 </script>
 
 <div
-	id="person-node-group-outer-container"
 	class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
 >
 	<MediaGroupHorizontal

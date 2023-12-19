@@ -20,8 +20,8 @@
 	`;
 </script>
 
-<div id="name-label-container" class="{nameLabelContainerDynamicClass} name-label-container">
-	<div id="name-label" class="{nameLabelDynamicClass} name-label">
+<div class="{nameLabelContainerDynamicClass} name-label-container">
+	<div class="{nameLabelDynamicClass} name-label">
 		{bIsActivePerson ? sInputValue.toUpperCase() : sInputValue}
 	</div>
 </div>

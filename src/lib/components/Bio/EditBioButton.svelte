@@ -29,7 +29,7 @@
 	}
 </script>
 
-<div id="edit-bio-button-container" class="edit-bio-button-container">
+<div class="edit-bio-button-container">
 	{#if !isBioEditActive}
 		<Button buttonText={'Edit Bio'} onClickFunction={onBioEditButtonClick} />
 	{:else}

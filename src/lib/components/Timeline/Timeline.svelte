@@ -121,9 +121,9 @@
 	}
 </script>
 
-<div id="timeline-container" class="timeline-container">
-	<div id="timeline-actions-bar" class="timeline-actions-bar">
-		<div id="timeline-event-count" class="{timelineEventCountDynamicClass} timeline-event-count">
+<div class="timeline-container">
+	<div class="timeline-actions-bar">
+		<div class="{timelineEventCountDynamicClass} timeline-event-count">
 			<!-- birth and death/today are always shown, so add 2 to the count -->
 			Showing {timelineRowItems.length + 2} timeline events
 		</div>
@@ -137,15 +137,14 @@
 		/>
 		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
 	</div>
-	<div id="timeline-content-container" class="timeline-content-container">
+	<div class="timeline-content-container">
 		<TimelineSpine />
 		<div
-			id="timeline-scrolling-canvas"
 			class="timeline-scrolling-canvas"
 			bind:this={scrollingCanvasDivRef}
 		>
 			<!-- the vertical line for the timeline -->
-			<div id="timeline-event-grid" class="{timelineEventGridDynamicClass} timeline-event-grid">
+			<div class="{timelineEventGridDynamicClass} timeline-event-grid">
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 

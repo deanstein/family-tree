@@ -1,8 +1,8 @@
 <script>
 </script>
 
-<div id="dev-toolbar-outer-container" class="dev-toolbar-outer-container">
-	<div id="toolbar-content" class="toolbar-content">
+<div class="dev-toolbar-outer-container">
+	<div class="toolbar-content">
 		<slot />
 	</div>
 </div>

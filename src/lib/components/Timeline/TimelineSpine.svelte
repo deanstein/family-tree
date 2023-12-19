@@ -31,9 +31,9 @@
 	}
 </script>
 
-<div id="timeline-spine" class="timeline-spine">
-	<div id="timeline-spine-line-column" class="{lineColumnDynamicClass} timeline-spine-line-column">
-		<div id="timeline-spine-line" class="{lineDynamicClass} timeline-spine-line" />
+<div class="timeline-spine">
+	<div class="{lineColumnDynamicClass} timeline-spine-line-column">
+		<div class="{lineDynamicClass} timeline-spine-line" />
 	</div>
 </div>
 

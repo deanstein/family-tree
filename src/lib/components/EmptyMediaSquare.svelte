@@ -12,7 +12,7 @@
 	`;
 </script>
 
-<div id="square-container" class="{squareContainerCss} square-container">Nothing to show.</div>
+<div class="{squareContainerCss} square-container">Nothing to show.</div>
 
 <style>
 	.square-container {

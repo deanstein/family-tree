@@ -27,10 +27,9 @@
 	};
 </script>
 
-<div id="family-tree-data-selector-container" class="storeview-toolbar-outer-container">
+<div class="storeview-toolbar-outer-container">
 	{#if familyTreeDataMap}
 		<select
-			id="options"
 			class="family-tree-data-selector"
 			bind:value={sInputValue}
 			on:change={handleSelectChange}

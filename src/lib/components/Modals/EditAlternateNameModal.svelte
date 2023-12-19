@@ -86,7 +86,6 @@
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
 	<div
-		id="edit-alt-name-modal-content"
 		class="edit-alt-name-modal-content"
 		slot="modal-content-slot"
 	>

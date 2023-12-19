@@ -2,7 +2,7 @@
 	export let subheaderTitle = 'Subheader Title';
 </script>
 
-<div id="dev-tools-subheader" class="dev-tools-subheader">
+<div class="dev-tools-subheader">
 	{subheaderTitle}
 </div>
 

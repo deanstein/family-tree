@@ -4,8 +4,8 @@
 	import uiState from '$lib/stores/ui-state';
 </script>
 
-<div id="storeview-container" class="storeview-container">
-	<div id="storeview-output" class="storeview-output">
+<div class="storeview-container">
+	<div class="storeview-output">
 		<div class="store-container">
 			<div>Temp State:</div>
 			{JSON.stringify($tempState)}

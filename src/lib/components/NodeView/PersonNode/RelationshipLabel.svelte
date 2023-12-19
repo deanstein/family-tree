@@ -19,10 +19,9 @@
 </script>
 
 <div
-	id="relationship-label-container"
 	class="{relationshipLabelContainerDynamicClass} relationship-label-container"
 >
-	<div id="options" class="{relationshipLabelDynamicClass} relationship-label">
+	<div class="{relationshipLabelDynamicClass} relationship-label">
 		{relationshipName}
 	</div>
 </div>

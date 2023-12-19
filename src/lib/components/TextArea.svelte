@@ -33,7 +33,7 @@
 	});
 </script>
 
-<div id="input-container" class="input-container">
+<div class="input-container">
 	<textarea
 		bind:value={inputValue}
 		bind:this={textArea}

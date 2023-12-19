@@ -57,14 +57,13 @@
 	<div
 		in:receive={{ key: showModal }}
 		out:send={{ key: showModal }}
-		id="modal-outer-container"
 		class="modal-outer-container"
 	>
 		<div class="{modalContentContainerCss} modal-content-container">
 			{#if title || showCloseButton}
 				<div class="{modalTitleBarContainerCss} modal-title-bar-container">
-					<div id="modal-title-container" class="modal-title-container">
-						<div id="modal-title" class="{modalTitleCss} modal-title">
+					<div class="modal-title-container">
+						<div class="{modalTitleCss} modal-title">
 							{title}
 						</div>
 						<div class="modal-title-bar-actions-container">
@@ -74,18 +73,18 @@
 						</div>
 					</div>
 					{#if subtitle}
-						<div id="modal-subtitle-container" class="modal-subtitle-container">
-							<div id="modal-subtitle" class="{modalSubtitleCss} modal-subtitle">
+						<div class="modal-subtitle-container">
+							<div class="{modalSubtitleCss} modal-subtitle">
 								{subtitle}
 							</div>
 						</div>
 					{/if}
 				</div>
 			{/if}
-			<div id="modal-content-slot" class="{modalContentSlotCss} modal-content-slot">
+			<div class="{modalContentSlotCss} modal-content-slot">
 				<slot name="modal-content-slot" />
 			</div>
-			<div id="modal-toolbar-slot" class="modal-toolbar-slot">
+			<div class="modal-toolbar-slot">
 				<slot name="modal-toolbar-slot" />
 			</div>
 		</div>

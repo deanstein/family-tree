@@ -8,9 +8,9 @@
 	`;
 </script>
 
-<div id="row" class="{rowDynamicClass} row">
+<div class="{rowDynamicClass} row">
 	<slot name="row-left-flank" />
-	<div id="row-middle-section" class="row-middle-section">
+	<div class="row-middle-section">
 		<slot name="row-middle-section" />
 	</div>
 	<slot name="row-right-flank" />

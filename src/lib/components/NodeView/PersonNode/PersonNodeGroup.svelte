@@ -60,16 +60,14 @@
 {#if $tempState.buildMode || personNodeGroupData.groupMembers.length > 0}
 	<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
 		<div
-			id="person-node-group-outer-container"
 			class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
 		>
 			<div
-				id="person-node-group-title"
 				class="{personNodeGroupTitleDynamicClass} person-node-group-title"
 			>
 				{personNodeGroupData.groupName}
 			</div>
-			<div id="person-node-group-interior-container" class="person-node-group-inner-container">
+			<div class="person-node-group-inner-container">
 				{#if personNodeGroupData.groupMembers.length == 0}
 					<ButtonCircularInSquare
 						onClickFunction={onClickAddPersonButton}

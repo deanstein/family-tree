@@ -101,8 +101,8 @@
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}
 >
-	<div id="node-actions-modal-content" class="node-actions-modal-content" slot="modal-content-slot">
-		<div id="node-actions-node-view" class="node-actions-node-view">
+	<div class="node-actions-modal-content" slot="modal-content-slot">
+		<div class="node-actions-node-view">
 			<PersonNodeForEdit
 				bind:nameInputValue
 				bind:relationshipInputValue

@@ -60,16 +60,14 @@
 </script>
 
 <div
-	id="person-node-{$tempState.nodeActionsModalPersonId}"
 	class="person-node {personNodeDynamicClass}"
 >
 	<div
-		id="person-node-content-area"
 		class="{personNodeContentAreaDynamicClass} person-node-content-area"
 	>
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
 
-		<div id="person-node-inputs-container" class="person-node-inputs-container">
+		<div class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}
 				textAlignOverride="center"

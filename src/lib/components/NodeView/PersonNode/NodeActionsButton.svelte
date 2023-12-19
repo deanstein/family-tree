@@ -37,10 +37,9 @@
 </script>
 
 {#if personId !== $uiState.activePerson.id}
-	<div id="node-actions-button-container" class="node-actions-button-container">
+	<div class="node-actions-button-container">
 		<button
 			type="button"
-			id="settings-button"
 			class="{actionsButtonDynamicClass} node-actions-button"
 			on:click|stopPropagation={onNodeActionButtonClick}
 		>

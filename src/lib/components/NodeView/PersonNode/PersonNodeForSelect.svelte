@@ -46,12 +46,11 @@
 </script>
 
 <div
-	id="person-node-for-select-{personId}"
 	class="person-node {personNodeForSelectDynamicClass}"
 	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >
-	<div id="person-node-content-area" class="person-node-content-area">
+	<div class="person-node-content-area">
 		<BioPhoto {personId} allowEdit={false} />
 		<NameInput sInputValue={getPersonById(personId)?.name} />
 	</div>

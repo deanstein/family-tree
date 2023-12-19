@@ -55,8 +55,8 @@
 	};
 </script>
 
-<div id="dev-tools-outer-container" class="dev-tools-outer-container">
-	<div id="dev-tools-title" class="dev-tools-title">DEV TOOLS</div>
+<div class="dev-tools-outer-container">
+	<div class="dev-tools-title">DEV TOOLS</div>
 	<DevToolsSubheader subheaderTitle="Interface Tools" />
 	<DevToolbar>
 		<button on:click={toggleChooseTreeModal}>

@@ -27,7 +27,7 @@
 	`;
 </script>
 
-<div id="input-container" class="input-container">
+<div class="input-container">
 	<input
 		type="text"
 		bind:value={inputValue}

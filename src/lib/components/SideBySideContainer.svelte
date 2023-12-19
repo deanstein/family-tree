@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<div id="side-by-side-container" class="side-by-side-container">
+<div class="side-by-side-container">
 	<slot />
 </div>
 

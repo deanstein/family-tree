@@ -26,14 +26,13 @@
 	}
 </script>
 
-<div id="circular-button-container" class="circular-button-container">
+<div class="circular-button-container">
 	<div
-		id="circular-button"
 		class="{circularButtonCss} circular-button"
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 	>
-		<div id="circular-button-label" class="circular-button-label">
+		<div class="circular-button-label">
 			<i class="fa-solid {faIcon}" />
 		</div>
 	</div>

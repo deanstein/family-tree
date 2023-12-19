@@ -128,7 +128,6 @@
 
 {#key sPersonId}
 	<div
-		id="person-node-{sPersonId}"
 		class="person-node {personNodeDynamicClass}"
 		on:mouseenter={onPersonNodeMouseEnterAction}
 		on:mouseleave={onPersonNodeMouseLeaveAction}
@@ -146,7 +145,6 @@
 			{compatibleGroups}
 		/>
 		<div
-			id="person-node-content-area"
 			class="{personNodeContentAreaDynamicClass} person-node-content-area"
 		>
 			<BioPhoto personId={sPersonId} allowEdit={false} />

@@ -15,7 +15,6 @@
 
 <div
 	transition:fade={{ duration: stylingConstants.durations.transitionDuration }}
-	id="overlay"
 	class="{overlayDynamicClass} overlay"
 />
 

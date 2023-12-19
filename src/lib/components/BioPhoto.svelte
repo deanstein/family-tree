@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div id="bio-photo-container" class="bio-photo-container">
+<div class="bio-photo-container">
 	<ImageAsyncFromUrl
 		{repoOwner}
 		repoName={dataRepoName}

@@ -29,9 +29,8 @@
 	}
 </script>
 
-<div id="alternate-name-container" class="alternate-name-container">
+<div class="alternate-name-container">
 	<div
-		id="alternate-name"
 		class="{alternateNameDynamicClass} alternate-name"
 		on:click={alternateNameOnClickAction}
 		on:keypress={alternateNameOnClickAction}

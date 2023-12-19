@@ -35,22 +35,21 @@
 	}
 </script>
 
-<div id="header-container" class="{headerContainerDynamicClass} header-container">
-	<div id="header-content" class="header-content">
-		<div id="header-left-flank" class="{headerLeftFlankDynamicClass} header-left-flank" />
-		<div id="header-center" class="header-center">
+<div class="{headerContainerDynamicClass} header-container">
+	<div class="header-content">
+		<div class="{headerLeftFlankDynamicClass} header-left-flank" />
+		<div class="header-center">
 			<img
 				src="./img/family-tree-icon.png"
-				id="family-tree-icon"
 				class={headerLogoContainerDynamicClass}
 				alt="family tree icon"
 			/>
 		</div>
-		<div id="header-right-flank" class="header-right-flank">
+		<div class="header-right-flank">
 			{#if $tempState.nodeActionsModalPersonId === undefined}
 				<SaveStateBanner />
 			{/if}
-			<div id="edit-tree-button-container" class="edit-tree-button-container">
+			<div class="edit-tree-button-container">
 				<Button
 					onClickFunction={buildModeButtonOnClickAction}
 					buttonText={$tempState.buildMode ? 'Done Editing' : 'Edit Tree'}

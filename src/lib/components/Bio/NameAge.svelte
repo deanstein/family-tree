@@ -20,20 +20,20 @@
 	`;
 </script>
 
-<div id="name-age-container" class="name-age-container">
+<div class="name-age-container">
 	{#if isEnabled}
-		<div id="name-enabled" class="name-enabled">
+		<div class="name-enabled">
 			<TextInput bind:inputValue fontSizeOverride="5vh" textAlignOverride="center" />
 		</div>
 	{:else}
-		<div id="name-disabled" class="{nameDisabledDynamicClass} name-disabled">
+		<div class="{nameDisabledDynamicClass} name-disabled">
 			{$uiState.activePerson.name}
 		</div>
 	{/if}
-	<div id="age" class="{ageDynamicClass} age">
+	<div class="{ageDynamicClass} age">
 		{'Age: ' + (isNaN(age) ? '?' : age)}
 	</div>
-	<div id="deceased" class="{ageDynamicClass} age deceased">
+	<div class="{ageDynamicClass} age deceased">
 		{$uiState.activePerson.deceased ? ' (deceased)' : ''}
 	</div>
 </div>
