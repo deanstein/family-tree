@@ -85,10 +85,7 @@
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div
-		class="edit-alt-name-modal-content"
-		slot="modal-content-slot"
-	>
+	<div class="edit-alt-name-modal-content" slot="modal-content-slot">
 		<FieldContainer label="Name">
 			<TextInput {isEnabled} bind:inputValue={nameInputValue} useFunction={focusNameInput} />
 		</FieldContainer>

@@ -10,7 +10,7 @@
 	export let onCheckAction = undefined;
 	export let onUncheckAction = undefined;
 
-	let checkboxLabelDynamicClass = css`
+	let checkboxLabelCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		color: ${stylingConstants.colors.textColor};
 	`;
@@ -27,7 +27,7 @@
 <div class="checkbox-wrapper">
 	<input type="checkbox" bind:checked={isChecked} disabled={!isEnabled} class="checkbox" />
 	{#if showLabel}
-		<div class={checkboxLabelDynamicClass}>
+		<div class={checkboxLabelCss}>
 			{label}
 		</div>
 	{/if}

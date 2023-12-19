@@ -13,7 +13,7 @@
 
 	let textArea;
 
-	const textInputDynamicClass = css`
+	const textInputCss = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		resize: ${resizable};
 		:hover {
@@ -38,7 +38,7 @@
 		bind:value={inputValue}
 		bind:this={textArea}
 		use:useFunction
-		class={textInputDynamicClass}
+		class={textInputCss}
 		disabled={!isEnabled}
 		on:blur={() => autoGrow(textArea)}
 	/>

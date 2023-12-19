@@ -127,7 +127,7 @@
 		setCachedPerson(getPersonById(personId));
 	});
 
-	const bioContentContainerDynamicClass = css`
+	const bioContentContainerCss = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};
 	`;
 </script>
@@ -135,7 +135,7 @@
 {#if isBioEditActive}
 	<Overlay />
 {/if}
-<div class="{bioContentContainerDynamicClass} bio-content-container">
+<div class="bio-content-container {bioContentContainerCss}">
 	<div class="bio-edit-toolbar">
 		<EditBioButton
 			{isBioEditActive}

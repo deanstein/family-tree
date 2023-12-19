@@ -5,18 +5,16 @@
 
 	export let flank; // which side of the middle section should this appear?
 
-	let rowFlankOuterContainerDynamicClass;
+	let rowFlankOuterContainerCss;
 
 	$: {
-		rowFlankOuterContainerDynamicClass = css`
+		rowFlankOuterContainerCss = css`
 			justify-content: ${flank === 'left' ? 'flex-end' : 'flex-start'};
 		`;
 	}
 </script>
 
-<div
-	class="row-flank-outer-container {rowFlankOuterContainerDynamicClass}"
->
+<div class="row-flank-outer-container {rowFlankOuterContainerCss}">
 	<div class="row-flank-inner-container" on:wheel={scrollHorizontal}>
 		<slot />
 	</div>

@@ -37,7 +37,7 @@
 	export let compatibleGroups = undefined;
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
 
-	let personNodeDynamicClass;
+	let personNodeCss;
 	let name;
 	let relationshipLabel;
 	let nodeDivRef;
@@ -54,7 +54,7 @@
 			bIsActivePerson = false;
 		}
 
-		personNodeDynamicClass = css`
+		personNodeCss = css`
 			width: ${sNodeSize};
 			height: ${sNodeSize};
 			z-index: ${$tempState.nodeActionsModalPersonId === sPersonId
@@ -90,7 +90,7 @@
 		removePersonNodePosition(sPersonId);
 	});
 
-	const personNodeContentAreaDynamicClass = css`
+	const personNodeContentAreaCss = css`
 		padding-top: ${stylingConstants.sizes.padding};
 	`;
 
@@ -128,7 +128,7 @@
 
 {#key sPersonId}
 	<div
-		class="person-node {personNodeDynamicClass}"
+		class="person-node {personNodeCss}"
 		on:mouseenter={onPersonNodeMouseEnterAction}
 		on:mouseleave={onPersonNodeMouseLeaveAction}
 		on:click={onPersonNodeClickAction}
@@ -144,9 +144,7 @@
 			{name}
 			{compatibleGroups}
 		/>
-		<div
-			class="{personNodeContentAreaDynamicClass} person-node-content-area"
-		>
+		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto personId={sPersonId} allowEdit={false} />
 			<NameLabel sInputValue={name} {bIsActivePerson} />
 			{#if sPersonId !== $uiState.activePerson.id}

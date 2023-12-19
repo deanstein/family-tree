@@ -11,12 +11,12 @@
 	export let onCancelButtonClick;
 
 	let settingsButtonText;
-	let nodeSettingsButtonDynamicClass;
+	let nodeSettingsButtonCss;
 
 	$: {
 		settingsButtonText = isBioEditActive ? 'Done' : 'Edit Bio';
 
-		nodeSettingsButtonDynamicClass = css`
+		nodeSettingsButtonCss = css`
 			z-index: ${stylingConstants.zIndices.personNodeSettingsZIndex};
 			color: ${isBioEditActive ? 'white' : 'black'};
 			background-color: ${isBioEditActive ? 'green' : 'transparent'};

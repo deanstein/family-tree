@@ -31,14 +31,14 @@
 		setTimelineEditEvent(timelineEvent);
 	};
 
-	let eventRowDynamicClass = css`
+	let eventRowCss = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
 			background-color: ${stylingConstants.colors.timelineEventBackgroundHoverColor};
 		}
 	`;
 
-	const eventDateDynamicClass = css`
+	const eventDateCss = css`
 		font-size: ${stylingConstants.sizes.timelineDateFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
@@ -46,7 +46,7 @@
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
-	const eventYearDynamicClass = css`
+	const eventYearCss = css`
 		font-size: ${stylingConstants.sizes.timelineYearFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
@@ -54,26 +54,26 @@
 		background-color: ${stylingConstants.colors.activeColorSubtle};
 	`;
 
-	const eventNodeDynamicClass = css`
+	const eventNodeCss = css`
 		height: ${stylingConstants.sizes.timelineEventNodeSize};
 		background-color: ${stylingConstants.colors.textColor};
 	`;
 
-	const eventDetailLineDynamicClass = css`
+	const eventDetailLineCss = css`
 		background-color: ${stylingConstants.colors.textColor};
 	`;
 
-	const eventTitleBarDynamicClass = css`
+	const eventTitleBarCss = css`
 		background-color: ${stylingConstants.colors.timelineEventTitleBarColor};
 		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius}
 			${stylingConstants.sizes.bioFieldBorderRadius} 0px 0px;
 	`;
 
-	const eventFaIconDynamicClass = css`
+	const eventFaIconCss = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
 
-	const EventAgeDynamicClass = css`
+	const eventAgeCss = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
 
@@ -102,8 +102,8 @@
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
-			eventRowDynamicClass = css`
-				${eventRowDynamicClass}
+			eventRowCss = css`
+				${eventRowCss}
 				grid-row: ${rowIndex};
 			`;
 
@@ -116,40 +116,37 @@
 </script>
 
 <div
-	class="{eventRowDynamicClass} timeline-event-row"
+	class="timeline-event-row {eventRowCss}"
 	on:click={onTimelineEventClickAction}
 	on:keydown={onTimelineEventClickAction}
 	bind:this={eventRowDivRef}
 >
 	<div class="timeline-event-date-year-container">
-		<div class="{eventDateDynamicClass} timeline-event-date">
+		<div class="timeline-event-date {eventDateCss}">
 			<!-- show month name with three letters like AUG -->
 			{eventDateCorrected.toString() !== 'Invalid Date'
 				? monthNames[eventDateCorrected.getUTCMonth()] + ' ' + eventDateCorrected.getUTCDate()
 				: 'Date?'}
 		</div>
-		<div class="{eventYearDynamicClass} timeline-event-year">
+		<div class="timeline-event-year {eventYearCss}">
 			{eventDateCorrected.toString() !== 'Invalid Date'
 				? eventDateCorrected.getUTCFullYear()
 				: 'Year?'}
 		</div>
 	</div>
-	<div class="{eventNodeDynamicClass} timeline-event-node" />
-	<div class="{eventDetailLineDynamicClass} timeline-event-line" />
+	<div class="timeline-event-node {eventNodeCss}" />
+	<div class="timeline-event-line {eventDetailLineCss}" />
 	<div class="timeline-event-content-outer-container">
-		<div class="{eventTitleBarDynamicClass} timeline-event-title-bar">
-			<i
-				class="{eventFaIconDynamicClass} fa-solid {timelineEventTypes[timelineEvent?.eventType]
-					?.icon}"
-			/>
+		<div class="timeline-event-title-bar {eventTitleBarCss}">
+			<i class="fa-solid {timelineEventTypes[timelineEvent?.eventType]?.icon} {eventFaIconCss}" />
 			<!-- hide age if this is the birth event -->
 			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
-				<div class="{EventAgeDynamicClass} timeline-event-age">
+				<div class="timeline-event-age {eventAgeCss}">
 					{eventAge.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
 		</div>
-		<div class="{eventContentCss} timeline-event-content">
+		<div class="timeline-event-content {eventContentCss}">
 			<div class="timeline-event-description">
 				{timelineEvent?.eventContent.description
 					? timelineEvent?.eventContent.description

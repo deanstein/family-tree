@@ -13,10 +13,10 @@
 	export let overrideFontSize = undefined;
 	export let overridePadding = undefined;
 
-	let buttonDynamicClass;
+	let buttonCss;
 
 	$: {
-		buttonDynamicClass = css`
+		buttonCss = css`
 			font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
 			padding: ${overridePadding ? overridePadding : '1vh'};
 			color: ${overrideColor ? overrideColor : 'white'};
@@ -39,7 +39,7 @@
 	}
 </script>
 
-<button disabled={!isEnabled} on:click={onClickFunction} class={buttonDynamicClass}>
+<button disabled={!isEnabled} on:click={onClickFunction} class={buttonCss}>
 	{buttonText}
 </button>
 

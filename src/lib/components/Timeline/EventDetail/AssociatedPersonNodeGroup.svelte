@@ -21,7 +21,7 @@
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
 
-	const personNodeGroupOuterContainerDynamicClass = css`
+	const personNodeGroupOuterContainerCss = css`
 		gap: ${stylingConstants.sizes.padding};
 	`;
 
@@ -37,9 +37,7 @@
 	}
 </script>
 
-<div
-	class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
->
+<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
 	<MediaGroupHorizontal
 		showEmptyState={personNodeGroupData?.groupMembers?.length === 0 && !showAddButton}
 	>

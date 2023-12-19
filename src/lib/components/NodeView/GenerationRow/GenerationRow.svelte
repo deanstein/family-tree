@@ -3,12 +3,12 @@
 
 	export let rowHeight = '15vh';
 
-	const rowDynamicClass = css`
+	const rowCss = css`
 		height: ${rowHeight};
 	`;
 </script>
 
-<div class="{rowDynamicClass} row">
+<div class="row {rowCss}">
 	<slot name="row-left-flank" />
 	<div class="row-middle-section">
 		<slot name="row-middle-section" />

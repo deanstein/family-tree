@@ -35,7 +35,7 @@
 </script>
 
 <div
-	class="{squareContainerCss} square-container"
+	class="square-container {squareContainerCss}"
 	on:click={onClickFunction}
 	on:keypress={onClickFunction}
 	on:mouseover={onHoverFunction}

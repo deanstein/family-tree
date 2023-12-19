@@ -11,11 +11,11 @@
 	export let inputValue = 'John Doe';
 	export let age = 0;
 
-	const nameDisabledDynamicClass = css`
+	const nameDisabledCss = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
 
-	const ageDynamicClass = css`
+	const ageCss = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
 </script>
@@ -26,14 +26,14 @@
 			<TextInput bind:inputValue fontSizeOverride="5vh" textAlignOverride="center" />
 		</div>
 	{:else}
-		<div class="{nameDisabledDynamicClass} name-disabled">
+		<div class="name-disabled {nameDisabledCss}">
 			{$uiState.activePerson.name}
 		</div>
 	{/if}
-	<div class="{ageDynamicClass} age">
+	<div class="age {ageCss}">
 		{'Age: ' + (isNaN(age) ? '?' : age)}
 	</div>
-	<div class="{ageDynamicClass} age deceased">
+	<div class="age deceased {ageCss}">
 		{$uiState.activePerson.deceased ? ' (deceased)' : ''}
 	</div>
 </div>

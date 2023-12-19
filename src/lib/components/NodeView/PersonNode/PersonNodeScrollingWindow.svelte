@@ -8,9 +8,7 @@
 	export let relationshipId;
 </script>
 
-<div
-	class="person-node-scrolling-window-outer-container"
->
+<div class="person-node-scrolling-window-outer-container">
 	<div
 		class="person-node-scrolling-window-inner-container"
 		on:click|stopPropagation

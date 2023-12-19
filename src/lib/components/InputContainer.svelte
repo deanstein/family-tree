@@ -6,12 +6,12 @@
 	export let label = 'Some Fact or Field Name';
 	export let grow = false;
 
-	const bioFieldContainerDynamicClass = css`
+	const bioFieldContainerCss = css`
 		flex-grow: ${grow ? 1 : 'auto'};
 	`;
 </script>
 
-<div class="{bioFieldContainerDynamicClass} bio-field-container">
+<div class="bio-field-container {bioFieldContainerCss}">
 	<div class="bio-field-content">
 		<FieldLabel {label} />
 		<slot />

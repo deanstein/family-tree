@@ -34,8 +34,8 @@
 	let timelineRowItems = [];
 
 	// dynamic classes using Emotion CSS
-	let timelineEventGridDynamicClass;
-	const timelineEventCountDynamicClass = css`
+	let timelineEventGridCss;
+	const timelineEventCountCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
@@ -115,7 +115,7 @@
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 
 		// ensure custom css is kept updated
-		timelineEventGridDynamicClass = css`
+		timelineEventGridCss = css`
 			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
 		`;
 	}
@@ -123,7 +123,7 @@
 
 <div class="timeline-container">
 	<div class="timeline-actions-bar">
-		<div class="{timelineEventCountDynamicClass} timeline-event-count">
+		<div class="timeline-event-count {timelineEventCountCss}">
 			<!-- birth and death/today are always shown, so add 2 to the count -->
 			Showing {timelineRowItems.length + 2} timeline events
 		</div>
@@ -139,12 +139,9 @@
 	</div>
 	<div class="timeline-content-container">
 		<TimelineSpine />
-		<div
-			class="timeline-scrolling-canvas"
-			bind:this={scrollingCanvasDivRef}
-		>
+		<div class="timeline-scrolling-canvas" bind:this={scrollingCanvasDivRef}>
 			<!-- the vertical line for the timeline -->
-			<div class="{timelineEventGridDynamicClass} timeline-event-grid">
+			<div class="timeline-event-grid {timelineEventGridCss}">
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
 

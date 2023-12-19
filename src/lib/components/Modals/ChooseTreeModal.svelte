@@ -12,7 +12,7 @@
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 
-	const chooseTreeModalGridDynamicClass = css`
+	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			flex-direction: column;
 			gap: 2vh;
@@ -59,9 +59,7 @@
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
 	<div class="choose-tree-modal-content" slot="modal-content-slot">
-		<div
-			class="{chooseTreeModalGridDynamicClass} choose-tree-options-grid"
-		>
+		<div class="choose-tree-options-grid {chooseTreeModalGridCss}">
 			<ChooseTreeOption
 				faIcon={'fa-square-plus'}
 				buttonText={chooseTreeStrings.newTreeButton}
@@ -81,9 +79,7 @@
 				description={chooseTreeStrings.loadTreeDescription}
 			/>
 		</div>
-		<div class="choose-tree-dev-message">
-			This app is in development and may be buggy.
-		</div>
+		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>
 	</div>
 </Modal>
 

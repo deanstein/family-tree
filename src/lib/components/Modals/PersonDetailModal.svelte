@@ -31,9 +31,7 @@
 			<Bio />
 		</div>
 		<div class="person-detail-timeline-container">
-			<div
-				class="person-detail-timeline-content-container"
-			>
+			<div class="person-detail-timeline-content-container">
 				<Timeline />
 			</div>
 		</div>

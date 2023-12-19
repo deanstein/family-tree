@@ -5,12 +5,12 @@
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	let lineDynamicClass = css`
+	let lineCss = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
 		background-color: ${stylingConstants.colors.timelineSpineColor};
 	`;
 
-	const lineColumnDynamicClass = css`
+	const lineColumnCss = css`
 		margin-left: ${stylingConstants.sizes.nTimelineEventNodeSize / 2 +
 		stylingConstants.sizes.nTimelineEventGapSize * 2 +
 		stylingConstants.sizes.nTimelineEventYearWidth -
@@ -19,8 +19,8 @@
 	`;
 
 	$: {
-		lineDynamicClass = css`
-			${lineDynamicClass}
+		lineCss = css`
+			${lineCss}
 			margin-top: ${$uiState.timelineCanvasScrollState.top
 				? $uiState.timelineFirstEventHeight / 2 + 'px'
 				: 0};
@@ -32,8 +32,8 @@
 </script>
 
 <div class="timeline-spine">
-	<div class="{lineColumnDynamicClass} timeline-spine-line-column">
-		<div class="{lineDynamicClass} timeline-spine-line" />
+	<div class="timeline-spine-line-column {lineColumnCss}">
+		<div class="timeline-spine-line {lineCss}" />
 	</div>
 </div>
 

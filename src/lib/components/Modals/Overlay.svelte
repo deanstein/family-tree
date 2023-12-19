@@ -6,7 +6,7 @@
 
 	export let zIndexOverride = undefined;
 
-	const overlayDynamicClass = css`
+	const overlayCss = css`
 		z-index: ${zIndexOverride ? zIndexOverride : stylingConstants.zIndices.personNodeOverlayZIndex};
 		background-color: ${stylingConstants.colors.overlayColor};
 		opacity: ${stylingConstants.colors.overlayOpacity};
@@ -15,7 +15,7 @@
 
 <div
 	transition:fade={{ duration: stylingConstants.durations.transitionDuration }}
-	class="{overlayDynamicClass} overlay"
+	class="overlay {overlayCss}"
 />
 
 <style>

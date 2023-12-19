@@ -5,23 +5,21 @@
 
 	export let relationshipName;
 
-	const relationshipLabelContainerDynamicClass = css`
+	const relationshipLabelContainerCss = css`
 		margin-bottom: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 	`;
 
-	const relationshipLabelDynamicClass = css`
+	const relationshipLabelCss = css`
 		color: ${stylingConstants.colors.textColor};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 	`;
 </script>
 
-<div
-	class="{relationshipLabelContainerDynamicClass} relationship-label-container"
->
-	<div class="{relationshipLabelDynamicClass} relationship-label">
+<div class="relationship-label-container {relationshipLabelContainerCss}">
+	<div class="relationship-label {relationshipLabelCss}">
 		{relationshipName}
 	</div>
 </div>

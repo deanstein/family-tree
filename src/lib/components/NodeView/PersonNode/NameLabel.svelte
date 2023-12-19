@@ -6,22 +6,22 @@
 	export let bIsActivePerson = false;
 	export let sInputValue;
 
-	const nameLabelContainerDynamicClass = css`
+	const nameLabelContainerCss = css`
 		padding-top: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 		padding-bottom: ${bIsActivePerson ? stylingConstants.sizes.padding : '0px'};
 	`;
 
-	const nameLabelDynamicClass = css`
+	const nameLabelCss = css`
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		color: white;
 	`;
 </script>
 
-<div class="{nameLabelContainerDynamicClass} name-label-container">
-	<div class="{nameLabelDynamicClass} name-label">
+<div class="name-label-container {nameLabelContainerCss}">
+	<div class="name-label {nameLabelCss}">
 		{bIsActivePerson ? sInputValue.toUpperCase() : sInputValue}
 	</div>
 </div>

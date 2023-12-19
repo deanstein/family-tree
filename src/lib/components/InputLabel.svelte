@@ -5,14 +5,14 @@
 
 	export let label = 'Fact Label';
 
-	let fieldLabelDynamicClass = css`
+	let fieldLabelCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		color: ${stylingConstants.colors.textColor};
 	`;
 </script>
 
 <div class="bio-fact-label-container">
-	<div class={fieldLabelDynamicClass}>
+	<div class={fieldLabelCss}>
 		{label}
 	</div>
 </div>

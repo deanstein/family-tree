@@ -12,7 +12,7 @@
 	export let useFunction = (element) => {};
 	export let onKeyUpFunction = (event) => {};
 
-	const textInputDynamicClass = css`
+	const textInputCss = css`
 		min-height: ${stylingConstants.sizes.bioFieldHeight};
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
 		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
@@ -33,7 +33,7 @@
 		bind:value={inputValue}
 		use:useFunction
 		on:keyup={onKeyUpFunction}
-		class={textInputDynamicClass}
+		class={textInputCss}
 		disabled={!isEnabled}
 	/>
 </div>

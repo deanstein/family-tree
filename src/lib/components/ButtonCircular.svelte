@@ -28,7 +28,7 @@
 
 <div class="circular-button-container">
 	<div
-		class="{circularButtonCss} circular-button"
+		class="circular-button {circularButtonCss}"
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 	>

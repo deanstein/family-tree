@@ -5,14 +5,14 @@
 
 	export let groupTitle = 'Group title';
 
-	const personNodeGroupTitleDynamicClass = css`
+	const personNodeGroupTitleCss = css`
 		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
 		background-color: ${stylingConstants.colors.nodeGroupHeaderColor};
 	`;
 </script>
 
-<div class="{personNodeGroupTitleDynamicClass} media-group-title">
+<div class="media-group-title {personNodeGroupTitleCss}">
 	{groupTitle}
 </div>
 

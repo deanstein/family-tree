@@ -11,7 +11,7 @@
 	export let inputValue;
 	export let textAlignOverride = undefined;
 
-	const selectDynamicClass = css`
+	const selectCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
 		border: 2px solid ${stylingConstants.colors.activeColor};
@@ -25,12 +25,7 @@
 </script>
 
 <div class="select-container">
-	<select
-		class={selectDynamicClass}
-		bind:value={inputValue}
-		on:click|stopPropagation
-		disabled={!isEnabled}
-	>
+	<select class={selectCss} bind:value={inputValue} on:click|stopPropagation disabled={!isEnabled}>
 		{#each Object.entries(optionsGroupObject) as [category, items]}
 			{#if items.hasOwnProperty(optionLabelKey)}
 				<optgroup label={items[optionLabelKey]}>

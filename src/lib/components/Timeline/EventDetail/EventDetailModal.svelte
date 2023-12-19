@@ -191,10 +191,7 @@
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
 >
-	<div
-		class="edit-timeline-event-modal-content"
-		slot="modal-content-slot"
-	>
+	<div class="edit-timeline-event-modal-content" slot="modal-content-slot">
 		<!-- modal content will depend on the event type -->
 
 		<!-- birth -->
@@ -252,7 +249,7 @@
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</InputContainer>
 			<InputContainer label="Images">
-				<div class="{mediaContentContainerCss} media-content-container">
+				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
 						images={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
@@ -262,7 +259,7 @@
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
-				<div class="{mediaContentContainerCss} media-content-container">
+				<div class="media-content-container {mediaContentContainerCss}">
 					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
 				</div>
 			</InputContainer>

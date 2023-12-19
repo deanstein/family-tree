@@ -35,7 +35,7 @@
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
 
-	const personNodeForSelectDynamicClass = css`
+	const personNodeForSelectCss = css`
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
 		background-color: ${stylingConstants.colors.personNodeColor};
@@ -46,7 +46,7 @@
 </script>
 
 <div
-	class="person-node {personNodeForSelectDynamicClass}"
+	class="person-node {personNodeForSelectCss}"
 	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >

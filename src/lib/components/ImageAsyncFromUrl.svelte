@@ -182,7 +182,7 @@
 			: getExtensionFromUrl(imageUrl);
 	}
 
-	const editButtonDynamicClass = css`
+	const editButtonCss = css`
 		background-color: ${stylingConstants.colors.buttonColorPrimary};
 		:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
@@ -199,7 +199,7 @@
 	{#if allowEdit}
 		<div class="image-actions-container">
 			<div
-				class="{editButtonDynamicClass} image-action-button"
+				class="image-action-button {editButtonCss}"
 				on:click={onEditButtonClick}
 				on:keypress={onEditButtonClick}
 				title="Choose another photo"
@@ -209,7 +209,7 @@
 			<!-- only show the delete button if the recorded url is valid -->
 			{#if isUrlValid(imageUrl)}
 				<div
-					class="{editButtonDynamicClass} image-action-button"
+					class="image-action-button {editButtonCss} "
 					on:click={onDeleteButtonClick}
 					on:keypress={onDeleteButtonClick}
 				>
@@ -217,12 +217,7 @@
 				</div>
 			{/if}
 		</div>
-		<input
-			type="file"
-			style="display: none;"
-			on:change={handleFileUpload}
-			bind:this={fileInput}
-		/>
+		<input type="file" style="display: none;" on:change={handleFileUpload} bind:this={fileInput} />
 	{/if}
 </div>
 

@@ -10,7 +10,7 @@
 	export let buttonFunction;
 	export let description;
 
-	const treeOptionContainerDynamicClass = css`
+	const treeOptionContainerCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			flex-direction: column;
 			padding-top: 10px;
@@ -26,7 +26,7 @@
 		}
 	`;
 
-	const buttonAndIconContainerDynamicClass = css`
+	const buttonAndIconContainerCss = css`
 		&:hover .fa-solid {
 			color: ${stylingConstants.colors.hoverColor};
 		}
@@ -36,15 +36,15 @@
 		}
 	`;
 
-	const iconContainerDynamicClass = css`
+	const iconContainerCss = css`
 		padding: ${stylingConstants.sizes.padding};
 	`;
 
-	const iconDynamicClass = css`
+	const iconCss = css`
 		color: ${stylingConstants.colors.activeColor};
 	`;
 
-	const treeDescriptionDynamicClass = css`
+	const treeDescriptionCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
 			position: relative;
 		}
@@ -58,20 +58,18 @@
 	`;
 </script>
 
-<div class="{treeOptionContainerDynamicClass} tree-option-container">
-	<div
-		class="{buttonAndIconContainerDynamicClass} button-and-icon-container"
-	>
+<div class="tree-option-container {treeOptionContainerCss}">
+	<div class="button-and-icon-container {buttonAndIconContainerCss}">
 		<div
-			class="{iconContainerDynamicClass} icon-container"
+			class="icon-container {iconContainerCss}"
 			on:click={buttonFunction}
 			on:keypress={buttonFunction}
 		>
-			<i class="{iconDynamicClass} fa-solid {faIcon}" />
+			<i class="fa-solid {faIcon} {iconCss}" />
 		</div>
 		<Button {buttonText} onClickFunction={buttonFunction} />
 	</div>
-	<div class="{treeDescriptionDynamicClass} tree-description">
+	<div class="tree-description {treeDescriptionCss}">
 		{description}
 	</div>
 </div>

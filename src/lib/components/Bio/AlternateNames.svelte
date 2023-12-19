@@ -22,14 +22,14 @@
 		setEditAltName(newAlternateName);
 	};
 
-	let altNamesContainerDynamicClass = css`
+	let altNamesContainerCss = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 	`;
 
-	let altNamesContainerDisabledDynamicClass = css`
+	let altNamesContainerDisabledCss = css`
 		border: 2px solid transparent;
 		border-radius: ${stylingConstants.sizes.bioFieldBorderRadius};
 		:hover {
@@ -39,9 +39,7 @@
 </script>
 
 <div
-	class="{isEnabled
-		? altNamesContainerDynamicClass
-		: altNamesContainerDisabledDynamicClass} bio-alt-names-container"
+	class="bio-alt-names-container {isEnabled ? altNamesContainerCss : altNamesContainerDisabledCss} "
 >
 	<div class="alt-names-scrollable-container">
 		{#each isEnabled ? $tempState.bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}

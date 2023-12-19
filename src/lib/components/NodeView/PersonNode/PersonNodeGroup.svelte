@@ -39,18 +39,18 @@
 		);
 	};
 
-	const personNodeGroupPlusButtonDynamicClass = css`
+	const personNodeGroupPlusButtonCss = css`
 		background-color: ${stylingConstants.colors.nodeGroupColor};
 		gap: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
 	`;
 
-	const personNodeGroupOuterContainerDynamicClass = css`
+	const personNodeGroupOuterContainerCss = css`
 		height: ${stylingConstants.sizes.personNodeGroupHeight};
 		gap: ${stylingConstants.sizes.padding};
 	`;
-	const personNodeGroupTitleDynamicClass = css`
+	const personNodeGroupTitleCss = css`
 		font-size: ${stylingConstants.sizes.personNodeGroupFontSize};
 		height: ${stylingConstants.sizes.personNodeGroupTitleHeight};
 		background-color: ${stylingConstants.colors.nodeGroupHeaderColor};
@@ -58,13 +58,9 @@
 </script>
 
 {#if $tempState.buildMode || personNodeGroupData.groupMembers.length > 0}
-	<div class="{personNodeGroupPlusButtonDynamicClass} person-node-group-plus-button">
-		<div
-			class="{personNodeGroupOuterContainerDynamicClass} person-node-group-outer-container"
-		>
-			<div
-				class="{personNodeGroupTitleDynamicClass} person-node-group-title"
-			>
+	<div class="person-node-group-plus-button {personNodeGroupPlusButtonCss}">
+		<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
+			<div class="person-node-group-title {personNodeGroupTitleCss}">
 				{personNodeGroupData.groupName}
 			</div>
 			<div class="person-node-group-inner-container">

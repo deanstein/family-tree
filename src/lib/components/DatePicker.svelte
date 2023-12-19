@@ -11,7 +11,7 @@
 		inputValue = event.target.value;
 	}
 
-	let datePickerDynamicClass = css`
+	let datePickerCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		color: ${stylingConstants.colors.textColor};
 		border: 2px solid ${stylingConstants.colors.activeColor};
@@ -31,7 +31,7 @@
 		bind:value={inputValue}
 		on:input={handleDateChange}
 		on:keyup={onKeyUpFunction}
-		class="{datePickerDynamicClass} date-picker"
+		class="date-picker {datePickerCss}"
 	/>
 </div>
 

@@ -7,14 +7,14 @@
 	export let alternateName;
 	export let isEnabled;
 
-	let alternateNameDynamicClass;
+	let alternateNameCss;
 
 	const alternateNameOnClickAction = () => {
 		setEditAltName(alternateName);
 	};
 
 	$: {
-		alternateNameDynamicClass = css`
+		alternateNameCss = css`
 			color: ${isEnabled ? 'white' : 'black'};
 			font-size: ${stylingConstants.sizes.bioFieldFontSize};
 			background-color: ${isEnabled
@@ -31,7 +31,7 @@
 
 <div class="alternate-name-container">
 	<div
-		class="{alternateNameDynamicClass} alternate-name"
+		class="alternate-name {alternateNameCss}"
 		on:click={alternateNameOnClickAction}
 		on:keypress={alternateNameOnClickAction}
 	>

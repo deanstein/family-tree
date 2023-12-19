@@ -25,7 +25,7 @@
 </script>
 
 <div
-	class="{imageThumbnailContainerCss} image-thumbnail-container"
+	class="image-thumbnail-container {imageThumbnailContainerCss}"
 	on:click|stopPropagation={onClickFunction}
 	on:keypress|stopPropagation={onClickFunction}
 >

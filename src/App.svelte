@@ -63,19 +63,19 @@
 		redrawNodeConnectionLines($uiState.activePerson.id);
 	});
 
-	const appContainerDynamicClass = css`
+	const appContainerCss = css`
 		a {
 		color: ${stylingConstants.colors.hyperlinkColor};
 		}
 	}
 	`;
 
-	const treeContentDynamicClass = css`
+	const treeContentCss = css`
 		height: ${100 - stylingConstants.sizes.nHeaderHeight + 'vh'};
 		gap: ${stylingConstants.sizes.generationRowGap};
 	`;
 
-	const generationBlockDynamicClass = css`
+	const generationBlockCss = css`
 		gap: ${stylingConstants.sizes.generationRowGap};
 	`;
 
@@ -107,11 +107,7 @@
 	<script src="https://kit.fontawesome.com/6cf50e6673.js" crossorigin="anonymous"></script>
 </head>
 <main>
-	<div
-		id="app-container"
-		class="app-container {appContainerDynamicClass}"
-		on:contextmenu={blockContextMenu}
-	>
+	<div id="app-container" class="app-container {appContainerCss}" on:contextmenu={blockContextMenu}>
 		<ChooseTreeModal />
 		{#if $tempState.mediaGalleryActiveId !== undefined}
 			<MediaGallery />
@@ -133,13 +129,10 @@
 			<TimelineEventImageDetailModal />
 		{/if}
 		<Header />
-		<div class="{treeContentDynamicClass} tree-content">
+		<div class="tree-content {treeContentCss}">
 			<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
-			<canvas
-				class="tree-canvas"
-				bind:this={personNodeConnectionLineCanvasRefHover}
-			/>
-			<div class="{generationBlockDynamicClass} generation-block">
+			<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
+			<div class="generation-block {generationBlockCss}">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -239,7 +232,7 @@
 				</GenerationRow>
 			</div>
 
-			<div class="{generationBlockDynamicClass} generation-block">
+			<div class="generation-block {generationBlockCss}">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup
@@ -276,10 +269,7 @@
 						/>
 					</ScrollingRowFlank>
 
-					<div
-						slot="row-middle-section"
-						class="active-person-container"
-					>
+					<div slot="row-middle-section" class="active-person-container">
 						<PersonNode
 							sPersonId={$uiState.activePerson.id}
 							sNodeSize={stylingConstants.sizes.personNodeActiveSize}
@@ -323,7 +313,7 @@
 				</GenerationRow>
 			</div>
 
-			<div class="{generationBlockDynamicClass} generation-block">
+			<div class="generation-block {generationBlockCss}">
 				<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 					<ScrollingRowFlank flank={'left'} slot="row-left-flank">
 						<PersonNodeGroup

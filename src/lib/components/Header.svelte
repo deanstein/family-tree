@@ -12,22 +12,22 @@
 	import Button from '$lib/components/Button.svelte';
 	import SaveStateBanner from '$lib/components/Notifications/SaveStateBanner.svelte';
 
-	let headerLeftFlankDynamicClass;
+	let headerLeftFlankCss;
 
 	const buildModeButtonOnClickAction = () => {
 		toggleBuildMode();
 	};
 
-	const headerContainerDynamicClass = css`
+	const headerContainerCss = css`
 		height: ${stylingConstants.sizes.headerHeight};
 	`;
 
-	const headerLogoContainerDynamicClass = css`
+	const headerLogoContainerCss = css`
 		height: ${stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'};
 	`;
 
 	$: {
-		headerLeftFlankDynamicClass = css`
+		headerLeftFlankCss = css`
 			flex: ${$uiState.saveToRepoStatus === repoStateStrings.undefined || !$uiState.saveToRepoStatus
 				? 1
 				: 0};
@@ -35,15 +35,11 @@
 	}
 </script>
 
-<div class="{headerContainerDynamicClass} header-container">
+<div class="header-container {headerContainerCss}">
 	<div class="header-content">
-		<div class="{headerLeftFlankDynamicClass} header-left-flank" />
+		<div class="header-left-flank {headerLeftFlankCss}" />
 		<div class="header-center">
-			<img
-				src="./img/family-tree-icon.png"
-				class={headerLogoContainerDynamicClass}
-				alt="family tree icon"
-			/>
+			<img src="./img/family-tree-icon.png" class={headerLogoContainerCss} alt="family tree icon" />
 		</div>
 		<div class="header-right-flank">
 			{#if $tempState.nodeActionsModalPersonId === undefined}

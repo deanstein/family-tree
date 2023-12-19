@@ -25,7 +25,7 @@
 	export let nodeSize = stylingConstants.sizes.personNodeSize;
 	export let isNewPerson = undefined;
 
-	let personNodeDynamicClass;
+	let personNodeCss;
 
 	const useFunction = (element) => {
 		element.focus();
@@ -46,7 +46,7 @@
 	});
 
 	$: {
-		personNodeDynamicClass = css`
+		personNodeCss = css`
 			width: ${nodeSize};
 			height: ${nodeSize};
 			background-color: ${stylingConstants.colors.personNodeColor};
@@ -54,17 +54,13 @@
 		`;
 	}
 
-	const personNodeContentAreaDynamicClass = css`
+	const personNodeContentAreaCss = css`
 		margin-top: ${stylingConstants.sizes.padding};
 	`;
 </script>
 
-<div
-	class="person-node {personNodeDynamicClass}"
->
-	<div
-		class="{personNodeContentAreaDynamicClass} person-node-content-area"
-	>
+<div class="person-node {personNodeCss}">
+	<div class="person-node-content-area {personNodeContentAreaCss}">
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
 
 		<div class="person-node-inputs-container">

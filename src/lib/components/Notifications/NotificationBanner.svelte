@@ -8,10 +8,10 @@
 	export let standalone = true; // set to false if included in a header already in a fixed position
 	// TODO: export let showCloseButton = true;
 
-	let headerContainerDynamicClass;
+	let headerContainerCss;
 
 	$: {
-		headerContainerDynamicClass = css`
+		headerContainerCss = css`
 			z-index: ${stylingConstants.zIndices.notificationZIndex};
 			background-color: ${color};
 			position: ${standalone ? 'fixed' : 'relative'};
@@ -19,9 +19,7 @@
 	}
 </script>
 
-<div
-	class="notification-banner-outer-container {headerContainerDynamicClass}"
->
+<div class="notification-banner-outer-container {headerContainerCss}">
 	{message}
 	<div class="notification-button-container">
 		<slot />
