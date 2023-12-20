@@ -205,8 +205,8 @@
 		<div class="image-actions-container">
 			<div
 				class="image-action-button {editButtonCss}"
-				on:click={onEditButtonClick}
-				on:keypress={onEditButtonClick}
+				on:click|stopPropagation={onEditButtonClick}
+				on:keypress|stopPropagation={onEditButtonClick}
 				title="Choose another photo"
 			>
 				<i class="fa-solid {imageEditFaIcon}" />
@@ -215,8 +215,8 @@
 			{#if isUrlValid(imageUrl)}
 				<div
 					class="image-action-button {editButtonCss} "
-					on:click={onDeleteButtonClick}
-					on:keypress={onDeleteButtonClick}
+					on:click|stopPropagation={onDeleteButtonClick}
+					on:keypress|stopPropagation={onDeleteButtonClick}
 				>
 					<i class="fa-solid {imageDeleteFaIcon}" />
 				</div>
@@ -262,7 +262,6 @@
 	}
 
 	.image-action-button {
-		font-size: 1.5em;
 		height: 30%;
 		aspect-ratio: 1;
 		border-radius: 50%;
