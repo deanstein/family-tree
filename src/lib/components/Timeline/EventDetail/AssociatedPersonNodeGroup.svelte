@@ -40,8 +40,8 @@
 	}
 </script>
 
-<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
-	{#if associatedPeopleIds.length === 0 && showEmptyState}
+<div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
+	{#if associatedPeopleIds.length === 0 && showEmptyState && !showAddButton}
 		<EmptyMediaSquare />
 	{/if}
 	{#if showGroupTitle}
@@ -57,13 +57,11 @@
 </div>
 
 <style>
-	.person-node-group-outer-container {
+	.associated-node-group-outer-container {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
 	}
 
-	.person-node-group-inner-container {
+	.associated-node-group-inner-container {
 		display: flex;
 		flex-direction: row;
 		gap: 1vh;

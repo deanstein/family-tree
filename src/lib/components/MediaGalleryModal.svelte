@@ -46,6 +46,7 @@
 			<div class="media-gallery-thumbnail-container">
 				<ImageThumbnailGroup
 					showGroupTitle={false}
+					showAddButton={false}
 					imageArray={$tempState.mediaGalleryActiveContentArray}
 				/>
 			</div>
