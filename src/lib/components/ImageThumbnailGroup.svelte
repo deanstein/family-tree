@@ -19,7 +19,7 @@
 </script>
 
 <div class="image-thumbnail-group-outer-container">
-	{#if imageArray.length === 0 && showEmptyState}
+	{#if imageArray.length === 0 && showEmptyState && !showAddButton}
 		<EmptyMediaSquare />
 	{/if}
 	{#if showGroupTitle}
