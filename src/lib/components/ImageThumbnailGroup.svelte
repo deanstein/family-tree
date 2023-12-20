@@ -1,42 +1,58 @@
 <script>
-	import { setMediaGalleryActiveContent, setMediaGalleryActiveId } from '$lib/temp-management';
+	import {
+		setMediaGalleryActiveContent,
+		setMediaGalleryActiveContentArray,
+		setMediaGalleryActiveId
+	} from '$lib/temp-management';
 
 	import AddButtonSquare from '$lib/components/ButtonCircularInSquare.svelte';
+	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 	import ImageThumbnail from '$lib/components/ImageThumbnail.svelte';
-	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
 
-	export let images = [];
+	export let imageArray = [];
+	export let showEmptyState = true;
 	export let showGroupTitle = true;
+	export let groupTitle = 'Image Group';
 	export let showAddButton = true;
 	export let onClickAddButton = () => {};
 </script>
 
 <div class="image-thumbnail-group-outer-container">
-	{#if showGroupTitle}
-		<MediaGroupTitle groupTitle="Images" />
+	{#if imageArray.length === 0 && showEmptyState}
+		<EmptyMediaSquare />
 	{/if}
-
-	<MediaGroupHorizontal showEmptyState={images?.length === 0 && !showAddButton}>
+	{#if showGroupTitle}
+		<MediaGroupTitle {groupTitle} />
+	{/if}
+	<div class="image-thumbnail-group-inner-container">
 		{#if showAddButton}
 			<AddButtonSquare onClickFunction={onClickAddButton} />
 		{/if}
-		{#if images}
-			{#each images as image}
+		{#if imageArray}
+			{#each imageArray as image}
 				<ImageThumbnail
 					imageContent={image}
 					onClickFunction={() => {
 						setMediaGalleryActiveId(image.id);
 						setMediaGalleryActiveContent(image);
+						setMediaGalleryActiveContentArray(imageArray);
 					}}
 				/>
 			{/each}
 		{/if}
-	</MediaGroupHorizontal>
+	</div>
 </div>
 
 <style>
 	.image-thumbnail-group-outer-container {
+		display: flex;
+		flex-direction: column;
 		width: 100%;
+		gap: 8px;
+	}
+	.image-thumbnail-group-inner-container {
+		display: flex;
+		gap: 8px;
 	}
 </style>

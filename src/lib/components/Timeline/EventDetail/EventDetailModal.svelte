@@ -251,7 +251,7 @@
 			<InputContainer label="Images">
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
-						images={$tempState?.timelineEditEvent?.eventContent?.images}
+						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={isInEditMode}
 						onClickAddButton={onClickAddImageButton}

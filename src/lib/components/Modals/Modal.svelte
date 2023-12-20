@@ -25,7 +25,8 @@
 	const [send, receive] = drawCrossfade(stylingConstants.durations.transitionDuration);
 
 	const modalOuterContainerCss = css`
-		z-index: ${zIndex}`
+		z-index: ${zIndex};
+	`;
 
 	const modalContentContainerCss = css`
 		width: ${width};
@@ -57,7 +58,11 @@
 </script>
 
 {#if showModal}
-	<div in:receive={{ key: showModal }} out:send={{ key: showModal }} class="modal-outer-container {modalOuterContainerCss}">
+	<div
+		in:receive={{ key: showModal }}
+		out:send={{ key: showModal }}
+		class="modal-outer-container {modalOuterContainerCss}"
+	>
 		<div class="modal-content-container {modalContentContainerCss}">
 			{#if title || showCloseButton}
 				<div class="modal-title-bar-container {modalTitleBarContainerCss}">

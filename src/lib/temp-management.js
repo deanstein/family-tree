@@ -66,6 +66,18 @@ export const unsetMediaGalleryActiveContent = () => {
 		return currentValue;
 	});
 };
+export const setMediaGalleryActiveContentArray = (mediaContentArray) => {
+	tempState.update((currentValue) => {
+		currentValue.mediaGalleryActiveContentArray = mediaContentArray;
+		return currentValue;
+	});
+};
+export const unsetMediaGalleryActiveContentArray = () => {
+	tempState.update((currentValue) => {
+		currentValue.mediaGalleryActiveContentArray = undefined;
+		return currentValue;
+	});
+};
 
 // manage the image cache
 // image identifier could be a path or a GitHub url

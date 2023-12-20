@@ -36,7 +36,7 @@ const tempState = {
 	// if set, the media gallery displays this media content
 	mediaGalleryActiveContent: undefined,
 	// if set, the media gallery displays these media items in the thumbnail group
-	mediaGalleryContentArray: undefined,
+	mediaGalleryActiveContentArray: undefined,
 
 	// if set, the image editing modal is displayed
 	imageEditId: undefined,

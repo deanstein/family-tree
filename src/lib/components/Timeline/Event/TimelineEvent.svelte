@@ -156,7 +156,7 @@
 				<div class="timeline-event-image-preview">
 					<!-- show a few of the timeline event images, if there are any -->
 					<ImageThumbnailGroup
-						images={timelineEvent?.eventContent?.images}
+						imageArray={timelineEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={false}
 					/>

@@ -184,7 +184,8 @@
 	}
 
 	const imageCss = css`
-		object-fit: ${imageFit}`
+		object-fit: ${imageFit};
+	`;
 
 	const editButtonCss = css`
 		background-color: ${stylingConstants.colors.buttonColorPrimary};
