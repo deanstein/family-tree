@@ -13,6 +13,7 @@
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
 
 	export let imageContent;
+	export let allowEdit = false;
 	export let onClickFunction = () => {};
 
 	const imageThumbnailContainerCss = css`
@@ -35,7 +36,7 @@
 		password={tempPw}
 		imageUrl={imageContent.url}
 		{imagePlaceholderSrc}
-		allowEdit={false}
+		{allowEdit}
 	/>
 </div>
 

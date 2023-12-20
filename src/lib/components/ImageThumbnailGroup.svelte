@@ -11,6 +11,7 @@
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
 
 	export let imageArray = [];
+	export let allowEdit = false;
 	export let showEmptyState = true;
 	export let showGroupTitle = true;
 	export let groupTitle = 'Image Group';
@@ -33,6 +34,7 @@
 			{#each imageArray as image}
 				<ImageThumbnail
 					imageContent={image}
+					{allowEdit}
 					onClickFunction={() => {
 						setMediaGalleryActiveId(image.id);
 						setMediaGalleryActiveContent(image);
