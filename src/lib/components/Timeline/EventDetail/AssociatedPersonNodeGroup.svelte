@@ -13,8 +13,11 @@
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
-	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
+	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
+	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 
+	export let associatedPeopleIds = [];
+	export let showEmptyState = true;
 	export let showGroupTitle = true;
 	export let showAddButton = true;
 
@@ -37,33 +40,28 @@
 	}
 </script>
 
-<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
-	<MediaGroupHorizontal
-		showEmptyState={personNodeGroupData?.groupMembers?.length === 0 && !showAddButton}
-	>
-		{#if showGroupTitle}
-			<MediaGroupTitle groupTitle={'With'} />
-		{/if}
+<div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
+	{#if associatedPeopleIds.length === 0 && showEmptyState && !showAddButton}
+		<EmptyMediaSquare />
+	{/if}
+	{#if showGroupTitle}
+		<MediaGroupTitle groupTitle={'With'} />
+	{/if}
 
-		{#if showAddButton}
-			<ButtonCircularInSquare />
-		{/if}
-		<!-- {#each personNodeGroupData.groupMembers as groupMember}
-				<PersonNode
-
-				/>
-			{/each} -->
-	</MediaGroupHorizontal>
+	{#if showAddButton}
+		<ButtonCircularInSquare />
+	{/if}
+	{#each associatedPeopleIds as personId}
+		<PersonNode sPersonId={personId} />
+	{/each}
 </div>
 
 <style>
-	.person-node-group-outer-container {
+	.associated-node-group-outer-container {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
 	}
 
-	.person-node-group-inner-container {
+	.associated-node-group-inner-container {
 		display: flex;
 		flex-direction: row;
 		gap: 1vh;

@@ -10,7 +10,7 @@
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import Modal from '$lib/components/Modals/Modal.svelte';
-	import MediaGroupHorizontal from '$lib/components/MediaGroupHorizontal.svelte';
+	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
 	import { unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
 
@@ -34,17 +34,21 @@
 		<div class="media-gallery-content" slot="modal-content-slot">
 			<div class="image-container">
 				<ImageAsyncFromUrl
-				{repoOwner}
-				repoName={dataRepoName}
-				password={tempPw}
-				imageUrl={$tempState?.mediaGalleryActiveContent?.url}
-				{imagePlaceholderSrc}
-				allowEdit={false}
-				imageFit="contain"
-			/>
+					{repoOwner}
+					repoName={dataRepoName}
+					password={tempPw}
+					imageUrl={$tempState?.mediaGalleryActiveContent?.url}
+					{imagePlaceholderSrc}
+					allowEdit={false}
+					imageFit="contain"
+				/>
 			</div>
 			<div class="media-gallery-thumbnail-container">
-				<MediaGroupHorizontal />
+				<ImageThumbnailGroup
+					showGroupTitle={false}
+					showAddButton={false}
+					imageArray={$tempState.mediaGalleryActiveContentArray}
+				/>
 			</div>
 		</div>
 	</Modal>

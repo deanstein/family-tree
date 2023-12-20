@@ -40,7 +40,7 @@
 	import PersonNodeGroup from '$lib/components/NodeView/PersonNode/PersonNodeGroup.svelte';
 	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
-	import MediaGallery from '$lib/components/MediaGallery.svelte';
+	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
 
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -110,7 +110,7 @@
 	<div id="app-container" class="app-container {appContainerCss}" on:contextmenu={blockContextMenu}>
 		<ChooseTreeModal />
 		{#if $tempState.mediaGalleryActiveId !== undefined}
-			<MediaGallery />
+			<MediaGalleryModal />
 		{/if}
 		{#if $tempState.nodeActionsModalPersonId !== undefined}
 			<NodeActionsModal
