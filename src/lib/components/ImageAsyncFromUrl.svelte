@@ -262,7 +262,8 @@
 	}
 
 	.image-action-button {
-		height: 30%;
+		height: 25%;
+		max-height: 10vh;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		opacity: 80%;

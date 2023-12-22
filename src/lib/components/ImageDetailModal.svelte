@@ -24,7 +24,6 @@
 	import TextArea from '$lib/components/TextArea.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 
-	export let isNewImage;
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
 	export let afterDeleteFunction;
@@ -119,18 +118,9 @@
 				/>
 				<Button buttonText={'Close'} onClickFunction={onClickCloseButton} />
 			{:else}
-				{#if !isNewImage}
-					<Button
-						buttonText="Delete"
-						onClickFunction={onClickDeleteButton}
-						overrideColor={stylingConstants.colors.buttonColorDelete}
-						overrideBackgroundColor="transparent"
-						overrideBackgroundColorHover="{stylingConstants.colors.buttonColorDelete};"
-					/>
-				{/if}
 				<Button
 					buttonText={'Cancel'}
-					onClickFunction={isNewImage ? onClickCancelNewImageButton : onClickCancelEditButton}
+					onClickFunction={isUrlValid ? onClickCancelEditButton : onClickCancelNewImageButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
 				<Button

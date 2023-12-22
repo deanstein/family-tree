@@ -29,14 +29,14 @@ const pathPrefixTimelineEventId = 'event';
 const pathPrefixTimelineEventImageId = 'event-image';
 
 export const getBioPhotoPathNoExt = () => {
-	// @ts-expect-error
 	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		// @ts-expect-error
 		getActivePerson().id
 	}/${bioPhotoFileName}`;
 };
 export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
-	// @ts-expect-error
 	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		// @ts-expect-error
 		getActivePerson().id
 	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
 };

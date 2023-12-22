@@ -11,7 +11,6 @@
 	import ImageDetailModal from '$lib/components/ImageDetailModal.svelte';
 
 	let imageUploadPathNoExt; // folder path (no file name)
-	let isNewImage;
 
 	// after upload function depends on what kind of image
 	const afterUploadFunction = () => {
@@ -23,12 +22,6 @@
 	};
 
 	$: {
-		// if this image id is not found in the active person's timeline events, it's a new image
-		isNewImage = !getObjectByKeyValueInArray(
-			$tempState?.timelineEditEvent?.eventContent?.images,
-			'id',
-			$tempState.imageEditId
-		);
 		// keep the upload path updated, based on the event and image id
 		imageUploadPathNoExt = getTimelineEventPhotoPathNoExt(
 			$tempState?.imageEditContent?.eventId,
@@ -37,4 +30,4 @@
 	}
 </script>
 
-<ImageDetailModal {imageUploadPathNoExt} {isNewImage} {afterUploadFunction} {afterDeleteFunction} />
+<ImageDetailModal {imageUploadPathNoExt} {afterUploadFunction} {afterDeleteFunction} />
