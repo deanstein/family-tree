@@ -12,7 +12,12 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
-	import { setImageEditContent, setImageEditId, unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
+	import {
+		setImageEditContent,
+		setImageEditId,
+		unsetMediaGalleryActiveContent,
+		unsetMediaGalleryActiveId
+	} from '$lib/temp-management';
 	import Button from './Button.svelte';
 
 	const onClickEditButton = () => {
@@ -20,7 +25,7 @@
 		setImageEditContent($tempState.mediaGalleryActiveContent);
 		unsetMediaGalleryActiveId();
 		unsetMediaGalleryActiveContent();
-	}
+	};
 
 	const onClickCloseButton = () => {
 		unsetMediaGalleryActiveId();
@@ -41,7 +46,7 @@
 	>
 		<div class="media-gallery-content" slot="modal-content-slot">
 			<div class="image-actions-bar">
-				<Button buttonText={"Edit Image"} onClickFunction={onClickEditButton}/>
+				<Button buttonText={'Edit Image'} onClickFunction={onClickEditButton} />
 			</div>
 			<div class="image-container">
 				<ImageAsyncFromUrl

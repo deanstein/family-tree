@@ -309,7 +309,7 @@ export const getExtensionFromFileNameOrPath = (fileName) => {
 
 export const removeExtensionFromFileNameOrPath = (fileName) => {
 	return fileName.split('.').slice(0, -1).join('.');
-}
+};
 
 export const getMIMEType = (binaryData) => {
 	if (!binaryData) {

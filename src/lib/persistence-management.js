@@ -1,7 +1,12 @@
 import familyTreeData from './stores/family-tree-data';
 import uiState from './stores/ui-state';
 
-import { getActiveFamilyTreeDataName, getRepoFamilyTreeAndSetActive, getActivePerson, setRepoState } from '$lib/ui-management';
+import {
+	getActiveFamilyTreeDataName,
+	getRepoFamilyTreeAndSetActive,
+	getActivePerson,
+	setRepoState
+} from '$lib/ui-management';
 import { decrypt } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
@@ -25,12 +30,16 @@ const pathPrefixTimelineEventImageId = 'event-image';
 
 export const getBioPhotoPathNoExt = () => {
 	// @ts-expect-error
-	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${getActivePerson().id}/${bioPhotoFileName}`;
-}
+	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		getActivePerson().id
+	}/${bioPhotoFileName}`;
+};
 export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
 	// @ts-expect-error
-	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${getActivePerson().id}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
-}
+	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		getActivePerson().id
+	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
+};
 
 export const getRepoContentUrlPrefix = (repoOwner, repoName) => {
 	return `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;

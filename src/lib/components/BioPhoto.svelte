@@ -4,7 +4,7 @@
 		dataRepoName,
 		tempPw,
 		bioPhotoPlaceholderSrc,
-		getBioPhotoPathNoExt,
+		getBioPhotoPathNoExt
 	} from '$lib/persistence-management';
 	import {
 		deleteBioPhotoReference,

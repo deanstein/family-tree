@@ -5,7 +5,7 @@
 		repoOwner,
 		dataRepoName,
 		tempPw,
-		imagePlaceholderSrc,
+		imagePlaceholderSrc
 	} from '$lib/persistence-management';
 	import {
 		checkActivePersonForUnsavedChanges,

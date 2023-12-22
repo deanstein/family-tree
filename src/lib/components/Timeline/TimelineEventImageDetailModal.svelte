@@ -30,7 +30,10 @@
 			$tempState.imageEditId
 		);
 		// keep the upload path updated, based on the event and image id
-		imageUploadPathNoExt = getTimelineEventPhotoPathNoExt($tempState?.imageEditContent?.eventId, $tempState?.imageEditId);
+		imageUploadPathNoExt = getTimelineEventPhotoPathNoExt(
+			$tempState?.imageEditContent?.eventId,
+			$tempState?.imageEditId
+		);
 	}
 </script>
 
