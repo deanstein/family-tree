@@ -12,7 +12,15 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
-	import { unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
+	import { setImageEditContent, setImageEditId, unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
+	import Button from './Button.svelte';
+
+	const onClickEditButton = () => {
+		setImageEditId($tempState.mediaGalleryActiveId);
+		setImageEditContent($tempState.mediaGalleryActiveContent);
+		unsetMediaGalleryActiveId();
+		unsetMediaGalleryActiveContent();
+	}
 
 	const onClickCloseButton = () => {
 		unsetMediaGalleryActiveId();
@@ -32,6 +40,9 @@
 		zIndex={stylingConstants.zIndices.mediaGalleryZIndex}
 	>
 		<div class="media-gallery-content" slot="modal-content-slot">
+			<div class="image-actions-bar">
+				<Button buttonText={"Edit Image"} onClickFunction={onClickEditButton}/>
+			</div>
 			<div class="image-container">
 				<ImageAsyncFromUrl
 					{repoOwner}
@@ -58,8 +69,20 @@
 	.media-gallery-content {
 		display: flex;
 		flex-direction: column;
+		width: -webkit-fill-available;
+		width: -moz-available;
 		height: -webkit-fill-available;
 		height: -moz-available;
+	}
+
+	.image-actions-bar {
+		position: absolute;
+		width: -webkit-fill-available;
+		padding: 0px 10px 0px 10px;
+		display: flex;
+		align-items: center;
+		justify-content: right;
+		z-index: 1;
 	}
 
 	.image-container {

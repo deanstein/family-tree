@@ -5,13 +5,13 @@ import timelineEventTypes from './schemas/timeline-event-types';
 import familyTreeData from '$lib/stores/family-tree-data';
 import uiState from '$lib/stores/ui-state';
 
-import { getFamilyTreeDataFromRepo } from '$lib/persistence-management';
+import { repoOwner, dataRepoName, getFamilyTreeDataFileName, getFileFromRepo  } from '$lib/persistence-management';
 import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
 	setActivePerson
 } from '$lib/person-management';
-import { instantiateObject, largest, setNestedObjectProperty } from './utils';
+import { instantiateObject, largest, removeExtensionFromFileNameOrPath, setNestedObjectProperty } from './utils';
 
 import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';
 import stylingConstants from '$lib/components/styling-constants';
@@ -38,26 +38,66 @@ export const getRepoFamilyTreeAndSetActive = async (
 	password,
 	showLoadNotifications = true
 ) => {
-	// get the family tree data from the id
-	const newFamilyTreeData = await getFamilyTreeDataFromRepo(
+
+	if (!familyTreeId || !password) {
+		showLoadNotifications ?? setRepoState(repoStateStrings.loadFailed);
+		return;
+	}
+
+	showLoadNotifications ?? setRepoState(repoStateStrings.loading);
+
+	// get the full file name from the map
+	const familyTreeDataFileNameWithExt = await getFamilyTreeDataFileName(
+		repoOwner,
+		dataRepoName,
 		familyTreeId,
-		password,
-		showLoadNotifications
+		password
+	); 
+
+	// the final family tree data is a json object
+	const newFamilyTreeData = await getFileFromRepo(
+		repoOwner,
+		dataRepoName,
+		familyTreeDataFileNameWithExt,
+		password
 	);
 
-	// update the ui state
-	familyTreeData.update((currentValue) => {
-		currentValue = newFamilyTreeData;
-		return currentValue;
-	});
+	if (newFamilyTreeData) {
+		// update the ui state
+		familyTreeData.update((currentValue) => {
+			currentValue = newFamilyTreeData;
+			return currentValue;
+		});
 
-	uiState.update((currentValue) => {
-		currentValue.activeFamilyTreeDataId = familyTreeId;
-		return currentValue;
-	});
+		uiState.update((currentValue) => {
+			currentValue.activeFamilyTreeDataId = familyTreeId;
+			currentValue.activeFamilyTreeFileOrFolderName = removeExtensionFromFileNameOrPath(familyTreeDataFileNameWithExt);
+			return currentValue;
+		});
 
-	// force an update by setting the active person
-	setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
+		// force an update by setting the active person
+		setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
+		}
+
+		if (showLoadNotifications === true) {
+			setRepoState(repoStateStrings.loadSuccessful);
+		}
+};
+
+export const getActiveFamilyTreeDataName = () => {
+	let activeFamilyTreeDataName;
+	uiState.subscribe((currentValue) => {
+		activeFamilyTreeDataName = currentValue.activeFamilyTreeFileOrFolderName;
+	})
+	return activeFamilyTreeDataName;
+}
+
+export const getActivePerson = () => {
+	let activePerson;
+	uiState.subscribe((currentValue) => {
+		activePerson = currentValue.activePerson;
+	});
+	return activePerson;
 };
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {

@@ -126,14 +126,6 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	return eventToUpgrade;
 };
 
-export const getActivePerson = () => {
-	let activePerson;
-	uiState.subscribe((currentValue) => {
-		activePerson = currentValue.activePerson;
-	});
-	return activePerson;
-};
-
 export const getPersonById = (id) => {
 	let person = undefined;
 
@@ -758,7 +750,7 @@ export const setTimelineEventImageUrlFromTempState = () => {
 	// if the url is valid, update the image in the active person
 	if (isUrlValid(uploadedMediaUrl)) {
 		//@ts-expect-error
-		addOrReplaceTimelineEventImage(timelineEventFromTempState.eventId, newImage);
+		addOrReplaceTimelineEventImage(timelineEventImageContentFromTempState.eventId, newImage);
 	}
 
 	// clear the temp state

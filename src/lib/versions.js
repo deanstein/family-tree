@@ -1,4 +1,4 @@
-export const appVersion = '0.15.12';
+export const appVersion = '0.15.13';
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
@@ -143,11 +143,11 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.11.3';
+export const schemaVersion = '0.11.4';
 export const schemaChangelog = {
 	'v0.11.x': {
 		Overview:
-			'v0.11.x adds support for uploading images including a bio photo and adds richer event content support, including images and associated people.',
+			'v0.11.x adds support for uploading images and adds richer event content support, including images and associated people.',
 		Changes: [
 			'Added bioUrl field to person schema, restored label field for timeline-event-types schema',
 			'Added image support for event content',

@@ -145,6 +145,7 @@
 	const onClickAddImageButton = () => {
 		const newTimelineEventImage = instantiateObject(timelineEventImage);
 		newTimelineEventImage.id = uuidv4();
+		newTimelineEventImage.eventId = $tempState.timelineEditEventId;
 		setImageEditId(newTimelineEventImage.id);
 		setImageEditContent(newTimelineEventImage);
 	};
@@ -251,11 +252,11 @@
 			<InputContainer label="Images">
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
-						allowEdit={isInEditMode}
+						allowEdit={false}
 						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={isInEditMode}
-						onClickAddButton={onClickAddImageButton}
+						onClickAddFunction={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>

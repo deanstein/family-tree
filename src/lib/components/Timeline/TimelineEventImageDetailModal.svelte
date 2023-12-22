@@ -1,8 +1,7 @@
 <script>
-	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
 
-	import { timelineEventImageFolderName } from '$lib/persistence-management';
+	import { getTimelineEventPhotoPathNoExt } from '$lib/persistence-management';
 	import {
 		deleteTimelineEventImageReference,
 		setTimelineEventImageUrlFromTempState
@@ -31,8 +30,8 @@
 			$tempState.imageEditId
 		);
 		// keep the upload path updated, based on the event and image id
-		imageUploadPathNoExt = `${$uiState.activePerson.id}/${timelineEventImageFolderName}/${$tempState.timelineEditEventId}/${$tempState.imageEditId}`;
+		imageUploadPathNoExt = getTimelineEventPhotoPathNoExt($tempState?.imageEditContent?.eventId, $tempState?.imageEditId);
 	}
 </script>
 
-<ImageDetailModal {isNewImage} {afterUploadFunction} {afterDeleteFunction} />
+<ImageDetailModal {imageUploadPathNoExt} {isNewImage} {afterUploadFunction} {afterDeleteFunction} />

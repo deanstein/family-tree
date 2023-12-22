@@ -5,7 +5,7 @@
 		repoOwner,
 		dataRepoName,
 		tempPw,
-		imagePlaceholderSrc
+		imagePlaceholderSrc,
 	} from '$lib/persistence-management';
 	import {
 		checkActivePersonForUnsavedChanges,
@@ -25,6 +25,7 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 
 	export let isNewImage;
+	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
 	export let afterDeleteFunction;
 
@@ -33,7 +34,6 @@
 	let imageDescriptionInputValue;
 
 	let isInEditMode;
-	let imageUploadPathNoExt; // folder path (no file name)
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
 	const onClickEditButton = () => {

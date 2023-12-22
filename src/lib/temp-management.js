@@ -3,7 +3,8 @@ import imageCache from './stores/image-cache';
 import tempState from './stores/temp-state';
 import uiState from './stores/ui-state';
 
-import { getActivePerson, getPersonById } from './person-management';
+import { getPersonById } from './person-management';
+import { getActivePerson } from './ui-management';
 import {
 	areObjectsEqual,
 	addOrReplaceObjectInArray,
