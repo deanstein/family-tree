@@ -16,7 +16,7 @@
 	export let showGroupTitle = true;
 	export let groupTitle = 'Image Group';
 	export let showAddButton = true;
-	export let onClickAddButton = () => {};
+	export let onClickAddFunction = () => {};
 </script>
 
 <div class="image-thumbnail-group-outer-container">
@@ -28,7 +28,7 @@
 	{/if}
 	<div class="image-thumbnail-group-inner-container">
 		{#if showAddButton}
-			<AddButtonSquare onClickFunction={onClickAddButton} />
+			<AddButtonSquare onClickFunction={onClickAddFunction} />
 		{/if}
 		{#if imageArray}
 			{#each imageArray as image}

@@ -1,7 +1,12 @@
 import familyTreeData from './stores/family-tree-data';
 import uiState from './stores/ui-state';
 
-import { getRepoFamilyTreeAndSetActive, setRepoState } from '$lib/ui-management';
+import {
+	getActiveFamilyTreeDataName,
+	getRepoFamilyTreeAndSetActive,
+	getActivePerson,
+	setRepoState
+} from '$lib/ui-management';
 import { decrypt } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
@@ -9,13 +14,32 @@ import { repoStateStrings } from '$lib/components/strings';
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const deploymentRepoName = 'family-tree-deploy';
-export const bioPhotoFileName = 'bio-photo';
+export const familyTreeDataMapFileName = 'family-tree-data-map.json';
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 export const tempPw = '8890'; // TODO: require user input and store this locally
 export const encryptedPAT =
 	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
+
+// these are used to make GitHub file paths more readable due to the GUIDs
+const bioPhotoFileName = 'bio-photo';
+const pathPrefixPersonId = 'person';
+const pathPrefixTimelineEventId = 'event';
+const pathPrefixTimelineEventImageId = 'event-image';
+
+export const getBioPhotoPathNoExt = () => {
+	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		// @ts-expect-error
+		getActivePerson().id
+	}/${bioPhotoFileName}`;
+};
+export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
+	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
+		// @ts-expect-error
+		getActivePerson().id
+	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
+};
 
 export const getRepoContentUrlPrefix = (repoOwner, repoName) => {
 	return `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
@@ -73,9 +97,9 @@ export const getTotalCommitsInPublicRepo = async (repoOwner, repoName) => {
 	return totalCommits;
 };
 
-export const getFileFromRepo = async (repoOwner, repoName, fileName, password) => {
+export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt, password) => {
 	let fileData = undefined;
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`;
+	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileNameWithExt}`;
 
 	await fetch(url, {
 		headers: {
@@ -99,54 +123,17 @@ export const getFileFromRepo = async (repoOwner, repoName, fileName, password) =
 	return fileData;
 };
 
-export const getFamilyTreeDataFromRepo = async (
-	familyTreeDataId,
-	password,
-	showNotifications = true
-) => {
-	if (!familyTreeDataId || !password) {
-		setRepoState(repoStateStrings.saveFailed);
-		return;
-	}
-
-	if (showNotifications === true) {
-		setRepoState(repoStateStrings.loading);
-	}
-
-	// get the file name from which to read the json data
-	const familyTreeDataFileName = await getFamilyTreeDataFileName(
-		repoOwner,
-		dataRepoName,
-		familyTreeDataId,
-		password
-	);
-
-	// the final family tree data is a json object
-	const familyTreeData = await getFileFromRepo(
-		repoOwner,
-		dataRepoName,
-		familyTreeDataFileName,
-		password
-	);
-
-	if (showNotifications === true) {
-		setRepoState(repoStateStrings.loadSuccessful);
-	}
-
-	return familyTreeData;
-};
-
 export const getFamilyTreeDataFileName = async (
 	repoOwner,
-	reponame,
+	repoName,
 	familyTreeDataId,
 	password
 ) => {
 	// first, get the family tree data map
 	const familyTreeDataMap = await getFileFromRepo(
 		repoOwner,
-		reponame,
-		'family-tree-data-map.json',
+		repoName,
+		familyTreeDataMapFileName,
 		password
 	);
 

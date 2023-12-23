@@ -1,10 +1,10 @@
 <script>
 	import {
-		dataRepoName,
 		repoOwner,
-		bioPhotoFileName,
+		dataRepoName,
 		tempPw,
-		bioPhotoPlaceholderSrc
+		bioPhotoPlaceholderSrc,
+		getBioPhotoPathNoExt
 	} from '$lib/persistence-management';
 	import {
 		deleteBioPhotoReference,
@@ -30,7 +30,7 @@
 
 	$: {
 		person = getPersonById(personId);
-		bioPhotoPathNoExt = `${personId}/${bioPhotoFileName}`;
+		bioPhotoPathNoExt = getBioPhotoPathNoExt();
 	}
 </script>
 

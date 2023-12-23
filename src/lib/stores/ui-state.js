@@ -5,6 +5,7 @@ const uiState = {
 	cachedPersonForUnsavedChanges: undefined,
 	saveToRepoStatus: undefined,
 	activeFamilyTreeDataId: {},
+	activeFamilyTreeFileOrFolderName: undefined,
 	activePerson: {},
 	personNodePositions: [],
 	personNodeConnectionLineCanvas: undefined,
