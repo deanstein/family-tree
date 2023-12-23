@@ -5,11 +5,13 @@ import {
 	getActiveFamilyTreeDataName,
 	getRepoFamilyTreeAndSetActive,
 	getActivePerson,
-	setRepoState
+	getActivePersonEvents,
+	setRepoState,
 } from '$lib/ui-management';
 import { decrypt } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
+import { getTimelineEventIdFromImageId } from './person-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
@@ -34,11 +36,12 @@ export const getBioPhotoPathNoExt = () => {
 		getActivePerson().id
 	}/${bioPhotoFileName}`;
 };
-export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
+export const getTimelineEventPhotoPathNoExt = (imageId) => {
+	// get the active person's events
 	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
 		// @ts-expect-error
 		getActivePerson().id
-	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
+	}/${pathPrefixTimelineEventId}-${getTimelineEventIdFromImageId(getActivePersonEvents(), imageId)}/${pathPrefixTimelineEventImageId}-${imageId}`;
 };
 
 export const getRepoContentUrlPrefix = (repoOwner, repoName) => {

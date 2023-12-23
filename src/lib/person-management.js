@@ -712,6 +712,19 @@ export const deleteTimelineEvent = (event) => {
 	});
 };
 
+export const getTimelineEventIdFromImageId = (timelineEvents, imageId) => {
+    for (let i = 0; i < timelineEvents.length; i++) {
+        let event = timelineEvents[i];
+        for (let j = 0; j < event.eventContent.images.length; j++) {
+            let image = event.eventContent.images[j];
+            if (image.id === imageId) {
+                return event.eventId;
+            }
+        }
+    }
+    return null;
+}
+
 export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
 	const newTimelineEvent = getTimelineEventById(timelineEventId);
 	// update the timeline event with the new image

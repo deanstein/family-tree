@@ -111,6 +111,14 @@ export const getActivePerson = () => {
 	return activePerson;
 };
 
+export const getActivePersonEvents = () => {
+	let activePersonEvents;
+	uiState.subscribe((currentValue) => {
+		activePersonEvents = currentValue.activePerson.events;
+	})
+	return activePersonEvents;
+}
+
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	uiState.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);

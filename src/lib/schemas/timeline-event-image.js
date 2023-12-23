@@ -1,6 +1,5 @@
 const timelineEventImage = {
 	id: '',
-	eventId: '',
 	alt: '',
 	description: '',
 	url: ''

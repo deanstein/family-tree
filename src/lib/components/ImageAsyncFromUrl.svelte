@@ -139,20 +139,20 @@
 	};
 
 	const onDeleteButtonClick = async () => {
-		// try to delete the file first
-		// if this works, then run the afterDelete function
-		if (await deleteFileFromRepoByUrl(tempPw, imageUrl)) {
-			// run a post-delete function as desired (for example to clean up any references to this file)
-			removeImageFromCache(imageUrl);
-			imageUrl = '';
-			getAndShowImage();
-			afterDeleteFunction();
-		} else {
+		// try to delete the file
+		const deletedFromRepo = await deleteFileFromRepoByUrl(tempPw, imageUrl);
+		if (!deletedFromRepo) {
 			console.warn(
-				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
-					imageUrl
-			);
+				'Failed to delete image from the repo. Its reference will be removed from the family tree data.');
 		}
+
+		removeImageFromCache(imageUrl);
+		imageUrl = '';
+		// update the image - this will make it appear as a placeholder image if there's no URL
+		getAndShowImage();
+		// if a post-delete function is specified by this image's host, run it 
+		// (for example to clean up any references to this file)
+		afterDeleteFunction();
 	};
 
 	const handleFileUpload = async (event) => {
