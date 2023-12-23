@@ -11,6 +11,7 @@ import tempState from '$lib/stores/temp-state';
 import uiState from '$lib/stores/ui-state';
 import familyTreeData from '$lib/stores/family-tree-data';
 
+import { deleteFileFromRepoByUrl, tempPw } from './persistence-management';
 import {
 	checkActivePersonForUnsavedChanges,
 	setImageEditContent,
@@ -698,17 +699,36 @@ export const addOrReplaceTimelineEvent = (event) => {
 	});
 };
 
-export const deleteTimelineEvent = (event) => {
-	if (!event) {
+export const deleteTimelineEvent = (timelineEvent) => {
+	if (!timelineEvent) {
 		return;
 	}
 	uiState.update((currentValue) => {
+		// try to get the timeline event from the ui state
 		if (
-			getObjectByKeyValueInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)
+			getObjectByKeyValueInArray(
+				currentValue.activePerson.timelineEvents,
+				'eventId',
+				timelineEvent.eventId
+			)
 		) {
-			deleteObjectInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId);
+			// first, delete any images from the repo referenced in this event
+			deleteAllTimelineEventImagesFromRepo(timelineEvent);
+			// then delete the entire event
+			deleteObjectInArray(
+				currentValue.activePerson.timelineEvents,
+				'eventId',
+				timelineEvent.eventId
+			);
 		}
 		return currentValue;
+	});
+};
+
+export const deleteAllTimelineEventImagesFromRepo = async (timelineEvent) => {
+	timelineEvent?.eventContent?.images.forEach(async (eventImage) => {
+		console.log('deleting image: ', eventImage.url);
+		await deleteFileFromRepoByUrl(tempPw, eventImage.url);
 	});
 };
 
