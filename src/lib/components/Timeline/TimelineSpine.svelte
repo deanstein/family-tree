@@ -7,7 +7,13 @@
 
 	let lineCss = css`
 		width: ${stylingConstants.sizes.timelineSpineThickness};
-		background-color: ${stylingConstants.colors.timelineSpineColor};
+		background: linear-gradient(
+			to bottom,
+			rgba(255, 0, 0, 0) 0%,
+			${stylingConstants.colors.timelineSpineColor} 20px,
+			${stylingConstants.colors.timelineSpineColor} calc(100% - 20px),
+			rgba(255, 0, 0, 0) 100%
+		);
 	`;
 
 	const lineColumnCss = css`

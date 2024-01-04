@@ -34,7 +34,7 @@
 
 	// fontawesome icons
 	const imageEditFaIcon = 'fa-upload';
-	const imageDeleteFaIcon = 'fa-trash'; // TODO
+	const imageDeleteFaIcon = 'fa-trash';
 
 	let file;
 	let fileInput;

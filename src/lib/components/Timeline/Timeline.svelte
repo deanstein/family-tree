@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
@@ -9,11 +8,7 @@
 	import uiState from '$lib/stores/ui-state';
 
 	import { schemaVersion } from '$lib/versions';
-	import {
-		generateTimelineRowItems,
-		setTimelineCanvasScrollState,
-		updateTimelineRowItems
-	} from '$lib/ui-management';
+	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
 	import { instantiateObject } from '$lib/utils';
 	import { setTimelineEditEvent, setTimelineEditEventId } from '$lib/temp-management';
 
@@ -76,28 +71,11 @@
 
 	export const onCheckRelativeSpacing = () => {
 		forceRelativeSpacing = true;
-		// wait a beat for the canvas to canvas to recompute
-		// before updating the scroll state
-		setTimeout(() => {
-			setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		}, 100);
 	};
 
 	export const onUncheckRelativeSpacing = () => {
 		forceRelativeSpacing = false;
-		// wait a beat for the canvas to canvas to recompute
-		// before updating the scroll state
-		setTimeout(() => {
-			setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		}, 100);
 	};
-
-	onMount(() => {
-		setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		scrollingCanvasDivRef.addEventListener('scroll', () => {
-			setTimelineCanvasScrollState(scrollingCanvasDivRef);
-		});
-	});
 
 	$: {
 		// ensure birth event is kept updated
