@@ -26,7 +26,7 @@ const colors = {
 	personNodeColor: '#bfd0db',
 	personNodeGradient1: 'rgba(164, 200, 188)',
 	personNodeGradient2: 'rgba(193, 208, 219)',
-	personNodeGradient3: 'rgba(142, 165, 202)',
+	personNodeGradient3: 'rgba(168, 164, 191)',
 	personNodeConnectionLineColor: 'rgba(128, 128, 128, 0.45)',
 	activePersonNodeColor: '#87a9c0',
 	timelineSpineColor: 'rgba(200, 200, 200, 0.75)',
