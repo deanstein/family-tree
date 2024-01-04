@@ -43,28 +43,40 @@ const timelineEventTypes = {
 		label: 'Media Only',
 		icon: 'fa-image'
 	},
+	education: {
+		type: 'education',
+		label: 'Education',
+		icon: 'fa-graduation-cap',
+		content: {}
+	},
 	residence: {
 		type: 'residence',
 		label: 'Residence',
-		icon: '',
+		icon: 'fa-house',
 		content: {}
 	},
 	workplace: {
 		type: 'workplace',
 		label: 'Workplace',
-		icon: '',
+		icon: 'fa-building',
 		content: {}
 	},
 	vehicle: {
 		type: 'vehicle',
 		label: 'Vehicle',
-		icon: '',
+		icon: 'fa-car',
+		content: {}
+	},
+	relationship: {
+		type: 'relationship',
+		label: 'Relationship',
+		icon: 'fa-heart',
 		content: {}
 	},
 	child: {
 		type: 'child',
 		label: 'Childbirth',
-		icon: '',
+		icon: 'fa-child',
 		content: {}
 	}
 };
