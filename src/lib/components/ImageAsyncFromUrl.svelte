@@ -33,7 +33,7 @@
 	export let afterDeleteFunction = () => {}; // runs after this image was deleted (for state cleanup)
 
 	// fontawesome icons
-	const imageEditFaIcon = 'fa-pen';
+	const imageEditFaIcon = 'fa-upload';
 	const imageDeleteFaIcon = 'fa-trash'; // TODO
 
 	let file;
@@ -134,7 +134,7 @@
 		}
 	};
 
-	const onEditButtonClick = () => {
+	const onUploadButtonClick = () => {
 		fileInput.click();
 	};
 
@@ -205,8 +205,8 @@
 		<div class="image-actions-container">
 			<div
 				class="image-action-button {editButtonCss}"
-				on:click|stopPropagation={onEditButtonClick}
-				on:keypress|stopPropagation={onEditButtonClick}
+				on:click|stopPropagation={onUploadButtonClick}
+				on:keypress|stopPropagation={onUploadButtonClick}
 				title="Choose another photo"
 			>
 				<i class="fa-solid {imageEditFaIcon}" />

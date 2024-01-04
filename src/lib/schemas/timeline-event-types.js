@@ -38,6 +38,11 @@ const timelineEventTypes = {
 			media: []
 		}
 	},
+	media: {
+		type: 'media',
+		label: 'Media Only',
+		icon: 'fa-image'
+	},
 	residence: {
 		type: 'residence',
 		label: 'Residence',

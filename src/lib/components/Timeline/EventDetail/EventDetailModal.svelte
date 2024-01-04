@@ -229,7 +229,38 @@
 			<InputContainer label={timelineEventStrings.deathCause}>
 				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isInEditMode} />
 			</InputContainer>
-
+			<!-- media only -->
+			{:else if eventType === timelineEventTypes.media.type}
+			<SideBySideContainer>
+				<InputContainer label="Date">
+					<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
+				</InputContainer>
+				<InputContainer label="Type">
+					<Select
+						isEnabled={isInEditMode}
+						bind:inputValue={eventTypeInputValue}
+						optionsGroupObject={timelineEventOptions}
+						optionValueKey="type"
+						optionLabelKey="label"
+					/>
+				</InputContainer>
+			</SideBySideContainer>
+			<InputContainer label="Images">
+				<div class="media-content-container {mediaContentContainerCss}">
+					<ImageThumbnailGroup
+						allowEdit={false}
+						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
+						showGroupTitle={false}
+						showAddButton={isInEditMode}
+						onClickAddFunction={onClickAddImageButton}
+					/>
+				</div>
+			</InputContainer>
+			<InputContainer label="With" grow={true}>
+				<div class="media-content-container {mediaContentContainerCss}">
+					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
+				</div>
+			</InputContainer>
 			<!-- standard content box if no event type or generic type -->
 		{:else}
 			<SideBySideContainer>
