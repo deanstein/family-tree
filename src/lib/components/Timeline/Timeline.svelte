@@ -23,6 +23,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import TimelineEvent from '$lib/components/Timeline/Event/TimelineEvent.svelte';
 	import TimelineSpine from '$lib/components/Timeline/TimelineSpine.svelte';
+	import { generateGradient } from '../graphics-factory';
 
 	let scrollingCanvasDivRef;
 
@@ -32,6 +33,10 @@
 	// row items are converted from the activePerson's raw event data
 	// each row item is an object with the index and the event content
 	let timelineRowItems = [];
+
+	// timeline events will each have a slightly different color
+	// along a gradient defined here
+	let timelineEventColors = [];
 
 	// dynamic classes using Emotion CSS
 	let timelineEventGridCss;
@@ -114,6 +119,14 @@
 		// and ensure no shared rows in the grid
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 
+		// generate a gradient based on all timeline events
+		timelineEventColors = generateGradient(
+			$uiState?.activePerson?.timelineEvents?.length + 2,
+			stylingConstants.colors.timelineEventBackgroundColorGradient1,
+			stylingConstants.colors.timelineEventBackgroundColorGradient2,
+			stylingConstants.colors.timelineEventBackgroundColorGradient3
+		);
+
 		// ensure custom css is kept updated
 		timelineEventGridCss = css`
 			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
@@ -143,17 +156,26 @@
 			<!-- the vertical line for the timeline -->
 			<div class="timeline-event-grid {timelineEventGridCss}">
 				<!-- always present and always at the top: birth -->
-				<TimelineEvent timelineEvent={birthEvent} rowIndex={0} />
+				<TimelineEvent
+					timelineEvent={birthEvent}
+					rowIndex={0}
+					backgroundColor={timelineEventColors[0]}
+				/>
 
 				<!-- all other timeline events saved to the person -->
-				{#each timelineRowItems as timelineRowItem}
-					<TimelineEvent timelineEvent={timelineRowItem.event} rowIndex={timelineRowItem.index} />
+				{#each timelineRowItems as timelineRowItem, i}
+					<TimelineEvent
+						timelineEvent={timelineRowItem.event}
+						rowIndex={timelineRowItem.index}
+						backgroundColor={timelineEventColors[i + 1]}
+					/>
 				{/each}
 
 				<!-- always present: current date or date of death -->
 				<TimelineEvent
 					timelineEvent={deathEvent}
 					rowIndex={stylingConstants.quantities.initialTimelineRowCount}
+					backgroundColor={timelineEventColors[timelineEventColors.length - 1]}
 				/>
 			</div>
 		</div>

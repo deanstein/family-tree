@@ -13,7 +13,7 @@ export default defineConfig({
 	plugins: [svelte()],
 	define: {
 		PKG: pkg
-	  },
+	},
 	publicDir: 'static',
 	base: '',
 	resolve: {

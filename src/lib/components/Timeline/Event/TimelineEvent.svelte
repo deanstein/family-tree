@@ -17,6 +17,7 @@
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 
 	export let timelineEvent = undefined; // one object to carry all event properties
+	export let backgroundColor = stylingConstants.colors.activeColorSubtle; // default color, but may be overridden
 	export let rowIndex;
 
 	let eventDateCorrected;
@@ -78,7 +79,7 @@
 	`;
 
 	const eventContentCss = css`
-		background-color: ${stylingConstants.colors.activeColorSubtle};
+		background-color: ${backgroundColor};
 		border-radius: 0px 0px ${stylingConstants.sizes.bioFieldBorderRadius}
 			${stylingConstants.sizes.bioFieldBorderRadius};
 	`;

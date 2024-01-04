@@ -21,6 +21,7 @@ export const appChangelog = {
 			'Added blur to modal background',
 			'Added $lib notation for all imports',
 			'Added modal title bar actions including close button support',
+			'Added support for 2- or 3-color gradient across timeline events',
 			'Replaced specialized components with generic ones where possible'
 		]
 	},
