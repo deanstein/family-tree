@@ -22,7 +22,8 @@ export const appChangelog = {
 			'Added $lib notation for all imports',
 			'Added modal title bar actions including close button support',
 			'Added support for 2- or 3-color gradient across timeline events',
-			'Replaced specialized components with generic ones where possible'
+			'Replaced specialized components with generic ones where possible',
+			'Removed heavy scroll position calculation for timeline spine end positioning, relacing it with end gradients'
 		]
 	},
 	'v0.14.x': {
