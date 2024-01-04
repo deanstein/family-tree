@@ -64,12 +64,14 @@
 				faIcon={'fa-square-plus'}
 				buttonText={chooseTreeStrings.newTreeButton}
 				buttonFunction={newFamilyTreeButtonOnClick}
+				buttonColor={stylingConstants.colors.personNodeGradient1}
 				description={chooseTreeStrings.newTreeDescription}
 			/>
 			<ChooseTreeOption
 				faIcon={'fa-box-open'}
 				buttonText={chooseTreeStrings.exampleTreeButton}
 				buttonFunction={exampleFamilyTreeButtonOnClick}
+				buttonColor={stylingConstants.colors.personNodeGradient2}
 				description={chooseTreeStrings.exampleTreeDescription}
 			/>
 			<ChooseTreeOption
@@ -77,6 +79,7 @@
 				buttonText={chooseTreeStrings.loadTreeButton}
 				buttonFunction={loadFamilyTreeButtonOnClick}
 				description={chooseTreeStrings.loadTreeDescription}
+				buttonColor={stylingConstants.colors.personNodeGradient3}
 			/>
 		</div>
 		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>

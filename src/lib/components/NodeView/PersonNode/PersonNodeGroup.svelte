@@ -21,6 +21,7 @@
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
 
 	export let personNodeGroupData;
+	export let personNodeColor;
 
 	const onClickAddPersonButton = () => {
 		let newPerson = createNewPerson();
@@ -76,6 +77,7 @@
 						sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
 						groupId={personNodeGroupData.groupId}
 						compatibleGroups={personNodeGroupData.compatibleGroups}
+						nodeColor={personNodeColor}
 					/>
 				{/each}
 			</div>

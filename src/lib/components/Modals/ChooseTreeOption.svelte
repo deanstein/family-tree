@@ -8,6 +8,7 @@
 	export let faIcon; // fontawesome font name
 	export let buttonText;
 	export let buttonFunction;
+	export let buttonColor = stylingConstants.colors.activeColor;
 	export let description;
 
 	const treeOptionContainerCss = css`
@@ -41,7 +42,7 @@
 	`;
 
 	const iconCss = css`
-		color: ${stylingConstants.colors.activeColor};
+		color: ${buttonColor};
 	`;
 
 	const treeDescriptionCss = css`
@@ -67,7 +68,7 @@
 		>
 			<i class="fa-solid {faIcon} {iconCss}" />
 		</div>
-		<Button {buttonText} onClickFunction={buttonFunction} />
+		<Button {buttonText} onClickFunction={buttonFunction} overrideBackgroundColor={buttonColor} />
 	</div>
 	<div class="tree-description {treeDescriptionCss}">
 		{description}
@@ -83,7 +84,7 @@
 		align-items: center;
 		flex-basis: 33%;
 		color: white;
-		background-color: #dbdbdb;
+		background-color: white;
 		border-radius: 10px;
 	}
 

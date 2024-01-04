@@ -23,6 +23,7 @@
 
 	import {
 		drawNodeConnectionLines,
+		generateGradient,
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -78,6 +79,13 @@
 	const generationBlockCss = css`
 		gap: ${stylingConstants.sizes.generationRowGap};
 	`;
+
+	const generationRowColors = generateGradient(
+		5,
+		stylingConstants.colors.personNodeGradient1,
+		stylingConstants.colors.personNodeGradient2,
+		stylingConstants.colors.personNodeGradient3
+	);
 
 	$: {
 		if (personNodeConnectionLineCanvasRef) {
@@ -142,6 +150,7 @@
 								groupMembers: $uiState.activePerson.relationships.greatAunclesMaternal,
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[0]}
 						/>
 					</ScrollingRowFlank>
 
@@ -153,6 +162,7 @@
 								groupMembers: $uiState.activePerson.relationships.grandparentsMaternal,
 								compatibleGroups: grandparentsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[0]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -161,6 +171,7 @@
 								groupMembers: $uiState.activePerson.relationships.grandparentsPaternal,
 								compatibleGroups: grandparentsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[0]}
 						/>
 					</div>
 
@@ -172,6 +183,7 @@
 								groupMembers: $uiState.activePerson.relationships.greatAunclesPaternal,
 								compatibleGroups: greatAunclesCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[0]}
 						/>
 					</ScrollingRowFlank>
 				</GenerationRow>
@@ -184,6 +196,7 @@
 								groupMembers: $uiState.activePerson.relationships.aunclesMaternal,
 								compatibleGroups: aunclesCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[1]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -192,6 +205,7 @@
 								groupMembers: $uiState.activePerson.relationships.stepparentsMaternal,
 								compatibleGroups: parentsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[1]}
 						/>
 					</ScrollingRowFlank>
 					<PersonNodeGroup
@@ -202,6 +216,7 @@
 							groupMembers: $uiState.activePerson.relationships.parents,
 							compatibleGroups: parentsCompatibleGroups
 						}}
+						personNodeColor={generationRowColors[1]}
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
@@ -211,6 +226,7 @@
 								groupMembers: $uiState.activePerson.relationships.stepparentsPaternal,
 								compatibleGroups: parentsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[1]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -219,6 +235,7 @@
 								groupMembers: $uiState.activePerson.relationships.aunclesPaternal,
 								compatibleGroups: aunclesCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[1]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -227,6 +244,7 @@
 								groupMembers: $uiState.activePerson.relationships.parentsInLaw,
 								compatibleGroups: parentsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[1]}
 						/>
 					</ScrollingRowFlank>
 				</GenerationRow>
@@ -242,6 +260,7 @@
 								groupMembers: $uiState.activePerson.relationships.siblingsInLaw,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -250,6 +269,7 @@
 								groupMembers: $uiState.activePerson.relationships.stepsiblings,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -258,6 +278,7 @@
 								groupMembers: $uiState.activePerson.relationships.halfSiblingsMaternal,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -266,6 +287,7 @@
 								groupMembers: $uiState.activePerson.relationships.siblings,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 					</ScrollingRowFlank>
 
@@ -284,6 +306,7 @@
 								groupMembers: $uiState.activePerson.relationships.halfSiblingsPaternal,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -292,6 +315,7 @@
 								groupMembers: $uiState.activePerson.relationships.spouses,
 								compatibleGroups: spouseCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -300,6 +324,7 @@
 								groupMembers: $uiState.activePerson.relationships.spouseSiblingsInLaw,
 								compatibleGroups: siblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -308,6 +333,7 @@
 								groupMembers: $uiState.activePerson.relationships.exSpouses,
 								compatibleGroups: spouseCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[2]}
 						/>
 					</ScrollingRowFlank>
 				</GenerationRow>
@@ -323,6 +349,7 @@
 								groupMembers: $uiState.activePerson.relationships.niblings,
 								compatibleGroups: niblingsCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[3]}
 						/>
 					</ScrollingRowFlank>
 					<PersonNodeGroup
@@ -333,6 +360,7 @@
 							groupMembers: $uiState.activePerson.relationships.children,
 							compatibleGroups: childrenCompatibleGroups
 						}}
+						personNodeColor={generationRowColors[3]}
 					/>
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank">
 						<PersonNodeGroup
@@ -342,6 +370,7 @@
 								groupMembers: $uiState.activePerson.relationships.stepchildren,
 								compatibleGroups: childrenCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[3]}
 						/>
 						<PersonNodeGroup
 							personNodeGroupData={{
@@ -350,6 +379,7 @@
 								groupMembers: $uiState.activePerson.relationships.childrenInLaw,
 								compatibleGroups: childrenCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[3]}
 						/>
 					</ScrollingRowFlank>
 				</GenerationRow>
@@ -362,6 +392,7 @@
 								groupMembers: $uiState.activePerson.relationships.grandniblings,
 								compatibleGroups: grandchildrenCompatibleGroups
 							}}
+							personNodeColor={generationRowColors[4]}
 						/>
 					</ScrollingRowFlank>
 
@@ -373,6 +404,7 @@
 							groupMembers: $uiState.activePerson.relationships.grandchildren,
 							compatibleGroups: grandchildrenCompatibleGroups
 						}}
+						personNodeColor={generationRowColors[4]}
 					/>
 
 					<ScrollingRowFlank flank={'right'} slot="row-right-flank" />

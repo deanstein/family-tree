@@ -2,9 +2,11 @@
 	import { css } from '@emotion/css';
 
 	export let rowHeight = '15vh';
+	export let rowColor = 'rgba(210, 210, 210, 0.65)';
 
 	const rowCss = css`
 		height: ${rowHeight};
+		background-color: ${rowColor};
 	`;
 </script>
 
@@ -18,7 +20,6 @@
 
 <style>
 	.row {
-		background-color: rgba(210, 210, 210, 0.65);
 		display: flex;
 		align-items: center;
 		justify-content: center;

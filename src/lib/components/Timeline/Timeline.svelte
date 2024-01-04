@@ -121,7 +121,7 @@
 
 		// generate a gradient based on all timeline events
 		timelineEventColors = generateGradient(
-			$uiState?.activePerson?.timelineEvents?.length + 2,
+			$uiState?.activePerson?.timelineEvents?.length + 2 /* account for birth and death */,
 			stylingConstants.colors.timelineEventBackgroundColorGradient1,
 			stylingConstants.colors.timelineEventBackgroundColorGradient2,
 			stylingConstants.colors.timelineEventBackgroundColorGradient3

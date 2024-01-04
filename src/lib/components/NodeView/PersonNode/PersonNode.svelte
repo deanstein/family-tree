@@ -36,6 +36,7 @@
 	export let bIsActivePerson = false;
 	export let compatibleGroups = undefined;
 	export let sNodeSize = stylingConstants.sizes.personNodeSize;
+	export let nodeColor = stylingConstants.colors.personNodeColor;
 
 	let personNodeCss;
 	let name;
@@ -62,7 +63,7 @@
 				: 'auto'};
 			background-color: ${bIsActivePerson
 				? stylingConstants.colors.activePersonNodeColor
-				: stylingConstants.colors.personNodeColor};
+				: nodeColor};
 			border: ${$tempState.nodeActionsModalPersonId == sPersonId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
