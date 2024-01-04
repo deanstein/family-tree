@@ -230,7 +230,7 @@
 				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isInEditMode} />
 			</InputContainer>
 			<!-- media only -->
-			{:else if eventType === timelineEventTypes.media.type}
+		{:else if eventType === timelineEventTypes.media.type}
 			<SideBySideContainer>
 				<InputContainer label="Date">
 					<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
