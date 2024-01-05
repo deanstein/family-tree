@@ -49,7 +49,6 @@
 <style>
 	.image-thumbnail-group-outer-container {
 		display: flex;
-		flex-direction: column;
 		width: 100%;
 		gap: 8px;
 	}

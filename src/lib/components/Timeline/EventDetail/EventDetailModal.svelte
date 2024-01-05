@@ -251,14 +251,19 @@
 						allowEdit={false}
 						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
-						showAddButton={isInEditMode}
+						showAddButton={true}
+						showEmptyState={false}
 						onClickAddFunction={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
 				<div class="media-content-container {mediaContentContainerCss}">
-					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
+					<AssociatedPersonNodeGroup
+						showGroupTitle={false}
+						showAddButton={true}
+						showEmptyState={false}
+					/>
 				</div>
 			</InputContainer>
 			<!-- standard content box if no event type or generic type -->
@@ -286,14 +291,19 @@
 						allowEdit={false}
 						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
-						showAddButton={isInEditMode}
+						showAddButton={true}
+						showEmptyState={false}
 						onClickAddFunction={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>
 			<InputContainer label="With" grow={true}>
 				<div class="media-content-container {mediaContentContainerCss}">
-					<AssociatedPersonNodeGroup showGroupTitle={false} showAddButton={isInEditMode} />
+					<AssociatedPersonNodeGroup
+						showGroupTitle={false}
+						showAddButton={true}
+						showEmptyState={false}
+					/>
 				</div>
 			</InputContainer>
 		{/if}

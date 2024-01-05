@@ -6,7 +6,6 @@
 		deleteTimelineEventImageReference,
 		setTimelineEventImageUrlFromTempState
 	} from '$lib/person-management';
-	import { getObjectByKeyValueInArray } from '$lib/utils';
 
 	import ImageDetailModal from '$lib/components/ImageDetailModal.svelte';
 
@@ -14,10 +13,12 @@
 
 	// after upload function depends on what kind of image
 	const afterUploadFunction = () => {
+		// timeline event image
 		setTimelineEventImageUrlFromTempState();
 	};
 	// after delete function depends on what kind of image
 	const afterDeleteFunction = () => {
+		// timeline event image
 		deleteTimelineEventImageReference(
 			$tempState?.imageEditContent?.eventId,
 			$tempState?.imageEditId
