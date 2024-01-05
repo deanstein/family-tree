@@ -18,7 +18,10 @@
 	};
 	// after delete function depends on what kind of image
 	const afterDeleteFunction = () => {
-		deleteTimelineEventImageReference($tempState.timelineEditEventId, $tempState.imageEditId);
+		deleteTimelineEventImageReference(
+			$tempState?.imageEditContent?.eventId,
+			$tempState?.imageEditId
+		);
 	};
 
 	$: {

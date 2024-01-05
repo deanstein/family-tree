@@ -22,14 +22,12 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
-	import TextInput from '$lib/components/TextInput.svelte';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
 	export let afterDeleteFunction;
 
 	// all possible input values
-	let imageTitleInputValue;
 	let imageDescriptionInputValue;
 
 	let isInEditMode;
@@ -53,13 +51,6 @@
 	};
 
 	const onClickDoneButton = () => {
-		checkActivePersonForUnsavedChanges();
-		unsetImageEditId();
-		unsetImageEditContent();
-	};
-
-	const onClickDeleteButton = () => {
-		// TODO: implement delete
 		checkActivePersonForUnsavedChanges();
 		unsetImageEditId();
 		unsetImageEditContent();
@@ -100,9 +91,6 @@
 					{afterDeleteFunction}
 				/>
 			</div>
-		</InputContainer>
-		<InputContainer label="Title">
-			<TextInput isEnabled={isInEditMode} bind:inputValue={imageTitleInputValue} />
 		</InputContainer>
 		<InputContainer label="Description">
 			<TextArea isEnabled={isInEditMode} bind:inputValue={imageDescriptionInputValue} />

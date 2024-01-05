@@ -38,7 +38,7 @@
 
 	let file;
 	let fileInput;
-	let fileReader; // the edit button acts as a file reader, when shown
+	let fileReader; // the upload button acts as a file reader, when shown
 	let imgSrc;
 	let isImageLoading = false;
 	let imageExtension;
