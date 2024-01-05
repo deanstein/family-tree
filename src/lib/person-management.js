@@ -14,6 +14,7 @@ import familyTreeData from '$lib/stores/family-tree-data';
 import { deleteFileFromRepoByUrl, tempPw } from './persistence-management';
 import {
 	checkActivePersonForUnsavedChanges,
+	getActiveTimelineEditEvent,
 	setImageEditContent,
 	setTimelineEditEvent,
 	unsetImageEditContent,
@@ -733,19 +734,21 @@ export const deleteAllTimelineEventImagesFromRepo = async (timelineEvent) => {
 };
 
 export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
-	const newTimelineEvent = getTimelineEventById(timelineEventId);
+	const existingTimelineEvent = getTimelineEventById(timelineEventId);
+	// update either the existing event in this person, or the new event in the temp state
+	const timelineEventToUpdate = existingTimelineEvent ?? getActiveTimelineEditEvent();
 	// update the timeline event with the new image
 	addOrReplaceObjectInArray(
-		//@ts-expect-error
-		newTimelineEvent?.eventContent?.images,
+		// @ts-expect-error
+		timelineEventToUpdate?.eventContent?.images,
 		'id',
 		newImageContent.id,
 		newImageContent
 	);
 	// update the timeline event in the ui state
-	addOrReplaceTimelineEvent(newTimelineEvent);
+	addOrReplaceTimelineEvent(timelineEventToUpdate);
 	// update the temp state event so the modal shows the updated content
-	setTimelineEditEvent(newTimelineEvent);
+	setTimelineEditEvent(timelineEventToUpdate);
 	setImageEditContent(newImageContent);
 	// show the unsaved changes notification
 	checkActivePersonForUnsavedChanges();
@@ -763,7 +766,7 @@ export const setTimelineEventImageUrlFromTempState = () => {
 		uploadedMediaUrl = currentValue.uploadedMediaUrl;
 	});
 
-	// make a copy of the current event
+	// make a copy of the active event image
 	const newImage = instantiateObject(timelineEventImageContentFromTempState);
 	newImage.url = uploadedMediaUrl;
 
