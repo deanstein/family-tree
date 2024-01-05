@@ -40,7 +40,7 @@ const timelineEventTypes = {
 	},
 	media: {
 		type: 'media',
-		label: 'Media Only',
+		label: 'Media',
 		icon: 'fa-image'
 	},
 	education: {
