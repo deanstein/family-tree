@@ -7,6 +7,7 @@
 	export let isEnabled = true;
 	export let inputValue = '';
 	export let resizable = 'none'; // none, vertical, horizontal, or both
+	export let minHeight = '100px';
 
 	// empty function in case no function is passed to the input by the parent
 	export let useFunction = (element) => {};
@@ -16,6 +17,7 @@
 	const textInputCss = css`
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		resize: ${resizable};
+		min-height: ${minHeight};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
