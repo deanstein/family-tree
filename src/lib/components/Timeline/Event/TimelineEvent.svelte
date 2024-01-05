@@ -39,9 +39,12 @@
 		}
 	`;
 
+	const eventDateYearCss = css`
+		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
+	`;
+
 	const eventDateCss = css`
 		font-size: ${stylingConstants.sizes.timelineDateFontSize};
-		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
 		background-color: ${stylingConstants.colors.activeColorSubtle};
@@ -49,7 +52,6 @@
 
 	const eventYearCss = css`
 		font-size: ${stylingConstants.sizes.timelineYearFontSize};
-		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 		width: ${stylingConstants.sizes.timelineEventYearWidth};
 		color: ${stylingConstants.colors.textColor};
 		background-color: ${stylingConstants.colors.activeColorSubtle};
@@ -122,7 +124,7 @@
 	on:keydown={onTimelineEventClickAction}
 	bind:this={eventRowDivRef}
 >
-	<div class="timeline-event-date-year-container">
+	<div class="timeline-event-date-year-container {eventDateYearCss}">
 		<div class="timeline-event-date {eventDateCss}">
 			<!-- show month name with three letters like AUG -->
 			{eventDateCorrected.toString() !== 'Invalid Date'
@@ -134,6 +136,9 @@
 				? eventDateCorrected.getUTCFullYear()
 				: 'Year?'}
 		</div>
+		{#if timelineEvent?.isApprxDate}
+			<div class="timeline-event-date-apprx">(apprx.)</div>
+		{/if}
 	</div>
 	<div class="timeline-event-node {eventNodeCss}" />
 	<div class="timeline-event-line {eventDetailLineCss}" />
@@ -196,6 +201,15 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 0px 0px 5px 5px;
+	}
+
+	.timeline-event-date-apprx {
+		display: flex;
+		width: -webkit-fill-available;
+		width: -moz-available;
+		justify-content: center;
+		font-size: 10px;
+		padding-top: 3px;
 	}
 
 	.timeline-event-node {

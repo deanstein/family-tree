@@ -34,6 +34,7 @@
 	import SideBySideContainer from '$lib/components/SideBySideContainer.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 
 	// get the event data
 	let eventType = $tempState?.timelineEditEvent?.eventType;
@@ -48,12 +49,15 @@
 
 	// all possible input values
 	let eventDateInputValue = $tempState?.timelineEditEvent?.eventDate;
+	let eventDateApprxValue = $tempState?.timelineEditEvent?.isApprxDate;
 	let eventTypeInputValue = $tempState?.timelineEditEvent?.eventType;
 	let eventContentInputValue = $tempState?.timelineEditEvent?.eventContent.description;
 	let birthdateInputValue = $uiState?.activePerson?.birth?.date;
+	let birthdateApprxInputValue = $uiState?.activePerson?.birth?.apprxDate;
 	let birthtimeInputValue = $uiState?.activePerson?.birth?.time;
 	let birthplaceInputValue = $uiState?.activePerson?.birth?.place;
 	let deathDateInputValue = $uiState?.activePerson?.death?.date;
+	let deathDateApprxInputValue = $uiState?.activePerson?.death?.apprxDate;
 	let deathPlaceInputValue = $uiState?.activePerson?.death?.place;
 	let deathTimeInputValue = $uiState?.activePerson?.death?.time;
 	let deathCauseInputValue = $uiState?.activePerson?.death?.cause;
@@ -66,11 +70,13 @@
 		switch (eventType) {
 			case timelineEventTypes.birth.type:
 				writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
+				writeUIStateValueAtPath('activePerson.birth.apprxDate', birthdateApprxInputValue);
 				writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
 				writeUIStateValueAtPath('activePerson.birth.time', birthtimeInputValue);
 				break;
 			case timelineEventTypes.death.type:
 				writeUIStateValueAtPath('activePerson.death.date', deathDateInputValue);
+				writeUIStateValueAtPath('activePerson.death.apprxDate', deathDateApprxInputValue);
 				writeUIStateValueAtPath('activePerson.death.place', deathPlaceInputValue);
 				writeUIStateValueAtPath('activePerson.death.time', deathTimeInputValue);
 				writeUIStateValueAtPath('activePerson.death.cause', deathCauseInputValue);
@@ -80,6 +86,7 @@
 				const newEventFromInputs = instantiateObject($tempState.timelineEditEvent);
 				newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
 				newEventFromInputs.eventDate = eventDateInputValue;
+				newEventFromInputs.isApprxDate = eventDateApprxValue;
 				newEventFromInputs.eventType = eventTypeInputValue;
 				newEventFromInputs.eventContent.description = eventContentInputValue;
 				addOrReplaceTimelineEvent(newEventFromInputs);
@@ -91,17 +98,20 @@
 		switch (eventType) {
 			case timelineEventTypes.birth.type:
 				birthdateInputValue = $uiState.activePerson.birth.date;
+				birthdateApprxInputValue = $uiState.activePerson.birth.apprxDate;
 				birthtimeInputValue = $uiState.activePerson.birth.time;
 				birthplaceInputValue = $uiState.activePerson.birth.place;
 				break;
 			case timelineEventTypes.death.type:
 				deathDateInputValue = $uiState.activePerson.death.date;
+				deathDateApprxInputValue = $uiState.activePerson.death.apprxDate;
 				deathPlaceInputValue = $uiState.activePerson.death.place;
 				deathTimeInputValue = $uiState.activePerson.death.time;
 				deathCauseInputValue = $uiState.activePerson.death.cause;
 				break;
 			default:
 				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
+				eventDateApprxValue = $tempState.timelineEditEvent.isApprxDate;
 				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
 				eventContentInputValue = $tempState.timelineEditEvent.eventContent.description;
 		}
@@ -209,6 +219,13 @@
 					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
 				</InputContainer>
 			</SideBySideContainer>
+			<div class="approximate-date-row">
+				<Checkbox
+					label={timelineEventStrings.eventDateApprx}
+					isEnabled={isInEditMode}
+					bind:isChecked={birthdateApprxInputValue}
+				/>
+			</div>
 			<InputContainer label={timelineEventStrings.birthplace}>
 				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isInEditMode} />
 			</InputContainer>
@@ -223,6 +240,13 @@
 					<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isInEditMode} />
 				</InputContainer>
 			</SideBySideContainer>
+			<div class="approximate-date-row">
+				<Checkbox
+					label={timelineEventStrings.eventDateApprx}
+					isEnabled={isInEditMode}
+					bind:isChecked={deathDateApprxInputValue}
+				/>
+			</div>
 			<InputContainer label={timelineEventStrings.deathPlace}>
 				<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isInEditMode} />
 			</InputContainer>
@@ -245,6 +269,13 @@
 					/>
 				</InputContainer>
 			</SideBySideContainer>
+			<div class="approximate-date-row">
+				<Checkbox
+					label={timelineEventStrings.eventDateApprx}
+					isEnabled={isInEditMode}
+					bind:isChecked={eventDateApprxValue}
+				/>
+			</div>
 			<InputContainer label="Description">
 				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
 			</InputContainer>
@@ -324,5 +355,11 @@
 		flex-direction: column;
 		padding: 10px;
 		background-color: white;
+	}
+
+	.approximate-date-row {
+		width: -webkit-fill-available;
+		padding-bottom: 10px;
+		margin-top: -10px;
 	}
 </style>

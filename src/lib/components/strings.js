@@ -37,6 +37,7 @@ export const timelineEventStrings = {
 	deathPlace: 'Place of Death',
 	deathTime: 'Time of Death',
 	deathCause: 'Cause of Death',
+	eventDateApprx: 'Approximate date?',
 	childEventModalTitle: 'Child Event Details',
 	residenceEventModalTitle: 'Residence Event Details',
 	vehicleEventModalTitle: 'Vehicle Event Details',

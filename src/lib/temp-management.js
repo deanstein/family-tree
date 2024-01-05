@@ -425,9 +425,9 @@ export const getActiveTimelineEditEvent = () => {
 	let timelineEvent;
 	tempState.subscribe((currentValue) => {
 		timelineEvent = currentValue.timelineEditEvent;
-	})
+	});
 	return timelineEvent;
-}
+};
 
 export const setTimelineEditEventId = (timelineEditEventId) => {
 	tempState.update((currentValue) => {

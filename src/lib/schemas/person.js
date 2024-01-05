@@ -10,6 +10,7 @@ export const person = {
 	gender: 'Unspecified',
 	birth: {
 		date: '',
+		apprxDate: false,
 		place: '',
 		time: ''
 	},
@@ -17,6 +18,7 @@ export const person = {
 	deceased: false,
 	death: {
 		date: '',
+		apprxDate: false,
 		place: '',
 		time: '',
 		cause: ''

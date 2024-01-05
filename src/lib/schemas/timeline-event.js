@@ -4,6 +4,7 @@ const timelineEvent = {
 	eventId: '',
 	eventType: '',
 	eventDate: '',
+	isApprxDate: false,
 	eventContent: (() => {
 		let eventContent = {};
 		Object.keys(timelineEventContent).forEach((element) => {
