@@ -71,7 +71,7 @@
 				faIcon={'fa-box-open'}
 				buttonText={chooseTreeStrings.exampleTreeButton}
 				buttonFunction={exampleFamilyTreeButtonOnClick}
-				buttonColor={stylingConstants.colors.personNodeGradient2}
+				buttonColor={stylingConstants.colors.activePersonNodeColor}
 				description={chooseTreeStrings.exampleTreeDescription}
 			/>
 			<ChooseTreeOption
