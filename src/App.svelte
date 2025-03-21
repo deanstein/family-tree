@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import familyTreeData from '$lib/stores/family-tree-data';
@@ -29,8 +28,9 @@
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
+	import { jdgSizes } from 'jdg-ui-svelte/jdg-shared-styles.js';
 
-	import { JDGAppContainer, JDGFooter } from 'jdg-ui-svelte';
+	import { JDGAppContainer, JDGButton, JDGFooter } from 'jdg-ui-svelte';
 	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
 	import DevTools from '$lib/components/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from '$lib/components/Modals/EditAlternateNameModal.svelte';
@@ -45,6 +45,7 @@
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
 	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
 
+	let doShowDevTools;
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
@@ -65,6 +66,13 @@
 		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
 		redrawNodeConnectionLines($uiState.activePerson.id);
 	});
+
+	const toggleDevTools = () => {
+		uiState.update((currentValue) => {
+			currentValue.showDevTools = !currentValue.showDevTools;
+			return currentValue;
+		});
+	};
 
 	const appContainerCss = css`
 		a {
@@ -121,7 +129,7 @@
 	<script src="https://kit.fontawesome.com/6cf50e6673.js" crossorigin="anonymous"></script>
 </head>
 <main>
-	<JDGAppContainer>
+	<JDGAppContainer showHeaderStripes={false}>
 		<div
 			id="app-container"
 			class="app-container {appContainerCss}"
@@ -430,7 +438,19 @@
 				webAppVersionLabel="App"
 				additionalVersionData={'Schema: v' + schemaVersion}
 				alignItems="center"
-			/>
+			>
+				<JDGButton
+					onClickFunction={toggleDevTools}
+					label={null}
+					tooltip={$doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
+					isPrimary={false}
+					paddingTopBottom="5px"
+					paddingLeftRight="10px"
+					faIcon={$doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
+					fontSize={jdgSizes.fontSizeBodyXSm}
+					doForceSquareRatio
+				/>
+			</JDGFooter>
 			{#if $uiState.showDevTools}
 				<DevTools />
 			{/if}
