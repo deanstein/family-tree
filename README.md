@@ -3,7 +3,7 @@
 An interactive family tree web app with support for a radial tree view and a timeline view.
 
 ## Available now
-Try the latest version of the [Family Tree](https://deanstein.github.io/family-tree-deploy/).
+Try the latest version of the [Family Tree](https://deanstein.github.io/family-tree/).
 
 ## Development
 
