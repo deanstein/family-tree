@@ -70,6 +70,7 @@
 	const toggleDevTools = () => {
 		uiState.update((currentValue) => {
 			currentValue.showDevTools = !currentValue.showDevTools;
+			doShowDevTools = currentValue.showDevTools;
 			return currentValue;
 		});
 	};
@@ -439,11 +440,11 @@
 				<JDGButton
 					onClickFunction={toggleDevTools}
 					label={null}
-					tooltip={$doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
+					tooltip={doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
 					isPrimary={false}
 					paddingTopBottom="5px"
 					paddingLeftRight="10px"
-					faIcon={$doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
+					faIcon={doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
 					fontSize={jdgSizes.fontSizeBodyXSm}
 					doForceSquareRatio
 				/>
