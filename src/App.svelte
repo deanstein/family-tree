@@ -28,11 +28,13 @@
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
+	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
+
+	import { JDGFooter } from 'jdg-ui-svelte';
 	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
 	import DevTools from '$lib/components/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from '$lib/components/Modals/EditAlternateNameModal.svelte';
 	import EditTimelineEventModal from '$lib/components/Timeline/EventDetail/EventDetailModal.svelte';
-	import Footer from '$lib/components/Footer.svelte';
 	import GenerationRow from '$lib/components/NodeView/GenerationRow/GenerationRow.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import NodeActionsModal from '$lib/components/Modals/NodeActionsModal.svelte';
@@ -115,7 +117,12 @@
 	<script src="https://kit.fontawesome.com/6cf50e6673.js" crossorigin="anonymous"></script>
 </head>
 <main>
-	<div id="app-container" class="app-container {appContainerCss}" on:contextmenu={blockContextMenu}>
+	<div
+		id="app-container"
+		class="app-container {appContainerCss}"
+		on:contextmenu={blockContextMenu}
+		role="main"
+	>
 		<ChooseTreeModal />
 		{#if $tempState.mediaGalleryActiveId !== undefined}
 			<MediaGalleryModal />
@@ -411,7 +418,14 @@
 				</GenerationRow>
 			</div>
 		</div>
-		<Footer {appVersion} {schemaVersion} />
+		<JDGFooter
+			repoName={familyTreeRepoName}
+			copyrightHref="https://jdeangoldstein.com"
+			{appVersion}
+			webAppVersionLabel="App"
+			additionalVersionData={'Schema: v' + schemaVersion}
+			alignItems="center"
+		/>
 		{#if $uiState.showDevTools}
 			<DevTools />
 		{/if}

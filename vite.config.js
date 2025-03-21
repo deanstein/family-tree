@@ -4,15 +4,15 @@ import path from 'path';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
-const file = fileURLToPath(new URL('package.json', import.meta.url));
-const json = readFileSync(file, 'utf8');
-const pkg = JSON.parse(json);
+const packageJsonFile = fileURLToPath(new URL('package.json', import.meta.url));
+const packageJsonData = readFileSync(packageJsonFile, 'utf8');
+const packageJson = JSON.parse(packageJsonData);
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [svelte()],
 	define: {
-		PKG: pkg
+		packageJson: packageJson
 	},
 	publicDir: 'static',
 	base: '',

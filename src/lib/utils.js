@@ -1,10 +1,4 @@
 import CryptoJS from 'crypto-js';
-import {
-	repoOwner,
-	deploymentRepoName,
-	getLatestBuildDateFromPublicRepo,
-	getTotalCommitsInPublicRepo
-} from './persistence-management';
 
 export const decrypt = (encrypted, password) => {
 	try {
@@ -246,29 +240,6 @@ export const getNumberOfYearsBetweenEvents = (startDate, endDate) => {
 	}
 
 	return years;
-};
-
-// build code is in this format:
-// yyyymmdd.nn where yyyymmdd is the date and nn is amount of commits
-// (only because it's apparently hard to get the total amount of deployments?)
-export const getBuildCode = async () => {
-	const buildDate = await getLatestBuildDateFromPublicRepo(repoOwner, deploymentRepoName);
-	const buildNumber = await getTotalCommitsInPublicRepo(repoOwner, deploymentRepoName);
-	const newDate = new Date(buildDate);
-	const year = newDate.getFullYear().toString();
-	let month = (newDate.getMonth() + 1).toString();
-	if (month.length === 1) {
-		month = '0' + month;
-	}
-	let day = newDate.getDate().toString();
-	if (day.length === 1) {
-		day = '0' + day;
-	}
-
-	return year
-		.concat(month)
-		.concat(day)
-		.concat('.' + buildNumber);
 };
 
 export const largest = (a, b) => {

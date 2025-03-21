@@ -1,6 +1,6 @@
 // get the app version from package.json
 //@ts-expect-error
-export const appVersion = PKG.version;
+export const appVersion = packageJson.version;
 export const appChangelog = {
 	'v0.xx.x': {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
