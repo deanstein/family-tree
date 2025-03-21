@@ -125,9 +125,6 @@
 	}
 </script>
 
-<head>
-	<script src="https://kit.fontawesome.com/6cf50e6673.js" crossorigin="anonymous"></script>
-</head>
 <main>
 	<JDGAppContainer showHeaderStripes={false}>
 		<div
