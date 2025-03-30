@@ -130,6 +130,8 @@
 {#key sPersonId}
 	<div
 		class="person-node {personNodeCss}"
+		role="button"
+		tabindex="0"
 		on:mouseenter={onPersonNodeMouseEnterAction}
 		on:mouseleave={onPersonNodeMouseLeaveAction}
 		on:click={onPersonNodeClickAction}

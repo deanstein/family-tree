@@ -11,6 +11,8 @@
 <div class="person-node-scrolling-window-outer-container">
 	<div
 		class="person-node-scrolling-window-inner-container"
+		role="button"
+		tabindex="0"
 		on:click|stopPropagation
 		on:keypress|stopPropagation
 		on:wheel={scrollHorizontal}

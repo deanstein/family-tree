@@ -48,6 +48,8 @@
 
 <div
 	class="person-node-for-select {personNodeForSelectCss}"
+	role="button"
+	tabindex="0"
 	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >
