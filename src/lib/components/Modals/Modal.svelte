@@ -167,7 +167,6 @@
 		height: -webkit-fill-available;
 		height: -moz-available;
 		min-height: 0;
-		overflow: auto;
 	}
 
 	.modal-toolbar-slot {
