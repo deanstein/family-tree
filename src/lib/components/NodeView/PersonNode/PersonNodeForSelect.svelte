@@ -39,6 +39,7 @@
 		width: ${stylingConstants.sizes.personNodeSize};
 		height: ${stylingConstants.sizes.personNodeSize};
 		background-color: ${stylingConstants.colors.personNodeColor};
+		border: 2px solid transparent;
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
@@ -46,7 +47,7 @@
 </script>
 
 <div
-	class="person-node {personNodeForSelectCss}"
+	class="person-node-for-select {personNodeForSelectCss}"
 	on:click|stopPropagation={onPersonNodeForSelectClickAction}
 	on:keydown|stopPropagation
 >
@@ -57,13 +58,12 @@
 </div>
 
 <style>
-	.person-node {
+	.person-node-for-select {
 		display: flex;
 		position: relative;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		border: 2px solid transparent;
 	}
 
 	.person-node-content-area {
