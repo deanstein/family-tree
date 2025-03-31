@@ -178,7 +178,7 @@ const sizes = {
 	get timelineYearFontSize() {
 		return this.nTimelineYearFontSize + 'vh';
 	},
-	nTimelineSpineLineThickness: 0.9,
+	nTimelineSpineLineThickness: 0.45,
 	get timelineSpineThickness() {
 		return this.nTimelineSpineLineThickness + 'vw';
 	},
