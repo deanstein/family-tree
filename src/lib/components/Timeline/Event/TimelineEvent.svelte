@@ -120,6 +120,8 @@
 
 <div
 	class="timeline-event-row {eventRowCss}"
+	role="button"
+	tabindex="0"
 	on:click={onTimelineEventClickAction}
 	on:keydown={onTimelineEventClickAction}
 	bind:this={eventRowDivRef}
