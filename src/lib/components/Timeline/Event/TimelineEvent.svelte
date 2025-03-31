@@ -16,7 +16,7 @@
 
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 
-	export let timelineEvent = undefined; // one object to carry all event properties
+	export let timelineEvent; // one object to carry all event properties
 	export let backgroundColor = stylingConstants.colors.activeColorSubtle; // default color, but may be overridden
 	export let rowIndex;
 
