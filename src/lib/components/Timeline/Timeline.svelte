@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
@@ -6,6 +7,8 @@
 	import timelineEvent from '$lib/schemas/timeline-event';
 
 	import uiState from '$lib/stores/ui-state';
+
+	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';
 
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
@@ -77,6 +80,29 @@
 		forceRelativeSpacing = false;
 	};
 
+	let eventsInView = [];
+	onMount(() => {
+		// determine whether the spacing should default to relative
+		const timelineHeightPx = getMaxElementHeightPx(scrollingCanvasDivRef);
+		const emptyRowHeightPx = stylingConstants.sizes.nTimelineEventEmptyRowHeight;
+
+		// set relative spacing to true if at least 5 events would appear
+		const minEventsInView = 5;
+		for (let i = 0; i < timelineRowItems.length; i++) {
+			const rowItem = timelineRowItems[i];
+			const rowYPosPx =
+				rowItem.index * emptyRowHeightPx +
+				(eventsInView.length + 1 * stylingConstants.sizes.nTimelineEventFilledRowHeight);
+			if (rowYPosPx < timelineHeightPx) {
+				eventsInView.push(rowItem.index);
+				console.log('PUSHING', rowYPosPx, timelineHeightPx);
+			}
+			if (eventsInView.length > minEventsInView) {
+				forceRelativeSpacing = true;
+				break;
+			}
+		}
+	});
 	$: {
 		// ensure birth event is kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
@@ -97,7 +123,7 @@
 		// and ensure no shared rows in the grid
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 
-		// generate a gradient based on all timeline events
+		// generate a gradient of colors across all timeline events
 		timelineEventColors = generateGradient(
 			$uiState?.activePerson?.timelineEvents?.length + 2 /* account for birth and death */,
 			stylingConstants.colors.timelineEventBackgroundColorGradient1,
@@ -107,7 +133,9 @@
 
 		// ensure custom css is kept updated
 		timelineEventGridCss = css`
-			row-gap: ${forceRelativeSpacing ? '1px' : 'auto'};
+			row-gap: ${forceRelativeSpacing
+				? stylingConstants.sizes.timelineEventEmptyRowHeight
+				: 'auto'};
 		`;
 	}
 </script>

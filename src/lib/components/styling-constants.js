@@ -162,6 +162,14 @@ const sizes = {
 	get bioFieldBorderRadius() {
 		return this.nBioFieldBorderRadius + 'px';
 	},
+	nTimelineEventEmptyRowHeight: 1,
+	get timelineEventEmptyRowHeight() {
+		return this.nTimelineEventEmptyRowHeight + 'px';
+	},
+	nTimelineEventFilledRowHeight: 80,
+	get timelineEventFilledRowheight() {
+		return this.nTimelineEventFilledRowHeight + 'px';
+	},
 	nTimelineDateFontSize: 1.5,
 	get timelineDateFontSize() {
 		return this.nTimelineDateFontSize + 'vh';
