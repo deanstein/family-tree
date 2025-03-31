@@ -159,7 +159,7 @@
 	<div class="timeline-content-container">
 		<TimelineSpine />
 		<div class="timeline-scrolling-canvas" bind:this={scrollingCanvasDivRef}>
-			<!-- the vertical line for the timeline -->
+			<!-- the grid containing all timeline events -->
 			<div class="timeline-event-grid {timelineEventGridCss}">
 				<!-- always present and always at the top: birth -->
 				<TimelineEvent
