@@ -150,6 +150,7 @@
 			<!-- hide age if this is the birth event -->
 			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
 				<div class="timeline-event-age {eventAgeCss}">
+					{eventAge.toString() !== 'NaN' ? 'Age: ' : ''}
 					{eventAge.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
