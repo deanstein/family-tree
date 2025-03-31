@@ -17,7 +17,7 @@
 		on:keypress|stopPropagation
 		on:wheel={scrollHorizontal}
 	>
-		{#each $tempState.personIdsOffScreenFiltered as personId}
+		{#each $tempState.personIdsOffScreenFiltered as personId (personId)}
 			<PersonNodeForSelect {personId} {relationshipId} />
 		{/each}
 	</div>
