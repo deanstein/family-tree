@@ -95,7 +95,6 @@
 				(eventsInView.length + 1 * stylingConstants.sizes.nTimelineEventFilledRowHeight);
 			if (rowYPosPx < timelineHeightPx) {
 				eventsInView.push(rowItem.index);
-				console.log('PUSHING', rowYPosPx, timelineHeightPx);
 			}
 			if (eventsInView.length > minEventsInView) {
 				forceRelativeSpacing = true;
