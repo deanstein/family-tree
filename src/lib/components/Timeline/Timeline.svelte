@@ -8,6 +8,7 @@
 
 	import uiState from '$lib/stores/ui-state';
 
+	// @ts-expect-error
 	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';
 
 	import { schemaVersion } from '$lib/versions';

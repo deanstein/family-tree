@@ -27,7 +27,9 @@
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
+	// @ts-expect-error
 	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
+	// @ts-expect-error
 	import { jdgSizes } from 'jdg-ui-svelte/jdg-shared-styles.js';
 
 	import { JDGAppContainer, JDGButton, JDGFooter } from 'jdg-ui-svelte';
