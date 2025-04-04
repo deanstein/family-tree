@@ -5,9 +5,6 @@
 	import relationshipMap from '$lib/schemas/relationship-map';
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
-
-	import stylingConstants from '$lib/components/styling-constants';
-
 	import {
 		updateOffScreenPeopleIdsArray,
 		updateFilteredOffScreenPeopleIdsArray,
@@ -18,12 +15,14 @@
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let nameInputValue;
-	export let relationshipInputValue;
+	export let relationshipInputValue = undefined;
 	export let compatibleGroups = $tempState.nodeEditCompatibleGroups;
 	export let nodeSize = stylingConstants.sizes.personNodeSize;
 	export let isNewPerson = undefined;
+	export let context;
 
 	let personNodeCss;
 
@@ -70,7 +69,7 @@
 				useFunction={isNewPerson ? useFunction : undefined}
 				{onKeyUpFunction}
 			/>
-			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id}
+			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
 				<div class="select-container">
 					<Select
 						optionValueKey="id"
@@ -85,7 +84,7 @@
 		</div>
 	</div>
 	{#if $tempState.personIdsOffScreenFiltered.length > 0}
-		<PersonNodeScrollingWindow relationshipId={$tempState.nodeEditRelationshipId} />
+		<PersonNodeScrollingWindow relationshipId={$tempState.nodeEditRelationshipId} {context} />
 	{/if}
 </div>
 

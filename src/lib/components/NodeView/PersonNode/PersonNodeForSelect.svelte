@@ -20,11 +20,16 @@
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import NameInput from '$lib/components/NodeView/PersonNode/NameLabel.svelte';
+	import contexts from '$lib/schemas/contexts';
 
 	export let personId;
 	export let relationshipId;
+	export let context; // context determines what action should be taken on click
 
-	const onPersonNodeForSelectClickAction = () => {
+	// various actions that can occur when the node is clicked
+
+	// adds a relationship to the person being viewed in the person detail modal
+	const addRelationshipToPerson = () => {
 		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
 		addOrUpdateActivePersonInNewPersonGroup(personId, $tempState.nodeEditGroupId);
 		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, relationshipId);
@@ -33,6 +38,23 @@
 		checkPersonForUnsavedChanges(personId);
 		// TODO: try to keep the actions modal open
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
+	};
+
+	const addAssociatedPersonToEvent = () => {};
+
+	// the onClickAction will differ depending on the context
+	const onClickAction = () => {
+		switch (context) {
+			case contexts.nodeActionsModal:
+				addRelationshipToPerson();
+				break;
+			case contexts.eventDetailsModal:
+				addAssociatedPersonToEvent();
+				break;
+			default:
+				console.error('PersonNodeForSelect: No function matching the given context.');
+				break;
+		}
 	};
 
 	const personNodeForSelectCss = css`
@@ -50,7 +72,7 @@
 	class="person-node-for-select {personNodeForSelectCss}"
 	role="button"
 	tabindex="0"
-	on:click|stopPropagation={onPersonNodeForSelectClickAction}
+	on:click|stopPropagation={onClickAction}
 	on:keydown|stopPropagation
 >
 	<div class="person-node-content-area">

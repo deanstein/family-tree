@@ -1,7 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
+	import { v4 as uuidv4 } from 'uuid';
 
+	import { person } from '$lib/schemas/person';
 	import personNodeGroup from '$lib/schemas/person-node-group';
+	import contexts from '$lib/schemas/contexts';
 
 	import familyTreeData from '$lib/stores/family-tree-data';
 	import uiState from '$lib/stores/ui-state';
@@ -14,12 +17,20 @@
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
+	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 
 	export let associatedPeopleIds = [];
 	export let showEmptyState = true;
 	export let showGroupTitle = true;
 	export let showAddButton = true;
+
+	let tempPerson = instantiateObject(person);
+	tempPerson.id = new uuidv4();
+
+	const onClickAddAssociatedPersonButton = () => {
+		associatedPeopleIds = [...associatedPeopleIds, tempPerson];
+	};
 
 	const personNodeGroupData = instantiateObject(personNodeGroup);
 	personNodeGroupData.groupName = 'Was with:';
@@ -49,10 +60,10 @@
 	{/if}
 
 	{#if showAddButton}
-		<ButtonCircularInSquare />
+		<ButtonCircularInSquare onClickFunction={onClickAddAssociatedPersonButton} />
 	{/if}
 	{#each associatedPeopleIds as personId}
-		<PersonNode sPersonId={personId} />
+		<PersonNodeForEdit nameInputValue="" isNewPerson={false} context={contexts.eventDetailsModal} />
 	{/each}
 </div>
 

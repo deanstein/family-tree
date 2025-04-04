@@ -2,6 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import { defaultName } from '$lib/schemas/person';
+	import contexts from '$lib/schemas/contexts';
 
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
@@ -108,6 +109,7 @@
 				bind:relationshipInputValue
 				{isNewPerson}
 				nodeSize="15vh"
+				context={contexts.nodeActionsModal}
 			/>
 		</div>
 		{#if !isNewPerson}

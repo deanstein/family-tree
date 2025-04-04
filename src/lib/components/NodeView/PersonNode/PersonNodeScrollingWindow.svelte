@@ -6,6 +6,7 @@
 	import PersonNodeForSelect from '$lib/components/NodeView/PersonNode/PersonNodeForSelect.svelte';
 
 	export let relationshipId;
+	export let context;
 </script>
 
 <div class="person-node-scrolling-window-outer-container">
@@ -18,7 +19,7 @@
 		on:wheel={scrollHorizontal}
 	>
 		{#each $tempState.personIdsOffScreenFiltered as personId (personId)}
-			<PersonNodeForSelect {personId} {relationshipId} />
+			<PersonNodeForSelect {personId} {relationshipId} {context} />
 		{/each}
 	</div>
 </div>
