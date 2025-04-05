@@ -45,7 +45,8 @@ export const getAllPeopleIds = () => {
 };
 
 export const filterPeopleIds = (peopleIds, idsToRemove) => {
-	return peopleIds.filter(id => !idsToRemove.some(removeId => removeId === id));
+	const idsArray = Array.isArray(idsToRemove) ? idsToRemove.map(String) : [String(idsToRemove)];
+	return peopleIds.filter(id => !idsArray.some(removeId => removeId === id));
   };
 
 export const createNewPerson = () => {
