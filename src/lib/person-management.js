@@ -46,8 +46,8 @@ export const getAllPeopleIds = () => {
 
 export const filterPeopleIds = (peopleIds, idsToRemove) => {
 	const idsArray = Array.isArray(idsToRemove) ? idsToRemove.map(String) : [String(idsToRemove)];
-	return peopleIds.filter(id => !idsArray.some(removeId => removeId === id));
-  };
+	return peopleIds.filter((id) => !idsArray.some((removeId) => removeId === id));
+};
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
