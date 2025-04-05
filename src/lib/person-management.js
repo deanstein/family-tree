@@ -19,8 +19,7 @@ import {
 	setTimelineEditEvent,
 	unsetImageEditContent,
 	unsetImageEditId,
-	unsetMediaUploadedUrl,
-	updateOffScreenPeopleIdsArray
+	unsetMediaUploadedUrl
 } from '$lib/temp-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
@@ -34,6 +33,20 @@ import {
 	isUrlValid,
 	addOrReplaceObjectInArray
 } from '$lib/utils';
+
+// converts the store of all people
+// into an array of IDs
+export const getAllPeopleIds = () => {
+	let allPeopleIds;
+	familyTreeData.subscribe((currentValue) => {
+		allPeopleIds = currentValue.allPeople.map((person) => person.id);
+	});
+	return allPeopleIds;
+};
+
+export const filterPeopleIds = (peopleIds, idsToRemove) => {
+	return peopleIds.filter(id => !idsToRemove.some(removeId => removeId === id));
+  };
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -149,6 +162,13 @@ export const getCachedPersonById = (id) => {
 	return cachedPerson;
 };
 
+// gets IDs of all related people to this person
+export const getPersonRelationshipIds = (person) => {
+	return Object.values(person.relationships)
+		.flat() // Flatten the arrays
+		.map((rel) => rel.id); // Extract the IDs
+};
+
 export const getPersonBirthYear = (person) => {
 	let birthYear;
 
@@ -201,7 +221,6 @@ export const setActivePerson = (person) => {
 			lastKnownActivePersonId: person.id
 		};
 	});
-	updateOffScreenPeopleIdsArray();
 };
 
 export const setPersonName = (sPersonId, sName) => {

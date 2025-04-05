@@ -1,15 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
-	import { onMount } from 'svelte';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
-	import {
-		updateOffScreenPeopleIdsArray,
-		updateFilteredOffScreenPeopleIdsArray,
-		initializeOffScreenPeopleIdsArray
-	} from '$lib/temp-management';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';
@@ -30,19 +24,6 @@
 		element.focus();
 		element.select();
 	};
-
-	const onKeyUpFunction = (event) => {
-		updateFilteredOffScreenPeopleIdsArray(event.target.value);
-		if (event.keyCode === 13) {
-			// TO DO: ensure enter acts as Done
-		}
-	};
-
-	onMount(() => {
-		initializeOffScreenPeopleIdsArray();
-		updateOffScreenPeopleIdsArray();
-		updateFilteredOffScreenPeopleIdsArray(nameInputValue);
-	});
 
 	$: {
 		personNodeCss = css`
@@ -67,7 +48,6 @@
 				bind:inputValue={nameInputValue}
 				textAlignOverride="center"
 				useFunction={isNewPerson ? useFunction : undefined}
-				{onKeyUpFunction}
 			/>
 			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
 				<div class="select-container">
@@ -83,9 +63,11 @@
 			{/if}
 		</div>
 	</div>
-	{#if $tempState.personIdsOffScreenFiltered.length > 0}
-		<PersonNodeScrollingWindow relationshipId={$tempState.nodeEditRelationshipId} {context} />
-	{/if}
+	<PersonNodeScrollingWindow
+		relationshipId={$tempState.nodeEditRelationshipId}
+		{context}
+		filterInputValue={nameInputValue}
+	/>
 </div>
 
 <style>
