@@ -4,12 +4,6 @@ const tempState = {
 	// if true, the add node buttons and relationship placeholders display for tree editing
 	buildMode: false,
 
-	// all the known people who aren't currently on screen
-	// this is used for showing a list of available people
-	personIdsOffScreen: [],
-	// same list as above, but filtered by text input value
-	personIdsOffScreenFiltered: [],
-
 	// if set, the node actions modal will display
 	nodeActionsModalPersonId: undefined,
 	// individual fields for node actions modal
