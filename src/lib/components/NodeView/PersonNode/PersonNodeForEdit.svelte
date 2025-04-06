@@ -20,6 +20,7 @@
 
 	let personNodeCss;
 
+	// ensures the input is focused when initialized
 	const useFunction = (element) => {
 		element.focus();
 		element.select();
@@ -47,7 +48,7 @@
 			<TextInput
 				bind:inputValue={nameInputValue}
 				textAlignOverride="center"
-				useFunction={isNewPerson ? useFunction : undefined}
+				{useFunction}
 			/>
 			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
 				<div class="select-container">
