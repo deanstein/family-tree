@@ -49,7 +49,9 @@
 
 	$: {
 		if (idsToDisplay && idsToDisplay.length > 0) {
+			// update the filtered ids when the filter input changes
 			filteredIds = filterIdsByInput(idsToDisplay, filterInputValue);
+			// ensure the window is shown any time the filter input changes
 			showWindow = true;
 		}
 	}
