@@ -8,6 +8,7 @@
 	import { getAllVisibleNodeViewPeople } from '$lib/temp-management';
 
 	import PersonNodeForSelect from '$lib/components/NodeView/PersonNode/PersonNodeForSelect.svelte';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
 	// show these people in the scrolling window
 	// if not supplied, will use the context
@@ -18,6 +19,10 @@
 	export let context;
 	// for NodeDetailsModal, the relationshipId will be used when clicking a PersonNode
 	export let relationshipId;
+
+	// the window can be hidden with a button
+	// but will show any time the filterInputValue changes
+	let showWindow = true;
 
 	let filteredIds;
 	const filterIdsByInput = (idsToDisplay, filter) => {
@@ -37,7 +42,6 @@
 					break;
 				case contexts.eventDetailsModal:
 					idsToDisplay = filterPeopleIds(getAllPeopleIds(), $uiState.activePerson.id);
-					console.log(getAllPeopleIds(), $uiState.activePerson.id, idsToDisplay);
 					break;
 			}
 		}
@@ -46,12 +50,21 @@
 	$: {
 		if (idsToDisplay && idsToDisplay.length > 0) {
 			filteredIds = filterIdsByInput(idsToDisplay, filterInputValue);
+			showWindow = true;
 		}
 	}
 </script>
 
-{#if idsToDisplay && idsToDisplay.length > 0}
+{#if showWindow && idsToDisplay && idsToDisplay.length > 0 && filteredIds.length > 0}
 	<div class="person-node-scrolling-window-outer-container">
+		<div class="person-node-scrolling-window-top-bar">
+			<ButtonCircular
+				faIcon="fa-xmark"
+				onClickFunction={() => {
+					showWindow = false;
+				}}
+			/>
+		</div>
 		<div
 			class="person-node-scrolling-window-inner-container"
 			role="button"
@@ -73,8 +86,14 @@
 		top: 100%;
 		max-width: 500%; /* 5x the width of the node */
 		z-index: 1;
-		padding: 10px;
+		padding: 0 10px 10px 10px;
 		background-color: gray;
+	}
+
+	.person-node-scrolling-window-top-bar {
+		display: flex;
+		justify-content: flex-end;
+		padding: 10px 0 10px 0;
 	}
 
 	.person-node-scrolling-window-inner-container {
