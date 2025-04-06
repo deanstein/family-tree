@@ -282,7 +282,7 @@
 			<InputContainer label="Images">
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
-						allowEdit={false}
+						allowEdit={isInEditMode}
 						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={true}
@@ -297,6 +297,7 @@
 						showGroupTitle={false}
 						showAddButton={true}
 						showEmptyState={false}
+						enabled={isInEditMode}
 					/>
 				</div>
 			</InputContainer>

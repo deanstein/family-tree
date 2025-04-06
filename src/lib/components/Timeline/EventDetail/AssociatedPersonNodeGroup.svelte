@@ -10,8 +10,6 @@
 	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
 
-	import { instantiateObject } from '$lib/utils';
-
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
@@ -20,34 +18,25 @@
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 
+	export let enabled;
 	export let associatedPeopleIds = [];
 	export let showEmptyState = true;
 	export let showGroupTitle = true;
 	export let showAddButton = true;
 
-	let tempPerson = instantiateObject(person);
-	tempPerson.id = new uuidv4();
+	// ensures only one edit node is active at a time
+	let isAddingNode = false;
 
-	const onClickAddAssociatedPersonButton = () => {
-		associatedPeopleIds = [...associatedPeopleIds, tempPerson];
+	const addAssociatedPerson = () => {
+		//associatedPeopleIds = [...associatedPeopleIds, tempPerson];
 	};
-
-	const personNodeGroupData = instantiateObject(personNodeGroup);
-	personNodeGroupData.groupName = 'Was with:';
 
 	const personNodeGroupOuterContainerCss = css`
 		gap: ${stylingConstants.sizes.padding};
 	`;
 
 	$: {
-		personNodeGroupData.groupMembers =
-			$tempState?.timelineEditEvent?.eventContent?.associatedPeople;
-		// remove the active person from the person node group data
-		const activePersonIndex = $familyTreeData.allPeople.indexOf($uiState.activePerson.id);
-		// remove the active person from the list of candidates to show
-		if (activePersonIndex > -1) {
-			personNodeGroupData.groupmembers.splice(activePersonIndex, 1);
-		}
+		//personNodeGroupData.groupMembers = $tempState?.timelineEditEvent?.eventContent?.associatedPeople;
 	}
 </script>
 
@@ -60,10 +49,18 @@
 	{/if}
 
 	{#if showAddButton}
-		<ButtonCircularInSquare onClickFunction={onClickAddAssociatedPersonButton} />
+		<ButtonCircularInSquare
+			onClickFunction={() => {
+				isAddingNode = true;
+			}}
+			{enabled}
+		/>
+	{/if}
+	{#if isAddingNode}
+		<PersonNodeForEdit nameInputValue="" context={contexts.eventDetailsModal} />
 	{/if}
 	{#each associatedPeopleIds as personId}
-		<PersonNodeForEdit nameInputValue="" isNewPerson={false} context={contexts.eventDetailsModal} />
+		<PersonNode sPersonId={personId} />
 	{/each}
 </div>
 

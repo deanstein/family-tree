@@ -28,7 +28,7 @@
 	{/if}
 	<div class="image-thumbnail-group-inner-container">
 		{#if showAddButton}
-			<AddButtonSquare onClickFunction={onClickAddFunction} />
+			<AddButtonSquare enabled={allowEdit} onClickFunction={onClickAddFunction} />
 		{/if}
 		{#if imageArray}
 			{#each imageArray as image}

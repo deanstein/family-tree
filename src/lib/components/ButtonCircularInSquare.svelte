@@ -1,12 +1,12 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { JDGButton } from 'jdg-ui-svelte';
+
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
-
+	export let enabled = true;
 	export let onClickFunction = () => {};
-	export let colorOverride = undefined;
 
 	let isHovering = false;
 
@@ -27,24 +27,42 @@
 	$: {
 		squareContainerCss = css`
 			${squareContainerCss}
-			border: ${isHovering
-				? `2px solid ${stylingConstants.colors.hoverColor}`
-				: '2px solid transparent'};
+			cursor: ${enabled ? 'pointer' : 'default'};
+			border: ${enabled
+				? `2px solid ${stylingConstants.colors.buttonColorPrimary}`
+				: `2px solid transparent`};
+			:hover {
+				border: ${enabled
+					? `2px solid ${stylingConstants.colors.hoverColor}`
+					: `2px solid transparent`};
+			}
 		`;
 	}
 </script>
 
 <div
 	class="square-container {squareContainerCss}"
-	on:click={onClickFunction}
-	on:keypress={onClickFunction}
+	on:click={enabled ? onClickFunction : () => {}}
+	on:keypress={enabled ? onClickFunction : () => {}}
 	on:mouseover={onHoverFunction}
 	on:focus={onHoverFunction}
 	on:mouseleave={onBlurFunction}
+	role="button"
+	tabindex="0"
 >
-	<ButtonCircular
+	<JDGButton
 		{onClickFunction}
-		colorOverride={isHovering ? stylingConstants.colors.hoverColor : colorOverride}
+		faIcon="fa-plus fa-fw"
+		isEnabled={enabled}
+		label={null}
+		doForceSquareRatio
+		paddingLeftRight="4px"
+		paddingTopBottom="4px"
+		fontSize="1rem"
+		backgroundColor={isHovering
+			? stylingConstants.colors.hoverColor
+			: stylingConstants.colors.buttonColorPrimary}
+		backgroundColorHover={enabled ? stylingConstants.colors.hoverColor : 'transparent'}
 	/>
 </div>
 
@@ -53,6 +71,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		cursor: pointer;
 	}
 </style>

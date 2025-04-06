@@ -15,7 +15,6 @@
 	export let relationshipInputValue = undefined;
 	export let compatibleGroups = $tempState.nodeEditCompatibleGroups;
 	export let nodeSize = stylingConstants.sizes.personNodeSize;
-	export let isNewPerson = undefined;
 	export let context;
 
 	let personNodeCss;
@@ -45,11 +44,7 @@
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
 
 		<div class="person-node-inputs-container">
-			<TextInput
-				bind:inputValue={nameInputValue}
-				textAlignOverride="center"
-				{useFunction}
-			/>
+			<TextInput bind:inputValue={nameInputValue} textAlignOverride="center" {useFunction} />
 			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
 				<div class="select-container">
 					<Select

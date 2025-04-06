@@ -3,6 +3,7 @@
 
 	import stylingConstants from '$lib/components/styling-constants';
 
+	export let enabled = true;
 	export let onClickFunction = undefined;
 	export let faIcon = 'fa-plus'; // default icon
 	export let colorOverride = undefined;
@@ -27,19 +28,21 @@
 </script>
 
 <div class="circular-button-container">
-	<div
+	<button
 		class="circular-button {circularButtonCss}"
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
+		disabled={!enabled}
 	>
 		<div class="circular-button-label">
 			<i class="fa-solid {faIcon}" />
 		</div>
-	</div>
+	</button>
 </div>
 
 <style>
 	.circular-button {
+		border: none;
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -107,7 +107,6 @@
 			<PersonNodeForEdit
 				bind:nameInputValue
 				bind:relationshipInputValue
-				{isNewPerson}
 				nodeSize="15vh"
 				context={contexts.nodeActionsModal}
 			/>
