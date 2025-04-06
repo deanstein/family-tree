@@ -31,5 +31,6 @@ export const person = {
 		return relationships;
 	})(),
 	timelineEvents: [],
+	timelineEventReferences: [],
 	bioPhotoUrl: ''
 };

@@ -1,6 +1,6 @@
 const timelineEventContent = {
 	description: '',
-	associatedPeople: [],
+	associatedPeopleIds: [],
 	images: []
 };
 

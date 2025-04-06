@@ -86,6 +86,28 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 	return personDataToModify;
 };
 
+// upgrades a person directly in familyTreeData via id
+export const upgradePersonById = (personId) => {
+	const newPerson = createNewPerson();
+
+	// find the person by its id
+	const foundPersonIndex = getPersonIndexById(personId);
+	const foundPerson = getPersonById(personId);
+	let upgradedPerson;
+
+	// if there's a person, upgrade it if necessary
+	if (foundPerson) {
+		upgradedPerson = upgradePersonData(newPerson, foundPerson);
+	}
+
+	// set the person in familyTreeData
+	familyTreeData.update((currentValue) => {
+		//@ts-expect-error
+		currentValue.allPeople[foundPersonIndex] = upgradedPerson;
+		return currentValue;
+	});
+};
+
 // ensures a timeline event has the necessary fields
 export const upgradeTimelineEvent = (eventToUpgrade) => {
 	const originalVersion = eventToUpgrade.eventVersion;
@@ -117,7 +139,8 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 				return eventToUpgrade;
 			default:
 				deepMatchObjects(timelineEvent, eventToUpgrade, true);
-				// set the description field to the original string content, if applicable
+				// content used to only be a string,
+				// so set that as the description now
 				if (originalContentString) {
 					eventToUpgrade.eventContent.description = originalContentString;
 				}
@@ -130,6 +153,13 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 			for (let image in timelineEvent.eventContent.images) {
 				deepMatchObjects(imageObject, image);
 			}
+		}
+		// rename any existing arrays of associatedPeople to associatedPeopleIds
+		if (eventToUpgrade?.eventContent?.associatedPeople) {
+			// delete the old property (this was never populated)
+			delete eventToUpgrade.eventContent.associatedPeople;
+			// add new IDs prop
+			eventToUpgrade.eventContent.associatedPeopleIds = [];
 		}
 
 		upgraded = true;
@@ -772,6 +802,16 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	setImageEditContent(newImageContent);
 	// show the unsaved changes notification
 	checkActivePersonForUnsavedChanges();
+};
+
+export const addTimelineEventReference = (targetPersonId, timelineEventReference) => {
+	// get the target person by the id
+	let targetPersonIndex = getPersonIndexById(targetPersonId);
+	familyTreeData.update((currentValue) => {
+		//@ts-expect-error
+		currentValue.allPeople[targetPersonIndex].timelineEventReferences.push(timelineEventReference);
+		return currentValue;
+	});
 };
 
 // timeline event media management

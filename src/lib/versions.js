@@ -147,8 +147,16 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.11.5';
+export const schemaVersion = '0.12.0';
 export const schemaChangelog = {
+	'v0.12.x': {
+		Overview:
+			'v0.12.x adds support for eventReferences in people schema and updates support for associated people in event schema.',
+		Changes: [
+			'Added eventReferences field in person schema',
+			'Renamed associatedPeople to associatedPeopleIds in event schema'
+		]
+	},
 	'v0.11.x': {
 		Overview:
 			'v0.11.x adds support for uploading images and adds richer event content support, including images and associated people.',

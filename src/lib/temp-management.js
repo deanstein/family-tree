@@ -420,6 +420,14 @@ export const unsetImageEditContent = () => {
 	});
 };
 
+// timeline event associated people
+export const addAssociatedPersonToTimelineEvent = (personId) => {
+	tempState.update((currentValue) => {
+		currentValue.timelineEditEvent.eventContent.associatedPeopleIds.push(personId);
+		return currentValue;
+	});
+};
+
 // the just-uploaded media url for writing to the correct place in the active person later
 export const setMediaUploadedUrl = (imageUrl) => {
 	tempState.update((currentValue) => {

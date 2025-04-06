@@ -3,12 +3,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 
 	import { person } from '$lib/schemas/person';
-	import personNodeGroup from '$lib/schemas/person-node-group';
 	import contexts from '$lib/schemas/contexts';
-
-	import familyTreeData from '$lib/stores/family-tree-data';
-	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -17,6 +12,8 @@
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
+	import tempState from '$lib/stores/temp-state';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 
 	export let enabled;
 	export let associatedPeopleIds = [];
@@ -24,20 +21,9 @@
 	export let showGroupTitle = true;
 	export let showAddButton = true;
 
-	// ensures only one edit node is active at a time
-	let isAddingNode = false;
-
-	const addAssociatedPerson = () => {
-		//associatedPeopleIds = [...associatedPeopleIds, tempPerson];
-	};
-
 	const personNodeGroupOuterContainerCss = css`
 		gap: ${stylingConstants.sizes.padding};
 	`;
-
-	$: {
-		//personNodeGroupData.groupMembers = $tempState?.timelineEditEvent?.eventContent?.associatedPeople;
-	}
 </script>
 
 <div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
@@ -51,17 +37,20 @@
 	{#if showAddButton}
 		<ButtonCircularInSquare
 			onClickFunction={() => {
-				isAddingNode = true;
+				isPersonNodeEditActive.set(true);
 			}}
 			{enabled}
 		/>
 	{/if}
-	{#if isAddingNode}
+	{#if $isPersonNodeEditActive}
 		<PersonNodeForEdit nameInputValue="" context={contexts.eventDetailsModal} />
 	{/if}
-	{#each associatedPeopleIds as personId}
-		<PersonNode sPersonId={personId} />
-	{/each}
+	<!-- show all associated people in the tempState timelineEditEvent-->
+	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
+		{#each $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
+			<PersonNode sPersonId={personId} />
+		{/each}
+	{/if}
 </div>
 
 <style>

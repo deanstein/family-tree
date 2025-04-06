@@ -6,13 +6,17 @@
 	import {
 		getPersonById,
 		addOrUpdateActivePersonInNewPersonGroup,
-		removePersonFromPeopleArray
+		removePersonFromPeopleArray,
+		addTimelineEventReference,
+		upgradePersonById
 	} from '$lib/person-management';
 
 	import {
 		addOrUpdatePersonInActivePersonGroup,
 		removePersonFromActivePersonGroup
 	} from '$lib/ui-management';
+
+	import { addAssociatedPersonToTimelineEvent as addAssociatedPersonToActiveTimelineEvent } from '$lib/temp-management';
 
 	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
 
@@ -21,6 +25,10 @@
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import NameInput from '$lib/components/NodeView/PersonNode/NameLabel.svelte';
 	import contexts from '$lib/schemas/contexts';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import { instantiateObject } from '$lib/utils';
+	import timelineEventReference from '$lib/schemas/timeline-event-reference';
+	import uiState from '$lib/stores/ui-state';
 
 	export let personId;
 	export let relationshipId;
@@ -40,7 +48,23 @@
 		//showPersonNodeActionsModal(sPersonId, getPersonById(sPersonId).name, sRelationshipId, undefined);
 	};
 
-	const addAssociatedPersonToEvent = () => {};
+	const addAssociatedPersonToEvent = () => {
+		// add the associated person to this timeline event
+		addAssociatedPersonToActiveTimelineEvent(personId);
+		// add the event reference to the other person
+		upgradePersonById(personId); // ensure person is upgraded to receive event ref
+		const eventReference = instantiateObject(timelineEventReference);
+		uiState.subscribe((currentValue) => {
+			eventReference.personId = currentValue.activePerson.id;
+		});
+		tempState.subscribe((currentValue) => {
+			eventReference.eventId = currentValue.timelineEditEventId;
+		});
+		addTimelineEventReference(personId, eventReference);
+		// show the unsaved changes flag and stop editing
+		checkPersonForUnsavedChanges(personId);
+		isPersonNodeEditActive.set(false);
+	};
 
 	// the onClickAction will differ depending on the context
 	const onClickAction = () => {
