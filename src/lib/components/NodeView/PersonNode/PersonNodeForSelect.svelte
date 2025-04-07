@@ -1,7 +1,13 @@
 <script>
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
+	import timelineEventReference from '$lib/schemas/timeline-event-reference';
+
 	import tempState from '$lib/stores/temp-state';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import uiState from '$lib/stores/ui-state';
+	import contexts from '$lib/schemas/contexts';
 
 	import {
 		getPersonById,
@@ -17,18 +23,12 @@
 	} from '$lib/ui-management';
 
 	import { addAssociatedPersonToTimelineEvent as addAssociatedPersonToActiveTimelineEvent } from '$lib/temp-management';
-
 	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
-
-	import stylingConstants from '$lib/components/styling-constants';
+	import { instantiateObject } from '$lib/utils';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import NameInput from '$lib/components/NodeView/PersonNode/NameLabel.svelte';
-	import contexts from '$lib/schemas/contexts';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
-	import { instantiateObject } from '$lib/utils';
-	import timelineEventReference from '$lib/schemas/timeline-event-reference';
-	import uiState from '$lib/stores/ui-state';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let personId;
 	export let relationshipId;
@@ -52,14 +52,10 @@
 		// add the associated person to this timeline event
 		addAssociatedPersonToActiveTimelineEvent(personId);
 		// add the event reference to the other person
-		upgradePersonById(personId); // ensure person is upgraded to receive event ref
+		upgradePersonById(personId);
 		const eventReference = instantiateObject(timelineEventReference);
-		uiState.subscribe((currentValue) => {
-			eventReference.personId = currentValue.activePerson.id;
-		});
-		tempState.subscribe((currentValue) => {
-			eventReference.eventId = currentValue.timelineEditEventId;
-		});
+		eventReference.personId = get(uiState).activePerson.id;
+		eventReference.eventId = get(tempState).timelineEditEventId;
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
 		checkPersonForUnsavedChanges(personId);

@@ -1,3 +1,4 @@
+import { get } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
 import { person } from '$lib/schemas/person';
@@ -714,16 +715,20 @@ export function getDefaultRelationshipType(relationshipGroup) {
 }
 
 // timeline event management
-export const getTimelineEventById = (eventId) => {
+export const getTimelineEventById = (personId, eventId) => {
+	// get the person by id
+	let person;
+	// if it's the active person, use that instead of searching
+	const activePersonId = get(uiState).activePerson.id;
+	if (personId === activePersonId) {
+		person = get(uiState).activePerson;
+	} else {
+		person = getPersonById(personId);
+	}
+
 	let timelineEvent;
-	if (eventId) {
-		uiState.subscribe((currentValue) => {
-			timelineEvent = getObjectByKeyValueInArray(
-				currentValue.activePerson.timelineEvents,
-				'eventId',
-				eventId
-			);
-		});
+	if (person && eventId) {
+		timelineEvent = getObjectByKeyValueInArray(person.timelineEvents, 'eventId', eventId);
 	}
 
 	return timelineEvent;
@@ -784,12 +789,12 @@ export const deleteAllTimelineEventImagesFromRepo = async (timelineEvent) => {
 };
 
 export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
-	const existingTimelineEvent = getTimelineEventById(timelineEventId);
+	const activePersonId = get(uiState).activePerson.id;
+	const existingTimelineEvent = getTimelineEventById(activePersonId, timelineEventId);
 	// update either the existing event in this person, or the new event in the temp state
 	const timelineEventToUpdate = existingTimelineEvent ?? getActiveTimelineEditEvent();
 	// update the timeline event with the new image
 	addOrReplaceObjectInArray(
-		// @ts-expect-error
 		timelineEventToUpdate?.eventContent?.images,
 		'id',
 		newImageContent.id,
@@ -850,7 +855,10 @@ export const deleteBioPhotoReference = () => {
 };
 export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 	// make a copy of the timeline event to modify
-	const newTimelineEvent = getTimelineEventById(timelineEventId);
+	let newTimelineEvent;
+	uiState.subscribe((currentValue) => {
+		newTimelineEvent = getTimelineEventById(currentValue.activePerson.id, timelineEventId);
+	});
 	// delete the image from the timeline event
 	deleteObjectInArray(
 		//@ts-expect-error

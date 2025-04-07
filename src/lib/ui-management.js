@@ -14,7 +14,8 @@ import {
 import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
-	setActivePerson
+	setActivePerson,
+	getTimelineEventById
 } from '$lib/person-management';
 import {
 	instantiateObject,
@@ -322,22 +323,25 @@ export const getClosestTimelineRowByDate = (person, eventDate, totalRows) => {
 // converts raw timeline events from a person to timeline row items for UI
 // row items include an index to properly sort based on chronology
 export const generateTimelineRowItems = (person) => {
+	// get both the timeline events and the timeline event references
+	let eventsFromReferences = [];
+	person.timelineEventReferences.forEach((eventReference) => {
+		// get the real event to display
+		eventsFromReferences.push(
+			getTimelineEventById(eventReference.personId, eventReference.eventId)
+		);
+	});
+	const combinedEvents = [...person.timelineEvents, ...eventsFromReferences];
+
 	let rowItems = [];
-	let numberOfRows = largest(
-		person.timelineEvents,
-		stylingConstants.quantities.initialTimelineRowCount
-	);
-	for (let i = 0; i < person.timelineEvents.length; i++) {
+	let numberOfRows = largest(combinedEvents, stylingConstants.quantities.initialTimelineRowCount);
+	for (let i = 0; i < combinedEvents.length; i++) {
 		// create a new timeline row item
 		let thisRowItem = instantiateObject(timelineRowItem);
 		// get the index this item belongs to
-		const rowIndex = getClosestTimelineRowByDate(
-			person,
-			person.timelineEvents[i].eventDate,
-			numberOfRows
-		);
+		const rowIndex = getClosestTimelineRowByDate(person, combinedEvents[i].eventDate, numberOfRows);
 		thisRowItem.index = rowIndex;
-		thisRowItem.event = person.timelineEvents[i];
+		thisRowItem.event = combinedEvents[i];
 		rowItems.push(thisRowItem);
 	}
 	return rowItems;

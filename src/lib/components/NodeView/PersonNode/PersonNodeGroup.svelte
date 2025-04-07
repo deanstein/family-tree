@@ -66,10 +66,7 @@
 			</div>
 			<div class="person-node-group-inner-container">
 				{#if personNodeGroupData.groupMembers.length == 0}
-					<ButtonCircularInSquare
-						onClickFunction={onClickAddPersonButton}
-						colorOverride={stylingConstants.colors.activePersonNodeColor}
-					/>
+					<ButtonCircularInSquare onClickFunction={onClickAddPersonButton} />
 				{/if}
 				{#each personNodeGroupData.groupMembers as { }, i (personNodeGroupData.groupMembers[i])}
 					<PersonNode
