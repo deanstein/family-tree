@@ -20,9 +20,7 @@
 			font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
 			padding: ${overridePadding ? overridePadding : '1vh'};
 			color: ${overrideColor ? overrideColor : 'white'};
-			background-color: ${overrideBackgroundColor
-				? overrideBackgroundColor
-				: stylingConstants.colors.buttonColorPrimary};
+			background-color: ${overrideBackgroundColor ?? stylingConstants.colors.buttonColorPrimary};
 			:hover {
 				color: ${overrideColorHover ? overrideColorHover : 'white'};
 				background-color: ${overrideBackgroundColorHover

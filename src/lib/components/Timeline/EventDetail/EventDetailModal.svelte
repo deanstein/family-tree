@@ -309,9 +309,13 @@
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}
+					overrideBackgroundColor={stylingConstants.colors.buttonColorPrimary}
+				/>
+				<Button
+					buttonText={'Close'}
+					onClickFunction={onClickCloseButton}
 					overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
 				/>
-				<Button buttonText={'Close'} onClickFunction={onClickCloseButton} />
 			{:else}
 				{#if !isNewEvent && !isBirthOrDeathEvent}
 					<Button
