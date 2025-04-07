@@ -1,19 +1,16 @@
 <script>
 	import { css } from '@emotion/css';
-	import { v4 as uuidv4 } from 'uuid';
 
-	import { person } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
-
-	import stylingConstants from '$lib/components/styling-constants';
+	import tempState from '$lib/stores/temp-state';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
-	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let enabled;
 	export let associatedPeopleIds = [];

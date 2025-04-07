@@ -3,14 +3,15 @@
 
 	import stylingConstants from '$lib/components/styling-constants';
 
-	export let bIsActivePerson = false;
 	export let sInputValue;
+	export let bIsActivePerson = undefined;
+	export let paddingBottom = undefined;
 
 	const nameLabelContainerCss = css`
 		padding-top: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
-		padding-bottom: ${bIsActivePerson ? stylingConstants.sizes.padding : '0px'};
+		padding-bottom: ${paddingBottom ?? stylingConstants.sizes.padding};
 	`;
 
 	const nameLabelCss = css`

@@ -32,6 +32,7 @@
 
 	export let sPersonId;
 	export let sRelationshipId = undefined;
+	export let showRelationship = true;
 	export let groupId = undefined;
 	export let bIsActivePerson = false;
 	export let compatibleGroups = undefined;
@@ -149,8 +150,12 @@
 		/>
 		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto personId={sPersonId} allowEdit={false} />
-			<NameLabel sInputValue={name} {bIsActivePerson} />
-			{#if sPersonId !== $uiState.activePerson.id}
+			<NameLabel
+				sInputValue={name}
+				{bIsActivePerson}
+				paddingBottom={bIsActivePerson || !showRelationship || !sRelationshipId ? undefined : '0px'}
+			/>
+			{#if sPersonId !== $uiState.activePerson.id && sRelationshipId && showRelationship}
 				<RelationshipLabel relationshipName={relationshipLabel} />
 			{/if}
 		</div>
