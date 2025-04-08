@@ -27,7 +27,6 @@
 	import { instantiateObject } from '$lib/utils';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
-	import NameInput from '$lib/components/NodeView/PersonNode/NameLabel.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	export let personId;
@@ -86,6 +85,16 @@
 			border: 2px solid ${stylingConstants.colors.hoverColor};
 		}
 	`;
+
+	const nameLabelContainerCss = css`
+		padding: ${stylingConstants.sizes.padding};
+	`;
+
+	const nameLabelCss = css`
+		font-size: ${stylingConstants.sizes.personNodeFontSize};
+		border: 2px solid ${stylingConstants.colors.activeColor};
+		color: white;
+	`;
 </script>
 
 <div
@@ -97,7 +106,11 @@
 >
 	<div class="person-node-content-area">
 		<BioPhoto {personId} allowEdit={false} />
-		<NameInput sInputValue={getPersonById(personId)?.name} />
+		<div class="person-node-name-label-container {nameLabelContainerCss}">
+			<div class="person-node-name-label {nameLabelCss}">
+				{getPersonById(personId)?.name}
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -116,5 +129,25 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
+	}
+
+	.person-node-name-label-container {
+		display: flex;
+		width: -moz-available;
+		width: -webkit-fill-available;
+	}
+
+	.person-node-name-label {
+		color: white;
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+		outline: none;
+		border: 2px solid transparent;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: -webkit-fill-available;
+		width: -moz-available;
 	}
 </style>
