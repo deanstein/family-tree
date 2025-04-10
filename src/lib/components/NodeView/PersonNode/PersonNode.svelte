@@ -123,10 +123,6 @@
 	let personNodeCss = css`
 		width: ${size};
 		height: ${size};
-		:hover {
-			border: 2px solid ${stylingConstants.colors.hoverColorSubtleDark};
-			background-color: ${stylingConstants.colors.hoverColorSubtleDark};
-		}
 	`;
 
 	const personNodeContentAreaCss = css`
@@ -221,6 +217,13 @@
 			border: ${$tempState.nodeActionsModalPersonId == personId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
+			cursor: ${onClickFunction ? 'pointer' : 'default'};
+			:hover {
+				border: ${onClickFunction
+					? `2px solid ${stylingConstants.colors.hoverColorSubtleDark}`
+					: ''};
+				background-color: ${onClickFunction ? stylingConstants.colors.hoverColorSubtleDark : ''};
+			}
 		`;
 	}
 </script>
@@ -268,7 +271,6 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 10px;
-		cursor: pointer;
 	}
 
 	.person-node-content-area {
