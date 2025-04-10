@@ -84,7 +84,7 @@
 		{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
 			<ButtonCircular
 				onClickFunction={onClickAddPersonButton}
-				colorOverride={stylingConstants.colors.activePersonNodeColor}
+				colorOverride={stylingConstants.colors.activeColor}
 			/>
 		{/if}
 	</div>
