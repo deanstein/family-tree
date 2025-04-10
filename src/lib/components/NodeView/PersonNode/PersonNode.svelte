@@ -137,7 +137,9 @@
 		padding-top: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
-		padding-bottom: ${relationshipId ? '0px' : stylingConstants.sizes.padding};
+		padding-bottom: ${relationshipId && context === contexts.treeView
+			? '0px'
+			: stylingConstants.sizes.padding};
 	`;
 
 	const nameLabelCss = css`
@@ -236,7 +238,10 @@
 		out:send={{ key: personId }}
 		bind:this={nodeDivRef}
 	>
-		<NodeActionsButton {personId} {relationshipId} {groupId} {name} {compatibleGroups} />
+		<!-- node actions is only valid in TreeView -->
+		{#if context === contexts.treeView && personId !== $uiState.activePerson.id}
+			<NodeActionsButton {personId} {relationshipId} {groupId} {name} {compatibleGroups} />
+		{/if}
 		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto {personId} allowEdit={false} />
 			<div class="person-node-name-label-container {nameLabelContainerCss}">
@@ -244,7 +249,7 @@
 					{isActivePerson ? name.toUpperCase() : name}
 				</div>
 			</div>
-			{#if personId !== $uiState.activePerson.id && relationshipId}
+			{#if personId !== $uiState.activePerson.id && relationshipId && context === contexts.treeView}
 				<div class="person-node-relationship-label-container {relationshipLabelContainerCss}">
 					<div class="person-node-relationship-label {relationshipLabelCss}">
 						{relationshipLabel}
