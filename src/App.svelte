@@ -46,6 +46,7 @@
 	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
 	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
+	import contexts from '$lib/schemas/contexts';
 
 	let doShowDevTools;
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
@@ -313,8 +314,9 @@
 
 						<div slot="row-middle-section" class="active-person-container">
 							<PersonNode
-								sPersonId={$uiState.activePerson.id}
-								sNodeSize={stylingConstants.sizes.personNodeActiveSize}
+								personId={$uiState.activePerson.id}
+								size={stylingConstants.sizes.personNodeActiveSize}
+								context={contexts.treeView}
 							/>
 						</div>
 

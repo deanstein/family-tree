@@ -7,8 +7,8 @@
 	import { filterPeopleIds, getAllPeopleIds, getPersonById } from '$lib/person-management';
 	import { getAllVisibleNodeViewPeople } from '$lib/temp-management';
 
-	import PersonNodeForSelect from '$lib/components/NodeView/PersonNode/PersonNodeForSelect.svelte';
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
+	import PersonNode from './PersonNode.svelte';
 
 	// show these people in the scrolling window
 	// if not supplied, will use the context
@@ -76,7 +76,7 @@
 			on:wheel={scrollHorizontal}
 		>
 			{#each filteredIds as personId (personId)}
-				<PersonNodeForSelect {personId} {relationshipId} {context} />
+				<PersonNode {personId} {relationshipId} {context} />
 			{/each}
 		</div>
 	</div>

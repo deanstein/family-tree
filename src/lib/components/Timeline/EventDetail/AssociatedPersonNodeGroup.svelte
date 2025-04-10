@@ -45,7 +45,7 @@
 	<!-- show all associated people in the tempState timelineEditEvent-->
 	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
 		{#each $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
-			<PersonNode sPersonId={personId} />
+			<PersonNode {personId} />
 		{/each}
 	{/if}
 </div>

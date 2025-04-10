@@ -19,6 +19,7 @@
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
+	import contexts from '$lib/schemas/contexts';
 
 	export let personNodeGroupData;
 	export let personNodeColor;
@@ -70,11 +71,12 @@
 				{/if}
 				{#each personNodeGroupData.groupMembers as { }, i (personNodeGroupData.groupMembers[i])}
 					<PersonNode
-						sPersonId={personNodeGroupData.groupMembers[i].id}
-						sRelationshipId={personNodeGroupData.groupMembers[i].relationshipId}
+						personId={personNodeGroupData.groupMembers[i].id}
+						relationshipId={personNodeGroupData.groupMembers[i].relationshipId}
 						groupId={personNodeGroupData.groupId}
 						compatibleGroups={personNodeGroupData.compatibleGroups}
-						nodeColor={personNodeColor}
+						color={personNodeColor}
+						context={contexts.treeView}
 					/>
 				{/each}
 			</div>

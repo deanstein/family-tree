@@ -1,23 +1,40 @@
 <script>
 	import { css } from '@emotion/css';
-	import { afterUpdate, onDestroy } from 'svelte';
+	import { afterUpdate, onDestroy, onMount } from 'svelte';
+	import { get } from 'svelte/store';
+
+	import contexts from '$lib/schemas/contexts';
+	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 
 	import {
 		getPersonById,
 		setActivePerson,
 		addActivePersonToPeopleArray,
-		getRelationshipNameById
+		getRelationshipNameById,
+		addOrUpdateActivePersonInNewPersonGroup,
+		removePersonFromPeopleArray,
+		upgradePersonById,
+		addTimelineEventReference
 	} from '$lib/person-management';
 	import {
+		addOrUpdatePersonInActivePersonGroup,
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
 		clearCanvas,
 		getDivCentroid,
+		removePersonFromActivePersonGroup,
 		removePersonNodePosition,
 		showPersonDetailView
 	} from '$lib/ui-management';
+	import {
+		addAssociatedPersonToTimelineEvent,
+		checkPersonForUnsavedChanges,
+		hidePersonNodeActionsModal
+	} from '$lib/temp-management';
+	import { instantiateObject } from '$lib/utils';
 
 	import { drawNodeConnectionLine, drawCrossfade } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -28,12 +45,15 @@
 	addOrUpdatePersonNodePosition;
 	const [send, receive] = drawCrossfade();
 
-	export let sPersonId;
-	export let sRelationshipId = undefined;
+	export let personId;
+	export let relationshipId = undefined;
 	export let groupId = undefined;
 	export let compatibleGroups = undefined;
-	export let sNodeSize = stylingConstants.sizes.personNodeSize;
-	export let nodeColor = stylingConstants.colors.personNodeColor;
+	export let size = stylingConstants.sizes.personNodeSize;
+	export let color = stylingConstants.colors.personNodeColor;
+	// if not defined, will use the context to determine function
+	export let onClickFunction = undefined;
+	export let context = undefined;
 
 	let name;
 	let relationshipLabel;
@@ -41,7 +61,7 @@
 	let nodeDivRef;
 	let centroid;
 
-	const onPersonNodeMouseEnterAction = () => {
+	const onMouseEnter = () => {
 		// on hover, draw a thicker connection line
 		drawNodeConnectionLine(
 			$uiState.personNodeConnectionLineCanvasHover.getContext('2d'),
@@ -51,30 +71,58 @@
 		);
 	};
 
-	const onPersonNodeMouseLeaveAction = () => {
+	const onMouseLeave = () => {
 		// on blur, clear the hover canvas entirely
 		clearCanvas($uiState.personNodeConnectionLineCanvasHover);
 	};
 
-	const onPersonNodeClickAction = () => {
+	//
+	// these functions will be called onClick depending on the context
+	//
+
+	const showActivePersonOrTimeline = () => {
 		// don't do anything on click if the node is in edit mode
-		if ($tempState.nodeActionsModalPersonId === sPersonId) {
+		if ($tempState.nodeActionsModalPersonId === personId) {
 			return;
 		}
 
 		// clicking on the active person will pull up the detailed view
-		if (sPersonId === $uiState.activePerson.id) {
+		if (personId === $uiState.activePerson.id) {
 			showPersonDetailView();
 		} else {
 			// clicking on anyone else makes them the active person
-			setActivePerson(getPersonById(sPersonId));
+			setActivePerson(getPersonById(personId));
 			addActivePersonToPeopleArray();
 		}
 	};
 
+	// adds a relationship to the person being viewed in the person detail modal
+	const addRelationshipToPerson = () => {
+		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
+		addOrUpdateActivePersonInNewPersonGroup(personId, $tempState.nodeEditGroupId);
+		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, relationshipId);
+		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
+		hidePersonNodeActionsModal();
+		checkPersonForUnsavedChanges(personId);
+	};
+
+	const addAssociatedPersonToEvent = () => {
+		// add the associated person to this timeline event
+		addAssociatedPersonToTimelineEvent(personId);
+		// add the event reference to the other person
+		upgradePersonById(personId);
+		const eventReference = instantiateObject(timelineEventReference);
+		eventReference.personId = get(uiState).activePerson.id;
+		eventReference.eventId = get(tempState).timelineEditEventId;
+		addTimelineEventReference(personId, eventReference);
+		// show the unsaved changes flag and stop editing
+		checkPersonForUnsavedChanges(personId);
+		isPersonNodeEditActive.set(false);
+	};
+
 	let personNodeCss = css`
-		width: ${sNodeSize};
-		height: ${sNodeSize};
+		width: ${size};
+		height: ${size};
 		:hover {
 			border: 2px solid ${stylingConstants.colors.hoverColorSubtleDark};
 			background-color: ${stylingConstants.colors.hoverColorSubtleDark};
@@ -89,7 +137,7 @@
 		padding-top: ${stylingConstants.sizes.padding};
 		padding-left: ${stylingConstants.sizes.padding};
 		padding-right: ${stylingConstants.sizes.padding};
-		padding-bottom: ${sRelationshipId ? '0px' : stylingConstants.sizes.padding};
+		padding-bottom: ${relationshipId ? '0px' : stylingConstants.sizes.padding};
 	`;
 
 	const nameLabelCss = css`
@@ -110,25 +158,47 @@
 		font-size: ${stylingConstants.sizes.personNodeFontSize};
 	`;
 
+	onMount(() => {
+		// if no onClickFunction defined, choose one based on context
+		if (!onClickFunction && context) {
+			switch (context) {
+				case contexts.treeView:
+					onClickFunction = showActivePersonOrTimeline;
+					break;
+				case contexts.nodeActionsModal:
+					onClickFunction = addRelationshipToPerson;
+					break;
+				case contexts.eventDetailsModal:
+					onClickFunction = addAssociatedPersonToEvent;
+					break;
+				default:
+					console.error('PersonNode: No function matching the given context.');
+					break;
+			}
+		}
+	});
+
 	afterUpdate(() => {
 		if (nodeDivRef && !isActivePerson) {
 			centroid = getDivCentroid(nodeDivRef);
 			// ensure this node's position is added or updated so we can draw a line from it
-			addOrUpdatePersonNodePosition(sPersonId, centroid);
+			addOrUpdatePersonNodePosition(personId, centroid);
 		}
 	});
 
 	onDestroy(() => {
 		// remove this node's position so no line is drawn to it
-		removePersonNodePosition(sPersonId);
+		removePersonNodePosition(personId);
 	});
 
 	$: {
-		name = getPersonById(sPersonId)?.name;
-		relationshipLabel = getRelationshipNameById(sRelationshipId, compatibleGroups);
+		name = getPersonById(personId)?.name;
+		if (relationshipId && compatibleGroups) {
+			relationshipLabel = getRelationshipNameById(relationshipId, compatibleGroups);
+		}
 
 		// is this node the active person?
-		if (sPersonId === $uiState.activePerson.id) {
+		if (personId === $uiState.activePerson.id) {
 			isActivePerson = true;
 		} else {
 			isActivePerson = false;
@@ -136,53 +206,45 @@
 	}
 
 	$: {
-		addOrUpdatePersonNodePosition(sPersonId, centroid);
+		addOrUpdatePersonNodePosition(personId, centroid);
 	}
 
 	$: {
 		personNodeCss = css`
 			${personNodeCss}
-			z-index: ${$tempState.nodeActionsModalPersonId === sPersonId
+			z-index: ${$tempState.nodeActionsModalPersonId === personId
 				? `${stylingConstants.zIndices.personNodeEditZIndex}`
 				: 'auto'};
-			background-color: ${isActivePerson
-				? stylingConstants.colors.activePersonNodeColor
-				: nodeColor};
-			border: ${$tempState.nodeActionsModalPersonId == sPersonId
+			background-color: ${isActivePerson ? stylingConstants.colors.activePersonNodeColor : color};
+			border: ${$tempState.nodeActionsModalPersonId == personId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 		`;
 	}
 </script>
 
-{#key sPersonId}
+{#key personId}
 	<div
 		class="person-node {personNodeCss}"
 		role="button"
 		tabindex="0"
-		on:mouseenter={onPersonNodeMouseEnterAction}
-		on:mouseleave={onPersonNodeMouseLeaveAction}
-		on:click={onPersonNodeClickAction}
+		on:mouseenter={onMouseEnter}
+		on:mouseleave={onMouseLeave}
+		on:click={onClickFunction}
 		on:keydown|stopPropagation
-		in:receive={{ key: sPersonId }}
-		out:send={{ key: sPersonId }}
+		in:receive={{ key: personId }}
+		out:send={{ key: personId }}
 		bind:this={nodeDivRef}
 	>
-		<NodeActionsButton
-			personId={sPersonId}
-			relationshipId={sRelationshipId}
-			{groupId}
-			{name}
-			{compatibleGroups}
-		/>
+		<NodeActionsButton {personId} {relationshipId} {groupId} {name} {compatibleGroups} />
 		<div class="person-node-content-area {personNodeContentAreaCss}">
-			<BioPhoto personId={sPersonId} allowEdit={false} />
+			<BioPhoto {personId} allowEdit={false} />
 			<div class="person-node-name-label-container {nameLabelContainerCss}">
 				<div class="person-node-name-label {nameLabelCss}">
 					{isActivePerson ? name.toUpperCase() : name}
 				</div>
 			</div>
-			{#if sPersonId !== $uiState.activePerson.id && sRelationshipId}
+			{#if personId !== $uiState.activePerson.id && relationshipId}
 				<div class="person-node-relationship-label-container {relationshipLabelContainerCss}">
 					<div class="person-node-relationship-label {relationshipLabelCss}">
 						{relationshipLabel}
