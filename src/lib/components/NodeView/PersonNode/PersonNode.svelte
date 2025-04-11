@@ -47,12 +47,13 @@
 
 	export let personId;
 	export let relationshipId = undefined;
-	export let groupId = undefined;
 	export let compatibleGroups = undefined;
 	export let size = stylingConstants.sizes.personNodeSize;
 	export let color = stylingConstants.colors.personNodeColor;
 	// if not defined, will use the context to determine function
 	export let onClickFunction = undefined;
+	// function for the actions button in the corner
+	export let onClickActionsFunction = undefined;
 	export let context = undefined;
 
 	let name;
@@ -80,6 +81,9 @@
 	// these functions will be called onClick depending on the context
 	//
 
+	// when clicked in the TreeView,
+	// either makes that node the active person, or
+	// if already the active person, shows the timeline for that person
 	const showActivePersonOrTimeline = () => {
 		// don't do anything on click if the node is in edit mode
 		if ($tempState.nodeActionsModalPersonId === personId) {
@@ -248,9 +252,9 @@
 		out:send={{ key: personId }}
 		bind:this={nodeDivRef}
 	>
-		<!-- node actions is only valid in TreeView -->
-		{#if context === contexts.treeView && personId !== $uiState.activePerson.id}
-			<NodeActionsButton {personId} {relationshipId} {groupId} {name} {compatibleGroups} />
+		<!-- show node actions button if provided (and if this is not the active person) -->
+		{#if onClickActionsFunction && personId !== $uiState.activePerson.id}
+			<NodeActionsButton onClickFunction={onClickActionsFunction} />
 		{/if}
 		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto {personId} allowEdit={false} />

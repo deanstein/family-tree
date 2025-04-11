@@ -1,24 +1,12 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '$lib/stores/ui-state';
-
-	import { showPersonNodeActionsModal } from '$lib/temp-management';
-
 	import stylingConstants from '$lib/components/styling-constants';
 
-	export let personId;
-	export let relationshipId;
-	export let groupId;
-	export let name;
-	export let compatibleGroups;
+	export let onClickFunction = undefined;
+	export let faIcon = 'fa-ellipsis';
 
 	let actionsButtonCss;
-	let actionsButtonFaIcon = 'fa-ellipsis';
-
-	let onNodeActionButtonClick = () => {
-		showPersonNodeActionsModal(personId, name, relationshipId, groupId, compatibleGroups);
-	};
 
 	const iconCss = css`
 		color: ${stylingConstants.colors.textColorLight};
@@ -36,17 +24,15 @@
 	}
 </script>
 
-{#if personId !== $uiState.activePerson.id}
-	<div class="node-actions-button-container">
-		<button
-			type="button"
-			class="node-actions-button {actionsButtonCss}"
-			on:click|stopPropagation={onNodeActionButtonClick}
-		>
-			<i title="Edit relationship" class="fa-solid {actionsButtonFaIcon} {iconCss}" />
-		</button>
-	</div>
-{/if}
+<div class="node-actions-button-container">
+	<button
+		type="button"
+		class="node-actions-button {actionsButtonCss}"
+		on:click|stopPropagation={onClickFunction}
+	>
+		<i title="Edit relationship" class="fa-solid {faIcon} {iconCss}" />
+	</button>
+</div>
 
 <style>
 	.node-actions-button-container {

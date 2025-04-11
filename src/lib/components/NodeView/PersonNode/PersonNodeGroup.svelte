@@ -9,7 +9,8 @@
 		addOrUpdateActivePersonInNewPersonGroup,
 		addPersonToPeopleArray,
 		createNewPerson,
-		getDefaultRelationshipType
+		getDefaultRelationshipType,
+		getPersonById
 	} from '$lib/person-management';
 	import { addOrUpdatePersonInActivePersonGroup } from '$lib/ui-management';
 	import { showPersonNodeActionsModal } from '$lib/temp-management';
@@ -73,10 +74,19 @@
 					<PersonNode
 						personId={personNodeGroupData.groupMembers[i].id}
 						relationshipId={personNodeGroupData.groupMembers[i].relationshipId}
-						groupId={personNodeGroupData.groupId}
 						compatibleGroups={personNodeGroupData.compatibleGroups}
 						color={personNodeColor}
 						context={contexts.treeView}
+						onClickActionsFunction={() => {
+							const person = getPersonById(personNodeGroupData.groupMembers[i].id);
+							showPersonNodeActionsModal(
+								personNodeGroupData.groupMembers[i].id,
+								person.name,
+								personNodeGroupData.groupMembers[i].relationshipId,
+								personNodeGroupData.groupId,
+								personNodeGroupData.compatibleGroups
+							);
+						}}
 					/>
 				{/each}
 			</div>
