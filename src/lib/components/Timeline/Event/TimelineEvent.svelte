@@ -3,32 +3,39 @@
 	import { css } from '@emotion/css';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
+	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	import uiState from '$lib/stores/ui-state';
 
 	import { areObjectsEqual, getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
-	import { getPersonById, upgradeTimelineEvent } from '$lib/person-management';
+	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
 	import { setTimelineEditEvent } from '$lib/temp-management';
-	import { setFirstTimelineEventHeight, setLastTimelineEventHeight } from '$lib/ui-management';
+	import {
+		hidePersonDetailView,
+		setFirstTimelineEventHeight,
+		setLastTimelineEventHeight
+	} from '$lib/ui-management';
 
 	import { monthNames } from '$lib/components/strings';
 
+	import { JDGButton } from 'jdg-ui-svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	export let timelineEvent;
+	// if this is set, this event is a reference to someone else's event
+	// so it will display and interact differently
+	export let eventReference = instantiateObject(timelineEventReference);
+	export let onClickFunction = undefined;
 	export let backgroundColor = stylingConstants.colors.activeColorSubtle;
 	export let rowIndex;
-	// if this is set, this event is a reference to someone else's event
-	// so it will be displayed uniquely
-	export let eventReference = instantiateObject(timelineEventReference);
 
 	let eventDateCorrected;
 	let eventAge;
 	let eventRowDivRef;
+	let isEventReference = !areObjectsEqual(eventReference, timelineEventReference);
 
-	const onTimelineEventClickAction = () => {
+	const showTimelineEventDetails = () => {
 		// do nothing if this is the "today" event (no death date)
 		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
@@ -36,11 +43,23 @@
 		setTimelineEditEvent(timelineEvent);
 	};
 
+	// this is what happens when the link is clicked
+	// to an eventReference personId
+	const makeEventReferencePersonActive = () => {
+		hidePersonDetailView();
+		setActivePerson(getPersonById(eventReference.personId));
+	};
+
 	let eventRowCss = css`
+		cursor: ${isEventReference ? 'default' : 'pointer'};
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
 			background-color: ${stylingConstants.colors.timelineEventBackgroundHoverColor};
 		}
+	`;
+
+	const eventRowContainerCss = css`
+		cursor: ${isEventReference ? 'default' : 'pointer'};
 	`;
 
 	const eventDateYearCss = css`
@@ -103,6 +122,9 @@
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
 			setLastTimelineEventHeight(eventRowHeight);
 		}
+
+		// if onClick isn't provided, use this function
+		onClickFunction = (onClickFunction ?? isEventReference) ? () => {} : showTimelineEventDetails;
 	});
 
 	$: {
@@ -126,8 +148,8 @@
 	class="timeline-event-row {eventRowCss}"
 	role="button"
 	tabindex="0"
-	on:click={onTimelineEventClickAction}
-	on:keydown={onTimelineEventClickAction}
+	on:click={onClickFunction}
+	on:keydown={onClickFunction}
 	bind:this={eventRowDivRef}
 >
 	<div class="timeline-event-date-year-container {eventDateYearCss}">
@@ -148,7 +170,7 @@
 	</div>
 	<div class="timeline-event-node {eventNodeCss}" />
 	<div class="timeline-event-line {eventDetailLineCss}" />
-	<div class="timeline-event-content-outer-container">
+	<div class="timeline-event-content-outer-container {eventRowContainerCss}">
 		<div class="timeline-event-title-bar {eventTitleBarCss}">
 			<!-- event icon -->
 			<i class="fa-solid {timelineEventTypes[timelineEvent?.eventType]?.icon} {eventFaIconCss}" />
@@ -160,12 +182,19 @@
 				</div>
 			{/if}
 			<!-- if this is a shared event, show who it's shared from -->
-			{#if !areObjectsEqual(eventReference, timelineEventReference)}
+			{#if isEventReference}
 				<div>
-					&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
-					<i>
-						Shared event from {getPersonById(eventReference?.personId)?.name}
-					</i>
+					<div class="timeline-event-reference-info">
+						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
+						<JDGButton
+							onClickFunction={makeEventReferencePersonActive}
+							faIcon={null}
+							paddingLeftRight="5px"
+							paddingTopBottom="5px"
+							fontSize="10px"
+							label={getPersonById(eventReference?.personId)?.name}
+						/>
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -196,7 +225,6 @@
 		align-items: center;
 		padding-top: 2px;
 		padding-bottom: 2px;
-		cursor: pointer;
 	}
 
 	.timeline-event-date-year-container {
@@ -267,7 +295,6 @@
 		padding: 3px;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		cursor: pointer;
 	}
 
 	.timeline-event-content {
@@ -280,5 +307,9 @@
 
 	.timeline-event-image-preview {
 		padding-bottom: 8px;
+	}
+
+	.timeline-event-reference-info {
+		display: flex;
 	}
 </style>
