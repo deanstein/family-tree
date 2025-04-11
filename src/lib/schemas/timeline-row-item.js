@@ -1,6 +1,8 @@
 const timelineRowItem = {
 	index: 0,
-	event: ''
+	event: '',
+	isEventReference: false,
+	eventReferencePersonId: ''
 };
 
 export default timelineRowItem;

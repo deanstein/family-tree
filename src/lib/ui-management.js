@@ -323,28 +323,51 @@ export const getClosestTimelineRowByDate = (person, eventDate, totalRows) => {
 // converts raw timeline events from a person to timeline row items for UI
 // row items include an index to properly sort based on chronology
 export const generateTimelineRowItems = (person) => {
-	// get both the timeline events and the timeline event references
-	let eventsFromReferences = [];
-	person.timelineEventReferences.forEach((eventReference) => {
-		// get the real event to display
-		eventsFromReferences.push(
-			getTimelineEventById(eventReference.personId, eventReference.eventId)
-		);
-	});
-	const combinedEvents = [...person.timelineEvents, ...eventsFromReferences];
-
-	let rowItems = [];
-	let numberOfRows = largest(combinedEvents, stylingConstants.quantities.initialTimelineRowCount);
-	for (let i = 0; i < combinedEvents.length; i++) {
+	let timelineEventRowItems = [];
+	let timelineEventReferenceRowItems = [];
+	let numberOfRows = largest(
+		person.timelineEvents.length + person.timelineEventReferences.length,
+		stylingConstants.quantities.initialTimelineRowCount
+	);
+	// generate the regular events
+	for (let i = 0; i < person.timelineEvents.length; i++) {
 		// create a new timeline row item
 		let thisRowItem = instantiateObject(timelineRowItem);
 		// get the index this item belongs to
-		const rowIndex = getClosestTimelineRowByDate(person, combinedEvents[i].eventDate, numberOfRows);
+		const rowIndex = getClosestTimelineRowByDate(
+			person,
+			person.timelineEvents[i].eventDate,
+			numberOfRows
+		);
 		thisRowItem.index = rowIndex;
-		thisRowItem.event = combinedEvents[i];
-		rowItems.push(thisRowItem);
+		thisRowItem.event = person.timelineEvents[i];
+		if (!isNaN(rowIndex)) {
+			timelineEventRowItems.push(thisRowItem);
+		}
 	}
-	return rowItems;
+	// generate the event references
+	for (let i = 0; i < person.timelineEventReferences.length; i++) {
+		// create a new timeline row item
+		let thisRowItem = instantiateObject(timelineRowItem);
+		// get the index this item belongs to
+		const eventFromReference = getTimelineEventById(
+			person.timelineEventReferences[i].personId,
+			person.timelineEventReferences[i].eventId
+		);
+		const rowIndex = getClosestTimelineRowByDate(
+			person,
+			eventFromReference.eventDate,
+			numberOfRows
+		);
+		thisRowItem.index = rowIndex;
+		thisRowItem.event = eventFromReference;
+		thisRowItem.isEventReference = true;
+		thisRowItem.eventReferencePersonId = person.timelineEventReferences[i].personId;
+		if (!isNaN(rowIndex)) {
+			timelineEventReferenceRowItems.push(thisRowItem);
+		}
+	}
+	return [...timelineEventRowItems, ...timelineEventReferenceRowItems];
 };
 
 // sorts timeline event row items by date

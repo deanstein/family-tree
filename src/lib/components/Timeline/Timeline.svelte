@@ -102,6 +102,10 @@
 				break;
 			}
 		}
+
+		// convert events to timeline row items
+		// and ensure no shared rows in the grid
+		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 	});
 	$: {
 		// ensure birth event is kept updated
@@ -118,10 +122,6 @@
 				: new Date().toLocaleDateString();
 		deathEvent.eventContent.description =
 			$uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
-
-		// convert events to timeline row items
-		// and ensure no shared rows in the grid
-		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
 
 		// generate a gradient of colors across all timeline events
 		timelineEventColors = generateGradient(
@@ -174,6 +174,7 @@
 						timelineEvent={timelineRowItem.event}
 						rowIndex={timelineRowItem.index}
 						backgroundColor={timelineEventColors[i + 1]}
+						isEventReference={timelineRowItem.isEventReference}
 					/>
 				{/each}
 

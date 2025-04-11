@@ -12,13 +12,16 @@
 	import { setFirstTimelineEventHeight, setLastTimelineEventHeight } from '$lib/ui-management';
 
 	import { monthNames } from '$lib/components/strings';
-	import stylingConstants from '$lib/components/styling-constants';
 
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
-	export let timelineEvent; // one object to carry all event properties
-	export let backgroundColor = stylingConstants.colors.activeColorSubtle; // default color, but may be overridden
+	export let timelineEvent;
+	export let backgroundColor = stylingConstants.colors.activeColorSubtle;
 	export let rowIndex;
+	// this event is a reference to someone else's event
+	// so it will be displayed uniquely
+	export let isEventReference = false;
 
 	let eventDateCorrected;
 	let eventAge;
@@ -146,6 +149,7 @@
 	<div class="timeline-event-line {eventDetailLineCss}" />
 	<div class="timeline-event-content-outer-container">
 		<div class="timeline-event-title-bar {eventTitleBarCss}">
+			<!-- event icon -->
 			<i class="fa-solid {timelineEventTypes[timelineEvent?.eventType]?.icon} {eventFaIconCss}" />
 			<!-- hide age if this is the birth event -->
 			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
@@ -154,11 +158,19 @@
 					{eventAge.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
+			{#if isEventReference}
+				<div>
+					&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+					<i>
+					Shared event from {timelineEvent.personId}
+					</i>
+				</div>
+			{/if}
 		</div>
 		<div class="timeline-event-content {eventContentCss}">
 			<div class="timeline-event-description">
-				{timelineEvent?.eventContent.description
-					? timelineEvent?.eventContent.description
+				{timelineEvent?.eventContent?.description
+					? timelineEvent?.eventContent?.description
 					: 'Event description'}
 			</div>
 			{#if timelineEvent?.eventContent?.images?.length > 0}
