@@ -188,10 +188,11 @@
 						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
 						<JDGButton
 							onClickFunction={makeEventReferencePersonActive}
-							faIcon={null}
-							paddingLeftRight="5px"
-							paddingTopBottom="5px"
-							fontSize="10px"
+							faIcon={'fa-circle-arrow-right'}
+							paddingLeftRight="8px"
+							paddingTopBottom="2px"
+							fontSize="12px"
+							gap="6px"
 							label={getPersonById(eventReference?.personId)?.name}
 						/>
 					</div>
