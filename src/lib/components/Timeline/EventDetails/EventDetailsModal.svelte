@@ -24,7 +24,7 @@
 	import { timelineEventStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import AssociatedPersonNodeGroup from '$lib/components/Timeline/EventDetail/AssociatedPersonNodeGroup.svelte';
+	import AssociatedPersonNodeGroup from '$lib/components/Timeline/EventDetails/AssociatedPersonNodeGroup.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';

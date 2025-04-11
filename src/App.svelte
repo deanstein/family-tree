@@ -36,7 +36,7 @@
 	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
 	import DevTools from '$lib/components/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from '$lib/components/Modals/EditAlternateNameModal.svelte';
-	import EditTimelineEventModal from '$lib/components/Timeline/EventDetail/EventDetailModal.svelte';
+	import EventDetailsModal from '$lib/components/Timeline/EventDetails/EventDetailsModal.svelte';
 	import GenerationRow from '$lib/components/NodeView/GenerationRow/GenerationRow.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import NodeActionsModal from '$lib/components/Modals/NodeActionsModal.svelte';
@@ -152,7 +152,7 @@
 				<EditAlternateNameModal />
 			{/if}
 			{#if $tempState.timelineEditEvent !== undefined}
-				<EditTimelineEventModal />
+				<EventDetailsModal />
 			{/if}
 			{#if $tempState.imageEditId !== undefined}
 				<TimelineEventImageDetailModal />

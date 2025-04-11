@@ -162,7 +162,7 @@
 				<div>
 					&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 					<i>
-					Shared event from {timelineEvent.personId}
+						Shared event from {timelineEvent.personId}
 					</i>
 				</div>
 			{/if}
