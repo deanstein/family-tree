@@ -1,6 +1,6 @@
 const timelineEventReference = {
-	personId: '',
-	eventId: ''
+	personId: undefined,
+	eventId: undefined
 };
 
 export default timelineEventReference;

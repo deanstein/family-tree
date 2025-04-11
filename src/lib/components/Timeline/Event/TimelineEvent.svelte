@@ -7,7 +7,7 @@
 
 	import uiState from '$lib/stores/ui-state';
 
-	import { areObjectsEqual, getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
+	import { getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
 	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
 	import { setTimelineEditEvent } from '$lib/temp-management';
 	import {
@@ -33,7 +33,6 @@
 	let eventDateCorrected;
 	let eventAge;
 	let eventRowDivRef;
-	let isEventReference = !areObjectsEqual(eventReference, timelineEventReference);
 
 	const showTimelineEventDetails = () => {
 		// do nothing if this is the "today" event (no death date)
@@ -51,7 +50,7 @@
 	};
 
 	let eventRowCss = css`
-		cursor: ${isEventReference ? 'default' : 'pointer'};
+		cursor: ${eventReference.personId ? 'default' : 'pointer'};
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
 			background-color: ${stylingConstants.colors.timelineEventBackgroundHoverColor};
@@ -59,7 +58,7 @@
 	`;
 
 	const eventRowContainerCss = css`
-		cursor: ${isEventReference ? 'default' : 'pointer'};
+		cursor: ${eventReference.personId ? 'default' : 'pointer'};
 	`;
 
 	const eventDateYearCss = css`
@@ -124,7 +123,8 @@
 		}
 
 		// if onClick isn't provided, use this function
-		onClickFunction = (onClickFunction ?? isEventReference) ? () => {} : showTimelineEventDetails;
+		onClickFunction =
+			(onClickFunction ?? eventReference.personId) ? () => {} : showTimelineEventDetails;
 	});
 
 	$: {
@@ -182,7 +182,7 @@
 				</div>
 			{/if}
 			<!-- if this is a shared event, show who it's shared from -->
-			{#if isEventReference}
+			{#if eventReference.personId}
 				<div>
 					<div class="timeline-event-reference-info">
 						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
