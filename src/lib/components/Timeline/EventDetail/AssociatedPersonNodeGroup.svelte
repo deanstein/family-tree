@@ -1,9 +1,13 @@
 <script>
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
 	import tempState from '$lib/stores/temp-state';
 	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+
+	import { removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
+	import { removeTimelineEventReference } from '$lib/person-management';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import MediaGroupTitle from '$lib/components/MediaGroupTitle.svelte';
@@ -21,6 +25,13 @@
 	const personNodeGroupOuterContainerCss = css`
 		gap: ${stylingConstants.sizes.padding};
 	`;
+
+	const removeAssociatedPersonFromActiveEvent = (associatedPersonId) => {
+		const eventId = get(tempState).timelineEditEventId;
+		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
+		removeTimelineEventReference(associatedPersonId, eventId);
+		console.log('CALLED');
+	};
 </script>
 
 <div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
@@ -45,7 +56,18 @@
 	<!-- show all associated people in the tempState timelineEditEvent-->
 	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
 		{#each $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
-			<PersonNode {personId} />
+			<PersonNode
+				{personId}
+				onClickActionButton={enabled
+					? () => {
+							removeAssociatedPersonFromActiveEvent(personId);
+						}
+					: undefined}
+				actionButtonFaIcon="fa-x"
+				actionButtonFaIconFontSize="0.5rem"
+				actionButtonIconColor="white"
+				actionButtonBackgroundColor="red"
+			/>
 		{/each}
 	{/if}
 </div>

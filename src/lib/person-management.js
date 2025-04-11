@@ -819,6 +819,20 @@ export const addTimelineEventReference = (targetPersonId, timelineEventReference
 	});
 };
 
+export const removeTimelineEventReference = (targetPersonId, referenceEventId) => {
+	// get the target person by the id
+	let targetPersonIndex = getPersonIndexById(targetPersonId);
+	familyTreeData.update((currentValue) => {
+		deleteObjectInArray(
+			//@ts-expect-error
+			currentValue.allPeople[targetPersonIndex].timelineEventReferences,
+			'eventId',
+			referenceEventId
+		);
+		return currentValue;
+	});
+};
+
 // timeline event media management
 export const setTimelineEventImageUrlFromTempState = () => {
 	// get these values from the temp state

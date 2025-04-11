@@ -1,37 +1,26 @@
 <script>
-	import { css } from '@emotion/css';
-
 	import stylingConstants from '$lib/components/styling-constants';
+	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
 	export let onClickFunction = undefined;
-	export let faIcon = 'fa-ellipsis';
-
-	let actionsButtonCss;
-
-	const iconCss = css`
-		color: ${stylingConstants.colors.textColorLight};
-	`;
-
-	$: {
-		actionsButtonCss = css`
-			z-index: ${stylingConstants.zIndices.personNodeOverlayZIndex};
-			border: 2px solid transparent;
-			font-size: ${stylingConstants.sizes.personNodeFontSize};
-			:hover {
-				background-color: ${stylingConstants.colors.hoverColor};
-			}
-		`;
-	}
+	export let faIcon = 'fa-ellipsis fa-fw';
+	export let faIconFontSize = '0.75rem';
+	export let faIconPadding = '0.25rem';
+	export let iconColor = stylingConstants.colors.textColorLight;
+	export let backgroundColor = 'transparent';
 </script>
 
 <div class="node-actions-button-container">
-	<button
-		type="button"
-		class="node-actions-button {actionsButtonCss}"
-		on:click|stopPropagation={onClickFunction}
-	>
-		<i title="Edit relationship" class="fa-solid {faIcon} {iconCss}" />
-	</button>
+	<div class="node-actions-button-wrapper">
+		<ButtonCircular
+			{onClickFunction}
+			{faIcon}
+			{faIconFontSize}
+			padding={faIconPadding}
+			{iconColor}
+			{backgroundColor}
+		/>
+	</div>
 </div>
 
 <style>
@@ -40,18 +29,16 @@
 		float: right;
 	}
 
-	.node-actions-button {
+	.node-actions-button-wrapper {
 		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		top: 0px;
 		right: 0px;
 		border: none;
 		letter-spacing: 2px;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-		color: black;
-		background-color: transparent;
+		padding: 0.3rem;
 		font-weight: bold;
-		border-radius: 5px;
-		cursor: pointer;
 	}
 </style>

@@ -53,8 +53,13 @@
 	// if not defined, will use the context to determine function
 	export let onClickFunction = undefined;
 	// function for the actions button in the corner
-	export let onClickActionsFunction = undefined;
+	export let onClickActionButton = undefined;
 	export let context = undefined;
+	export let actionButtonFaIcon = 'fa-ellipsis';
+	export let actionButtonFaIconFontSize = '0.75rem';
+	export let actionButtonPadding = '0.25rem';
+	export let actionButtonIconColor = stylingConstants.colors.textColorLight;
+	export let actionButtonBackgroundColor = 'transparent';
 
 	let name;
 	let relationshipLabel;
@@ -89,7 +94,6 @@
 		if ($tempState.nodeActionsModalPersonId === personId) {
 			return;
 		}
-
 		// clicking on the active person will pull up the detailed view
 		if (personId === $uiState.activePerson.id) {
 			showPersonDetailView();
@@ -253,8 +257,15 @@
 		bind:this={nodeDivRef}
 	>
 		<!-- show node actions button if provided (and if this is not the active person) -->
-		{#if onClickActionsFunction && personId !== $uiState.activePerson.id}
-			<NodeActionsButton onClickFunction={onClickActionsFunction} />
+		{#if onClickActionButton && personId !== $uiState.activePerson.id}
+			<NodeActionsButton
+				onClickFunction={onClickActionButton}
+				faIcon={actionButtonFaIcon}
+				faIconFontSize={actionButtonFaIconFontSize}
+				faIconPadding={actionButtonPadding}
+				iconColor={actionButtonIconColor}
+				backgroundColor={actionButtonBackgroundColor}
+			/>
 		{/if}
 		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto {personId} allowEdit={false} />

@@ -77,7 +77,7 @@
 						compatibleGroups={personNodeGroupData.compatibleGroups}
 						color={personNodeColor}
 						context={contexts.treeView}
-						onClickActionsFunction={() => {
+						onClickActionButton={() => {
 							const person = getPersonById(personNodeGroupData.groupMembers[i].id);
 							showPersonNodeActionsModal(
 								personNodeGroupData.groupMembers[i].id,
@@ -94,7 +94,7 @@
 		{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
 			<ButtonCircular
 				onClickFunction={onClickAddPersonButton}
-				colorOverride={stylingConstants.colors.activeColor}
+				backgroundColor={stylingConstants.colors.activeColor}
 			/>
 		{/if}
 	</div>

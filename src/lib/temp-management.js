@@ -428,6 +428,16 @@ export const addAssociatedPersonToTimelineEvent = (personId) => {
 	});
 };
 
+export const removeAssociatedPersonFromActiveTimelineEvent = (personId) => {
+	tempState.update((currentValue) => {
+		currentValue.timelineEditEvent.eventContent.associatedPeopleIds =
+			currentValue.timelineEditEvent.eventContent.associatedPeopleIds.filter(
+				(associatedPeopleId) => associatedPeopleId !== personId
+			);
+		return currentValue;
+	});
+};
+
 // the just-uploaded media url for writing to the correct place in the active person later
 export const setMediaUploadedUrl = (imageUrl) => {
 	tempState.update((currentValue) => {

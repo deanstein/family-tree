@@ -6,12 +6,16 @@
 	export let enabled = true;
 	export let onClickFunction = undefined;
 	export let faIcon = 'fa-plus'; // default icon
-	export let colorOverride = undefined;
+	export let faIconFontSize = '1rem';
+	export let iconColor = 'white';
+	export let backgroundColor = stylingConstants.colors.activeColor;
+	export let padding = '0.3rem';
+	export let title = undefined;
 
 	let circularButtonCss = css`
-		width: ${stylingConstants.sizes.personNodeAddButtonSize};
-		height: ${stylingConstants.sizes.personNodeAddButtonSize};
-		color: white;
+		font-size: ${faIconFontSize};
+		padding: ${padding};
+		color: ${iconColor};
 		&:hover {
 			background-color: ${stylingConstants.colors.hoverColor};
 		}
@@ -22,7 +26,7 @@
 		// for example, if the parent is hovered and the override is triggered
 		circularButtonCss = css`
 			${circularButtonCss}
-			background-color: ${colorOverride ? colorOverride : stylingConstants.colors.activeColor};
+			background-color: ${backgroundColor};
 		`;
 	}
 </script>
@@ -33,9 +37,10 @@
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 		disabled={!enabled}
+		title={title ?? ''}
 	>
 		<div class="circular-button-label">
-			<i class="fa-solid {faIcon}" />
+			<i class="fa-solid {faIcon} fa-fw" />
 		</div>
 	</button>
 </div>
@@ -47,6 +52,7 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
+		aspect-ratio: 1;
 		cursor: pointer;
 	}
 
