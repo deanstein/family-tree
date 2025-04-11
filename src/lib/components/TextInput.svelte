@@ -5,6 +5,7 @@
 
 	export let isEnabled = true;
 	export let inputValue = '';
+	export let placeholder = undefined;
 	export let fontColorOverride = undefined;
 	export let fontSizeOverride = undefined;
 	export let textAlignOverride = undefined;
@@ -35,6 +36,7 @@
 		on:keyup={onKeyUpFunction}
 		class={textInputCss}
 		disabled={!isEnabled}
+		{placeholder}
 	/>
 </div>
 
