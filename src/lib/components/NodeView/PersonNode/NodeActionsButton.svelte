@@ -8,6 +8,7 @@
 	export let faIconPadding = '0.25rem';
 	export let iconColor = stylingConstants.colors.textColorLight;
 	export let backgroundColor = 'transparent';
+	export let tooltip = '';
 </script>
 
 <div class="node-actions-button-container">
@@ -19,6 +20,7 @@
 			padding={faIconPadding}
 			{iconColor}
 			{backgroundColor}
+			{tooltip}
 		/>
 	</div>
 </div>

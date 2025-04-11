@@ -87,6 +87,7 @@
 								personNodeGroupData.compatibleGroups
 							);
 						}}
+						actionButtonTooltip={'Edit relationship'}
 					/>
 				{/each}
 			</div>

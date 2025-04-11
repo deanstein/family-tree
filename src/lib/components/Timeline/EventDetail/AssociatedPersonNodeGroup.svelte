@@ -67,6 +67,7 @@
 				actionButtonFaIconFontSize="0.5rem"
 				actionButtonIconColor="white"
 				actionButtonBackgroundColor="red"
+				actionButtonTooltip={'Remove person from event'}
 			/>
 		{/each}
 	{/if}

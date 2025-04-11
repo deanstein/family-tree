@@ -10,7 +10,7 @@
 	export let iconColor = 'white';
 	export let backgroundColor = stylingConstants.colors.activeColor;
 	export let padding = '0.3rem';
-	export let title = undefined;
+	export let tooltip = undefined;
 
 	let circularButtonCss = css`
 		font-size: ${faIconFontSize};
@@ -37,7 +37,7 @@
 		on:click={onClickFunction}
 		on:keydown={onClickFunction}
 		disabled={!enabled}
-		title={title ?? ''}
+		title={tooltip ?? ''}
 	>
 		<div class="circular-button-label">
 			<i class="fa-solid {faIcon} fa-fw" />

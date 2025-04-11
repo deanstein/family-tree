@@ -60,6 +60,7 @@
 	export let actionButtonPadding = '0.25rem';
 	export let actionButtonIconColor = stylingConstants.colors.textColorLight;
 	export let actionButtonBackgroundColor = 'transparent';
+	export let actionButtonTooltip = '';
 
 	let name;
 	let relationshipLabel;
@@ -265,6 +266,7 @@
 				faIconPadding={actionButtonPadding}
 				iconColor={actionButtonIconColor}
 				backgroundColor={actionButtonBackgroundColor}
+				tooltip={actionButtonTooltip}
 			/>
 		{/if}
 		<div class="person-node-content-area {personNodeContentAreaCss}">
