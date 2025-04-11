@@ -44,7 +44,12 @@
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
 
 		<div class="person-node-inputs-container">
-			<TextInput bind:inputValue={nameInputValue} placeholder={'Search...'} textAlignOverride="center" {useFunction} />
+			<TextInput
+				bind:inputValue={nameInputValue}
+				placeholder={'Search...'}
+				textAlignOverride="center"
+				{useFunction}
+			/>
 			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
 				<div class="select-container">
 					<Select
