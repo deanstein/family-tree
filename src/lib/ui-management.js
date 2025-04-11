@@ -361,8 +361,7 @@ export const generateTimelineRowItems = (person) => {
 		);
 		thisRowItem.index = rowIndex;
 		thisRowItem.event = eventFromReference;
-		thisRowItem.isEventReference = true;
-		thisRowItem.eventReferencePersonId = person.timelineEventReferences[i].personId;
+		thisRowItem.eventReference = person.timelineEventReferences[i];
 		if (!isNaN(rowIndex)) {
 			timelineEventReferenceRowItems.push(thisRowItem);
 		}

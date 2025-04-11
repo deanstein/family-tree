@@ -6,8 +6,8 @@
 
 	import uiState from '$lib/stores/ui-state';
 
-	import { getNumberOfYearsBetweenEvents } from '$lib/utils';
-	import { upgradeTimelineEvent } from '$lib/person-management';
+	import { areObjectsEqual, getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
+	import { getPersonById, upgradeTimelineEvent } from '$lib/person-management';
 	import { setTimelineEditEvent } from '$lib/temp-management';
 	import { setFirstTimelineEventHeight, setLastTimelineEventHeight } from '$lib/ui-management';
 
@@ -15,13 +15,14 @@
 
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	export let timelineEvent;
 	export let backgroundColor = stylingConstants.colors.activeColorSubtle;
 	export let rowIndex;
-	// this event is a reference to someone else's event
+	// if this is set, this event is a reference to someone else's event
 	// so it will be displayed uniquely
-	export let isEventReference = false;
+	export let eventReference = instantiateObject(timelineEventReference);
 
 	let eventDateCorrected;
 	let eventAge;
@@ -158,11 +159,12 @@
 					{eventAge.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
-			{#if isEventReference}
+			<!-- if this is a shared event, show who it's shared from -->
+			{#if !areObjectsEqual(eventReference, timelineEventReference)}
 				<div>
 					&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
 					<i>
-						Shared event from {timelineEvent.personId}
+						Shared event from {getPersonById(eventReference?.personId)?.name}
 					</i>
 				</div>
 			{/if}

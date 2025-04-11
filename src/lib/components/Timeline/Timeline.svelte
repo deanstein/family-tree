@@ -174,7 +174,7 @@
 						timelineEvent={timelineRowItem.event}
 						rowIndex={timelineRowItem.index}
 						backgroundColor={timelineEventColors[i + 1]}
-						isEventReference={timelineRowItem.isEventReference}
+						eventReference={timelineRowItem.eventReference}
 					/>
 				{/each}
 
