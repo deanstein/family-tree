@@ -120,6 +120,8 @@
 		isPersonNodeEditActive.set(false);
 	};
 
+	// gets dynamically modified later
+	// first in onMount, then in a reactive block
 	let personNodeCss = css`
 		width: ${size};
 		height: ${size};
@@ -174,6 +176,18 @@
 					break;
 			}
 		}
+
+		// this part of the css has to be defined in onMount for some reason
+		personNodeCss = css`
+			${personNodeCss}
+			cursor: ${onClickFunction ? 'pointer' : 'default'};
+			:hover {
+				border: ${onClickFunction
+					? `2px solid ${stylingConstants.colors.hoverColorSubtleDark}`
+					: ''};
+				background-color: ${onClickFunction ? stylingConstants.colors.hoverColorSubtleDark : ''};
+			}
+		`;
 	});
 
 	afterUpdate(() => {
@@ -214,16 +228,9 @@
 				? `${stylingConstants.zIndices.personNodeEditZIndex}`
 				: 'auto'};
 			background-color: ${isActivePerson ? stylingConstants.colors.activePersonNodeColor : color};
-			border: ${$tempState.nodeActionsModalPersonId == personId
+			border: ${$tempState.nodeActionsModalPersonId === personId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
-			cursor: ${onClickFunction ? 'pointer' : 'default'};
-			:hover {
-				border: ${onClickFunction
-					? `2px solid ${stylingConstants.colors.hoverColorSubtleDark}`
-					: ''};
-				background-color: ${onClickFunction ? stylingConstants.colors.hoverColorSubtleDark : ''};
-			}
 		`;
 	}
 </script>
