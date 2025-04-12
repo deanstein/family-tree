@@ -59,7 +59,7 @@
 	const onClickAddEventButton = () => {
 		// birth date must be set first
 		// before any normal timeline event is added
-		if ($uiState.activePerson.birth.date === '') {
+		if (!$uiState.activePerson.birth.date) {
 			setTimelineEditEvent(birthEvent);
 			setTimelineEditEventId(birthEvent.eventId);
 			// otherwise, add an event like normal
@@ -112,14 +112,12 @@
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent.description = 'Born';
 		// ensure death event is kept updated
-		deathEvent.eventType =
-			$uiState.activePerson.death.date !== ''
-				? timelineEventTypes.death.type
-				: timelineEventTypes.today.type;
-		deathEvent.eventDate =
-			$uiState.activePerson.death.date !== ''
-				? $uiState.activePerson.death.date
-				: new Date().toLocaleDateString();
+		deathEvent.eventType = $uiState.activePerson.death.date
+			? timelineEventTypes.death.type
+			: timelineEventTypes.today.type;
+		deathEvent.eventDate = $uiState.activePerson.death.date
+			? $uiState.activePerson.death.date
+			: new Date().toLocaleDateString();
 		deathEvent.eventContent.description =
 			$uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
 

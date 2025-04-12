@@ -9,7 +9,7 @@ export const person = {
 	alternateNames: [],
 	gender: 'Unspecified',
 	birth: {
-		date: '',
+		date: undefined,
 		apprxDate: false,
 		place: '',
 		time: ''
@@ -17,7 +17,7 @@ export const person = {
 	hometown: '',
 	deceased: false,
 	death: {
-		date: '',
+		date: undefined,
 		apprxDate: false,
 		place: '',
 		time: '',

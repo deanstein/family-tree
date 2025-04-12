@@ -1,6 +1,8 @@
 import { relationship } from './schemas/relationship';
-import timelineRowItem from './schemas/timeline-row-item';
+import timelineEvent from './schemas/timeline-event';
 import timelineEventTypes from './schemas/timeline-event-types';
+import timelineEventReference from './schemas/timeline-event-reference';
+import timelineRowItem from './schemas/timeline-row-item';
 
 import familyTreeData from '$lib/stores/family-tree-data';
 import uiState from '$lib/stores/ui-state';
@@ -303,7 +305,7 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 
 	const startDate = new Date(person.birth.date);
 	// end date is the death date if deceased or today
-	const endDate = person.death.date !== '' ? new Date(person.death.date) : new Date();
+	const endDate = person.death.date ? new Date(person.death.date) : new Date();
 
 	// lifespan and event duration in milliseconds
 	const lifespanMs = Math.abs(endDate.getTime() - startDate.getTime()) - 1;
@@ -366,6 +368,35 @@ export const generateTimelineRowItems = (person) => {
 			timelineEventReferenceRowItems.push(thisRowItem);
 		}
 	}
+	// also generate special reference events:
+	// births of kids
+	const childrenRelationships = person.relationships.children;
+	for (let i = 0; i < childrenRelationships.length; i++) {
+		// get the child
+		const childPerson = getPersonById(childrenRelationships[i].id);
+		const childBirthdate = childPerson.birth.date;
+		// this person's birthdate and the child's birthdate must be known
+		if (person.birth.date && childBirthdate) {
+			// create the birth event
+			let birthEvent = instantiateObject(timelineEvent);
+			birthEvent.eventType = timelineEventTypes.child.type;
+			birthEvent.eventDate = childBirthdate;
+			birthEvent.eventContent.description = childPerson.name + ' born';
+			// create the event reference
+			let eventReference = instantiateObject(timelineEventReference);
+			eventReference.personId = childrenRelationships[i].id;
+			// create the row item
+			let thisRowItem = instantiateObject(timelineRowItem);
+			const rowIndex = getClosestTimelineRowByDate(person, childBirthdate, numberOfRows);
+			thisRowItem.index = rowIndex;
+			thisRowItem.event = birthEvent;
+			thisRowItem.eventReference = eventReference;
+			if (!isNaN(rowIndex)) {
+				timelineEventReferenceRowItems.push(thisRowItem);
+			}
+		}
+	}
+
 	return [...timelineEventRowItems, ...timelineEventReferenceRowItems];
 };
 

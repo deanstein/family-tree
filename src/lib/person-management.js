@@ -214,10 +214,9 @@ export const getPersonAge = (person) => {
 	let age;
 
 	const birthYear = new Date(person.birth.date).getFullYear();
-	const deathOrCurrentYear =
-		person.death.date !== '' && person.death.date !== undefined
-			? new Date(person.death.date).getFullYear()
-			: new Date().getFullYear();
+	const deathOrCurrentYear = person.death.date
+		? new Date(person.death.date).getFullYear()
+		: new Date().getFullYear();
 
 	if (birthYear && deathOrCurrentYear) {
 		age = deathOrCurrentYear - birthYear;
