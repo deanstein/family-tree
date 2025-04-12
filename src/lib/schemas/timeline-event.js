@@ -1,3 +1,4 @@
+import { schemaVersion } from '$lib/versions';
 import timelineEventContent from './timeline-event-content';
 
 const timelineEvent = {
@@ -12,7 +13,7 @@ const timelineEvent = {
 		});
 		return eventContent;
 	})(),
-	eventVersion: ''
+	eventVersion: schemaVersion
 };
 
 export default timelineEvent;
