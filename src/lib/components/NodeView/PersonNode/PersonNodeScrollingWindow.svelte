@@ -40,7 +40,7 @@
 				case contexts.nodeActionsModal:
 					idsToDisplay = filterPeopleIds(getAllPeopleIds(), getAllVisibleNodeViewPeople());
 					break;
-				case contexts.eventDetailsModal:
+				case contexts.associatedPersonSelect:
 					idsToDisplay = filterPeopleIds(getAllPeopleIds(), $uiState.activePerson.id);
 					break;
 			}

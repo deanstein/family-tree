@@ -25,6 +25,7 @@
 		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
 		clearCanvas,
 		getDivCentroid,
+		hidePersonDetailView,
 		removePersonFromActivePersonGroup,
 		removePersonNodePosition,
 		showPersonDetailView
@@ -32,7 +33,10 @@
 	import {
 		addAssociatedPersonToTimelineEvent,
 		checkPersonForUnsavedChanges,
-		hidePersonNodeActionsModal
+		hidePersonNodeActionsModal,
+		setTimelineEditEvent,
+		setTimelineEditEventId
+
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
@@ -129,6 +133,13 @@
 		isPersonNodeEditActive.set(false);
 	};
 
+	const makeAssociatedPersonActive = () => {
+		setTimelineEditEvent(undefined);
+		setTimelineEditEventId(undefined);
+		hidePersonDetailView();
+		setActivePerson(getPersonById(personId));
+	}
+
 	// gets dynamically modified later
 	// first in onMount, then in a reactive block
 	let personNodeCss = css`
@@ -177,8 +188,11 @@
 				case contexts.nodeActionsModal:
 					onClickFunction = addRelationshipToPerson;
 					break;
-				case contexts.eventDetailsModal:
+				case contexts.associatedPersonSelect:
 					onClickFunction = addAssociatedPersonToEvent;
+					break;
+				case contexts.associatedPerson:
+					onClickFunction = makeAssociatedPersonActive;
 					break;
 				default:
 					console.error('PersonNode: No function matching the given context.');

@@ -6,7 +6,7 @@
 	import tempState from '$lib/stores/temp-state';
 	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 
-	import { removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
+	import { checkActivePersonForUnsavedChanges, removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
@@ -30,7 +30,7 @@
 		const eventId = get(tempState).timelineEditEventId;
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
 		removeTimelineEventReference(associatedPersonId, eventId);
-		console.log('CALLED');
+		checkActivePersonForUnsavedChanges();
 	};
 </script>
 
@@ -51,7 +51,7 @@
 		/>
 	{/if}
 	{#if $isPersonNodeEditActive}
-		<PersonNodeForEdit nameInputValue="" context={contexts.eventDetailsModal} />
+		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
 	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
@@ -68,6 +68,7 @@
 				actionButtonIconColor="white"
 				actionButtonBackgroundColor="red"
 				actionButtonTooltip={'Remove person from event'}
+				context={contexts.associatedPerson}
 			/>
 		{/each}
 	{/if}

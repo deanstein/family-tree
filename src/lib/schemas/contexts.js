@@ -4,7 +4,8 @@
 const contexts = {
 	treeView: 'tree-view',
 	nodeActionsModal: 'node-actions-modal',
-	eventDetailsModal: 'event-details-modal'
+	associatedPersonSelect: 'associated-person-select',
+	associatedPerson: 'associated-person'
 };
 
 export default contexts;
