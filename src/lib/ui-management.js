@@ -396,6 +396,33 @@ export const generateTimelineRowItems = (person) => {
 			}
 		}
 	}
+	// deaths of parents
+	const parentRelationships = person.relationships.parents;
+	for (let i = 0; i < parentRelationships.length; i++) {
+		// get the child
+		const parentPerson = getPersonById(parentRelationships[i].id);
+		const parentDeathDate = parentPerson.death.date;
+		// this person's birthdate and the child's birthdate must be known
+		if (person.birth.date && parentDeathDate) {
+			// create the birth event
+			let deathEvent = instantiateObject(timelineEvent);
+			deathEvent.eventType = timelineEventTypes.death.type;
+			deathEvent.eventDate = parentDeathDate;
+			deathEvent.eventContent.description = parentPerson.name + ' died';
+			// create the event reference
+			let eventReference = instantiateObject(timelineEventReference);
+			eventReference.personId = parentRelationships[i].id;
+			// create the row item
+			let thisRowItem = instantiateObject(timelineRowItem);
+			const rowIndex = getClosestTimelineRowByDate(person, parentDeathDate, numberOfRows);
+			thisRowItem.index = rowIndex;
+			thisRowItem.event = deathEvent;
+			thisRowItem.eventReference = eventReference;
+			if (!isNaN(rowIndex)) {
+				timelineEventReferenceRowItems.push(thisRowItem);
+			}
+		}
+	}
 
 	return [...timelineEventRowItems, ...timelineEventReferenceRowItems];
 };
