@@ -65,6 +65,7 @@
 				onClickFunction={() => {
 					showWindow = false;
 				}}
+				tooltip="Close suggestions"
 			/>
 		</div>
 		<div
