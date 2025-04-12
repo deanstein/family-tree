@@ -53,7 +53,7 @@
 		cursor: ${eventReference.personId ? 'default' : 'pointer'};
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
-			background-color: ${stylingConstants.colors.timelineEventBackgroundHoverColor};
+			background-color: ${eventReference.personId ? '' : stylingConstants.colors.timelineEventBackgroundHoverColor};
 		}
 	`;
 
@@ -195,6 +195,7 @@
 							fontSize="12px"
 							gap="6px"
 							label={getPersonById(eventReference?.personId)?.name}
+							tooltip={"Go to " + getPersonById(eventReference?.personId)?.name}
 						/>
 					</div>
 				</div>
