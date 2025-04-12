@@ -374,7 +374,7 @@ export const generateTimelineRowItems = (person) => {
 	for (let i = 0; i < childrenRelationships.length; i++) {
 		// get the child
 		const childPerson = getPersonById(childrenRelationships[i].id);
-		const childBirthdate = childPerson.birth.date;
+		const childBirthdate = childPerson?.birth?.date;
 		// this person's birthdate and the child's birthdate must be known
 		if (person.birth.date && childBirthdate) {
 			// create the birth event
@@ -399,9 +399,9 @@ export const generateTimelineRowItems = (person) => {
 	// deaths of parents
 	const parentRelationships = person.relationships.parents;
 	for (let i = 0; i < parentRelationships.length; i++) {
-		// get the child
+		// get the parent
 		const parentPerson = getPersonById(parentRelationships[i].id);
-		const parentDeathDate = parentPerson.death.date;
+		const parentDeathDate = parentPerson?.death?.date;
 		// this person's birthdate and the child's birthdate must be known
 		if (person.birth.date && parentDeathDate) {
 			// create the birth event
