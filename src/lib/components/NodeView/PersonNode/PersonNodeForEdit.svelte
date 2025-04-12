@@ -46,14 +46,16 @@
 <div class="person-node {personNodeCss}">
 	<div class="person-node-content-area {personNodeContentAreaCss}">
 		{#if showHideButton}
-		<NodeActionsButton
-		onClickFunction={() => {isPersonNodeEditActive.set(false)}}
-		faIcon={'fa-x'}
-		faIconFontSize={'0.5rem'}
-		iconColor={'white'}
-		backgroundColor={stylingConstants.colors.activeColor}
-		tooltip={'Cancel'}
-	/>
+			<NodeActionsButton
+				onClickFunction={() => {
+					isPersonNodeEditActive.set(false);
+				}}
+				faIcon={'fa-x'}
+				faIconFontSize={'0.5rem'}
+				iconColor={'white'}
+				backgroundColor={stylingConstants.colors.activeColor}
+				tooltip={'Cancel'}
+			/>
 		{/if}
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
 		<div class="person-node-inputs-container">

@@ -6,7 +6,10 @@
 	import tempState from '$lib/stores/temp-state';
 	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 
-	import { checkActivePersonForUnsavedChanges, removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
+	import {
+		checkActivePersonForUnsavedChanges,
+		removeAssociatedPersonFromActiveTimelineEvent
+	} from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
@@ -51,7 +54,7 @@
 		/>
 	{/if}
 	{#if $isPersonNodeEditActive}
-		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton/>
+		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
 	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}

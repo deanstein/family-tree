@@ -36,7 +36,6 @@
 		hidePersonNodeActionsModal,
 		setTimelineEditEvent,
 		setTimelineEditEventId
-
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
@@ -138,7 +137,7 @@
 		setTimelineEditEventId(undefined);
 		hidePersonDetailView();
 		setActivePerson(getPersonById(personId));
-	}
+	};
 
 	// gets dynamically modified later
 	// first in onMount, then in a reactive block
