@@ -189,6 +189,7 @@
 						<JDGButton
 							onClickFunction={makeEventReferencePersonActive}
 							faIcon={'fa-circle-arrow-right'}
+							backgroundColor={stylingConstants.colors.activePersonNodeColor}
 							paddingLeftRight="8px"
 							paddingTopBottom="2px"
 							fontSize="12px"
