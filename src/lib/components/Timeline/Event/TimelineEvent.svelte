@@ -50,15 +50,22 @@
 	};
 
 	let eventRowCss = css`
-		cursor: ${eventReference.personId ? 'default' : 'pointer'};
+		cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
+			? 'default'
+			: 'pointer'};
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 		&:hover {
-			background-color: ${eventReference.personId ? '' : stylingConstants.colors.timelineEventBackgroundHoverColor};
+			background-color: ${eventReference.personId ||
+			timelineEvent.eventType === timelineEventTypes.today.type
+				? ''
+				: stylingConstants.colors.timelineEventBackgroundHoverColor};
 		}
 	`;
 
 	const eventRowContainerCss = css`
-		cursor: ${eventReference.personId ? 'default' : 'pointer'};
+		cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
+			? 'default'
+			: 'pointer'};
 	`;
 
 	const eventDateYearCss = css`
@@ -195,7 +202,7 @@
 							fontSize="12px"
 							gap="6px"
 							label={getPersonById(eventReference?.personId)?.name}
-							tooltip={"Go to " + getPersonById(eventReference?.personId)?.name}
+							tooltip={'Go to ' + getPersonById(eventReference?.personId)?.name}
 						/>
 					</div>
 				</div>
