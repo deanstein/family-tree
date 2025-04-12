@@ -102,13 +102,17 @@
 				break;
 			}
 		}
+	});
 
+	// keep timeline row items updated
+	$: {
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid
 		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
-	});
+	}
+
+	// ensure birth and death dates are updated
 	$: {
-		// ensure birth event is kept updated
 		birthEvent.eventDate = $uiState.activePerson.birth.date;
 		birthEvent.eventContent.description = 'Born';
 		// ensure death event is kept updated
