@@ -1,18 +1,42 @@
 <script>
+	import { css } from '@emotion/css';
+
 	import uiState from '$lib/stores/ui-state';
 
 	import { hidePersonDetailView } from '$lib/ui-management';
 
-	import stylingConstants from '$lib/components/styling-constants';
-
-	import Button from '$lib/components/Button.svelte';
-	import Timeline from '$lib/components/Timeline/Timeline.svelte';
 	import Bio from '$lib/components/Bio/Bio.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
+	import Timeline from '$lib/components/Timeline/Timeline.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	const onClickCloseButton = () => {
 		hidePersonDetailView();
 	};
+
+	const personDetailModalBioContainerCss = css`
+		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
+				.breakpoints.width[1]}) {
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
+			overflow-y: auto;
+		}
+	`;
+
+	const personDetailModalContentCss = css`
+		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
+				.breakpoints.width[1]}) {
+			flex-direction: column;
+		}
+		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
+			flex-direction: row;
+		}
+	`;
 </script>
 
 <Modal
@@ -26,8 +50,8 @@
 	padding={'15px'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
-	<div class="person-detail-modal-content" slot="modal-content-slot">
-		<div class="person-detail-bio-container">
+	<div class="person-detail-modal-content {personDetailModalContentCss}" slot="modal-content-slot">
+		<div class="person-detail-bio-container {personDetailModalBioContainerCss}">
 			<Bio />
 		</div>
 		<div class="person-detail-timeline-container">
@@ -41,7 +65,7 @@
 <style>
 	.person-detail-modal-content {
 		display: flex;
-		flex-direction: row;
+		overflow: scroll;
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
@@ -52,7 +76,6 @@
 		display: flex;
 		flex-direction: column;
 		flex-basis: 33.333%;
-		overflow-y: auto;
 		border-radius: 10px;
 	}
 
