@@ -2,11 +2,13 @@
 	import { css } from '@emotion/css';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
+	import { isPersonNodeEditActive } from '$lib/states/temp-state';
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';
+	import NodeActionsButton from './NodeActionsButton.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -16,6 +18,8 @@
 	export let compatibleGroups = $tempState.nodeEditCompatibleGroups;
 	export let nodeSize = stylingConstants.sizes.personNodeSize;
 	export let context;
+	// in certain contexts, the PersonNodeForEdit can be hidden
+	export let showHideButton = false;
 
 	let personNodeCss;
 
@@ -41,8 +45,17 @@
 
 <div class="person-node {personNodeCss}">
 	<div class="person-node-content-area {personNodeContentAreaCss}">
+		{#if showHideButton}
+		<NodeActionsButton
+		onClickFunction={() => {isPersonNodeEditActive.set(false)}}
+		faIcon={'fa-x'}
+		faIconFontSize={'0.5rem'}
+		iconColor={'white'}
+		backgroundColor={stylingConstants.colors.activeColor}
+		tooltip={'Cancel'}
+	/>
+		{/if}
 		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
-
 		<div class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}

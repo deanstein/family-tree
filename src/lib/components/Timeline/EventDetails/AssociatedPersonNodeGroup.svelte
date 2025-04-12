@@ -51,7 +51,7 @@
 		/>
 	{/if}
 	{#if $isPersonNodeEditActive}
-		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} />
+		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton/>
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
 	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
@@ -63,7 +63,7 @@
 							removeAssociatedPersonFromActiveEvent(personId);
 						}
 					: undefined}
-				actionButtonFaIcon="fa-x"
+				actionButtonFaIcon="fa-trash"
 				actionButtonFaIconFontSize="0.5rem"
 				actionButtonIconColor="white"
 				actionButtonBackgroundColor="red"
