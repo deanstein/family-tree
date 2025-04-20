@@ -49,17 +49,8 @@
 		setActivePerson(getPersonById(eventReference.personId));
 	};
 
-	let eventRowCss = css`
-		cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
-			? 'default'
-			: 'pointer'};
+	const eventRowCss = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
-		&:hover {
-			background-color: ${eventReference.personId ||
-			timelineEvent.eventType === timelineEventTypes.today.type
-				? ''
-				: stylingConstants.colors.timelineEventBackgroundHoverColor};
-		}
 	`;
 
 	const eventRowContainerCss = css`
@@ -138,21 +129,33 @@
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
-			eventRowCss = css`
-				${eventRowCss}
-				grid-row: ${rowIndex};
-			`;
-
 			eventAge = getNumberOfYearsBetweenEvents(
 				$uiState.activePerson.birth.date,
 				eventDateCorrected
 			);
 		}
 	}
+
+	// dynamic CSS
+	let eventRowDynamicCss = css``;
+	$: {
+		eventRowDynamicCss = css`
+			grid-row: ${rowIndex};
+			cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
+				? 'default'
+				: 'pointer'};
+			&:hover {
+				background-color: ${eventReference.personId ||
+				timelineEvent.eventType === timelineEventTypes.today.type
+					? ''
+					: stylingConstants.colors.timelineEventBackgroundHoverColor};
+			}
+		`;
+	}
 </script>
 
 <div
-	class="timeline-event-row {eventRowCss}"
+	class="timeline-event-row {eventRowCss} {eventRowDynamicCss}"
 	role="button"
 	tabindex="0"
 	on:click={onClickFunction}
