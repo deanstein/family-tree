@@ -65,7 +65,8 @@
 <style>
 	.person-detail-modal-content {
 		display: flex;
-		overflow: scroll;
+		overflow-x: none;
+		overflow-y: auto;
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
