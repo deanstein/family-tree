@@ -52,6 +52,8 @@
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
+	let shutdown;
+
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {
 		setActivePerson($familyTreeData.allPeople[0]);
@@ -130,6 +132,7 @@
 </script>
 
 <main>
+	{#if shutdown}
 	<JDGAppContainer showHeaderStripes={false}>
 		<div
 			id="app-container"
@@ -458,6 +461,7 @@
 			{/if}
 		</div>
 	</JDGAppContainer>
+	{/if}
 </main>
 
 <style>
