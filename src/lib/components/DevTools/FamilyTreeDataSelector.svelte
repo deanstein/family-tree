@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import { repoOwner, dataRepoName, getFileFromRepo, tempPw } from '$lib/persistence-management';
+	import { repoOwner, dataRepoName, getFileFromRepo } from '$lib/persistence-management';
 	import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
 
 	let sInputValue;
@@ -16,8 +16,7 @@
 		familyTreeDataMap = await getFileFromRepo(
 			repoOwner,
 			dataRepoName,
-			'family-tree-data-map.json',
-			tempPw
+			'family-tree-data-map.json'
 		);
 	};
 

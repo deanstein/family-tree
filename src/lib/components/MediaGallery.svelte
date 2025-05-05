@@ -4,7 +4,6 @@
 	import {
 		repoOwner,
 		dataRepoName,
-		tempPw,
 		imagePlaceholderSrc
 	} from '$lib/persistence-management';
 	import {
@@ -34,7 +33,6 @@
 		<ImageAsyncFromUrl
 			{repoOwner}
 			repoName={dataRepoName}
-			password={tempPw}
 			imageUrl={$tempState?.mediaGalleryActiveContent?.url}
 			{imagePlaceholderSrc}
 			allowEdit={false}

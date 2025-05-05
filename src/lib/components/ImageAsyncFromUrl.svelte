@@ -4,7 +4,7 @@
 
 	import imageCache from '$lib/stores/image-cache';
 
-	import { deleteFileFromRepoByUrl, tempPw, uploadFileToRepo } from '$lib/persistence-management';
+	import { deleteFileFromRepoByUrl, uploadFileToRepo } from '$lib/persistence-management';
 	import {
 		addImageToCache,
 		getImageFromCache,
@@ -22,7 +22,6 @@
 
 	export let repoOwner;
 	export let repoName;
-	export let password;
 	export let imageUrl; // the full github url
 	export let imagePlaceholderSrc; // used if the url is not valid
 	export let allowEdit; // shows overlay buttons like edit and delete
@@ -107,12 +106,11 @@
 		try {
 			// delete the file if it exists
 			// this is (unfortunately) required to force refresh the image in the app
-			await deleteFileFromRepoByUrl(tempPw, imageUrl);
+			await deleteFileFromRepoByUrl(imageUrl);
 
 			imageUrl = await uploadFileToRepo(
 				repoOwner,
 				repoName,
-				password,
 				`${imageUploadPathNoExt}.${imageExtension}`,
 				base64String,
 				'Upload image'
@@ -141,7 +139,7 @@
 	const onDeleteButtonClick = async () => {
 		// try to delete the file first
 		// if this works, then run the afterDelete function
-		if (await deleteFileFromRepoByUrl(tempPw, imageUrl)) {
+		if (await deleteFileFromRepoByUrl(imageUrl)) {
 			// run a post-delete function as desired (for example to clean up any references to this file)
 			removeImageFromCache(imageUrl);
 			imageUrl = '';

@@ -48,10 +48,9 @@ export const writeUIStateValueAtPath = (path, value, originalValue = undefined) 
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (
 	familyTreeId,
-	password,
 	showLoadNotifications = true
 ) => {
-	if (!familyTreeId || !password) {
+	if (!familyTreeId) {
 		showLoadNotifications ?? setRepoState(repoStateStrings.loadFailed);
 		return;
 	}
@@ -62,16 +61,14 @@ export const getRepoFamilyTreeAndSetActive = async (
 	const familyTreeDataFileNameWithExt = await getFamilyTreeDataFileName(
 		repoOwner,
 		dataRepoName,
-		familyTreeId,
-		password
+		familyTreeId
 	);
 
 	// the final family tree data is a json object
 	const newFamilyTreeData = await getFileFromRepo(
 		repoOwner,
 		dataRepoName,
-		familyTreeDataFileNameWithExt,
-		password
+		familyTreeDataFileNameWithExt
 	);
 
 	if (newFamilyTreeData) {

@@ -1,5 +1,5 @@
 <script>
-	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
+	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
 	import tempState from '$lib/stores/temp-state';
@@ -15,7 +15,7 @@
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
 
 	const setDataButtonOnClickAction = () => {
-		writeCurrentFamilyTreeDataToRepo(tempPw);
+		writeCurrentFamilyTreeDataToRepo();
 	};
 
 	const toggleStoreView = () => {
