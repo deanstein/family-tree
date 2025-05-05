@@ -270,17 +270,21 @@
 		out:send={{ key: personId }}
 		bind:this={nodeDivRef}
 	>
-		<!-- show node actions button if provided (and if this is not the active person) -->
-		{#if onClickActionButton && personId !== $uiState.activePerson.id}
-			<NodeActionsButton
-				onClickFunction={onClickActionButton}
-				faIcon={actionButtonFaIcon}
-				faIconFontSize={actionButtonFaIconFontSize}
-				faIconPadding={actionButtonPadding}
-				iconColor={actionButtonIconColor}
-				backgroundColor={actionButtonBackgroundColor}
-				tooltip={actionButtonTooltip}
-			/>
+		<!-- show node actions button if edit mode is on -->
+		<!-- and if an action button function is provided -->
+		<!-- and if this is not the active person -->
+		{#if $tempState.buildMode}
+			{#if onClickActionButton && personId !== $uiState.activePerson.id}
+				<NodeActionsButton
+					onClickFunction={onClickActionButton}
+					faIcon={actionButtonFaIcon}
+					faIconFontSize={actionButtonFaIconFontSize}
+					faIconPadding={actionButtonPadding}
+					iconColor={actionButtonIconColor}
+					backgroundColor={actionButtonBackgroundColor}
+					tooltip={actionButtonTooltip}
+				/>
+			{/if}
 		{/if}
 		<div class="person-node-content-area {personNodeContentAreaCss}">
 			<BioPhoto {personId} allowEdit={false} />
