@@ -1,11 +1,7 @@
 <script>
 	import tempState from '$lib/stores/temp-state';
 
-	import {
-		repoOwner,
-		dataRepoName,
-		imagePlaceholderSrc
-	} from '$lib/persistence-management';
+	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
 	import {
 		checkActivePersonForUnsavedChanges,
 		unsetImageEditContent,

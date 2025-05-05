@@ -1,11 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import {
-		repoOwner,
-		dataRepoName,
-		imagePlaceholderSrc
-	} from '$lib/persistence-management';
+	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 

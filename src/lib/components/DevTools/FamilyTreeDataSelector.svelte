@@ -13,11 +13,7 @@
 
 	// initialize the picker with the available family trees from the map
 	const getAvailableFamilyTrees = async () => {
-		familyTreeDataMap = await getFileFromRepo(
-			repoOwner,
-			dataRepoName,
-			'family-tree-data-map.json'
-		);
+		familyTreeDataMap = await getFileFromRepo(repoOwner, dataRepoName, 'family-tree-data-map.json');
 	};
 
 	const handleSelectChange = async (event) => {

@@ -46,10 +46,7 @@ export const writeUIStateValueAtPath = (path, value, originalValue = undefined) 
 };
 
 // get a family tree by id from the repo and set it as the current UI state
-export const getRepoFamilyTreeAndSetActive = async (
-	familyTreeId,
-	showLoadNotifications = true
-) => {
+export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifications = true) => {
 	if (!familyTreeId) {
 		showLoadNotifications ?? setRepoState(repoStateStrings.loadFailed);
 		return;
