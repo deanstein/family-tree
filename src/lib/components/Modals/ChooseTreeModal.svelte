@@ -3,7 +3,6 @@
 
 	import uiState from '$lib/stores/ui-state';
 
-	import { tempPw } from '$lib/persistence-management';
 	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '$lib/ui-management';
 
 	import { chooseTreeStrings } from '$lib/components/strings';
@@ -37,7 +36,7 @@
 		// hide the modal
 		hideChooseTreeModal();
 		// load the Roy family tree
-		getRepoFamilyTreeAndSetActive('0', tempPw);
+		getRepoFamilyTreeAndSetActive('0');
 	};
 
 	const loadFamilyTreeButtonOnClick = () => {
@@ -45,7 +44,7 @@
 		hideChooseTreeModal();
 		// load the family tree
 		// TODO: add ability to choose, rather than hard-code
-		getRepoFamilyTreeAndSetActive('1', tempPw);
+		getRepoFamilyTreeAndSetActive('1');
 	};
 </script>
 

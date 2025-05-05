@@ -1,7 +1,7 @@
 <script>
 	import uiState from '$lib/stores/ui-state';
 
-	import { tempPw, writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
+	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState, setRepoState } from '$lib/ui-management';
 
 	import { repoStateStrings } from '$lib/components/strings';
@@ -14,7 +14,7 @@
 	let color;
 
 	let onSaveButtonClick = () => {
-		writeCurrentFamilyTreeDataToRepo(tempPw);
+		writeCurrentFamilyTreeDataToRepo();
 	};
 
 	$: {

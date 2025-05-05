@@ -2,7 +2,6 @@
 	import {
 		repoOwner,
 		dataRepoName,
-		tempPw,
 		bioPhotoPlaceholderSrc,
 		getBioPhotoPathNoExt
 	} from '$lib/persistence-management';
@@ -38,7 +37,6 @@
 	<ImageAsyncFromUrl
 		{repoOwner}
 		repoName={dataRepoName}
-		password={tempPw}
 		imageUrl={person?.bioPhotoUrl}
 		imageUploadPathNoExt={bioPhotoPathNoExt}
 		imagePlaceholderSrc={bioPhotoPlaceholderSrc}

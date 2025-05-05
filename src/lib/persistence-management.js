@@ -7,7 +7,6 @@ import {
 	getActivePerson,
 	setRepoState
 } from '$lib/ui-management';
-import { decrypt } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
 
@@ -18,15 +17,27 @@ export const familyTreeDataMapFileName = 'family-tree-data-map.json';
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
-export const tempPw = '8890'; // TODO: require user input and store this locally
-export const encryptedPAT =
-	'U2FsdGVkX19E4XXmu4s1Y76A+iKILjKYG1n92+pqbtzdoJpeMyl6Pit0H8Kq8G28M+ZuqmdhHEfb/ud4GEe5gw==';
+export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
 
-// these are used to make GitHub file paths more readable due to the GUIDs
 const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
 const pathPrefixTimelineEventId = 'event';
 const pathPrefixTimelineEventImageId = 'event-image';
+
+export async function getGitHubToken() {
+  try {
+    const response = await fetch(gitHubAppWorkerUrl);
+    if (!response.ok) {
+      throw new Error(`GitHub Token Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.token; // Return the GitHub App installation token
+  } catch (error) {
+    console.error("Failed to fetch GitHub token:", error);
+    return null;
+  }
+}
 
 export const getBioPhotoPathNoExt = () => {
 	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
@@ -97,19 +108,29 @@ export const getTotalCommitsInPublicRepo = async (repoOwner, repoName) => {
 	return totalCommits;
 };
 
-export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt, password) => {
+export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt) => {
 	let fileData = undefined;
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileNameWithExt}`;
 
+	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
+	const tokenResponse = await fetch(gitHubAppWorkerUrl);
+	const { token } = await tokenResponse.json();
+
+	if (!token) {
+		console.error("Failed to retrieve GitHub App token.");
+		return undefined;
+	}
+
+	// ✅ Step 2: Fetch file from GitHub using the App token
 	await fetch(url, {
 		headers: {
-			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-			Accept: 'application/vnd.github.v3.raw'
-		}
+			Authorization: `Bearer ${token}`,
+			Accept: "application/vnd.github.v3.raw",
+		},
 	})
 		.then((response) => {
 			if (!response.ok) {
-				throw new Error('Network response was not ok');
+				throw new Error("Network response was not ok");
 			}
 			return response.json();
 		})
@@ -117,7 +138,7 @@ export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt, pass
 			fileData = data;
 		})
 		.catch((error) => {
-			console.error('There was a problem fetching the JSON file:', error);
+			console.error("There was a problem fetching the JSON file:", error);
 		});
 
 	return fileData;
@@ -126,15 +147,13 @@ export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt, pass
 export const getFamilyTreeDataFileName = async (
 	repoOwner,
 	repoName,
-	familyTreeDataId,
-	password
+	familyTreeDataId
 ) => {
 	// first, get the family tree data map
 	const familyTreeDataMap = await getFileFromRepo(
 		repoOwner,
 		repoName,
-		familyTreeDataMapFileName,
-		password
+		familyTreeDataMapFileName
 	);
 
 	// get the family tree data from the map by id
@@ -148,16 +167,12 @@ export const getFamilyTreeDataFileName = async (
 	return familyTreeDataFileName;
 };
 
-export const writeCurrentFamilyTreeDataToRepo = async (password) => {
-	if (!password) {
-		console.error('No password was provided!');
-		return;
-	}
+export const writeCurrentFamilyTreeDataToRepo = async () => {
+	// Get the file name to write to given the family tree ID in UI state
+	let familyTreeId;
+	let familyTreeDataFileName;
+	let currentFamilyTreeData;
 
-	// get the file name to write to given the family tree id in ui state
-	let familyTreeId = undefined;
-	let familyTreeDataFileName = undefined;
-	let currentFamilyTreeData = undefined;
 	uiState.subscribe((currentValue) => {
 		familyTreeId = currentValue.activeFamilyTreeDataId;
 	});
@@ -166,66 +181,68 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		currentFamilyTreeData = currentValue;
 	});
 
-	familyTreeDataFileName = await getFamilyTreeDataFileName(
-		repoOwner,
-		dataRepoName,
-		familyTreeId,
-		password
-	);
+	familyTreeDataFileName = await getFamilyTreeDataFileName(repoOwner, dataRepoName, familyTreeId);
 
 	setRepoState(repoStateStrings.saving);
 
-	const response = await fetch('https://api.github.com/user/repos', {
+	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
+	const tokenResponse = await fetch(gitHubAppWorkerUrl);
+	const { token } = await tokenResponse.json();
+
+	if (!token) {
+		console.error("Failed to retrieve GitHub App token.");
+		setRepoState(repoStateStrings.saveFailed);
+		return;
+	}
+
+	// ✅ Step 2: Get repository information
+	const response = await fetch(`https://api.github.com/repos/${repoOwner}/${dataRepoName}`, {
 		headers: {
-			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-			Accept: 'application/vnd.github.v3+json'
-		}
+			Authorization: `Bearer ${token}`,
+			Accept: "application/vnd.github.v3+json",
+		},
 	});
 
-	const repos = await response.json();
-	const repo = repos.find((repo) => repo.name === dataRepoName);
-
-	if (!repo) {
+	if (!response.ok) {
+		console.error("Repository not found: " + dataRepoName);
 		setRepoState(repoStateStrings.saveFailed);
-		console.error('Repository not found: ' + dataRepoName);
 		return;
 	}
 
 	const content = JSON.stringify(currentFamilyTreeData, null, 2);
 
+	// ✅ Step 3: Get existing file SHA (if updating)
 	const fileResponse = await fetch(
 		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
-			method: 'HEAD',
+			method: "HEAD",
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-				Accept: 'application/vnd.github.v3+json'
-			}
+				Authorization: `Bearer ${token}`,
+				Accept: "application/vnd.github.v3+json",
+			},
 		}
 	);
 
-	if (!fileResponse.ok) {
-		console.error(`Failed to get file ${familyTreeDataFileName}`);
-		setRepoState(repoStateStrings.saveFailed);
-		return;
+	let fileSHA = null;
+	if (fileResponse.ok) {
+		fileSHA = fileResponse.headers.get("etag").replace(/"/g, "");
 	}
 
-	const fileSHA = fileResponse.headers.get('etag').replace(/"/g, '');
-
+	// ✅ Step 4: Commit JSON file to GitHub
 	const updateResponse = await fetch(
 		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
-			method: 'PUT',
+			method: "PUT",
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-				Accept: 'application/vnd.github.v3+json',
-				'Content-Type': 'application/json'
+				Authorization: `Bearer ${token}`,
+				Accept: "application/vnd.github.v3+json",
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
 				message: `Update ${familyTreeDataFileName}`,
-				content: btoa(content),
-				sha: fileSHA
-			})
+				content: btoa(content), // Encode content in Base64
+				sha: fileSHA, // Include SHA if updating an existing file
+			}),
 		}
 	);
 
@@ -233,63 +250,71 @@ export const writeCurrentFamilyTreeDataToRepo = async (password) => {
 		setRepoState(repoStateStrings.saveSuccessful);
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 
-		// required to ensure the latest version of the file is used for the next update
-		getRepoFamilyTreeAndSetActive(familyTreeId, password, false);
+		// Ensure the latest version of the file is used for the next update
+		getRepoFamilyTreeAndSetActive(familyTreeId, false);
 	} else {
 		setRepoState(repoStateStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
 };
 
-export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+// export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
+// 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 
-	try {
-		const response = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-			}
-		});
+// 	try {
+// 		const response = await fetch(url, {
+// 			headers: {
+// 				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+// 			}
+// 		});
 
-		if (response.ok) {
-			const data = await response.json();
-			const fileContent = atob(data.content); // Decode file content from Base64
-			return fileContent;
-		} else {
-			console.log('Bad response: ' + response);
-		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+// 		if (response.ok) {
+// 			const data = await response.json();
+// 			const fileContent = atob(data.content); // Decode file content from Base64
+// 			return fileContent;
+// 		} else {
+// 			console.log('Bad response: ' + response);
+// 		}
+// 	} catch (error) {
+// 		console.error(error);
+// 	}
+// };
 
 // for binary large objects (blobs)
-export const readBlobFromRepo = async (repoOwner, repoName, password, gitHubUrl) => {
+export const readBlobFromRepo = async (repoOwner, repoName, gitHubUrl) => {
 	let sha;
+	
+	// ✅ Get GitHub App Token
+	const token = await getGitHubToken();
+	if (!token) {
+		console.error("Failed to retrieve GitHub App token.");
+		return null;
+	}
+
 	try {
 		const response = await fetch(gitHubUrl, {
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-			}
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (response.ok) {
 			const data = await response.json();
 			sha = data.sha; // Get the file's SHA
 		} else {
-			console.log('Bad response: ' + JSON.stringify(response));
+			console.log("Bad response: " + JSON.stringify(response));
 		}
 	} catch (error) {
 		console.error(error);
 	}
 
-	// Then, use the SHA to get the blob
+	// ✅ Fetch the Blob using SHA
 	const blobUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/blobs/${sha}`;
 	try {
 		const response = await fetch(blobUrl, {
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-			}
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (response.ok) {
@@ -297,7 +322,7 @@ export const readBlobFromRepo = async (repoOwner, repoName, password, gitHubUrl)
 			const fileContent = atob(data.content); // Decode file content from Base64
 			return fileContent;
 		} else {
-			console.log('Bad response: ' + response);
+			console.log("Bad response: " + response);
 		}
 	} catch (error) {
 		console.error(error);
@@ -307,78 +332,84 @@ export const readBlobFromRepo = async (repoOwner, repoName, password, gitHubUrl)
 export const uploadFileToRepo = async (
 	repoOwner,
 	repoName,
-	password,
 	filePath,
 	fileContent,
 	commitMessage
 ) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
 
+	// ✅ Get GitHub App Token
+	const token = await getGitHubToken();
+	if (!token) {
+		console.error("Failed to retrieve GitHub App token.");
+		return null;
+	}
+
+	// ✅ Step 1: Check if File Exists
 	const response = await fetch(url, {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-			'Content-Type': 'application/json'
-		}
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "application/json",
+		},
 	});
 
+	let sha = null;
+
 	if (response.ok) {
+		// ✅ File exists, get SHA for update
 		const existingFileData = await response.json();
-		const data = {
-			message: commitMessage,
-			content: fileContent,
-			sha: existingFileData.sha
-		};
-
-		const updateResponse = await fetch(url, {
-			method: 'PUT',
-			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-
-		const updatedData = await updateResponse.json();
-		const updatedUrl = updatedData.content.url;
-
-		return updatedUrl;
+		sha = existingFileData.sha;
 	} else {
+		// ✅ File does not exist, safe to upload a new one
 		console.log(
-			"%c^^^ Ignore the above error. This photo simply wasn't already present in the repo, either because it didn't exist yet or had been deleted for a full refresh.",
-			'color: green; font-weight: bold;'
+			"%c^^^ Ignore the above error. The file is not present in the repo, either because it didn't exist yet or had been deleted for a full refresh.",
+			"color: green; font-weight: bold;"
 		);
-		const data = {
-			message: commitMessage,
-			content: fileContent
-		};
-
-		const uploadResponse = await fetch(url, {
-			method: 'PUT',
-			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-
-		const uploadedData = await uploadResponse.json();
-		const uploadedUrl = uploadedData.content.url;
-
-		return uploadedUrl;
 	}
+
+	// ✅ Step 2: Upload or Update File
+	const data = {
+		message: commitMessage,
+		content: fileContent,
+		...(sha && { sha }), // Include SHA only if updating
+	};
+
+	const uploadResponse = await fetch(url, {
+		method: "PUT",
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(data),
+	});
+
+	if (!uploadResponse.ok) {
+		console.error(`Failed to upload/update file: ${filePath}`);
+		return null;
+	}
+
+	const uploadedData = await uploadResponse.json();
+	return uploadedData.content.url; // ✅ Return GitHub file URL
 };
 
-export const deleteFileFromRepoByUrl = async (password, url, logFailures = false) => {
+export const deleteFileFromRepoByUrl = async (url, logFailures = false) => {
 	let deleted = false;
 	let sha;
 
-	// try to get the sha
+	// ✅ Get GitHub App Token
+	const token = await getGitHubToken();
+	if (!token) {
+		console.error("Failed to retrieve GitHub App token.");
+		return false;
+	}
+
+	// ✅ Step 1: Get the File SHA
 	try {
 		const response = await fetch(url, {
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-			}
+				Authorization: `Bearer ${token}`,
+			},
 		});
 
 		if (response.ok) {
@@ -386,7 +417,7 @@ export const deleteFileFromRepoByUrl = async (password, url, logFailures = false
 			sha = data.sha; // Get the file's SHA
 		} else {
 			if (logFailures) {
-				console.log('Bad response: ' + JSON.stringify(response));
+				console.log("Bad response: " + JSON.stringify(response));
 			}
 			return false;
 		}
@@ -397,28 +428,28 @@ export const deleteFileFromRepoByUrl = async (password, url, logFailures = false
 		return false;
 	}
 
-	// try to delete the file with the given sha
+	// ✅ Step 2: Delete the File Using SHA
 	try {
 		const response = await fetch(url, {
-			method: 'DELETE',
+			method: "DELETE",
 			headers: {
-				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
 				message: `delete ${url}`,
-				sha: sha
-			})
+				sha: sha, // ✅ SHA required for deletion
+			}),
 		});
 
 		if (response.ok) {
-			//console.log(`File ${url} deleted successfully.`);
 			deleted = true;
 		} else {
 			if (logFailures) {
 				console.error(
-					'Bad response trying to delete file: ' +
+					"Bad response trying to delete file: " +
 						response.status +
-						', text: ' +
+						", text: " +
 						(await response.text())
 				);
 			}
@@ -430,5 +461,6 @@ export const deleteFileFromRepoByUrl = async (password, url, logFailures = false
 		}
 		deleted = false;
 	}
+
 	return deleted;
 };

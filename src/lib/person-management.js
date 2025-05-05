@@ -12,7 +12,7 @@ import tempState from '$lib/stores/temp-state';
 import uiState from '$lib/stores/ui-state';
 import familyTreeData from '$lib/stores/family-tree-data';
 
-import { deleteFileFromRepoByUrl, tempPw } from './persistence-management';
+import { deleteFileFromRepoByUrl } from './persistence-management';
 import {
 	checkActivePersonForUnsavedChanges,
 	getActiveTimelineEditEvent,
@@ -783,7 +783,7 @@ export const deleteTimelineEvent = (timelineEvent) => {
 export const deleteAllTimelineEventImagesFromRepo = async (timelineEvent) => {
 	timelineEvent?.eventContent?.images.forEach(async (eventImage) => {
 		console.log('deleting image: ', eventImage.url);
-		await deleteFileFromRepoByUrl(tempPw, eventImage.url);
+		await deleteFileFromRepoByUrl(eventImage.url);
 	});
 };
 
