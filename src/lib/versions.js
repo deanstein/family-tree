@@ -6,6 +6,18 @@ export const appChangelog = {
 		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
 		Changes: ['Added password protection to the ChooseTree dialog']
 	},
+	'v0.18.x': {
+		Overview:
+			'v0.18.x removes frontend PAT decryption and instead uses a GitHub App to write changes to the family-tree-data repo.'
+	},
+	'v0.17.x': {
+		Overview:
+			'v0.17.x adds associated people to timeline events and combines multiple variants of the PersonNode component into one.'
+	},
+	'v0.16.x': {
+		Overview:
+			'v0.16.x uses jdg-ui-svelte, including for the app container and footer, and switches to a standard GitHub actions build.'
+	},
 	'v0.15.x': {
 		Overview:
 			'v0.15.x adds image support, including the ability to view and set images including bio photo and timeline event images, and adds the ability to add associated people to timeline events.',
