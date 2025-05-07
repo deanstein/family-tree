@@ -8,7 +8,7 @@
 
 	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import { isNodeEditActive, isTreeEditActive, nodeEditGroupId, nodeEditId } from '$lib/states/temp-state';
 
 	import {
 		getPersonById,
@@ -95,7 +95,7 @@
 	// if already the active person, shows the timeline for that person
 	const showActivePersonOrTimeline = () => {
 		// don't do anything on click if the node is in edit mode
-		if ($tempState.nodeActionsModalPersonId === personId) {
+		if ($nodeEditId === personId) {
 			return;
 		}
 		// clicking on the active person will pull up the detailed view
@@ -111,9 +111,9 @@
 	// adds a relationship to the person being viewed in the person detail modal
 	const addRelationshipToPerson = () => {
 		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
-		addOrUpdateActivePersonInNewPersonGroup(personId, $tempState.nodeEditGroupId);
-		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, relationshipId);
-		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
+		addOrUpdateActivePersonInNewPersonGroup(personId, get(nodeEditGroupId));
+		removePersonFromActivePersonGroup(get(nodeEditId), relationshipId);
+		removePersonFromPeopleArray(getPersonById(get(nodeEditId)));
 		hidePersonNodeActionsModal();
 		checkPersonForUnsavedChanges(personId);
 	};
@@ -129,7 +129,7 @@
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
 		checkPersonForUnsavedChanges(personId);
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 
 	const makeAssociatedPersonActive = () => {
@@ -246,11 +246,11 @@
 	$: {
 		personNodeCss = css`
 			${personNodeCss}
-			z-index: ${$tempState.nodeActionsModalPersonId === personId
+			z-index: ${$nodeEditId === personId
 				? `${stylingConstants.zIndices.personNodeEditZIndex}`
 				: 'auto'};
 			background-color: ${isActivePerson ? stylingConstants.colors.activePersonNodeColor : color};
-			border: ${$tempState.nodeActionsModalPersonId === personId
+			border: ${$nodeEditId === personId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 		`;
@@ -273,7 +273,7 @@
 		<!-- show node actions button if edit mode is on -->
 		<!-- and if an action button function is provided -->
 		<!-- and if this is not the active person -->
-		{#if $tempState.buildMode}
+		{#if $isTreeEditActive}
 			{#if onClickActionButton && personId !== $uiState.activePerson.id}
 				<NodeActionsButton
 					onClickFunction={onClickActionButton}

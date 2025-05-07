@@ -13,6 +13,7 @@
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
 	import FamilyTreeDataSelector from '$lib/components/DevTools/FamilyTreeDataSelector.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
+	import { bioEditId } from '$lib/states/temp-state';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo();
@@ -48,11 +49,8 @@
 	};
 
 	const setBioEditActive = () => {
-		tempState.update((currentValue) => {
-			currentValue.bioEditPersonId = $uiState.activePerson.id;
-			return currentValue;
-		});
-	};
+		bioEditId.set($uiState.activePerson.id);
+	}
 </script>
 
 <div class="dev-tools-outer-container">

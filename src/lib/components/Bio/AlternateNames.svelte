@@ -3,14 +3,13 @@
 
 	import alternateName from '$lib/schemas/alternate-name';
 
+	import { bioEditAltName, bioEditAltNames } from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import AlternateName from '$lib/components/Bio/AlternateName.svelte';
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 
-	import { setEditAltName } from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
 	export let isEnabled = true;
@@ -19,7 +18,7 @@
 		// get or create a name from the uiState
 		const newAlternateName = instantiateObject(alternateName);
 		// mark the object as the active editing name from the uiState
-		setEditAltName(newAlternateName);
+		bioEditAltName.set(newAlternateName);
 	};
 
 	let altNamesContainerCss = css`
@@ -42,7 +41,7 @@
 	class="bio-alt-names-container {isEnabled ? altNamesContainerCss : altNamesContainerDisabledCss} "
 >
 	<div class="alt-names-scrollable-container">
-		{#each isEnabled ? $tempState.bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}
+		{#each isEnabled ? $bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}
 			<AlternateName {isEnabled} {alternateName} />
 		{/each}
 	</div>

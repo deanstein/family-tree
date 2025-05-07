@@ -1,15 +1,17 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import alternateName from '$lib/schemas/alternate-name';
 	import alternateNameTypes from '$lib/schemas/alternate-name-types';
+	
+	import { bioEditAltName, bioEditId } from '$lib/states/temp-state';
 	import tempState from '$lib/stores/temp-state';
 
 	import {
 		addOrEditAlternateNameInTempState,
 		initializeAltNamesTempState,
-		removeAlternateNameFromTempState,
-		unsetEditAltName
+		removeAlternateNameFromTempState
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
@@ -24,11 +26,11 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 
 	let isEnabled = undefined;
-	let nameInputValue = $tempState.bioEditAltName.name;
+	let nameInputValue = get(bioEditAltName).name;
 	let nameInputValueOriginal = undefined;
-	let typeInputValue = $tempState.bioEditAltName.type;
+	let typeInputValue = get(bioEditAltName).type;
 	let typeInputValueOriginal = undefined;
-	let contextInputValue = $tempState.bioEditAltName.context;
+	let contextInputValue = get(bioEditAltName).context;
 	let contextInputValueOriginal = undefined;
 
 	const focusNameInput = (element) => {
@@ -47,16 +49,16 @@
 		if (nameInputValue !== nameInputValueOriginal) {
 			removeAlternateNameFromTempState(nameInputValueOriginal);
 		}
-		unsetEditAltName();
+		bioEditAltName.set(undefined);
 	};
 
 	const onCancelButtonAction = () => {
-		unsetEditAltName();
+		bioEditAltName.set(undefined);
 	};
 
 	const onDeleteButtonAction = () => {
 		removeAlternateNameFromTempState(nameInputValue);
-		unsetEditAltName();
+		bioEditAltName.set(undefined);
 	};
 
 	const alternateNameTypeOptions = {
@@ -65,7 +67,7 @@
 	};
 
 	$: {
-		isEnabled = $tempState.bioEditPersonId !== undefined;
+		isEnabled = $bioEditId !== undefined;
 	}
 
 	onMount(() => {
@@ -77,7 +79,7 @@
 </script>
 
 <Modal
-	showModal={$tempState.bioEditAltName}
+	showModal={$bioEditAltName}
 	title={isEnabled ? 'Set Alternate Name' : 'Alternate Name Details'}
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}

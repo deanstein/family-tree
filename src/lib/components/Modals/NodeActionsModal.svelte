@@ -1,9 +1,11 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { defaultName } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 
+	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
 	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
@@ -27,16 +29,15 @@
 	import Button from '$lib/components/Button.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
-
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 
 	export let personId;
 	export let relationshipId;
 	export let isNewPerson = false;
 
-	let nameInputValue = $tempState.nodeEditName;
+	let nameInputValue = get(nodeEditName);
 	let nameInputValueOriginal = undefined;
-	let relationshipInputValue = $tempState.nodeEditRelationshipId;
+	let relationshipInputValue = get(nodeEditRelationshipId);
 	let relationshipInputValueOriginal = undefined;
 
 	const captureAllOriginalInputValues = () => {
@@ -87,7 +88,7 @@
 	});
 
 	$: {
-		if ($tempState.nodeEditName === 'Firstname Lastname') {
+		if ($nodeEditName === 'Firstname Lastname') {
 			isNewPerson = true;
 		} else {
 			isNewPerson = false;
@@ -96,7 +97,7 @@
 </script>
 
 <Modal
-	showModal={$tempState.nodeActionsModalPersonId === personId}
+	showModal={$nodeEditId === personId}
 	title={isNewPerson ? 'Add Relationship ' : 'Edit Relationship '}
 	subtitle={'to ' + $uiState.activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}

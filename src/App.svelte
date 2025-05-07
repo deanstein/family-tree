@@ -1,9 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import familyTreeData from '$lib/stores/family-tree-data';
-	import tempState from '$lib/stores/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import contexts from '$lib/schemas/contexts';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
 		greatAunclesCompatibleGroups,
@@ -16,16 +14,14 @@
 		grandchildrenCompatibleGroups
 	} from '$lib/schemas/relationship-map';
 
+	import familyTreeData from '$lib/stores/family-tree-data';
+	import { bioEditAltName, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
+	import tempState from '$lib/stores/temp-state';
+	import uiState from '$lib/stores/ui-state';
+
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
-
-	import {
-		drawNodeConnectionLines,
-		generateGradient,
-		redrawNodeConnectionLines
-	} from '$lib/components/graphics-factory';
-	import stylingConstants from '$lib/components/styling-constants';
 
 	// @ts-expect-error
 	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
@@ -46,13 +42,20 @@
 	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
 	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
-	import contexts from '$lib/schemas/contexts';
+
+	import {
+		drawNodeConnectionLines,
+		generateGradient,
+		redrawNodeConnectionLines
+	} from '$lib/components/graphics-factory';
+	import stylingConstants from '$lib/components/styling-constants';
+
 
 	let doShowDevTools;
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
-	let shutdown;
+	let shutdown = false;
 
 	// set the initial active person as the first in the list
 	if (Object.keys($uiState.activePerson).length == 0) {
@@ -132,335 +135,335 @@
 </script>
 
 <main>
-	{#if shutdown}
-	<JDGAppContainer showHeaderStripes={false}>
-		<div
-			id="app-container"
-			class="app-container {appContainerCss}"
-			on:contextmenu={blockContextMenu}
-			role="main"
-		>
-			<ChooseTreeModal />
-			{#if $tempState.mediaGalleryActiveId !== undefined}
-				<MediaGalleryModal />
-			{/if}
-			{#if $tempState.nodeActionsModalPersonId !== undefined}
-				<NodeActionsModal
-					personId={$tempState.nodeActionsModalPersonId}
-					relationshipId={$tempState.nodeEditRelationshipId}
-				/>
-			{/if}
-			<PersonDetailModal />
-			{#if $tempState.bioEditAltName !== undefined}
-				<EditAlternateNameModal />
-			{/if}
-			{#if $tempState.timelineEditEvent !== undefined}
-				<EventDetailsModal />
-			{/if}
-			{#if $tempState.imageEditId !== undefined}
-				<TimelineEventImageDetailModal />
-			{/if}
-			<Header />
-			<div class="tree-content {treeContentCss}">
-				<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
-				<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
-				<div class="generation-block {generationBlockCss}">
-					<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-						<ScrollingRowFlank flank={'left'} slot="row-left-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.greatAunclesMaternal.id,
-									groupName: relationshipMap.greatAunclesMaternal.label,
-									groupMembers: $uiState.activePerson.relationships.greatAunclesMaternal,
-									compatibleGroups: greatAunclesCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[0]}
-							/>
-						</ScrollingRowFlank>
+	{#if !shutdown}
+		<JDGAppContainer showHeaderStripes={false}>
+			<div
+				id="app-container"
+				class="app-container {appContainerCss}"
+				on:contextmenu={blockContextMenu}
+				role="main"
+			>
+				<ChooseTreeModal />
+				{#if $tempState.mediaGalleryActiveId !== undefined}
+					<MediaGalleryModal />
+				{/if}
+				{#if $nodeEditId !== undefined}
+					<NodeActionsModal
+						personId={$nodeEditId}
+						relationshipId={$nodeEditRelationshipId}
+					/>
+				{/if}
+				<PersonDetailModal />
+				{#if $bioEditAltName !== undefined}
+					<EditAlternateNameModal />
+				{/if}
+				{#if $tempState.timelineEditEvent !== undefined}
+					<EventDetailsModal />
+				{/if}
+				{#if $tempState.imageEditId !== undefined}
+					<TimelineEventImageDetailModal />
+				{/if}
+				<Header />
+				<div class="tree-content {treeContentCss}">
+					<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
+					<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
+					<div class="generation-block {generationBlockCss}">
+						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.greatAunclesMaternal.id,
+										groupName: relationshipMap.greatAunclesMaternal.label,
+										groupMembers: $uiState.activePerson.relationships.greatAunclesMaternal,
+										compatibleGroups: greatAunclesCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[0]}
+								/>
+							</ScrollingRowFlank>
 
-						<div slot="row-middle-section" class="middle-section">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.grandparentsMaternal.id,
-									groupName: relationshipMap.grandparentsMaternal.label,
-									groupMembers: $uiState.activePerson.relationships.grandparentsMaternal,
-									compatibleGroups: grandparentsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[0]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.grandparentsPaternal.id,
-									groupName: relationshipMap.grandparentsPaternal.label,
-									groupMembers: $uiState.activePerson.relationships.grandparentsPaternal,
-									compatibleGroups: grandparentsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[0]}
-							/>
-						</div>
+							<div slot="row-middle-section" class="middle-section">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.grandparentsMaternal.id,
+										groupName: relationshipMap.grandparentsMaternal.label,
+										groupMembers: $uiState.activePerson.relationships.grandparentsMaternal,
+										compatibleGroups: grandparentsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[0]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.grandparentsPaternal.id,
+										groupName: relationshipMap.grandparentsPaternal.label,
+										groupMembers: $uiState.activePerson.relationships.grandparentsPaternal,
+										compatibleGroups: grandparentsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[0]}
+								/>
+							</div>
 
-						<ScrollingRowFlank flank={'right'} slot="row-right-flank">
+							<ScrollingRowFlank flank={'right'} slot="row-right-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.greatAunclesPaternal.id,
+										groupName: relationshipMap.greatAunclesPaternal.label,
+										groupMembers: $uiState.activePerson.relationships.greatAunclesPaternal,
+										compatibleGroups: greatAunclesCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[0]}
+								/>
+							</ScrollingRowFlank>
+						</GenerationRow>
+						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.aunclesMaternal.id,
+										groupName: relationshipMap.aunclesMaternal.label,
+										groupMembers: $uiState.activePerson.relationships.aunclesMaternal,
+										compatibleGroups: aunclesCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[1]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.stepparentsMaternal.id,
+										groupName: relationshipMap.stepparentsMaternal.label,
+										groupMembers: $uiState.activePerson.relationships.stepparentsMaternal,
+										compatibleGroups: parentsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[1]}
+								/>
+							</ScrollingRowFlank>
 							<PersonNodeGroup
+								slot="row-middle-section"
 								personNodeGroupData={{
-									groupId: relationshipMap.greatAunclesPaternal.id,
-									groupName: relationshipMap.greatAunclesPaternal.label,
-									groupMembers: $uiState.activePerson.relationships.greatAunclesPaternal,
-									compatibleGroups: greatAunclesCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[0]}
-							/>
-						</ScrollingRowFlank>
-					</GenerationRow>
-					<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-						<ScrollingRowFlank flank={'left'} slot="row-left-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.aunclesMaternal.id,
-									groupName: relationshipMap.aunclesMaternal.label,
-									groupMembers: $uiState.activePerson.relationships.aunclesMaternal,
-									compatibleGroups: aunclesCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[1]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.stepparentsMaternal.id,
-									groupName: relationshipMap.stepparentsMaternal.label,
-									groupMembers: $uiState.activePerson.relationships.stepparentsMaternal,
+									groupId: relationshipMap.parents.id,
+									groupName: relationshipMap.parents.label,
+									groupMembers: $uiState.activePerson.relationships.parents,
 									compatibleGroups: parentsCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[1]}
 							/>
-						</ScrollingRowFlank>
-						<PersonNodeGroup
-							slot="row-middle-section"
-							personNodeGroupData={{
-								groupId: relationshipMap.parents.id,
-								groupName: relationshipMap.parents.label,
-								groupMembers: $uiState.activePerson.relationships.parents,
-								compatibleGroups: parentsCompatibleGroups
-							}}
-							personNodeColor={generationRowColors[1]}
-						/>
-						<ScrollingRowFlank flank={'right'} slot="row-right-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.stepparentsPaternal.id,
-									groupName: relationshipMap.stepparentsPaternal.label,
-									groupMembers: $uiState.activePerson.relationships.stepparentsPaternal,
-									compatibleGroups: parentsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[1]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.aunclesPaternal.id,
-									groupName: relationshipMap.aunclesPaternal.label,
-									groupMembers: $uiState.activePerson.relationships.aunclesPaternal,
-									compatibleGroups: aunclesCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[1]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.parentsInLaw.id,
-									groupName: relationshipMap.parentsInLaw.label,
-									groupMembers: $uiState.activePerson.relationships.parentsInLaw,
-									compatibleGroups: parentsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[1]}
-							/>
-						</ScrollingRowFlank>
-					</GenerationRow>
-				</div>
+							<ScrollingRowFlank flank={'right'} slot="row-right-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.stepparentsPaternal.id,
+										groupName: relationshipMap.stepparentsPaternal.label,
+										groupMembers: $uiState.activePerson.relationships.stepparentsPaternal,
+										compatibleGroups: parentsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[1]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.aunclesPaternal.id,
+										groupName: relationshipMap.aunclesPaternal.label,
+										groupMembers: $uiState.activePerson.relationships.aunclesPaternal,
+										compatibleGroups: aunclesCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[1]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.parentsInLaw.id,
+										groupName: relationshipMap.parentsInLaw.label,
+										groupMembers: $uiState.activePerson.relationships.parentsInLaw,
+										compatibleGroups: parentsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[1]}
+								/>
+							</ScrollingRowFlank>
+						</GenerationRow>
+					</div>
 
-				<div class="generation-block {generationBlockCss}">
-					<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-						<ScrollingRowFlank flank={'left'} slot="row-left-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.siblingsInLaw.id,
-									groupName: relationshipMap.siblingsInLaw.label,
-									groupMembers: $uiState.activePerson.relationships.siblingsInLaw,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.stepsiblings.id,
-									groupName: relationshipMap.stepsiblings.label,
-									groupMembers: $uiState.activePerson.relationships.stepsiblings,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.halfSiblingsMaternal.id,
-									groupName: relationshipMap.halfSiblingsMaternal.label,
-									groupMembers: $uiState.activePerson.relationships.halfSiblingsMaternal,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.siblings.id,
-									groupName: relationshipMap.siblings.label,
-									groupMembers: $uiState.activePerson.relationships.siblings,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-						</ScrollingRowFlank>
+					<div class="generation-block {generationBlockCss}">
+						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.siblingsInLaw.id,
+										groupName: relationshipMap.siblingsInLaw.label,
+										groupMembers: $uiState.activePerson.relationships.siblingsInLaw,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.stepsiblings.id,
+										groupName: relationshipMap.stepsiblings.label,
+										groupMembers: $uiState.activePerson.relationships.stepsiblings,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.halfSiblingsMaternal.id,
+										groupName: relationshipMap.halfSiblingsMaternal.label,
+										groupMembers: $uiState.activePerson.relationships.halfSiblingsMaternal,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.siblings.id,
+										groupName: relationshipMap.siblings.label,
+										groupMembers: $uiState.activePerson.relationships.siblings,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+							</ScrollingRowFlank>
 
-						<div slot="row-middle-section" class="active-person-container">
-							<PersonNode
-								personId={$uiState.activePerson.id}
-								size={stylingConstants.sizes.personNodeActiveSize}
-								context={contexts.treeView}
-							/>
-						</div>
+							<div slot="row-middle-section" class="active-person-container">
+								<PersonNode
+									personId={$uiState.activePerson.id}
+									size={stylingConstants.sizes.personNodeActiveSize}
+									context={contexts.treeView}
+								/>
+							</div>
 
-						<ScrollingRowFlank flank={'right'} slot="row-right-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.halfSiblingsPaternal.id,
-									groupName: relationshipMap.halfSiblingsPaternal.label,
-									groupMembers: $uiState.activePerson.relationships.halfSiblingsPaternal,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.spouses.id,
-									groupName: relationshipMap.spouses.label,
-									groupMembers: $uiState.activePerson.relationships.spouses,
-									compatibleGroups: spouseCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.spouseSiblingsInLaw.id,
-									groupName: relationshipMap.spouseSiblingsInLaw.label,
-									groupMembers: $uiState.activePerson.relationships.spouseSiblingsInLaw,
-									compatibleGroups: siblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.exSpouses.id,
-									groupName: relationshipMap.exSpouses.label,
-									groupMembers: $uiState.activePerson.relationships.exSpouses,
-									compatibleGroups: spouseCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[2]}
-							/>
-						</ScrollingRowFlank>
-					</GenerationRow>
-				</div>
+							<ScrollingRowFlank flank={'right'} slot="row-right-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.halfSiblingsPaternal.id,
+										groupName: relationshipMap.halfSiblingsPaternal.label,
+										groupMembers: $uiState.activePerson.relationships.halfSiblingsPaternal,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.spouses.id,
+										groupName: relationshipMap.spouses.label,
+										groupMembers: $uiState.activePerson.relationships.spouses,
+										compatibleGroups: spouseCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.spouseSiblingsInLaw.id,
+										groupName: relationshipMap.spouseSiblingsInLaw.label,
+										groupMembers: $uiState.activePerson.relationships.spouseSiblingsInLaw,
+										compatibleGroups: siblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.exSpouses.id,
+										groupName: relationshipMap.exSpouses.label,
+										groupMembers: $uiState.activePerson.relationships.exSpouses,
+										compatibleGroups: spouseCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[2]}
+								/>
+							</ScrollingRowFlank>
+						</GenerationRow>
+					</div>
 
-				<div class="generation-block {generationBlockCss}">
-					<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-						<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+					<div class="generation-block {generationBlockCss}">
+						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.niblings.id,
+										groupName: relationshipMap.niblings.label,
+										groupMembers: $uiState.activePerson.relationships.niblings,
+										compatibleGroups: niblingsCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[3]}
+								/>
+							</ScrollingRowFlank>
 							<PersonNodeGroup
+								slot="row-middle-section"
 								personNodeGroupData={{
-									groupId: relationshipMap.niblings.id,
-									groupName: relationshipMap.niblings.label,
-									groupMembers: $uiState.activePerson.relationships.niblings,
-									compatibleGroups: niblingsCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[3]}
-							/>
-						</ScrollingRowFlank>
-						<PersonNodeGroup
-							slot="row-middle-section"
-							personNodeGroupData={{
-								groupId: relationshipMap.children.id,
-								groupName: relationshipMap.children.label,
-								groupMembers: $uiState.activePerson.relationships.children,
-								compatibleGroups: childrenCompatibleGroups
-							}}
-							personNodeColor={generationRowColors[3]}
-						/>
-						<ScrollingRowFlank flank={'right'} slot="row-right-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.stepchildren.id,
-									groupName: relationshipMap.stepchildren.label,
-									groupMembers: $uiState.activePerson.relationships.stepchildren,
+									groupId: relationshipMap.children.id,
+									groupName: relationshipMap.children.label,
+									groupMembers: $uiState.activePerson.relationships.children,
 									compatibleGroups: childrenCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[3]}
 							/>
+							<ScrollingRowFlank flank={'right'} slot="row-right-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.stepchildren.id,
+										groupName: relationshipMap.stepchildren.label,
+										groupMembers: $uiState.activePerson.relationships.stepchildren,
+										compatibleGroups: childrenCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[3]}
+								/>
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.childrenInLaw.id,
+										groupName: relationshipMap.childrenInLaw.label,
+										groupMembers: $uiState.activePerson.relationships.childrenInLaw,
+										compatibleGroups: childrenCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[3]}
+								/>
+							</ScrollingRowFlank>
+						</GenerationRow>
+						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
+							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
+								<PersonNodeGroup
+									personNodeGroupData={{
+										groupId: relationshipMap.grandniblings.id,
+										groupName: relationshipMap.grandniblings.label,
+										groupMembers: $uiState.activePerson.relationships.grandniblings,
+										compatibleGroups: grandchildrenCompatibleGroups
+									}}
+									personNodeColor={generationRowColors[4]}
+								/>
+							</ScrollingRowFlank>
+
 							<PersonNodeGroup
+								slot="row-middle-section"
 								personNodeGroupData={{
-									groupId: relationshipMap.childrenInLaw.id,
-									groupName: relationshipMap.childrenInLaw.label,
-									groupMembers: $uiState.activePerson.relationships.childrenInLaw,
-									compatibleGroups: childrenCompatibleGroups
-								}}
-								personNodeColor={generationRowColors[3]}
-							/>
-						</ScrollingRowFlank>
-					</GenerationRow>
-					<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
-						<ScrollingRowFlank flank={'left'} slot="row-left-flank">
-							<PersonNodeGroup
-								personNodeGroupData={{
-									groupId: relationshipMap.grandniblings.id,
-									groupName: relationshipMap.grandniblings.label,
-									groupMembers: $uiState.activePerson.relationships.grandniblings,
+									groupId: relationshipMap.grandchildren.id,
+									groupName: relationshipMap.grandchildren.label,
+									groupMembers: $uiState.activePerson.relationships.grandchildren,
 									compatibleGroups: grandchildrenCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[4]}
 							/>
-						</ScrollingRowFlank>
 
-						<PersonNodeGroup
-							slot="row-middle-section"
-							personNodeGroupData={{
-								groupId: relationshipMap.grandchildren.id,
-								groupName: relationshipMap.grandchildren.label,
-								groupMembers: $uiState.activePerson.relationships.grandchildren,
-								compatibleGroups: grandchildrenCompatibleGroups
-							}}
-							personNodeColor={generationRowColors[4]}
-						/>
-
-						<ScrollingRowFlank flank={'right'} slot="row-right-flank" />
-					</GenerationRow>
+							<ScrollingRowFlank flank={'right'} slot="row-right-flank" />
+						</GenerationRow>
+					</div>
 				</div>
+				<JDGFooter
+					repoName={familyTreeRepoName}
+					copyrightHref="https://jdeangoldstein.com"
+					{appVersion}
+					webAppVersionLabel="App"
+					additionalVersionData={'Schema: v' + schemaVersion}
+					alignItems="center"
+				>
+					<JDGButton
+						onClickFunction={toggleDevTools}
+						label={null}
+						tooltip={doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
+						isPrimary={false}
+						paddingTopBottom="5px"
+						paddingLeftRight="10px"
+						faIcon={doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
+						fontSize={jdgSizes.fontSizeBodyXSm}
+						doForceSquareRatio
+					/>
+				</JDGFooter>
+				{#if $uiState.showDevTools}
+					<DevTools />
+				{/if}
 			</div>
-			<JDGFooter
-				repoName={familyTreeRepoName}
-				copyrightHref="https://jdeangoldstein.com"
-				{appVersion}
-				webAppVersionLabel="App"
-				additionalVersionData={'Schema: v' + schemaVersion}
-				alignItems="center"
-			>
-				<JDGButton
-					onClickFunction={toggleDevTools}
-					label={null}
-					tooltip={doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
-					isPrimary={false}
-					paddingTopBottom="5px"
-					paddingLeftRight="10px"
-					faIcon={doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
-					fontSize={jdgSizes.fontSizeBodyXSm}
-					doForceSquareRatio
-				/>
-			</JDGFooter>
-			{#if $uiState.showDevTools}
-				<DevTools />
-			{/if}
-		</div>
-	</JDGAppContainer>
+		</JDGAppContainer>
 	{/if}
 </main>
 

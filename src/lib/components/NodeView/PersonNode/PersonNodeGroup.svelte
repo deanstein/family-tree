@@ -3,7 +3,7 @@
 
 	import relationshipMap from '$lib/schemas/relationship-map';
 
-	import tempState from '$lib/stores/temp-state';
+	import { isTreeEditActive } from '$lib/states/temp-state';
 
 	import {
 		addOrUpdateActivePersonInNewPersonGroup,
@@ -60,7 +60,7 @@
 	`;
 </script>
 
-{#if $tempState.buildMode || personNodeGroupData.groupMembers.length > 0}
+{#if $isTreeEditActive || personNodeGroupData.groupMembers.length > 0}
 	<div class="person-node-group-plus-button {personNodeGroupPlusButtonCss}">
 		<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
 			<div class="person-node-group-title {personNodeGroupTitleCss}">
@@ -92,7 +92,7 @@
 				{/each}
 			</div>
 		</div>
-		{#if $tempState.buildMode && personNodeGroupData.groupMembers.length > 0}
+		{#if $isTreeEditActive && personNodeGroupData.groupMembers.length > 0}
 			<ButtonCircular
 				onClickFunction={onClickAddPersonButton}
 				backgroundColor={stylingConstants.colors.activeColor}

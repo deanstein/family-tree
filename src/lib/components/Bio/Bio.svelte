@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
+	import { bioEditId } from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
 
 	import { gender } from '$lib/schemas/gender';
 
@@ -11,9 +11,7 @@
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
 		setCachedPerson,
-		unsetBioEditId,
-		initializeAltNamesTempState,
-		setBioEditId
+		initializeAltNamesTempState
 	} from '$lib/temp-management';
 	import { writeUIStateValueAtPath } from '$lib/ui-management';
 	import { getPersonById } from '$lib/person-management';
@@ -92,22 +90,22 @@
 
 	const onClickBioEditButton = () => {
 		initializeAltNamesTempState();
-		setBioEditId(personId);
+		bioEditId.set(personId);
 	};
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
 		checkPersonForUnsavedChanges(personId);
-		unsetBioEditId();
+		bioEditId.set(undefined);
 	};
 
 	const onClickCancelButton = () => {
 		syncAllInputs();
-		unsetBioEditId();
+		bioEditId.set(undefined);
 	};
 
 	$: {
-		if ($tempState.bioEditPersonId === personId) {
+		if ($bioEditId === personId) {
 			isBioEditActive = true;
 		} else {
 			isBioEditActive = false;

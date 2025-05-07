@@ -4,7 +4,7 @@
 
 	import contexts from '$lib/schemas/contexts';
 	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import { isNodeEditActive } from '$lib/states/temp-state';
 
 	import {
 		checkActivePersonForUnsavedChanges,
@@ -48,12 +48,12 @@
 	{#if showAddButton}
 		<ButtonCircularInSquare
 			onClickFunction={() => {
-				isPersonNodeEditActive.set(true);
+				isNodeEditActive.set(true);
 			}}
 			{enabled}
 		/>
 	{/if}
-	{#if $isPersonNodeEditActive}
+	{#if $isNodeEditActive}
 		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->

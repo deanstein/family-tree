@@ -7,7 +7,7 @@
 
 	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import { isNodeEditActive } from '$lib/states/temp-state';
 
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '$lib/person-management';
 	import {
@@ -127,13 +127,13 @@
 	const onClickCancelEditButton = () => {
 		syncAllInputs();
 		unsetTimelineEditEventId();
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 
 	const onClickDoneButton = () => {
@@ -141,7 +141,7 @@
 		checkActivePersonForUnsavedChanges();
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 
 	const onClickDeleteButton = () => {
@@ -154,7 +154,7 @@
 	const onClickCloseButton = () => {
 		unsetTimelineEditEventId();
 		unsetTimelineEditEvent();
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 
 	const onClickAddImageButton = () => {

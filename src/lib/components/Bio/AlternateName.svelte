@@ -1,8 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { bioEditAltName } from '$lib/states/temp-state';
+	
 	import stylingConstants from '$lib/components/styling-constants';
-	import { setEditAltName } from '$lib/temp-management';
 
 	export let alternateName;
 	export let isEnabled;
@@ -10,7 +11,7 @@
 	let alternateNameCss;
 
 	const alternateNameOnClickAction = () => {
-		setEditAltName(alternateName);
+		bioEditAltName.set(alternateName);
 	};
 
 	$: {

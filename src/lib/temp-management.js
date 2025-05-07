@@ -1,9 +1,9 @@
-import familyTreeData from './stores/family-tree-data';
+import { bioEditAltName, nodeEditCompatibleGroups, nodeEditGroupId, nodeEditId, nodeEditName, nodeEditRelationshipId } from './states/temp-state';
 import imageCache from './stores/image-cache';
 import tempState from './stores/temp-state';
 import uiState from './stores/ui-state';
 
-import { filterPeopleIds, getPersonById, getPersonRelationshipIds } from './person-management';
+import { getPersonById, getPersonRelationshipIds } from './person-management';
 import { getActivePerson } from './ui-management';
 import {
 	areObjectsEqual,
@@ -13,34 +13,6 @@ import {
 } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
-
-// manage build mode
-export const startBuildMode = () => {
-	tempState.update((currentValue) => {
-		currentValue.buildMode = true;
-		return currentValue;
-	});
-};
-
-export const endBuildMode = () => {
-	tempState.update((currentValue) => {
-		currentValue.buildMode = false;
-		return currentValue;
-	});
-};
-
-export const toggleBuildMode = () => {
-	let currentBuildModeValue;
-
-	tempState.subscribe((currentValue) => {
-		currentBuildModeValue = currentValue.buildMode;
-	});
-
-	tempState.update((currentValue) => {
-		currentValue.buildMode = !currentBuildModeValue;
-		return currentValue;
-	});
-};
 
 // general media
 export const setMediaGalleryActiveId = (mediaId) => {
@@ -173,21 +145,6 @@ export const getAllVisibleNodeViewPeople = () => {
 	return activePersonRelationshipIds;
 };
 
-// node actions modal
-export const setNodeActionsModalId = (personId) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeActionsModalPersonId = personId;
-		return currentValue;
-	});
-};
-
-export const unsetNodeActionsModalId = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeActionsModalPersonId = undefined;
-		return currentValue;
-	});
-};
-
 // person node actions modal
 export const showPersonNodeActionsModal = (
 	personId,
@@ -196,112 +153,23 @@ export const showPersonNodeActionsModal = (
 	groupId,
 	compatibleGroups
 ) => {
-	setNodeActionsModalId(personId);
-	setNodeEditName(name);
-	setNodeEditRelationshipId(relationshipId);
-	setNodeEditGroupId(groupId);
-	setNodeEditCompatibleGroups(compatibleGroups);
+	nodeEditId.set(personId);
+	nodeEditName.set(name);
+	nodeEditRelationshipId.set(relationshipId);
+	nodeEditGroupId.set(groupId);
+	nodeEditCompatibleGroups.set(compatibleGroups);
 };
 
 export const hidePersonNodeActionsModal = () => {
-	unsetNodeActionsModalId();
-	unsetEditAltName();
-	unsetNodeEditName();
-	unsetNodeEditRelationshipId();
-	unsetNodeEditGroupId();
-	unsetNodeEditCompatibleGroups();
-};
-
-export const hidePersonNodeActionsModalAndDiscard = () => {};
-
-export const hidePersonNodeActionsModalAndSave = () => {};
-
-export const setNodeEditName = (name) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditName = name;
-		return currentValue;
-	});
-};
-
-export const unsetNodeEditName = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditName = undefined;
-		return currentValue;
-	});
-};
-
-export const setNodeEditRelationshipId = (relationshipId) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditRelationshipId = relationshipId;
-		return currentValue;
-	});
-};
-
-export const unsetNodeEditRelationshipId = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditRelationshipId = undefined;
-		return currentValue;
-	});
-};
-
-export const setNodeEditGroupId = (groupId) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditGroupId = groupId;
-		return currentValue;
-	});
-};
-
-export const unsetNodeEditGroupId = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditGroupId = undefined;
-		return currentValue;
-	});
-};
-
-export const setNodeEditCompatibleGroups = (compatibleGroups) => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditCompatibleGroups = compatibleGroups;
-		return currentValue;
-	});
-};
-
-export const unsetNodeEditCompatibleGroups = () => {
-	tempState.update((currentValue) => {
-		currentValue.nodeEditCompatibleGroups = undefined;
-		return currentValue;
-	});
-};
-
-// bio editing mode
-export const setBioEditId = (personId) => {
-	tempState.update((currentValue) => {
-		currentValue.bioEditPersonId = personId;
-		return currentValue;
-	});
-};
-
-export const unsetBioEditId = () => {
-	tempState.update((currentValue) => {
-		currentValue.bioEditPersonId = undefined;
-		return currentValue;
-	});
+	nodeEditId.set(undefined);
+	nodeEditName.set(undefined);
+	nodeEditRelationshipId.set(undefined);
+	nodeEditGroupId.set(undefined);
+	nodeEditCompatibleGroups.set(undefined);
+	bioEditAltName.set(undefined);
 };
 
 // alternate names
-export const setEditAltName = (alternateName) => {
-	tempState.update((currentValue) => {
-		currentValue.bioEditAltName = alternateName;
-		return currentValue;
-	});
-};
-
-export const unsetEditAltName = () => {
-	tempState.update((currentValue) => {
-		currentValue.bioEditAltName = undefined;
-		return currentValue;
-	});
-};
-
 export const initializeAltNamesTempState = () => {
 	let alternateNamesOriginalValue;
 	uiState.subscribe((currentValue) => {
@@ -310,13 +178,6 @@ export const initializeAltNamesTempState = () => {
 
 	tempState.update((currentValue) => {
 		currentValue.bioEditAltNames = alternateNamesOriginalValue;
-		return currentValue;
-	});
-};
-
-export const unsetAltNames = () => {
-	tempState.update((currentValue) => {
-		currentValue.bioEditAltNames = [];
 		return currentValue;
 	});
 };

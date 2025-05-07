@@ -1,25 +1,6 @@
 import { writable } from 'svelte/store';
 
 const tempState = {
-	// if true, the add node buttons and relationship placeholders display for tree editing
-	buildMode: false,
-
-	// if set, the node actions modal will display
-	nodeActionsModalPersonId: undefined,
-	// individual fields for node actions modal
-	nodeEditName: undefined,
-	nodeEditRelationshipId: undefined,
-	nodeEditGroupId: undefined,
-	nodeEditCompatibleGroups: undefined,
-
-	// if set, the bio edit mode becomes active
-	// and the inputs will be enabled
-	bioEditPersonId: undefined,
-	// if set, the alternate name modal will display
-	bioEditAltName: undefined,
-	// the various alternate names associated with the active person
-	bioEditAltNames: [],
-
 	// if set, the edit timeline event modal is displayed
 	timelineEditEventId: undefined,
 	// if set, the timeline event modal inputs are enabled
