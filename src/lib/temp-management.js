@@ -1,4 +1,11 @@
-import { bioEditAltName, nodeEditCompatibleGroups, nodeEditGroupId, nodeEditId, nodeEditName, nodeEditRelationshipId } from './states/temp-state';
+import {
+	bioEditAltName,
+	nodeEditCompatibleGroups,
+	nodeEditGroupId,
+	nodeEditId,
+	nodeEditName,
+	nodeEditRelationshipId
+} from './states/temp-state';
 import imageCache from './stores/image-cache';
 import tempState from './stores/temp-state';
 import uiState from './stores/ui-state';

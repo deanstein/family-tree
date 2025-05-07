@@ -4,7 +4,7 @@
 
 	import alternateName from '$lib/schemas/alternate-name';
 	import alternateNameTypes from '$lib/schemas/alternate-name-types';
-	
+
 	import { bioEditAltName, bioEditId } from '$lib/states/temp-state';
 	import tempState from '$lib/stores/temp-state';
 

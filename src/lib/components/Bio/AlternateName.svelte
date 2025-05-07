@@ -2,7 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import { bioEditAltName } from '$lib/states/temp-state';
-	
+
 	import stylingConstants from '$lib/components/styling-constants';
 
 	export let alternateName;

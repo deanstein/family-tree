@@ -50,7 +50,7 @@
 
 	const setBioEditActive = () => {
 		bioEditId.set($uiState.activePerson.id);
-	}
+	};
 </script>
 
 <div class="dev-tools-outer-container">

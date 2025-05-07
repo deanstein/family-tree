@@ -50,7 +50,6 @@
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
-
 	let doShowDevTools;
 	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -148,10 +147,7 @@
 					<MediaGalleryModal />
 				{/if}
 				{#if $nodeEditId !== undefined}
-					<NodeActionsModal
-						personId={$nodeEditId}
-						relationshipId={$nodeEditRelationshipId}
-					/>
+					<NodeActionsModal personId={$nodeEditId} relationshipId={$nodeEditRelationshipId} />
 				{/if}
 				<PersonDetailModal />
 				{#if $bioEditAltName !== undefined}

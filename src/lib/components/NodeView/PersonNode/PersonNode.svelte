@@ -8,7 +8,12 @@
 
 	import uiState from '$lib/stores/ui-state';
 	import tempState from '$lib/stores/temp-state';
-	import { isNodeEditActive, isTreeEditActive, nodeEditGroupId, nodeEditId } from '$lib/states/temp-state';
+	import {
+		isNodeEditActive,
+		isTreeEditActive,
+		nodeEditGroupId,
+		nodeEditId
+	} from '$lib/states/temp-state';
 
 	import {
 		getPersonById,

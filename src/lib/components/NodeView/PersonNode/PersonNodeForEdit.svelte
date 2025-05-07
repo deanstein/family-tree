@@ -3,7 +3,12 @@
 	import { get } from 'svelte/store';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
-	import { isNodeEditActive, nodeEditCompatibleGroups, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
+	import {
+		isNodeEditActive,
+		nodeEditCompatibleGroups,
+		nodeEditId,
+		nodeEditRelationshipId
+	} from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';

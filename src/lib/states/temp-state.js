@@ -1,6 +1,6 @@
 import { derived, writable } from 'svelte/store';
 
-// if true, node add/action buttons and relationship placeholders 
+// if true, node add/action buttons and relationship placeholders
 // will display for tree editing
 export let isTreeEditActive = writable(false);
 
@@ -23,19 +23,19 @@ export let bioEditAltNames = writable([]);
 
 // create a combined store to display in footer dev tools
 const storeMap = {
-    isTreeEditActive,
-    isNodeEditActive,
-    nodeEditId,
-    nodeEditName,
-    nodeEditRelationshipId,
-    nodeEditGroupId,
-    nodeEditCompatibleGroups,
-    bioEditId,
-    bioEditAltName
+	isTreeEditActive,
+	isNodeEditActive,
+	nodeEditId,
+	nodeEditName,
+	nodeEditRelationshipId,
+	nodeEditGroupId,
+	nodeEditCompatibleGroups,
+	bioEditId,
+	bioEditAltName
 };
 const storeEntries = Object.entries(storeMap);
 // derived store containing all ui state values
 export let allStateValues = derived(
-    storeEntries.map(([key, store]) => store),
-    ($stores) => Object.fromEntries(storeEntries.map(([key], index) => [key, $stores[index]]))
+	storeEntries.map(([key, store]) => store),
+	($stores) => Object.fromEntries(storeEntries.map(([key], index) => [key, $stores[index]]))
 );
