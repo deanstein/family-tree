@@ -48,11 +48,15 @@ export const writeUIStateValueAtPath = (path, value, originalValue = undefined) 
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifications = true) => {
 	if (!familyTreeId) {
-		showLoadNotifications ?? setRepoState(repoStateStrings.loadFailed);
+		if (showLoadNotifications) {
+			setRepoState(repoStateStrings.loadFailed);
+		}
 		return;
 	}
 
-	showLoadNotifications ?? setRepoState(repoStateStrings.loading);
+	if (showLoadNotifications) {
+		setRepoState(repoStateStrings.loading)
+	}
 
 	// get the full file name from the map
 	const familyTreeDataFileNameWithExt = await getFamilyTreeDataFileName(
@@ -87,7 +91,7 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifi
 		setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 	}
 
-	if (showLoadNotifications === true) {
+	if (showLoadNotifications) {
 		setRepoState(repoStateStrings.loadSuccessful);
 	}
 };
