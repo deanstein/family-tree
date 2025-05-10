@@ -172,38 +172,23 @@ export const getObjectByKeyValueInArray = (arr, key, value) => {
 };
 
 // replaces an object in an array of objects
-export const addOrReplaceObjectInArray = (arr, key, value, replacementObject) => {
-	let found = false;
-	if (arr) {
-		for (let i = 0; i < arr.length; i++) {
-			if (arr[i][key] === value) {
-				arr[i] = replacementObject;
-				found = true;
-				break; // exit the loop as we've found and replaced the object
-			}
-		}
-		if (!found) {
-			// If the object was not found and replaced, add it to the array
-			arr.push(replacementObject);
-		}
-		return true; // indicate that object was replaced or added
+export const addOrReplaceObjectInArray = (arr = [], key, value, replacementObject) => {
+	const index = arr.findIndex((obj) => obj[key] === value);
+
+	if (index !== -1) {
+		// replace the existing object
+		arr[index] = replacementObject;
+	} else {
+		// rdd the new object to the array
+		arr.push(replacementObject);
 	}
+
+	return arr; // return the updated array
 };
 
 // deletes an object in an array of objects
-export const deleteObjectInArray = (arr, key, value) => {
-	let deleted = false;
-	if (arr && key && value) {
-		for (let i = 0; i < arr?.length; i++) {
-			if (arr[i][key] === value) {
-				arr.splice(i, 1);
-				deleted = true;
-			}
-		}
-	} else {
-		deleted = false;
-	}
-	return deleted;
+export const deleteObjectInArray = (arr = [], key, value) => {
+	return arr.filter((obj) => obj[key] !== value);
 };
 
 export const getIsDateValid = (dateToTest) => {

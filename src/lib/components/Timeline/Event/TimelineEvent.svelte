@@ -9,7 +9,6 @@
 
 	import { getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
 	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
-	import { setTimelineEditEvent } from '$lib/temp-management';
 	import {
 		hidePersonDetailView,
 		setFirstTimelineEventHeight,
@@ -21,6 +20,7 @@
 	import { JDGButton } from 'jdg-ui-svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { timelineEditEvent } from '$lib/states/temp-state';
 
 	export let timelineEvent;
 	// if this is set, this event is a reference to someone else's event
@@ -39,7 +39,7 @@
 		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
 		}
-		setTimelineEditEvent(timelineEvent);
+		timelineEditEvent.set(timelineEvent);
 	};
 
 	// this is what happens when the link is clicked

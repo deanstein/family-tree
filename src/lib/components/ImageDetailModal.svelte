@@ -1,12 +1,6 @@
 <script>
-	import tempState from '$lib/stores/temp-state';
-
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import {
-		checkActivePersonForUnsavedChanges,
-		unsetImageEditContent,
-		unsetImageEditId
-	} from '$lib/temp-management';
+	import { checkActivePersonForUnsavedChanges } from '$lib/temp-management';
 	import { isUrlValid } from '$lib/utils';
 
 	import stylingConstants from '$lib/components/styling-constants';
@@ -17,6 +11,7 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
+	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -36,34 +31,34 @@
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		// TODO: match the store
-		unsetImageEditId();
-		unsetImageEditContent();
+		imageEditId.set(undefined);
+		imageEditContent.set(undefined);
 	};
 	// cancel, but when used for creating a new image
 	const onClickCancelNewImageButton = () => {
-		unsetImageEditId();
-		unsetImageEditContent();
+		imageEditId.set(undefined);
+		imageEditContent.set(undefined);
 	};
 
 	const onClickDoneButton = () => {
 		checkActivePersonForUnsavedChanges();
-		unsetImageEditId();
-		unsetImageEditContent();
+		imageEditId.set(undefined);
+		imageEditContent.set(undefined);
 	};
 
 	const onClickCloseButton = () => {
-		unsetImageEditId();
-		unsetImageEditContent();
+		imageEditId.set(undefined);
+		imageEditContent.set(undefined);
 	};
 
 	$: {
-		isInEditMode = $tempState?.imageEditContent;
-		isValidUrl = isUrlValid($tempState?.imageEditContent?.url);
+		isInEditMode = $imageEditContent;
+		isValidUrl = isUrlValid($imageEditContent?.url);
 	}
 </script>
 
 <Modal
-	showModal={$tempState.imageEditId}
+	showModal={$imageEditId}
 	title="Image details"
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -77,7 +72,7 @@
 				<ImageAsyncFromUrl
 					{repoOwner}
 					repoName={dataRepoName}
-					imageUrl={$tempState.imageEditContent.url}
+					imageUrl={$imageEditContent.url}
 					{imageUploadPathNoExt}
 					{imagePlaceholderSrc}
 					allowEdit={isInEditMode}
@@ -92,7 +87,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $tempState.imageEditId === undefined}
+			{#if $imageEditId === undefined}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

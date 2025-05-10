@@ -11,7 +11,7 @@
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
 		setCachedPerson,
-		initializeAltNamesTempState
+		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
 	import { writeUIStateValueAtPath } from '$lib/ui-management';
 	import { getPersonById } from '$lib/person-management';
@@ -75,7 +75,7 @@
 	// synchronizes all inputs back to UI state values
 	const syncAllInputs = () => {
 		nameInputValue = $uiState.activePerson.name;
-		initializeAltNamesTempState();
+		setTempStateAltNamesFromUIState();
 		genderInputValue = $uiState.activePerson.gender;
 		birthdateInputValue = $uiState.activePerson.birth.date;
 		birthplaceInputValue = $uiState.activePerson.birth.place;
@@ -89,7 +89,7 @@
 	};
 
 	const onClickBioEditButton = () => {
-		initializeAltNamesTempState();
+		setTempStateAltNamesFromUIState();
 		bioEditId.set(personId);
 	};
 

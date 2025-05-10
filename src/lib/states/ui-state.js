@@ -4,35 +4,7 @@ export let unsavedChanges = writable(false);
 
 // create a combined store to display in footer dev tools
 const storeMap = {
-	appFontFamily,
-	appAccentColors,
-	appCssHyperlinkBar,
-	appCssHyperlinkSimple,
-	doAllowTextSelection,
-	activeNotificationBanners,
-	doShowNavSidebar,
-	highestZIndex,
-	isMobileBreakpoint,
-	jumpToNavItems,
-	isScrolling,
-	isScrollingToAnchorTag,
-	scrollDirection,
-	windowScrollPosition,
-	headerHeightPx,
-	doShowHeaderStripes,
-	imageAspectRatios,
-	imagesLoading,
-	doShowImageDetailOverlay,
-	imageDetailMeta,
-	imageDetailWidth,
-	imageDetailScale,
-	clientWidth,
-	windowWidth,
-	doShowDevTools,
-	doShowDevToolbarSticky,
-	devToolbarStickyContent,
-	doShowDevOverlay,
-	devOverlayContent
+	unsavedChanges
 };
 const storeEntries = Object.entries(storeMap);
 // derived store containing all ui state values

@@ -1,4 +1,5 @@
 <script>
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 	import { v4 as uuidv4 } from 'uuid';
 
@@ -6,18 +7,16 @@
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
 	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
-	import { isNodeEditActive } from '$lib/states/temp-state';
+	import {
+		imageEditContent,
+		imageEditId,
+		isNodeEditActive,
+		timelineEditEvent,
+		timelineEditEventId
+	} from '$lib/states/temp-state';
 
 	import { addOrReplaceTimelineEvent, deleteTimelineEvent } from '$lib/person-management';
-	import {
-		checkActivePersonForUnsavedChanges,
-		setImageEditContent,
-		setImageEditId,
-		setTimelineEditEventId,
-		unsetTimelineEditEvent,
-		unsetTimelineEditEventId
-	} from '$lib/temp-management';
+	import { checkActivePersonForUnsavedChanges } from '$lib/temp-management';
 	import { getModalTitleByEventType, writeUIStateValueAtPath } from '$lib/ui-management';
 	import { getObjectByKeyValueInArray, instantiateObject, getIsDateValid } from '$lib/utils';
 
@@ -38,7 +37,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 
 	// get the event data
-	let eventType = $tempState?.timelineEditEvent?.eventType;
+	let eventType = get(timelineEditEvent).eventType;
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
 	let isValidDate = false; // if true, the current date in the field is valid
@@ -49,10 +48,10 @@
 	let modalTitle = undefined;
 
 	// all possible input values
-	let eventDateInputValue = $tempState?.timelineEditEvent?.eventDate;
-	let eventDateApprxValue = $tempState?.timelineEditEvent?.isApprxDate;
-	let eventTypeInputValue = $tempState?.timelineEditEvent?.eventType;
-	let eventContentInputValue = $tempState?.timelineEditEvent?.eventContent.description;
+	let eventDateInputValue = get(timelineEditEvent)?.eventDate;
+	let eventDateApprxValue = get(timelineEditEvent)?.isApprxDate;
+	let eventTypeInputValue = get(timelineEditEvent)?.eventType;
+	let eventContentInputValue = get(timelineEditEvent)?.eventContent.description;
 	let birthdateInputValue = $uiState?.activePerson?.birth?.date;
 	let birthdateApprxInputValue = $uiState?.activePerson?.birth?.apprxDate;
 	let birthtimeInputValue = $uiState?.activePerson?.birth?.time;
@@ -84,8 +83,8 @@
 				break;
 			case timelineEventTypes.generic.type:
 			default:
-				const newEventFromInputs = instantiateObject($tempState.timelineEditEvent);
-				newEventFromInputs.eventId = $tempState.timelineEditEvent.eventId;
+				const newEventFromInputs = instantiateObject(get(timelineEditEvent));
+				newEventFromInputs.eventId = get(timelineEditEvent).eventId;
 				newEventFromInputs.eventDate = eventDateInputValue;
 				newEventFromInputs.isApprxDate = eventDateApprxValue;
 				newEventFromInputs.eventType = eventTypeInputValue;
@@ -111,58 +110,58 @@
 				deathCauseInputValue = $uiState.activePerson.death.cause;
 				break;
 			default:
-				eventDateInputValue = $tempState.timelineEditEvent.eventDate;
-				eventDateApprxValue = $tempState.timelineEditEvent.isApprxDate;
-				eventTypeInputValue = $tempState.timelineEditEvent.eventType;
-				eventContentInputValue = $tempState.timelineEditEvent.eventContent.description;
+				eventDateInputValue = get(timelineEditEvent).eventDate;
+				eventDateApprxValue = get(timelineEditEvent).isApprxDate;
+				eventTypeInputValue = get(timelineEditEvent).eventType;
+				eventContentInputValue = get(timelineEditEvent).eventContent.description;
 		}
 	};
 
 	const onClickEditButton = () => {
-		setTimelineEditEventId($tempState.timelineEditEvent.eventId);
+		timelineEditEventId.set($timelineEditEvent.eventId);
 	};
 
 	// cancel, but when used for editing an existing event
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		syncAllInputs();
-		unsetTimelineEditEventId();
+		timelineEditEventId.set(undefined);
 		isNodeEditActive.set(false);
 	};
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
-		unsetTimelineEditEventId();
-		unsetTimelineEditEvent();
+		timelineEditEventId.set(undefined);
+		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
 		checkActivePersonForUnsavedChanges();
-		unsetTimelineEditEventId();
-		unsetTimelineEditEvent();
+		timelineEditEventId.set(undefined);
+		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDeleteButton = () => {
-		deleteTimelineEvent($tempState.timelineEditEvent);
+		deleteTimelineEvent(get(timelineEditEvent));
 		checkActivePersonForUnsavedChanges();
-		unsetTimelineEditEventId();
-		unsetTimelineEditEvent();
+		timelineEditEventId.set(undefined);
+		timelineEditEvent.set(undefined);
 	};
 
 	const onClickCloseButton = () => {
-		unsetTimelineEditEventId();
-		unsetTimelineEditEvent();
+		timelineEditEventId.set(undefined);
+		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickAddImageButton = () => {
 		const newTimelineEventImage = instantiateObject(timelineEventImage);
 		newTimelineEventImage.id = uuidv4();
-		newTimelineEventImage.eventId = $tempState.timelineEditEventId;
-		setImageEditId(newTimelineEventImage.id);
-		setImageEditContent(newTimelineEventImage);
+		newTimelineEventImage.eventId = get(timelineEditEventId);
+		imageEditId.set(newTimelineEventImage.id);
+		imageEditContent.set(newTimelineEventImage);
 	};
 
 	// checks whether the value in the date input field is valid
@@ -180,13 +179,13 @@
 	$: {
 		isValidDate = getIsDateValid(eventDateInputValue);
 		modalTitle = getModalTitleByEventType(eventType);
-		isInEditMode = $tempState.timelineEditEventId !== undefined;
+		isInEditMode = $timelineEditEventId !== undefined;
 		isBirthOrDeathEvent =
 			eventType === timelineEventTypes.birth.type || eventType === timelineEventTypes.death.type;
 		isNewEvent = !getObjectByKeyValueInArray(
 			$uiState.activePerson.timelineEvents,
 			'eventId',
-			$tempState.timelineEditEventId
+			get(timelineEditEventId)
 		)
 			? true
 			: false;
@@ -199,7 +198,7 @@
 </script>
 
 <Modal
-	showModal={$tempState.timelineEditEvent}
+	showModal={$timelineEditEvent}
 	title={modalTitle}
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -288,7 +287,7 @@
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
 						allowEdit={isInEditMode}
-						imageArray={$tempState?.timelineEditEvent?.eventContent?.images}
+						imageArray={$timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={true}
 						showEmptyState={false}
@@ -310,7 +309,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $tempState.timelineEditEventId === undefined}
+			{#if $timelineEditEventId === undefined}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

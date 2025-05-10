@@ -1,63 +1,23 @@
+import { get } from 'svelte/store';
+
 import {
 	bioEditAltName,
+	bioEditAltNames,
 	nodeEditCompatibleGroups,
 	nodeEditGroupId,
 	nodeEditId,
 	nodeEditName,
-	nodeEditRelationshipId
+	nodeEditRelationshipId,
+	timelineEditEvent
 } from './states/temp-state';
 import imageCache from './stores/image-cache';
-import tempState from './stores/temp-state';
 import uiState from './stores/ui-state';
 
 import { getPersonById, getPersonRelationshipIds } from './person-management';
 import { getActivePerson } from './ui-management';
-import {
-	areObjectsEqual,
-	addOrReplaceObjectInArray,
-	deleteObjectInArray,
-	getObjectByKeyValueInArray
-} from '$lib/utils';
+import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
-
-// general media
-export const setMediaGalleryActiveId = (mediaId) => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveId = mediaId;
-		return currentValue;
-	});
-};
-export const unsetMediaGalleryActiveId = () => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveId = undefined;
-		return currentValue;
-	});
-};
-export const setMediaGalleryActiveContent = (mediaContent) => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveContent = mediaContent;
-		return currentValue;
-	});
-};
-export const unsetMediaGalleryActiveContent = () => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveContent = undefined;
-		return currentValue;
-	});
-};
-export const setMediaGalleryActiveContentArray = (mediaContentArray) => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveContentArray = mediaContentArray;
-		return currentValue;
-	});
-};
-export const unsetMediaGalleryActiveContentArray = () => {
-	tempState.update((currentValue) => {
-		currentValue.mediaGalleryActiveContentArray = undefined;
-		return currentValue;
-	});
-};
 
 // manage the image cache
 // image identifier could be a path or a GitHub url
@@ -177,46 +137,27 @@ export const hidePersonNodeActionsModal = () => {
 };
 
 // alternate names
-export const initializeAltNamesTempState = () => {
+export const setTempStateAltNamesFromUIState = () => {
 	let alternateNamesOriginalValue;
 	uiState.subscribe((currentValue) => {
 		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
 	});
 
-	tempState.update((currentValue) => {
-		currentValue.bioEditAltNames = alternateNamesOriginalValue;
-		return currentValue;
-	});
+	bioEditAltNames.set(alternateNamesOriginalValue);
 };
 
 export const addOrEditAlternateNameInTempState = (alternateName) => {
-	tempState.update((currentValue) => {
-		if (getObjectByKeyValueInArray(currentValue.bioEditAltNames, 'name', alternateName.name)) {
-			addOrReplaceObjectInArray(
-				currentValue.bioEditAltNames,
-				'name',
-				alternateName.name,
-				alternateName
-			);
-		} else {
-			currentValue.bioEditAltNames.push(alternateName);
-		}
-		return currentValue;
-	});
+	bioEditAltNames.update((currentValue) =>
+		addOrReplaceObjectInArray(currentValue, 'name', alternateName.name, alternateName)
+	);
 };
 
-export const removeAlternateNameFromTempState = (name /* just the name, not the object */) => {
-	tempState.update((currentValue) => {
-		deleteObjectInArray(currentValue.bioEditAltNames, 'name', name);
-		return currentValue;
-	});
+export const removeAlternateNameFromTempState = (name /* name, not object */) => {
+	bioEditAltNames.update((currentValue) => deleteObjectInArray(currentValue, 'name', name));
 };
 
 export const writeTempAlternateNamesToUIState = () => {
-	let tempStateToWrite;
-	tempState.subscribe((currentValue) => {
-		tempStateToWrite = currentValue.bioEditAltNames;
-	});
+	const tempStateToWrite = get(bioEditAltNames);
 
 	uiState.update((currentValue) => {
 		currentValue.activePerson.alternateNames = tempStateToWrite;
@@ -224,98 +165,29 @@ export const writeTempAlternateNamesToUIState = () => {
 	});
 };
 
-// timeline event edit
-export const getActiveTimelineEditEvent = () => {
-	let timelineEvent;
-	tempState.subscribe((currentValue) => {
-		timelineEvent = currentValue.timelineEditEvent;
-	});
-	return timelineEvent;
-};
-
-export const setTimelineEditEventId = (timelineEditEventId) => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEventId = timelineEditEventId;
-		return currentValue;
-	});
-};
-
-export const unsetTimelineEditEventId = () => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEventId = undefined;
-		return currentValue;
-	});
-};
-
-export const setTimelineEditEvent = (timelineEvent) => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEvent = timelineEvent;
-		return currentValue;
-	});
-};
-
-export const unsetTimelineEditEvent = () => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEvent = undefined;
-		return currentValue;
-	});
-};
-
-// timeline event media
-export const setImageEditId = (imageId) => {
-	tempState.update((currentValue) => {
-		currentValue.imageEditId = imageId;
-		return currentValue;
-	});
-};
-export const unsetImageEditId = () => {
-	tempState.update((currentValue) => {
-		currentValue.imageEditId = undefined;
-		return currentValue;
-	});
-};
-
-export const setImageEditContent = (imageEditContent) => {
-	tempState.update((currentValue) => {
-		currentValue.imageEditContent = imageEditContent;
-		return currentValue;
-	});
-};
-export const unsetImageEditContent = () => {
-	tempState.update((currentValue) => {
-		currentValue.imageEditContent = undefined;
-		return currentValue;
-	});
-};
-
 // timeline event associated people
 export const addAssociatedPersonToTimelineEvent = (personId) => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEvent.eventContent.associatedPeopleIds.push(personId);
-		return currentValue;
+	timelineEditEvent.update((currentValue) => {
+		return {
+			...currentValue,
+			eventContent: {
+				...currentValue.eventContent,
+				associatedPeopleIds: currentValue.eventContent.associatedPeopleIds.includes(personId)
+					? currentValue.eventContent.associatedPeopleIds
+					: [...currentValue.eventContent.associatedPeopleIds, personId]
+			}
+		};
 	});
 };
 
 export const removeAssociatedPersonFromActiveTimelineEvent = (personId) => {
-	tempState.update((currentValue) => {
-		currentValue.timelineEditEvent.eventContent.associatedPeopleIds =
-			currentValue.timelineEditEvent.eventContent.associatedPeopleIds.filter(
+	timelineEditEvent.update((currentValue) => ({
+		...currentValue,
+		eventContent: {
+			...currentValue.eventContent,
+			associatedPeopleIds: currentValue.eventContent.associatedPeopleIds.filter(
 				(associatedPeopleId) => associatedPeopleId !== personId
-			);
-		return currentValue;
-	});
-};
-
-// the just-uploaded media url for writing to the correct place in the active person later
-export const setMediaUploadedUrl = (imageUrl) => {
-	tempState.update((currentValue) => {
-		currentValue.uploadedMediaUrl = imageUrl;
-		return currentValue;
-	});
-};
-export const unsetMediaUploadedUrl = () => {
-	tempState.update((currentValue) => {
-		currentValue.uploadedMediaUrl = undefined;
-		return currentValue;
-	});
+			)
+		}
+	}));
 };

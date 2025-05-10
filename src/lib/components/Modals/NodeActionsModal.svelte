@@ -6,7 +6,6 @@
 	import contexts from '$lib/schemas/contexts';
 
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import {

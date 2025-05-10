@@ -8,20 +8,17 @@ import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
-import tempState from '$lib/stores/temp-state';
+import {
+	imageEditContent,
+	imageEditId,
+	timelineEditEvent,
+	uploadedMediaUrl
+} from './states/temp-state';
 import uiState from '$lib/stores/ui-state';
 import familyTreeData from '$lib/stores/family-tree-data';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
-import {
-	checkActivePersonForUnsavedChanges,
-	getActiveTimelineEditEvent,
-	setImageEditContent,
-	setTimelineEditEvent,
-	unsetImageEditContent,
-	unsetImageEditId,
-	unsetMediaUploadedUrl
-} from '$lib/temp-management';
+import { checkActivePersonForUnsavedChanges } from '$lib/temp-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	removePersonFromActivePersonGroup
@@ -271,12 +268,7 @@ export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
 };
 
 export const setBioPhotoUrlFromTempState = () => {
-	let tempStateUrl;
-
-	// get the url from the temp state
-	tempState.subscribe((currentValue) => {
-		tempStateUrl = currentValue.uploadedMediaUrl;
-	});
+	const tempStateUrl = get(uploadedMediaUrl);
 
 	// if the url is valid, set it as the bio photo url for the active person
 	if (isUrlValid(tempStateUrl)) {
@@ -284,7 +276,7 @@ export const setBioPhotoUrlFromTempState = () => {
 	}
 
 	// clear the temp state
-	unsetMediaUploadedUrl();
+	uploadedMediaUrl.set(undefined);
 };
 
 export const unsetPersonBioPhotoUrl = () => {
@@ -791,7 +783,7 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	const activePersonId = get(uiState).activePerson.id;
 	const existingTimelineEvent = getTimelineEventById(activePersonId, timelineEventId);
 	// update either the existing event in this person, or the new event in the temp state
-	const timelineEventToUpdate = existingTimelineEvent ?? getActiveTimelineEditEvent();
+	const timelineEventToUpdate = existingTimelineEvent ?? get(timelineEditEvent);
 	// update the timeline event with the new image
 	addOrReplaceObjectInArray(
 		timelineEventToUpdate?.eventContent?.images,
@@ -802,8 +794,8 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	// update the timeline event in the ui state
 	addOrReplaceTimelineEvent(timelineEventToUpdate);
 	// update the temp state event so the modal shows the updated content
-	setTimelineEditEvent(timelineEventToUpdate);
-	setImageEditContent(newImageContent);
+	timelineEditEvent.set(timelineEventToUpdate);
+	imageEditContent.set(newImageContent);
 	// show the unsaved changes notification
 	checkActivePersonForUnsavedChanges();
 };
@@ -835,27 +827,20 @@ export const removeTimelineEventReference = (targetPersonId, referenceEventId) =
 // timeline event media management
 export const setTimelineEventImageUrlFromTempState = () => {
 	// get these values from the temp state
-	let timelineEventFromTempState;
-	let timelineEventImageContentFromTempState;
-	let uploadedMediaUrl;
-	tempState.subscribe((currentValue) => {
-		timelineEventFromTempState = currentValue.timelineEditEvent;
-		timelineEventImageContentFromTempState = currentValue.imageEditContent;
-		uploadedMediaUrl = currentValue.uploadedMediaUrl;
-	});
+	const timelineEventImageContentFromTempState = get(imageEditContent);
+	const mediaUrlFromTempState = get(uploadedMediaUrl);
 
 	// make a copy of the active event image
 	const newImage = instantiateObject(timelineEventImageContentFromTempState);
-	newImage.url = uploadedMediaUrl;
+	newImage.url = mediaUrlFromTempState;
 
 	// if the url is valid, update the image in the active person
-	if (isUrlValid(uploadedMediaUrl)) {
-		//@ts-expect-error
+	if (isUrlValid(mediaUrlFromTempState)) {
 		addOrReplaceTimelineEventImage(timelineEventImageContentFromTempState.eventId, newImage);
 	}
 
 	// clear the temp state
-	unsetMediaUploadedUrl();
+	uploadedMediaUrl.set(undefined);
 };
 
 // delete references to repo images in the active person
@@ -880,10 +865,10 @@ export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 		imageId
 	);
 	// update the temp state event so the modal shows the updated content
-	setTimelineEditEvent(newTimelineEvent);
+	timelineEditEvent.set(newTimelineEvent);
 	// remove the id and content of the edited image in the temp state
-	unsetImageEditId();
-	unsetImageEditContent();
+	imageEditId.set(undefined);
+	imageEditContent.set(undefined);
 	// show the unsaved changes notification
 	checkActivePersonForUnsavedChanges();
 };

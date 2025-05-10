@@ -6,6 +6,7 @@
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEvent from '$lib/schemas/timeline-event';
 
+	import { timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	// @ts-expect-error
@@ -14,7 +15,6 @@
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
 	import { instantiateObject } from '$lib/utils';
-	import { setTimelineEditEvent, setTimelineEditEventId } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -60,16 +60,16 @@
 		// birth date must be set first
 		// before any normal timeline event is added
 		if (!$uiState.activePerson.birth.date) {
-			setTimelineEditEvent(birthEvent);
-			setTimelineEditEventId(birthEvent.eventId);
+			timelineEditEventId.set(birthEvent);
+			timelineEditEventId.set(birthEvent.eventId);
 			// otherwise, add an event like normal
 		} else {
 			const newTimelineEvent = instantiateObject(timelineEvent);
 			newTimelineEvent.eventId = uuidv4();
 			newTimelineEvent.eventVersion = schemaVersion;
 			newTimelineEvent.eventType = timelineEventTypes.generic.type;
-			setTimelineEditEvent(newTimelineEvent);
-			setTimelineEditEventId(newTimelineEvent.eventId);
+			timelineEditEvent.set(newTimelineEvent);
+			timelineEditEventId.set(newTimelineEvent.eventId);
 		}
 	};
 

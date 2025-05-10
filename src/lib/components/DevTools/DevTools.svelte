@@ -2,7 +2,7 @@
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
-	import tempState from '$lib/stores/temp-state';
+	import { bioEditId } from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
@@ -13,7 +13,6 @@
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
 	import FamilyTreeDataSelector from '$lib/components/DevTools/FamilyTreeDataSelector.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
-	import { bioEditId } from '$lib/states/temp-state';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo();

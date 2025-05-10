@@ -5,12 +5,7 @@
 	import imageCache from '$lib/stores/image-cache';
 
 	import { deleteFileFromRepoByUrl, uploadFileToRepo } from '$lib/persistence-management';
-	import {
-		addImageToCache,
-		getImageFromCache,
-		removeImageFromCache,
-		setMediaUploadedUrl
-	} from '$lib/temp-management';
+	import { addImageToCache, getImageFromCache, removeImageFromCache } from '$lib/temp-management';
 	import {
 		getExtensionFromFileNameOrPath,
 		getExtensionFromUrl,
@@ -19,6 +14,7 @@
 	} from '$lib/utils';
 
 	import stylingConstants from '$lib/components/styling-constants';
+	import { uploadedMediaUrl } from '$lib/states/temp-state';
 
 	export let repoOwner;
 	export let repoName;
@@ -123,7 +119,7 @@
 			getAndShowImage();
 
 			// set the url in the temp state so other components can record it in the active person
-			setMediaUploadedUrl(imageUrl);
+			uploadedMediaUrl.set(imageUrl);
 
 			// run any post-upload functions the parent using this image may require
 			afterUploadFunction();

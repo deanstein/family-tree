@@ -3,8 +3,7 @@
 	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
-	import tempState from '$lib/stores/temp-state';
-	import { isNodeEditActive } from '$lib/states/temp-state';
+	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
 
 	import {
 		checkActivePersonForUnsavedChanges,
@@ -30,7 +29,7 @@
 	`;
 
 	const removeAssociatedPersonFromActiveEvent = (associatedPersonId) => {
-		const eventId = get(tempState).timelineEditEventId;
+		const eventId = get(timelineEditEventId);
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
 		removeTimelineEventReference(associatedPersonId, eventId);
 		checkActivePersonForUnsavedChanges();
@@ -57,8 +56,8 @@
 		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
-	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
-		{#each $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
+	{#if $timelineEditEvent?.eventContent?.associatedPeopleIds}
+		{#each $timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
 			<PersonNode
 				{personId}
 				onClickActionButton={enabled

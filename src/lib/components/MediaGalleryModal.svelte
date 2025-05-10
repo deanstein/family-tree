@@ -1,7 +1,5 @@
 <script>
-	import tempState from '$lib/stores/temp-state';
-
-	import { unsetMediaGalleryActiveContent, unsetMediaGalleryActiveId } from '$lib/temp-management';
+	import { mediaGalleryContent, mediaGalleryId } from '$lib/states/temp-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -9,13 +7,13 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 
 	const onClickCloseButton = () => {
-		unsetMediaGalleryActiveId();
-		unsetMediaGalleryActiveContent();
+		mediaGalleryId.set(undefined);
+		mediaGalleryContent.set(undefined);
 	};
 </script>
 
 <Modal
-	showModal={$tempState.mediaGalleryActiveId}
+	showModal={$mediaGalleryId}
 	showCloseButton={true}
 	{onClickCloseButton}
 	width={stylingConstants.sizes.modalFullScreenWidth}

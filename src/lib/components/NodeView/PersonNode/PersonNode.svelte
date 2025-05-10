@@ -1,19 +1,19 @@
 <script>
-	import { css } from '@emotion/css';
 	import { afterUpdate, onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
 		nodeEditGroupId,
-		nodeEditId
+		nodeEditId,
+		timelineEditEventId
 	} from '$lib/states/temp-state';
+	import uiState from '$lib/stores/ui-state';
 
 	import {
 		getPersonById,
@@ -38,9 +38,7 @@
 	import {
 		addAssociatedPersonToTimelineEvent,
 		checkPersonForUnsavedChanges,
-		hidePersonNodeActionsModal,
-		setTimelineEditEvent,
-		setTimelineEditEventId
+		hidePersonNodeActionsModal
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
@@ -130,7 +128,7 @@
 		upgradePersonById(personId);
 		const eventReference = instantiateObject(timelineEventReference);
 		eventReference.personId = get(uiState).activePerson.id;
-		eventReference.eventId = get(tempState).timelineEditEventId;
+		eventReference.eventId = get(timelineEditEventId);
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
 		checkPersonForUnsavedChanges(personId);
@@ -138,8 +136,8 @@
 	};
 
 	const makeAssociatedPersonActive = () => {
-		setTimelineEditEvent(undefined);
-		setTimelineEditEventId(undefined);
+		timelineEditEventId.set(undefined);
+		timelineEditEventId.set(undefined);
 		hidePersonDetailView();
 		setActivePerson(getPersonById(personId));
 	};

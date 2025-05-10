@@ -6,11 +6,10 @@
 	import alternateNameTypes from '$lib/schemas/alternate-name-types';
 
 	import { bioEditAltName, bioEditId } from '$lib/states/temp-state';
-	import tempState from '$lib/stores/temp-state';
 
 	import {
 		addOrEditAlternateNameInTempState,
-		initializeAltNamesTempState,
+		setTempStateAltNamesFromUIState,
 		removeAlternateNameFromTempState
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
@@ -71,7 +70,7 @@
 	}
 
 	onMount(() => {
-		initializeAltNamesTempState();
+		setTempStateAltNamesFromUIState();
 		nameInputValueOriginal = nameInputValue;
 		typeInputValueOriginal = typeInputValue;
 		contextInputValueOriginal = contextInputValue;

@@ -106,7 +106,7 @@
 		align-items: center;
 		height: 100vh;
 		width: 100%;
-		backdrop-filter: blur(5px);
+		/* backdrop-filter: blur(5px); */
 	}
 
 	.modal-content-container {

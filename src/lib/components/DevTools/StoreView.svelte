@@ -1,14 +1,14 @@
 <script>
-	import familyTreeData from '$lib/stores/family-tree-data';
-	import tempState from '$lib/stores/temp-state';
+	import { allTempStateValues } from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
+	import familyTreeData from '$lib/stores/family-tree-data';
 </script>
 
 <div class="storeview-container">
 	<div class="storeview-output">
 		<div class="store-container">
 			<div>Temp State:</div>
-			{JSON.stringify($tempState)}
+			{JSON.stringify($allTempStateValues)}
 		</div>
 		<div class="store-container">
 			<div>UI State:</div>

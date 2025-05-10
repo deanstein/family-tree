@@ -15,8 +15,14 @@
 	} from '$lib/schemas/relationship-map';
 
 	import familyTreeData from '$lib/stores/family-tree-data';
-	import { bioEditAltName, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import tempState from '$lib/stores/temp-state';
+	import {
+		bioEditAltName,
+		imageEditId,
+		mediaGalleryId,
+		nodeEditId,
+		nodeEditRelationshipId,
+		timelineEditEvent
+	} from '$lib/states/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import { setActivePerson } from '$lib/person-management';
@@ -143,7 +149,7 @@
 				role="main"
 			>
 				<ChooseTreeModal />
-				{#if $tempState.mediaGalleryActiveId !== undefined}
+				{#if $mediaGalleryId !== undefined}
 					<MediaGalleryModal />
 				{/if}
 				{#if $nodeEditId !== undefined}
@@ -153,10 +159,10 @@
 				{#if $bioEditAltName !== undefined}
 					<EditAlternateNameModal />
 				{/if}
-				{#if $tempState.timelineEditEvent !== undefined}
+				{#if $timelineEditEvent !== undefined}
 					<EventDetailsModal />
 				{/if}
-				{#if $tempState.imageEditId !== undefined}
+				{#if $imageEditId !== undefined}
 					<TimelineEventImageDetailModal />
 				{/if}
 				<Header />

@@ -3,7 +3,6 @@
 	import { get } from 'svelte/store';
 
 	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
-	import tempState from '$lib/stores/temp-state';
 	import uiState from '$lib/stores/ui-state';
 
 	import { repoStateStrings } from '$lib/components/strings';
@@ -15,7 +14,7 @@
 	let headerLeftFlankCss;
 
 	const onClickEditTreeButton = () => {
-		isTreeEditActive.set(!get(isTreeEditActive));
+		isTreeEditActive.set(!$isTreeEditActive);
 	};
 
 	const headerContainerCss = css`
