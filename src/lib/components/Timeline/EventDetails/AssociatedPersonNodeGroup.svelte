@@ -3,11 +3,10 @@
 	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
-	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
 
 	import {
-		checkActivePersonForUnsavedChanges,
+		checkPersonForUnsavedChanges,
 		removeAssociatedPersonFromActiveTimelineEvent
 	} from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
@@ -18,6 +17,7 @@
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { activePerson } from '$lib/states/ui-state';
 
 	export let enabled;
 	export let associatedPeopleIds = [];
@@ -30,10 +30,10 @@
 	`;
 
 	const removeAssociatedPersonFromActiveEvent = (associatedPersonId) => {
-		const eventId = get(tempState).timelineEditEventId;
+		const eventId = get(timelineEditEventId);
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
 		removeTimelineEventReference(associatedPersonId, eventId);
-		checkActivePersonForUnsavedChanges();
+		checkPersonForUnsavedChanges(get(activePerson).id);
 	};
 </script>
 
@@ -48,17 +48,17 @@
 	{#if showAddButton}
 		<ButtonCircularInSquare
 			onClickFunction={() => {
-				isPersonNodeEditActive.set(true);
+				isNodeEditActive.set(true);
 			}}
 			{enabled}
 		/>
 	{/if}
-	{#if $isPersonNodeEditActive}
+	{#if $isNodeEditActive}
 		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
-	{#if $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds}
-		{#each $tempState.timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
+	{#if $timelineEditEvent?.eventContent?.associatedPeopleIds}
+		{#each $timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
 			<PersonNode
 				{personId}
 				onClickActionButton={enabled

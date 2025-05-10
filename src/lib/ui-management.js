@@ -5,7 +5,13 @@ import timelineEventReference from './schemas/timeline-event-reference';
 import timelineRowItem from './schemas/timeline-row-item';
 
 import familyTreeData from '$lib/stores/family-tree-data';
-import uiState from '$lib/stores/ui-state';
+import {
+	activeFamilyTreeDataId,
+	activePerson,
+	personNodePositions,
+	saveToRepoStatus,
+	timelineCanvasScrollState
+} from './states/ui-state';
 
 import {
 	repoOwner,
@@ -19,40 +25,24 @@ import {
 	setActivePerson,
 	getTimelineEventById
 } from '$lib/person-management';
-import {
-	instantiateObject,
-	largest,
-	removeExtensionFromFileNameOrPath,
-	setNestedObjectProperty
-} from './utils';
+import { instantiateObject, largest, removeExtensionFromFileNameOrPath } from './utils';
 
 import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';
 import stylingConstants from '$lib/components/styling-constants';
-
-export const writeUIStateValueAtPath = (path, value, originalValue = undefined) => {
-	// only bother doing anything if the value is different
-	if (originalValue) {
-		if (value === originalValue) {
-			return;
-		}
-	}
-	// otherwise, proceed to writing
-	uiState.update((currentValue) => {
-		if (path) {
-			setNestedObjectProperty(currentValue, path, value);
-		}
-		return currentValue;
-	});
-};
+import { get } from 'svelte/store';
 
 // get a family tree by id from the repo and set it as the current UI state
 export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifications = true) => {
 	if (!familyTreeId) {
-		showLoadNotifications ?? setRepoState(repoStateStrings.loadFailed);
+		if (showLoadNotifications) {
+			saveToRepoStatus.set(repoStateStrings.loadFailed);
+		}
 		return;
 	}
 
-	showLoadNotifications ?? setRepoState(repoStateStrings.loading);
+	if (showLoadNotifications) {
+		saveToRepoStatus.set(repoStateStrings.loading);
+	}
 
 	// get the full file name from the map
 	const familyTreeDataFileNameWithExt = await getFamilyTreeDataFileName(
@@ -75,64 +65,38 @@ export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifi
 			return currentValue;
 		});
 
-		uiState.update((currentValue) => {
-			currentValue.activeFamilyTreeDataId = familyTreeId;
-			currentValue.activeFamilyTreeFileOrFolderName = removeExtensionFromFileNameOrPath(
-				familyTreeDataFileNameWithExt
-			);
-			return currentValue;
-		});
+		activeFamilyTreeDataId.set(familyTreeId);
+		activeFamilyTreeDataId.set(removeExtensionFromFileNameOrPath(familyTreeDataFileNameWithExt));
 
 		// force an update by setting the active person
 		setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
 	}
 
-	if (showLoadNotifications === true) {
-		setRepoState(repoStateStrings.loadSuccessful);
+	if (showLoadNotifications) {
+		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
 	}
 };
 
-export const getActiveFamilyTreeDataName = () => {
-	let activeFamilyTreeDataName;
-	uiState.subscribe((currentValue) => {
-		activeFamilyTreeDataName = currentValue.activeFamilyTreeFileOrFolderName;
-	});
-	return activeFamilyTreeDataName;
-};
-
-export const getActivePerson = () => {
-	let activePerson;
-	uiState.subscribe((currentValue) => {
-		activePerson = currentValue.activePerson;
-	});
-	return activePerson;
-};
-
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
-	uiState.update((currentValue) => {
+	activePerson.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = instantiateObject(relationship);
 		personReferenceObject.id = sPersonId;
 		personReferenceObject.relationshipId = sRelationshipId;
 
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
-			(personObject) => {
-				if (personObject.id === sPersonId) return personReferenceObject;
-			}
-		);
-		const nGroupIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
-			foundPersonReferenceObject
-		);
+		const foundPersonReferenceObject = currentValue.relationships[sGroupId].find((personObject) => {
+			if (personObject.id === sPersonId) return personReferenceObject;
+		});
+		const nGroupIndex = currentValue.relationships[sGroupId].indexOf(foundPersonReferenceObject);
 
 		// only add if it doesn't exist yet
 		if (!foundPersonReferenceObject) {
-			currentValue.activePerson.relationships[sGroupId].push(personReferenceObject);
+			currentValue.relationships[sGroupId].push(personReferenceObject);
 			// but if it exists, update with the new relationship id
 		} else {
 			console.log('blocked from adding');
-			currentValue.activePerson.relationships[sGroupId][nGroupIndex].relationshipId =
-				sRelationshipId;
+			currentValue.relationships[sGroupId][nGroupIndex].relationshipId = sRelationshipId;
 		}
 
 		return currentValue;
@@ -140,25 +104,21 @@ export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId)
 };
 
 export const removePersonFromActivePersonGroup = (sPersonId, sRelationshipId) => {
-	uiState.update((currentValue) => {
+	activePerson.update((currentValue) => {
 		const sGroupId = getGroupIdFromRelationshipId(sRelationshipId);
 
 		const personReferenceObject = instantiateObject(relationship);
 		personReferenceObject.id = sPersonId;
 		personReferenceObject.relationshipId = sRelationshipId;
 
-		const foundPersonReferenceObject = currentValue.activePerson.relationships[sGroupId].find(
-			(personObject) => {
-				if (personObject.id === sPersonId) return personReferenceObject;
-			}
-		);
+		const foundPersonReferenceObject = currentValue.relationships[sGroupId].find((personObject) => {
+			if (personObject.id === sPersonId) return personReferenceObject;
+		});
 
-		const nSpliceIndex = currentValue.activePerson.relationships[sGroupId].indexOf(
-			foundPersonReferenceObject
-		);
+		const nSpliceIndex = currentValue.relationships[sGroupId].indexOf(foundPersonReferenceObject);
 
 		if (nSpliceIndex > -1) {
-			currentValue.activePerson.relationships[sGroupId].splice(nSpliceIndex, 1);
+			currentValue.relationships[sGroupId].splice(nSpliceIndex, 1);
 		}
 
 		return currentValue;
@@ -169,90 +129,45 @@ export const getNotificationConfigFromRepoState = () => {
 	let message;
 	let color;
 
-	uiState.subscribe((currentValue) => {
-		switch (currentValue.saveToRepoStatus) {
-			case repoStateStrings.loading:
-				message = repoStateStrings.loading;
-				color = stylingConstants.colors.notificationColorInProgress;
-				break;
-			case repoStateStrings.loadSuccessful:
-				message = repoStateStrings.loadSuccessful;
-				color = stylingConstants.colors.notificationColorSuccess;
-				break;
-			case repoStateStrings.saved:
-				message = repoStateStrings.saved;
-				color = stylingConstants.colors.notificationColorInformation;
-				break;
-			case repoStateStrings.saving:
-				message = repoStateStrings.saving;
-				color = stylingConstants.colors.notificationColorInProgress;
-				break;
-			case repoStateStrings.saveSuccessful:
-				message = repoStateStrings.saveSuccessful;
-				color = stylingConstants.colors.notificationColorSuccess;
-				break;
-			case repoStateStrings.unsavedChanges:
-				message = repoStateStrings.unsavedChanges;
-				color = stylingConstants.colors.notificationColorWarning;
-				break;
-			case repoStateStrings.loadFailed:
-				message = repoStateStrings.loadFailed;
-				color = stylingConstants.colors.notificationColorError;
-				break;
-			case repoStateStrings.saveFailed:
-				message = repoStateStrings.saveFailed;
-				color = stylingConstants.colors.notificationColorError;
-				break;
-			default:
-				message = repoStateStrings.undefined;
-				color = stylingConstants.colors.notificationColorInformation;
-		}
-	});
+	switch (get(saveToRepoStatus)) {
+		case repoStateStrings.loading:
+			message = repoStateStrings.loading;
+			color = stylingConstants.colors.notificationColorInProgress;
+			break;
+		case repoStateStrings.loadSuccessful:
+			message = repoStateStrings.loadSuccessful;
+			color = stylingConstants.colors.notificationColorSuccess;
+			break;
+		case repoStateStrings.saved:
+			message = repoStateStrings.saved;
+			color = stylingConstants.colors.notificationColorInformation;
+			break;
+		case repoStateStrings.saving:
+			message = repoStateStrings.saving;
+			color = stylingConstants.colors.notificationColorInProgress;
+			break;
+		case repoStateStrings.saveSuccessful:
+			message = repoStateStrings.saveSuccessful;
+			color = stylingConstants.colors.notificationColorSuccess;
+			break;
+		case repoStateStrings.unsavedChanges:
+			message = repoStateStrings.unsavedChanges;
+			color = stylingConstants.colors.notificationColorWarning;
+			break;
+		case repoStateStrings.loadFailed:
+			message = repoStateStrings.loadFailed;
+			color = stylingConstants.colors.notificationColorError;
+			break;
+		case repoStateStrings.saveFailed:
+			message = repoStateStrings.saveFailed;
+			color = stylingConstants.colors.notificationColorError;
+			break;
+		default:
+			message = repoStateStrings.undefined;
+			color = stylingConstants.colors.notificationColorInformation;
+	}
 
 	return { message, color };
-};
-
-export const getRepoState = () => {
-	let repoState = undefined;
-	uiState.subscribe((currentValue) => {
-		repoState = currentValue.saveToRepoStatus;
-	});
-	return repoState;
-};
-
-export const setRepoState = (saveState) => {
-	uiState.update((currentValue) => {
-		currentValue.saveToRepoStatus = saveState;
-		return currentValue;
-	});
-};
-
-export const showChooseTreeModal = () => {
-	uiState.update((currentValue) => {
-		currentValue.showChooseTreeModal = true;
-		return currentValue;
-	});
-};
-
-export const hideChooseTreeModal = () => {
-	uiState.update((currentValue) => {
-		currentValue.showChooseTreeModal = false;
-		return currentValue;
-	});
-};
-
-export const showPersonDetailView = () => {
-	uiState.update((currentValue) => {
-		currentValue.showPersonDetailView = true;
-		return currentValue;
-	});
-};
-
-export const hidePersonDetailView = () => {
-	uiState.update((currentValue) => {
-		currentValue.showPersonDetailView = false;
-		return currentValue;
-	});
 };
 
 export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
@@ -265,30 +180,13 @@ export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
 		scrollingCanvasRef.offsetHeight + scrollingCanvasRef.scrollTop >=
 		scrollingCanvasRef.scrollHeight;
 	const noScrollAvailable = scrollingCanvasRef.clientHeight === scrollingCanvasRef.scrollHeight;
-	uiState.update((currentValue) => {
-		let updatedTimelineCanvasScroll = {
-			// scrolled to top?
-			top: scrolledToTop,
-			// scrolled to bottom?
-			bottom: scrolledToBottom || noScrollAvailable
-		};
-		currentValue.timelineCanvasScrollState = updatedTimelineCanvasScroll;
-		return currentValue;
-	});
-};
-
-export const setFirstTimelineEventHeight = (rowHeight) => {
-	uiState.update((currentValue) => {
-		currentValue.timelineFirstEventHeight = rowHeight;
-		return currentValue;
-	});
-};
-
-export const setLastTimelineEventHeight = (rowHeight) => {
-	uiState.update((currentValue) => {
-		currentValue.timelineLastEventHeight = rowHeight;
-		return currentValue;
-	});
+	let updatedTimelineCanvasScroll = {
+		// scrolled to top?
+		top: scrolledToTop,
+		// scrolled to bottom?
+		bottom: scrolledToBottom || noScrollAvailable
+	};
+	timelineCanvasScrollState.set(updatedTimelineCanvasScroll);
 };
 
 export const getTimelineProportionByDate = (person, eventDate) => {
@@ -452,46 +350,20 @@ export const getModalTitleByEventType = (eventType) => {
 };
 
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
-	uiState.update((currentValue) => {
-		// Check if the personId already exists in the array
-		const foundPersonPositionIndex = currentValue.personNodePositions.findIndex(
-			(pos) => pos.personId === personId
-		);
-		const foundPersonPosition = currentValue.personNodePositions[foundPersonPositionIndex];
-
-		// If the person was found
-		if (foundPersonPositionIndex !== -1) {
-			// If its position is unchanged, make no changes
-			if (foundPersonPosition === nodePosition) {
-				return currentValue;
-			}
-
-			// Otherwise, delete the old position
-			currentValue.personNodePositions.splice(foundPersonPositionIndex, 1);
-		}
-
-		// The person shouldn't exist at this point, so add them
-		currentValue.personNodePositions.push({ personId, ...nodePosition });
-		//console.log(currentValue.nodePositions)
-
-		return currentValue;
-	});
+	if (personId && nodePosition) {
+		personNodePositions.update((currentValue) => [
+			...currentValue.filter((pos) => pos.personId !== personId),
+			{ personId, ...nodePosition }
+		]);
+	}
 };
 
 export const removePersonNodePosition = (personId) => {
-	uiState.update((currentValue) => {
-		// Check if the personId already exists in the array
-		const existingIndex = currentValue.personNodePositions.findIndex(
-			(pos) => pos.personId === personId
+	if (personId) {
+		personNodePositions.update((currentValue) =>
+			currentValue.filter((pos) => pos.personId !== personId)
 		);
-
-		if (existingIndex !== -1) {
-			// If personId exists delete it
-			currentValue.personNodePositions.splice(existingIndex, 1);
-		}
-
-		return currentValue;
-	});
+	}
 };
 
 export const scrollToTopAndCenter = () => {

@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '$lib/stores/ui-state';
+	import { activePerson } from '$lib/states/ui-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -27,14 +27,14 @@
 		</div>
 	{:else}
 		<div class="name-disabled {nameDisabledCss}">
-			{$uiState.activePerson.name}
+			{$activePerson.name}
 		</div>
 	{/if}
 	<div class="age {ageCss}">
 		{'Age: ' + (isNaN(age) ? '?' : age)}
 	</div>
 	<div class="age deceased {ageCss}">
-		{$uiState.activePerson.deceased ? ' (deceased)' : ''}
+		{$activePerson.deceased ? ' (deceased)' : ''}
 	</div>
 </div>
 

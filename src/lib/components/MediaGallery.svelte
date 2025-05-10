@@ -1,23 +1,23 @@
 <script>
-	import tempState from '$lib/stores/temp-state';
+	import {
+		imageEditContent,
+		imageEditId,
+		mediaGalleryContent,
+		mediaGalleryContentArray,
+		mediaGalleryId
+	} from '$lib/states/temp-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import {
-		setImageEditContent,
-		setImageEditId,
-		unsetMediaGalleryActiveContent,
-		unsetMediaGalleryActiveId
-	} from '$lib/temp-management';
 
 	import Button from './Button.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
 
 	const onClickEditImageButton = () => {
-		setImageEditId($tempState.mediaGalleryActiveId);
-		setImageEditContent($tempState.mediaGalleryActiveContent);
-		unsetMediaGalleryActiveId();
-		unsetMediaGalleryActiveContent();
+		imageEditId.set($mediaGalleryId);
+		imageEditContent.set($mediaGalleryContent);
+		mediaGalleryId.set(undefined);
+		mediaGalleryContent.set(undefined);
 	};
 </script>
 
@@ -29,7 +29,7 @@
 		<ImageAsyncFromUrl
 			{repoOwner}
 			repoName={dataRepoName}
-			imageUrl={$tempState?.mediaGalleryActiveContent?.url}
+			imageUrl={$mediaGalleryContent?.url}
 			{imagePlaceholderSrc}
 			allowEdit={false}
 			imageFit="contain"
@@ -39,7 +39,7 @@
 		<ImageThumbnailGroup
 			showGroupTitle={false}
 			showAddButton={false}
-			imageArray={$tempState.mediaGalleryActiveContentArray}
+			imageArray={$mediaGalleryContentArray}
 		/>
 	</div>
 </div>

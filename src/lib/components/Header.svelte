@@ -1,10 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
+	import { get } from 'svelte/store';
 
-	import tempState from '$lib/stores/temp-state';
-	import uiState from '$lib/stores/ui-state';
-
-	import { toggleBuildMode } from '$lib/temp-management';
+	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
+	import { saveToRepoStatus } from '$lib/states/ui-state';
 
 	import { repoStateStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -14,8 +13,8 @@
 
 	let headerLeftFlankCss;
 
-	const buildModeButtonOnClickAction = () => {
-		toggleBuildMode();
+	const onClickEditTreeButton = () => {
+		isTreeEditActive.set(!$isTreeEditActive);
 	};
 
 	const headerContainerCss = css`
@@ -28,9 +27,7 @@
 
 	$: {
 		headerLeftFlankCss = css`
-			flex: ${$uiState.saveToRepoStatus === repoStateStrings.undefined || !$uiState.saveToRepoStatus
-				? 1
-				: 0};
+			flex: ${$saveToRepoStatus === repoStateStrings.undefined || !$saveToRepoStatus ? 1 : 0};
 		`;
 	}
 </script>
@@ -42,14 +39,14 @@
 			<img src="./img/family-tree-icon.png" class={headerLogoContainerCss} alt="family tree icon" />
 		</div>
 		<div class="header-right-flank">
-			{#if $tempState.nodeActionsModalPersonId === undefined}
+			{#if $nodeEditId === undefined}
 				<SaveStateBanner />
 			{/if}
 			<div class="edit-tree-button-container">
 				<Button
-					onClickFunction={buildModeButtonOnClickAction}
-					buttonText={$tempState.buildMode ? 'Done Editing' : 'Edit Tree'}
-					overrideBackgroundColor={$tempState.buildMode
+					onClickFunction={onClickEditTreeButton}
+					buttonText={$isTreeEditActive ? 'Done Editing' : 'Edit Tree'}
+					overrideBackgroundColor={$isTreeEditActive
 						? stylingConstants.colors.buttonColorDone
 						: stylingConstants.colors.buttonColorPrimary}
 				/>

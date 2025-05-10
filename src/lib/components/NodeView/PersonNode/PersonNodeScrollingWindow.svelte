@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 
 	import contexts from '$lib/schemas/contexts';
-	import uiState from '$lib/stores/ui-state';
+
+	import { activePerson } from '$lib/states/ui-state';
+
 	import { scrollHorizontal } from '$lib/ui-management';
 	import { filterPeopleIds, getAllPeopleIds, getPersonById } from '$lib/person-management';
 	import { getAllVisibleNodeViewPeople } from '$lib/temp-management';
@@ -41,7 +43,7 @@
 					idsToDisplay = filterPeopleIds(getAllPeopleIds(), getAllVisibleNodeViewPeople());
 					break;
 				case contexts.associatedPersonSelect:
-					idsToDisplay = filterPeopleIds(getAllPeopleIds(), $uiState.activePerson.id);
+					idsToDisplay = filterPeopleIds(getAllPeopleIds(), $activePerson.id);
 					break;
 			}
 		}

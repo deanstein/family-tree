@@ -1,12 +1,14 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEvent from '$lib/schemas/timeline-event';
 
-	import uiState from '$lib/stores/ui-state';
+	import { timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
+	import { activePerson } from '$lib/states/ui-state';
 
 	// @ts-expect-error
 	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';
@@ -14,7 +16,6 @@
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
 	import { instantiateObject } from '$lib/utils';
-	import { setTimelineEditEvent, setTimelineEditEventId } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -59,17 +60,17 @@
 	const onClickAddEventButton = () => {
 		// birth date must be set first
 		// before any normal timeline event is added
-		if (!$uiState.activePerson.birth.date) {
-			setTimelineEditEvent(birthEvent);
-			setTimelineEditEventId(birthEvent.eventId);
+		if (!get(activePerson).birth.date) {
+			timelineEditEventId.set(birthEvent);
+			timelineEditEventId.set(birthEvent.eventId);
 			// otherwise, add an event like normal
 		} else {
 			const newTimelineEvent = instantiateObject(timelineEvent);
 			newTimelineEvent.eventId = uuidv4();
 			newTimelineEvent.eventVersion = schemaVersion;
 			newTimelineEvent.eventType = timelineEventTypes.generic.type;
-			setTimelineEditEvent(newTimelineEvent);
-			setTimelineEditEventId(newTimelineEvent.eventId);
+			timelineEditEvent.set(newTimelineEvent);
+			timelineEditEventId.set(newTimelineEvent.eventId);
 		}
 	};
 
@@ -108,26 +109,25 @@
 	$: {
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid
-		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($uiState.activePerson));
+		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($activePerson));
 	}
 
 	// ensure birth and death dates are updated
 	$: {
-		birthEvent.eventDate = $uiState.activePerson.birth.date;
+		birthEvent.eventDate = $activePerson.birth.date;
 		birthEvent.eventContent.description = 'Born';
 		// ensure death event is kept updated
-		deathEvent.eventType = $uiState.activePerson.death.date
+		deathEvent.eventType = $activePerson.death.date
 			? timelineEventTypes.death.type
 			: timelineEventTypes.today.type;
-		deathEvent.eventDate = $uiState.activePerson.death.date
-			? $uiState.activePerson.death.date
+		deathEvent.eventDate = $activePerson.death.date
+			? $activePerson.death.date
 			: new Date().toLocaleDateString();
-		deathEvent.eventContent.description =
-			$uiState.activePerson.death.date !== '' ? 'Deceased' : 'Today';
+		deathEvent.eventContent.description = $activePerson.death.date !== '' ? 'Deceased' : 'Today';
 
 		// generate a gradient of colors across all timeline events
 		timelineEventColors = generateGradient(
-			$uiState?.activePerson?.timelineEvents?.length + 2 /* account for birth and death */,
+			$activePerson?.timelineEvents?.length + 2 /* account for birth and death */,
 			stylingConstants.colors.timelineEventBackgroundColorGradient1,
 			stylingConstants.colors.timelineEventBackgroundColorGradient2,
 			stylingConstants.colors.timelineEventBackgroundColorGradient3

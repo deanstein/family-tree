@@ -1,12 +1,14 @@
-import familyTreeData from './stores/family-tree-data';
-import uiState from './stores/ui-state';
+import { get } from 'svelte/store';
 
+import familyTreeData from './stores/family-tree-data';
 import {
-	getActiveFamilyTreeDataName,
-	getRepoFamilyTreeAndSetActive,
-	getActivePerson,
-	setRepoState
-} from '$lib/ui-management';
+	activeFamilyTreeDataId,
+	activeFamilyTreeFileOrFolderName,
+	activePerson,
+	saveToRepoStatus
+} from './states/ui-state';
+
+import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
 
 import { repoStateStrings } from '$lib/components/strings';
 
@@ -40,15 +42,13 @@ export async function getGitHubToken() {
 }
 
 export const getBioPhotoPathNoExt = () => {
-	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
-		// @ts-expect-error
-		getActivePerson().id
+	return `${get(activeFamilyTreeFileOrFolderName)}/${pathPrefixPersonId}-${
+		get(activePerson)?.id
 	}/${bioPhotoFileName}`;
 };
 export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
-	return `${getActiveFamilyTreeDataName()}/${pathPrefixPersonId}-${
-		// @ts-expect-error
-		getActivePerson().id
+	return `${get(activeFamilyTreeFileOrFolderName)}/${pathPrefixPersonId}-${
+		get(activePerson).id
 	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
 };
 
@@ -161,13 +161,9 @@ export const getFamilyTreeDataFileName = async (repoOwner, repoName, familyTreeD
 
 export const writeCurrentFamilyTreeDataToRepo = async () => {
 	// Get the file name to write to given the family tree ID in UI state
-	let familyTreeId;
+	const familyTreeId = get(activeFamilyTreeDataId);
 	let familyTreeDataFileName;
 	let currentFamilyTreeData;
-
-	uiState.subscribe((currentValue) => {
-		familyTreeId = currentValue.activeFamilyTreeDataId;
-	});
 
 	familyTreeData.subscribe((currentValue) => {
 		currentFamilyTreeData = currentValue;
@@ -175,7 +171,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	familyTreeDataFileName = await getFamilyTreeDataFileName(repoOwner, dataRepoName, familyTreeId);
 
-	setRepoState(repoStateStrings.saving);
+	saveToRepoStatus.set(repoStateStrings.saving);
 
 	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
 	const tokenResponse = await fetch(gitHubAppWorkerUrl);
@@ -183,7 +179,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	if (!token) {
 		console.error('Failed to retrieve GitHub App token.');
-		setRepoState(repoStateStrings.saveFailed);
+		saveToRepoStatus.set(repoStateStrings.saveFailed);
 		return;
 	}
 
@@ -197,7 +193,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	if (!response.ok) {
 		console.error('Repository not found: ' + dataRepoName);
-		setRepoState(repoStateStrings.saveFailed);
+		saveToRepoStatus.set(repoStateStrings.saveFailed);
 		return;
 	}
 
@@ -239,38 +235,16 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 	);
 
 	if (updateResponse.ok) {
-		setRepoState(repoStateStrings.saveSuccessful);
+		saveToRepoStatus.set(repoStateStrings.saveSuccessful);
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 
 		// Ensure the latest version of the file is used for the next update
 		getRepoFamilyTreeAndSetActive(familyTreeId, false);
 	} else {
-		setRepoState(repoStateStrings.saveFailed);
+		saveToRepoStatus.set(repoStateStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
 };
-
-// export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
-// 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-// 	try {
-// 		const response = await fetch(url, {
-// 			headers: {
-// 				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-// 			}
-// 		});
-
-// 		if (response.ok) {
-// 			const data = await response.json();
-// 			const fileContent = atob(data.content); // Decode file content from Base64
-// 			return fileContent;
-// 		} else {
-// 			console.log('Bad response: ' + response);
-// 		}
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// };
 
 // for binary large objects (blobs)
 export const readBlobFromRepo = async (repoOwner, repoName, gitHubUrl) => {

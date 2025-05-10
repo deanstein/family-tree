@@ -1,14 +1,23 @@
 <script>
-	import { css } from '@emotion/css';
 	import { afterUpdate, onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
+	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import uiState from '$lib/stores/ui-state';
-	import tempState from '$lib/stores/temp-state';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
+	import {
+		isNodeEditActive,
+		isTreeEditActive,
+		nodeEditGroupId,
+		nodeEditId,
+		timelineEditEventId
+	} from '$lib/states/temp-state';
+	import {
+		activePerson,
+		doShowPersonDetailView,
+		personNodeConnectionLineCanvasRefHover
+	} from '$lib/states/ui-state';
 
 	import {
 		getPersonById,
@@ -22,20 +31,16 @@
 	} from '$lib/person-management';
 	import {
 		addOrUpdatePersonInActivePersonGroup,
-		addOrUpdatePersonNodePosition as addOrUpdatePersonNodePosition,
+		addOrUpdatePersonNodePosition,
 		clearCanvas,
 		getDivCentroid,
-		hidePersonDetailView,
 		removePersonFromActivePersonGroup,
-		removePersonNodePosition,
-		showPersonDetailView
+		removePersonNodePosition
 	} from '$lib/ui-management';
 	import {
 		addAssociatedPersonToTimelineEvent,
 		checkPersonForUnsavedChanges,
-		hidePersonNodeActionsModal,
-		setTimelineEditEvent,
-		setTimelineEditEventId
+		hidePersonNodeActionsModal
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
 
@@ -45,7 +50,6 @@
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import NodeActionsButton from '$lib/components/NodeView/PersonNode/NodeActionsButton.svelte';
 
-	addOrUpdatePersonNodePosition;
 	const [send, receive] = drawCrossfade();
 
 	export let personId;
@@ -74,7 +78,7 @@
 	const onMouseEnter = () => {
 		// on hover, draw a thicker connection line
 		drawNodeConnectionLine(
-			$uiState.personNodeConnectionLineCanvasHover.getContext('2d'),
+			$personNodeConnectionLineCanvasRefHover.getContext('2d'),
 			getDivCentroid(nodeDivRef),
 			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
 			stylingConstants.colors.hoverColorSubtleDark
@@ -83,7 +87,7 @@
 
 	const onMouseLeave = () => {
 		// on blur, clear the hover canvas entirely
-		clearCanvas($uiState.personNodeConnectionLineCanvasHover);
+		clearCanvas($personNodeConnectionLineCanvasRefHover);
 	};
 
 	//
@@ -95,12 +99,12 @@
 	// if already the active person, shows the timeline for that person
 	const showActivePersonOrTimeline = () => {
 		// don't do anything on click if the node is in edit mode
-		if ($tempState.nodeActionsModalPersonId === personId) {
+		if ($nodeEditId === personId) {
 			return;
 		}
 		// clicking on the active person will pull up the detailed view
-		if (personId === $uiState.activePerson.id) {
-			showPersonDetailView();
+		if (personId === $activePerson.id) {
+			doShowPersonDetailView.set(true);
 		} else {
 			// clicking on anyone else makes them the active person
 			setActivePerson(getPersonById(personId));
@@ -111,9 +115,9 @@
 	// adds a relationship to the person being viewed in the person detail modal
 	const addRelationshipToPerson = () => {
 		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
-		addOrUpdateActivePersonInNewPersonGroup(personId, $tempState.nodeEditGroupId);
-		removePersonFromActivePersonGroup($tempState.nodeActionsModalPersonId, relationshipId);
-		removePersonFromPeopleArray(getPersonById($tempState.nodeActionsModalPersonId));
+		addOrUpdateActivePersonInNewPersonGroup(personId, get(nodeEditGroupId));
+		removePersonFromActivePersonGroup(get(nodeEditId), relationshipId);
+		removePersonFromPeopleArray(getPersonById(get(nodeEditId)));
 		hidePersonNodeActionsModal();
 		checkPersonForUnsavedChanges(personId);
 	};
@@ -124,18 +128,18 @@
 		// add the event reference to the other person
 		upgradePersonById(personId);
 		const eventReference = instantiateObject(timelineEventReference);
-		eventReference.personId = get(uiState).activePerson.id;
-		eventReference.eventId = get(tempState).timelineEditEventId;
+		eventReference.personId = get(activePerson).id;
+		eventReference.eventId = get(timelineEditEventId);
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
 		checkPersonForUnsavedChanges(personId);
-		isPersonNodeEditActive.set(false);
+		isNodeEditActive.set(false);
 	};
 
 	const makeAssociatedPersonActive = () => {
-		setTimelineEditEvent(undefined);
-		setTimelineEditEventId(undefined);
-		hidePersonDetailView();
+		timelineEditEventId.set(undefined);
+		timelineEditEventId.set(undefined);
+		doShowPersonDetailView.set(false);
 		setActivePerson(getPersonById(personId));
 	};
 
@@ -232,7 +236,7 @@
 		}
 
 		// is this node the active person?
-		if (personId === $uiState.activePerson.id) {
+		if (personId === $activePerson?.id) {
 			isActivePerson = true;
 		} else {
 			isActivePerson = false;
@@ -246,11 +250,11 @@
 	$: {
 		personNodeCss = css`
 			${personNodeCss}
-			z-index: ${$tempState.nodeActionsModalPersonId === personId
+			z-index: ${$nodeEditId === personId
 				? `${stylingConstants.zIndices.personNodeEditZIndex}`
 				: 'auto'};
 			background-color: ${isActivePerson ? stylingConstants.colors.activePersonNodeColor : color};
-			border: ${$tempState.nodeActionsModalPersonId === personId
+			border: ${$nodeEditId === personId
 				? `2px solid ${stylingConstants.colors.hoverColor}`
 				: '2px solid transparent'};
 		`;
@@ -273,8 +277,8 @@
 		<!-- show node actions button if edit mode is on -->
 		<!-- and if an action button function is provided -->
 		<!-- and if this is not the active person -->
-		{#if $tempState.buildMode}
-			{#if onClickActionButton && personId !== $uiState.activePerson.id}
+		{#if $isTreeEditActive}
+			{#if onClickActionButton && personId !== $activePerson.id}
 				<NodeActionsButton
 					onClickFunction={onClickActionButton}
 					faIcon={actionButtonFaIcon}
@@ -290,10 +294,10 @@
 			<BioPhoto {personId} allowEdit={false} />
 			<div class="person-node-name-label-container {nameLabelContainerCss}">
 				<div class="person-node-name-label {nameLabelCss}">
-					{isActivePerson ? name.toUpperCase() : name}
+					{isActivePerson ? name?.toUpperCase() : name}
 				</div>
 			</div>
-			{#if personId !== $uiState.activePerson.id && relationshipId && context === contexts.treeView}
+			{#if personId !== $activePerson?.id && relationshipId && context === contexts.treeView}
 				<div class="person-node-relationship-label-container {relationshipLabelContainerCss}">
 					<div class="person-node-relationship-label {relationshipLabelCss}">
 						{relationshipLabel}

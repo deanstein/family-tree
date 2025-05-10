@@ -8,20 +8,16 @@ import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
-import tempState from '$lib/stores/temp-state';
-import uiState from '$lib/stores/ui-state';
+import {
+	imageEditContent,
+	imageEditId,
+	timelineEditEvent,
+	uploadedMediaUrl
+} from './states/temp-state';
 import familyTreeData from '$lib/stores/family-tree-data';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
-import {
-	checkActivePersonForUnsavedChanges,
-	getActiveTimelineEditEvent,
-	setImageEditContent,
-	setTimelineEditEvent,
-	unsetImageEditContent,
-	unsetImageEditId,
-	unsetMediaUploadedUrl
-} from '$lib/temp-management';
+import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	removePersonFromActivePersonGroup
@@ -34,6 +30,7 @@ import {
 	isUrlValid,
 	addOrReplaceObjectInArray
 } from '$lib/utils';
+import { activePerson } from './states/ui-state';
 
 // converts the store of all people
 // into an array of IDs
@@ -184,16 +181,6 @@ export const getPersonById = (id) => {
 	return person;
 };
 
-export const getCachedPersonById = (id) => {
-	let cachedPerson = undefined;
-
-	uiState.subscribe((currentValue) => {
-		cachedPerson = currentValue.cachedFamilyTreeData.allPeople.find((item) => item.id === id);
-	});
-
-	return cachedPerson;
-};
-
 // gets IDs of all related people to this person
 export const getPersonRelationshipIds = (person) => {
 	return Object.values(person.relationships)
@@ -240,12 +227,7 @@ export const setActivePerson = (person) => {
 		addPersonToPeopleArray(person);
 	}
 
-	uiState.update((currentValue) => {
-		return {
-			...currentValue,
-			activePerson: person
-		};
-	});
+	activePerson.set(person);
 	familyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
@@ -263,49 +245,24 @@ export const setPersonName = (sPersonId, sName) => {
 	});
 };
 
-export const setPersonBioPhotoUrl = (bioPhotoUrl) => {
-	uiState.update((currentValue) => {
-		currentValue.activePerson.bioPhotoUrl = bioPhotoUrl;
-		return currentValue;
-	});
-};
-
 export const setBioPhotoUrlFromTempState = () => {
-	let tempStateUrl;
-
-	// get the url from the temp state
-	tempState.subscribe((currentValue) => {
-		tempStateUrl = currentValue.uploadedMediaUrl;
-	});
+	const tempStateUrl = get(uploadedMediaUrl);
 
 	// if the url is valid, set it as the bio photo url for the active person
 	if (isUrlValid(tempStateUrl)) {
-		setPersonBioPhotoUrl(tempStateUrl);
+		activePerson.update((currentValue) => ({
+			...currentValue,
+			bioPhotoUrl: tempStateUrl
+		}));
 	}
 
 	// clear the temp state
-	unsetMediaUploadedUrl();
-};
-
-export const unsetPersonBioPhotoUrl = () => {
-	uiState.update((currentValue) => {
-		currentValue.activePerson.bioPhotoUrl = undefined;
-		return currentValue;
-	});
+	uploadedMediaUrl.set(undefined);
 };
 
 export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRelationshipId) => {
 	removePersonFromActivePersonGroup(sPersonId, sExistingRelationshipId);
 	addOrUpdatePersonInActivePersonGroup(sPersonId, sNewRelationshipId);
-};
-
-export const setPersonRelationshipFromTemporaryState = (sPersonId, sExistingRelationshipId) => {
-	let temporaryRelationship;
-	uiState.subscribe((currentValue) => {
-		temporaryRelationship = currentValue.relationshipIdTemporaryValue;
-	});
-
-	setPersonRelationship(sPersonId, sExistingRelationshipId, temporaryRelationship);
 };
 
 export const getPersonIndexById = (personId) => {
@@ -352,10 +309,7 @@ export const addActivePersonToPeopleArray = () => {
 };
 
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
-	let activePersonId;
-	uiState.subscribe((currentValue) => {
-		activePersonId = currentValue.activePerson.id;
-	});
+	const activePersonId = get(activePerson).id;
 
 	familyTreeData.update((currentValue) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
@@ -483,194 +437,193 @@ export const getInverseGroupId = (groupId) => {
 
 export const getInverseRelationshipId = (groupId) => {
 	let inverseId = undefined;
-	uiState.subscribe((currentValue) => {
-		let activePersonGender = currentValue.activePerson.gender;
-		switch (groupId) {
-			case relationshipMap.grandparentsMaternal.id:
-			case relationshipMap.grandparentsPaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.grandchildren.grandson.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.grandchildren.granddaughter.id;
-				} else {
-					inverseId = relationshipMap.grandchildren.grandchild.id;
-				}
-				break;
-			case relationshipMap.greatAunclesMaternal.id:
-			case relationshipMap.greatAunclesPaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.grandniblings.grandnephew.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.grandniblings.grandniece.id;
-				} else {
-					inverseId = relationshipMap.grandniblings.grandnibling.id;
-				}
-				break;
-			case relationshipMap.parents.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.children.son.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.children.daughter.id;
-				} else {
-					inverseId = relationshipMap.children.child.id;
-				}
-				break;
-			case relationshipMap.parentsInLaw.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.childrenInLaw.sonInLaw.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.childrenInLaw.daughterInLaw.id;
-				} else {
-					inverseId = relationshipMap.childrenInLaw.childInLaw.id;
-				}
-				break;
-			case relationshipMap.stepparentsMaternal.id:
-			case relationshipMap.stepparentsPaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.stepchildren.stepson.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.stepchildren.stepdaughter.id;
-				} else {
-					inverseId = relationshipMap.stepchildren.stepchild.id;
-				}
-				break;
-			case relationshipMap.aunclesMaternal.id:
-			case relationshipMap.aunclesPaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.niblings.nephew.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.niblings.niece.id;
-				} else {
-					inverseId = relationshipMap.niblings.nibling.id;
-				}
-				break;
-			case relationshipMap.secondCousinsAbove.id:
-				inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow.id;
-				break;
-			case relationshipMap.cousins.id:
-				inverseId = relationshipMap.cousins.cousin.id;
-				break;
-			case relationshipMap.siblings.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.siblings.brother.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.siblings.sister.id;
-				} else {
-					inverseId = relationshipMap.siblings.sibling.id;
-				}
-				break;
-			case relationshipMap.halfSiblingsMaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.halfSiblingsMaternal.halfBrotherMaternal.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.halfSiblingsMaternal.halfSisterMaternal.id;
-				} else {
-					inverseId = relationshipMap.halfSiblingsMaternal.halfSiblingMaternal.id;
-				}
-				break;
-			case relationshipMap.halfSiblingsPaternal.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.halfSiblingsPaternal.halfBrotherPaternal.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.halfSiblingsPaternal.halfSisterPaternal.id;
-				} else {
-					inverseId = relationshipMap.halfSiblingsPaternal.halfSiblingPaternal.id;
-				}
-				break;
-			case relationshipMap.stepsiblings.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.stepsiblings.stepbrother.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.stepsiblings.stepsister.id;
-				} else {
-					inverseId = relationshipMap.stepsiblings.stepsibling.id;
-				}
-				break;
-			case relationshipMap.siblingsInLaw.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.siblingsInLaw.brotherInLaw.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.siblingsInLaw.sisterInLaw.id;
-				} else {
-					inverseId = relationshipMap.siblingsInLaw.siblingInLaw.id;
-				}
-				break;
-			case relationshipMap.spouses.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.spouses.husband.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.spouses.wife.id;
-				} else {
-					inverseId = relationshipMap.spouses.partner.id;
-				}
-				break;
-			case relationshipMap.spouseSiblingsInLaw.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.spouseSiblingsInLaw.spouseBrotherInLaw.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.spouseSiblingsInLaw.spouseSisterInLaw.id;
-				} else {
-					inverseId = relationshipMap.spouseSiblingsInLaw.spouseSiblingInLaw.id;
-				}
-				break;
-			case relationshipMap.exSpouses.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.exSpouses.exHusband.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.exSpouses.exWife.id;
-				} else {
-					inverseId = relationshipMap.exSpouses.exPartner.id;
-				}
-				break;
-			case relationshipMap.children.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.parents.father.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.parents.mother.id;
-				} else {
-					inverseId = relationshipMap.parents.parent.id;
-				}
-				break;
-			case relationshipMap.stepchildren.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.stepparentsPaternal.stepfatherPaternal.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.stepparentsPaternal.stepmotherPaternal.id;
-				} else {
-					inverseId = relationshipMap.stepparentsPaternal.stepparentPaternal.id;
-				}
-				break;
-			case relationshipMap.childrenInLaw.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.parentsInLaw.fatherInLaw.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.parentsInLaw.motherInLaw.id;
-				} else {
-					inverseId = relationshipMap.parentsInLaw.parentInLaw.id;
-				}
-				break;
-			case relationshipMap.niblings.id:
-				if (activePersonGender === 'male') {
-					inverseId = relationshipMap.aunclesMaternal.uncleMaternal.id;
-				} else if (activePersonGender === 'female') {
-					inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
-				} else {
-					inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
-				}
-				break;
-			case relationshipMap.grandchildren.id:
-				inverseId = relationshipMap.grandparentsMaternal.grandparentMaternal.id;
-				break;
-			case relationshipMap.grandniblings.id:
-				inverseId = relationshipMap.greatAunclesMaternal.greatAuncleMaternal.id;
-				break;
-			case relationshipMap.secondCousinsBelow.id:
-				inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow;
-				break;
-			default:
-				return undefined;
-		}
-	});
+	const activePersonGender = get(activePerson).gender;
+
+	switch (groupId) {
+		case relationshipMap.grandparentsMaternal.id:
+		case relationshipMap.grandparentsPaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.grandchildren.grandson.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.grandchildren.granddaughter.id;
+			} else {
+				inverseId = relationshipMap.grandchildren.grandchild.id;
+			}
+			break;
+		case relationshipMap.greatAunclesMaternal.id:
+		case relationshipMap.greatAunclesPaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.grandniblings.grandnephew.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.grandniblings.grandniece.id;
+			} else {
+				inverseId = relationshipMap.grandniblings.grandnibling.id;
+			}
+			break;
+		case relationshipMap.parents.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.children.son.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.children.daughter.id;
+			} else {
+				inverseId = relationshipMap.children.child.id;
+			}
+			break;
+		case relationshipMap.parentsInLaw.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.childrenInLaw.sonInLaw.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.childrenInLaw.daughterInLaw.id;
+			} else {
+				inverseId = relationshipMap.childrenInLaw.childInLaw.id;
+			}
+			break;
+		case relationshipMap.stepparentsMaternal.id:
+		case relationshipMap.stepparentsPaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.stepchildren.stepson.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.stepchildren.stepdaughter.id;
+			} else {
+				inverseId = relationshipMap.stepchildren.stepchild.id;
+			}
+			break;
+		case relationshipMap.aunclesMaternal.id:
+		case relationshipMap.aunclesPaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.niblings.nephew.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.niblings.niece.id;
+			} else {
+				inverseId = relationshipMap.niblings.nibling.id;
+			}
+			break;
+		case relationshipMap.secondCousinsAbove.id:
+			inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow.id;
+			break;
+		case relationshipMap.cousins.id:
+			inverseId = relationshipMap.cousins.cousin.id;
+			break;
+		case relationshipMap.siblings.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.siblings.brother.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.siblings.sister.id;
+			} else {
+				inverseId = relationshipMap.siblings.sibling.id;
+			}
+			break;
+		case relationshipMap.halfSiblingsMaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.halfSiblingsMaternal.halfBrotherMaternal.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.halfSiblingsMaternal.halfSisterMaternal.id;
+			} else {
+				inverseId = relationshipMap.halfSiblingsMaternal.halfSiblingMaternal.id;
+			}
+			break;
+		case relationshipMap.halfSiblingsPaternal.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.halfSiblingsPaternal.halfBrotherPaternal.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.halfSiblingsPaternal.halfSisterPaternal.id;
+			} else {
+				inverseId = relationshipMap.halfSiblingsPaternal.halfSiblingPaternal.id;
+			}
+			break;
+		case relationshipMap.stepsiblings.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.stepsiblings.stepbrother.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.stepsiblings.stepsister.id;
+			} else {
+				inverseId = relationshipMap.stepsiblings.stepsibling.id;
+			}
+			break;
+		case relationshipMap.siblingsInLaw.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.siblingsInLaw.brotherInLaw.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.siblingsInLaw.sisterInLaw.id;
+			} else {
+				inverseId = relationshipMap.siblingsInLaw.siblingInLaw.id;
+			}
+			break;
+		case relationshipMap.spouses.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.spouses.husband.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.spouses.wife.id;
+			} else {
+				inverseId = relationshipMap.spouses.partner.id;
+			}
+			break;
+		case relationshipMap.spouseSiblingsInLaw.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.spouseSiblingsInLaw.spouseBrotherInLaw.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.spouseSiblingsInLaw.spouseSisterInLaw.id;
+			} else {
+				inverseId = relationshipMap.spouseSiblingsInLaw.spouseSiblingInLaw.id;
+			}
+			break;
+		case relationshipMap.exSpouses.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.exSpouses.exHusband.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.exSpouses.exWife.id;
+			} else {
+				inverseId = relationshipMap.exSpouses.exPartner.id;
+			}
+			break;
+		case relationshipMap.children.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.parents.father.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.parents.mother.id;
+			} else {
+				inverseId = relationshipMap.parents.parent.id;
+			}
+			break;
+		case relationshipMap.stepchildren.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.stepparentsPaternal.stepfatherPaternal.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.stepparentsPaternal.stepmotherPaternal.id;
+			} else {
+				inverseId = relationshipMap.stepparentsPaternal.stepparentPaternal.id;
+			}
+			break;
+		case relationshipMap.childrenInLaw.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.parentsInLaw.fatherInLaw.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.parentsInLaw.motherInLaw.id;
+			} else {
+				inverseId = relationshipMap.parentsInLaw.parentInLaw.id;
+			}
+			break;
+		case relationshipMap.niblings.id:
+			if (activePersonGender === 'male') {
+				inverseId = relationshipMap.aunclesMaternal.uncleMaternal.id;
+			} else if (activePersonGender === 'female') {
+				inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
+			} else {
+				inverseId = relationshipMap.aunclesMaternal.auntMaternal.id;
+			}
+			break;
+		case relationshipMap.grandchildren.id:
+			inverseId = relationshipMap.grandparentsMaternal.grandparentMaternal.id;
+			break;
+		case relationshipMap.grandniblings.id:
+			inverseId = relationshipMap.greatAunclesMaternal.greatAuncleMaternal.id;
+			break;
+		case relationshipMap.secondCousinsBelow.id:
+			inverseId = relationshipMap.secondCousinsBelow.secondCousinBelow;
+			break;
+		default:
+			return undefined;
+	}
 
 	if (!inverseId) {
 		console.warn('Failed to find an inverse relationship id for group: ' + groupId);
@@ -718,9 +671,9 @@ export const getTimelineEventById = (personId, eventId) => {
 	// get the person by id
 	let person;
 	// if it's the active person, use that instead of searching
-	const activePersonId = get(uiState).activePerson.id;
+	const activePersonId = get(activePerson).id;
 	if (personId === activePersonId) {
-		person = get(uiState).activePerson;
+		person = get(activePerson);
 	} else {
 		person = getPersonById(personId);
 	}
@@ -734,49 +687,34 @@ export const getTimelineEventById = (personId, eventId) => {
 };
 
 export const addOrReplaceTimelineEvent = (event) => {
-	if (!event) {
-		return;
-	}
-	uiState.update((currentValue) => {
-		if (
-			getObjectByKeyValueInArray(currentValue.activePerson.timelineEvents, 'eventId', event.eventId)
-		) {
-			addOrReplaceObjectInArray(
-				currentValue.activePerson.timelineEvents,
-				'eventId',
-				event.eventId,
-				event
-			);
-		} else {
-			currentValue.activePerson.timelineEvents.push(event);
-		}
-		return currentValue;
-	});
+	if (!event) return;
+
+	activePerson.update((currentValue) => ({
+		...currentValue,
+		timelineEvents: getObjectByKeyValueInArray(
+			currentValue.timelineEvents,
+			'eventId',
+			event.eventId
+		)
+			? addOrReplaceObjectInArray(currentValue.timelineEvents, 'eventId', event.eventId, event)
+			: [...currentValue.timelineEvents, event]
+	}));
 };
 
 export const deleteTimelineEvent = (timelineEvent) => {
-	if (!timelineEvent) {
-		return;
-	}
-	uiState.update((currentValue) => {
-		// try to get the timeline event from the ui state
-		if (
-			getObjectByKeyValueInArray(
-				currentValue.activePerson.timelineEvents,
-				'eventId',
-				timelineEvent.eventId
-			)
-		) {
-			// first, delete any images from the repo referenced in this event
-			deleteAllTimelineEventImagesFromRepo(timelineEvent);
-			// then delete the entire event
-			deleteObjectInArray(
-				currentValue.activePerson.timelineEvents,
-				'eventId',
-				timelineEvent.eventId
-			);
-		}
-		return currentValue;
+	if (!timelineEvent) return;
+
+	activePerson.update((currentValue) => {
+		const updatedEvents = getObjectByKeyValueInArray(
+			currentValue.timelineEvents,
+			'eventId',
+			timelineEvent.eventId
+		)
+			? (deleteAllTimelineEventImagesFromRepo(timelineEvent),
+				deleteObjectInArray(currentValue.timelineEvents, 'eventId', timelineEvent.eventId))
+			: currentValue.timelineEvents;
+
+		return { ...currentValue, timelineEvents: updatedEvents };
 	});
 };
 
@@ -788,10 +726,10 @@ export const deleteAllTimelineEventImagesFromRepo = async (timelineEvent) => {
 };
 
 export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent) => {
-	const activePersonId = get(uiState).activePerson.id;
+	const activePersonId = get(activePerson).id;
 	const existingTimelineEvent = getTimelineEventById(activePersonId, timelineEventId);
 	// update either the existing event in this person, or the new event in the temp state
-	const timelineEventToUpdate = existingTimelineEvent ?? getActiveTimelineEditEvent();
+	const timelineEventToUpdate = existingTimelineEvent ?? get(timelineEditEvent);
 	// update the timeline event with the new image
 	addOrReplaceObjectInArray(
 		timelineEventToUpdate?.eventContent?.images,
@@ -802,10 +740,10 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	// update the timeline event in the ui state
 	addOrReplaceTimelineEvent(timelineEventToUpdate);
 	// update the temp state event so the modal shows the updated content
-	setTimelineEditEvent(timelineEventToUpdate);
-	setImageEditContent(newImageContent);
+	timelineEditEvent.set(timelineEventToUpdate);
+	imageEditContent.set(newImageContent);
 	// show the unsaved changes notification
-	checkActivePersonForUnsavedChanges();
+	checkPersonForUnsavedChanges(get(activePerson).id);
 };
 
 export const addTimelineEventReference = (targetPersonId, timelineEventReference) => {
@@ -835,55 +773,38 @@ export const removeTimelineEventReference = (targetPersonId, referenceEventId) =
 // timeline event media management
 export const setTimelineEventImageUrlFromTempState = () => {
 	// get these values from the temp state
-	let timelineEventFromTempState;
-	let timelineEventImageContentFromTempState;
-	let uploadedMediaUrl;
-	tempState.subscribe((currentValue) => {
-		timelineEventFromTempState = currentValue.timelineEditEvent;
-		timelineEventImageContentFromTempState = currentValue.imageEditContent;
-		uploadedMediaUrl = currentValue.uploadedMediaUrl;
-	});
+	const timelineEventImageContentFromTempState = get(imageEditContent);
+	const mediaUrlFromTempState = get(uploadedMediaUrl);
 
 	// make a copy of the active event image
 	const newImage = instantiateObject(timelineEventImageContentFromTempState);
-	newImage.url = uploadedMediaUrl;
+	newImage.url = mediaUrlFromTempState;
 
 	// if the url is valid, update the image in the active person
-	if (isUrlValid(uploadedMediaUrl)) {
-		//@ts-expect-error
+	if (isUrlValid(mediaUrlFromTempState)) {
 		addOrReplaceTimelineEventImage(timelineEventImageContentFromTempState.eventId, newImage);
 	}
 
 	// clear the temp state
-	unsetMediaUploadedUrl();
+	uploadedMediaUrl.set(undefined);
 };
 
 // delete references to repo images in the active person
 // typically used as "afterDelete" functions, after the actual image in the repo is deleted
 export const deleteBioPhotoReference = () => {
-	uiState.update((currentValue) => {
-		currentValue.activePerson.bioPhotoUrl = '';
-		return currentValue;
-	});
+	activePerson.update((currentValue) => ({ ...currentValue, bioPhotoUrl: '' }));
 };
+
 export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 	// make a copy of the timeline event to modify
-	let newTimelineEvent;
-	uiState.subscribe((currentValue) => {
-		newTimelineEvent = getTimelineEventById(currentValue.activePerson.id, timelineEventId);
-	});
+	const newTimelineEvent = getTimelineEventById(get(activePerson).id, timelineEventId);
 	// delete the image from the timeline event
-	deleteObjectInArray(
-		//@ts-expect-error
-		newTimelineEvent?.eventContent?.images,
-		'id',
-		imageId
-	);
+	deleteObjectInArray(newTimelineEvent?.eventContent?.images, 'id', imageId);
 	// update the temp state event so the modal shows the updated content
-	setTimelineEditEvent(newTimelineEvent);
+	timelineEditEvent.set(newTimelineEvent);
 	// remove the id and content of the edited image in the temp state
-	unsetImageEditId();
-	unsetImageEditContent();
+	imageEditId.set(undefined);
+	imageEditContent.set(undefined);
 	// show the unsaved changes notification
-	checkActivePersonForUnsavedChanges();
+	checkPersonForUnsavedChanges(get(activePerson).id);
 };

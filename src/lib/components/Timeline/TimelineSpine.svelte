@@ -1,7 +1,11 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '$lib/stores/ui-state';
+	import {
+		timelineCanvasScrollState,
+		timelineFirstEventHeight,
+		timelineLastEventHeight
+	} from '$lib/states/ui-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -27,12 +31,8 @@
 	$: {
 		lineCss = css`
 			${lineCss}
-			margin-top: ${$uiState.timelineCanvasScrollState.top
-				? $uiState.timelineFirstEventHeight / 2 + 'px'
-				: 0};
-			margin-bottom: ${$uiState.timelineCanvasScrollState.bottom
-				? $uiState.timelineLastEventHeight / 2 + 'px'
-				: 0};
+			margin-top: ${$timelineCanvasScrollState.top ? $timelineFirstEventHeight / 2 + 'px' : 0};
+			margin-bottom: ${$timelineCanvasScrollState.bottom ? $timelineLastEventHeight / 2 + 'px' : 0};
 		`;
 	}
 </script>

@@ -1,10 +1,15 @@
 <script>
 	import { css } from '@emotion/css';
+	import { get } from 'svelte/store';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
-	import { isPersonNodeEditActive } from '$lib/states/temp-state';
-	import tempState from '$lib/stores/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import {
+		isNodeEditActive,
+		nodeEditCompatibleGroups,
+		nodeEditId,
+		nodeEditRelationshipId
+	} from '$lib/states/temp-state';
+	import { activePerson } from '$lib/states/ui-state';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';
@@ -15,7 +20,7 @@
 
 	export let nameInputValue;
 	export let relationshipInputValue = undefined;
-	export let compatibleGroups = $tempState.nodeEditCompatibleGroups;
+	export let compatibleGroups = get(nodeEditCompatibleGroups);
 	export let nodeSize = stylingConstants.sizes.personNodeSize;
 	export let context;
 	// in certain contexts, the PersonNodeForEdit can be hidden
@@ -48,7 +53,7 @@
 		{#if showHideButton}
 			<NodeActionsButton
 				onClickFunction={() => {
-					isPersonNodeEditActive.set(false);
+					isNodeEditActive.set(false);
 				}}
 				faIcon={'fa-x'}
 				faIconFontSize={'0.5rem'}
@@ -57,7 +62,7 @@
 				tooltip={'Cancel'}
 			/>
 		{/if}
-		<BioPhoto personId={$tempState.nodeActionsModalPersonId} allowEdit={false} />
+		<BioPhoto personId={$nodeEditId} allowEdit={false} />
 		<div class="person-node-inputs-container">
 			<TextInput
 				bind:inputValue={nameInputValue}
@@ -65,7 +70,7 @@
 				textAlignOverride="center"
 				{useFunction}
 			/>
-			{#if $tempState.nodeActionsModalPersonId !== $uiState.activePerson.id && relationshipInputValue}
+			{#if $nodeEditId !== $activePerson.id && relationshipInputValue}
 				<div class="select-container">
 					<Select
 						optionValueKey="id"
@@ -80,7 +85,7 @@
 		</div>
 	</div>
 	<PersonNodeScrollingWindow
-		relationshipId={$tempState.nodeEditRelationshipId}
+		relationshipId={$nodeEditRelationshipId}
 		{context}
 		filterInputValue={nameInputValue}
 	/>

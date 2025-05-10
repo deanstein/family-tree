@@ -18,7 +18,7 @@
 
 	const handleSelectChange = async (event) => {
 		const selectedValue = event.target.value;
-		await getRepoFamilyTreeAndSetActive(selectedValue, '8890');
+		await getRepoFamilyTreeAndSetActive(selectedValue);
 	};
 </script>
 

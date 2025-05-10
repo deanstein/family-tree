@@ -1,9 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '$lib/stores/ui-state';
-
-	import { hidePersonDetailView } from '$lib/ui-management';
+	import { doShowPersonDetailView } from '$lib/states/ui-state';
 
 	import Bio from '$lib/components/Bio/Bio.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
@@ -11,7 +9,7 @@
 	import stylingConstants from '$lib/components/styling-constants';
 
 	const onClickCloseButton = () => {
-		hidePersonDetailView();
+		doShowPersonDetailView.set(false);
 	};
 
 	const personDetailModalBioContainerCss = css`
@@ -40,7 +38,7 @@
 </script>
 
 <Modal
-	showModal={$uiState.showPersonDetailView}
+	showModal={$doShowPersonDetailView}
 	showCloseButton={true}
 	{onClickCloseButton}
 	title={'Person Details'}
