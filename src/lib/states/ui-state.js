@@ -25,8 +25,8 @@ export let doShowChooseTreeModal = writable(false);
 export let doShowPersonDetailView = writable(false);
 
 /*** DEV TOOLS ***/
-export let doShowDevTools = writable(true);
-export let doShowStoreView = writable(true);
+export let doShowDevTools = writable(false);
+export let doShowStoreView = writable(false);
 
 // create a combined store to display in footer dev tools
 const uiStateMap = {
