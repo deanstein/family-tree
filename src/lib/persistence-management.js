@@ -250,28 +250,6 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 	}
 };
 
-// export const readFileFromRepo = async (repoOwner, repoName, password, filePath) => {
-// 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-// 	try {
-// 		const response = await fetch(url, {
-// 			headers: {
-// 				Authorization: `Bearer ${decrypt(encryptedPAT, password)}`
-// 			}
-// 		});
-
-// 		if (response.ok) {
-// 			const data = await response.json();
-// 			const fileContent = atob(data.content); // Decode file content from Base64
-// 			return fileContent;
-// 		} else {
-// 			console.log('Bad response: ' + response);
-// 		}
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// };
-
 // for binary large objects (blobs)
 export const readBlobFromRepo = async (repoOwner, repoName, gitHubUrl) => {
 	let sha;
