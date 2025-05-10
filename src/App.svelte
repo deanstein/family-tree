@@ -18,6 +18,7 @@
 	import {
 		bioEditAltName,
 		imageEditId,
+		isTreeEditActive,
 		mediaGalleryId,
 		nodeEditId,
 		nodeEditRelationshipId,
@@ -71,15 +72,17 @@
 
 	let shutdown = false;
 
-	// if there's no known people in this tree,
-	// add a default person for the new tree
+	// if there's no known people in this tree, it's a new tree
+	// so add a default person and enable editing mode
 	if ($familyTreeData.allPeople.length === 0) {
 		familyTreeData.update((currentValue) => {
 			currentValue.allPeople.push(instantiateObject(person));
 			return currentValue;
 		});
+		// showing tree edit active makes the background more interesting
+		isTreeEditActive.set(true);
 	}
-	
+
 	// set the initial active person as the first in the list
 	setActivePerson($familyTreeData.allPeople[0]);
 
