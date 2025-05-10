@@ -6,7 +6,11 @@
 	import contexts from '$lib/schemas/contexts';
 
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import {
+		activePerson,
+		cachedPersonForUnsavedChanges,
+		doShowPersonDetailView
+	} from '$lib/states/ui-state';
 
 	import {
 		getPersonById,
@@ -15,13 +19,8 @@
 		removePersonFromPeopleArray,
 		setActivePerson
 	} from '$lib/person-management';
-	import { removePersonFromActivePersonGroup, showPersonDetailView } from '$lib/ui-management.js';
-	import {
-		checkPersonForUnsavedChanges,
-		hidePersonNodeActionsModal,
-		setCachedPerson,
-		unsetCachedPerson
-	} from '$lib/temp-management';
+	import { removePersonFromActivePersonGroup } from '$lib/ui-management.js';
+	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -74,16 +73,16 @@
 		saveAllInputs();
 		hidePersonNodeActionsModal();
 		setActivePerson(getPersonById(personId));
-		showPersonDetailView();
+		doShowPersonDetailView.set(true);
 	};
 
 	onMount(() => {
 		captureAllOriginalInputValues();
-		setCachedPerson(getPersonById(personId));
+		cachedPersonForUnsavedChanges.set(getPersonById(personId));
 	});
 
 	onDestroy(() => {
-		unsetCachedPerson();
+		cachedPersonForUnsavedChanges.set(undefined);
 	});
 
 	$: {
@@ -98,7 +97,7 @@
 <Modal
 	showModal={$nodeEditId === personId}
 	title={isNewPerson ? 'Add Relationship ' : 'Edit Relationship '}
-	subtitle={'to ' + $uiState.activePerson.name}
+	subtitle={'to ' + $activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}
 >

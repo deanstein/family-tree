@@ -5,22 +5,22 @@
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import uiState from '$lib/stores/ui-state';
+	import { timelineEditEvent } from '$lib/states/temp-state';
 
 	import { getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
 	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
-	import {
-		hidePersonDetailView,
-		setFirstTimelineEventHeight,
-		setLastTimelineEventHeight
-	} from '$lib/ui-management';
 
 	import { monthNames } from '$lib/components/strings';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { timelineEditEvent } from '$lib/states/temp-state';
+	import {
+		activePerson,
+		doShowPersonDetailView,
+		timelineFirstEventHeight,
+		timelineLastEventHeight
+	} from '$lib/states/ui-state';
 
 	export let timelineEvent;
 	// if this is set, this event is a reference to someone else's event
@@ -45,7 +45,7 @@
 	// this is what happens when the link is clicked
 	// to an eventReference personId
 	const makeEventReferencePersonActive = () => {
-		hidePersonDetailView();
+		doShowPersonDetailView.set(false);
 		setActivePerson(getPersonById(eventReference.personId));
 	};
 
@@ -113,11 +113,11 @@
 		// birth and death events report their row height for the spine to align to
 		if (upgradedEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
-			setFirstTimelineEventHeight(eventRowHeight);
+			timelineFirstEventHeight.set(eventRowHeight);
 		}
 		if (upgradedEvent.eventType === timelineEventTypes.death.type && eventRowDivRef) {
 			const eventRowHeight = eventRowDivRef.getBoundingClientRect().height;
-			setLastTimelineEventHeight(eventRowHeight);
+			timelineLastEventHeight.set(eventRowHeight);
 		}
 
 		// if onClick isn't provided, use this function
@@ -129,10 +129,7 @@
 		if (timelineEvent) {
 			eventDateCorrected = new Date(timelineEvent.eventDate);
 
-			eventAge = getNumberOfYearsBetweenEvents(
-				$uiState.activePerson.birth.date,
-				eventDateCorrected
-			);
+			eventAge = getNumberOfYearsBetweenEvents($activePerson.birth.date, eventDateCorrected);
 		}
 	}
 

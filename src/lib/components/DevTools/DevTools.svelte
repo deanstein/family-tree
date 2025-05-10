@@ -3,7 +3,13 @@
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
 	import { bioEditId } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import {
+		activePerson,
+		doShowChooseTreeModal,
+		doShowDevTools,
+		doShowStoreView,
+		saveToRepoStatus
+	} from '$lib/states/ui-state';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
@@ -13,42 +19,30 @@
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
 	import FamilyTreeDataSelector from '$lib/components/DevTools/FamilyTreeDataSelector.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
+	import { get } from 'svelte/store';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo();
 	};
 
-	const toggleStoreView = () => {
-		uiState.update((currentValue) => {
-			currentValue.showStoreView = !currentValue.showStoreView;
-			return currentValue;
-		});
-	};
-
 	const toggleChooseTreeModal = () => {
-		uiState.update((currentValue) => {
-			currentValue.showChooseTreeModal = !currentValue.showChooseTreeModal;
-			if (currentValue.showChooseTreeModal) {
-				scrollToTopAndCenter();
-				if (!currentValue.showDevTools) {
-					disableScrolling();
-				}
-			} else {
-				enableScrolling();
+		doShowChooseTreeModal.set(!get(doShowChooseTreeModal));
+		if (get(doShowChooseTreeModal)) {
+			scrollToTopAndCenter();
+			if (!get(doShowDevTools)) {
+				disableScrolling();
 			}
-			return currentValue;
-		});
+		} else {
+			enableScrolling();
+		}
 	};
 
 	const testSaveNotification = () => {
-		uiState.update((currentValue) => {
-			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
-			return currentValue;
-		});
+		saveToRepoStatus.set(repoStateStrings.unsavedChanges);
 	};
 
 	const setBioEditActive = () => {
-		bioEditId.set($uiState.activePerson.id);
+		bioEditId.set($activePerson.id);
 	};
 </script>
 
@@ -57,11 +51,11 @@
 	<DevToolsSubheader subheaderTitle="Interface Tools" />
 	<DevToolbar>
 		<button on:click={toggleChooseTreeModal}>
-			{!$uiState.showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
+			{!$doShowChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
 		<button
 			on:click={() => {
-				checkPersonForUnsavedChanges($uiState.activePerson.id);
+				checkPersonForUnsavedChanges($activePerson.id);
 			}}>Check For Unsaved Changes</button
 		>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
@@ -71,11 +65,15 @@
 	<DevToolbar>
 		<FamilyTreeDataSelector />
 		<button on:click={setDataButtonOnClickAction}> Send Data </button>
-		<button on:click={toggleStoreView}>
-			{!$uiState.showStoreView ? 'Show' : 'Hide'} Store View
+		<button
+			on:click={() => {
+				$doShowStoreView = !$doShowStoreView;
+			}}
+		>
+			{!$doShowStoreView ? 'Show' : 'Hide'} Store View
 		</button>
 	</DevToolbar>
-	{#if $uiState.showStoreView}
+	{#if $doShowStoreView}
 		<StoreView />
 	{/if}
 </div>

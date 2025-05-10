@@ -9,7 +9,7 @@
 		nodeEditId,
 		nodeEditRelationshipId
 	} from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import { activePerson } from '$lib/states/ui-state';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';
@@ -70,7 +70,7 @@
 				textAlignOverride="center"
 				{useFunction}
 			/>
-			{#if $nodeEditId !== $uiState.activePerson.id && relationshipInputValue}
+			{#if $nodeEditId !== $activePerson.id && relationshipInputValue}
 				<div class="select-container">
 					<Select
 						optionValueKey="id"

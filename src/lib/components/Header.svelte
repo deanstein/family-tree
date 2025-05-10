@@ -3,7 +3,7 @@
 	import { get } from 'svelte/store';
 
 	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import { saveToRepoStatus } from '$lib/states/ui-state';
 
 	import { repoStateStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -27,9 +27,7 @@
 
 	$: {
 		headerLeftFlankCss = css`
-			flex: ${$uiState.saveToRepoStatus === repoStateStrings.undefined || !$uiState.saveToRepoStatus
-				? 1
-				: 0};
+			flex: ${$saveToRepoStatus === repoStateStrings.undefined || !$saveToRepoStatus ? 1 : 0};
 		`;
 	}
 </script>

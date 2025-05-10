@@ -10,11 +10,15 @@ import {
 	nodeEditRelationshipId,
 	timelineEditEvent
 } from './states/temp-state';
+import {
+	activePerson,
+	cachedPersonForUnsavedChanges,
+	hasUnsavedChanges,
+	saveToRepoStatus
+} from './states/ui-state';
 import imageCache from './stores/image-cache';
-import uiState from './stores/ui-state';
 
 import { getPersonById, getPersonRelationshipIds } from './person-management';
-import { getActivePerson } from './ui-management';
 import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
 import { repoStateStrings } from '$lib/components/strings';
@@ -45,32 +49,14 @@ export const removeImageFromCache = (imageIdentifier) => {
 	});
 };
 
-// manage the unsaved changes state
-export const setCachedPerson = (person) => {
-	uiState.update((currentValue) => {
-		currentValue.cachedPersonForUnsavedChanges = JSON.parse(JSON.stringify(person));
-		return currentValue;
-	});
-};
-
-export const unsetCachedPerson = () => {
-	uiState.update((currentValue) => {
-		currentValue.cachedPersonForUnsavedChanges = undefined;
-		return currentValue;
-	});
-};
-
 // compares this person in the ui state to the cached person set by an editing modal
 export const checkPersonForUnsavedChanges = (personId) => {
-	let unsavedChanges = false;
+	let unsavedChangesDetected = false;
 
 	// get the person to test from the ui state
 	let personToTest = getPersonById(personId);
 	// get the person to compare from the cached list of all people
-	let personToCompare;
-	uiState.subscribe((currentValue) => {
-		personToCompare = currentValue.cachedPersonForUnsavedChanges;
-	});
+	const personToCompare = get(cachedPersonForUnsavedChanges);
 
 	if (!personToTest || !personToCompare) {
 		console.warn(
@@ -83,32 +69,20 @@ export const checkPersonForUnsavedChanges = (personId) => {
 	}
 
 	if (!areObjectsEqual(personToTest, personToCompare)) {
-		unsavedChanges = true;
+		unsavedChangesDetected = true;
 	}
-	uiState.update((currentValue) => {
-		if (unsavedChanges) {
-			currentValue.unsavedChanges = true;
-			currentValue.saveToRepoStatus = repoStateStrings.unsavedChanges;
-		}
-		return currentValue;
-	});
-};
 
-export const checkActivePersonForUnsavedChanges = () => {
-	//@ts-expect-error
-	checkPersonForUnsavedChanges(getActivePerson().id);
+	if (unsavedChangesDetected) {
+		hasUnsavedChanges.set(true);
+		saveToRepoStatus.set(repoStateStrings.unsavedChanges);
+	}
 };
 
 // gets all people displayed in the node view
 // (the active person and all their relationships)
 export const getAllVisibleNodeViewPeople = () => {
-	let activePersonRelationshipIds;
-	uiState.subscribe((currentValue) => {
-		// get all relationship IDs
-		activePersonRelationshipIds = getPersonRelationshipIds(currentValue.activePerson);
-		// add the active person as well
-		activePersonRelationshipIds.push(currentValue.activePerson.id);
-	});
+	let activePersonRelationshipIds = getPersonRelationshipIds(get(activePerson));
+	activePersonRelationshipIds.push(get(activePerson).id);
 	return activePersonRelationshipIds;
 };
 
@@ -138,11 +112,7 @@ export const hidePersonNodeActionsModal = () => {
 
 // alternate names
 export const setTempStateAltNamesFromUIState = () => {
-	let alternateNamesOriginalValue;
-	uiState.subscribe((currentValue) => {
-		alternateNamesOriginalValue = currentValue.activePerson.alternateNames;
-	});
-
+	const alternateNamesOriginalValue = get(activePerson).alternateNames;
 	bioEditAltNames.set(alternateNamesOriginalValue);
 };
 
@@ -158,9 +128,8 @@ export const removeAlternateNameFromTempState = (name /* name, not object */) =>
 
 export const writeTempAlternateNamesToUIState = () => {
 	const tempStateToWrite = get(bioEditAltNames);
-
-	uiState.update((currentValue) => {
-		currentValue.activePerson.alternateNames = tempStateToWrite;
+	activePerson.update((currentValue) => {
+		currentValue.alternateNames = tempStateToWrite;
 		return currentValue;
 	});
 };

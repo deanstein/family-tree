@@ -1,19 +1,18 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import { bioEditId } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import { activePerson, cachedPersonForUnsavedChanges } from '$lib/states/ui-state';
 
 	import { gender } from '$lib/schemas/gender';
 
 	import {
 		checkPersonForUnsavedChanges,
 		writeTempAlternateNamesToUIState,
-		setCachedPerson,
 		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
-	import { writeUIStateValueAtPath } from '$lib/ui-management';
 	import { getPersonById } from '$lib/person-management';
 	import { getNumberOfYearsBetweenEvents } from '$lib/utils';
 
@@ -32,23 +31,23 @@
 	import SideBySideContainer from '$lib/components/SideBySideContainer.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 
-	let personId = $uiState.activePerson.id;
+	let personId = get(activePerson).id;
 	let isBioEditActive = false;
 
 	let age = 0;
 
 	// set the value of each input from the active person
-	let nameInputValue = $uiState.activePerson.name;
-	let genderInputValue = $uiState.activePerson.gender;
-	let birthdateInputValue = $uiState.activePerson.birth.date;
-	let birthplaceInputValue = $uiState.activePerson.birth.place;
-	let birthtimeInputValue = $uiState.activePerson.birth.time;
-	let hometownInputValue = $uiState.activePerson.hometown;
-	let deceasedValue = $uiState.activePerson.deceased;
-	let deathDateInputValue = $uiState.activePerson.death.date;
-	let deathTimeInputValue = $uiState.activePerson.death.time;
-	let deathPlaceInputValue = $uiState.activePerson.death.place;
-	let deathCauseInputValue = $uiState.activePerson.death.cause;
+	let nameInputValue = get(activePerson).name;
+	let genderInputValue = get(activePerson).gender;
+	let birthdateInputValue = get(activePerson).birth.date;
+	let birthplaceInputValue = get(activePerson).birth.place;
+	let birthtimeInputValue = get(activePerson).birth.time;
+	let hometownInputValue = get(activePerson).hometown;
+	let deceasedValue = get(activePerson).deceased;
+	let deathDateInputValue = get(activePerson).death.date;
+	let deathTimeInputValue = get(activePerson).death.time;
+	let deathPlaceInputValue = get(activePerson).death.place;
+	let deathCauseInputValue = get(activePerson).death.cause;
 
 	// set up the gender options for the select element
 	const genderOptions = {
@@ -58,34 +57,43 @@
 
 	// writes all inputs to the UI state
 	const saveAllInputs = () => {
-		writeUIStateValueAtPath('activePerson.name', nameInputValue);
+		activePerson.update((currentValue) => ({
+			...currentValue,
+			name: nameInputValue,
+			gender: genderInputValue,
+			birth: {
+				...currentValue.birth,
+				place: birthplaceInputValue,
+				date: birthdateInputValue,
+				time: birthtimeInputValue
+			},
+			hometown: hometownInputValue,
+			deceased: deceasedValue,
+			death: {
+				...currentValue.death,
+				date: deathDateInputValue,
+				time: deathTimeInputValue,
+				place: deathPlaceInputValue,
+				cause: deathCauseInputValue
+			}
+		}));
 		writeTempAlternateNamesToUIState();
-		writeUIStateValueAtPath('activePerson.gender', genderInputValue);
-		writeUIStateValueAtPath('activePerson.birth.place', birthplaceInputValue);
-		writeUIStateValueAtPath('activePerson.birth.date', birthdateInputValue);
-		writeUIStateValueAtPath('activePerson.birth.time', birthtimeInputValue);
-		writeUIStateValueAtPath('activePerson.hometown', hometownInputValue);
-		writeUIStateValueAtPath('activePerson.deceased', deceasedValue);
-		writeUIStateValueAtPath('activePerson.death.date', deathDateInputValue);
-		writeUIStateValueAtPath('activePerson.death.time', deathTimeInputValue);
-		writeUIStateValueAtPath('activePerson.death.place', deathPlaceInputValue);
-		writeUIStateValueAtPath('activePerson.death.cause', deathCauseInputValue);
 	};
 
 	// synchronizes all inputs back to UI state values
 	const syncAllInputs = () => {
-		nameInputValue = $uiState.activePerson.name;
+		nameInputValue = get(activePerson).name;
 		setTempStateAltNamesFromUIState();
-		genderInputValue = $uiState.activePerson.gender;
-		birthdateInputValue = $uiState.activePerson.birth.date;
-		birthplaceInputValue = $uiState.activePerson.birth.place;
-		birthtimeInputValue = $uiState.activePerson.birth.time;
-		hometownInputValue = $uiState.activePerson.hometown;
-		deceasedValue = $uiState.activePerson.deceased;
-		deathDateInputValue = $uiState.activePerson.death.date;
-		deathTimeInputValue = $uiState.activePerson.death.time;
-		deathPlaceInputValue = $uiState.activePerson.death.place;
-		deathCauseInputValue = $uiState.activePerson.death.cause;
+		genderInputValue = get(activePerson).gender;
+		birthdateInputValue = get(activePerson).birth.date;
+		birthplaceInputValue = get(activePerson).birth.place;
+		birthtimeInputValue = get(activePerson).birth.time;
+		hometownInputValue = get(activePerson).hometown;
+		deceasedValue = get(activePerson).deceased;
+		deathDateInputValue = get(activePerson).death.date;
+		deathTimeInputValue = get(activePerson).death.time;
+		deathPlaceInputValue = get(activePerson).death.place;
+		deathCauseInputValue = get(activePerson).death.cause;
 	};
 
 	const onClickBioEditButton = () => {
@@ -112,8 +120,8 @@
 		}
 
 		age = getNumberOfYearsBetweenEvents(
-			$uiState.activePerson.birth.date,
-			$uiState.activePerson.deceased ? $uiState.activePerson.death.date : new Date()
+			get(activePerson).birth.date,
+			get(activePerson).deceased ? get(activePerson).death.date : new Date()
 		);
 
 		// ensure that if the bio was edited from some other source,
@@ -122,7 +130,7 @@
 	}
 
 	onMount(() => {
-		setCachedPerson(getPersonById(personId));
+		cachedPersonForUnsavedChanges.set(getPersonById(personId));
 	});
 
 	const bioContentContainerCss = css`
@@ -143,7 +151,7 @@
 		/>
 	</div>
 	<div class="bio-avatar-container">
-		<BioPhoto personId={$uiState.activePerson.id} allowEdit={isBioEditActive} />
+		<BioPhoto personId={get(activePerson).id} allowEdit={isBioEditActive} />
 	</div>
 	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
 	<div class="bio-facts">

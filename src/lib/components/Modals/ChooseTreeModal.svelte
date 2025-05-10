@@ -1,9 +1,9 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import uiState from '$lib/stores/ui-state';
+	import { doShowChooseTreeModal } from '$lib/states/ui-state';
 
-	import { getRepoFamilyTreeAndSetActive, hideChooseTreeModal } from '$lib/ui-management';
+	import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
 
 	import { chooseTreeStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -29,19 +29,19 @@
 
 	const newFamilyTreeButtonOnClick = () => {
 		// new family tree is already loaded, so just dismiss the choose tree modal
-		hideChooseTreeModal();
+		doShowChooseTreeModal.set(false);
 	};
 
 	const exampleFamilyTreeButtonOnClick = () => {
 		// hide the modal
-		hideChooseTreeModal();
+		doShowChooseTreeModal.set(false);
 		// load the Roy family tree
 		getRepoFamilyTreeAndSetActive('0');
 	};
 
 	const loadFamilyTreeButtonOnClick = () => {
 		// hide the modal
-		hideChooseTreeModal();
+		doShowChooseTreeModal.set(false);
 		// load the family tree
 		// TODO: add ability to choose, rather than hard-code
 		getRepoFamilyTreeAndSetActive('1');
@@ -49,7 +49,7 @@
 </script>
 
 <Modal
-	showModal={$uiState.showChooseTreeModal}
+	showModal={$doShowChooseTreeModal}
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}

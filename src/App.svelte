@@ -23,7 +23,14 @@
 		nodeEditRelationshipId,
 		timelineEditEvent
 	} from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import {
+		activePerson,
+		doShowChooseTreeModal,
+		doShowDevTools,
+		personNodeConnectionLineCanvasRef,
+		personNodeConnectionLineCanvasRefHover,
+		personNodePositions
+	} from '$lib/states/ui-state';
 
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
@@ -55,17 +62,26 @@
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { onMount } from 'svelte';
+	import { instantiateObject } from '$lib/utils';
+	import { person } from '$lib/schemas/person';
 
-	let doShowDevTools;
-	let personNodeConnectionLineCanvasRef; // used for drawing connection lines between active person and ndoes
-	let personNodeConnectionLineCanvasRefHover; // used for drawing a single connection line from the hovered node
+	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
+	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
 	let shutdown = false;
 
-	// set the initial active person as the first in the list
-	if (Object.keys($uiState.activePerson).length == 0) {
-		setActivePerson($familyTreeData.allPeople[0]);
+	// if there's no known people in this tree,
+	// add a default person for the new tree
+	if ($familyTreeData.allPeople.length === 0) {
+		familyTreeData.update((currentValue) => {
+			currentValue.allPeople.push(instantiateObject(person));
+			return currentValue;
+		});
 	}
+	
+	// set the initial active person as the first in the list
+	setActivePerson($familyTreeData.allPeople[0]);
 
 	// block the context menu everywhere
 	let blockContextMenu = (event) => {
@@ -76,17 +92,9 @@
 	// connection lines
 	window.addEventListener('resize', () => {
 		resetCanvasSize(personNodeConnectionLineCanvasRef);
-		resetCanvasSize(personNodeConnectionLineCanvasRefHover);
-		redrawNodeConnectionLines($uiState.activePerson.id);
+		resetCanvasSize(lineCanvasRefHover);
+		redrawNodeConnectionLines($activePerson.id);
 	});
-
-	const toggleDevTools = () => {
-		uiState.update((currentValue) => {
-			currentValue.showDevTools = !currentValue.showDevTools;
-			doShowDevTools = currentValue.showDevTools;
-			return currentValue;
-		});
-	};
 
 	const appContainerCss = css`
 		a {
@@ -111,30 +119,35 @@
 		stylingConstants.colors.personNodeGradient3
 	);
 
+	onMount(() => {
+		// initially show the choose tree modal
+		doShowChooseTreeModal.set(true);
+	});
+
 	// set up the primary canvas
 	// used for drawing lines between every person node and the center of the screen
 	// this is in a reactive block since it's wrapped by JDGAppContainer
 	$: {
-		if (personNodeConnectionLineCanvasRef) {
-			$uiState.personNodeConnectionLineCanvas = personNodeConnectionLineCanvasRef;
-			set2DContextScale(personNodeConnectionLineCanvasRef);
+		if (lineCanvasRef && lineCanvasRefHover) {
+			personNodeConnectionLineCanvasRef.set(lineCanvasRef);
+			set2DContextScale(lineCanvasRef);
 			// set up the hover canvas
 			// used for drawing a hover line when hovering over a person node
-			$uiState.personNodeConnectionLineCanvasHover = personNodeConnectionLineCanvasRefHover;
-			set2DContextScale(personNodeConnectionLineCanvasRefHover);
+			personNodeConnectionLineCanvasRefHover.set(lineCanvasRefHover);
+			set2DContextScale(lineCanvasRefHover);
 		}
 	}
 
 	// update the drawn node connection lines as necessary
 	$: {
-		if (personNodeConnectionLineCanvasRef) {
+		if (lineCanvasRef) {
 			drawNodeConnectionLines(
-				$uiState.personNodeConnectionLineCanvas,
-				$uiState.personNodePositions,
+				$personNodeConnectionLineCanvasRef,
+				$personNodePositions,
 				stylingConstants.sizes.nPersonNodeConnectionLineThickness,
 				stylingConstants.colors.personNodeConnectionLineColor
 			);
-			clearCanvas(personNodeConnectionLineCanvasRefHover);
+			clearCanvas(lineCanvasRefHover);
 		}
 	}
 </script>
@@ -167,8 +180,8 @@
 				{/if}
 				<Header />
 				<div class="tree-content {treeContentCss}">
-					<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRef} />
-					<canvas class="tree-canvas" bind:this={personNodeConnectionLineCanvasRefHover} />
+					<canvas class="tree-canvas" bind:this={lineCanvasRef} />
+					<canvas class="tree-canvas" bind:this={lineCanvasRefHover} />
 					<div class="generation-block {generationBlockCss}">
 						<GenerationRow rowHeight={stylingConstants.sizes.generationRowHeight}>
 							<ScrollingRowFlank flank={'left'} slot="row-left-flank">
@@ -176,7 +189,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.greatAunclesMaternal.id,
 										groupName: relationshipMap.greatAunclesMaternal.label,
-										groupMembers: $uiState.activePerson.relationships.greatAunclesMaternal,
+										groupMembers: $activePerson?.relationships?.greatAunclesMaternal,
 										compatibleGroups: greatAunclesCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[0]}
@@ -188,7 +201,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.grandparentsMaternal.id,
 										groupName: relationshipMap.grandparentsMaternal.label,
-										groupMembers: $uiState.activePerson.relationships.grandparentsMaternal,
+										groupMembers: $activePerson?.relationships?.grandparentsMaternal,
 										compatibleGroups: grandparentsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[0]}
@@ -197,7 +210,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.grandparentsPaternal.id,
 										groupName: relationshipMap.grandparentsPaternal.label,
-										groupMembers: $uiState.activePerson.relationships.grandparentsPaternal,
+										groupMembers: $activePerson?.relationships?.grandparentsPaternal,
 										compatibleGroups: grandparentsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[0]}
@@ -209,7 +222,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.greatAunclesPaternal.id,
 										groupName: relationshipMap.greatAunclesPaternal.label,
-										groupMembers: $uiState.activePerson.relationships.greatAunclesPaternal,
+										groupMembers: $activePerson?.relationships?.greatAunclesPaternal,
 										compatibleGroups: greatAunclesCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[0]}
@@ -222,7 +235,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.aunclesMaternal.id,
 										groupName: relationshipMap.aunclesMaternal.label,
-										groupMembers: $uiState.activePerson.relationships.aunclesMaternal,
+										groupMembers: $activePerson?.relationships?.aunclesMaternal,
 										compatibleGroups: aunclesCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[1]}
@@ -231,7 +244,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.stepparentsMaternal.id,
 										groupName: relationshipMap.stepparentsMaternal.label,
-										groupMembers: $uiState.activePerson.relationships.stepparentsMaternal,
+										groupMembers: $activePerson?.relationships?.stepparentsMaternal,
 										compatibleGroups: parentsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[1]}
@@ -242,7 +255,7 @@
 								personNodeGroupData={{
 									groupId: relationshipMap.parents.id,
 									groupName: relationshipMap.parents.label,
-									groupMembers: $uiState.activePerson.relationships.parents,
+									groupMembers: $activePerson?.relationships?.parents,
 									compatibleGroups: parentsCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[1]}
@@ -252,7 +265,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.stepparentsPaternal.id,
 										groupName: relationshipMap.stepparentsPaternal.label,
-										groupMembers: $uiState.activePerson.relationships.stepparentsPaternal,
+										groupMembers: $activePerson?.relationships?.stepparentsPaternal,
 										compatibleGroups: parentsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[1]}
@@ -261,7 +274,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.aunclesPaternal.id,
 										groupName: relationshipMap.aunclesPaternal.label,
-										groupMembers: $uiState.activePerson.relationships.aunclesPaternal,
+										groupMembers: $activePerson?.relationships?.aunclesPaternal,
 										compatibleGroups: aunclesCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[1]}
@@ -270,7 +283,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.parentsInLaw.id,
 										groupName: relationshipMap.parentsInLaw.label,
-										groupMembers: $uiState.activePerson.relationships.parentsInLaw,
+										groupMembers: $activePerson?.relationships?.parentsInLaw,
 										compatibleGroups: parentsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[1]}
@@ -286,7 +299,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.siblingsInLaw.id,
 										groupName: relationshipMap.siblingsInLaw.label,
-										groupMembers: $uiState.activePerson.relationships.siblingsInLaw,
+										groupMembers: $activePerson?.relationships?.siblingsInLaw,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -295,7 +308,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.stepsiblings.id,
 										groupName: relationshipMap.stepsiblings.label,
-										groupMembers: $uiState.activePerson.relationships.stepsiblings,
+										groupMembers: $activePerson?.relationships?.stepsiblings,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -304,7 +317,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.halfSiblingsMaternal.id,
 										groupName: relationshipMap.halfSiblingsMaternal.label,
-										groupMembers: $uiState.activePerson.relationships.halfSiblingsMaternal,
+										groupMembers: $activePerson?.relationships?.halfSiblingsMaternal,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -313,7 +326,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.siblings.id,
 										groupName: relationshipMap.siblings.label,
-										groupMembers: $uiState.activePerson.relationships.siblings,
+										groupMembers: $activePerson?.relationships?.siblings,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -322,7 +335,7 @@
 
 							<div slot="row-middle-section" class="active-person-container">
 								<PersonNode
-									personId={$uiState.activePerson.id}
+									personId={$activePerson?.id}
 									size={stylingConstants.sizes.personNodeActiveSize}
 									context={contexts.treeView}
 								/>
@@ -333,7 +346,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.halfSiblingsPaternal.id,
 										groupName: relationshipMap.halfSiblingsPaternal.label,
-										groupMembers: $uiState.activePerson.relationships.halfSiblingsPaternal,
+										groupMembers: $activePerson?.relationships?.halfSiblingsPaternal,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -342,7 +355,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.spouses.id,
 										groupName: relationshipMap.spouses.label,
-										groupMembers: $uiState.activePerson.relationships.spouses,
+										groupMembers: $activePerson?.relationships?.spouses,
 										compatibleGroups: spouseCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -351,7 +364,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.spouseSiblingsInLaw.id,
 										groupName: relationshipMap.spouseSiblingsInLaw.label,
-										groupMembers: $uiState.activePerson.relationships.spouseSiblingsInLaw,
+										groupMembers: $activePerson?.relationships?.spouseSiblingsInLaw,
 										compatibleGroups: siblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -360,7 +373,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.exSpouses.id,
 										groupName: relationshipMap.exSpouses.label,
-										groupMembers: $uiState.activePerson.relationships.exSpouses,
+										groupMembers: $activePerson?.relationships?.exSpouses,
 										compatibleGroups: spouseCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[2]}
@@ -376,7 +389,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.niblings.id,
 										groupName: relationshipMap.niblings.label,
-										groupMembers: $uiState.activePerson.relationships.niblings,
+										groupMembers: $activePerson?.relationships?.niblings,
 										compatibleGroups: niblingsCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[3]}
@@ -387,7 +400,7 @@
 								personNodeGroupData={{
 									groupId: relationshipMap.children.id,
 									groupName: relationshipMap.children.label,
-									groupMembers: $uiState.activePerson.relationships.children,
+									groupMembers: $activePerson?.relationships?.children,
 									compatibleGroups: childrenCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[3]}
@@ -397,7 +410,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.stepchildren.id,
 										groupName: relationshipMap.stepchildren.label,
-										groupMembers: $uiState.activePerson.relationships.stepchildren,
+										groupMembers: $activePerson?.relationships?.stepchildren,
 										compatibleGroups: childrenCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[3]}
@@ -406,7 +419,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.childrenInLaw.id,
 										groupName: relationshipMap.childrenInLaw.label,
-										groupMembers: $uiState.activePerson.relationships.childrenInLaw,
+										groupMembers: $activePerson?.relationships?.childrenInLaw,
 										compatibleGroups: childrenCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[3]}
@@ -419,7 +432,7 @@
 									personNodeGroupData={{
 										groupId: relationshipMap.grandniblings.id,
 										groupName: relationshipMap.grandniblings.label,
-										groupMembers: $uiState.activePerson.relationships.grandniblings,
+										groupMembers: $activePerson?.relationships?.grandniblings,
 										compatibleGroups: grandchildrenCompatibleGroups
 									}}
 									personNodeColor={generationRowColors[4]}
@@ -431,7 +444,7 @@
 								personNodeGroupData={{
 									groupId: relationshipMap.grandchildren.id,
 									groupName: relationshipMap.grandchildren.label,
-									groupMembers: $uiState.activePerson.relationships.grandchildren,
+									groupMembers: $activePerson?.relationships?.grandchildren,
 									compatibleGroups: grandchildrenCompatibleGroups
 								}}
 								personNodeColor={generationRowColors[4]}
@@ -450,7 +463,7 @@
 					alignItems="center"
 				>
 					<JDGButton
-						onClickFunction={toggleDevTools}
+						onClickFunction={() => doShowDevTools.update((value) => !value)}
 						label={null}
 						tooltip={doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
 						isPrimary={false}
@@ -461,7 +474,7 @@
 						doForceSquareRatio
 					/>
 				</JDGFooter>
-				{#if $uiState.showDevTools}
+				{#if $doShowDevTools}
 					<DevTools />
 				{/if}
 			</div>

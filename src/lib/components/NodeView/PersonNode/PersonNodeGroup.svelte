@@ -60,14 +60,14 @@
 	`;
 </script>
 
-{#if $isTreeEditActive || personNodeGroupData.groupMembers.length > 0}
+{#if $isTreeEditActive || personNodeGroupData?.groupMembers?.length > 0}
 	<div class="person-node-group-plus-button {personNodeGroupPlusButtonCss}">
 		<div class="person-node-group-outer-container {personNodeGroupOuterContainerCss}">
 			<div class="person-node-group-title {personNodeGroupTitleCss}">
 				{personNodeGroupData.groupName}
 			</div>
 			<div class="person-node-group-inner-container">
-				{#if personNodeGroupData.groupMembers.length == 0}
+				{#if personNodeGroupData?.groupMembers?.length == 0}
 					<ButtonCircularInSquare onClickFunction={onClickAddPersonButton} />
 				{/if}
 				{#each personNodeGroupData.groupMembers as { }, i (personNodeGroupData.groupMembers[i])}

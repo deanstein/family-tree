@@ -1,9 +1,12 @@
 <script>
-	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import { checkActivePersonForUnsavedChanges } from '$lib/temp-management';
-	import { isUrlValid } from '$lib/utils';
+	import { get } from 'svelte/store';
 
-	import stylingConstants from '$lib/components/styling-constants';
+	import { activePerson } from '$lib/states/ui-state';
+	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
+
+	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
+	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
+	import { isUrlValid } from '$lib/utils';
 
 	import Button from '$lib/components/Button.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
@@ -11,7 +14,7 @@
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
-	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -41,7 +44,7 @@
 	};
 
 	const onClickDoneButton = () => {
-		checkActivePersonForUnsavedChanges();
+		checkPersonForUnsavedChanges(get(activePerson).id);
 		imageEditId.set(undefined);
 		imageEditContent.set(undefined);
 	};

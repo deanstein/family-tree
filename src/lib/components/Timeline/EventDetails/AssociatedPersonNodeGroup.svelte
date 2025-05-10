@@ -6,7 +6,7 @@
 	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
 
 	import {
-		checkActivePersonForUnsavedChanges,
+		checkPersonForUnsavedChanges,
 		removeAssociatedPersonFromActiveTimelineEvent
 	} from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
@@ -17,6 +17,7 @@
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { activePerson } from '$lib/states/ui-state';
 
 	export let enabled;
 	export let associatedPeopleIds = [];
@@ -32,7 +33,7 @@
 		const eventId = get(timelineEditEventId);
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
 		removeTimelineEventReference(associatedPersonId, eventId);
-		checkActivePersonForUnsavedChanges();
+		checkPersonForUnsavedChanges(get(activePerson).id);
 	};
 </script>
 

@@ -1,8 +1,8 @@
 <script>
-	import uiState from '$lib/stores/ui-state';
+	import { saveToRepoStatus } from '$lib/states/ui-state';
 
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
-	import { getNotificationConfigFromRepoState, setRepoState } from '$lib/ui-management';
+	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
 
 	import { repoStateStrings } from '$lib/components/strings';
 
@@ -19,9 +19,9 @@
 
 	$: {
 		showBanner =
-			$uiState.saveToRepoStatus !== repoStateStrings.undefined &&
-			$uiState.saveToRepoStatus !== repoStateStrings.saved &&
-			$uiState.saveToRepoStatus !== undefined;
+			$saveToRepoStatus !== repoStateStrings.undefined &&
+			$saveToRepoStatus !== repoStateStrings.saved &&
+			$saveToRepoStatus !== undefined;
 		// when the banner is shown, make sure page is scrolled up
 		if (showBanner) {
 			window.scrollTo(window.scrollX, 0);
@@ -29,16 +29,16 @@
 
 		// success messages get a delay before dismissing
 		if (
-			$uiState.saveToRepoStatus === repoStateStrings.loadSuccessful ||
-			$uiState.saveToRepoStatus === repoStateStrings.saveSuccessful
+			$saveToRepoStatus === repoStateStrings.loadSuccessful ||
+			$saveToRepoStatus === repoStateStrings.saveSuccessful
 		) {
 			setTimeout(() => {
-				setRepoState(repoStateStrings.undefined);
+				saveToRepoStatus.set(repoStateStrings.undefined);
 			}, 2000);
 		}
 	}
 
-	uiState.subscribe(() => {
+	saveToRepoStatus.subscribe(() => {
 		message = getNotificationConfigFromRepoState().message;
 		color = getNotificationConfigFromRepoState().color;
 	});
@@ -46,7 +46,7 @@
 
 {#if showBanner}
 	<NotificationBanner {message} {color} standalone={false}>
-		{#if $uiState.saveToRepoStatus === repoStateStrings.unsavedChanges}
+		{#if $saveToRepoStatus === repoStateStrings.unsavedChanges}
 			<Button
 				buttonText={'Save'}
 				onClickFunction={onSaveButtonClick}

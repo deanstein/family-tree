@@ -1,6 +1,7 @@
 <script>
 	import { allTempStateValues } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import { allUiStateValues } from '$lib/states/ui-state';
+
 	import familyTreeData from '$lib/stores/family-tree-data';
 </script>
 
@@ -12,7 +13,7 @@
 		</div>
 		<div class="store-container">
 			<div>UI State:</div>
-			{JSON.stringify($uiState)}
+			{JSON.stringify($allUiStateValues)}
 		</div>
 		<div class="store-container">
 			<div>Family Tree Data:</div>

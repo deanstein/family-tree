@@ -4,7 +4,7 @@
 	import alternateName from '$lib/schemas/alternate-name';
 
 	import { bioEditAltName, bioEditAltNames } from '$lib/states/temp-state';
-	import uiState from '$lib/stores/ui-state';
+	import { activePerson } from '$lib/states/ui-state';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import AlternateName from '$lib/components/Bio/AlternateName.svelte';
@@ -41,7 +41,7 @@
 	class="bio-alt-names-container {isEnabled ? altNamesContainerCss : altNamesContainerDisabledCss} "
 >
 	<div class="alt-names-scrollable-container">
-		{#each isEnabled ? $bioEditAltNames : $uiState.activePerson.alternateNames as alternateName}
+		{#each isEnabled ? $bioEditAltNames : $activePerson.alternateNames as alternateName}
 			<AlternateName {isEnabled} {alternateName} />
 		{/each}
 	</div>
