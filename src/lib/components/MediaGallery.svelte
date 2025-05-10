@@ -12,7 +12,6 @@
 	import Button from './Button.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
-	import { get } from 'svelte/store';
 
 	const onClickEditImageButton = () => {
 		imageEditId.set($mediaGalleryId);
