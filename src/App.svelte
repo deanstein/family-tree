@@ -468,11 +468,11 @@
 					<JDGButton
 						onClickFunction={() => doShowDevTools.update((value) => !value)}
 						label={null}
-						tooltip={doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
+						tooltip={$doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
 						isPrimary={false}
 						paddingTopBottom="5px"
 						paddingLeftRight="10px"
-						faIcon={doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
+						faIcon={$doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
 						fontSize={jdgSizes.fontSizeBodyXSm}
 						doForceSquareRatio
 					/>
