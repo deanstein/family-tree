@@ -19,7 +19,10 @@ export const familyTreeDataMapFileName = 'family-tree-data-map.json';
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
+// cloudflare workers and paths
 export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
+export const gitHubAppPathGetToken = '/get-github-app-token'
+export const gitHubAppPathVerifyMember = '/verify-family-tree-member'
 
 const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
@@ -28,7 +31,7 @@ const pathPrefixTimelineEventImageId = 'event-image';
 
 export async function getGitHubToken() {
 	try {
-		const response = await fetch(gitHubAppWorkerUrl);
+		const response = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
 		if (!response.ok) {
 			throw new Error(`GitHub Token Error: ${response.status}`);
 		}
@@ -113,7 +116,7 @@ export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt) => {
 	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileNameWithExt}`;
 
 	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
-	const tokenResponse = await fetch(gitHubAppWorkerUrl);
+	const tokenResponse = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
 	const { token } = await tokenResponse.json();
 
 	if (!token) {
@@ -173,8 +176,8 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	saveToRepoStatus.set(repoStateStrings.saving);
 
-	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
-	const tokenResponse = await fetch(gitHubAppWorkerUrl);
+	// request GitHub App token from Cloudflare Worker
+	const tokenResponse = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
 	const { token } = await tokenResponse.json();
 
 	if (!token) {
@@ -183,7 +186,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 		return;
 	}
 
-	// ✅ Step 2: Get repository information
+	// get repository information
 	const response = await fetch(`https://api.github.com/repos/${repoOwner}/${dataRepoName}`, {
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -199,7 +202,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	const content = JSON.stringify(currentFamilyTreeData, null, 2);
 
-	// ✅ Step 3: Get existing file SHA (if updating)
+	// get existing file SHA (if updating)
 	const fileResponse = await fetch(
 		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
@@ -216,7 +219,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 		fileSHA = fileResponse.headers.get('etag').replace(/"/g, '');
 	}
 
-	// ✅ Step 4: Commit JSON file to GitHub
+	// commit JSON file to GitHub
 	const updateResponse = await fetch(
 		`https://api.github.com/repos/${repoOwner}/${dataRepoName}/contents/${familyTreeDataFileName}`,
 		{
