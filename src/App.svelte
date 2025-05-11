@@ -157,7 +157,7 @@
 
 <main>
 	{#if !shutdown}
-		<JDGAppContainer showHeaderStripes={false}>
+		<JDGAppContainer showHeaderStripes={false} appLoadingIconSrc="./static/img/family-tree-icon.png">
 			<div
 				id="app-container"
 				class="app-container {appContainerCss}"
