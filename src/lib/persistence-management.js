@@ -21,14 +21,15 @@ export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 // cloudflare workers and paths
 export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
-export const gitHubAppPathGetToken = '/get-github-app-token'
-export const gitHubAppPathVerifyMember = '/verify-family-tree-member'
+export const gitHubAppPathGetToken = '/get-github-app-token';
+export const gitHubAppPathVerifyMember = '/verify-family-tree-member';
 
 const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
 const pathPrefixTimelineEventId = 'event';
 const pathPrefixTimelineEventImageId = 'event-image';
 
+/*** GITHUB APP WORKER FUNCTIONS ***/
 export async function getGitHubToken() {
 	try {
 		const response = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
@@ -40,6 +41,27 @@ export async function getGitHubToken() {
 		return data.token; // Return the GitHub App installation token
 	} catch (error) {
 		console.error('Failed to fetch GitHub token:', error);
+		return null;
+	}
+}
+
+// verifies a family tree member given an id OR name and birthdate
+export async function verifyFamilyTreeMember(id, name, birthdate) {
+	// determine verification method
+	const queryString = id
+		? `id=${encodeURIComponent(id)}` // if GUID is provided, use it
+		: `name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`; // Otherwise, check name & birthdate
+
+	const response = await fetch(`${gitHubAppWorkerUrl + gitHubAppPathVerifyMember}?${queryString}`);
+	const data = await response.json();
+
+	if (data.verified) {
+		//localStorage.setItem("activeUserId", data.id);
+		console.log('USER FOUND!');
+		return data.id;
+	} else {
+		//alert("You are not in the family tree. Editing is restricted.");
+		console.log('user not found :(');
 		return null;
 	}
 }

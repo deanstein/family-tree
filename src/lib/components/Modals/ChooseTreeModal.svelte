@@ -11,6 +11,28 @@
 
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
+	import { verifyFamilyTreeMember } from '$lib/persistence-management';
+
+	// user values
+	let id = '';
+	let name = '';
+	let birthdate = '';
+
+	async function submit() {
+		// encode the name and birthdate
+		const encodedName = encodeURIComponent(name);
+		const encodedBirthdate = encodeURIComponent(birthdate);
+		const verifiedId = await verifyFamilyTreeMember(
+			id || null,
+			encodedName || null,
+			encodedBirthdate || null
+		);
+		if (verifiedId) {
+			console.log('Verified! Active user ID:', verifiedId);
+		} else {
+			console.log('Verification failed.');
+		}
+	}
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -84,6 +106,18 @@
 				description={chooseTreeStrings.loadTreeDescription}
 				buttonColor={stylingConstants.colors.personNodeGradient3}
 			/>
+			<form on:submit|preventDefault={submit}>
+				<label for="id">GUID (optional)</label>
+				<input type="text" id="id" bind:value={id} placeholder="Enter your ID" />
+
+				<label for="name">Name</label>
+				<input type="text" id="name" bind:value={name} placeholder="Enter your name" />
+
+				<label for="birthdate">Birthdate</label>
+				<input type="date" id="birthdate" bind:value={birthdate} />
+
+				<button type="submit">Verify</button>
+			</form>
 		</div>
 		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>
 	</div>
