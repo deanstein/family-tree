@@ -1,4 +1,6 @@
 <script>
+	import { get } from 'svelte/store';
+	
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
@@ -17,9 +19,7 @@
 
 	import DevToolbar from '$lib/components/DevTools/DevToolbar.svelte';
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
-	import FamilyTreeDataSelector from '$lib/components/DevTools/FamilyTreeDataSelector.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
-	import { get } from 'svelte/store';
 
 	const setDataButtonOnClickAction = () => {
 		writeCurrentFamilyTreeDataToRepo();
