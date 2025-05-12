@@ -63,7 +63,6 @@
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>
-		<FamilyTreeDataSelector />
 		<button on:click={setDataButtonOnClickAction}> Send Data </button>
 		<button
 			on:click={() => {

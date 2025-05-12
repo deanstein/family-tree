@@ -2,27 +2,27 @@ import { get } from 'svelte/store';
 
 import familyTreeData from './stores/family-tree-data';
 import {
-	activeFamilyTreeDataId,
+	activeFamilyTree,
 	activeFamilyTreeFileOrFolderName,
 	activePerson,
 	saveToRepoStatus
 } from './states/ui-state';
 
-import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
-
 import { repoStateStrings } from '$lib/components/strings';
+import { getPersonById, getPersonIdByName } from './person-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
-export const deploymentRepoName = 'family-tree-deploy';
 export const familyTreeDataMapFileName = 'family-tree-data-map.json';
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
+export const exampleFamilyTreeStartingId = '2'; // Kendall Roy
 // cloudflare workers and paths
 export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
-export const gitHubAppPathGetToken = '/get-github-app-token';
-export const gitHubAppPathVerifyMember = '/verify-family-tree-member';
+export const ghaPathGetToken = '/get-github-app-token';
+export const ghaPathGetExampleFamilyTreeData = '/get-example-family-tree-data';
+export const ghaPathGetPrivateFamilyTreeData = '/get-private-family-tree-data';
 
 const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
@@ -32,7 +32,7 @@ const pathPrefixTimelineEventImageId = 'event-image';
 /*** GITHUB APP WORKER FUNCTIONS ***/
 export async function getGitHubToken() {
 	try {
-		const response = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
+		const response = await fetch(gitHubAppWorkerUrl + ghaPathGetToken);
 		if (!response.ok) {
 			throw new Error(`GitHub Token Error: ${response.status}`);
 		}
@@ -45,24 +45,57 @@ export async function getGitHubToken() {
 	}
 }
 
-// verifies a family tree member given an id OR name and birthdate
-export async function verifyFamilyTreeMember(id, name, birthdate) {
-	// determine verification method
-	const queryString = id
-		? `id=${encodeURIComponent(id)}` // if GUID is provided, use it
-		: `name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`; // Otherwise, check name & birthdate
+export async function fetchExampleFamilyTree() {
+	const response = await fetch(
+		gitHubAppWorkerUrl + ghaPathGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeStartingId
+	);
+	const responseJson = await response.json();
+	// if we got the tree from the backend
+	if (responseJson.success) {
+		return responseJson.familyTreeData;
+	}
+}
 
-	const response = await fetch(`${gitHubAppWorkerUrl + gitHubAppPathVerifyMember}?${queryString}`);
-	const data = await response.json();
+export async function fetchExampleFamilyTreeAndSetActive() {
+	const exampleFamilyTreeData = await fetchExampleFamilyTree();
+	if (exampleFamilyTreeData) {
+		familyTreeData.set(exampleFamilyTreeData);
+		activeFamilyTree.set(exampleFamilyTreeData);
+		activePerson.set(getPersonById(exampleFamilyTreeStartingId));
+		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
+	}
+}
 
-	if (data.verified) {
-		//localStorage.setItem("activeUserId", data.id);
-		console.log('USER FOUND!');
-		return data.id;
+// fetches the private family tree if the name and birthdate are present in it
+export async function fetchPrivateFamilyTree(firstName, lastName, birthdate) {
+	// encode the name and birthdate so they can be checked against the family tree data
+	const encodedName = encodeURIComponent(firstName + ' ' + lastName);
+	const encodedBirthdate = encodeURIComponent(birthdate);
+	const response = await fetch(
+		gitHubAppWorkerUrl +
+			ghaPathGetPrivateFamilyTreeData +
+			'?name=' +
+			encodedName +
+			'&birthdate=' +
+			encodedBirthdate
+	);
+	const responseJson = await response.json();
+	// if we got the tree from the backend
+	if (responseJson.success) {
+		return responseJson.familyTreeData;
+	}
+}
+
+export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, birthdate) {
+	const privateFamilyTreeData = await fetchPrivateFamilyTree(firstName, lastName, birthdate);
+	if (privateFamilyTreeData) {
+		familyTreeData.set(privateFamilyTreeData);
+		activeFamilyTree.set(privateFamilyTreeData);
+		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
+		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
+		return privateFamilyTreeData;
 	} else {
-		//alert("You are not in the family tree. Editing is restricted.");
-		console.log('user not found :(');
-		return null;
+		return undefined;
 	}
 }
 
@@ -133,57 +166,6 @@ export const getTotalCommitsInPublicRepo = async (repoOwner, repoName) => {
 	return totalCommits;
 };
 
-export const getFileFromRepo = async (repoOwner, repoName, fileNameWithExt) => {
-	let fileData = undefined;
-	const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileNameWithExt}`;
-
-	// ✅ Step 1: Request GitHub App Token from Cloudflare Worker
-	const tokenResponse = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
-	const { token } = await tokenResponse.json();
-
-	if (!token) {
-		console.error('Failed to retrieve GitHub App token.');
-		return undefined;
-	}
-
-	// ✅ Step 2: Fetch file from GitHub using the App token
-	await fetch(url, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-			Accept: 'application/vnd.github.v3.raw'
-		}
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then((data) => {
-			fileData = data;
-		})
-		.catch((error) => {
-			console.error('There was a problem fetching the JSON file:', error);
-		});
-
-	return fileData;
-};
-
-export const getFamilyTreeDataFileName = async (repoOwner, repoName, familyTreeDataId) => {
-	// first, get the family tree data map
-	const familyTreeDataMap = await getFileFromRepo(repoOwner, repoName, familyTreeDataMapFileName);
-
-	// get the family tree data from the map by id
-	const foundMapData = Object.values(familyTreeDataMap).find(
-		(item) => item.id === familyTreeDataId
-	);
-
-	// get the file name from which to read the json data
-	const familyTreeDataFileName = foundMapData.fileName;
-
-	return familyTreeDataFileName;
-};
-
 export const writeCurrentFamilyTreeDataToRepo = async () => {
 	// Get the file name to write to given the family tree ID in UI state
 	const familyTreeId = get(activeFamilyTreeDataId);
@@ -199,7 +181,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 	saveToRepoStatus.set(repoStateStrings.saving);
 
 	// request GitHub App token from Cloudflare Worker
-	const tokenResponse = await fetch(gitHubAppWorkerUrl + gitHubAppPathGetToken);
+	const tokenResponse = await fetch(gitHubAppWorkerUrl + ghaPathGetToken);
 	const { token } = await tokenResponse.json();
 
 	if (!token) {
@@ -275,7 +257,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 export const readBlobFromRepo = async (repoOwner, repoName, gitHubUrl) => {
 	let sha;
 
-	// ✅ Get GitHub App Token
+	// get GitHub App Token
 	const token = await getGitHubToken();
 	if (!token) {
 		console.error('Failed to retrieve GitHub App token.');
@@ -299,7 +281,7 @@ export const readBlobFromRepo = async (repoOwner, repoName, gitHubUrl) => {
 		console.error(error);
 	}
 
-	// ✅ Fetch the Blob using SHA
+	// fetch the Blob using SHA
 	const blobUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/blobs/${sha}`;
 	try {
 		const response = await fetch(blobUrl, {
