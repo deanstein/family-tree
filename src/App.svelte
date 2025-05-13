@@ -1,6 +1,8 @@
 <script>
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
+	import { person } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
@@ -36,6 +38,7 @@
 	import { setActivePerson } from '$lib/person-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
+	import { instantiateObject } from '$lib/utils';
 
 	// @ts-expect-error
 	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
@@ -63,14 +66,11 @@
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { onMount } from 'svelte';
-	import { instantiateObject } from '$lib/utils';
-	import { person } from '$lib/schemas/person';
 
 	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
-	let shutdown = true;
+	let shutdown = false;
 
 	// if there's no known people in this tree, it's a new tree
 	// so add a default person and enable editing mode
@@ -157,7 +157,10 @@
 
 <main>
 	{#if !shutdown}
-		<JDGAppContainer showHeaderStripes={false} appLoadingIconSrc="./static/img/family-tree-icon.png">
+		<JDGAppContainer
+			showHeaderStripes={false}
+			appLoadingIconSrc="./static/img/family-tree-icon.png"
+		>
 			<div
 				id="app-container"
 				class="app-container {appContainerCss}"

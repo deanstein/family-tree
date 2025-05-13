@@ -2,15 +2,15 @@
 	import { css } from '@emotion/css';
 
 	import { isTreeEditActive } from '$lib/states/temp-state';
-	import { doShowChooseTreeModal } from '$lib/states/ui-state';
+	import { doShowChooseTreeModal, saveToRepoStatus } from '$lib/states/ui-state';
 
-	import { getRepoFamilyTreeAndSetActive } from '$lib/ui-management';
+	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
 
-	import { chooseTreeStrings } from '$lib/components/strings';
-	import stylingConstants from '$lib/components/styling-constants';
-
+	import { chooseTreeStrings, repoStateStrings } from '$lib/components/strings';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
+	import LoadFamilyTreeForm from './LoadFamilyTreeForm.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -28,27 +28,22 @@
 		}
 	`;
 
-	const newFamilyTreeButtonOnClick = () => {
+	const onClickNewTreeButton = () => {
 		// new family tree is already loaded, so just dismiss the choose tree modal
 		doShowChooseTreeModal.set(false);
+		// clear any error messaging if there is any
+		saveToRepoStatus.set(undefined);
 	};
 
-	const exampleFamilyTreeButtonOnClick = () => {
+	const onClickExampleTreeButton = async () => {
+		// set the loading notification
+		saveToRepoStatus.set(repoStateStrings.loading);
 		// hide the modal
 		doShowChooseTreeModal.set(false);
 		// set edit mode to off
 		isTreeEditActive.set(false);
-		// load the Roy family tree
-		getRepoFamilyTreeAndSetActive('0');
-	};
-
-	const loadFamilyTreeButtonOnClick = () => {
-		// hide the modal
-		doShowChooseTreeModal.set(false);
-		// set edit mode to off
-		isTreeEditActive.set(false);
-		// load the private family tree
-		getRepoFamilyTreeAndSetActive('1');
+		// load the example family tree and set it active
+		fetchExampleFamilyTreeAndSetActive();
 	};
 </script>
 
@@ -57,7 +52,7 @@
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}
-	height={'50vh'}
+	height={'55vh'}
 	overflow={'auto'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
@@ -66,24 +61,23 @@
 			<ChooseTreeOption
 				faIcon={'fa-square-plus'}
 				buttonText={chooseTreeStrings.newTreeButton}
-				buttonFunction={newFamilyTreeButtonOnClick}
+				buttonFunction={onClickNewTreeButton}
 				buttonColor={stylingConstants.colors.personNodeGradient1}
 				description={chooseTreeStrings.newTreeDescription}
 			/>
 			<ChooseTreeOption
 				faIcon={'fa-box-open'}
 				buttonText={chooseTreeStrings.exampleTreeButton}
-				buttonFunction={exampleFamilyTreeButtonOnClick}
+				buttonFunction={onClickExampleTreeButton}
 				buttonColor={stylingConstants.colors.activePersonNodeColor}
 				description={chooseTreeStrings.exampleTreeDescription}
 			/>
 			<ChooseTreeOption
-				faIcon={'fa-people-roof'}
-				buttonText={chooseTreeStrings.loadTreeButton}
-				buttonFunction={loadFamilyTreeButtonOnClick}
 				description={chooseTreeStrings.loadTreeDescription}
 				buttonColor={stylingConstants.colors.personNodeGradient3}
-			/>
+			>
+				<LoadFamilyTreeForm />
+			</ChooseTreeOption>
 		</div>
 		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>
 	</div>

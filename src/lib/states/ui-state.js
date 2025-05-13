@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store';
 
 /*** ACTIVE TREE AND PERSON ***/
-export let activeFamilyTreeDataId = writable(undefined);
+export let activeFamilyTree = writable(undefined);
 export let activeFamilyTreeFileOrFolderName = writable(undefined);
 export let activePerson = writable(undefined);
 
@@ -30,7 +30,6 @@ export let doShowStoreView = writable(false);
 
 // create a combined store to display in footer dev tools
 const uiStateMap = {
-	activeFamilyTreeDataId,
 	activeFamilyTreeFileOrFolderName,
 	activePerson,
 	personNodePositions,

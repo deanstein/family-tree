@@ -4,9 +4,7 @@ import timelineEventTypes from './schemas/timeline-event-types';
 import timelineEventReference from './schemas/timeline-event-reference';
 import timelineRowItem from './schemas/timeline-row-item';
 
-import familyTreeData from '$lib/stores/family-tree-data';
 import {
-	activeFamilyTreeDataId,
 	activePerson,
 	personNodePositions,
 	saveToRepoStatus,
@@ -14,15 +12,8 @@ import {
 } from './states/ui-state';
 
 import {
-	repoOwner,
-	dataRepoName,
-	getFamilyTreeDataFileName,
-	getFileFromRepo
-} from '$lib/persistence-management';
-import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
-	setActivePerson,
 	getTimelineEventById
 } from '$lib/person-management';
 import { instantiateObject, largest, removeExtensionFromFileNameOrPath } from './utils';
@@ -30,52 +21,6 @@ import { instantiateObject, largest, removeExtensionFromFileNameOrPath } from '.
 import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';
 import stylingConstants from '$lib/components/styling-constants';
 import { get } from 'svelte/store';
-
-// get a family tree by id from the repo and set it as the current UI state
-export const getRepoFamilyTreeAndSetActive = async (familyTreeId, showLoadNotifications = true) => {
-	if (!familyTreeId) {
-		if (showLoadNotifications) {
-			saveToRepoStatus.set(repoStateStrings.loadFailed);
-		}
-		return;
-	}
-
-	if (showLoadNotifications) {
-		saveToRepoStatus.set(repoStateStrings.loading);
-	}
-
-	// get the full file name from the map
-	const familyTreeDataFileNameWithExt = await getFamilyTreeDataFileName(
-		repoOwner,
-		dataRepoName,
-		familyTreeId
-	);
-
-	// the final family tree data is a json object
-	const newFamilyTreeData = await getFileFromRepo(
-		repoOwner,
-		dataRepoName,
-		familyTreeDataFileNameWithExt
-	);
-
-	if (newFamilyTreeData) {
-		// update the ui state
-		familyTreeData.update((currentValue) => {
-			currentValue = newFamilyTreeData;
-			return currentValue;
-		});
-
-		activeFamilyTreeDataId.set(familyTreeId);
-		activeFamilyTreeDataId.set(removeExtensionFromFileNameOrPath(familyTreeDataFileNameWithExt));
-
-		// force an update by setting the active person
-		setActivePerson(getPersonById(newFamilyTreeData.lastKnownActivePersonId));
-	}
-
-	if (showLoadNotifications) {
-		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
-	}
-};
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	activePerson.update((currentValue) => {

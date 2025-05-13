@@ -5,9 +5,10 @@
 
 	import Button from '$lib/components/Button.svelte';
 
-	export let faIcon; // fontawesome font name
-	export let buttonText;
-	export let buttonFunction;
+	export let title = undefined;
+	export let faIcon = undefined; // fontawesome font name
+	export let buttonText = undefined;
+	export let buttonFunction = undefined;
 	export let buttonColor = stylingConstants.colors.activeColor;
 	export let description;
 
@@ -25,6 +26,10 @@
 			flex-direction: row;
 			padding-top: 0px;
 		}
+	`;
+
+	const titleCss = css`
+		color: ${stylingConstants.colors.textColor};
 	`;
 
 	const buttonAndIconContainerCss = css`
@@ -60,16 +65,26 @@
 </script>
 
 <div class="tree-option-container {treeOptionContainerCss}">
-	<div class="button-and-icon-container {buttonAndIconContainerCss}">
-		<div
-			class="icon-container {iconContainerCss}"
-			on:click={buttonFunction}
-			on:keypress={buttonFunction}
-		>
-			<i class="fa-solid {faIcon} {iconCss}" />
+	{#if title}
+		<h2 class="tree-option-title {titleCss}">
+			{title}
+		</h2>
+	{/if}
+	{#if faIcon}
+		<div class="button-and-icon-container {buttonAndIconContainerCss}">
+			<div
+				class="icon-container {iconContainerCss}"
+				on:click={buttonFunction}
+				on:keypress={buttonFunction}
+				role="button"
+				tabindex="0"
+			>
+				<i class="fa-solid {faIcon} {iconCss}" />
+			</div>
+			<Button {buttonText} onClickFunction={buttonFunction} overrideBackgroundColor={buttonColor} />
 		</div>
-		<Button {buttonText} onClickFunction={buttonFunction} overrideBackgroundColor={buttonColor} />
-	</div>
+	{/if}
+	<slot />
 	<div class="tree-description {treeDescriptionCss}">
 		{description}
 	</div>
@@ -83,9 +98,9 @@
 		justify-content: center;
 		align-items: center;
 		flex-basis: 33%;
-		color: white;
 		background-color: white;
 		border-radius: 10px;
+		padding: 20px;
 	}
 
 	.button-and-icon-container {

@@ -181,6 +181,20 @@ export const getPersonById = (id) => {
 	return person;
 };
 
+export const getPersonIdByName = (name) => {
+	let personId = undefined;
+
+	familyTreeData.subscribe((currentValue) => {
+		const { allPeople } = currentValue;
+		const person = allPeople.find((item) => item.name === name);
+		if (person) {
+			personId = person.id;
+		}
+	});
+
+	return personId;
+};
+
 // gets IDs of all related people to this person
 export const getPersonRelationshipIds = (person) => {
 	return Object.values(person.relationships)
