@@ -2,14 +2,9 @@
 	import { css } from '@emotion/css';
 
 	import { isTreeEditActive } from '$lib/states/temp-state';
-	import {
-		doShowChooseTreeModal,
-		saveToRepoStatus
-	} from '$lib/states/ui-state';
+	import { doShowChooseTreeModal, saveToRepoStatus } from '$lib/states/ui-state';
 
-	import {
-		fetchExampleFamilyTreeAndSetActive
-	} from '$lib/persistence-management';
+	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
 
 	import { chooseTreeStrings, repoStateStrings } from '$lib/components/strings';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';

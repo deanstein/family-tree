@@ -20,18 +20,18 @@
 	let lastName = '';
 	let birthdate = '';
 
-    // for local status messaging
-    let showLoadingMessage = false;
-    let loadingMessage = "Checking your credentials...";
+	// for local status messaging
+	let showLoadingMessage = false;
+	let loadingMessage = 'Checking your credentials...';
 	let showErrorMessage = false;
 	const errorMessage = "Sorry, it appears you don't have access to the private family tree.";
 
 	async function submitLoadFamilyTree() {
 		// hide any errors from last attempt
 		showErrorMessage = false;
-        saveToRepoStatus.set(undefined);
-        // show that credentials are being checked
-        showLoadingMessage = true;
+		saveToRepoStatus.set(undefined);
+		// show that credentials are being checked
+		showLoadingMessage = true;
 		// attempt to get the private family tree
 		const privateFamilyTreeData = await fetchPrivateFamilyTreeAndSetActive(
 			firstName,
@@ -47,10 +47,10 @@
 			// set edit mode to off
 			isTreeEditActive.set(false);
 			showErrorMessage = false;
-            showLoadingMessage = false;
+			showLoadingMessage = false;
 		} else {
 			showErrorMessage = true;
-            showLoadingMessage = false;
+			showLoadingMessage = false;
 			saveToRepoStatus.set(repoStateStrings.loadFailed);
 		}
 	}
@@ -79,12 +79,12 @@
 		textColor="white"
 	/>
 
-    <!--- show loading message --->
-    {#if showLoadingMessage}
-        <div class="status-message loading">
-            {loadingMessage}
-        </div>
-    {/if}
+	<!--- show loading message --->
+	{#if showLoadingMessage}
+		<div class="status-message loading">
+			{loadingMessage}
+		</div>
+	{/if}
 	<!--- show error if the creds aren't accepted by the backend --->
 	{#if showErrorMessage}
 		<div class="status-message error">
@@ -110,11 +110,11 @@
 		font-size: 0.8rem;
 	}
 
-    .error {
-        color: red;
-    }
+	.error {
+		color: red;
+	}
 
-    .loading {
-        color: goldenrod;
-    }
+	.loading {
+		color: goldenrod;
+	}
 </style>

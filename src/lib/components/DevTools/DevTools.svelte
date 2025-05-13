@@ -1,6 +1,6 @@
 <script>
 	import { get } from 'svelte/store';
-	
+
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
@@ -63,7 +63,6 @@
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>
-		<button on:click={setDataButtonOnClickAction}> Send Data </button>
 		<button
 			on:click={() => {
 				$doShowStoreView = !$doShowStoreView;
