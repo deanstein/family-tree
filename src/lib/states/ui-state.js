@@ -1,10 +1,5 @@
 import { derived, writable } from 'svelte/store';
 
-/*** ACTIVE TREE AND PERSON ***/
-export let activeFamilyTree = writable(undefined);
-export let activeFamilyTreeFileOrFolderName = writable(undefined);
-export let activePerson = writable(undefined);
-
 /*** TREE VIEW ***/
 export let personNodePositions = writable([]);
 export let personNodeConnectionLineCanvasRef = writable(undefined);
@@ -16,9 +11,7 @@ export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
 /*** UNSAVED CHANGES ***/
-export let hasUnsavedChanges = writable(false);
 export let cachedPersonForUnsavedChanges = writable(undefined);
-export let saveToRepoStatus = writable(undefined);
 
 /*** MODALS ***/
 export let doShowChooseTreeModal = writable(false);
@@ -30,17 +23,13 @@ export let doShowStoreView = writable(false);
 
 // create a combined store to display in footer dev tools
 const uiStateMap = {
-	activeFamilyTreeFileOrFolderName,
-	activePerson,
 	personNodePositions,
 	personNodeConnectionLineCanvasRef,
 	personNodeConnectionLineCanvasRefHover,
 	timelineCanvasScrollState,
 	timelineFirstEventHeight,
 	timelineLastEventHeight,
-	hasUnsavedChanges,
 	cachedPersonForUnsavedChanges,
-	saveToRepoStatus,
 	doShowChooseTreeModal,
 	doShowPersonDetailView,
 	doShowDevTools,

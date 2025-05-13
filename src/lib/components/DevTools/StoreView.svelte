@@ -1,8 +1,7 @@
 <script>
+	import { allFamilyTreeStateValues } from '$lib/states/family-tree-state';
 	import { allTempStateValues } from '$lib/states/temp-state';
 	import { allUiStateValues } from '$lib/states/ui-state';
-
-	import familyTreeData from '$lib/stores/family-tree-data';
 </script>
 
 <div class="storeview-container">
@@ -17,7 +16,7 @@
 		</div>
 		<div class="store-container">
 			<div>Family Tree Data:</div>
-			{JSON.stringify($familyTreeData)}
+			{JSON.stringify($allFamilyTreeStateValues)}
 		</div>
 	</div>
 </div>

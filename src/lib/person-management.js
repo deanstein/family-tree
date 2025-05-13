@@ -8,13 +8,13 @@ import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
+import { activeFamilyTreeData, activePerson } from './states/family-tree-state';
 import {
 	imageEditContent,
 	imageEditId,
 	timelineEditEvent,
 	uploadedMediaUrl
 } from './states/temp-state';
-import familyTreeData from '$lib/stores/family-tree-data';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
 import { checkPersonForUnsavedChanges } from '$lib/temp-management';
@@ -30,13 +30,12 @@ import {
 	isUrlValid,
 	addOrReplaceObjectInArray
 } from '$lib/utils';
-import { activePerson } from './states/ui-state';
 
 // converts the store of all people
 // into an array of IDs
 export const getAllPeopleIds = () => {
 	let allPeopleIds;
-	familyTreeData.subscribe((currentValue) => {
+	activeFamilyTreeData.subscribe((currentValue) => {
 		allPeopleIds = currentValue.allPeople.map((person) => person.id);
 	});
 	return allPeopleIds;
@@ -84,7 +83,7 @@ export const upgradePersonData = (personDataToMatch, personDataToModify) => {
 	return personDataToModify;
 };
 
-// upgrades a person directly in familyTreeData via id
+// upgrades a person directly in activeFamilyTreeData via id
 export const upgradePersonById = (personId) => {
 	const newPerson = createNewPerson();
 
@@ -99,7 +98,7 @@ export const upgradePersonById = (personId) => {
 	}
 
 	// set the person in familyTreeData
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		//@ts-expect-error
 		currentValue.allPeople[foundPersonIndex] = upgradedPerson;
 		return currentValue;
@@ -173,7 +172,7 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 export const getPersonById = (id) => {
 	let person = undefined;
 
-	familyTreeData.subscribe((currentValue) => {
+	activeFamilyTreeData.subscribe((currentValue) => {
 		const { allPeople } = currentValue;
 		person = allPeople.find((item) => item.id === id);
 	});
@@ -184,7 +183,7 @@ export const getPersonById = (id) => {
 export const getPersonIdByName = (name) => {
 	let personId = undefined;
 
-	familyTreeData.subscribe((currentValue) => {
+	activeFamilyTreeData.subscribe((currentValue) => {
 		const { allPeople } = currentValue;
 		const person = allPeople.find((item) => item.name === name);
 		if (person) {
@@ -242,7 +241,7 @@ export const setActivePerson = (person) => {
 	}
 
 	activePerson.set(person);
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		return {
 			...currentValue,
 			lastKnownActivePersonId: person.id
@@ -251,7 +250,7 @@ export const setActivePerson = (person) => {
 };
 
 export const setPersonName = (sPersonId, sName) => {
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		let personIndex = getPersonIndexById(sPersonId);
 		// @ts-ignore
 		currentValue.allPeople[personIndex].name = sName;
@@ -282,7 +281,7 @@ export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRe
 export const getPersonIndexById = (personId) => {
 	let personIndex;
 
-	familyTreeData.subscribe((currentValue) => {
+	activeFamilyTreeData.subscribe((currentValue) => {
 		personIndex = currentValue.allPeople.findIndex((object) => object['id'] === personId);
 	});
 
@@ -290,14 +289,14 @@ export const getPersonIndexById = (personId) => {
 };
 
 export const addPersonToPeopleArray = (person) => {
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		currentValue.allPeople.push(person);
 		return currentValue;
 	});
 };
 
 export const removePersonFromPeopleArray = (person) => {
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		const nSpliceIndex = currentValue.allPeople.indexOf(person);
 		if (nSpliceIndex > -1) {
 			currentValue.allPeople.splice(nSpliceIndex, 1);
@@ -307,7 +306,7 @@ export const removePersonFromPeopleArray = (person) => {
 };
 
 export const addActivePersonToPeopleArray = () => {
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		const index = getPersonIndexById(currentValue.lastKnownActivePersonId);
 		const activePerson = getPersonById(currentValue.lastKnownActivePersonId);
 		return {
@@ -325,7 +324,7 @@ export const addActivePersonToPeopleArray = () => {
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	const activePersonId = get(activePerson).id;
 
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
@@ -763,7 +762,7 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 export const addTimelineEventReference = (targetPersonId, timelineEventReference) => {
 	// get the target person by the id
 	let targetPersonIndex = getPersonIndexById(targetPersonId);
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		//@ts-expect-error
 		currentValue.allPeople[targetPersonIndex].timelineEventReferences.push(timelineEventReference);
 		return currentValue;
@@ -773,7 +772,7 @@ export const addTimelineEventReference = (targetPersonId, timelineEventReference
 export const removeTimelineEventReference = (targetPersonId, referenceEventId) => {
 	// get the target person by the id
 	let targetPersonIndex = getPersonIndexById(targetPersonId);
-	familyTreeData.update((currentValue) => {
+	activeFamilyTreeData.update((currentValue) => {
 		deleteObjectInArray(
 			//@ts-expect-error
 			currentValue.allPeople[targetPersonIndex].timelineEventReferences,

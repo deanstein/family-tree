@@ -1,7 +1,7 @@
 <script>
 	import { get } from 'svelte/store';
 
-	import { activePerson } from '$lib/states/ui-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
 
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';

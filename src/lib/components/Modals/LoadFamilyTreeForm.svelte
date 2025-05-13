@@ -3,12 +3,13 @@
 	//@ts-expect-error
 	import { lightenColor } from 'jdg-ui-svelte/jdg-utils.js';
 
-	import { doShowChooseTreeModal, saveToRepoStatus } from '$lib/states/ui-state';
+	import { persistenceStatus } from '$lib/states/family-tree-state';
+	import { doShowChooseTreeModal } from '$lib/states/ui-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
 	import { fetchPrivateFamilyTreeAndSetActive } from '$lib/persistence-management';
 
-	import { repoStateStrings } from '../strings';
+	import { persistenceStrings } from '../strings';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import InputContainer from '../InputContainer.svelte';
@@ -29,7 +30,7 @@
 	async function submitLoadFamilyTree() {
 		// hide any errors from last attempt
 		showErrorMessage = false;
-		saveToRepoStatus.set(undefined);
+		persistenceStatus.set(undefined);
 		// show that credentials are being checked
 		showLoadingMessage = true;
 		// attempt to get the private family tree
@@ -39,7 +40,7 @@
 			birthdate
 		);
 		// set the loading notification
-		saveToRepoStatus.set(repoStateStrings.loading);
+		persistenceStatus.set(persistenceStrings.loading);
 
 		if (privateFamilyTreeData) {
 			// hide the modal
@@ -51,7 +52,7 @@
 		} else {
 			showErrorMessage = true;
 			showLoadingMessage = false;
-			saveToRepoStatus.set(repoStateStrings.loadFailed);
+			persistenceStatus.set(persistenceStrings.loadFailed);
 		}
 	}
 

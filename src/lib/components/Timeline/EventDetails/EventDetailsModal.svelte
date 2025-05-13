@@ -6,7 +6,7 @@
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
-	import { activePerson } from '$lib/states/ui-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 	import {
 		imageEditContent,
 		imageEditId,

@@ -3,7 +3,7 @@
 
 	import contexts from '$lib/schemas/contexts';
 
-	import { activePerson } from '$lib/states/ui-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 
 	import { scrollHorizontal } from '$lib/ui-management';
 	import { filterPeopleIds, getAllPeopleIds, getPersonById } from '$lib/person-management';

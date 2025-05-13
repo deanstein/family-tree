@@ -12,15 +12,16 @@
 
 	import { monthNames } from '$lib/components/strings';
 
-	import { JDGButton } from 'jdg-ui-svelte';
-	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
-	import stylingConstants from '$lib/components/styling-constants';
+	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		activePerson,
 		doShowPersonDetailView,
 		timelineFirstEventHeight,
 		timelineLastEventHeight
 	} from '$lib/states/ui-state';
+
+	import { JDGButton } from 'jdg-ui-svelte';
+	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let timelineEvent;
 	// if this is set, this event is a reference to someone else's event

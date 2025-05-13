@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 
+import { activePerson, hasUnsavedChanges, persistenceStatus } from './states/family-tree-state';
 import {
 	bioEditAltName,
 	bioEditAltNames,
@@ -10,18 +11,13 @@ import {
 	nodeEditRelationshipId,
 	timelineEditEvent
 } from './states/temp-state';
-import {
-	activePerson,
-	cachedPersonForUnsavedChanges,
-	hasUnsavedChanges,
-	saveToRepoStatus
-} from './states/ui-state';
+import { cachedPersonForUnsavedChanges } from './states/ui-state';
 import imageCache from './stores/image-cache';
 
 import { getPersonById, getPersonRelationshipIds } from './person-management';
 import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
-import { repoStateStrings } from '$lib/components/strings';
+import { persistenceStrings } from '$lib/components/strings';
 
 // manage the image cache
 // image identifier could be a path or a GitHub url
@@ -74,7 +70,7 @@ export const checkPersonForUnsavedChanges = (personId) => {
 
 	if (unsavedChangesDetected) {
 		hasUnsavedChanges.set(true);
-		saveToRepoStatus.set(repoStateStrings.unsavedChanges);
+		persistenceStatus.set(persistenceStrings.unsavedChanges);
 	}
 };
 

@@ -16,7 +16,8 @@
 		grandchildrenCompatibleGroups
 	} from '$lib/schemas/relationship-map';
 
-	import familyTreeData from '$lib/stores/family-tree-data';
+	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 	import {
 		bioEditAltName,
 		imageEditId,
@@ -27,7 +28,6 @@
 		timelineEditEvent
 	} from '$lib/states/temp-state';
 	import {
-		activePerson,
 		doShowChooseTreeModal,
 		doShowDevTools,
 		personNodeConnectionLineCanvasRef,
@@ -74,8 +74,8 @@
 
 	// if there's no known people in this tree, it's a new tree
 	// so add a default person and enable editing mode
-	if ($familyTreeData.allPeople.length === 0) {
-		familyTreeData.update((currentValue) => {
+	if ($activeFamilyTreeData.allPeople.length === 0) {
+		activeFamilyTreeData.update((currentValue) => {
 			currentValue.allPeople.push(instantiateObject(person));
 			return currentValue;
 		});
@@ -84,7 +84,7 @@
 	}
 
 	// set the initial active person as the first in the list
-	setActivePerson($familyTreeData.allPeople[0]);
+	setActivePerson($activeFamilyTreeData.allPeople[0]);
 
 	// block the context menu everywhere
 	let blockContextMenu = (event) => {

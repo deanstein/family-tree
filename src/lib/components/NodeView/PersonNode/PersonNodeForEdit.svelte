@@ -3,13 +3,14 @@
 	import { get } from 'svelte/store';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
+
+	import { activePerson } from '$lib/states/family-tree-state';
 	import {
 		isNodeEditActive,
 		nodeEditCompatibleGroups,
 		nodeEditId,
 		nodeEditRelationshipId
 	} from '$lib/states/temp-state';
-	import { activePerson } from '$lib/states/ui-state';
 
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import PersonNodeScrollingWindow from '$lib/components/NodeView/PersonNode/PersonNodeScrollingWindow.svelte';

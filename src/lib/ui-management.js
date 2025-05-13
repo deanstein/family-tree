@@ -1,26 +1,23 @@
+import { get } from 'svelte/store';
+
 import { relationship } from './schemas/relationship';
 import timelineEvent from './schemas/timeline-event';
 import timelineEventTypes from './schemas/timeline-event-types';
 import timelineEventReference from './schemas/timeline-event-reference';
 import timelineRowItem from './schemas/timeline-row-item';
 
-import {
-	activePerson,
-	personNodePositions,
-	saveToRepoStatus,
-	timelineCanvasScrollState
-} from './states/ui-state';
+import { activePerson, persistenceStatus } from './states/family-tree-state';
+import { personNodePositions, timelineCanvasScrollState } from './states/ui-state';
 
 import {
 	getPersonById,
 	getGroupIdFromRelationshipId,
 	getTimelineEventById
 } from '$lib/person-management';
-import { instantiateObject, largest, removeExtensionFromFileNameOrPath } from './utils';
+import { instantiateObject, largest } from './utils';
 
-import { repoStateStrings, timelineEventStrings } from '$lib/components/strings';
+import { persistenceStrings, timelineEventStrings } from '$lib/components/strings';
 import stylingConstants from '$lib/components/styling-constants';
-import { get } from 'svelte/store';
 
 export const addOrUpdatePersonInActivePersonGroup = (sPersonId, sRelationshipId) => {
 	activePerson.update((currentValue) => {
@@ -74,41 +71,41 @@ export const getNotificationConfigFromRepoState = () => {
 	let message;
 	let color;
 
-	switch (get(saveToRepoStatus)) {
-		case repoStateStrings.loading:
-			message = repoStateStrings.loading;
+	switch (get(persistenceStatus)) {
+		case persistenceStrings.loading:
+			message = persistenceStrings.loading;
 			color = stylingConstants.colors.notificationColorInProgress;
 			break;
-		case repoStateStrings.loadSuccessful:
-			message = repoStateStrings.loadSuccessful;
+		case persistenceStrings.loadSuccessful:
+			message = persistenceStrings.loadSuccessful;
 			color = stylingConstants.colors.notificationColorSuccess;
 			break;
-		case repoStateStrings.saved:
-			message = repoStateStrings.saved;
+		case persistenceStrings.saved:
+			message = persistenceStrings.saved;
 			color = stylingConstants.colors.notificationColorInformation;
 			break;
-		case repoStateStrings.saving:
-			message = repoStateStrings.saving;
+		case persistenceStrings.saving:
+			message = persistenceStrings.saving;
 			color = stylingConstants.colors.notificationColorInProgress;
 			break;
-		case repoStateStrings.saveSuccessful:
-			message = repoStateStrings.saveSuccessful;
+		case persistenceStrings.saveSuccessful:
+			message = persistenceStrings.saveSuccessful;
 			color = stylingConstants.colors.notificationColorSuccess;
 			break;
-		case repoStateStrings.unsavedChanges:
-			message = repoStateStrings.unsavedChanges;
+		case persistenceStrings.unsavedChanges:
+			message = persistenceStrings.unsavedChanges;
 			color = stylingConstants.colors.notificationColorWarning;
 			break;
-		case repoStateStrings.loadFailed:
-			message = repoStateStrings.loadFailed;
+		case persistenceStrings.loadFailed:
+			message = persistenceStrings.loadFailed;
 			color = stylingConstants.colors.notificationColorError;
 			break;
-		case repoStateStrings.saveFailed:
-			message = repoStateStrings.saveFailed;
+		case persistenceStrings.saveFailed:
+			message = persistenceStrings.saveFailed;
 			color = stylingConstants.colors.notificationColorError;
 			break;
 		default:
-			message = repoStateStrings.undefined;
+			message = persistenceStrings.undefined;
 			color = stylingConstants.colors.notificationColorInformation;
 	}
 

@@ -3,12 +3,12 @@
 
 	import alternateName from '$lib/schemas/alternate-name';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { bioEditAltName, bioEditAltNames } from '$lib/states/temp-state';
-	import { activePerson } from '$lib/states/ui-state';
-	import stylingConstants from '$lib/components/styling-constants';
 
 	import AlternateName from '$lib/components/Bio/AlternateName.svelte';
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	import { instantiateObject } from '$lib/utils';
 

@@ -1,24 +1,24 @@
 import { get } from 'svelte/store';
 
-import familyTreeData from './stores/family-tree-data';
-import {
-	activeFamilyTree,
-	activeFamilyTreeFileOrFolderName,
-	activePerson,
-	saveToRepoStatus
-} from './states/ui-state';
+import { activeFamilyTreeData } from './states/family-tree-state';
+import { persistenceStatus } from './states/family-tree-state';
+import { activeFamilyTreeId, activePerson } from './states/family-tree-state';
 
-import { repoStateStrings } from '$lib/components/strings';
+import { persistenceStrings } from '$lib/components/strings';
 import { getPersonById, getPersonIdByName } from './person-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
 export const familyTreeDataMapFileName = 'family-tree-data-map.json';
+// tree IDs for example and private trees
+// these are the folder names containing subfolders of photos, per person
+export const exampleFamilyTreeId = 'family-tree-data-0';
+export const privateFamilyTreeId = 'family-tree-data-1';
+// image paths
 export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
-export const exampleFamilyTreeStartingId = '2'; // Kendall Roy
-// cloudflare workers and paths
+// Cloudflare workers and GitHub App paths
 export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
 export const ghaPathGetToken = '/get-github-app-token';
 export const ghaPathGetExampleFamilyTreeData = '/get-example-family-tree-data';
@@ -28,6 +28,8 @@ const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
 const pathPrefixTimelineEventId = 'event';
 const pathPrefixTimelineEventImageId = 'event-image';
+// start the example family tree with this person as the activePerson
+const exampleFamilyTreeAuthMemberId = '2'; // Kendall Roy
 
 /*** GITHUB APP WORKER FUNCTIONS ***/
 export async function getGitHubToken() {
@@ -47,7 +49,7 @@ export async function getGitHubToken() {
 
 export async function fetchExampleFamilyTree() {
 	const response = await fetch(
-		gitHubAppWorkerUrl + ghaPathGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeStartingId
+		gitHubAppWorkerUrl + ghaPathGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeAuthMemberId
 	);
 	const responseJson = await response.json();
 	// if we got the tree from the backend
@@ -59,10 +61,10 @@ export async function fetchExampleFamilyTree() {
 export async function fetchExampleFamilyTreeAndSetActive() {
 	const exampleFamilyTreeData = await fetchExampleFamilyTree();
 	if (exampleFamilyTreeData) {
-		familyTreeData.set(exampleFamilyTreeData);
-		activeFamilyTree.set(exampleFamilyTreeData);
-		activePerson.set(getPersonById(exampleFamilyTreeStartingId));
-		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
+		activeFamilyTreeData.set(exampleFamilyTreeData);
+		activePerson.set(getPersonById(exampleFamilyTreeAuthMemberId));
+		persistenceStatus.set(persistenceStrings.loadSuccessful);
+		return exampleFamilyTreeData;
 	}
 }
 
@@ -89,23 +91,20 @@ export async function fetchPrivateFamilyTree(firstName, lastName, birthdate) {
 export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, birthdate) {
 	const privateFamilyTreeData = await fetchPrivateFamilyTree(firstName, lastName, birthdate);
 	if (privateFamilyTreeData) {
-		familyTreeData.set(privateFamilyTreeData);
-		activeFamilyTree.set(privateFamilyTreeData);
+		activeFamilyTreeData.set(privateFamilyTreeData);
 		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
-		saveToRepoStatus.set(repoStateStrings.loadSuccessful);
+		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return privateFamilyTreeData;
-	} else {
-		return undefined;
 	}
 }
 
 export const getBioPhotoPathNoExt = () => {
-	return `${get(activeFamilyTreeFileOrFolderName)}/${pathPrefixPersonId}-${
+	return `${get(activeFamilyTreeId)}/${pathPrefixPersonId}-${
 		get(activePerson)?.id
 	}/${bioPhotoFileName}`;
 };
 export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
-	return `${get(activeFamilyTreeFileOrFolderName)}/${pathPrefixPersonId}-${
+	return `${get(activeFamilyTreeId)}/${pathPrefixPersonId}-${
 		get(activePerson).id
 	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
 };
@@ -168,17 +167,16 @@ export const getTotalCommitsInPublicRepo = async (repoOwner, repoName) => {
 
 export const writeCurrentFamilyTreeDataToRepo = async () => {
 	// Get the file name to write to given the family tree ID in UI state
-	const familyTreeId = get(activeFamilyTreeDataId);
 	let familyTreeDataFileName;
 	let currentFamilyTreeData;
 
-	familyTreeData.subscribe((currentValue) => {
+	activeFamilyTreeData.subscribe((currentValue) => {
 		currentFamilyTreeData = currentValue;
 	});
 
-	familyTreeDataFileName = await getFamilyTreeDataFileName(repoOwner, dataRepoName, familyTreeId);
+	familyTreeDataFileName = get(activeFamilyTreeId);
 
-	saveToRepoStatus.set(repoStateStrings.saving);
+	persistenceStatus.set(persistenceStrings.saving);
 
 	// request GitHub App token from Cloudflare Worker
 	const tokenResponse = await fetch(gitHubAppWorkerUrl + ghaPathGetToken);
@@ -186,7 +184,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	if (!token) {
 		console.error('Failed to retrieve GitHub App token.');
-		saveToRepoStatus.set(repoStateStrings.saveFailed);
+		persistenceStatus.set(persistenceStrings.saveFailed);
 		return;
 	}
 
@@ -200,7 +198,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 
 	if (!response.ok) {
 		console.error('Repository not found: ' + dataRepoName);
-		saveToRepoStatus.set(repoStateStrings.saveFailed);
+		persistenceStatus.set(persistenceStrings.saveFailed);
 		return;
 	}
 
@@ -242,13 +240,13 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 	);
 
 	if (updateResponse.ok) {
-		saveToRepoStatus.set(repoStateStrings.saveSuccessful);
+		persistenceStatus.set(persistenceStrings.saveSuccessful);
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 
 		// Ensure the latest version of the file is used for the next update
-		getRepoFamilyTreeAndSetActive(familyTreeId, false);
+		//////////getRepoFamilyTreeAndSetActive(familyTreeId, false);
 	} else {
-		saveToRepoStatus.set(repoStateStrings.saveFailed);
+		persistenceStatus.set(persistenceStrings.saveFailed);
 		console.error(`Failed to update file ${familyTreeDataFileName}.`);
 	}
 };

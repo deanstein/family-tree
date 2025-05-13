@@ -5,12 +5,9 @@
 	import { defaultName } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import {
-		activePerson,
-		cachedPersonForUnsavedChanges,
-		doShowPersonDetailView
-	} from '$lib/states/ui-state';
+	import { cachedPersonForUnsavedChanges, doShowPersonDetailView } from '$lib/states/ui-state';
 
 	import {
 		getPersonById,

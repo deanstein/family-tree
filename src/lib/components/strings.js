@@ -1,4 +1,4 @@
-export const repoStateStrings = {
+export const persistenceStrings = {
 	loading: 'Loading family tree...',
 	loadSuccessful: 'Loaded!',
 	loadFailed: 'Failed to load family tree data.',

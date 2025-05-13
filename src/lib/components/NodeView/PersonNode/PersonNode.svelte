@@ -6,6 +6,7 @@
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
@@ -14,7 +15,6 @@
 		timelineEditEventId
 	} from '$lib/states/temp-state';
 	import {
-		activePerson,
 		doShowPersonDetailView,
 		personNodeConnectionLineCanvasRefHover
 	} from '$lib/states/ui-state';

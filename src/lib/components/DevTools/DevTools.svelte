@@ -4,18 +4,13 @@
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
+	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import {
-		activePerson,
-		doShowChooseTreeModal,
-		doShowDevTools,
-		doShowStoreView,
-		saveToRepoStatus
-	} from '$lib/states/ui-state';
+	import { doShowChooseTreeModal, doShowDevTools, doShowStoreView } from '$lib/states/ui-state';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
-	import { repoStateStrings } from '$lib/components/strings';
+	import { persistenceStrings } from '$lib/components/strings';
 
 	import DevToolbar from '$lib/components/DevTools/DevToolbar.svelte';
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
@@ -38,7 +33,7 @@
 	};
 
 	const testSaveNotification = () => {
-		saveToRepoStatus.set(repoStateStrings.unsavedChanges);
+		persistenceStatus.set(persistenceStrings.unsavedChanges);
 	};
 
 	const setBioEditActive = () => {

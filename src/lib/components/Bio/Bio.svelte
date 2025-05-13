@@ -3,8 +3,9 @@
 	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import { activePerson, cachedPersonForUnsavedChanges } from '$lib/states/ui-state';
+	import { cachedPersonForUnsavedChanges } from '$lib/states/ui-state';
 
 	import { gender } from '$lib/schemas/gender';
 

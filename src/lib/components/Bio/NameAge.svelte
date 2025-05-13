@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { activePerson } from '$lib/states/ui-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 

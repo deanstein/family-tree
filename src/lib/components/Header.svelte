@@ -1,11 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
-	import { get } from 'svelte/store';
 
+	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
-	import { saveToRepoStatus } from '$lib/states/ui-state';
 
-	import { repoStateStrings } from '$lib/components/strings';
+	import { persistenceStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	import Button from '$lib/components/Button.svelte';
@@ -27,7 +26,7 @@
 
 	$: {
 		headerLeftFlankCss = css`
-			flex: ${$saveToRepoStatus === repoStateStrings.undefined || !$saveToRepoStatus ? 1 : 0};
+			flex: ${$persistenceStatus === persistenceStrings.undefined || !$persistenceStatus ? 1 : 0};
 		`;
 	}
 </script>

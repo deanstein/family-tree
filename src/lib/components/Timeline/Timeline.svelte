@@ -7,8 +7,8 @@
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEvent from '$lib/schemas/timeline-event';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
-	import { activePerson } from '$lib/states/ui-state';
 
 	// @ts-expect-error
 	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';

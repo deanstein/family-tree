@@ -1,12 +1,13 @@
 <script>
 	import { css } from '@emotion/css';
 
+	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
-	import { doShowChooseTreeModal, saveToRepoStatus } from '$lib/states/ui-state';
+	import { doShowChooseTreeModal } from '$lib/states/ui-state';
 
 	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
 
-	import { chooseTreeStrings, repoStateStrings } from '$lib/components/strings';
+	import { chooseTreeStrings, persistenceStrings } from '$lib/components/strings';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import LoadFamilyTreeForm from './LoadFamilyTreeForm.svelte';
@@ -32,18 +33,23 @@
 		// new family tree is already loaded, so just dismiss the choose tree modal
 		doShowChooseTreeModal.set(false);
 		// clear any error messaging if there is any
-		saveToRepoStatus.set(undefined);
+		persistenceStatus.set(undefined);
 	};
 
 	const onClickExampleTreeButton = async () => {
 		// set the loading notification
-		saveToRepoStatus.set(repoStateStrings.loading);
+		persistenceStatus.set(persistenceStrings.loading);
 		// hide the modal
 		doShowChooseTreeModal.set(false);
-		// set edit mode to off
-		isTreeEditActive.set(false);
 		// load the example family tree and set it active
-		fetchExampleFamilyTreeAndSetActive();
+		const exampleFamilyTreeData = await fetchExampleFamilyTreeAndSetActive();
+		if (exampleFamilyTreeData) {
+			// set edit mode to off
+			isTreeEditActive.set(false);
+		} else {
+			persistenceStatus.set(persistenceStrings.loadFailed);
+			doShowChooseTreeModal.set(true);
+		}
 	};
 </script>
 

@@ -3,6 +3,8 @@
 	import { css } from '@emotion/css';
 
 	import contexts from '$lib/schemas/contexts';
+
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
 
 	import {
@@ -17,7 +19,6 @@
 	import PersonNodeForEdit from '$lib/components/NodeView/PersonNode/PersonNodeForEdit.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { activePerson } from '$lib/states/ui-state';
 
 	export let enabled;
 	export let associatedPeopleIds = [];
