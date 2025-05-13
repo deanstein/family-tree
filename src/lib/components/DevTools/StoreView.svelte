@@ -15,7 +15,7 @@
 			{JSON.stringify($allUiStateValues)}
 		</div>
 		<div class="store-container">
-			<div>Family Tree Data:</div>
+			<div>Active Family Tree State:</div>
 			{JSON.stringify($allFamilyTreeStateValues)}
 		</div>
 	</div>
