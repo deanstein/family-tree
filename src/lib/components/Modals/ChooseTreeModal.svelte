@@ -36,6 +36,8 @@
 	const onClickNewTreeButton = () => {
 		// new family tree is already loaded, so just dismiss the choose tree modal
 		doShowChooseTreeModal.set(false);
+		// clear any error messaging if there is any
+		saveToRepoStatus.set(undefined);
 	};
 
 	const onClickExampleTreeButton = async () => {
