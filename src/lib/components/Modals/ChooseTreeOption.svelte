@@ -100,7 +100,7 @@
 		flex-basis: 33%;
 		background-color: white;
 		border-radius: 10px;
-		padding: 100px 20px 100px 20px;
+		padding: 20px;
 	}
 
 	.button-and-icon-container {

@@ -3,25 +3,19 @@
 
 	import { isTreeEditActive } from '$lib/states/temp-state';
 	import {
-		activeFamilyTree,
-		activePerson,
 		doShowChooseTreeModal,
 		saveToRepoStatus
 	} from '$lib/states/ui-state';
 
-	import { chooseTreeStrings, repoStateStrings } from '$lib/components/strings';
-	import stylingConstants from '$lib/components/styling-constants';
+	import {
+		fetchExampleFamilyTreeAndSetActive
+	} from '$lib/persistence-management';
 
+	import { chooseTreeStrings, repoStateStrings } from '$lib/components/strings';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import LoadFamilyTreeForm from './LoadFamilyTreeForm.svelte';
-	import {
-		fetchExampleFamilyTreeAndSetActive,
-		ghaPathGetExampleFamilyTreeData,
-		gitHubAppWorkerUrl
-	} from '$lib/persistence-management';
-	import familyTreeData from '$lib/stores/family-tree-data';
-	import { getPersonById, setActivePerson } from '$lib/person-management';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -61,6 +55,7 @@
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}
+	height={'55vh'}
 	overflow={'auto'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >

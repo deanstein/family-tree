@@ -20,14 +20,18 @@
 	let lastName = '';
 	let birthdate = '';
 
-	let showError = false;
+    // for local status messaging
+    let showLoadingMessage = false;
+    let loadingMessage = "Checking your credentials...";
+	let showErrorMessage = false;
 	const errorMessage = "Sorry, it appears you don't have access to the private family tree.";
 
 	async function submitLoadFamilyTree() {
 		// hide any errors from last attempt
-		showError = false;
-		saveToRepoStatus.set(undefined);
-
+		showErrorMessage = false;
+        saveToRepoStatus.set(undefined);
+        // show that credentials are being checked
+        showLoadingMessage = true;
 		// attempt to get the private family tree
 		const privateFamilyTreeData = await fetchPrivateFamilyTreeAndSetActive(
 			firstName,
@@ -42,9 +46,11 @@
 			doShowChooseTreeModal.set(false);
 			// set edit mode to off
 			isTreeEditActive.set(false);
-			showError = false;
+			showErrorMessage = false;
+            showLoadingMessage = false;
 		} else {
-			showError = true;
+			showErrorMessage = true;
+            showLoadingMessage = false;
 			saveToRepoStatus.set(repoStateStrings.loadFailed);
 		}
 	}
@@ -73,9 +79,15 @@
 		textColor="white"
 	/>
 
+    <!--- show loading message --->
+    {#if showLoadingMessage}
+        <div class="status-message loading">
+            {loadingMessage}
+        </div>
+    {/if}
 	<!--- show error if the creds aren't accepted by the backend --->
-	{#if showError}
-		<div class="error-message">
+	{#if showErrorMessage}
+		<div class="status-message error">
 			{errorMessage}
 		</div>
 	{/if}
@@ -92,10 +104,17 @@
 		box-sizing: border-box;
 	}
 
-	.error-message {
+	.status-message {
 		text-align: center;
 		text-wrap: balance;
 		font-size: 0.8rem;
-		color: red;
 	}
+
+    .error {
+        color: red;
+    }
+
+    .loading {
+        color: goldenrod;
+    }
 </style>
