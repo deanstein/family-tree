@@ -1,5 +1,5 @@
 <script>
-	import { persistenceStatus } from '$lib/states/family-tree-state';
+	import { hasUnsavedChanges, persistenceStatus } from '$lib/states/family-tree-state';
 
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
@@ -16,6 +16,13 @@
 	let onSaveButtonClick = () => {
 		writeCurrentFamilyTreeDataToRepo();
 	};
+
+	// when unsaved changes are detected, update the persistence status
+	$: {
+		if ($hasUnsavedChanges) {
+			$persistenceStatus = persistenceStrings.unsavedChanges;
+		}
+	}
 
 	$: {
 		showBanner =

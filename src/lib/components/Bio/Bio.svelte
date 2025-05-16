@@ -83,8 +83,6 @@
 			}
 		}));
 		writeTempAlternateNamesToFamilyTree();
-		// write the activePerson back to the activeFamilyTree
-		//addOrUpdatePersonInPeopleArray(activePerson);
 	};
 
 	// synchronizes all inputs back to UI state values
