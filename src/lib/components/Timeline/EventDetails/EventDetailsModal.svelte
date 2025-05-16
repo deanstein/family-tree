@@ -16,7 +16,7 @@
 		timelineEditEventId
 	} from '$lib/states/temp-state';
 
-	import { addOrReplaceTimelineEvent } from '$lib/person-management';
+	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
 	import {
 		getObjectByKeyValueInArray,
@@ -165,11 +165,15 @@
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
-		if (!areObjectsEqual(originalEventContent, get(timelineEditEvent))) {
+		if (
+			!areObjectsEqual(
+				originalEventContent,
+				getTimelineEventById(get(activePerson).id, get(timelineEditEventId))
+			)
+		) {
 			hasUnsavedChanges.set(true);
 		}
 		timelineEditEventId.set(undefined);
-		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
