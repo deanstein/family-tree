@@ -1,16 +1,17 @@
 <script>
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
 
+	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
+	import { getPersonById } from '$lib/tree-management';
 	import {
 		addOrUpdateActivePersonInNewPersonGroup,
-		addPersonToPeopleArray,
 		createNewPerson,
-		getDefaultRelationshipType,
-		getPersonById
+		getDefaultRelationshipType
 	} from '$lib/person-management';
 	import { addOrUpdatePersonInActivePersonGroup } from '$lib/ui-management';
 	import { showPersonNodeActionsModal } from '$lib/temp-management';
@@ -27,7 +28,6 @@
 
 	const onClickAddPersonButton = () => {
 		let newPerson = createNewPerson();
-		addPersonToPeopleArray(newPerson);
 		let defaultRelationshipType = getDefaultRelationshipType(
 			relationshipMap[personNodeGroupData.groupId]
 		).id;
@@ -78,7 +78,10 @@
 						color={personNodeColor}
 						context={contexts.treeView}
 						onClickActionButton={() => {
-							const person = getPersonById(personNodeGroupData.groupMembers[i].id);
+							const person = getPersonById(
+								get(activeFamilyTreeData),
+								personNodeGroupData.groupMembers[i].id
+							);
 							showPersonNodeActionsModal(
 								personNodeGroupData.groupMembers[i].id,
 								person.name,

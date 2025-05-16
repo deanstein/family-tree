@@ -5,7 +5,7 @@ import { persistenceStatus } from './states/family-tree-state';
 import { activeFamilyTreeId, activePerson } from './states/family-tree-state';
 
 import { persistenceStrings } from '$lib/components/strings';
-import { getPersonById, getPersonIdByName } from './person-management';
+import { getPersonById, getPersonIdByName } from './tree-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
@@ -62,7 +62,7 @@ export async function fetchExampleFamilyTreeAndSetActive() {
 	const exampleFamilyTreeData = await fetchExampleFamilyTree();
 	if (exampleFamilyTreeData) {
 		activeFamilyTreeData.set(exampleFamilyTreeData);
-		activePerson.set(getPersonById(exampleFamilyTreeAuthMemberId));
+		activePerson.set(getPersonById(get(activeFamilyTreeData), exampleFamilyTreeAuthMemberId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return exampleFamilyTreeData;
 	}
@@ -92,7 +92,9 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 	const privateFamilyTreeData = await fetchPrivateFamilyTree(firstName, lastName, birthdate);
 	if (privateFamilyTreeData) {
 		activeFamilyTreeData.set(privateFamilyTreeData);
-		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
+		activePerson.set(
+			getPersonById(get(activeFamilyTreeData), getPersonIdByName(firstName + ' ' + lastName))
+		);
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return privateFamilyTreeData;
 	}

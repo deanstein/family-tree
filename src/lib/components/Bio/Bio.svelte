@@ -5,7 +5,6 @@
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import { cachedPersonForUnsavedChanges } from '$lib/states/ui-state';
 
 	import { gender } from '$lib/schemas/gender';
 
@@ -14,7 +13,6 @@
 		writeTempAlternateNamesToUIState,
 		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
-	import { getPersonById } from '$lib/person-management';
 	import { getNumberOfYearsBetweenEvents } from '$lib/utils';
 
 	import stylingConstants from '$lib/components/styling-constants';
@@ -129,10 +127,6 @@
 		// the latest is always shown by setting all inputs to UI State
 		syncAllInputs();
 	}
-
-	onMount(() => {
-		cachedPersonForUnsavedChanges.set(getPersonById(personId));
-	});
 
 	const bioContentContainerCss = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};

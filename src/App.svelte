@@ -35,7 +35,7 @@
 		personNodePositions
 	} from '$lib/states/ui-state';
 
-	import { setActivePerson } from '$lib/person-management';
+	import { setActivePerson } from '$lib/tree-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
 	import { instantiateObject } from '$lib/utils';

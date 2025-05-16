@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
@@ -8,11 +9,13 @@
 	import { timelineEditEvent } from '$lib/states/temp-state';
 
 	import { getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
-	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
+
+	import { getPersonById, setActivePerson } from '$lib/tree-management';
+	import { upgradeTimelineEvent } from '$lib/person-management';
 
 	import { monthNames } from '$lib/components/strings';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activeFamilyTreeData, activePerson } from '$lib/states/family-tree-state';
 	import {
 		doShowPersonDetailView,
 		timelineFirstEventHeight,
@@ -47,7 +50,7 @@
 	// to an eventReference personId
 	const makeEventReferencePersonActive = () => {
 		doShowPersonDetailView.set(false);
-		setActivePerson(getPersonById(eventReference.personId));
+		setActivePerson(getPersonById(get(activeFamilyTreeData), eventReference.personId));
 	};
 
 	const eventRowCss = css`
@@ -203,7 +206,8 @@
 							fontSize="12px"
 							gap="6px"
 							label={getPersonById(eventReference?.personId)?.name}
-							tooltip={'Go to ' + getPersonById(eventReference?.personId)?.name}
+							tooltip={'Go to ' +
+								getPersonById(get(activeFamilyTreeData), eventReference?.personId)?.name}
 						/>
 					</div>
 				</div>

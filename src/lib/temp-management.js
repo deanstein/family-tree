@@ -1,6 +1,12 @@
 import { get } from 'svelte/store';
 
-import { activePerson, hasUnsavedChanges, persistenceStatus } from './states/family-tree-state';
+import {
+	activeFamilyTreeData,
+	activePerson,
+	cachedFamilyTreeData,
+	hasUnsavedChanges,
+	persistenceStatus
+} from './states/family-tree-state';
 import {
 	bioEditAltName,
 	bioEditAltNames,
@@ -11,10 +17,10 @@ import {
 	nodeEditRelationshipId,
 	timelineEditEvent
 } from './states/temp-state';
-import { cachedPersonForUnsavedChanges } from './states/ui-state';
 import imageCache from './stores/image-cache';
 
-import { getPersonById, getPersonRelationshipIds } from './person-management';
+import { getPersonById } from './tree-management';
+import { getPersonRelationshipIds } from './person-management';
 import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
 import { persistenceStrings } from '$lib/components/strings';
@@ -50,9 +56,9 @@ export const checkPersonForUnsavedChanges = (personId) => {
 	let unsavedChangesDetected = false;
 
 	// get the person to test from the ui state
-	let personToTest = getPersonById(personId);
+	let personToTest = getPersonById(get(activeFamilyTreeData), personId);
 	// get the person to compare from the cached list of all people
-	const personToCompare = get(cachedPersonForUnsavedChanges);
+	const personToCompare = getPersonById(get(cachedFamilyTreeData), personId);
 
 	if (!personToTest || !personToCompare) {
 		console.warn(

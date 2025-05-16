@@ -10,9 +10,6 @@ export let timelineCanvasScrollState = writable({ top: true, bottom: true });
 export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
-/*** UNSAVED CHANGES ***/
-export let cachedPersonForUnsavedChanges = writable(undefined);
-
 /*** MODALS ***/
 export let doShowChooseTreeModal = writable(false);
 export let doShowPersonDetailView = writable(false);
@@ -29,7 +26,6 @@ const uiStateMap = {
 	timelineCanvasScrollState,
 	timelineFirstEventHeight,
 	timelineLastEventHeight,
-	cachedPersonForUnsavedChanges,
 	doShowChooseTreeModal,
 	doShowPersonDetailView,
 	doShowDevTools,

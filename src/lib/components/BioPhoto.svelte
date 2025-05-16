@@ -5,13 +5,12 @@
 		bioPhotoPlaceholderSrc,
 		getBioPhotoPathNoExt
 	} from '$lib/persistence-management';
-	import {
-		deleteBioPhotoReference,
-		getPersonById,
-		setBioPhotoUrlFromTempState
-	} from '$lib/person-management';
+	import { getPersonById } from '$lib/tree-management';
+	import { deleteBioPhotoReference, setBioPhotoUrlFromTempState } from '$lib/person-management';
 
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
+	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
+	import { get } from 'svelte/store';
 
 	export let personId;
 	export let allowEdit;
@@ -28,7 +27,7 @@
 	};
 
 	$: {
-		person = getPersonById(personId);
+		person = getPersonById(get(activeFamilyTreeData), personId);
 		bioPhotoPathNoExt = getBioPhotoPathNoExt();
 	}
 </script>

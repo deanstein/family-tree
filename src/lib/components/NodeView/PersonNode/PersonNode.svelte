@@ -6,7 +6,7 @@
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activeFamilyTreeData, activePerson } from '$lib/states/family-tree-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
@@ -22,10 +22,11 @@
 	import {
 		getPersonById,
 		setActivePerson,
-		addActivePersonToPeopleArray,
+		removePersonFromPeopleArray
+	} from '$lib/tree-management';
+	import {
 		getRelationshipNameById,
 		addOrUpdateActivePersonInNewPersonGroup,
-		removePersonFromPeopleArray,
 		upgradePersonById,
 		addTimelineEventReference
 	} from '$lib/person-management';
@@ -107,8 +108,7 @@
 			doShowPersonDetailView.set(true);
 		} else {
 			// clicking on anyone else makes them the active person
-			setActivePerson(getPersonById(personId));
-			addActivePersonToPeopleArray();
+			setActivePerson(getPersonById(get(activeFamilyTreeData), personId));
 		}
 	};
 
@@ -117,7 +117,7 @@
 		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
 		addOrUpdateActivePersonInNewPersonGroup(personId, get(nodeEditGroupId));
 		removePersonFromActivePersonGroup(get(nodeEditId), relationshipId);
-		removePersonFromPeopleArray(getPersonById(get(nodeEditId)));
+		removePersonFromPeopleArray(getPersonById(get(activeFamilyTreeData), get(nodeEditId)));
 		hidePersonNodeActionsModal();
 		checkPersonForUnsavedChanges(personId);
 	};
@@ -140,7 +140,7 @@
 		timelineEditEventId.set(undefined);
 		timelineEditEventId.set(undefined);
 		doShowPersonDetailView.set(false);
-		setActivePerson(getPersonById(personId));
+		setActivePerson(getPersonById(get(activeFamilyTreeData), personId));
 	};
 
 	// gets dynamically modified later
@@ -230,7 +230,7 @@
 	});
 
 	$: {
-		name = getPersonById(personId)?.name;
+		name = getPersonById(get(activeFamilyTreeData), personId)?.name;
 		if (relationshipId && compatibleGroups) {
 			relationshipLabel = getRelationshipNameById(relationshipId, compatibleGroups);
 		}

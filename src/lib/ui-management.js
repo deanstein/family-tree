@@ -6,14 +6,11 @@ import timelineEventTypes from './schemas/timeline-event-types';
 import timelineEventReference from './schemas/timeline-event-reference';
 import timelineRowItem from './schemas/timeline-row-item';
 
-import { activePerson, persistenceStatus } from './states/family-tree-state';
+import { activeFamilyTreeData, activePerson, persistenceStatus } from './states/family-tree-state';
 import { personNodePositions, timelineCanvasScrollState } from './states/ui-state';
 
-import {
-	getPersonById,
-	getGroupIdFromRelationshipId,
-	getTimelineEventById
-} from '$lib/person-management';
+import { getPersonById } from './tree-management';
+import { getGroupIdFromRelationshipId, getTimelineEventById } from '$lib/person-management';
 import { instantiateObject, largest } from './utils';
 
 import { persistenceStrings, timelineEventStrings } from '$lib/components/strings';
@@ -207,7 +204,7 @@ export const generateTimelineRowItems = (person) => {
 	const childrenRelationships = person.relationships.children;
 	for (let i = 0; i < childrenRelationships.length; i++) {
 		// get the child
-		const childPerson = getPersonById(childrenRelationships[i].id);
+		const childPerson = getPersonById(get(activeFamilyTreeData), childrenRelationships[i].id);
 		const childBirthdate = childPerson?.birth?.date;
 		// this person's birthdate and the child's birthdate must be known
 		if (person.birth.date && childBirthdate) {
@@ -234,7 +231,7 @@ export const generateTimelineRowItems = (person) => {
 	const parentRelationships = person.relationships.parents;
 	for (let i = 0; i < parentRelationships.length; i++) {
 		// get the parent
-		const parentPerson = getPersonById(parentRelationships[i].id);
+		const parentPerson = getPersonById(get(activeFamilyTreeData), parentRelationships[i].id);
 		const parentDeathDate = parentPerson?.death?.date;
 		// this person's birthdate and the child's birthdate must be known
 		if (person.birth.date && parentDeathDate) {
