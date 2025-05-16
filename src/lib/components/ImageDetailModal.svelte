@@ -1,12 +1,11 @@
 <script>
 	import { get } from 'svelte/store';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
 
-	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import { isUrlValid } from '$lib/utils';
+	import { areObjectsEqual, isUrlValid } from '$lib/utils';
 
 	import Button from '$lib/components/Button.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
@@ -15,6 +14,7 @@
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { onMount } from 'svelte';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -25,6 +25,12 @@
 
 	let isInEditMode;
 	let isValidUrl; // if true, this image has a valid GitHub URL
+
+	let cachedImageEditContent; // for comparison and setting unsaved changes flag
+
+	onMount(() => {
+		cachedImageEditContent = get(imageEditContent);
+	});
 
 	const onClickEditButton = () => {
 		isInEditMode = true;
@@ -44,9 +50,12 @@
 	};
 
 	const onClickDoneButton = () => {
-		checkPersonForUnsavedChanges(get(activePerson).id);
 		imageEditId.set(undefined);
 		imageEditContent.set(undefined);
+		// set unsaved changes flag if image edit content has changed
+		if (!areObjectsEqual(cachedImageEditContent, get(imageEditContent))) {
+			hasUnsavedChanges.set(true);
+		}
 	};
 
 	const onClickCloseButton = () => {

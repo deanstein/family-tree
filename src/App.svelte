@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import { person } from '$lib/schemas/person';
@@ -35,7 +36,7 @@
 		personNodePositions
 	} from '$lib/states/ui-state';
 
-	import { setActivePerson } from '$lib/tree-management';
+	import { addOrUpdatePersonInPeopleArray, setActivePerson } from '$lib/tree-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
 	import { instantiateObject } from '$lib/utils';
@@ -126,6 +127,11 @@
 		// initially show the choose tree modal
 		doShowChooseTreeModal.set(true);
 	});
+
+	// always keep the activePerson updated in the activeFamilyTreeData
+	$: {
+		addOrUpdatePersonInPeopleArray($activePerson);
+	}
 
 	// set up the primary canvas
 	// used for drawing lines between every person node and the center of the screen

@@ -8,7 +8,7 @@ import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
-import { activeFamilyTreeData, activePerson } from './states/family-tree-state';
+import { activeFamilyTreeData, activePerson, hasUnsavedChanges } from './states/family-tree-state';
 import {
 	imageEditContent,
 	imageEditId,
@@ -17,7 +17,6 @@ import {
 } from './states/temp-state';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
-import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 import { getPersonById, getPersonIndexById } from './tree-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
@@ -75,7 +74,7 @@ export const upgradePersonById = (personId) => {
 
 	// find the person by its id
 	const foundPersonIndex = getPersonIndexById(personId);
-	const foundPerson = getPersonById(get(activeFamilyTreeData), personId);
+	const foundPerson = getPersonById(personId);
 	let upgradedPerson;
 
 	// if there's a person, upgrade it if necessary
@@ -580,7 +579,7 @@ export const getTimelineEventById = (personId, eventId) => {
 	if (personId === activePersonId) {
 		person = get(activePerson);
 	} else {
-		person = getPersonById(get(activeFamilyTreeData), personId);
+		person = getPersonById(personId);
 	}
 
 	let timelineEvent;
@@ -636,19 +635,19 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	// update either the existing event in this person, or the new event in the temp state
 	const timelineEventToUpdate = existingTimelineEvent ?? get(timelineEditEvent);
 	// update the timeline event with the new image
-	addOrReplaceObjectInArray(
+	const updatedTimelineEvent = addOrReplaceObjectInArray(
 		timelineEventToUpdate?.eventContent?.images,
 		'id',
 		newImageContent.id,
 		newImageContent
 	);
 	// update the timeline event in the ui state
-	addOrReplaceTimelineEvent(timelineEventToUpdate);
+	addOrReplaceTimelineEvent(updatedTimelineEvent);
 	// update the temp state event so the modal shows the updated content
-	timelineEditEvent.set(timelineEventToUpdate);
+	timelineEditEvent.set(updatedTimelineEvent);
 	imageEditContent.set(newImageContent);
 	// show the unsaved changes notification
-	checkPersonForUnsavedChanges(get(activePerson).id);
+	hasUnsavedChanges.set(true);
 };
 
 export const addTimelineEventReference = (targetPersonId, timelineEventReference) => {
@@ -709,5 +708,5 @@ export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 	imageEditId.set(undefined);
 	imageEditContent.set(undefined);
 	// show the unsaved changes notification
-	checkPersonForUnsavedChanges(get(activePerson).id);
+	hasUnsavedChanges.set(true);
 };

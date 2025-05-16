@@ -3,15 +3,10 @@ import { derived, writable } from 'svelte/store';
 import { familyTree } from '$lib/schemas/family-tree';
 import { instantiateObject } from '$lib/utils';
 
-/*** CACHED TREE ***/
-// the family tree loaded from the cloud
-// written once on app start, or when requested
-export let cachedFamilyTreeData = writable(undefined);
-
 /*** ACTIVE TREE ***/
-// this session's family tree, which is initially a copy of the cache
-// but is where all family tree modifications are written
+// this session's family tree, where all family tree modifications are written
 export let activeFamilyTreeData = writable(instantiateObject(familyTree));
+// the folder name in which photos are stored for the active tree
 export let activeFamilyTreeId = writable(undefined);
 
 /*** ACTIVE PERSON ***/
@@ -25,7 +20,6 @@ export let persistenceStatus = writable(undefined);
 
 // create a combined store to display in footer dev tools
 const familyTreeStateMap = {
-	cachedFamilyTreeData,
 	activeFamilyTreeData,
 	activeFamilyTreeId,
 	activePerson,

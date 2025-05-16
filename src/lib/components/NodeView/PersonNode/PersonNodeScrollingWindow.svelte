@@ -3,7 +3,7 @@
 
 	import contexts from '$lib/schemas/contexts';
 
-	import { activeFamilyTreeData, activePerson } from '$lib/states/family-tree-state';
+	import { activePerson } from '$lib/states/family-tree-state';
 
 	import { scrollHorizontal } from '$lib/ui-management';
 	import { getPersonById, filterPeopleIds, getAllPeopleIds } from '$lib/tree-management';
@@ -11,7 +11,6 @@
 
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
 	import PersonNode from './PersonNode.svelte';
-	import { get } from 'svelte/store';
 
 	// show these people in the scrolling window
 	// if not supplied, will use the context
@@ -31,7 +30,7 @@
 	const filterIdsByInput = (idsToDisplay, filter) => {
 		const filterUppercase = filter.toUpperCase();
 		return idsToDisplay.filter((personId) => {
-			const personName = getPersonById(get(activeFamilyTreeData), personId).name.toUpperCase();
+			const personName = getPersonById(personId).name.toUpperCase();
 			return personName.includes(filterUppercase);
 		});
 	};
@@ -41,16 +40,10 @@
 		if (!idsToDisplay) {
 			switch (context) {
 				case contexts.nodeActionsModal:
-					idsToDisplay = filterPeopleIds(
-						getAllPeopleIds(get(activeFamilyTreeData)),
-						getAllVisibleNodeViewPeople()
-					);
+					idsToDisplay = filterPeopleIds(getAllPeopleIds(), getAllVisibleNodeViewPeople());
 					break;
 				case contexts.associatedPersonSelect:
-					idsToDisplay = filterPeopleIds(
-						getAllPeopleIds(get(activeFamilyTreeData)),
-						$activePerson.id
-					);
+					idsToDisplay = filterPeopleIds(getAllPeopleIds(), $activePerson.id);
 					break;
 			}
 		}

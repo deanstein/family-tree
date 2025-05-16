@@ -2,7 +2,6 @@
 	import { get } from 'svelte/store';
 
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
-	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
@@ -48,11 +47,6 @@
 		<button on:click={toggleChooseTreeModal}>
 			{!$doShowChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
-		<button
-			on:click={() => {
-				checkPersonForUnsavedChanges($activePerson.id);
-			}}>Check For Unsaved Changes</button
-		>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
 	</DevToolbar>

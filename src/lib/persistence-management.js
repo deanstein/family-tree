@@ -62,7 +62,7 @@ export async function fetchExampleFamilyTreeAndSetActive() {
 	const exampleFamilyTreeData = await fetchExampleFamilyTree();
 	if (exampleFamilyTreeData) {
 		activeFamilyTreeData.set(exampleFamilyTreeData);
-		activePerson.set(getPersonById(get(activeFamilyTreeData), exampleFamilyTreeAuthMemberId));
+		activePerson.set(getPersonById(exampleFamilyTreeAuthMemberId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return exampleFamilyTreeData;
 	}
@@ -92,9 +92,7 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 	const privateFamilyTreeData = await fetchPrivateFamilyTree(firstName, lastName, birthdate);
 	if (privateFamilyTreeData) {
 		activeFamilyTreeData.set(privateFamilyTreeData);
-		activePerson.set(
-			getPersonById(get(activeFamilyTreeData), getPersonIdByName(firstName + ' ' + lastName))
-		);
+		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return privateFamilyTreeData;
 	}

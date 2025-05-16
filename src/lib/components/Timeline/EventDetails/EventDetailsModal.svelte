@@ -1,12 +1,13 @@
 <script>
 	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 	import { v4 as uuidv4 } from 'uuid';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import {
 		imageEditContent,
 		imageEditId,
@@ -16,9 +17,13 @@
 	} from '$lib/states/temp-state';
 
 	import { addOrReplaceTimelineEvent } from '$lib/person-management';
-	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
-	import { getObjectByKeyValueInArray, instantiateObject, getIsDateValid } from '$lib/utils';
+	import {
+		getObjectByKeyValueInArray,
+		instantiateObject,
+		getIsDateValid,
+		areObjectsEqual
+	} from '$lib/utils';
 
 	import { timelineEventStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -64,6 +69,13 @@
 
 	// dynamic styles
 	let mediaContentContainerCss;
+
+	// used for checking against latest event and setting unsaved changes flag to true
+	let originalEventContent;
+
+	onMount(() => {
+		originalEventContent = get(timelineEditEvent);
+	});
 
 	// saves available inputs to the UI state
 	const saveAllInputs = () => {
@@ -153,16 +165,18 @@
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
-		checkPersonForUnsavedChanges(get(activePerson).id);
+		if (!areObjectsEqual(originalEventContent, get(timelineEditEvent))) {
+			hasUnsavedChanges.set(true);
+		}
 		timelineEditEventId.set(undefined);
 		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDeleteButton = () => {
-		checkPersonForUnsavedChanges(get(activePerson).id);
 		timelineEditEventId.set(undefined);
 		timelineEditEvent.set(undefined);
+		hasUnsavedChanges.set(true);
 	};
 
 	const onClickCloseButton = () => {

@@ -1,10 +1,8 @@
 <script>
-	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import relationshipMap from '$lib/schemas/relationship-map';
 
-	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
 	import { getPersonById } from '$lib/tree-management';
@@ -78,10 +76,7 @@
 						color={personNodeColor}
 						context={contexts.treeView}
 						onClickActionButton={() => {
-							const person = getPersonById(
-								get(activeFamilyTreeData),
-								personNodeGroupData.groupMembers[i].id
-							);
+							const person = getPersonById(personNodeGroupData.groupMembers[i].id);
 							showPersonNodeActionsModal(
 								personNodeGroupData.groupMembers[i].id,
 								person.name,

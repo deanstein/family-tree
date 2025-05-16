@@ -6,7 +6,7 @@
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import { activeFamilyTreeData, activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
@@ -40,7 +40,6 @@
 	} from '$lib/ui-management';
 	import {
 		addAssociatedPersonToTimelineEvent,
-		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
@@ -108,7 +107,7 @@
 			doShowPersonDetailView.set(true);
 		} else {
 			// clicking on anyone else makes them the active person
-			setActivePerson(getPersonById(get(activeFamilyTreeData), personId));
+			setActivePerson(getPersonById(personId));
 		}
 	};
 
@@ -117,9 +116,9 @@
 		addOrUpdatePersonInActivePersonGroup(personId, relationshipId);
 		addOrUpdateActivePersonInNewPersonGroup(personId, get(nodeEditGroupId));
 		removePersonFromActivePersonGroup(get(nodeEditId), relationshipId);
-		removePersonFromPeopleArray(getPersonById(get(activeFamilyTreeData), get(nodeEditId)));
+		removePersonFromPeopleArray(getPersonById(get(nodeEditId)));
 		hidePersonNodeActionsModal();
-		checkPersonForUnsavedChanges(personId);
+		hasUnsavedChanges.set(true);
 	};
 
 	const addAssociatedPersonToEvent = () => {
@@ -132,7 +131,7 @@
 		eventReference.eventId = get(timelineEditEventId);
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
-		checkPersonForUnsavedChanges(personId);
+		hasUnsavedChanges.set(true);
 		isNodeEditActive.set(false);
 	};
 
@@ -140,7 +139,7 @@
 		timelineEditEventId.set(undefined);
 		timelineEditEventId.set(undefined);
 		doShowPersonDetailView.set(false);
-		setActivePerson(getPersonById(get(activeFamilyTreeData), personId));
+		setActivePerson(getPersonById(personId));
 	};
 
 	// gets dynamically modified later
@@ -230,7 +229,7 @@
 	});
 
 	$: {
-		name = getPersonById(get(activeFamilyTreeData), personId)?.name;
+		name = getPersonById(personId)?.name;
 		if (relationshipId && compatibleGroups) {
 			relationshipLabel = getRelationshipNameById(relationshipId, compatibleGroups);
 		}

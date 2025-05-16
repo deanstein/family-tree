@@ -3,8 +3,8 @@ import { activeFamilyTreeData, activePerson } from './states/family-tree-state';
 import { createNewPerson, upgradePersonData } from './person-management';
 import { get } from 'svelte/store';
 
-export const getAllPeopleIds = (familyTreeData) => {
-	return familyTreeData?.allPeople?.map((person) => person.id) || [];
+export const getAllPeopleIds = () => {
+	return get(activeFamilyTreeData)?.allPeople?.map((person) => person.id) || [];
 };
 
 export const filterPeopleIds = (peopleIds, idsToRemove) => {
@@ -12,22 +12,33 @@ export const filterPeopleIds = (peopleIds, idsToRemove) => {
 	return peopleIds.filter((id) => !idsArray.some((removeId) => removeId === id));
 };
 
-export const getPersonById = (familyTreeData, personId) => {
-	return familyTreeData?.allPeople?.find((person) => person.id === personId) || null;
+export const getPersonById = (personId) => {
+	return get(activeFamilyTreeData)?.allPeople?.find((person) => person.id === personId) || null;
 };
 
-export const getPersonIndexById = (familyTreeData, personId) => {
-	return familyTreeData?.allPeople?.findIndex((object) => object.id === personId) ?? -1;
+export const getPersonIndexById = (personId) => {
+	return get(activeFamilyTreeData)?.allPeople?.findIndex((object) => object.id === personId) ?? -1;
 };
 
-export const getPersonIdByName = (familyTreeData, personId) => {
-	return familyTreeData?.allPeople?.find((person) => person.name === personId) || null;
+export const getPersonIdByName = (personId) => {
+	return get(activeFamilyTreeData)?.allPeople?.find((person) => person.name === personId) || null;
 };
 
-export const addPersonToPeopleArray = (person) => {
+export const addOrUpdatePersonInPeopleArray = (person) => {
 	activeFamilyTreeData.update((currentValue) => {
-		currentValue.allPeople.push(person);
-		return currentValue;
+		const index = currentValue.allPeople.findIndex((p) => p.id === person.id);
+
+		return {
+			...currentValue,
+			allPeople:
+				index !== -1
+					? [
+							...currentValue.allPeople.slice(0, index),
+							person,
+							...currentValue.allPeople.slice(index + 1)
+						]
+					: [...currentValue.allPeople, person]
+		};
 	});
 };
 
@@ -68,7 +79,7 @@ export const setActivePerson = (person) => {
 	} else {
 		// if there's no person, make one
 		person = newPerson;
-		addPersonToPeopleArray(person);
+		addOrUpdatePersonInPeopleArray(person);
 	}
 
 	activePerson.set(person);

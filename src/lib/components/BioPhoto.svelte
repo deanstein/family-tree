@@ -9,8 +9,6 @@
 	import { deleteBioPhotoReference, setBioPhotoUrlFromTempState } from '$lib/person-management';
 
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
-	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
-	import { get } from 'svelte/store';
 
 	export let personId;
 	export let allowEdit;
@@ -27,7 +25,7 @@
 	};
 
 	$: {
-		person = getPersonById(get(activeFamilyTreeData), personId);
+		person = getPersonById(personId);
 		bioPhotoPathNoExt = getBioPhotoPathNoExt();
 	}
 </script>

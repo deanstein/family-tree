@@ -1,11 +1,11 @@
 <script>
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
 	import { defaultName } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 
-	import { activeFamilyTreeData, activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
 	import { doShowPersonDetailView } from '$lib/states/ui-state';
 
@@ -16,7 +16,7 @@
 	} from '$lib/tree-management';
 	import { setPersonName, setPersonRelationship } from '$lib/person-management';
 	import { removePersonFromActivePersonGroup } from '$lib/ui-management.js';
-	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
+	import { hidePersonNodeActionsModal } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -42,7 +42,12 @@
 	const saveAllInputs = () => {
 		setPersonName(personId, nameInputValue);
 		setPersonRelationship(personId, relationshipInputValueOriginal, relationshipInputValue);
-		checkPersonForUnsavedChanges(personId);
+		if (
+			nameInputValueOriginal !== nameInputValue ||
+			relationshipInputValueOriginal !== relationshipInputValue
+		) {
+			hasUnsavedChanges.set(true);
+		}
 	};
 
 	export const onDoneButtonClick = () => {
@@ -53,7 +58,7 @@
 	const onCancelButtonClick = () => {
 		if (isNewPerson) {
 			removePersonFromActivePersonGroup(personId, relationshipId);
-			removePersonFromPeopleArray(getPersonById(get(activeFamilyTreeData), personId));
+			removePersonFromPeopleArray(getPersonById(personId));
 			hidePersonNodeActionsModal();
 		} else {
 			hidePersonNodeActionsModal();
@@ -68,7 +73,7 @@
 	const onViewDetailsButtonClick = () => {
 		saveAllInputs();
 		hidePersonNodeActionsModal();
-		setActivePerson(getPersonById(get(activeFamilyTreeData), personId));
+		setActivePerson(getPersonById(personId));
 		doShowPersonDetailView.set(true);
 	};
 
