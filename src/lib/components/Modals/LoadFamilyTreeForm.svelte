@@ -4,7 +4,7 @@
 	import { lightenColor } from 'jdg-ui-svelte/jdg-utils.js';
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
-	import { doShowChooseTreeModal } from '$lib/states/ui-state';
+	import { showChooseTreeModal } from '$lib/states/ui-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
 	import { fetchPrivateFamilyTreeAndSetActive } from '$lib/persistence-management';
@@ -44,7 +44,7 @@
 
 		if (privateFamilyTreeData) {
 			// hide the modal
-			doShowChooseTreeModal.set(false);
+			showChooseTreeModal.set(false);
 			// set edit mode to off
 			isTreeEditActive.set(false);
 			showErrorMessage = false;

@@ -12,10 +12,10 @@
 		isTreeEditActive,
 		nodeEditGroupId,
 		nodeEditId,
-		timelineEditEventId
+		timelineEditEvent
 	} from '$lib/states/temp-state';
 	import {
-		doShowPersonDetailView,
+		showPersonDetailViewModal,
 		personNodeConnectionLineCanvasRefHover
 	} from '$lib/states/ui-state';
 
@@ -104,7 +104,7 @@
 		}
 		// clicking on the active person will pull up the detailed view
 		if (personId === $activePerson.id) {
-			doShowPersonDetailView.set(true);
+			showPersonDetailViewModal.set(true);
 		} else {
 			// clicking on anyone else makes them the active person
 			setActivePerson(getPersonById(personId));
@@ -128,7 +128,7 @@
 		upgradePersonById(personId);
 		const eventReference = instantiateObject(timelineEventReference);
 		eventReference.personId = get(activePerson).id;
-		eventReference.eventId = get(timelineEditEventId);
+		eventReference.eventId = get(timelineEditEvent).eventId;
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
 		hasUnsavedChanges.set(true);
@@ -136,9 +136,8 @@
 	};
 
 	const makeAssociatedPersonActive = () => {
-		timelineEditEventId.set(undefined);
-		timelineEditEventId.set(undefined);
-		doShowPersonDetailView.set(false);
+		timelineEditEvent.set(undefined);
+		showPersonDetailViewModal.set(false);
 		setActivePerson(getPersonById(personId));
 	};
 

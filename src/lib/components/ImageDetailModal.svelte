@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
 	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
@@ -14,7 +15,6 @@
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { onMount } from 'svelte';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -50,12 +50,16 @@
 	};
 
 	const onClickDoneButton = () => {
-		imageEditId.set(undefined);
-		imageEditContent.set(undefined);
+		imageEditContent.update((currentValue) => {
+			currentValue.description = imageDescriptionInputValue;
+			return currentValue;
+		});
 		// set unsaved changes flag if image edit content has changed
 		if (!areObjectsEqual(cachedImageEditContent, get(imageEditContent))) {
 			hasUnsavedChanges.set(true);
 		}
+		imageEditId.set(undefined);
+		//imageEditContent.set(undefined);
 	};
 
 	const onClickCloseButton = () => {

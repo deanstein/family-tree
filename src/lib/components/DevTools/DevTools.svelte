@@ -5,7 +5,7 @@
 
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import { doShowChooseTreeModal, doShowDevTools, doShowStoreView } from '$lib/states/ui-state';
+	import { showChooseTreeModal, showDevTools, showStoreView } from '$lib/states/ui-state';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
@@ -20,10 +20,10 @@
 	};
 
 	const toggleChooseTreeModal = () => {
-		doShowChooseTreeModal.set(!get(doShowChooseTreeModal));
-		if (get(doShowChooseTreeModal)) {
+		showChooseTreeModal.set(!get(showChooseTreeModal));
+		if (get(showChooseTreeModal)) {
 			scrollToTopAndCenter();
-			if (!get(doShowDevTools)) {
+			if (!get(showDevTools)) {
 				disableScrolling();
 			}
 		} else {
@@ -45,7 +45,7 @@
 	<DevToolsSubheader subheaderTitle="Interface Tools" />
 	<DevToolbar>
 		<button on:click={toggleChooseTreeModal}>
-			{!$doShowChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
+			{!$showChooseTreeModal ? 'Show' : 'Hide'} Choose Tree Modal
 		</button>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
@@ -54,13 +54,13 @@
 	<DevToolbar>
 		<button
 			on:click={() => {
-				$doShowStoreView = !$doShowStoreView;
+				$showStoreView = !$showStoreView;
 			}}
 		>
-			{!$doShowStoreView ? 'Show' : 'Hide'} Store View
+			{!$showStoreView ? 'Show' : 'Hide'} Store View
 		</button>
 	</DevToolbar>
-	{#if $doShowStoreView}
+	{#if $showStoreView}
 		<StoreView />
 	{/if}
 </div>

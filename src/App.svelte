@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import { person } from '$lib/schemas/person';
@@ -20,20 +19,23 @@
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		bioEditAltName,
 		imageEditId,
 		isTreeEditActive,
-		mediaGalleryId,
 		nodeEditId,
 		nodeEditRelationshipId,
 		timelineEditEvent
 	} from '$lib/states/temp-state';
 	import {
-		doShowChooseTreeModal,
-		doShowDevTools,
 		personNodeConnectionLineCanvasRef,
 		personNodeConnectionLineCanvasRefHover,
-		personNodePositions
+		personNodePositions,
+		showChooseTreeModal,
+		showEditAlternateNameModal,
+		showNodeActionsModal,
+		showMediaGalleryModal,
+		showTimelineEventDetailsModal,
+		showTimelineEventImageDetailModal,
+		showDevTools
 	} from '$lib/states/ui-state';
 
 	import { addOrUpdatePersonInPeopleArray, setActivePerson } from '$lib/tree-management';
@@ -125,7 +127,7 @@
 
 	onMount(() => {
 		// initially show the choose tree modal
-		doShowChooseTreeModal.set(true);
+		showChooseTreeModal.set(true);
 	});
 
 	// always keep the activePerson updated in the activeFamilyTreeData
@@ -173,23 +175,25 @@
 				on:contextmenu={blockContextMenu}
 				role="main"
 			>
+				<!-- MODALS -->
 				<ChooseTreeModal />
-				{#if $mediaGalleryId !== undefined}
+				{#if $showMediaGalleryModal}
 					<MediaGalleryModal />
 				{/if}
-				{#if $nodeEditId !== undefined}
+				{#if $showNodeActionsModal}
 					<NodeActionsModal personId={$nodeEditId} relationshipId={$nodeEditRelationshipId} />
 				{/if}
 				<PersonDetailModal />
-				{#if $bioEditAltName !== undefined}
+				{#if $showEditAlternateNameModal}
 					<EditAlternateNameModal />
 				{/if}
-				{#if $timelineEditEvent !== undefined}
+				{#if $showTimelineEventDetailsModal}
 					<EventDetailsModal />
 				{/if}
-				{#if $imageEditId !== undefined}
+				{#if $showTimelineEventImageDetailModal}
 					<TimelineEventImageDetailModal />
 				{/if}
+				<!-- MAIN APP -->
 				<Header />
 				<div class="tree-content {treeContentCss}">
 					<canvas class="tree-canvas" bind:this={lineCanvasRef} />
@@ -475,18 +479,18 @@
 					alignItems="center"
 				>
 					<JDGButton
-						onClickFunction={() => doShowDevTools.update((value) => !value)}
+						onClickFunction={() => showDevTools.update((value) => !value)}
 						label={null}
-						tooltip={$doShowDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
+						tooltip={$showDevTools ? 'Hide Dev Tools' : 'Show Dev Tools'}
 						isPrimary={false}
 						paddingTopBottom="5px"
 						paddingLeftRight="10px"
-						faIcon={$doShowDevTools ? 'fa-eye-slash' : 'fa-wrench'}
+						faIcon={$showDevTools ? 'fa-eye-slash' : 'fa-wrench'}
 						fontSize={jdgSizes.fontSizeBodyXSm}
 						doForceSquareRatio
 					/>
 				</JDGFooter>
-				{#if $doShowDevTools}
+				{#if $showDevTools}
 					<DevTools />
 				{/if}
 			</div>

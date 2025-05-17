@@ -25,9 +25,6 @@ export let bioEditAltName = writable(undefined);
 export let bioEditAltNames = writable([]);
 
 /*** TIMELINE EVENT EDITING ***/
-// if set, the edit timeline event modal is displayed
-export let timelineEditEventId = writable(undefined);
-// if set, the timeline event modal inputs are enabled
 export let timelineEditEvent = writable(undefined);
 
 /*** TODO: MOVE TO UI STATE? ***/
@@ -58,7 +55,6 @@ const tempStateMap = {
 	bioEditId,
 	bioEditAltName,
 	bioEditAltNames,
-	timelineEditEventId,
 	timelineEditEvent,
 	mediaGalleryId,
 	mediaGalleryContent,

@@ -7,7 +7,7 @@
 
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import { doShowPersonDetailView } from '$lib/states/ui-state';
+	import { showPersonDetailViewModal } from '$lib/states/ui-state';
 
 	import {
 		getPersonById,
@@ -74,7 +74,7 @@
 		saveAllInputs();
 		hidePersonNodeActionsModal();
 		setActivePerson(getPersonById(personId));
-		doShowPersonDetailView.set(true);
+		showPersonDetailViewModal.set(true);
 	};
 
 	onMount(() => {

@@ -5,7 +5,7 @@
 	import contexts from '$lib/schemas/contexts';
 
 	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
-	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
+	import { isNodeEditActive, timelineEditEvent } from '$lib/states/temp-state';
 
 	import { removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
@@ -28,9 +28,8 @@
 	`;
 
 	const removeAssociatedPersonFromActiveEvent = (associatedPersonId) => {
-		const eventId = get(timelineEditEventId);
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
-		removeTimelineEventReference(associatedPersonId, eventId);
+		removeTimelineEventReference(associatedPersonId, get(timelineEditEvent).eventId);
 		hasUnsavedChanges.set(true);
 	};
 </script>

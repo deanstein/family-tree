@@ -8,7 +8,7 @@
 	import timelineEvent from '$lib/schemas/timeline-event';
 
 	import { activePerson } from '$lib/states/family-tree-state';
-	import { timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
+	import { timelineEditEvent } from '$lib/states/temp-state';
 
 	// @ts-expect-error
 	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';
@@ -61,8 +61,7 @@
 		// birth date must be set first
 		// before any normal timeline event is added
 		if (!get(activePerson).birth.date) {
-			timelineEditEventId.set(birthEvent);
-			timelineEditEventId.set(birthEvent.eventId);
+			timelineEditEvent.set(birthEvent);
 			// otherwise, add an event like normal
 		} else {
 			const newTimelineEvent = instantiateObject(timelineEvent);
@@ -70,7 +69,6 @@
 			newTimelineEvent.eventVersion = schemaVersion;
 			newTimelineEvent.eventType = timelineEventTypes.generic.type;
 			timelineEditEvent.set(newTimelineEvent);
-			timelineEditEventId.set(newTimelineEvent.eventId);
 		}
 	};
 

@@ -16,7 +16,8 @@
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		doShowPersonDetailView,
+		showPersonDetailViewModal,
+		showTimelineEventDetailsModal,
 		timelineFirstEventHeight,
 		timelineLastEventHeight
 	} from '$lib/states/ui-state';
@@ -42,13 +43,14 @@
 		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
 		}
+		showTimelineEventDetailsModal.set(true);
 		timelineEditEvent.set(timelineEvent);
 	};
 
 	// this is what happens when the link is clicked
 	// to an eventReference personId
 	const makeEventReferencePersonActive = () => {
-		doShowPersonDetailView.set(false);
+		showPersonDetailViewModal.set(false);
 		setActivePerson(getPersonById(eventReference.personId));
 	};
 
