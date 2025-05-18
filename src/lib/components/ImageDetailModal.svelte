@@ -3,7 +3,7 @@
 	import { get } from 'svelte/store';
 
 	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
-	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
+	import { imageEditContent } from '$lib/states/temp-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
 	import { areObjectsEqual, isUrlValid } from '$lib/utils';
@@ -15,6 +15,7 @@
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { showMediaGalleryModal, showTimelineEventImageDetailModal } from '$lib/states/ui-state';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -34,18 +35,19 @@
 
 	const onClickEditButton = () => {
 		isInEditMode = true;
+		showMediaGalleryModal.set(false);
 	};
 
 	// cancel, but when used for editing an existing image
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		// TODO: match the store
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 	// cancel, but when used for creating a new image
 	const onClickCancelNewImageButton = () => {
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 
@@ -58,12 +60,12 @@
 		if (!areObjectsEqual(cachedImageEditContent, get(imageEditContent))) {
 			hasUnsavedChanges.set(true);
 		}
-		imageEditId.set(undefined);
-		//imageEditContent.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
+		imageEditContent.set(undefined);
 	};
 
 	const onClickCloseButton = () => {
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 
@@ -74,7 +76,7 @@
 </script>
 
 <Modal
-	showModal={$imageEditId}
+	showModal={$showTimelineEventImageDetailModal}
 	title="Image details"
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -103,7 +105,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $imageEditId === undefined}
+			{#if !isInEditMode}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

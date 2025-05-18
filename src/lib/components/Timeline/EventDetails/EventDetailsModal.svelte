@@ -8,12 +8,7 @@
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
-	import {
-		imageEditContent,
-		imageEditId,
-		isNodeEditActive,
-		timelineEditEvent
-	} from '$lib/states/temp-state';
+	import { imageEditContent, isNodeEditActive, timelineEditEvent } from '$lib/states/temp-state';
 	import { showTimelineEventDetailsModal } from '$lib/states/ui-state';
 
 	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
@@ -193,7 +188,6 @@
 		const newTimelineEventImage = instantiateObject(timelineEventImage);
 		newTimelineEventImage.id = uuidv4();
 		newTimelineEventImage.eventId = get(timelineEditEvent).eventId;
-		imageEditId.set(newTimelineEventImage.id);
 		imageEditContent.set(newTimelineEventImage);
 	};
 

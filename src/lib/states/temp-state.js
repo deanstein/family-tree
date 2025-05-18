@@ -28,16 +28,12 @@ export let bioEditAltNames = writable([]);
 export let timelineEditEvent = writable(undefined);
 
 /*** TODO: MOVE TO UI STATE? ***/
-// if set, the media gallery displays this media id
-export let mediaGalleryId = writable(undefined);
 // if set, the media gallery displays this media content
 export let mediaGalleryContent = writable(undefined);
 // if set, the media gallery displays these media items in the thumbnail group
 export let mediaGalleryContentArray = writable(undefined);
 
 /*** IMAGE EDITING ***/
-// if set, the image editing modal is displayed
-export let imageEditId = writable(undefined);
 // if set, the image editing modal inputs are enabled
 export let imageEditContent = writable(undefined);
 // if set, media was just uploaded and this is the url to it
@@ -56,10 +52,8 @@ const tempStateMap = {
 	bioEditAltName,
 	bioEditAltNames,
 	timelineEditEvent,
-	mediaGalleryId,
 	mediaGalleryContent,
 	mediaGalleryContentArray,
-	imageEditId,
 	imageEditContent
 };
 const tempStateEntries = Object.entries(tempStateMap);

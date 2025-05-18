@@ -1,10 +1,8 @@
 <script>
 	import {
 		imageEditContent,
-		imageEditId,
 		mediaGalleryContent,
-		mediaGalleryContentArray,
-		mediaGalleryId
+		mediaGalleryContentArray
 	} from '$lib/states/temp-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
@@ -12,11 +10,12 @@
 	import Button from './Button.svelte';
 	import ImageThumbnailGroup from '$lib/components/ImageThumbnailGroup.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
+	import { showMediaGalleryModal, showTimelineEventImageDetailModal } from '$lib/states/ui-state';
 
 	const onClickEditImageButton = () => {
-		imageEditId.set($mediaGalleryId);
+		showTimelineEventImageDetailModal.set(true);
+		showMediaGalleryModal.set(false);
 		imageEditContent.set($mediaGalleryContent);
-		mediaGalleryId.set(undefined);
 		mediaGalleryContent.set(undefined);
 	};
 </script>

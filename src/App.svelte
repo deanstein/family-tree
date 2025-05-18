@@ -19,7 +19,6 @@
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		imageEditId,
 		isTreeEditActive,
 		nodeEditId,
 		nodeEditRelationshipId,
@@ -186,9 +185,6 @@
 				<PersonDetailModal />
 				{#if $showEditAlternateNameModal}
 					<EditAlternateNameModal />
-				{/if}
-				{#if $showTimelineEventDetailsModal}
-					<EventDetailsModal />
 				{/if}
 				{#if $showTimelineEventImageDetailModal}
 					<TimelineEventImageDetailModal />

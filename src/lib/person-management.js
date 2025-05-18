@@ -9,12 +9,8 @@ import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
 import { activeFamilyTreeData, activePerson, hasUnsavedChanges } from './states/family-tree-state';
-import {
-	imageEditContent,
-	imageEditId,
-	timelineEditEvent,
-	uploadedMediaUrl
-} from './states/temp-state';
+import { imageEditContent, timelineEditEvent, uploadedMediaUrl } from './states/temp-state';
+import { showTimelineEventImageDetailModal } from './states/ui-state';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
 import { getPersonById, getPersonIndexById } from './tree-management';
@@ -705,7 +701,7 @@ export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 	// update the temp state event so the modal shows the updated content
 	timelineEditEvent.set(newTimelineEvent);
 	// remove the id and content of the edited image in the temp state
-	imageEditId.set(undefined);
+	showTimelineEventImageDetailModal.set(false);
 	imageEditContent.set(undefined);
 	// show the unsaved changes notification
 	hasUnsavedChanges.set(true);
