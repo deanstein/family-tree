@@ -175,9 +175,8 @@
 				role="main"
 			>
 				<!-- MODALS -->
-				<ChooseTreeModal />
-				{#if $showMediaGalleryModal}
-					<MediaGalleryModal />
+				{#if $showChooseTreeModal}
+					<ChooseTreeModal />
 				{/if}
 				{#if $showNodeActionsModal}
 					<NodeActionsModal personId={$nodeEditId} relationshipId={$nodeEditRelationshipId} />
@@ -185,6 +184,12 @@
 				<PersonDetailModal />
 				{#if $showEditAlternateNameModal}
 					<EditAlternateNameModal />
+				{/if}
+				{#if showTimelineEventDetailsModal}
+					<EventDetailsModal />
+				{/if}
+				{#if $showMediaGalleryModal}
+					<MediaGalleryModal />
 				{/if}
 				{#if $showTimelineEventImageDetailModal}
 					<TimelineEventImageDetailModal />

@@ -38,7 +38,7 @@
 	let eventAge;
 	let eventRowDivRef;
 
-	const showTimelineEventDetails = () => {
+	const onClickTimelineEvent = () => {
 		// do nothing if this is the "today" event (no death date)
 		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
@@ -127,7 +127,7 @@
 
 		// if onClick isn't provided, use this function
 		onClickFunction =
-			(onClickFunction ?? eventReference.personId) ? () => {} : showTimelineEventDetails;
+			(onClickFunction ?? eventReference.personId) ? () => {} : onClickTimelineEvent;
 	});
 
 	$: {
