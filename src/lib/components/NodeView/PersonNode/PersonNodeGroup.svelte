@@ -5,7 +5,7 @@
 
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
-	import { getPersonById } from '$lib/tree-management';
+	import { addOrUpdatePersonInPeopleArray, getPersonById } from '$lib/tree-management';
 	import {
 		addOrUpdateActivePersonInNewPersonGroup,
 		createNewPerson,
@@ -29,6 +29,7 @@
 		let defaultRelationshipType = getDefaultRelationshipType(
 			relationshipMap[personNodeGroupData.groupId]
 		).id;
+		addOrUpdatePersonInPeopleArray(newPerson);
 		addOrUpdatePersonInActivePersonGroup(newPerson.id, defaultRelationshipType);
 		addOrUpdateActivePersonInNewPersonGroup(newPerson.id, personNodeGroupData.groupId);
 		showPersonNodeActionsModal(
