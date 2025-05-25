@@ -6,8 +6,8 @@ import { instantiateObject } from '$lib/utils';
 /*** ACTIVE TREE ***/
 // this session's family tree, where all family tree modifications are written
 export let activeFamilyTreeData = writable(instantiateObject(familyTree));
-// the folder name in which photos are stored for the active tree
-export let activeFamilyTreeId = writable(undefined);
+// the .json file name in the repo and also the folder name used for tree photos
+export let activeFamilyTreeName = writable(undefined);
 
 /*** ACTIVE PERSON ***/
 // the person that's currently viewed in the tree
@@ -21,7 +21,7 @@ export let persistenceStatus = writable(undefined);
 // create a combined store to display in footer dev tools
 const familyTreeStateMap = {
 	activeFamilyTreeData,
-	activeFamilyTreeId,
+	activeFamilyTreeName,
 	activePerson,
 	hasUnsavedChanges
 };

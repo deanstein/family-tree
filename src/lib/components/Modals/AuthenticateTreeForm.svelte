@@ -25,7 +25,7 @@
 	let showLoadingMessage = false;
 	let loadingMessage = 'Checking your credentials...';
 	let showErrorMessage = false;
-	const errorMessage = "Sorry, it appears you don't have access to the private family tree.";
+	const errorMessage = "Sorry, it appears you don't have access to this family tree.";
 
 	async function submitLoadFamilyTree() {
 		// hide any errors from last attempt

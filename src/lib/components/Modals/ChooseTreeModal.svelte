@@ -8,9 +8,9 @@
 	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
 
 	import { chooseTreeStrings, persistenceStrings } from '$lib/components/strings';
+	import AuthenticateTreeForm from './AuthenticateTreeForm.svelte';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
-	import LoadFamilyTreeForm from './LoadFamilyTreeForm.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
 
 	const chooseTreeModalGridCss = css`
@@ -82,7 +82,7 @@
 				description={chooseTreeStrings.loadTreeDescription}
 				buttonColor={stylingConstants.colors.personNodeGradient3}
 			>
-				<LoadFamilyTreeForm />
+				<AuthenticateTreeForm />
 			</ChooseTreeOption>
 		</div>
 		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>

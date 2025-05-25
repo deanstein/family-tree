@@ -39,7 +39,6 @@
 
 <Modal
 	showModal={$showPersonDetailViewModal}
-	showCloseButton={true}
 	{onClickCloseButton}
 	title={'Person Details'}
 	subtitle={null}

@@ -11,8 +11,7 @@
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
 
 	export let showModal = true;
-	export let showCloseButton = false;
-	export let onClickCloseButton = () => {};
+	export let onClickCloseButton = undefined;
 	export let title = 'This is a modal title';
 	export let subtitle = 'This is a modal subtitle';
 	export let width = 'auto';
@@ -20,19 +19,19 @@
 	export let padding = '10px';
 	export let overflow = ''; // default is not set but can be set per instance
 	export let transparency = undefined; // default is in default bg color
-	export let zIndex;
+	export let zIndex = undefined;
 
 	const [send, receive] = drawCrossfade(stylingConstants.durations.transitionDuration);
 
 	const modalOuterContainerCss = css`
-		z-index: ${zIndex};
+		z-index: ${zIndex ?? ''};
 	`;
 
 	const modalContentContainerCss = css`
 		width: ${width};
 		height: ${height};
 		overflow: ${overflow};
-		z-index: ${zIndex};
+		z-index: ${zIndex ?? ''};
 		background-color: ${transparency
 			? adjustRgbaColorTransparency(stylingConstants.colors.modalContentBackground, transparency)
 			: stylingConstants.colors.modalContentBackground};
@@ -64,15 +63,18 @@
 		class="modal-outer-container {modalOuterContainerCss}"
 	>
 		<div class="modal-content-container {modalContentContainerCss}">
-			{#if title || showCloseButton}
+			{#if title || onClickCloseButton}
 				<div class="modal-title-bar-container {modalTitleBarContainerCss}">
 					<div class="modal-title-container">
 						<div class="modal-title {modalTitleCss}">
 							{title}
 						</div>
 						<div class="modal-title-bar-actions-container">
-							{#if showCloseButton}
-								<ButtonCircular faIcon={'fa-xmark'} onClickFunction={onClickCloseButton} />
+							{#if onClickCloseButton}
+								<ButtonCircular
+									faIcon={'fa-xmark'}
+									onClickFunction={onClickCloseButton ?? (() => {})}
+								/>
 							{/if}
 						</div>
 					</div>
@@ -93,7 +95,7 @@
 			</div>
 		</div>
 		<Portal target="#app-container">
-			<Overlay zIndexOverride={zIndex - 1} />
+			<Overlay zIndexOverride={zIndex ? zIndex - 1 : undefined} />
 		</Portal>
 	</div>
 {/if}
@@ -143,7 +145,8 @@
 		text-align: center;
 		width: 100%;
 		font-weight: bold;
-		padding: 7px 0px 5px 0px;
+		padding: 7px 20px 5px 20px;
+		box-sizing: border-box;
 	}
 
 	.modal-subtitle-container {
@@ -152,8 +155,9 @@
 
 	.modal-subtitle {
 		width: 100%;
-		padding-bottom: 5px;
 		text-align: center;
+		padding: 0px 20px 5px 20px;
+		box-sizing: border-box;
 	}
 
 	.modal-content-slot {

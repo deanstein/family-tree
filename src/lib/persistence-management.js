@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 
 import { activeFamilyTreeData } from './states/family-tree-state';
 import { persistenceStatus } from './states/family-tree-state';
-import { activeFamilyTreeId, activePerson } from './states/family-tree-state';
+import { activeFamilyTreeName, activePerson } from './states/family-tree-state';
 
 import { persistenceStrings } from '$lib/components/strings';
 import { getPersonById, getPersonIdByName } from './tree-management';
@@ -47,29 +47,34 @@ export async function getGitHubToken() {
 	}
 }
 
-export async function fetchExampleFamilyTree() {
+// fetches the entire payload from the backend (familyTreeData and other metadata)
+// if the name and birthdate are present in it
+export async function fetchExampleFamilyTreePayload() {
 	const response = await fetch(
 		gitHubAppWorkerUrl + ghaPathGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeAuthMemberId
 	);
 	const responseJson = await response.json();
 	// if we got the tree from the backend
 	if (responseJson.success) {
-		return responseJson.familyTreeData;
+		return responseJson;
 	}
 }
 
+// takes the payload from the server and updates state
 export async function fetchExampleFamilyTreeAndSetActive() {
-	const exampleFamilyTreeData = await fetchExampleFamilyTree();
-	if (exampleFamilyTreeData) {
-		activeFamilyTreeData.set(exampleFamilyTreeData);
+	const exampleFamilyTreePayload = await fetchExampleFamilyTreePayload();
+	if (exampleFamilyTreePayload) {
+		activeFamilyTreeName.set(exampleFamilyTreePayload.familyTreeName);
+		activeFamilyTreeData.set(exampleFamilyTreePayload.familyTreeData);
 		activePerson.set(getPersonById(exampleFamilyTreeAuthMemberId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
-		return exampleFamilyTreeData;
+		return exampleFamilyTreePayload.familyTreeData;
 	}
 }
 
-// fetches the private family tree if the name and birthdate are present in it
-export async function fetchPrivateFamilyTree(firstName, lastName, birthdate) {
+// fetches the entire payload from the backend (familyTreeData and other metadata)
+// if the name and birthdate are present in it
+export async function fetchPrivateFamilyTreePayload(firstName, lastName, birthdate) {
 	// encode the name and birthdate so they can be checked against the family tree data
 	const encodedName = encodeURIComponent(firstName + ' ' + lastName);
 	const encodedBirthdate = encodeURIComponent(birthdate);
@@ -88,23 +93,29 @@ export async function fetchPrivateFamilyTree(firstName, lastName, birthdate) {
 	}
 }
 
+// takes the payload from the server and updates state
 export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, birthdate) {
-	const privateFamilyTreeData = await fetchPrivateFamilyTree(firstName, lastName, birthdate);
-	if (privateFamilyTreeData) {
-		activeFamilyTreeData.set(privateFamilyTreeData);
+	const privateFamilyTreePayload = await fetchPrivateFamilyTreePayload(
+		firstName,
+		lastName,
+		birthdate
+	);
+	if (privateFamilyTreePayload) {
+		activeFamilyTreeName.set(privateFamilyTreePayload.familyTreeName);
+		activeFamilyTreeData.set(privateFamilyTreePayload.familyTreeData);
 		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
-		return privateFamilyTreeData;
+		return privateFamilyTreePayload.familyTreeData;
 	}
 }
 
 export const getBioPhotoPathNoExt = () => {
-	return `${get(activeFamilyTreeId)}/${pathPrefixPersonId}-${
+	return `${get(activeFamilyTreeName)}/${pathPrefixPersonId}-${
 		get(activePerson)?.id
 	}/${bioPhotoFileName}`;
 };
 export const getTimelineEventPhotoPathNoExt = (timelineEventId, imageId) => {
-	return `${get(activeFamilyTreeId)}/${pathPrefixPersonId}-${
+	return `${get(activeFamilyTreeName)}/${pathPrefixPersonId}-${
 		get(activePerson).id
 	}/${pathPrefixTimelineEventId}-${timelineEventId}/${pathPrefixTimelineEventImageId}-${imageId}`;
 };
@@ -174,7 +185,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 		currentFamilyTreeData = currentValue;
 	});
 
-	familyTreeDataFileName = get(activeFamilyTreeId);
+	familyTreeDataFileName = get(activeFamilyTreeName);
 
 	persistenceStatus.set(persistenceStrings.saving);
 

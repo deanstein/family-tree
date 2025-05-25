@@ -214,7 +214,9 @@ const zIndices = {
 	personDetailViewZIndex: 6,
 	addEditAltNameZIndex: 7,
 	notificationZIndex: 8,
-	mediaGalleryZIndex: 9
+	mediaGalleryZIndex: 9,
+	chooseTreeModalZIndex: 10,
+	authenticateTreeModalZIndex: 11
 };
 
 const stylingConstants = {

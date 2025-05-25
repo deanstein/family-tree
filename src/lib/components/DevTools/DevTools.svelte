@@ -5,7 +5,12 @@
 
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import { showChooseTreeModal, showDevTools, showStoreView } from '$lib/states/ui-state';
+	import {
+		showAuthenticateTreeModal,
+		showChooseTreeModal,
+		showDevTools,
+		showStoreView
+	} from '$lib/states/ui-state';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
@@ -49,6 +54,13 @@
 		</button>
 		<button on:click={testSaveNotification}> Test Save Notification </button>
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
+		<button
+			on:click={() => {
+				$showAuthenticateTreeModal = !$showAuthenticateTreeModal;
+			}}
+		>
+			Show Authenticate Tree Modal
+		</button>
 	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Store Tools" />
 	<DevToolbar>

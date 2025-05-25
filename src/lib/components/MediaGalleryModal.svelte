@@ -15,7 +15,6 @@
 
 <Modal
 	showModal={$showMediaGalleryModal}
-	showCloseButton={true}
 	{onClickCloseButton}
 	width={stylingConstants.sizes.modalFullScreenWidth}
 	height={stylingConstants.sizes.modalFullScreenHeight}

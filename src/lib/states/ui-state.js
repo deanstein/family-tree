@@ -11,6 +11,7 @@ export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
 /*** MODALS ***/
+export let showAuthenticateTreeModal = writable(false);
 export let showChooseTreeModal = writable(false);
 export let showNodeActionsModal = writable(false);
 export let showPersonDetailViewModal = writable(false);

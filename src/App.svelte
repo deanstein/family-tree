@@ -34,7 +34,8 @@
 		showMediaGalleryModal,
 		showTimelineEventDetailsModal,
 		showTimelineEventImageDetailModal,
-		showDevTools
+		showDevTools,
+		showAuthenticateTreeModal
 	} from '$lib/states/ui-state';
 
 	import { addOrUpdatePersonInPeopleArray, setActivePerson } from '$lib/tree-management';
@@ -58,9 +59,9 @@
 	import PersonDetailModal from '$lib/components/Modals/PersonDetailModal.svelte';
 	import PersonNode from '$lib/components/NodeView/PersonNode/PersonNode.svelte';
 	import PersonNodeGroup from '$lib/components/NodeView/PersonNode/PersonNodeGroup.svelte';
+	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
 	import ScrollingRowFlank from '$lib/components/NodeView/GenerationRow/ScrollingRowFlank.svelte';
 	import TimelineEventImageDetailModal from '$lib/components/Timeline/TimelineEventImageDetailModal.svelte';
-	import MediaGalleryModal from '$lib/components/MediaGalleryModal.svelte';
 
 	import {
 		drawNodeConnectionLines,
@@ -68,11 +69,12 @@
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
+	import AuthenticateTreeModal from '$lib/components/Modals/AuthenticateTreeModal.svelte';
 
 	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
-	let shutdown = true;
+	let shutdown = false;
 
 	// if there's no known people in this tree, it's a new tree
 	// so add a default person and enable editing mode
@@ -175,6 +177,7 @@
 				role="main"
 			>
 				<!-- MODALS -->
+				<!-- invoked here so we can ensure certain order -->
 				{#if $showChooseTreeModal}
 					<ChooseTreeModal />
 				{/if}
@@ -185,7 +188,7 @@
 				{#if $showEditAlternateNameModal}
 					<EditAlternateNameModal />
 				{/if}
-				{#if showTimelineEventDetailsModal}
+				{#if $showTimelineEventDetailsModal}
 					<EventDetailsModal />
 				{/if}
 				{#if $showMediaGalleryModal}
@@ -193,6 +196,9 @@
 				{/if}
 				{#if $showTimelineEventImageDetailModal}
 					<TimelineEventImageDetailModal />
+				{/if}
+				{#if $showAuthenticateTreeModal}
+					<AuthenticateTreeModal />
 				{/if}
 				<!-- MAIN APP -->
 				<Header />
