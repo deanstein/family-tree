@@ -74,7 +74,7 @@
 	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
-	let shutdown = false;
+	let shutdown = true;
 
 	// if there's no known people in this tree, it's a new tree
 	// so add a default person and enable editing mode
