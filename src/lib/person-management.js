@@ -211,15 +211,12 @@ export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRe
 
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 	activeFamilyTreeData.update((currentValue) => {
-		const activePersonId = currentValue.activePerson.id;
+		const activePersonId = get(activePerson).id;
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
 		// @ts-ignore
 		const person = currentValue.allPeople[nPersonIndex];
-		const nActivePersonIndex = getPersonIndexById(activePersonId);
-		// @ts-ignore
-		const activePerson = currentValue.allPeople[nActivePersonIndex];
 
 		const activePersonRelationship = {
 			id: activePersonId,
@@ -231,7 +228,8 @@ export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
 			'id',
 			activePersonId
 		);
-		const nGroupIndex = activePerson.relationships[sInverseGroupId].indexOf(matchingRelationship);
+		const nGroupIndex =
+			get(activePerson).relationships[sInverseGroupId].indexOf(matchingRelationship);
 
 		// only add if it doesn't exist yet
 		if (!matchingRelationship) {
