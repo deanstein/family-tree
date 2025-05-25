@@ -1,5 +1,9 @@
 <script>
-	import { hasUnsavedChanges, persistenceStatus } from '$lib/states/family-tree-state';
+	import {
+		activeFamilyTreeName,
+		hasUnsavedChanges,
+		persistenceStatus
+	} from '$lib/states/family-tree-state';
 
 	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
@@ -17,13 +21,15 @@
 		writeCurrentFamilyTreeDataToRepo();
 	};
 
-	// when unsaved changes are detected, update the persistence status
+	// dynamic block for unsaved changes
 	$: {
-		if ($hasUnsavedChanges) {
+		// only set if unsaved changes AND there's an active family tree name for persistence
+		if ($hasUnsavedChanges && $activeFamilyTreeName) {
 			$persistenceStatus = persistenceStrings.unsavedChanges;
 		}
 	}
 
+	// dynamic block for showing banner
 	$: {
 		showBanner =
 			$persistenceStatus !== persistenceStrings.undefined &&
@@ -40,7 +46,7 @@
 			$persistenceStatus === persistenceStrings.saveSuccessful
 		) {
 			setTimeout(() => {
-				persistenceStatus.set(persistenceStrings.undefined);
+				persistenceStatus.set(undefined);
 			}, 2000);
 		}
 	}

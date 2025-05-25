@@ -6,8 +6,7 @@ export const persistenceStrings = {
 	saving: 'Saving...',
 	saveSuccessful: 'Saved successfully!',
 	unsavedChanges: 'You have unsaved changes.',
-	saveFailed: 'Failed to save family tree data.',
-	undefined: 'Undefined repo state.'
+	saveFailed: 'Failed to save family tree data.'
 };
 
 export const chooseTreeStrings = {

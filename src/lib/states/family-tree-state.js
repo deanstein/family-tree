@@ -20,6 +20,7 @@ export let persistenceStatus = writable(undefined);
 
 // create a combined store to display in footer dev tools
 const familyTreeStateMap = {
+	persistenceStatus,
 	activeFamilyTreeData,
 	activeFamilyTreeName,
 	activePerson,

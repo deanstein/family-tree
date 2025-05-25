@@ -26,7 +26,7 @@
 
 	$: {
 		headerLeftFlankCss = css`
-			flex: ${$persistenceStatus === persistenceStrings.undefined || !$persistenceStatus ? 1 : 0};
+			flex: ${!$persistenceStatus ? 1 : 0};
 		`;
 	}
 </script>
