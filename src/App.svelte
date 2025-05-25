@@ -18,12 +18,7 @@
 
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
-	import {
-		isTreeEditActive,
-		nodeEditId,
-		nodeEditRelationshipId,
-		timelineEditEvent
-	} from '$lib/states/temp-state';
+	import { isTreeEditActive, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
 	import {
 		personNodeConnectionLineCanvasRef,
 		personNodeConnectionLineCanvasRefHover,
