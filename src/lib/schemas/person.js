@@ -1,7 +1,7 @@
 import relationshipMap from './relationship-map';
 import { schemaVersion } from '$lib/versions';
 
-export const defaultName = 'Firstname Lastname';
+export const defaultName = 'John Doe';
 export const person = {
 	version: schemaVersion,
 	id: '0',

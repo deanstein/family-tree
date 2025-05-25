@@ -82,7 +82,7 @@
 	});
 
 	$: {
-		if ($nodeEditName === 'Firstname Lastname') {
+		if ($nodeEditName === defaultName) {
 			isNewPerson = true;
 		} else {
 			isNewPerson = false;
