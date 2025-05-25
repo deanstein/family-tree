@@ -3,7 +3,7 @@
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
-	import { doShowChooseTreeModal } from '$lib/states/ui-state';
+	import { showChooseTreeModal } from '$lib/states/ui-state';
 
 	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
 
@@ -31,7 +31,7 @@
 
 	const onClickNewTreeButton = () => {
 		// new family tree is already loaded, so just dismiss the choose tree modal
-		doShowChooseTreeModal.set(false);
+		showChooseTreeModal.set(false);
 		// clear any error messaging if there is any
 		persistenceStatus.set(undefined);
 	};
@@ -40,7 +40,7 @@
 		// set the loading notification
 		persistenceStatus.set(persistenceStrings.loading);
 		// hide the modal
-		doShowChooseTreeModal.set(false);
+		showChooseTreeModal.set(false);
 		// load the example family tree and set it active
 		const exampleFamilyTreeData = await fetchExampleFamilyTreeAndSetActive();
 		if (exampleFamilyTreeData) {
@@ -48,13 +48,13 @@
 			isTreeEditActive.set(false);
 		} else {
 			persistenceStatus.set(persistenceStrings.loadFailed);
-			doShowChooseTreeModal.set(true);
+			showChooseTreeModal.set(true);
 		}
 	};
 </script>
 
 <Modal
-	showModal={$doShowChooseTreeModal}
+	showModal={$showChooseTreeModal}
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}

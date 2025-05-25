@@ -11,10 +11,9 @@ import {
 	nodeEditRelationshipId,
 	timelineEditEvent
 } from './states/temp-state';
-import { cachedPersonForUnsavedChanges } from './states/ui-state';
 import imageCache from './stores/image-cache';
 
-import { getPersonById, getPersonRelationshipIds } from './person-management';
+import { getPersonRelationshipIds } from './person-management';
 import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
 import { persistenceStrings } from '$lib/components/strings';
@@ -43,35 +42,6 @@ export const removeImageFromCache = (imageIdentifier) => {
 		delete currentValue[imageIdentifier];
 		return currentValue;
 	});
-};
-
-// compares this person in the ui state to the cached person set by an editing modal
-export const checkPersonForUnsavedChanges = (personId) => {
-	let unsavedChangesDetected = false;
-
-	// get the person to test from the ui state
-	let personToTest = getPersonById(personId);
-	// get the person to compare from the cached list of all people
-	const personToCompare = get(cachedPersonForUnsavedChanges);
-
-	if (!personToTest || !personToCompare) {
-		console.warn(
-			'Failed to check for unsaved changes because something was undefined. \nPerson to test:  ' +
-				JSON.stringify(personToTest) +
-				'\nPerson to compare: ' +
-				personToCompare
-		);
-		return;
-	}
-
-	if (!areObjectsEqual(personToTest, personToCompare)) {
-		unsavedChangesDetected = true;
-	}
-
-	if (unsavedChangesDetected) {
-		hasUnsavedChanges.set(true);
-		persistenceStatus.set(persistenceStrings.unsavedChanges);
-	}
 };
 
 // gets all people displayed in the node view
@@ -113,16 +83,16 @@ export const setTempStateAltNamesFromUIState = () => {
 };
 
 export const addOrEditAlternateNameInTempState = (alternateName) => {
-	bioEditAltNames.update((currentValue) =>
-		addOrReplaceObjectInArray(currentValue, 'name', alternateName.name, alternateName)
-	);
+	bioEditAltNames.update((currentValue) => {
+		return addOrReplaceObjectInArray(currentValue, 'name', alternateName.name, alternateName);
+	});
 };
 
 export const removeAlternateNameFromTempState = (name /* name, not object */) => {
 	bioEditAltNames.update((currentValue) => deleteObjectInArray(currentValue, 'name', name));
 };
 
-export const writeTempAlternateNamesToUIState = () => {
+export const writeTempAlternateNamesToFamilyTree = () => {
 	const tempStateToWrite = get(bioEditAltNames);
 	activePerson.update((currentValue) => {
 		currentValue.alternateNames = tempStateToWrite;

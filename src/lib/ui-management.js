@@ -9,11 +9,8 @@ import timelineRowItem from './schemas/timeline-row-item';
 import { activePerson, persistenceStatus } from './states/family-tree-state';
 import { personNodePositions, timelineCanvasScrollState } from './states/ui-state';
 
-import {
-	getPersonById,
-	getGroupIdFromRelationshipId,
-	getTimelineEventById
-} from '$lib/person-management';
+import { getPersonById } from './tree-management';
+import { getGroupIdFromRelationshipId, getTimelineEventById } from '$lib/person-management';
 import { instantiateObject, largest } from './utils';
 
 import { persistenceStrings, timelineEventStrings } from '$lib/components/strings';

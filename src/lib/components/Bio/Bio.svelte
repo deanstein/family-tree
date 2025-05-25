@@ -3,21 +3,17 @@
 	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
-	import { cachedPersonForUnsavedChanges } from '$lib/states/ui-state';
 
 	import { gender } from '$lib/schemas/gender';
 
 	import {
-		checkPersonForUnsavedChanges,
-		writeTempAlternateNamesToUIState,
+		writeTempAlternateNamesToFamilyTree,
 		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
-	import { getPersonById } from '$lib/person-management';
-	import { getNumberOfYearsBetweenEvents } from '$lib/utils';
+	import { areObjectsEqual, getNumberOfYearsBetweenEvents } from '$lib/utils';
 
-	import stylingConstants from '$lib/components/styling-constants';
 	import { personDetailStrings, timelineEventStrings } from '$lib/components/strings';
 
 	import AlternateNames from '$lib/components/Bio/AlternateNames.svelte';
@@ -31,11 +27,15 @@
 	import Selector from '$lib/components/Select.svelte';
 	import SideBySideContainer from '$lib/components/SideBySideContainer.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
+	import { addOrUpdatePersonInPeopleArray } from '$lib/tree-management';
 
 	let personId = get(activePerson).id;
 	let isBioEditActive = false;
-
 	let age = 0;
+
+	// used for comparison to set unsaved changes flag if changes were made
+	let cachedPerson;
 
 	// set the value of each input from the active person
 	let nameInputValue = get(activePerson).name;
@@ -55,6 +55,10 @@
 		label: 'Gender:',
 		gender
 	};
+
+	onMount(() => {
+		cachedPerson = get(activePerson);
+	});
 
 	// writes all inputs to the UI state
 	const saveAllInputs = () => {
@@ -78,7 +82,7 @@
 				cause: deathCauseInputValue
 			}
 		}));
-		writeTempAlternateNamesToUIState();
+		writeTempAlternateNamesToFamilyTree();
 	};
 
 	// synchronizes all inputs back to UI state values
@@ -104,8 +108,11 @@
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
-		checkPersonForUnsavedChanges(personId);
 		bioEditId.set(undefined);
+		// set the unsaved changes flag if the person has been modified
+		if (!areObjectsEqual(cachedPerson, get(activePerson))) {
+			hasUnsavedChanges.set(true);
+		}
 	};
 
 	const onClickCancelButton = () => {
@@ -129,10 +136,6 @@
 		// the latest is always shown by setting all inputs to UI State
 		syncAllInputs();
 	}
-
-	onMount(() => {
-		cachedPersonForUnsavedChanges.set(getPersonById(personId));
-	});
 
 	const bioContentContainerCss = css`
 		z-index: ${stylingConstants.zIndices.personDetailViewZIndex};

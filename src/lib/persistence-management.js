@@ -5,7 +5,7 @@ import { persistenceStatus } from './states/family-tree-state';
 import { activeFamilyTreeId, activePerson } from './states/family-tree-state';
 
 import { persistenceStrings } from '$lib/components/strings';
-import { getPersonById, getPersonIdByName } from './person-management';
+import { getPersonById, getPersonIdByName } from './tree-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';

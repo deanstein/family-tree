@@ -4,13 +4,10 @@
 
 	import contexts from '$lib/schemas/contexts';
 
-	import { activePerson } from '$lib/states/family-tree-state';
-	import { isNodeEditActive, timelineEditEvent, timelineEditEventId } from '$lib/states/temp-state';
+	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
+	import { isNodeEditActive, timelineEditEvent } from '$lib/states/temp-state';
 
-	import {
-		checkPersonForUnsavedChanges,
-		removeAssociatedPersonFromActiveTimelineEvent
-	} from '$lib/temp-management';
+	import { removeAssociatedPersonFromActiveTimelineEvent } from '$lib/temp-management';
 	import { removeTimelineEventReference } from '$lib/person-management';
 
 	import ButtonCircularInSquare from '$lib/components/ButtonCircularInSquare.svelte';
@@ -31,10 +28,9 @@
 	`;
 
 	const removeAssociatedPersonFromActiveEvent = (associatedPersonId) => {
-		const eventId = get(timelineEditEventId);
 		removeAssociatedPersonFromActiveTimelineEvent(associatedPersonId);
-		removeTimelineEventReference(associatedPersonId, eventId);
-		checkPersonForUnsavedChanges(get(activePerson).id);
+		removeTimelineEventReference(associatedPersonId, get(timelineEditEvent).eventId);
+		hasUnsavedChanges.set(true);
 	};
 </script>
 

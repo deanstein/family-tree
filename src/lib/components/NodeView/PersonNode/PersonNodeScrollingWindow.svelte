@@ -6,7 +6,7 @@
 	import { activePerson } from '$lib/states/family-tree-state';
 
 	import { scrollHorizontal } from '$lib/ui-management';
-	import { filterPeopleIds, getAllPeopleIds, getPersonById } from '$lib/person-management';
+	import { getPersonById, filterPeopleIds, getAllPeopleIds } from '$lib/tree-management';
 	import { getAllVisibleNodeViewPeople } from '$lib/temp-management';
 
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';

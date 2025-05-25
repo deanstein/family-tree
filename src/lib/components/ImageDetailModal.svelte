@@ -1,12 +1,12 @@
 <script>
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
-	import { activePerson } from '$lib/states/family-tree-state';
-	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
+	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
+	import { imageEditContent } from '$lib/states/temp-state';
 
-	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import { isUrlValid } from '$lib/utils';
+	import { areObjectsEqual, isUrlValid } from '$lib/utils';
 
 	import Button from '$lib/components/Button.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
@@ -15,6 +15,7 @@
 	import ModalActionsBar from '$lib/components/Modals/ModalActionsBar.svelte';
 	import TextArea from '$lib/components/TextArea.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { showMediaGalleryModal, showTimelineEventImageDetailModal } from '$lib/states/ui-state';
 
 	export let imageUploadPathNoExt;
 	export let afterUploadFunction;
@@ -26,31 +27,45 @@
 	let isInEditMode;
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
+	let cachedImageEditContent; // for comparison and setting unsaved changes flag
+
+	onMount(() => {
+		cachedImageEditContent = get(imageEditContent);
+	});
+
 	const onClickEditButton = () => {
 		isInEditMode = true;
+		showMediaGalleryModal.set(false);
 	};
 
 	// cancel, but when used for editing an existing image
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		// TODO: match the store
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 	// cancel, but when used for creating a new image
 	const onClickCancelNewImageButton = () => {
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 
 	const onClickDoneButton = () => {
-		checkPersonForUnsavedChanges(get(activePerson).id);
-		imageEditId.set(undefined);
+		imageEditContent.update((currentValue) => {
+			currentValue.description = imageDescriptionInputValue;
+			return currentValue;
+		});
+		// set unsaved changes flag if image edit content has changed
+		if (!areObjectsEqual(cachedImageEditContent, get(imageEditContent))) {
+			hasUnsavedChanges.set(true);
+		}
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 
 	const onClickCloseButton = () => {
-		imageEditId.set(undefined);
+		showTimelineEventImageDetailModal.set(false);
 		imageEditContent.set(undefined);
 	};
 
@@ -61,7 +76,7 @@
 </script>
 
 <Modal
-	showModal={$imageEditId}
+	showModal={$showTimelineEventImageDetailModal}
 	title="Image details"
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -90,7 +105,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $imageEditId === undefined}
+			{#if !isInEditMode}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

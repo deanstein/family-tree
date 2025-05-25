@@ -6,26 +6,27 @@
 	import contexts from '$lib/schemas/contexts';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
 		nodeEditGroupId,
 		nodeEditId,
-		timelineEditEventId
+		timelineEditEvent
 	} from '$lib/states/temp-state';
 	import {
-		doShowPersonDetailView,
+		showPersonDetailViewModal,
 		personNodeConnectionLineCanvasRefHover
 	} from '$lib/states/ui-state';
 
 	import {
 		getPersonById,
 		setActivePerson,
-		addActivePersonToPeopleArray,
+		removePersonFromPeopleArray
+	} from '$lib/tree-management';
+	import {
 		getRelationshipNameById,
 		addOrUpdateActivePersonInNewPersonGroup,
-		removePersonFromPeopleArray,
 		upgradePersonById,
 		addTimelineEventReference
 	} from '$lib/person-management';
@@ -39,7 +40,6 @@
 	} from '$lib/ui-management';
 	import {
 		addAssociatedPersonToTimelineEvent,
-		checkPersonForUnsavedChanges,
 		hidePersonNodeActionsModal
 	} from '$lib/temp-management';
 	import { instantiateObject } from '$lib/utils';
@@ -104,11 +104,10 @@
 		}
 		// clicking on the active person will pull up the detailed view
 		if (personId === $activePerson.id) {
-			doShowPersonDetailView.set(true);
+			showPersonDetailViewModal.set(true);
 		} else {
 			// clicking on anyone else makes them the active person
 			setActivePerson(getPersonById(personId));
-			addActivePersonToPeopleArray();
 		}
 	};
 
@@ -119,7 +118,7 @@
 		removePersonFromActivePersonGroup(get(nodeEditId), relationshipId);
 		removePersonFromPeopleArray(getPersonById(get(nodeEditId)));
 		hidePersonNodeActionsModal();
-		checkPersonForUnsavedChanges(personId);
+		hasUnsavedChanges.set(true);
 	};
 
 	const addAssociatedPersonToEvent = () => {
@@ -129,17 +128,16 @@
 		upgradePersonById(personId);
 		const eventReference = instantiateObject(timelineEventReference);
 		eventReference.personId = get(activePerson).id;
-		eventReference.eventId = get(timelineEditEventId);
+		eventReference.eventId = get(timelineEditEvent).eventId;
 		addTimelineEventReference(personId, eventReference);
 		// show the unsaved changes flag and stop editing
-		checkPersonForUnsavedChanges(personId);
+		hasUnsavedChanges.set(true);
 		isNodeEditActive.set(false);
 	};
 
 	const makeAssociatedPersonActive = () => {
-		timelineEditEventId.set(undefined);
-		timelineEditEventId.set(undefined);
-		doShowPersonDetailView.set(false);
+		timelineEditEvent.set(undefined);
+		showPersonDetailViewModal.set(false);
 		setActivePerson(getPersonById(personId));
 	};
 

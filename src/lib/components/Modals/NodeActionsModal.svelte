@@ -1,23 +1,22 @@
 <script>
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
 	import { defaultName } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 
-	import { activePerson } from '$lib/states/family-tree-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import { nodeEditId, nodeEditName, nodeEditRelationshipId } from '$lib/states/temp-state';
-	import { cachedPersonForUnsavedChanges, doShowPersonDetailView } from '$lib/states/ui-state';
+	import { showPersonDetailViewModal } from '$lib/states/ui-state';
 
 	import {
 		getPersonById,
-		setPersonName,
-		setPersonRelationship,
 		removePersonFromPeopleArray,
 		setActivePerson
-	} from '$lib/person-management';
+	} from '$lib/tree-management';
+	import { setPersonName, setPersonRelationship } from '$lib/person-management';
 	import { removePersonFromActivePersonGroup } from '$lib/ui-management.js';
-	import { checkPersonForUnsavedChanges, hidePersonNodeActionsModal } from '$lib/temp-management';
+	import { hidePersonNodeActionsModal } from '$lib/temp-management';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -43,7 +42,12 @@
 	const saveAllInputs = () => {
 		setPersonName(personId, nameInputValue);
 		setPersonRelationship(personId, relationshipInputValueOriginal, relationshipInputValue);
-		checkPersonForUnsavedChanges(personId);
+		if (
+			nameInputValueOriginal !== nameInputValue ||
+			relationshipInputValueOriginal !== relationshipInputValue
+		) {
+			hasUnsavedChanges.set(true);
+		}
 	};
 
 	export const onDoneButtonClick = () => {
@@ -70,16 +74,11 @@
 		saveAllInputs();
 		hidePersonNodeActionsModal();
 		setActivePerson(getPersonById(personId));
-		doShowPersonDetailView.set(true);
+		showPersonDetailViewModal.set(true);
 	};
 
 	onMount(() => {
 		captureAllOriginalInputValues();
-		cachedPersonForUnsavedChanges.set(getPersonById(personId));
-	});
-
-	onDestroy(() => {
-		cachedPersonForUnsavedChanges.set(undefined);
 	});
 
 	$: {

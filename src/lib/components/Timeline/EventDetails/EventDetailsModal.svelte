@@ -1,24 +1,24 @@
 <script>
 	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 	import { v4 as uuidv4 } from 'uuid';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
-	import { activePerson } from '$lib/states/family-tree-state';
-	import {
-		imageEditContent,
-		imageEditId,
-		isNodeEditActive,
-		timelineEditEvent,
-		timelineEditEventId
-	} from '$lib/states/temp-state';
+	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
+	import { imageEditContent, isNodeEditActive, timelineEditEvent } from '$lib/states/temp-state';
+	import { showTimelineEventDetailsModal } from '$lib/states/ui-state';
 
-	import { addOrReplaceTimelineEvent } from '$lib/person-management';
-	import { checkPersonForUnsavedChanges } from '$lib/temp-management';
+	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
-	import { getObjectByKeyValueInArray, instantiateObject, getIsDateValid } from '$lib/utils';
+	import {
+		getObjectByKeyValueInArray,
+		instantiateObject,
+		getIsDateValid,
+		areObjectsEqual
+	} from '$lib/utils';
 
 	import { timelineEventStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
@@ -64,6 +64,13 @@
 
 	// dynamic styles
 	let mediaContentContainerCss;
+
+	// used for checking against latest event and setting unsaved changes flag to true
+	let originalEventContent;
+
+	onMount(() => {
+		originalEventContent = get(timelineEditEvent);
+	});
 
 	// saves available inputs to the UI state
 	const saveAllInputs = () => {
@@ -134,39 +141,45 @@
 	};
 
 	const onClickEditButton = () => {
-		timelineEditEventId.set($timelineEditEvent.eventId);
+		isInEditMode = true;
 	};
 
 	// cancel, but when used for editing an existing event
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		syncAllInputs();
-		timelineEditEventId.set(undefined);
+		isInEditMode = false;
 		isNodeEditActive.set(false);
 	};
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
-		timelineEditEventId.set(undefined);
+		isInEditMode = false;
 		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDoneButton = () => {
 		saveAllInputs();
-		checkPersonForUnsavedChanges(get(activePerson).id);
-		timelineEditEventId.set(undefined);
-		timelineEditEvent.set(undefined);
+		if (
+			!areObjectsEqual(
+				originalEventContent,
+				getTimelineEventById(get(activePerson).id, get(timelineEditEvent).eventId)
+			)
+		) {
+			hasUnsavedChanges.set(true);
+		}
+		isInEditMode = false;
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDeleteButton = () => {
-		checkPersonForUnsavedChanges(get(activePerson).id);
-		timelineEditEventId.set(undefined);
+		isInEditMode = false;
 		timelineEditEvent.set(undefined);
+		hasUnsavedChanges.set(true);
 	};
 
 	const onClickCloseButton = () => {
-		timelineEditEventId.set(undefined);
+		showTimelineEventDetailsModal.set(false);
 		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
@@ -174,8 +187,7 @@
 	const onClickAddImageButton = () => {
 		const newTimelineEventImage = instantiateObject(timelineEventImage);
 		newTimelineEventImage.id = uuidv4();
-		newTimelineEventImage.eventId = get(timelineEditEventId);
-		imageEditId.set(newTimelineEventImage.id);
+		newTimelineEventImage.eventId = get(timelineEditEvent).eventId;
 		imageEditContent.set(newTimelineEventImage);
 	};
 
@@ -194,13 +206,12 @@
 	$: {
 		isValidDate = getIsDateValid(eventDateInputValue);
 		modalTitle = getModalTitleByEventType(eventType);
-		isInEditMode = $timelineEditEventId !== undefined;
 		isBirthOrDeathEvent =
 			eventType === timelineEventTypes.birth.type || eventType === timelineEventTypes.death.type;
 		isNewEvent = !getObjectByKeyValueInArray(
 			get(activePerson).timelineEvents,
 			'eventId',
-			get(timelineEditEventId)
+			get(timelineEditEvent).eventId
 		)
 			? true
 			: false;
@@ -324,7 +335,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if $timelineEditEventId === undefined}
+			{#if !isInEditMode}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}

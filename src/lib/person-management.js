@@ -8,16 +8,12 @@ import timelineEventTypes from '$lib/schemas/timeline-event-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
-import { activeFamilyTreeData, activePerson } from './states/family-tree-state';
-import {
-	imageEditContent,
-	imageEditId,
-	timelineEditEvent,
-	uploadedMediaUrl
-} from './states/temp-state';
+import { activeFamilyTreeData, activePerson, hasUnsavedChanges } from './states/family-tree-state';
+import { imageEditContent, timelineEditEvent, uploadedMediaUrl } from './states/temp-state';
+import { showTimelineEventImageDetailModal } from './states/ui-state';
 
 import { deleteFileFromRepoByUrl } from './persistence-management';
-import { checkPersonForUnsavedChanges } from '$lib/temp-management';
+import { getPersonById, getPersonIndexById } from './tree-management';
 import {
 	addOrUpdatePersonInActivePersonGroup,
 	removePersonFromActivePersonGroup
@@ -30,21 +26,6 @@ import {
 	isUrlValid,
 	addOrReplaceObjectInArray
 } from '$lib/utils';
-
-// converts the store of all people
-// into an array of IDs
-export const getAllPeopleIds = () => {
-	let allPeopleIds;
-	activeFamilyTreeData.subscribe((currentValue) => {
-		allPeopleIds = currentValue.allPeople.map((person) => person.id);
-	});
-	return allPeopleIds;
-};
-
-export const filterPeopleIds = (peopleIds, idsToRemove) => {
-	const idsArray = Array.isArray(idsToRemove) ? idsToRemove.map(String) : [String(idsToRemove)];
-	return peopleIds.filter((id) => !idsArray.some((removeId) => removeId === id));
-};
 
 export const createNewPerson = () => {
 	const newPerson = JSON.parse(JSON.stringify(person)); // required to make a deep copy
@@ -99,7 +80,6 @@ export const upgradePersonById = (personId) => {
 
 	// set the person in familyTreeData
 	activeFamilyTreeData.update((currentValue) => {
-		//@ts-expect-error
 		currentValue.allPeople[foundPersonIndex] = upgradedPerson;
 		return currentValue;
 	});
@@ -169,31 +149,6 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 	return eventToUpgrade;
 };
 
-export const getPersonById = (id) => {
-	let person = undefined;
-
-	activeFamilyTreeData.subscribe((currentValue) => {
-		const { allPeople } = currentValue;
-		person = allPeople.find((item) => item.id === id);
-	});
-
-	return person;
-};
-
-export const getPersonIdByName = (name) => {
-	let personId = undefined;
-
-	activeFamilyTreeData.subscribe((currentValue) => {
-		const { allPeople } = currentValue;
-		const person = allPeople.find((item) => item.name === name);
-		if (person) {
-			personId = person.id;
-		}
-	});
-
-	return personId;
-};
-
 // gets IDs of all related people to this person
 export const getPersonRelationshipIds = (person) => {
 	return Object.values(person.relationships)
@@ -225,30 +180,6 @@ export const getPersonAge = (person) => {
 	return age;
 };
 
-export const setActivePerson = (person) => {
-	// instantiate the newest default person schema
-	// to compare later for upgrade purposes or used as a new person
-	const newPerson = createNewPerson();
-
-	// if there's a person, upgrade it if necessary
-	if (person) {
-		const upgradedPersonData = upgradePersonData(newPerson, person);
-		person = upgradedPersonData;
-	} else {
-		// if there's no person, make one
-		person = newPerson;
-		addPersonToPeopleArray(person);
-	}
-
-	activePerson.set(person);
-	activeFamilyTreeData.update((currentValue) => {
-		return {
-			...currentValue,
-			lastKnownActivePersonId: person.id
-		};
-	});
-};
-
 export const setPersonName = (sPersonId, sName) => {
 	activeFamilyTreeData.update((currentValue) => {
 		let personIndex = getPersonIndexById(sPersonId);
@@ -278,53 +209,9 @@ export const setPersonRelationship = (sPersonId, sExistingRelationshipId, sNewRe
 	addOrUpdatePersonInActivePersonGroup(sPersonId, sNewRelationshipId);
 };
 
-export const getPersonIndexById = (personId) => {
-	let personIndex;
-
-	activeFamilyTreeData.subscribe((currentValue) => {
-		personIndex = currentValue.allPeople.findIndex((object) => object['id'] === personId);
-	});
-
-	return personIndex;
-};
-
-export const addPersonToPeopleArray = (person) => {
-	activeFamilyTreeData.update((currentValue) => {
-		currentValue.allPeople.push(person);
-		return currentValue;
-	});
-};
-
-export const removePersonFromPeopleArray = (person) => {
-	activeFamilyTreeData.update((currentValue) => {
-		const nSpliceIndex = currentValue.allPeople.indexOf(person);
-		if (nSpliceIndex > -1) {
-			currentValue.allPeople.splice(nSpliceIndex, 1);
-		}
-		return currentValue;
-	});
-};
-
-export const addActivePersonToPeopleArray = () => {
-	activeFamilyTreeData.update((currentValue) => {
-		const index = getPersonIndexById(currentValue.lastKnownActivePersonId);
-		const activePerson = getPersonById(currentValue.lastKnownActivePersonId);
-		return {
-			...currentValue,
-			allPeople: [
-				...currentValue.allPeople.slice(0, index),
-				activePerson,
-				// @ts-ignore
-				...currentValue.allPeople.slice(index + 1)
-			]
-		};
-	});
-};
-
 export const addOrUpdateActivePersonInNewPersonGroup = (personId, groupId) => {
-	const activePersonId = get(activePerson).id;
-
 	activeFamilyTreeData.update((currentValue) => {
+		const activePersonId = currentValue.activePerson.id;
 		const sInverseRelationshipId = getInverseRelationshipId(groupId);
 		const sInverseGroupId = getInverseGroupId(groupId);
 		const nPersonIndex = getPersonIndexById(personId);
@@ -744,26 +631,25 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	// update either the existing event in this person, or the new event in the temp state
 	const timelineEventToUpdate = existingTimelineEvent ?? get(timelineEditEvent);
 	// update the timeline event with the new image
-	addOrReplaceObjectInArray(
+	const updatedTimelineEvent = addOrReplaceObjectInArray(
 		timelineEventToUpdate?.eventContent?.images,
 		'id',
 		newImageContent.id,
 		newImageContent
 	);
 	// update the timeline event in the ui state
-	addOrReplaceTimelineEvent(timelineEventToUpdate);
+	addOrReplaceTimelineEvent(updatedTimelineEvent);
 	// update the temp state event so the modal shows the updated content
-	timelineEditEvent.set(timelineEventToUpdate);
+	timelineEditEvent.set(updatedTimelineEvent);
 	imageEditContent.set(newImageContent);
 	// show the unsaved changes notification
-	checkPersonForUnsavedChanges(get(activePerson).id);
+	hasUnsavedChanges.set(true);
 };
 
 export const addTimelineEventReference = (targetPersonId, timelineEventReference) => {
 	// get the target person by the id
 	let targetPersonIndex = getPersonIndexById(targetPersonId);
 	activeFamilyTreeData.update((currentValue) => {
-		//@ts-expect-error
 		currentValue.allPeople[targetPersonIndex].timelineEventReferences.push(timelineEventReference);
 		return currentValue;
 	});
@@ -774,7 +660,6 @@ export const removeTimelineEventReference = (targetPersonId, referenceEventId) =
 	let targetPersonIndex = getPersonIndexById(targetPersonId);
 	activeFamilyTreeData.update((currentValue) => {
 		deleteObjectInArray(
-			//@ts-expect-error
 			currentValue.allPeople[targetPersonIndex].timelineEventReferences,
 			'eventId',
 			referenceEventId
@@ -816,8 +701,8 @@ export const deleteTimelineEventImageReference = (timelineEventId, imageId) => {
 	// update the temp state event so the modal shows the updated content
 	timelineEditEvent.set(newTimelineEvent);
 	// remove the id and content of the edited image in the temp state
-	imageEditId.set(undefined);
+	showTimelineEventImageDetailModal.set(false);
 	imageEditContent.set(undefined);
 	// show the unsaved changes notification
-	checkPersonForUnsavedChanges(get(activePerson).id);
+	hasUnsavedChanges.set(true);
 };

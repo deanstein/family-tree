@@ -176,14 +176,12 @@ export const addOrReplaceObjectInArray = (arr = [], key, value, replacementObjec
 	const index = arr.findIndex((obj) => obj[key] === value);
 
 	if (index !== -1) {
-		// replace the existing object
-		arr[index] = replacementObject;
+		// create a new array with the replaced object
+		return arr.map((obj, i) => (i === index ? replacementObject : obj));
 	} else {
-		// rdd the new object to the array
-		arr.push(replacementObject);
+		// return a new array with the new object added
+		return [...arr, replacementObject];
 	}
-
-	return arr; // return the updated array
 };
 
 // deletes an object in an array of objects

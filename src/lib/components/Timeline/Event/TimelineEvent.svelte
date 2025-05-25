@@ -8,13 +8,16 @@
 	import { timelineEditEvent } from '$lib/states/temp-state';
 
 	import { getNumberOfYearsBetweenEvents, instantiateObject } from '$lib/utils';
-	import { getPersonById, setActivePerson, upgradeTimelineEvent } from '$lib/person-management';
+
+	import { getPersonById, setActivePerson } from '$lib/tree-management';
+	import { upgradeTimelineEvent } from '$lib/person-management';
 
 	import { monthNames } from '$lib/components/strings';
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		doShowPersonDetailView,
+		showPersonDetailViewModal,
+		showTimelineEventDetailsModal,
 		timelineFirstEventHeight,
 		timelineLastEventHeight
 	} from '$lib/states/ui-state';
@@ -35,18 +38,19 @@
 	let eventAge;
 	let eventRowDivRef;
 
-	const showTimelineEventDetails = () => {
+	const onClickTimelineEvent = () => {
 		// do nothing if this is the "today" event (no death date)
 		if (timelineEvent.eventType === timelineEventTypes.today.type) {
 			return;
 		}
+		showTimelineEventDetailsModal.set(true);
 		timelineEditEvent.set(timelineEvent);
 	};
 
 	// this is what happens when the link is clicked
 	// to an eventReference personId
 	const makeEventReferencePersonActive = () => {
-		doShowPersonDetailView.set(false);
+		showPersonDetailViewModal.set(false);
 		setActivePerson(getPersonById(eventReference.personId));
 	};
 
@@ -123,7 +127,7 @@
 
 		// if onClick isn't provided, use this function
 		onClickFunction =
-			(onClickFunction ?? eventReference.personId) ? () => {} : showTimelineEventDetails;
+			(onClickFunction ?? eventReference.personId) ? () => {} : onClickTimelineEvent;
 	});
 
 	$: {

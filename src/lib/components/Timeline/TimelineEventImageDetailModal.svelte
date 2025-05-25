@@ -1,7 +1,7 @@
 <script>
 	import { get } from 'svelte/store';
 
-	import { imageEditContent, imageEditId } from '$lib/states/temp-state';
+	import { imageEditContent } from '$lib/states/temp-state';
 
 	import { getTimelineEventPhotoPathNoExt } from '$lib/persistence-management';
 	import {
@@ -21,12 +21,17 @@
 	// after delete function depends on what kind of image
 	const afterDeleteFunction = () => {
 		// timeline event image
-		deleteTimelineEventImageReference(get(imageEditContent).eventId, get(imageEditId));
+		deleteTimelineEventImageReference(get(imageEditContent).eventId, get(imageEditContent).id);
 	};
 
 	$: {
 		// keep the upload path updated, based on the event and image id
-		imageUploadPathNoExt = getTimelineEventPhotoPathNoExt($imageEditContent?.eventId, $imageEditId);
+		if ($imageEditContent) {
+			imageUploadPathNoExt = getTimelineEventPhotoPathNoExt(
+				$imageEditContent?.eventId,
+				$imageEditContent.id
+			);
+		}
 	}
 </script>
 

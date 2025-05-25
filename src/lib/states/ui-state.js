@@ -10,16 +10,18 @@ export let timelineCanvasScrollState = writable({ top: true, bottom: true });
 export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
-/*** UNSAVED CHANGES ***/
-export let cachedPersonForUnsavedChanges = writable(undefined);
-
 /*** MODALS ***/
-export let doShowChooseTreeModal = writable(false);
-export let doShowPersonDetailView = writable(false);
+export let showChooseTreeModal = writable(false);
+export let showNodeActionsModal = writable(false);
+export let showPersonDetailViewModal = writable(false);
+export let showEditAlternateNameModal = writable(false);
+export let showMediaGalleryModal = writable(false);
+export let showTimelineEventDetailsModal = writable(false);
+export let showTimelineEventImageDetailModal = writable(false);
 
 /*** DEV TOOLS ***/
-export let doShowDevTools = writable(false);
-export let doShowStoreView = writable(false);
+export let showDevTools = writable(false);
+export let showStoreView = writable(false);
 
 // create a combined store to display in footer dev tools
 const uiStateMap = {
@@ -29,11 +31,10 @@ const uiStateMap = {
 	timelineCanvasScrollState,
 	timelineFirstEventHeight,
 	timelineLastEventHeight,
-	cachedPersonForUnsavedChanges,
-	doShowChooseTreeModal,
-	doShowPersonDetailView,
-	doShowDevTools,
-	doShowStoreView
+	showChooseTreeModal,
+	showPersonDetailViewModal,
+	showDevTools,
+	doShowStoreView: showStoreView
 };
 const uiStateEntries = Object.entries(uiStateMap);
 // derived store containing all ui state values

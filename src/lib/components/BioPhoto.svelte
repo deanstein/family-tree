@@ -5,11 +5,8 @@
 		bioPhotoPlaceholderSrc,
 		getBioPhotoPathNoExt
 	} from '$lib/persistence-management';
-	import {
-		deleteBioPhotoReference,
-		getPersonById,
-		setBioPhotoUrlFromTempState
-	} from '$lib/person-management';
+	import { getPersonById } from '$lib/tree-management';
+	import { deleteBioPhotoReference, setBioPhotoUrlFromTempState } from '$lib/person-management';
 
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
 

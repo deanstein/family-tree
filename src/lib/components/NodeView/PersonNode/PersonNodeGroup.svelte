@@ -5,12 +5,11 @@
 
 	import { isTreeEditActive } from '$lib/states/temp-state';
 
+	import { getPersonById } from '$lib/tree-management';
 	import {
 		addOrUpdateActivePersonInNewPersonGroup,
-		addPersonToPeopleArray,
 		createNewPerson,
-		getDefaultRelationshipType,
-		getPersonById
+		getDefaultRelationshipType
 	} from '$lib/person-management';
 	import { addOrUpdatePersonInActivePersonGroup } from '$lib/ui-management';
 	import { showPersonNodeActionsModal } from '$lib/temp-management';
@@ -27,7 +26,6 @@
 
 	const onClickAddPersonButton = () => {
 		let newPerson = createNewPerson();
-		addPersonToPeopleArray(newPerson);
 		let defaultRelationshipType = getDefaultRelationshipType(
 			relationshipMap[personNodeGroupData.groupId]
 		).id;

@@ -1,9 +1,6 @@
 <script>
-	import {
-		mediaGalleryContent,
-		mediaGalleryContentArray,
-		mediaGalleryId
-	} from '$lib/states/temp-state';
+	import { mediaGalleryContent, mediaGalleryContentArray } from '$lib/states/temp-state';
+	import { showMediaGalleryModal } from '$lib/states/ui-state';
 
 	import AddButtonSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';
@@ -36,7 +33,7 @@
 					imageContent={image}
 					{allowEdit}
 					onClickFunction={() => {
-						mediaGalleryId.set(image.id);
+						showMediaGalleryModal.set(true);
 						mediaGalleryContent.set(image);
 						mediaGalleryContentArray.set(imageArray);
 					}}
