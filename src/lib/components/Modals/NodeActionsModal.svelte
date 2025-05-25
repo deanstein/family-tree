@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
-	import { defaultName } from '$lib/schemas/person';
+	import { newPersonName } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
@@ -82,7 +82,7 @@
 	});
 
 	$: {
-		if ($nodeEditName === defaultName) {
+		if ($nodeEditName === newPersonName) {
 			isNewPerson = true;
 		} else {
 			isNewPerson = false;
@@ -134,7 +134,7 @@
 			/>
 			<Button
 				buttonText="Done"
-				isEnabled={nameInputValue?.length > 0 && nameInputValue !== defaultName}
+				isEnabled={nameInputValue?.length > 0 && nameInputValue !== newPersonName}
 				overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
 				onClickFunction={onDoneButtonClick}
 			/>

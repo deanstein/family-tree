@@ -1,11 +1,15 @@
 import relationshipMap from './relationship-map';
 import { schemaVersion } from '$lib/versions';
 
-export const defaultName = 'John Doe';
+// initial name in a new tree
+export const starterPersonName = 'John Doe';
+// name used for new person nodes
+export const newPersonName = 'Firstname Lastname';
+
 export const person = {
 	version: schemaVersion,
 	id: '0',
-	name: defaultName,
+	name: newPersonName,
 	alternateNames: [],
 	gender: 'Unspecified',
 	birth: {
