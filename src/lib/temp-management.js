@@ -1,6 +1,5 @@
 import { get } from 'svelte/store';
 
-import { activePerson, hasUnsavedChanges, persistenceStatus } from './states/family-tree-state';
 import {
 	bioEditAltName,
 	bioEditAltNames,
@@ -11,12 +10,12 @@ import {
 	nodeEditRelationshipId,
 	timelineEditEvent
 } from './states/temp-state';
+import { activePerson } from './states/family-tree-state';
+import { showNodeActionsModal } from './states/ui-state';
 import imageCache from './stores/image-cache';
 
 import { getPersonRelationshipIds } from './person-management';
-import { areObjectsEqual, addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
-
-import { persistenceStrings } from '$lib/components/strings';
+import { addOrReplaceObjectInArray, deleteObjectInArray } from '$lib/utils';
 
 // manage the image cache
 // image identifier could be a path or a GitHub url
@@ -60,6 +59,7 @@ export const showPersonNodeActionsModal = (
 	groupId,
 	compatibleGroups
 ) => {
+	showNodeActionsModal.set(true);
 	nodeEditId.set(personId);
 	nodeEditName.set(name);
 	nodeEditRelationshipId.set(relationshipId);
@@ -68,6 +68,7 @@ export const showPersonNodeActionsModal = (
 };
 
 export const hidePersonNodeActionsModal = () => {
+	showNodeActionsModal.set(false);
 	nodeEditId.set(undefined);
 	nodeEditName.set(undefined);
 	nodeEditRelationshipId.set(undefined);
