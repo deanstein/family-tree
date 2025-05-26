@@ -3,14 +3,19 @@
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
-
-	import { persistenceStrings } from '$lib/components/strings';
-	import stylingConstants from '$lib/components/styling-constants';
+	import { showChooseTreeModal } from '$lib/states/ui-state';
 
 	import Button from '$lib/components/Button.svelte';
+	import ButtonIconographic from './ButtonIconographic.svelte';
 	import SaveStateBanner from '$lib/components/Notifications/SaveStateBanner.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	let headerLeftFlankCss;
+
+	// clicking on the icon shows the choose tree modal
+	const onClickIcon = () => {
+		showChooseTreeModal.set(true);
+	};
 
 	const onClickEditTreeButton = () => {
 		isTreeEditActive.set(!$isTreeEditActive);
@@ -18,10 +23,6 @@
 
 	const headerContainerCss = css`
 		height: ${stylingConstants.sizes.headerHeight};
-	`;
-
-	const headerLogoContainerCss = css`
-		height: ${stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'};
 	`;
 
 	$: {
@@ -35,7 +36,11 @@
 	<div class="header-content">
 		<div class="header-left-flank {headerLeftFlankCss}" />
 		<div class="header-center">
-			<img src="./img/family-tree-icon.png" class={headerLogoContainerCss} alt="family tree icon" />
+			<ButtonIconographic
+				height={stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'}
+				onClickFunction={onClickIcon}
+				altText="Choose a Family Tree"
+			/>
 		</div>
 		<div class="header-right-flank">
 			{#if $nodeEditId === undefined}
