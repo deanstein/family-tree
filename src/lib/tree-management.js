@@ -2,7 +2,11 @@ import { get } from 'svelte/store';
 
 import { person, starterPersonName } from './schemas/person';
 
-import { activeFamilyTreeData, activeFamilyTreeName, activePerson } from './states/family-tree-state';
+import {
+	activeFamilyTreeData,
+	activeFamilyTreeName,
+	activePerson
+} from './states/family-tree-state';
 import { isTreeEditActive } from './states/temp-state';
 
 import { createNewPerson, upgradePersonData } from './person-management';
