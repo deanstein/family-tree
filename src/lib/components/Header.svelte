@@ -3,7 +3,7 @@
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive, nodeEditId } from '$lib/states/temp-state';
-	import { showChooseTreeModal } from '$lib/states/ui-state';
+	import { showChooseTreeModal, showChooseTreeModalCloseButton } from '$lib/states/ui-state';
 
 	import Button from '$lib/components/Button.svelte';
 	import ButtonIconographic from './ButtonIconographic.svelte';
@@ -15,6 +15,8 @@
 	// clicking on the icon shows the choose tree modal
 	const onClickIcon = () => {
 		showChooseTreeModal.set(true);
+		// the choose tree modal will show its close button from this point forward
+		showChooseTreeModalCloseButton.set(true);
 	};
 
 	const onClickEditTreeButton = () => {

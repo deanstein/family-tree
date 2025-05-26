@@ -1,18 +1,19 @@
 <script>
+	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
 	import { isTreeEditActive } from '$lib/states/temp-state';
-	import { showChooseTreeModal } from '$lib/states/ui-state';
+	import { showChooseTreeModal, showChooseTreeModalCloseButton } from '$lib/states/ui-state';
 
 	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
+	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
 	import { chooseTreeStrings, persistenceStrings } from '$lib/components/strings';
 	import AuthenticateTreeForm from './AuthenticateTreeForm.svelte';
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -54,10 +55,15 @@
 			showChooseTreeModal.set(true);
 		}
 	};
+
+	export const onClickCloseButton = () => {
+		showChooseTreeModal.set(false);
+	};
 </script>
 
 <Modal
 	showModal={$showChooseTreeModal}
+	onClickCloseButton={get(showChooseTreeModalCloseButton) ? onClickCloseButton : undefined}
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}
