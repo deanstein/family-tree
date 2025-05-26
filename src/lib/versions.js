@@ -2,9 +2,9 @@
 //@ts-expect-error
 export const appVersion = packageJson.version;
 export const appChangelog = {
-	'v0.xx.x': {
-		Overview: 'v0.xx.x adds password protection and overhauled temp state management',
-		Changes: ['Added password protection to the ChooseTree dialog']
+	'v0.19.x': {
+		Overview: 'v0.19.x adds password protection for the private tree and for editing the sample tree, and overhauled all state management',
+		Changes: ['Added password protection to the private tree on the Choose Tree Modal', 'Made the icon in the header a clickable button', 'Switched from state objects to individual writable stores', 'Split ui-state into family-tree-state and reorganized state']
 	},
 	'v0.18.x': {
 		Overview:
