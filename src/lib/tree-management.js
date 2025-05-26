@@ -1,7 +1,35 @@
-import { activeFamilyTreeData, activePerson } from './states/family-tree-state';
+import { get } from 'svelte/store';
+
+import { person, starterPersonName } from './schemas/person';
+
+import { activeFamilyTreeData, activeFamilyTreeName, activePerson } from './states/family-tree-state';
+import { isTreeEditActive } from './states/temp-state';
 
 import { createNewPerson, upgradePersonData } from './person-management';
-import { get } from 'svelte/store';
+import { instantiateObject } from './utils';
+import { familyTree } from './schemas/family-tree';
+
+// used on initialize and also when requesting a new tree
+export const instantiateNewFamilyTreeAndSetActive = () => {
+	// create a new person
+	const newPerson = instantiateObject(person);
+	// set the name to something other than default
+	newPerson.name = starterPersonName;
+
+	// create a new tree
+	const newFamilyTree = instantiateObject(familyTree);
+	// add the new person to the allPeople array
+	newFamilyTree.allPeople.push(newPerson);
+
+	// set the tree and new person in state
+	activeFamilyTreeData.set(newFamilyTree);
+	activePerson.set(newPerson);
+
+	// ensure the active tree name is set to undefined
+	activeFamilyTreeName.set(undefined);
+	// enable edit tree mode
+	isTreeEditActive.set(true);
+};
 
 export const getAllPeopleIds = () => {
 	return get(activeFamilyTreeData)?.allPeople?.map((person) => person.id) || [];

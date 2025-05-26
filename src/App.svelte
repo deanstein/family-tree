@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
-	import { person } from '$lib/schemas/person';
 	import contexts from '$lib/schemas/contexts';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
@@ -18,7 +17,7 @@
 
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
-	import { isTreeEditActive, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
+	import { nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
 	import {
 		personNodeConnectionLineCanvasRef,
 		personNodeConnectionLineCanvasRefHover,
@@ -33,10 +32,13 @@
 		showAuthenticateTreeModal
 	} from '$lib/states/ui-state';
 
-	import { addOrUpdatePersonInPeopleArray, setActivePerson } from '$lib/tree-management';
+	import {
+		addOrUpdatePersonInPeopleArray,
+		instantiateNewFamilyTreeAndSetActive,
+		setActivePerson
+	} from '$lib/tree-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
-	import { instantiateObject } from '$lib/utils';
 
 	// @ts-expect-error
 	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
@@ -71,15 +73,10 @@
 
 	let shutdown = true;
 
-	// if there's no known people in this tree, it's a new tree
-	// so add a default person and enable editing mode
+	// if there's no known people in this tree
+	// instantiate a new tree
 	if ($activeFamilyTreeData.allPeople.length === 0) {
-		activeFamilyTreeData.update((currentValue) => {
-			currentValue.allPeople.push(instantiateObject(person));
-			return currentValue;
-		});
-		// showing tree edit active makes the background more interesting
-		isTreeEditActive.set(true);
+		instantiateNewFamilyTreeAndSetActive();
 	}
 
 	// set the initial active person as the first in the list

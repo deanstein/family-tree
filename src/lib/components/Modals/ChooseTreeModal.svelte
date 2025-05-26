@@ -12,6 +12,7 @@
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -30,6 +31,8 @@
 	`;
 
 	const onClickNewTreeButton = () => {
+		// instantiate a new family tree
+		instantiateNewFamilyTreeAndSetActive();
 		// new family tree is already loaded, so just dismiss the choose tree modal
 		showChooseTreeModal.set(false);
 		// clear any error messaging if there is any
