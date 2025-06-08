@@ -68,6 +68,7 @@
 	const onRemoveButtonClick = () => {
 		removePersonFromActivePersonGroup(personId, relationshipId);
 		hidePersonNodeActionsModal();
+		hasUnsavedChanges.set(true);
 	};
 
 	const onViewDetailsButtonClick = () => {
