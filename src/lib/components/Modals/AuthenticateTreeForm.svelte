@@ -3,6 +3,8 @@
 	//@ts-expect-error
 	import { lightenColor } from 'jdg-ui-svelte/jdg-utils.js';
 
+	import { authFormBirthdate, authFormFirstName, authFormLastName } from '$lib/states/temp-state';
+
 	import { JDGButton } from 'jdg-ui-svelte';
 	import InputContainer from '../InputContainer.svelte';
 	import TextInput from '../TextInput.svelte';
@@ -18,9 +20,19 @@
 	export let showErrorMessage = false;
 	export const errorMessage = "Sorry, it appears you don't have access to this family tree.";
 
-	let firstName = '';
-	let lastName = '';
 	let birthdate = '';
+
+	const onFirstNameInput = (event) => {
+		authFormFirstName.set(event.target.value);
+	};
+
+	const onLastNameInput = (event) => {
+		authFormLastName.set(event.target.value);
+	};
+
+	const onBirthdateInput = (event) => {
+		authFormBirthdate.set(event.target.value);
+	};
 
 	const formCss = css`
 		background-color: ${lightenColor(stylingConstants.colors.personNodeGradient3, 0.45)};
@@ -29,13 +41,13 @@
 
 <form on:submit|preventDefault={onClickButtonFunction} class="form {formCss}">
 	<InputContainer label="First Name">
-		<TextInput bind:inputValue={firstName} placeholder={'John'} />
+		<TextInput onInputFunction={onFirstNameInput} placeholder={'John'} />
 	</InputContainer>
 	<InputContainer label="Last Name">
-		<TextInput bind:inputValue={lastName} placeholder={'Doe'} />
+		<TextInput onInputFunction={onLastNameInput} placeholder={'Doe'} />
 	</InputContainer>
 	<InputContainer label="Birthdate">
-		<DatePicker bind:inputValue={birthdate} />
+		<DatePicker onInputFunction={onBirthdateInput} />
 	</InputContainer>
 
 	<JDGButton

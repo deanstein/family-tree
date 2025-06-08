@@ -3,7 +3,12 @@
 	import { css } from '@emotion/css';
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
-	import { isTreeEditActive } from '$lib/states/temp-state';
+	import {
+		authFormBirthdate,
+		authFormFirstName,
+		authFormLastName,
+		isTreeEditActive
+	} from '$lib/states/temp-state';
 	import { showChooseTreeModal, showChooseTreeModalCloseButton } from '$lib/states/ui-state';
 
 	import {
@@ -74,9 +79,9 @@
 		showLoadingMessage = true;
 		// attempt to get the private family tree
 		const privateFamilyTreeData = await fetchPrivateFamilyTreeAndSetActive(
-			firstName,
-			lastName,
-			birthdate
+			get(authFormFirstName),
+			get(authFormLastName),
+			get(authFormBirthdate)
 		);
 		// set the loading notification
 		persistenceStatus.set(persistenceStrings.loading);

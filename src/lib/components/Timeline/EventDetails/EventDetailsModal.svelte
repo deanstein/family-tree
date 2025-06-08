@@ -242,7 +242,7 @@
 					<DatePicker
 						bind:inputValue={birthdateInputValue}
 						isEnabled={isInEditMode}
-						onKeyUpFunction={getIsDateInputValid}
+						onInputFunction={getIsDateInputValid}
 					/>
 				</InputContainer>
 				<InputContainer label={timelineEventStrings.birthtime}>
