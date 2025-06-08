@@ -3,13 +3,7 @@
 	//@ts-expect-error
 	import { lightenColor } from 'jdg-ui-svelte/jdg-utils.js';
 
-	import { persistenceStatus } from '$lib/states/family-tree-state';
-	import { showChooseTreeModal } from '$lib/states/ui-state';
-	import { isTreeEditActive } from '$lib/states/temp-state';
-
-	import { fetchPrivateFamilyTreeAndSetActive } from '$lib/persistence-management';
-
-	import { persistenceStrings } from '../strings';
+	import { authFormBirthdate, authFormFirstName, authFormLastName } from '$lib/states/temp-state';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import InputContainer from '../InputContainer.svelte';
@@ -17,65 +11,49 @@
 	import DatePicker from '../DatePicker.svelte';
 	import stylingConstants from '../styling-constants';
 
-	let firstName = '';
-	let lastName = '';
+	export let buttonText = 'Authenticate Tree';
+	export let buttonFaIcon = 'fa-key';
+	export let onClickButtonFunction;
+	// status messaging
+	export let showLoadingMessage = false;
+	export const loadingMessage = 'Checking your credentials...';
+	export let showErrorMessage = false;
+	export const errorMessage = "Sorry, it appears you don't have access to this family tree.";
+
 	let birthdate = '';
 
-	// for local status messaging
-	let showLoadingMessage = false;
-	let loadingMessage = 'Checking your credentials...';
-	let showErrorMessage = false;
-	const errorMessage = "Sorry, it appears you don't have access to this family tree.";
+	const onFirstNameInput = (event) => {
+		authFormFirstName.set(event.target.value);
+	};
 
-	async function submitLoadFamilyTree() {
-		// hide any errors from last attempt
-		showErrorMessage = false;
-		persistenceStatus.set(undefined);
-		// show that credentials are being checked
-		showLoadingMessage = true;
-		// attempt to get the private family tree
-		const privateFamilyTreeData = await fetchPrivateFamilyTreeAndSetActive(
-			firstName,
-			lastName,
-			birthdate
-		);
-		// set the loading notification
-		persistenceStatus.set(persistenceStrings.loading);
+	const onLastNameInput = (event) => {
+		authFormLastName.set(event.target.value);
+	};
 
-		if (privateFamilyTreeData) {
-			// hide the modal
-			showChooseTreeModal.set(false);
-			// set edit mode to off
-			isTreeEditActive.set(false);
-			showErrorMessage = false;
-			showLoadingMessage = false;
-		} else {
-			showErrorMessage = true;
-			showLoadingMessage = false;
-			persistenceStatus.set(persistenceStrings.loadFailed);
-		}
-	}
+	const onBirthdateInput = (event) => {
+		authFormBirthdate.set(event.target.value);
+	};
 
 	const formCss = css`
 		background-color: ${lightenColor(stylingConstants.colors.personNodeGradient3, 0.45)};
 	`;
 </script>
 
-<form on:submit|preventDefault={submitLoadFamilyTree} class="form {formCss}">
+<form on:submit|preventDefault={onClickButtonFunction} class="form {formCss}">
 	<InputContainer label="First Name">
-		<TextInput bind:inputValue={firstName} placeholder={'John'} />
+		<TextInput onInputFunction={onFirstNameInput} placeholder={'John'} />
 	</InputContainer>
 	<InputContainer label="Last Name">
-		<TextInput bind:inputValue={lastName} placeholder={'Doe'} />
+		<TextInput onInputFunction={onLastNameInput} placeholder={'Doe'} />
 	</InputContainer>
 	<InputContainer label="Birthdate">
-		<DatePicker bind:inputValue={birthdate} />
+		<DatePicker onInputFunction={onBirthdateInput} />
 	</InputContainer>
 
 	<JDGButton
-		onClickFunction={submitLoadFamilyTree}
-		label="Load Family Tree"
-		faIcon="fa-people-roof"
+		onClickFunction={onClickButtonFunction}
+		label={buttonText}
+		faIcon={buttonFaIcon}
 		backgroundColor={stylingConstants.colors.personNodeGradient3}
 		textColor="white"
 	/>

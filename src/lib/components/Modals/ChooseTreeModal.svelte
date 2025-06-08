@@ -3,10 +3,18 @@
 	import { css } from '@emotion/css';
 
 	import { persistenceStatus } from '$lib/states/family-tree-state';
-	import { isTreeEditActive } from '$lib/states/temp-state';
+	import {
+		authFormBirthdate,
+		authFormFirstName,
+		authFormLastName,
+		isTreeEditActive
+	} from '$lib/states/temp-state';
 	import { showChooseTreeModal, showChooseTreeModalCloseButton } from '$lib/states/ui-state';
 
-	import { fetchExampleFamilyTreeAndSetActive } from '$lib/persistence-management';
+	import {
+		fetchExampleFamilyTreeAndSetActive,
+		fetchPrivateFamilyTreeAndSetActive
+	} from '$lib/persistence-management';
 	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
 	import { chooseTreeStrings, persistenceStrings } from '$lib/components/strings';
@@ -14,6 +22,13 @@
 	import ChooseTreeOption from '$lib/components/Modals/ChooseTreeOption.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+
+	// bind variables to the form component
+	let firstName = '';
+	let lastName = '';
+	let birthdate = '';
+	let showErrorMessage = false;
+	let showLoadingMessage = false;
 
 	const chooseTreeModalGridCss = css`
 		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
@@ -56,6 +71,35 @@
 		}
 	};
 
+	const onClickLoadTreeButton = async () => {
+		// hide any errors from last attempt
+		showErrorMessage = false;
+		persistenceStatus.set(undefined);
+		// show that credentials are being checked
+		showLoadingMessage = true;
+		// attempt to get the private family tree
+		const privateFamilyTreeData = await fetchPrivateFamilyTreeAndSetActive(
+			get(authFormFirstName),
+			get(authFormLastName),
+			get(authFormBirthdate)
+		);
+		// set the loading notification
+		persistenceStatus.set(persistenceStrings.loading);
+
+		if (privateFamilyTreeData) {
+			// hide the modal
+			showChooseTreeModal.set(false);
+			// set edit mode to off
+			isTreeEditActive.set(false);
+			showErrorMessage = false;
+			showLoadingMessage = false;
+		} else {
+			showErrorMessage = true;
+			showLoadingMessage = false;
+			persistenceStatus.set(persistenceStrings.loadFailed);
+		}
+	};
+
 	export const onClickCloseButton = () => {
 		showChooseTreeModal.set(false);
 	};
@@ -91,7 +135,13 @@
 				description={chooseTreeStrings.loadTreeDescription}
 				buttonColor={stylingConstants.colors.personNodeGradient3}
 			>
-				<AuthenticateTreeForm />
+				<AuthenticateTreeForm
+					onClickButtonFunction={onClickLoadTreeButton}
+					buttonText="Load Family Tree"
+					buttonFaIcon="fa-people-roof"
+					{showLoadingMessage}
+					{showErrorMessage}
+				/>
 			</ChooseTreeOption>
 		</div>
 		<div class="choose-tree-dev-message">This app is in development and may be buggy.</div>

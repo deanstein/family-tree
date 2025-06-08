@@ -9,6 +9,7 @@
 	export let fontColorOverride = undefined;
 	export let fontSizeOverride = undefined;
 	export let textAlignOverride = undefined;
+	export let onInputFunction = (event) => {};
 	// empty function in case no function is passed to the input by the parent
 	export let useFunction = (element) => {};
 	export let onKeyUpFunction = (event) => {};
@@ -32,8 +33,9 @@
 	<input
 		type="text"
 		bind:value={inputValue}
-		use:useFunction
+		on:input={onInputFunction}
 		on:keyup={onKeyUpFunction}
+		use:useFunction
 		class={textInputCss}
 		disabled={!isEnabled}
 		{placeholder}

@@ -1,5 +1,10 @@
 import { derived, writable } from 'svelte/store';
 
+/*** AUTH FORM ***/
+export let authFormFirstName = writable('');
+export let authFormLastName = writable('');
+export let authFormBirthdate = writable('');
+
 /*** TREE EDITING ***/
 // if true, node add/action buttons and relationship placeholders
 // will display for tree editing
@@ -41,6 +46,9 @@ export let uploadedMediaUrl = writable(undefined);
 
 // create a combined store to display in footer dev tools
 const tempStateMap = {
+	authFormFirstName,
+	authFormLastName,
+	authFormBirthdate,
 	isTreeEditActive,
 	isNodeEditActive,
 	nodeEditId,
