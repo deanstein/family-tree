@@ -89,7 +89,7 @@ export async function fetchPrivateFamilyTreePayload(firstName, lastName, birthda
 	const responseJson = await response.json();
 	// if we got the tree from the backend
 	if (responseJson.success) {
-		return responseJson.familyTreeData;
+		return responseJson;
 	}
 }
 
@@ -103,7 +103,7 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 	if (privateFamilyTreePayload) {
 		activeFamilyTreeName.set(privateFamilyTreePayload.familyTreeName);
 		activeFamilyTreeData.set(privateFamilyTreePayload.familyTreeData);
-		activePerson.set(getPersonById(getPersonIdByName(firstName + ' ' + lastName)));
+		activePerson.set(getPersonById(privateFamilyTreePayload.personId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
 		return privateFamilyTreePayload.familyTreeData;
 	}
