@@ -2,7 +2,7 @@
 	import { get } from 'svelte/store';
 	import { css } from '@emotion/css';
 
-	import { persistenceStatus } from '$lib/states/family-tree-state';
+	import { hasUnsavedChanges, persistenceStatus } from '$lib/states/family-tree-state';
 	import {
 		authFormBirthdate,
 		authFormFirstName,
@@ -53,6 +53,8 @@
 		showChooseTreeModal.set(false);
 		// clear any error messaging if there is any
 		persistenceStatus.set(undefined);
+		// no unsaved changes
+		hasUnsavedChanges.set(false);
 	};
 
 	const onClickExampleTreeButton = async () => {
@@ -60,6 +62,8 @@
 		persistenceStatus.set(persistenceStrings.loading);
 		// hide the modal
 		showChooseTreeModal.set(false);
+		// no unsaved changes
+		hasUnsavedChanges.set(false);
 		// load the example family tree and set it active
 		const exampleFamilyTreeData = await fetchExampleFamilyTreeAndSetActive();
 		if (exampleFamilyTreeData) {
@@ -85,6 +89,8 @@
 		);
 		// set the loading notification
 		persistenceStatus.set(persistenceStrings.loading);
+		// no unsaved changes
+		hasUnsavedChanges.set(false);
 
 		if (privateFamilyTreeData) {
 			// hide the modal
