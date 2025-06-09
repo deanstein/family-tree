@@ -12,13 +12,24 @@
 
 	import Button from '$lib/components/Button.svelte';
 	import NotificationBanner from '$lib/components/Notifications/NotificationBanner.svelte';
+	import { get } from 'svelte/store';
+	import { isAdminMode } from '$lib/states/temp-state';
+	import { postAdminLoginFunction, showAdminLoginModal } from '$lib/states/ui-state';
 
 	let showBanner;
 	let message;
 	let color;
 
 	let onSaveButtonClick = () => {
-		writeCurrentFamilyTreeDataToRepo();
+		// save is only possible in admin mode
+		if (get(isAdminMode)) {
+			writeCurrentFamilyTreeDataToRepo();
+		} else {
+			// pop the login modal
+			showAdminLoginModal.set(true);
+			// store the intended function in the state for execution later
+			postAdminLoginFunction.set(writeCurrentFamilyTreeDataToRepo);
+		}
 	};
 
 	// dynamic block for unsaved changes

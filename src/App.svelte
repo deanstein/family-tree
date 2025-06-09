@@ -29,7 +29,7 @@
 		showTimelineEventDetailsModal,
 		showTimelineEventImageDetailModal,
 		showDevTools,
-		showAuthenticateTreeModal
+		showAdminLoginModal
 	} from '$lib/states/ui-state';
 
 	import {
@@ -46,6 +46,7 @@
 	import { jdgSizes } from 'jdg-ui-svelte/jdg-shared-styles.js';
 
 	import { JDGAppContainer, JDGButton, JDGFooter } from 'jdg-ui-svelte';
+	import AdminLoginModal from '$lib/components/Modals/AdminLoginModal.svelte';
 	import ChooseTreeModal from '$lib/components/Modals/ChooseTreeModal.svelte';
 	import DevTools from '$lib/components/DevTools/DevTools.svelte';
 	import EditAlternateNameModal from '$lib/components/Modals/EditAlternateNameModal.svelte';
@@ -66,12 +67,11 @@
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
-	import AuthenticateTreeModal from '$lib/components/Modals/AuthenticateTreeModal.svelte';
 
 	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
 
-	let shutdown = true;
+	let shutdown = false;
 
 	// if there's no known people in this tree
 	// instantiate a new tree
@@ -189,8 +189,8 @@
 				{#if $showTimelineEventImageDetailModal}
 					<TimelineEventImageDetailModal />
 				{/if}
-				{#if $showAuthenticateTreeModal}
-					<AuthenticateTreeModal />
+				{#if $showAdminLoginModal}
+					<AdminLoginModal />
 				{/if}
 				<!-- MAIN APP -->
 				<Header />

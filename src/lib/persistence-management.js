@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 
+import { isAdminMode } from './states/temp-state';
 import {
 	activeFamilyTreeData,
 	activeFamilyTreeName,
@@ -24,6 +25,7 @@ export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 // Cloudflare workers and GitHub App paths
 export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
 export const ghaPathGetToken = '/get-github-app-token';
+export const ghaPathGetIsAdmin = '/get-is-admin';
 export const ghaPathGetExampleFamilyTreeData = '/get-example-family-tree-data';
 export const ghaPathGetPrivateFamilyTreeData = '/get-private-family-tree-data';
 
@@ -48,6 +50,14 @@ export async function getGitHubToken() {
 		console.error('Failed to fetch GitHub token:', error);
 		return null;
 	}
+}
+
+// determines if the given name is an admin
+export async function fetchIsAdmin(firstName, lastName) {
+	const encodedName = encodeURIComponent(firstName + ' ' + lastName);
+	const response = await fetch(gitHubAppWorkerUrl + ghaPathGetIsAdmin + '?name=' + encodedName);
+	const responseJson = await response.json();
+	return responseJson.success ? responseJson : null; // Ensure consistent return
 }
 
 // fetches the entire payload from the backend (familyTreeData and other metadata)
@@ -108,6 +118,8 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 		activeFamilyTreeData.set(privateFamilyTreePayload.familyTreeData);
 		activePerson.set(getPersonById(privateFamilyTreePayload.personId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
+		// admin mode is on by default after authenticating private family tree
+		isAdminMode.set(true);
 		return privateFamilyTreePayload.familyTreeData;
 	}
 }
@@ -258,6 +270,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 
 		// Ensure the latest version of the file is used for the next update
+		/// TODO: restore this?
 		//////////getRepoFamilyTreeAndSetActive(familyTreeId, false);
 	} else {
 		persistenceStatus.set(persistenceStrings.saveFailed);

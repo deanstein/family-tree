@@ -7,7 +7,7 @@ export const appChangelog = {
 			'v0.19.x adds password protection for the private tree and for editing the sample tree, and overhauled all state management',
 		Changes: [
 			'Added password protection to the private tree on the Choose Tree Modal',
-			'Made the icon in the header a clickable button',
+			'Made the icon in the header a clickable button to return to the ChooseTreeModal',
 			'Switched from state objects to individual writable stores',
 			'Split ui-state into family-tree-state and reorganized state'
 		]

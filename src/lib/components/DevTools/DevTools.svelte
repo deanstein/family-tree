@@ -6,7 +6,7 @@
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
 	import {
-		showAuthenticateTreeModal,
+		showAdminLoginModal,
 		showChooseTreeModal,
 		showDevTools,
 		showStoreView
@@ -56,7 +56,7 @@
 		<button on:click={setBioEditActive}> Set Bio Edit Active </button>
 		<button
 			on:click={() => {
-				$showAuthenticateTreeModal = !$showAuthenticateTreeModal;
+				$showAdminLoginModal = !$showAdminLoginModal;
 			}}
 		>
 			Show Authenticate Tree Modal
