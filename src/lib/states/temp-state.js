@@ -1,9 +1,9 @@
 import { derived, writable } from 'svelte/store';
 
 /*** AUTH FORM ***/
-export let authFormFirstName = writable('');
-export let authFormLastName = writable('');
-export let authFormBirthdate = writable('');
+export let authFormFirstName = writable(undefined);
+export let authFormLastName = writable(undefined);
+export let authFormBirthdate = writable(undefined);
 
 /*** TREE EDITING ***/
 // if true, node add/action buttons and relationship placeholders
