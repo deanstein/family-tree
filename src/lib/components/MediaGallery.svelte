@@ -1,9 +1,6 @@
 <script>
-	import {
-		imageEditContent,
-		mediaGalleryContent,
-		mediaGalleryContentArray
-	} from '$lib/states/temp-state';
+	import { imageEditContent } from '$lib/states/temp-state';
+	import { mediaGalleryContent, mediaGalleryContentArray } from '$lib/states/ui-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
 

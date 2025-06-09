@@ -11,13 +11,22 @@ export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
 /*** MODALS ***/
+// auth tree
 export let showAuthenticateTreeModal = writable(false);
+// choose tree
 export let showChooseTreeModal = writable(false);
 export let showChooseTreeModalCloseButton = writable(false);
+// node actions
 export let showNodeActionsModal = writable(false);
+// person detail
 export let showPersonDetailViewModal = writable(false);
+// alternate names
 export let showEditAlternateNameModal = writable(false);
+// media gallery
 export let showMediaGalleryModal = writable(false);
+export let mediaGalleryContent = writable(undefined);
+export let mediaGalleryContentArray = writable(undefined);
+// timeline events
 export let showTimelineEventDetailsModal = writable(false);
 export let showTimelineEventImageDetailModal = writable(false);
 
@@ -30,11 +39,19 @@ const uiStateMap = {
 	personNodePositions,
 	personNodeConnectionLineCanvasRef,
 	personNodeConnectionLineCanvasRefHover,
+	showTimelineEventDetailsModal,
+	showTimelineEventImageDetailModal,
 	timelineCanvasScrollState,
 	timelineFirstEventHeight,
 	timelineLastEventHeight,
+	showAuthenticateTreeModal,
 	showChooseTreeModal,
+	showChooseTreeModalCloseButton,
+	showNodeActionsModal,
 	showPersonDetailViewModal,
+	showEditAlternateNameModal,
+	showMediaGalleryModal,
+	mediaGalleryContent,
 	showDevTools,
 	doShowStoreView: showStoreView
 };

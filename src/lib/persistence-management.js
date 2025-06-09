@@ -1,11 +1,14 @@
 import { get } from 'svelte/store';
 
-import { activeFamilyTreeData } from './states/family-tree-state';
-import { persistenceStatus } from './states/family-tree-state';
-import { activeFamilyTreeName, activePerson } from './states/family-tree-state';
+import {
+	activeFamilyTreeData,
+	activeFamilyTreeName,
+	activePerson,
+	persistenceStatus
+} from './states/family-tree-state';
 
 import { persistenceStrings } from '$lib/components/strings';
-import { getPersonById, getPersonIdByName } from './tree-management';
+import { getPersonById } from './tree-management';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';

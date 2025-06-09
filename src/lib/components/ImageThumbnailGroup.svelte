@@ -1,6 +1,9 @@
 <script>
-	import { mediaGalleryContent, mediaGalleryContentArray } from '$lib/states/temp-state';
-	import { showMediaGalleryModal } from '$lib/states/ui-state';
+	import {
+		showMediaGalleryModal,
+		mediaGalleryContent,
+		mediaGalleryContentArray
+	} from '$lib/states/ui-state';
 
 	import AddButtonSquare from '$lib/components/ButtonCircularInSquare.svelte';
 	import EmptyMediaSquare from '$lib/components/EmptyMediaSquare.svelte';

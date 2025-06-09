@@ -1,6 +1,5 @@
 <script>
-	import { mediaGalleryContent } from '$lib/states/temp-state';
-	import { showMediaGalleryModal } from '$lib/states/ui-state';
+	import { showMediaGalleryModal, mediaGalleryContent } from '$lib/states/ui-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
