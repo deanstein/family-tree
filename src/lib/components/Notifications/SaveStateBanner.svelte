@@ -5,7 +5,12 @@
 		persistenceStatus
 	} from '$lib/states/family-tree-state';
 
-	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
+	import {
+		exampleFamilyTreeId,
+		privateFamilyTreeId,
+		setExampleFamilyTreeData,
+		setPrivateFamilyTreeData
+	} from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
 
 	import { persistenceStrings } from '$lib/components/strings';
@@ -21,14 +26,26 @@
 	let color;
 
 	let onSaveButtonClick = () => {
+		// determine what save function to run
+		// depending on which tree is open
+		let saveDataFunction;
+		// example tree
+		if (get(activeFamilyTreeName) === exampleFamilyTreeId) {
+			saveDataFunction = setExampleFamilyTreeData;
+		}
+		// private tree
+		else if (get(activeFamilyTreeName) === privateFamilyTreeId) {
+			saveDataFunction = setPrivateFamilyTreeData;
+		}
+
 		// save is only possible in admin mode
 		if (get(isAdminMode)) {
-			writeCurrentFamilyTreeDataToRepo();
+			saveDataFunction();
 		} else {
 			// pop the login modal
 			showAdminLoginModal.set(true);
 			// store the intended function in the state for execution later
-			postAdminLoginFunction.set(writeCurrentFamilyTreeDataToRepo);
+			postAdminLoginFunction.set(saveDataFunction);
 		}
 	};
 

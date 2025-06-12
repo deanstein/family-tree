@@ -1,9 +1,9 @@
 <script>
 	import { get } from 'svelte/store';
 
-	import { showAdminLoginModal } from '$lib/states/ui-state';
+	import { postAdminLoginFunction, showAdminLoginModal } from '$lib/states/ui-state';
 	import { fetchIsAdmin } from '$lib/persistence-management';
-	import { authFormFirstName, authFormLastName } from '$lib/states/temp-state';
+	import { authFormFirstName, authFormLastName, isAdminMode } from '$lib/states/temp-state';
 
 	import AuthenticateTreeForm from './AuthenticateTreeForm.svelte';
 	import Modal from './Modal.svelte';
@@ -19,12 +19,20 @@
 
 	const onClickSubmitButton = async () => {
 		showLoadingMessage = true;
-		const isAdmin = await fetchIsAdmin(get(authFormFirstName), get(authFormLastName));
-		console.log('is admin', isAdmin); // Debugging log
+		const isAdminResponse = await fetchIsAdmin(get(authFormFirstName), get(authFormLastName));
 
-		if (isAdmin && isAdmin.success) {
+		if (isAdminResponse.success && isAdminResponse.isAdmin) {
+			// set admin mode to true
+			// so no further logins are required
+			isAdminMode.set(true);
 			showAdminLoginModal.set(false);
 			showLoadingMessage = false;
+			// execute whatever action was invoked before this dialog was shown
+			const postLoginFunction = get(postAdminLoginFunction);
+			if (postLoginFunction) {
+				postLoginFunction();
+				postAdminLoginFunction.set(undefined);
+			}
 		} else {
 			showErrorMessage = true;
 			showLoadingMessage = false;

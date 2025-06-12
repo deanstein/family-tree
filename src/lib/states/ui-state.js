@@ -13,7 +13,7 @@ export let timelineLastEventHeight = writable(0);
 /*** MODALS ***/
 // admin login
 export let showAdminLoginModal = writable(false);
-export let postAdminLoginFunction = writable(undefined);
+export let postAdminLoginFunction = writable(() => {});
 // choose tree
 export let showChooseTreeModal = writable(false);
 export let showChooseTreeModalCloseButton = writable(false);
