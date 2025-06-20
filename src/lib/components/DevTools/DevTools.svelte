@@ -1,8 +1,6 @@
 <script>
 	import { get } from 'svelte/store';
 
-	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
-
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
 	import { bioEditId } from '$lib/states/temp-state';
 	import {
@@ -19,10 +17,6 @@
 	import DevToolbar from '$lib/components/DevTools/DevToolbar.svelte';
 	import DevToolsSubheader from '$lib/components/DevTools/DevToolsSubheader.svelte';
 	import StoreView from '$lib/components/DevTools/StoreView.svelte';
-
-	const setDataButtonOnClickAction = () => {
-		writeCurrentFamilyTreeDataToRepo();
-	};
 
 	const toggleChooseTreeModal = () => {
 		showChooseTreeModal.set(!get(showChooseTreeModal));
