@@ -5,6 +5,7 @@ import {
 	activeFamilyTreeData,
 	activeFamilyTreeName,
 	activePerson,
+	hasUnsavedChanges,
 	persistenceStatus
 } from './states/family-tree-state';
 
@@ -129,6 +130,7 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 }
 
 export async function setExampleFamilyTreeData() {
+	persistenceStatus.set(persistenceStrings.saving);
 	const response = await fetch(cfWorkerUrl + cfRouteSetExampleFamilyTreeData, {
 		method: 'POST',
 		headers: {
@@ -138,10 +140,22 @@ export async function setExampleFamilyTreeData() {
 	});
 
 	const responseJson = await response.json();
+
+	if (response.ok && responseJson.success) {
+		persistenceStatus.set(persistenceStrings.saveSuccessful);
+		hasUnsavedChanges.set(false);
+		// re-request the tree
+		await fetchExampleFamilyTreeAndSetActive();
+	} else {
+		persistenceStatus.set(persistenceStrings.saveFailed);
+		console.error(`Failed to update example tree: ${responseJson.error || response.statusText}`);
+	}
+
 	return responseJson;
 }
 
 export async function setPrivateFamilyTreeData() {
+	persistenceStatus.set(persistenceStrings.saving);
 	const response = await fetch(cfWorkerUrl + cfRouteSetPrivateFamilyTreeData, {
 		method: 'POST',
 		headers: {
@@ -151,6 +165,15 @@ export async function setPrivateFamilyTreeData() {
 	});
 
 	const responseJson = await response.json();
+
+	if (response.ok && responseJson.success) {
+		persistenceStatus.set(persistenceStrings.saveSuccessful);
+		hasUnsavedChanges.set(false);
+	} else {
+		persistenceStatus.set(persistenceStrings.saveFailed);
+		console.error(`Failed to update private tree: ${responseJson.error || response.statusText}`);
+	}
+
 	return responseJson;
 }
 
