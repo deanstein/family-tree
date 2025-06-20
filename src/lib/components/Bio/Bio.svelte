@@ -28,7 +28,6 @@
 	import SideBySideContainer from '$lib/components/SideBySideContainer.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { addOrUpdatePersonInPeopleArray } from '$lib/tree-management';
 
 	let personId = get(activePerson).id;
 	let isBioEditActive = false;
@@ -104,6 +103,8 @@
 	const onClickBioEditButton = () => {
 		setTempStateAltNamesFromUIState();
 		bioEditId.set(personId);
+		// set the cached person before the edit
+		cachedPerson = get(activePerson);
 	};
 
 	const onClickDoneButton = () => {
