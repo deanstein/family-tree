@@ -16,11 +16,9 @@
 	export let onClickButtonFunction;
 	// status messaging
 	export let showLoadingMessage = false;
-	export const loadingMessage = 'Checking your credentials...';
+	export let loadingMessage = 'Checking your credentials...';
 	export let showErrorMessage = false;
-	export const errorMessage = "Sorry, it appears you don't have access to this family tree.";
-
-	let birthdate = '';
+	export let errorMessage = "Sorry, it appears you don't have access to this family tree.";
 
 	const onFirstNameInput = (event) => {
 		authFormFirstName.set(event.target.value);

@@ -11,8 +11,9 @@ export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
 /*** MODALS ***/
-// auth tree
-export let showAuthenticateTreeModal = writable(false);
+// admin login
+export let showAdminLoginModal = writable(false);
+export let postAdminLoginFunction = writable(() => {});
 // choose tree
 export let showChooseTreeModal = writable(false);
 export let showChooseTreeModalCloseButton = writable(false);
@@ -44,7 +45,8 @@ const uiStateMap = {
 	timelineCanvasScrollState,
 	timelineFirstEventHeight,
 	timelineLastEventHeight,
-	showAuthenticateTreeModal,
+	showAdminLoginModal,
+	postAdminLoginFunction,
 	showChooseTreeModal,
 	showChooseTreeModalCloseButton,
 	showNodeActionsModal,

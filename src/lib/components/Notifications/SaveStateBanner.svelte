@@ -5,20 +5,48 @@
 		persistenceStatus
 	} from '$lib/states/family-tree-state';
 
-	import { writeCurrentFamilyTreeDataToRepo } from '$lib/persistence-management';
+	import {
+		exampleFamilyTreeId,
+		privateFamilyTreeId,
+		setExampleFamilyTreeData,
+		setPrivateFamilyTreeData
+	} from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
 
 	import { persistenceStrings } from '$lib/components/strings';
 
 	import Button from '$lib/components/Button.svelte';
 	import NotificationBanner from '$lib/components/Notifications/NotificationBanner.svelte';
+	import { get } from 'svelte/store';
+	import { isAdminMode } from '$lib/states/temp-state';
+	import { postAdminLoginFunction, showAdminLoginModal } from '$lib/states/ui-state';
 
 	let showBanner;
 	let message;
 	let color;
 
 	let onSaveButtonClick = () => {
-		writeCurrentFamilyTreeDataToRepo();
+		// determine what save function to run
+		// depending on which tree is open
+		let saveDataFunction;
+		// example tree
+		if (get(activeFamilyTreeName) === exampleFamilyTreeId) {
+			saveDataFunction = setExampleFamilyTreeData;
+		}
+		// private tree
+		else if (get(activeFamilyTreeName) === privateFamilyTreeId) {
+			saveDataFunction = setPrivateFamilyTreeData;
+		}
+
+		// save is only possible in admin mode
+		if (get(isAdminMode)) {
+			saveDataFunction();
+		} else {
+			// pop the login modal
+			showAdminLoginModal.set(true);
+			// store the intended function in the state for execution later
+			postAdminLoginFunction.set(saveDataFunction);
+		}
 	};
 
 	// dynamic block for unsaved changes

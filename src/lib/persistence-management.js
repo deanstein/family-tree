@@ -1,9 +1,11 @@
 import { get } from 'svelte/store';
 
+import { isAdminMode } from './states/temp-state';
 import {
 	activeFamilyTreeData,
 	activeFamilyTreeName,
 	activePerson,
+	hasUnsavedChanges,
 	persistenceStatus
 } from './states/family-tree-state';
 
@@ -22,10 +24,15 @@ export const timelineEventImageFolderName = 'timeline-event-images';
 export const imagePlaceholderSrc = './img/image-placeholder.jpg';
 export const bioPhotoPlaceholderSrc = './img/avatar-placeholder.jpg';
 // Cloudflare workers and GitHub App paths
-export const gitHubAppWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
-export const ghaPathGetToken = '/get-github-app-token';
-export const ghaPathGetExampleFamilyTreeData = '/get-example-family-tree-data';
-export const ghaPathGetPrivateFamilyTreeData = '/get-private-family-tree-data';
+export const cfWorkerUrl = 'https://family-tree-data.jdeangoldstein.workers.dev';
+export const cfRouteGetToken = '/get-github-app-token';
+export const cfRouteGetIsAdmin = '/get-is-admin';
+// get and set example tree
+export const cfRouteGetExampleFamilyTreeData = '/get-example-family-tree-data';
+export const cfRouteSetExampleFamilyTreeData = '/set-example-family-tree-data';
+// get and set private tree
+export const cfRouteGetPrivateFamilyTreeData = '/get-private-family-tree-data';
+export const cfRouteSetPrivateFamilyTreeData = '/set-private-family-tree-data';
 
 const bioPhotoFileName = 'bio-photo';
 const pathPrefixPersonId = 'person';
@@ -37,7 +44,7 @@ const exampleFamilyTreeAuthMemberId = '2'; // Kendall Roy
 /*** GITHUB APP WORKER FUNCTIONS ***/
 export async function getGitHubToken() {
 	try {
-		const response = await fetch(gitHubAppWorkerUrl + ghaPathGetToken);
+		const response = await fetch(cfWorkerUrl + cfRouteGetToken);
 		if (!response.ok) {
 			throw new Error(`GitHub Token Error: ${response.status}`);
 		}
@@ -50,11 +57,19 @@ export async function getGitHubToken() {
 	}
 }
 
+// determines if the given name is an admin
+export async function fetchIsAdmin(firstName, lastName) {
+	const encodedName = encodeURIComponent(firstName + ' ' + lastName);
+	const response = await fetch(cfWorkerUrl + cfRouteGetIsAdmin + '?name=' + encodedName);
+	const responseJson = await response.json();
+	return responseJson.success ? responseJson : null; // Ensure consistent return
+}
+
 // fetches the entire payload from the backend (familyTreeData and other metadata)
 // if the name and birthdate are present in it
 export async function fetchExampleFamilyTreePayload() {
 	const response = await fetch(
-		gitHubAppWorkerUrl + ghaPathGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeAuthMemberId
+		cfWorkerUrl + cfRouteGetExampleFamilyTreeData + '?id=' + exampleFamilyTreeAuthMemberId
 	);
 	const responseJson = await response.json();
 	// if we got the tree from the backend
@@ -82,8 +97,8 @@ export async function fetchPrivateFamilyTreePayload(firstName, lastName, birthda
 	const encodedName = encodeURIComponent(firstName + ' ' + lastName);
 	const encodedBirthdate = encodeURIComponent(birthdate);
 	const response = await fetch(
-		gitHubAppWorkerUrl +
-			ghaPathGetPrivateFamilyTreeData +
+		cfWorkerUrl +
+			cfRouteGetPrivateFamilyTreeData +
 			'?name=' +
 			encodedName +
 			'&birthdate=' +
@@ -108,8 +123,58 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 		activeFamilyTreeData.set(privateFamilyTreePayload.familyTreeData);
 		activePerson.set(getPersonById(privateFamilyTreePayload.personId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
+		// admin mode is on by default after authenticating private family tree
+		isAdminMode.set(true);
 		return privateFamilyTreePayload.familyTreeData;
 	}
+}
+
+export async function setExampleFamilyTreeData() {
+	persistenceStatus.set(persistenceStrings.saving);
+	const response = await fetch(cfWorkerUrl + cfRouteSetExampleFamilyTreeData, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(get(activeFamilyTreeData))
+	});
+
+	const responseJson = await response.json();
+
+	if (response.ok && responseJson.success) {
+		persistenceStatus.set(persistenceStrings.saveSuccessful);
+		hasUnsavedChanges.set(false);
+		// re-request the tree
+		await fetchExampleFamilyTreeAndSetActive();
+	} else {
+		persistenceStatus.set(persistenceStrings.saveFailed);
+		console.error(`Failed to update example tree: ${responseJson.error || response.statusText}`);
+	}
+
+	return responseJson;
+}
+
+export async function setPrivateFamilyTreeData() {
+	persistenceStatus.set(persistenceStrings.saving);
+	const response = await fetch(cfWorkerUrl + cfRouteSetPrivateFamilyTreeData, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(get(activeFamilyTreeData))
+	});
+
+	const responseJson = await response.json();
+
+	if (response.ok && responseJson.success) {
+		persistenceStatus.set(persistenceStrings.saveSuccessful);
+		hasUnsavedChanges.set(false);
+	} else {
+		persistenceStatus.set(persistenceStrings.saveFailed);
+		console.error(`Failed to update private tree: ${responseJson.error || response.statusText}`);
+	}
+
+	return responseJson;
 }
 
 export const getBioPhotoPathNoExt = () => {
@@ -193,7 +258,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 	persistenceStatus.set(persistenceStrings.saving);
 
 	// request GitHub App token from Cloudflare Worker
-	const tokenResponse = await fetch(gitHubAppWorkerUrl + ghaPathGetToken);
+	const tokenResponse = await fetch(cfWorkerUrl + cfRouteGetToken);
 	const { token } = await tokenResponse.json();
 
 	if (!token) {
@@ -258,6 +323,7 @@ export const writeCurrentFamilyTreeDataToRepo = async () => {
 		console.log(`File ${familyTreeDataFileName} updated successfully!`);
 
 		// Ensure the latest version of the file is used for the next update
+		/// TODO: restore this?
 		//////////getRepoFamilyTreeAndSetActive(familyTreeId, false);
 	} else {
 		persistenceStatus.set(persistenceStrings.saveFailed);

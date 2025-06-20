@@ -1,5 +1,8 @@
 import { derived, writable } from 'svelte/store';
 
+/*** ADMINISTRATION ***/
+export let isAdminMode = writable(false); // can upload photos
+
 /*** AUTH FORM ***/
 export let authFormFirstName = writable(undefined);
 export let authFormLastName = writable(undefined);
@@ -40,6 +43,7 @@ export let uploadedMediaUrl = writable(undefined);
 
 // create a combined store to display in footer dev tools
 const tempStateMap = {
+	isAdminMode,
 	authFormFirstName,
 	authFormLastName,
 	authFormBirthdate,

@@ -24,9 +24,6 @@
 	import stylingConstants from '$lib/components/styling-constants';
 
 	// bind variables to the form component
-	let firstName = '';
-	let lastName = '';
-	let birthdate = '';
 	let showErrorMessage = false;
 	let showLoadingMessage = false;
 
