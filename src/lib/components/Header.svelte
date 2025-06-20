@@ -45,9 +45,7 @@
 			/>
 		</div>
 		<div class="header-right-flank">
-			{#if $nodeEditId === undefined}
-				<SaveStateBanner />
-			{/if}
+			<SaveStateBanner />
 			<div class="edit-tree-button-container">
 				<Button
 					onClickFunction={onClickEditTreeButton}
