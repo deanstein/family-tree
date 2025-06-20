@@ -2,9 +2,17 @@
 //@ts-expect-error
 export const appVersion = packageJson.version;
 export const appChangelog = {
+		'v0.20.x': {
+		Overview:
+			'v0.20.x adds admin mode protection for editing the example family tree',
+		Changes: [
+			'Added admin mode',
+			'Invoked admin mode login on saving example tree'
+		]
+	},
 	'v0.19.x': {
 		Overview:
-			'v0.19.x adds password protection for the private tree and for editing the sample tree, and overhauled all state management',
+			'v0.19.x adds password protection for the private tree and overhauled all state management',
 		Changes: [
 			'Added password protection to the private tree on the Choose Tree Modal',
 			'Made the icon in the header a clickable button to return to the ChooseTreeModal',
