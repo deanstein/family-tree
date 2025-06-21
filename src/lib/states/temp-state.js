@@ -34,6 +34,8 @@ export let bioEditAltNames = writable([]);
 
 /*** TIMELINE EVENT EDITING ***/
 export let timelineEditEvent = writable(undefined);
+// if true, all event input fields will be editable
+export let isTimelineEventInEditMode = writable(false);
 
 /*** IMAGE EDITING ***/
 // if set, the image editing modal inputs are enabled

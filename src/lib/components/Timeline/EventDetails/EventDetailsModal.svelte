@@ -8,7 +8,12 @@
 	import timelineEventImage from '$lib/schemas/timeline-event-image';
 
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
-	import { imageEditContent, isNodeEditActive, timelineEditEvent } from '$lib/states/temp-state';
+	import {
+		imageEditContent,
+		isNodeEditActive,
+		isTimelineEventInEditMode,
+		timelineEditEvent
+	} from '$lib/states/temp-state';
 	import { showTimelineEventDetailsModal } from '$lib/states/ui-state';
 
 	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
@@ -41,8 +46,7 @@
 
 	let isNewEvent = false; // if true, this event was not found in this person's events
 	let isValidDate = false; // if true, the current date in the field is valid
-	let isBirthOrDeathEvent = false; // if true, this is a birth or death event which are always present but not stored as timeline events
-	let isInEditMode = false; // if true, all fields will be editable
+	let isBirthOrDeathEvent = false; // if true, this is a birth or death event which are always
 
 	// modal title changes based on the event type
 	let modalTitle = undefined;
@@ -141,19 +145,19 @@
 	};
 
 	const onClickEditButton = () => {
-		isInEditMode = true;
+		isTimelineEventInEditMode.set(true);
 	};
 
 	// cancel, but when used for editing an existing event
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
 		syncAllInputs();
-		isInEditMode = false;
+		isTimelineEventInEditMode.set(false);
 		isNodeEditActive.set(false);
 	};
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
-		isInEditMode = false;
+		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
 	};
@@ -168,12 +172,12 @@
 		) {
 			hasUnsavedChanges.set(true);
 		}
-		isInEditMode = false;
+		isTimelineEventInEditMode.set(false);
 		isNodeEditActive.set(false);
 	};
 
 	const onClickDeleteButton = () => {
-		isInEditMode = false;
+		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		hasUnsavedChanges.set(true);
 	};
@@ -217,8 +221,11 @@
 			: false;
 
 		mediaContentContainerCss = css`
-			border: 2px solid ${isInEditMode ? stylingConstants.colors.activeColor : 'transparent'};
-			border-radius: ${isInEditMode ? '0px' : stylingConstants.sizes.bioFieldBorderRadius};
+			border: 2px solid
+				${get(isTimelineEventInEditMode) ? stylingConstants.colors.activeColor : 'transparent'};
+			border-radius: ${get(isTimelineEventInEditMode)
+				? '0px'
+				: stylingConstants.sizes.bioFieldBorderRadius};
 		`;
 	}
 </script>
@@ -241,57 +248,63 @@
 				<InputContainer label={timelineEventStrings.birthdate}>
 					<DatePicker
 						bind:inputValue={birthdateInputValue}
-						isEnabled={isInEditMode}
+						isEnabled={$isTimelineEventInEditMode}
 						onInputFunction={getIsDateInputValid}
 					/>
 				</InputContainer>
 				<InputContainer label={timelineEventStrings.birthtime}>
-					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isInEditMode} />
+					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={$isTimelineEventInEditMode} />
 				</InputContainer>
 			</SideBySideContainer>
 			<div class="approximate-date-row">
 				<Checkbox
 					label={timelineEventStrings.eventDateApprx}
-					isEnabled={isInEditMode}
+					isEnabled={$isTimelineEventInEditMode}
 					bind:isChecked={birthdateApprxInputValue}
 				/>
 			</div>
 			<InputContainer label={timelineEventStrings.birthplace}>
-				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isInEditMode} />
+				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={$isTimelineEventInEditMode} />
 			</InputContainer>
 
 			<!-- death -->
 		{:else if eventType === timelineEventTypes.death.type}
 			<SideBySideContainer>
 				<InputContainer label={timelineEventStrings.deathDate}>
-					<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isInEditMode} />
+					<DatePicker
+						bind:inputValue={deathDateInputValue}
+						isEnabled={$isTimelineEventInEditMode}
+					/>
 				</InputContainer>
 				<InputContainer label={timelineEventStrings.deathTime}>
-					<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isInEditMode} />
+					<TextInput bind:inputValue={deathTimeInputValue} isEnabled={$isTimelineEventInEditMode} />
 				</InputContainer>
 			</SideBySideContainer>
 			<div class="approximate-date-row">
 				<Checkbox
 					label={timelineEventStrings.eventDateApprx}
-					isEnabled={isInEditMode}
+					isEnabled={$isTimelineEventInEditMode}
 					bind:isChecked={deathDateApprxInputValue}
 				/>
 			</div>
 			<InputContainer label={timelineEventStrings.deathPlace}>
-				<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isInEditMode} />
+				<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={$isTimelineEventInEditMode} />
 			</InputContainer>
 			<InputContainer label={timelineEventStrings.deathCause}>
-				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isInEditMode} />
+				<TextInput bind:inputValue={deathCauseInputValue} isEnabled={$isTimelineEventInEditMode} />
 			</InputContainer>
 			<!-- standard content box if no event type or generic type -->
 		{:else}
 			<SideBySideContainer>
 				<InputContainer label="Date">
-					<DatePicker isEnabled={isInEditMode} bind:inputValue={eventDateInputValue} />
+					<DatePicker
+						isEnabled={$isTimelineEventInEditMode}
+						bind:inputValue={eventDateInputValue}
+					/>
 				</InputContainer>
 				<InputContainer label="Type">
 					<Select
-						isEnabled={isInEditMode}
+						isEnabled={$isTimelineEventInEditMode}
 						bind:inputValue={eventTypeInputValue}
 						optionsGroupObject={timelineEventOptions}
 						optionValueKey="type"
@@ -302,17 +315,17 @@
 			<div class="approximate-date-row">
 				<Checkbox
 					label={timelineEventStrings.eventDateApprx}
-					isEnabled={isInEditMode}
+					isEnabled={$isTimelineEventInEditMode}
 					bind:isChecked={eventDateApprxValue}
 				/>
 			</div>
 			<InputContainer label="Description">
-				<TextArea isEnabled={isInEditMode} bind:inputValue={eventContentInputValue} />
+				<TextArea isEnabled={$isTimelineEventInEditMode} bind:inputValue={eventContentInputValue} />
 			</InputContainer>
 			<InputContainer label="Images">
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
-						allowEdit={isInEditMode}
+						allowEdit={$isTimelineEventInEditMode}
 						imageArray={$timelineEditEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={true}
@@ -327,7 +340,7 @@
 						showGroupTitle={false}
 						showAddButton={true}
 						showEmptyState={false}
-						enabled={isInEditMode}
+						enabled={$isTimelineEventInEditMode}
 					/>
 				</div>
 			</InputContainer>
@@ -335,7 +348,7 @@
 	</div>
 	<div slot="modal-toolbar-slot">
 		<ModalActionsBar>
-			{#if !isInEditMode}
+			{#if !$isTimelineEventInEditMode}
 				<Button
 					buttonText={'Edit'}
 					onClickFunction={onClickEditButton}
