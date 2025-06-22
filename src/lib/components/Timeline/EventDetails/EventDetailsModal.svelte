@@ -157,6 +157,7 @@
 	};
 	// cancel, but when used for creating a new event
 	const onClickCancelNewEventButton = () => {
+		showTimelineEventDetailsModal.set(false);
 		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		isNodeEditActive.set(false);
@@ -231,7 +232,7 @@
 </script>
 
 <Modal
-	showModal={$timelineEditEvent}
+	showModal={$showTimelineEventDetailsModal}
 	title={modalTitle}
 	height={stylingConstants.sizes.modalFormHeight}
 	width={stylingConstants.sizes.modalFormWidth}
@@ -326,7 +327,7 @@
 				<div class="media-content-container {mediaContentContainerCss}">
 					<ImageThumbnailGroup
 						allowEdit={$isTimelineEventInEditMode}
-						imageArray={$timelineEditEvent?.eventContent?.images}
+						imageArray={$timelineEditEvent?.eventContent?.images ?? []}
 						showGroupTitle={false}
 						showAddButton={true}
 						showEmptyState={false}
