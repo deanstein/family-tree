@@ -2,13 +2,9 @@
 //@ts-expect-error
 export const appVersion = packageJson.version;
 export const appChangelog = {
-		'v0.20.x': {
-		Overview:
-			'v0.20.x adds admin mode protection for editing the example family tree',
-		Changes: [
-			'Added admin mode',
-			'Invoked admin mode login on saving example tree'
-		]
+	'v0.20.x': {
+		Overview: 'v0.20.x adds admin mode protection for editing the example family tree',
+		Changes: ['Added admin mode', 'Invoked admin mode login on saving example tree']
 	},
 	'v0.19.x': {
 		Overview:
