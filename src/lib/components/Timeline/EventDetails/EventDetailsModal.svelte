@@ -52,19 +52,19 @@
 	let modalTitle = undefined;
 
 	// all possible input values
-	let eventDateInputValue = get(timelineEditEvent)?.eventDate;
-	let eventDateApprxValue = get(timelineEditEvent)?.isApprxDate;
-	let eventTypeInputValue = get(timelineEditEvent)?.eventType;
-	let eventContentInputValue = get(timelineEditEvent)?.eventContent.description;
-	let birthdateInputValue = get(activePerson).birth?.date;
-	let birthdateApprxInputValue = get(activePerson).birth?.apprxDate;
-	let birthtimeInputValue = get(activePerson).birth?.time;
-	let birthplaceInputValue = get(activePerson).birth?.place;
-	let deathDateInputValue = get(activePerson).death?.date;
-	let deathDateApprxInputValue = get(activePerson).death?.apprxDate;
-	let deathPlaceInputValue = get(activePerson).death?.place;
-	let deathTimeInputValue = get(activePerson).death?.time;
-	let deathCauseInputValue = get(activePerson).death?.cause;
+	let eventDateInputValue;
+	let eventDateApprxValue;
+	let eventTypeInputValue;
+	let eventContentInputValue;
+	let birthdateInputValue;
+	let birthdateApprxInputValue;
+	let birthtimeInputValue;
+	let birthplaceInputValue;
+	let deathDateInputValue;
+	let deathDateApprxInputValue;
+	let deathPlaceInputValue;
+	let deathTimeInputValue;
+	let deathCauseInputValue;
 
 	// dynamic styles
 	let mediaContentContainerCss;
@@ -74,6 +74,7 @@
 
 	onMount(() => {
 		originalEventContent = get(timelineEditEvent);
+		syncAllInputs();
 	});
 
 	// saves available inputs to the UI state
@@ -124,23 +125,23 @@
 	const syncAllInputs = () => {
 		switch (eventType) {
 			case timelineEventTypes.birth.type:
-				birthdateInputValue = get(activePerson).birth.date;
-				birthdateApprxInputValue = get(activePerson).birth.apprxDate;
-				birthtimeInputValue = get(activePerson).birth.time;
-				birthplaceInputValue = get(activePerson).birth.place;
+				birthdateInputValue = get(activePerson)?.birth?.date;
+				birthdateApprxInputValue = get(activePerson)?.birth?.apprxDate;
+				birthtimeInputValue = get(activePerson)?.birth?.time;
+				birthplaceInputValue = get(activePerson)?.birth?.place;
 				break;
 			case timelineEventTypes.death.type:
-				deathDateInputValue = get(activePerson).death.date;
-				deathDateApprxInputValue = get(activePerson).death.apprxDate;
-				deathPlaceInputValue = get(activePerson).death.place;
-				deathTimeInputValue = get(activePerson).death.time;
-				deathCauseInputValue = get(activePerson).death.cause;
+				deathDateInputValue = get(activePerson)?.death?.date;
+				deathDateApprxInputValue = get(activePerson)?.death?.apprxDate;
+				deathPlaceInputValue = get(activePerson)?.death?.place;
+				deathTimeInputValue = get(activePerson)?.death?.time;
+				deathCauseInputValue = get(activePerson)?.death?.cause;
 				break;
 			default:
-				eventDateInputValue = get(timelineEditEvent).eventDate;
-				eventDateApprxValue = get(timelineEditEvent).isApprxDate;
-				eventTypeInputValue = get(timelineEditEvent).eventType;
-				eventContentInputValue = get(timelineEditEvent).eventContent.description;
+				eventDateInputValue = get(timelineEditEvent)?.eventDate;
+				eventDateApprxValue = get(timelineEditEvent)?.isApprxDate;
+				eventTypeInputValue = get(timelineEditEvent)?.eventType;
+				eventContentInputValue = get(timelineEditEvent)?.eventContent.description;
 		}
 	};
 
