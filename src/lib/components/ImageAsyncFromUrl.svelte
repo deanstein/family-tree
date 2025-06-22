@@ -10,7 +10,8 @@
 		getExtensionFromFileNameOrPath,
 		getExtensionFromUrl,
 		getMIMEType,
-		isUrlValid
+		isUrlValid,
+		requireAdminMode
 	} from '$lib/utils';
 
 	import stylingConstants from '$lib/components/styling-constants';
@@ -129,7 +130,7 @@
 	};
 
 	const onUploadButtonClick = () => {
-		fileInput.click();
+		requireAdminMode(() => fileInput.click());
 	};
 
 	const onDeleteButtonClick = async () => {

@@ -1,4 +1,19 @@
 import CryptoJS from 'crypto-js';
+import { get } from 'svelte/store';
+
+import { isAdminMode } from './states/temp-state';
+import { postAdminLoginFunction, showAdminLoginModal } from './states/ui-state';
+
+// wrapper for functions that require
+// adminMode to be checked or authenticated first
+export const requireAdminMode = (fn) => {
+	if (get(isAdminMode)) {
+		fn();
+	} else {
+		showAdminLoginModal.set(true);
+		postAdminLoginFunction.set(fn);
+	}
+}
 
 export const decrypt = (encrypted, password) => {
 	try {
