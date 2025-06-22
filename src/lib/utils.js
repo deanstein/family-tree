@@ -13,7 +13,7 @@ export const requireAdminMode = (fn) => {
 		showAdminLoginModal.set(true);
 		postAdminLoginFunction.set(fn);
 	}
-}
+};
 
 export const decrypt = (encrypted, password) => {
 	try {
