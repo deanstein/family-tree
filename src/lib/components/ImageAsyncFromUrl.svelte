@@ -134,21 +134,20 @@
 		requireAdminMode(() => fileInput.click());
 	};
 
-	const onDeleteButtonClick = async () => {
-		// try to delete the file first
-		// if this works, then run the afterDelete function
-		if (await deleteFileFromRepoByUrl(imageUrl)) {
-			// run a post-delete function as desired (for example to clean up any references to this file)
-			removeImageFromCache(imageUrl);
-			imageUrl = '';
-			getAndShowImage();
-			afterDeleteFunction();
-		} else {
-			console.warn(
-				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
-					imageUrl
-			);
-		}
+	const onDeleteButtonClick = () => {
+		requireAdminMode(async () => {
+			if (await deleteFileFromRepoByUrl(imageUrl)) {
+				removeImageFromCache(imageUrl);
+				imageUrl = '';
+				getAndShowImage();
+				afterDeleteFunction();
+			} else {
+				console.warn(
+					'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
+						imageUrl
+				);
+			}
+		});
 	};
 
 	const handleFileUpload = async (event) => {
