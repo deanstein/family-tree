@@ -3,6 +3,7 @@
 	import { css } from '@emotion/css';
 
 	import imageCache from '$lib/stores/image-cache';
+	import { uploadedMediaUrl } from '$lib/states/temp-state';
 
 	import { deleteFileFromRepoByUrl, uploadFileToRepo } from '$lib/persistence-management';
 	import { addImageToCache, getImageFromCache, removeImageFromCache } from '$lib/temp-management';
@@ -14,8 +15,8 @@
 		requireAdminMode
 	} from '$lib/utils';
 
+	import { JDGButton } from 'jdg-ui-svelte';
 	import stylingConstants from '$lib/components/styling-constants';
-	import { uploadedMediaUrl } from '$lib/states/temp-state';
 
 	export let repoOwner;
 	export let repoName;
@@ -181,13 +182,6 @@
 	const imageCss = css`
 		object-fit: ${imageFit};
 	`;
-
-	const editButtonCss = css`
-		background-color: ${stylingConstants.colors.buttonColorPrimary};
-		:hover {
-			background-color: ${stylingConstants.colors.hoverColor};
-		}
-	`;
 </script>
 
 <div class="image-container">
@@ -198,23 +192,22 @@
 	<img src={imgSrc} class="image {imageCss}" alt="Photo of this person" />
 	{#if allowEdit}
 		<div class="image-actions-container">
-			<div
-				class="image-action-button {editButtonCss}"
-				on:click|stopPropagation={onUploadButtonClick}
-				on:keypress|stopPropagation={onUploadButtonClick}
-				title="Choose another photo"
-			>
-				<i class="fa-solid {imageEditFaIcon}" />
-			</div>
+			<JDGButton
+				onClickFunction={onUploadButtonClick}
+				label={null}
+				tooltip="Choose another photo"
+				faIcon={imageEditFaIcon}
+				doForceSquareRatio
+			/>
 			<!-- only show the delete button if the recorded url is valid -->
 			{#if isUrlValid(imageUrl)}
-				<div
-					class="image-action-button {editButtonCss} "
-					on:click|stopPropagation={onDeleteButtonClick}
-					on:keypress|stopPropagation={onDeleteButtonClick}
-				>
-					<i class="fa-solid {imageDeleteFaIcon}" />
-				</div>
+				<JDGButton
+					onClickFunction={onDeleteButtonClick}
+					label={null}
+					tooltip="Delete photo"
+					faIcon={imageDeleteFaIcon}
+					doForceSquareRatio
+				/>
 			{/if}
 		</div>
 		<input type="file" style="display: none;" on:change={handleFileUpload} bind:this={fileInput} />
@@ -254,19 +247,6 @@
 		height: 100%;
 		width: 100%;
 		gap: 0.5vw;
-	}
-
-	.image-action-button {
-		height: 25%;
-		max-height: 10vh;
-		aspect-ratio: 1;
-		border-radius: 50%;
-		opacity: 80%;
-		color: white;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
 	}
 
 	/* used for a fading effect while the image is loading */
