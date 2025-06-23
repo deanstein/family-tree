@@ -224,8 +224,8 @@
 
 		mediaContentContainerCss = css`
 			border: 2px solid
-				${get(isTimelineEventInEditMode) ? stylingConstants.colors.activeColor : 'transparent'};
-			border-radius: ${get(isTimelineEventInEditMode)
+				${$isTimelineEventInEditMode ? stylingConstants.colors.activeColor : 'transparent'};
+			border-radius: ${$isTimelineEventInEditMode
 				? '0px'
 				: stylingConstants.sizes.bioFieldBorderRadius};
 		`;
@@ -330,8 +330,7 @@
 						allowEdit={$isTimelineEventInEditMode}
 						imageArray={$timelineEditEvent?.eventContent?.images ?? []}
 						showGroupTitle={false}
-						showAddButton={true}
-						showEmptyState={false}
+						showAddButton={$isTimelineEventInEditMode}
 						onClickAddFunction={onClickAddImageButton}
 					/>
 				</div>
@@ -340,9 +339,9 @@
 				<div class="media-content-container {mediaContentContainerCss}">
 					<AssociatedPersonNodeGroup
 						showGroupTitle={false}
-						showAddButton={true}
-						showEmptyState={false}
+						showAddButton={$isTimelineEventInEditMode}
 						enabled={$isTimelineEventInEditMode}
+						associatedPeopleIds={$timelineEditEvent?.eventContent?.associatedPeopleIds}
 					/>
 				</div>
 			</InputContainer>
