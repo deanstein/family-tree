@@ -37,6 +37,8 @@
 		class="alternate-name {alternateNameCss}"
 		on:click={alternateNameOnClickAction}
 		on:keypress={alternateNameOnClickAction}
+		role="button"
+		tabindex="0"
 	>
 		{alternateName.name}
 	</div>
