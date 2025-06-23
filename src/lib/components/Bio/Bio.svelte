@@ -156,7 +156,7 @@
 		/>
 	</div>
 	<div class="bio-avatar-container">
-		<BioPhoto personId={get(activePerson).id} allowEdit={isBioEditActive} />
+		<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />
 	</div>
 	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
 	<div class="bio-facts">
