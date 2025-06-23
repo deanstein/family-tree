@@ -35,9 +35,9 @@
 </script>
 
 <div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
-	{#if associatedPeopleIds.length === 0 && showEmptyState && !showAddButton}
+	{#if associatedPeopleIds && associatedPeopleIds.length === 0 && showEmptyState && !showAddButton}
 		<EmptyMediaSquare
-			faIcon="fa-user-tie"
+			faIcon="fa-people-group"
 			message={'No people found'}
 			tooltip="Edit this event to add people"
 		/>
