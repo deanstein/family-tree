@@ -14,7 +14,7 @@
 		isTimelineEventInEditMode,
 		timelineEditEvent
 	} from '$lib/states/temp-state';
-	import { showTimelineEventDetailsModal } from '$lib/states/ui-state';
+	import { showTimelineEventDetailsModal, showTimelineEventImageDetailModal } from '$lib/states/ui-state';
 
 	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
@@ -195,6 +195,7 @@
 		newTimelineEventImage.id = uuidv4();
 		newTimelineEventImage.eventId = get(timelineEditEvent).eventId;
 		imageEditContent.set(newTimelineEventImage);
+		showTimelineEventImageDetailModal.set(true);
 	};
 
 	// checks whether the value in the date input field is valid
@@ -331,7 +332,7 @@
 						imageArray={$timelineEditEvent?.eventContent?.images ?? []}
 						showGroupTitle={false}
 						showAddButton={$isTimelineEventInEditMode}
-						onClickAddFunction={onClickAddImageButton}
+						onClickAddButton={onClickAddImageButton}
 					/>
 				</div>
 			</InputContainer>
