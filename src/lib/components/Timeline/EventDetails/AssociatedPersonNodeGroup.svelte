@@ -36,7 +36,11 @@
 
 <div class="associated-node-group-outer-container {personNodeGroupOuterContainerCss}">
 	{#if associatedPeopleIds.length === 0 && showEmptyState && !showAddButton}
-		<EmptyMediaSquare />
+		<EmptyMediaSquare
+			faIcon="fa-user-tie"
+			message={'No people found'}
+			tooltip="Edit this event to add people"
+		/>
 	{/if}
 	{#if showGroupTitle}
 		<MediaGroupTitle groupTitle={'With'} />
@@ -54,8 +58,8 @@
 		<PersonNodeForEdit nameInputValue="" context={contexts.associatedPersonSelect} showHideButton />
 	{/if}
 	<!-- show all associated people in the tempState timelineEditEvent-->
-	{#if $timelineEditEvent?.eventContent?.associatedPeopleIds}
-		{#each $timelineEditEvent?.eventContent?.associatedPeopleIds as personId}
+	{#if associatedPeopleIds}
+		{#each associatedPeopleIds as personId}
 			<PersonNode
 				{personId}
 				onClickActionButton={enabled

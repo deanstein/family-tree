@@ -21,7 +21,11 @@
 
 <div class="image-thumbnail-group-outer-container">
 	{#if imageArray.length === 0 && showEmptyState && !showAddButton}
-		<EmptyMediaSquare />
+		<EmptyMediaSquare
+			message={'No images found'}
+			faIcon="fa-image"
+			tooltip="Edit this event to add images"
+		/>
 	{/if}
 	{#if showGroupTitle}
 		<MediaGroupTitle {groupTitle} />
