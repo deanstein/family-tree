@@ -16,7 +16,8 @@
 	} from '$lib/states/temp-state';
 	import {
 		showPersonDetailViewModal,
-		personNodeConnectionLineCanvasRefHover
+		personNodeConnectionLineCanvasRefHover,
+		showTimelineEventDetailsModal
 	} from '$lib/states/ui-state';
 
 	import {
@@ -137,7 +138,7 @@
 
 	const makeAssociatedPersonActive = () => {
 		timelineEditEvent.set(undefined);
-		showPersonDetailViewModal.set(false);
+		showTimelineEventDetailsModal.set(false);
 		setActivePerson(getPersonById(personId));
 	};
 

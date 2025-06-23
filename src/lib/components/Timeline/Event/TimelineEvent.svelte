@@ -50,7 +50,6 @@
 	// this is what happens when the link is clicked
 	// to an eventReference personId
 	const makeEventReferencePersonActive = () => {
-		showPersonDetailViewModal.set(false);
 		setActivePerson(getPersonById(eventReference.personId));
 	};
 
