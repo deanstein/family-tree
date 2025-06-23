@@ -314,6 +314,7 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 10px;
+		box-sizing: border-box;
 	}
 
 	.person-node-content-area {
