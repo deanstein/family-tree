@@ -2,6 +2,7 @@
 	import { css } from '@emotion/css';
 
 	import { bioEditAltName } from '$lib/states/temp-state';
+	import { showEditAlternateNameModal } from '$lib/states/ui-state';
 
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -11,6 +12,7 @@
 	let alternateNameCss;
 
 	const alternateNameOnClickAction = () => {
+		showEditAlternateNameModal.set(true);
 		bioEditAltName.set(alternateName);
 	};
 
