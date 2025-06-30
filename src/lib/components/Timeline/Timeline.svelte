@@ -176,12 +176,14 @@
 
 				<!-- all other timeline events saved to the person -->
 				{#each timelineRowItems as timelineRowItem, i}
-					<TimelineEvent
-						timelineEvent={timelineRowItem.event}
-						rowIndex={timelineRowItem.index}
-						backgroundColor={timelineEventColors[i + 1]}
-						eventReference={timelineRowItem.eventReference}
-					/>
+					{#key timelineRowItem.event.eventId}
+						<TimelineEvent
+							timelineEvent={timelineRowItem.event}
+							rowIndex={timelineRowItem.index}
+							backgroundColor={timelineEventColors[i + 1]}
+							eventReference={timelineRowItem.eventReference}
+						/>
+					{/key}
 				{/each}
 
 				<!-- always present: current date or date of death -->
