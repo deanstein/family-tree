@@ -16,7 +16,6 @@
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import {
-		showPersonDetailViewModal,
 		showTimelineEventDetailsModal,
 		timelineFirstEventHeight,
 		timelineLastEventHeight
@@ -55,12 +54,6 @@
 
 	const eventRowCss = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
-	`;
-
-	const eventRowContainerCss = css`
-		cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
-			? 'default'
-			: 'pointer'};
 	`;
 
 	const eventDateYearCss = css`
@@ -138,6 +131,15 @@
 	}
 
 	// dynamic CSS
+	let eventRowContainerCss = css``;
+	$: {
+		eventRowContainerCss = css`
+			cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
+				? 'default'
+				: 'pointer'};
+		`;
+	}
+
 	let eventRowDynamicCss = css``;
 	$: {
 		eventRowDynamicCss = css`
