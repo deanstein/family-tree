@@ -24,15 +24,15 @@
 	// all possible input values
 	let imageDescriptionInputValue;
 
-	let isInEditMode;
+	let isInEditMode = false;
 	let isValidUrl; // if true, this image has a valid GitHub URL
 
 	let cachedImageEditContent; // for comparison and setting unsaved changes flag
 
 	onMount(() => {
 		// insantiateObject required here to avoid shared reference
-		imageDescriptionInputValue = get(imageEditContent).description;
 		cachedImageEditContent = instantiateObject(get(imageEditContent));
+		imageDescriptionInputValue = cachedImageEditContent.description;
 	});
 
 	const onClickEditButton = () => {
@@ -43,14 +43,13 @@
 	// cancel, but when used for editing an existing image
 	// resets the inputs to match the store
 	const onClickCancelEditButton = () => {
-		// TODO: match the store
-		showTimelineEventImageDetailModal.set(false);
-		imageEditContent.set(undefined);
+		imageDescriptionInputValue = get(imageEditContent).description;
+		isInEditMode = false;
 	};
 	// cancel, but when used for creating a new image
 	const onClickCancelNewImageButton = () => {
 		showTimelineEventImageDetailModal.set(false);
-		imageEditContent.set(undefined);
+		isInEditMode = false;
 	};
 
 	const onClickDoneButton = () => {
@@ -62,8 +61,7 @@
 		if (!areObjectsEqual(cachedImageEditContent, get(imageEditContent))) {
 			hasUnsavedChanges.set(true);
 		}
-		showTimelineEventImageDetailModal.set(false);
-		imageEditContent.set(undefined);
+		isInEditMode = false;
 	};
 
 	const onClickCloseButton = () => {
@@ -72,7 +70,6 @@
 	};
 
 	$: {
-		isInEditMode = $imageEditContent;
 		isValidUrl = isUrlValid($imageEditContent?.url);
 	}
 </script>
