@@ -216,7 +216,8 @@ const zIndices = {
 	notificationZIndex: 8,
 	mediaGalleryZIndex: 9,
 	chooseTreeModalZIndex: 10,
-	authenticateTreeModalZIndex: 11
+	authenticateTreeModalZIndex: 11,
+	deleteConfirmationModalZIndex: 12
 };
 
 const stylingConstants = {

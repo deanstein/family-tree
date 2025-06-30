@@ -29,7 +29,8 @@
 		showTimelineEventDetailsModal,
 		showTimelineEventImageDetailModal,
 		showDevTools,
-		showAdminLoginModal
+		showAdminLoginModal,
+		showDeleteConfirmationModal
 	} from '$lib/states/ui-state';
 
 	import {
@@ -67,6 +68,7 @@
 		redrawNodeConnectionLines
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
+	import DeleteConfirmationModal from '$lib/components/Modals/DeleteConfirmationModal.svelte';
 
 	let lineCanvasRef; // used for drawing connection lines between active person and ndoes
 	let lineCanvasRefHover; // used for drawing a single connection line from the hovered node
@@ -191,6 +193,9 @@
 				{/if}
 				{#if $showAdminLoginModal}
 					<AdminLoginModal />
+				{/if}
+				{#if $showDeleteConfirmationModal}
+					<DeleteConfirmationModal />
 				{/if}
 				<!-- MAIN APP -->
 				<Header />

@@ -11,6 +11,10 @@ export let timelineFirstEventHeight = writable(0);
 export let timelineLastEventHeight = writable(0);
 
 /*** MODALS ***/
+// delete confirmation
+export let showDeleteConfirmationModal = writable(true);
+export let deleteCustomMessage = writable(undefined);
+export let postDeleteFunction = writable(() => {});
 // admin login
 export let showAdminLoginModal = writable(false);
 export let postAdminLoginFunction = writable(() => {});
