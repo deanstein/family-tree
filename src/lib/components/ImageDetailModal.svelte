@@ -6,7 +6,7 @@
 	import { imageEditContent } from '$lib/states/temp-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
-	import { areObjectsEqual, isUrlValid } from '$lib/utils';
+	import { areObjectsEqual, instantiateObject, isUrlValid } from '$lib/utils';
 
 	import Button from '$lib/components/Button.svelte';
 	import ImageAsyncFromUrl from '$lib/components/ImageAsyncFromUrl.svelte';
@@ -30,7 +30,9 @@
 	let cachedImageEditContent; // for comparison and setting unsaved changes flag
 
 	onMount(() => {
-		cachedImageEditContent = get(imageEditContent);
+		// insantiateObject required here to avoid shared reference
+		imageDescriptionInputValue = get(imageEditContent).description;
+		cachedImageEditContent = instantiateObject(get(imageEditContent));
 	});
 
 	const onClickEditButton = () => {
