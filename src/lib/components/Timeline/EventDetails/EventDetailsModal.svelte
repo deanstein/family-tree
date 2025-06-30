@@ -19,7 +19,11 @@
 		showTimelineEventImageDetailModal
 	} from '$lib/states/ui-state';
 
-	import { addOrReplaceTimelineEvent, deleteTimelineEvent, getTimelineEventById } from '$lib/person-management';
+	import {
+		addOrReplaceTimelineEvent,
+		deleteTimelineEvent,
+		getTimelineEventById
+	} from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
 	import {
 		getObjectByKeyValueInArray,
