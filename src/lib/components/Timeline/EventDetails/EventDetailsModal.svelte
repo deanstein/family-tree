@@ -14,7 +14,10 @@
 		isTimelineEventInEditMode,
 		timelineEditEvent
 	} from '$lib/states/temp-state';
-	import { showTimelineEventDetailsModal, showTimelineEventImageDetailModal } from '$lib/states/ui-state';
+	import {
+		showTimelineEventDetailsModal,
+		showTimelineEventImageDetailModal
+	} from '$lib/states/ui-state';
 
 	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
