@@ -129,8 +129,8 @@
 		}
 
 		age = getNumberOfYearsBetweenEvents(
-			get(activePerson).birth.date,
-			get(activePerson).deceased ? get(activePerson).death.date : new Date()
+			$activePerson.birth.date,
+			$activePerson.deceased ? $activePerson.death.date : new Date()
 		);
 
 		// ensure that if the bio was edited from some other source,
@@ -146,79 +146,81 @@
 {#if isBioEditActive}
 	<Overlay />
 {/if}
-<div class="bio-content-container {bioContentContainerCss}">
-	<div class="bio-edit-toolbar">
-		<EditBioButton
-			{isBioEditActive}
-			onBioEditButtonClick={onClickBioEditButton}
-			onDoneButtonClick={onClickDoneButton}
-			onCancelButtonClick={onClickCancelButton}
-		/>
-	</div>
-	<div class="bio-avatar-container">
-		<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />
-	</div>
-	<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
-	<div class="bio-facts">
-		<InputContainer label={personDetailStrings.altNames}>
-			<AlternateNames isEnabled={isBioEditActive} />
-		</InputContainer>
-
-		<InputContainer label={personDetailStrings.gender}>
-			<Selector
-				bind:inputValue={genderInputValue}
-				isEnabled={isBioEditActive}
-				optionsGroupObject={genderOptions}
-				optionValueKey="id"
+{#key $activePerson}
+	<div class="bio-content-container {bioContentContainerCss}">
+		<div class="bio-edit-toolbar">
+			<EditBioButton
+				{isBioEditActive}
+				onBioEditButtonClick={onClickBioEditButton}
+				onDoneButtonClick={onClickDoneButton}
+				onCancelButtonClick={onClickCancelButton}
 			/>
-		</InputContainer>
-
-		<SideBySideContainer>
-			<InputContainer label={timelineEventStrings.birthdate}>
-				<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
+		</div>
+		<div class="bio-avatar-container">
+			<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />
+		</div>
+		<NameAge isEnabled={isBioEditActive} bind:inputValue={nameInputValue} {age} />
+		<div class="bio-facts">
+			<InputContainer label={personDetailStrings.altNames}>
+				<AlternateNames isEnabled={isBioEditActive} />
 			</InputContainer>
 
-			<InputContainer label={timelineEventStrings.birthtime}>
-				<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
+			<InputContainer label={personDetailStrings.gender}>
+				<Selector
+					bind:inputValue={genderInputValue}
+					isEnabled={isBioEditActive}
+					optionsGroupObject={genderOptions}
+					optionValueKey="id"
+				/>
 			</InputContainer>
-		</SideBySideContainer>
 
-		<InputContainer label={timelineEventStrings.birthplace}>
-			<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
-		</InputContainer>
-
-		<InputContainer label={personDetailStrings.hometown}>
-			<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
-		</InputContainer>
-
-		<Checkbox
-			label={timelineEventStrings.deceased}
-			bind:isChecked={deceasedValue}
-			isEnabled={isBioEditActive}
-		/>
-		{#if deceasedValue}
-			<div class="deceased-details-container">
-				<SideBySideContainer>
-					<InputContainer label={timelineEventStrings.deathDate}>
-						<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />
-					</InputContainer>
-
-					<InputContainer label={timelineEventStrings.deathTime}>
-						<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isBioEditActive} />
-					</InputContainer>
-				</SideBySideContainer>
-
-				<InputContainer label={timelineEventStrings.deathPlace}>
-					<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isBioEditActive} />
+			<SideBySideContainer>
+				<InputContainer label={timelineEventStrings.birthdate}>
+					<DatePicker bind:inputValue={birthdateInputValue} isEnabled={isBioEditActive} />
 				</InputContainer>
 
-				<InputContainer label={timelineEventStrings.deathCause}>
-					<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isBioEditActive} />
+				<InputContainer label={timelineEventStrings.birthtime}>
+					<TextInput bind:inputValue={birthtimeInputValue} isEnabled={isBioEditActive} />
 				</InputContainer>
-			</div>
-		{/if}
+			</SideBySideContainer>
+
+			<InputContainer label={timelineEventStrings.birthplace}>
+				<TextInput bind:inputValue={birthplaceInputValue} isEnabled={isBioEditActive} />
+			</InputContainer>
+
+			<InputContainer label={personDetailStrings.hometown}>
+				<TextInput bind:inputValue={hometownInputValue} isEnabled={isBioEditActive} />
+			</InputContainer>
+
+			<Checkbox
+				label={timelineEventStrings.deceased}
+				bind:isChecked={deceasedValue}
+				isEnabled={isBioEditActive}
+			/>
+			{#if deceasedValue}
+				<div class="deceased-details-container">
+					<SideBySideContainer>
+						<InputContainer label={timelineEventStrings.deathDate}>
+							<DatePicker bind:inputValue={deathDateInputValue} isEnabled={isBioEditActive} />
+						</InputContainer>
+
+						<InputContainer label={timelineEventStrings.deathTime}>
+							<TextInput bind:inputValue={deathTimeInputValue} isEnabled={isBioEditActive} />
+						</InputContainer>
+					</SideBySideContainer>
+
+					<InputContainer label={timelineEventStrings.deathPlace}>
+						<TextInput bind:inputValue={deathPlaceInputValue} isEnabled={isBioEditActive} />
+					</InputContainer>
+
+					<InputContainer label={timelineEventStrings.deathCause}>
+						<TextInput bind:inputValue={deathCauseInputValue} isEnabled={isBioEditActive} />
+					</InputContainer>
+				</div>
+			{/if}
+		</div>
 	</div>
-</div>
+{/key}
 
 <style>
 	.bio-content-container {
