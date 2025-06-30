@@ -19,7 +19,7 @@
 		showTimelineEventImageDetailModal
 	} from '$lib/states/ui-state';
 
-	import { addOrReplaceTimelineEvent, getTimelineEventById } from '$lib/person-management';
+	import { addOrReplaceTimelineEvent, deleteTimelineEvent, getTimelineEventById } from '$lib/person-management';
 	import { getModalTitleByEventType } from '$lib/ui-management';
 	import {
 		getObjectByKeyValueInArray,
@@ -185,6 +185,8 @@
 		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		hasUnsavedChanges.set(true);
+		showTimelineEventDetailsModal.set(false);
+		deleteTimelineEvent(get(timelineEditEvent));
 	};
 
 	const onClickCloseButton = () => {
@@ -219,9 +221,9 @@
 		isBirthOrDeathEvent =
 			eventType === timelineEventTypes.birth.type || eventType === timelineEventTypes.death.type;
 		isNewEvent = !getObjectByKeyValueInArray(
-			get(activePerson).timelineEvents,
+			get(activePerson)?.timelineEvents,
 			'eventId',
-			get(timelineEditEvent).eventId
+			get(timelineEditEvent)?.eventId
 		)
 			? true
 			: false;
