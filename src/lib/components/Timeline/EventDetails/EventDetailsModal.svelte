@@ -15,6 +15,9 @@
 		timelineEditEvent
 	} from '$lib/states/temp-state';
 	import {
+		customDeleteMessage,
+		postDeleteFunction,
+		showDeleteModal,
 		showTimelineEventDetailsModal,
 		showTimelineEventImageDetailModal
 	} from '$lib/states/ui-state';
@@ -186,6 +189,17 @@
 	};
 
 	const onClickDeleteButton = () => {
+		// show the delete confirmation dialog
+		showDeleteModal.set(true);
+		// set the custom delete message
+		customDeleteMessage.set(
+			'Timeline events may contain images which require deletion on the server.\n\nDeleting this event will automatically save the family tree and cannot be undone.\n\nProceed with deletion?'
+		);
+		// define what happens after confirming
+		postDeleteFunction.set(onClickDeleteConfirm);
+	};
+
+	const onClickDeleteConfirm = () => {
 		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		hasUnsavedChanges.set(true);

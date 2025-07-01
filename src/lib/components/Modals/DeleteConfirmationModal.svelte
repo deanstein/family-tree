@@ -6,6 +6,7 @@
 	import ModalActionsBar from './ModalActionsBar.svelte';
 	import stylingConstants from '../styling-constants';
 
+	// this may be overwritten by the custom message in ui-state
 	const defaultMessage = 'Are you sure?';
 
 	const onClickDeleteButton = () => {
@@ -21,8 +22,9 @@
 	title={'Delete'}
 	subtitle={null}
 	zIndex={stylingConstants.zIndices.authenticateTreeModalZIndex}
+	transparency="0.9"
 >
-	<div slot="modal-content-slot">
+	<div slot="modal-content-slot" class="delete-message">
 		{#if $customDeleteMessage}
 			{$customDeleteMessage}
 		{:else}
@@ -44,4 +46,8 @@
 </Modal>
 
 <style>
+	.delete-message {
+		white-space: pre-line;
+		text-align: center;
+	}
 </style>
