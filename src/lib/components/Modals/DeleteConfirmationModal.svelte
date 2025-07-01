@@ -1,5 +1,5 @@
 <script>
-	import { showDeleteConfirmationModal } from '$lib/states/ui-state';
+	import { customDeleteMessage, showDeleteModal } from '$lib/states/ui-state';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import Modal from './Modal.svelte';
@@ -9,11 +9,11 @@
 	const defaultMessage = 'Are you sure?';
 
 	const onClickDeleteButton = () => {
-		showDeleteConfirmationModal.set(false);
+		showDeleteModal.set(false);
 	};
 
 	const onClickCancelButton = () => {
-		showDeleteConfirmationModal.set(false);
+		showDeleteModal.set(false);
 	};
 </script>
 
@@ -23,7 +23,9 @@
 	zIndex={stylingConstants.zIndices.authenticateTreeModalZIndex}
 >
 	<div slot="modal-content-slot">
-		{#if defaultMessage}
+		{#if $customDeleteMessage}
+			{$customDeleteMessage}
+		{:else}
 			{defaultMessage}
 		{/if}
 	</div>

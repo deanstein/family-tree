@@ -30,7 +30,7 @@
 		showTimelineEventImageDetailModal,
 		showDevTools,
 		showAdminLoginModal,
-		showDeleteConfirmationModal
+		showDeleteModal
 	} from '$lib/states/ui-state';
 
 	import {
@@ -194,7 +194,7 @@
 				{#if $showAdminLoginModal}
 					<AdminLoginModal />
 				{/if}
-				{#if $showDeleteConfirmationModal}
+				{#if $showDeleteModal}
 					<DeleteConfirmationModal />
 				{/if}
 				<!-- MAIN APP -->
