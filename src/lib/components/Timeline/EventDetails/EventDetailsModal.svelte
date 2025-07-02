@@ -196,7 +196,7 @@
 			// show the modal with a custom message
 			showDeleteModal.set(true);
 			customDeleteMessage.set(
-				'Timeline events may contain images which require deletion on the server.\n\nDeleting this event will automatically save the family tree and cannot be undone.\n\nProceed with deletion?'
+				'This event contains images which require deletion on the server.\n\nDeleting this event will save all changes and cannot be undone.'
 			);
 			// set the function to run after delete is confirmed
 			postDeleteFunction.set(() => requireAdminMode(onPostClickDelete));

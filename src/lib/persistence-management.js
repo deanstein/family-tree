@@ -145,7 +145,7 @@ export async function setExampleFamilyTreeData() {
 		persistenceStatus.set(persistenceStrings.saveSuccessful);
 		hasUnsavedChanges.set(false);
 		// re-request the tree
-		await fetchExampleFamilyTreeAndSetActive();
+		//await fetchExampleFamilyTreeAndSetActive();
 	} else {
 		persistenceStatus.set(persistenceStrings.saveFailed);
 		console.error(`Failed to update example tree: ${responseJson.error || response.statusText}`);
