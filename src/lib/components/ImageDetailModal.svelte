@@ -3,7 +3,7 @@
 	import { get } from 'svelte/store';
 
 	import { hasUnsavedChanges } from '$lib/states/family-tree-state';
-	import { imageEditContent } from '$lib/states/temp-state';
+	import { imageEditContent, isNewImage } from '$lib/states/temp-state';
 
 	import { repoOwner, dataRepoName, imagePlaceholderSrc } from '$lib/persistence-management';
 	import { areObjectsEqual, instantiateObject, isUrlValid } from '$lib/utils';
@@ -33,6 +33,10 @@
 		// insantiateObject required here to avoid shared reference
 		cachedImageEditContent = instantiateObject(get(imageEditContent));
 		imageDescriptionInputValue = cachedImageEditContent.description;
+		// if this is a new event, set edit mode to true
+		if (get(isNewImage)) {
+			isInEditMode = true;
+		}
 	});
 
 	const onClickEditButton = () => {
