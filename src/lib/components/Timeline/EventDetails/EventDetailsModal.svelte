@@ -192,6 +192,7 @@
 
 	const onClickDeleteButton = () => {
 		// if there are images, need to show the confirmation dialog
+		// because this action will require automatically saving the tree
 		if (get(timelineEditEvent).eventContent?.images?.length > 0) {
 			// show the modal with a custom message
 			showDeleteModal.set(true);
@@ -199,16 +200,17 @@
 				'This event contains images which require deletion on the server.\n\nDeleting this event will save all changes and cannot be undone.'
 			);
 			// set the function to run after delete is confirmed
-			postDeleteFunction.set(() => requireAdminMode(onPostClickDelete));
+			postDeleteFunction.set(() => requireAdminMode(deleteThisTimelineEvent));
 		}
 		// otherwise, delete directly
+		// this doesn't require admin mode since it doesn't require a save
 		else {
-			onPostClickDelete();
+			deleteThisTimelineEvent();
 		}
 	};
 
-	// runs after the
-	const onPostClickDelete = () => {
+	// runs after the deletion is confirmed, if necessary
+	const deleteThisTimelineEvent = () => {
 		deleteTimelineEvent(get(timelineEditEvent));
 		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);

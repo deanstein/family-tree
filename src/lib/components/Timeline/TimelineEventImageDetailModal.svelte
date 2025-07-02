@@ -3,7 +3,10 @@
 
 	import { imageEditContent } from '$lib/states/temp-state';
 
-	import { getTimelineEventPhotoPathNoExt } from '$lib/persistence-management';
+	import {
+		getTimelineEventPhotoPathNoExt,
+		saveActiveFamilyTree
+	} from '$lib/persistence-management';
 	import {
 		deleteTimelineEventImageReference,
 		setTimelineEventImageUrlFromTempState
@@ -17,6 +20,7 @@
 	const afterUploadFunction = () => {
 		// timeline event image
 		setTimelineEventImageUrlFromTempState();
+		saveActiveFamilyTree();
 	};
 	// after delete function depends on what kind of image
 	const afterDeleteFunction = () => {

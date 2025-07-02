@@ -3,7 +3,8 @@
 		repoOwner,
 		dataRepoName,
 		bioPhotoPlaceholderSrc,
-		getBioPhotoPathNoExt
+		getBioPhotoPathNoExt,
+		saveActiveFamilyTree
 	} from '$lib/persistence-management';
 	import { getPersonById } from '$lib/tree-management';
 	import { deleteBioPhotoReference, setBioPhotoUrlFromTempState } from '$lib/person-management';
@@ -18,6 +19,7 @@
 
 	const afterUploadFunction = () => {
 		setBioPhotoUrlFromTempState();
+		saveActiveFamilyTree();
 	};
 
 	const afterDeleteFunction = () => {

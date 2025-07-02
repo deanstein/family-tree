@@ -11,6 +11,7 @@ import {
 
 import { persistenceStrings } from '$lib/components/strings';
 import { getPersonById } from './tree-management';
+import { requireAdminMode } from './utils';
 
 export const repoOwner = 'deanstein';
 export const dataRepoName = 'family-tree-data';
@@ -128,6 +129,24 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 		return privateFamilyTreePayload.familyTreeData;
 	}
 }
+
+// save the current tree, whichever that is
+export const saveActiveFamilyTree = () => {
+	// define the save function by which tree is active
+	let saveDataFunction;
+	
+	// example tree
+	if (get(activeFamilyTreeName) === exampleFamilyTreeId) {
+		saveDataFunction = setExampleFamilyTreeData;
+	}
+	// private tree
+	else if (get(activeFamilyTreeName) === privateFamilyTreeId) {
+		saveDataFunction = setPrivateFamilyTreeData;
+	}
+
+	// execute the save function, but require admin mode
+	requireAdminMode(saveDataFunction);
+};
 
 export async function setExampleFamilyTreeData() {
 	persistenceStatus.set(persistenceStrings.saving);

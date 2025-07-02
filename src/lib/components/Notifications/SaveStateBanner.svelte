@@ -1,22 +1,14 @@
 <script>
-	import { get } from 'svelte/store';
-
 	import {
 		activeFamilyTreeName,
 		hasUnsavedChanges,
 		persistenceStatus
 	} from '$lib/states/family-tree-state';
 
-	import {
-		exampleFamilyTreeId,
-		privateFamilyTreeId,
-		setExampleFamilyTreeData,
-		setPrivateFamilyTreeData
-	} from '$lib/persistence-management';
+	import { saveActiveFamilyTree } from '$lib/persistence-management';
 	import { getNotificationConfigFromRepoState } from '$lib/ui-management';
 
 	import { persistenceStrings } from '$lib/components/strings';
-	import { requireAdminMode } from '$lib/utils';
 
 	import Button from '$lib/components/Button.svelte';
 	import NotificationBanner from '$lib/components/Notifications/NotificationBanner.svelte';
@@ -26,20 +18,7 @@
 	let color;
 
 	let onSaveButtonClick = () => {
-		// define the save function
-		// depending on which tree is open
-		let saveDataFunction;
-		// example tree
-		if (get(activeFamilyTreeName) === exampleFamilyTreeId) {
-			saveDataFunction = setExampleFamilyTreeData;
-		}
-		// private tree
-		else if (get(activeFamilyTreeName) === privateFamilyTreeId) {
-			saveDataFunction = setPrivateFamilyTreeData;
-		}
-
-		// execute the save function, but require admin mode
-		requireAdminMode(saveDataFunction);
+		saveActiveFamilyTree();
 	};
 
 	// dynamic block for unsaved changes
