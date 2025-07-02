@@ -38,8 +38,8 @@ export let timelineEditEvent = writable(undefined);
 export let isTimelineEventInEditMode = writable(false);
 
 /*** IMAGE EDITING ***/
-// if set, the image editing modal inputs are enabled
 export let imageEditContent = writable(undefined);
+export let isNewImage = writable(false);
 // if set, media was just uploaded and this is the url to it
 export let uploadedMediaUrl = writable(undefined);
 

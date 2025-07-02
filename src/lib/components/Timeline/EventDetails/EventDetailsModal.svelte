@@ -10,6 +10,7 @@
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
 	import {
 		imageEditContent,
+		isNewImage,
 		isNodeEditActive,
 		isTimelineEventInEditMode,
 		timelineEditEvent
@@ -32,7 +33,8 @@
 		getObjectByKeyValueInArray,
 		instantiateObject,
 		getIsDateValid,
-		areObjectsEqual
+		areObjectsEqual,
+		requireAdminMode
 	} from '$lib/utils';
 
 	import { timelineEventStrings } from '$lib/components/strings';
@@ -65,7 +67,7 @@
 	let eventDateInputValue;
 	let eventDateApprxValue;
 	let eventTypeInputValue;
-	let eventContentInputValue;
+	let eventDescriptionInputValue;
 	let birthdateInputValue;
 	let birthdateApprxInputValue;
 	let birthtimeInputValue;
@@ -126,7 +128,7 @@
 				newEventFromInputs.eventDate = eventDateInputValue;
 				newEventFromInputs.isApprxDate = eventDateApprxValue;
 				newEventFromInputs.eventType = eventTypeInputValue;
-				newEventFromInputs.eventContent.description = eventContentInputValue;
+				newEventFromInputs.eventContent.description = eventDescriptionInputValue;
 				addOrReplaceTimelineEvent(newEventFromInputs);
 		}
 	};
@@ -151,7 +153,7 @@
 				eventDateInputValue = get(timelineEditEvent)?.eventDate;
 				eventDateApprxValue = get(timelineEditEvent)?.isApprxDate;
 				eventTypeInputValue = get(timelineEditEvent)?.eventType;
-				eventContentInputValue = get(timelineEditEvent)?.eventContent.description;
+				eventDescriptionInputValue = get(timelineEditEvent)?.eventContent.description;
 		}
 	};
 
@@ -189,22 +191,29 @@
 	};
 
 	const onClickDeleteButton = () => {
-		// show the delete confirmation dialog
-		showDeleteModal.set(true);
-		// set the custom delete message
-		customDeleteMessage.set(
-			'Timeline events may contain images which require deletion on the server.\n\nDeleting this event will automatically save the family tree and cannot be undone.\n\nProceed with deletion?'
-		);
-		// define what happens after confirming
-		postDeleteFunction.set(onClickDeleteConfirm);
+		// if there are images, need to show the confirmation dialog
+		if (get(timelineEditEvent).eventContent?.images?.length > 0) {
+			// show the modal with a custom message
+			showDeleteModal.set(true);
+			customDeleteMessage.set(
+				'Timeline events may contain images which require deletion on the server.\n\nDeleting this event will automatically save the family tree and cannot be undone.\n\nProceed with deletion?'
+			);
+			// set the function to run after delete is confirmed
+			postDeleteFunction.set(() => requireAdminMode(onPostClickDelete));
+		}
+		// otherwise, delete directly
+		else {
+			onPostClickDelete();
+		}
 	};
 
-	const onClickDeleteConfirm = () => {
+	// runs after the
+	const onPostClickDelete = () => {
+		deleteTimelineEvent(get(timelineEditEvent));
 		isTimelineEventInEditMode.set(false);
 		timelineEditEvent.set(undefined);
 		hasUnsavedChanges.set(true);
 		showTimelineEventDetailsModal.set(false);
-		deleteTimelineEvent(get(timelineEditEvent));
 	};
 
 	const onClickCloseButton = () => {
@@ -218,6 +227,7 @@
 		newTimelineEventImage.id = uuidv4();
 		newTimelineEventImage.eventId = get(timelineEditEvent).eventId;
 		imageEditContent.set(newTimelineEventImage);
+		isNewImage.set(true);
 		showTimelineEventImageDetailModal.set(true);
 	};
 
@@ -346,7 +356,10 @@
 				/>
 			</div>
 			<InputContainer label="Description">
-				<TextArea isEnabled={$isTimelineEventInEditMode} bind:inputValue={eventContentInputValue} />
+				<TextArea
+					isEnabled={$isTimelineEventInEditMode}
+					bind:inputValue={eventDescriptionInputValue}
+				/>
 			</InputContainer>
 			<InputContainer label="Images">
 				<div class="media-content-container {mediaContentContainerCss}">

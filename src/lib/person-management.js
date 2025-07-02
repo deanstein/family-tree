@@ -600,17 +600,22 @@ export const addOrReplaceTimelineEvent = (event) => {
 };
 
 export const deleteTimelineEvent = (timelineEvent) => {
-	if (!timelineEvent) return;
+	if (!timelineEvent) {
+		console.error('The supplied timeline event was undefined and cannot be deleted');
+		return;
+	}
 
 	activePerson.update((currentValue) => {
-		const updatedEvents = getObjectByKeyValueInArray(
-			currentValue.timelineEvents,
-			'eventId',
-			timelineEvent.eventId
-		)
-			? (deleteAllTimelineEventImagesFromRepo(timelineEvent),
-				deleteObjectInArray(currentValue.timelineEvents, 'eventId', timelineEvent.eventId))
-			: currentValue.timelineEvents;
+		let updatedEvents = currentValue.timelineEvents;
+
+		const eventExists = getObjectByKeyValueInArray(updatedEvents, 'eventId', timelineEvent.eventId);
+
+		if (eventExists) {
+			deleteAllTimelineEventImagesFromRepo(timelineEvent);
+			updatedEvents = deleteObjectInArray(updatedEvents, 'eventId', timelineEvent.eventId);
+		}
+
+		console.log('Final updated events', updatedEvents);
 
 		return { ...currentValue, timelineEvents: updatedEvents };
 	});
@@ -629,12 +634,18 @@ export const addOrReplaceTimelineEventImage = (timelineEventId, newImageContent)
 	// update either the existing event in this person, or the new event in the temp state
 	const timelineEventToUpdate = existingTimelineEvent ?? get(timelineEditEvent);
 	// update the timeline event with the new image
-	const updatedTimelineEvent = addOrReplaceObjectInArray(
-		timelineEventToUpdate?.eventContent?.images,
-		'id',
-		newImageContent.id,
-		newImageContent
-	);
+	const updatedTimelineEvent = {
+		...timelineEventToUpdate,
+		eventContent: {
+			...timelineEventToUpdate?.eventContent,
+			images: addOrReplaceObjectInArray(
+				timelineEventToUpdate?.eventContent?.images,
+				'id',
+				newImageContent.id,
+				newImageContent
+			)
+		}
+	};
 	// update the timeline event in the ui state
 	addOrReplaceTimelineEvent(updatedTimelineEvent);
 	// update the temp state event so the modal shows the updated content
