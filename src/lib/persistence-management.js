@@ -146,6 +146,9 @@ export const saveActiveFamilyTree = () => {
 
 	// execute the save function, but require admin mode
 	requireAdminMode(saveDataFunction);
+
+	// ensure no unsaved changes prompt shows
+	hasUnsavedChanges.set(false);
 };
 
 export async function setExampleFamilyTreeData() {
