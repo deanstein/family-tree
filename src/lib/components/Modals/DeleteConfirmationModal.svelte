@@ -1,5 +1,6 @@
 <script>
-	import { customDeleteMessage, showDeleteModal } from '$lib/states/ui-state';
+	import { get } from 'svelte/store';
+	import { customDeleteMessage, postDeleteFunction, showDeleteModal } from '$lib/states/ui-state';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import Modal from './Modal.svelte';
@@ -9,7 +10,10 @@
 	// this may be overwritten by the custom message in ui-state
 	const defaultMessage = 'Are you sure?';
 
-	const onClickDeleteButton = () => {
+	const onClickDeleteButton = async () => {
+		// run the post-delete function
+		const deleteFunction = get(postDeleteFunction);
+		deleteFunction();
 		showDeleteModal.set(false);
 	};
 

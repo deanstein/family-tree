@@ -134,7 +134,7 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 export const saveActiveFamilyTree = () => {
 	// define the save function by which tree is active
 	let saveDataFunction;
-	
+
 	// example tree
 	if (get(activeFamilyTreeName) === exampleFamilyTreeId) {
 		saveDataFunction = setExampleFamilyTreeData;

@@ -5,7 +5,11 @@
 	import imageCache from '$lib/stores/image-cache';
 	import { uploadedMediaUrl } from '$lib/states/temp-state';
 
-	import { deleteFileFromRepoByUrl, uploadFileToRepo } from '$lib/persistence-management';
+	import {
+		deleteFileFromRepoByUrl,
+		saveActiveFamilyTree,
+		uploadFileToRepo
+	} from '$lib/persistence-management';
 	import { addImageToCache, getImageFromCache, removeImageFromCache } from '$lib/temp-management';
 	import {
 		getExtensionFromFileNameOrPath,
@@ -16,7 +20,7 @@
 	} from '$lib/utils';
 
 	import { JDGButton } from 'jdg-ui-svelte';
-	import stylingConstants from '$lib/components/styling-constants';
+	import { customDeleteMessage, postDeleteFunction, showDeleteModal } from '$lib/states/ui-state';
 
 	export let repoOwner;
 	export let repoName;
@@ -125,29 +129,42 @@
 
 			// run any post-upload functions the parent using this image may require
 			afterUploadFunction();
+
+			// save the tree so we keep data synchronized
+			saveActiveFamilyTree();
 		} catch (error) {
 			console.error('Error uploading file:', error);
 		}
 	};
 
-	const onUploadButtonClick = () => {
+	const onClickUploadButton = () => {
 		requireAdminMode(() => fileInput.click());
 	};
 
-	const onDeleteButtonClick = () => {
+	const onClickDeleteButton = () => {
 		requireAdminMode(async () => {
-			if (await deleteFileFromRepoByUrl(imageUrl)) {
-				removeImageFromCache(imageUrl);
-				imageUrl = '';
-				getAndShowImage();
-				afterDeleteFunction();
-			} else {
-				console.warn(
-					'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
-						imageUrl
-				);
-			}
+			// show the modal with a custom message
+			showDeleteModal.set(true);
+			customDeleteMessage.set('Deleting this photo will save all changes and cannot be undone.');
+			// set the function to run after delete is confirmed
+			postDeleteFunction.set(async () => deleteThisImage());
 		});
+	};
+
+	// runs after the deletion is confirmed
+	const deleteThisImage = async () => {
+		if (await deleteFileFromRepoByUrl(imageUrl)) {
+			removeImageFromCache(imageUrl);
+			imageUrl = '';
+			getAndShowImage();
+			afterDeleteFunction();
+			saveActiveFamilyTree();
+		} else {
+			console.warn(
+				'Failed to delete image from the repo, so leaving the activePerson references to this image: ' +
+					imageUrl
+			);
+		}
 	};
 
 	const handleFileUpload = async (event) => {
@@ -192,7 +209,7 @@
 	{#if allowEdit}
 		<div class="image-actions-container">
 			<JDGButton
-				onClickFunction={onUploadButtonClick}
+				onClickFunction={onClickUploadButton}
 				label={null}
 				tooltip="Choose another photo"
 				faIcon={imageEditFaIcon}
@@ -201,7 +218,7 @@
 			<!-- only show the delete button if the recorded url is valid -->
 			{#if isUrlValid(imageUrl)}
 				<JDGButton
-					onClickFunction={onDeleteButtonClick}
+					onClickFunction={onClickDeleteButton}
 					label={null}
 					tooltip="Delete photo"
 					faIcon={imageDeleteFaIcon}
