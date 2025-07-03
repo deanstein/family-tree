@@ -1,9 +1,10 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '$lib/components/styling-constants';
+	import { darkenColor } from 'jdg-ui-svelte/jdg-utils.js';
 
-	import Button from '$lib/components/Button.svelte';
+	import { JDGButton } from 'jdg-ui-svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let title = undefined;
 	export let faIcon = undefined; // fontawesome font name
@@ -34,11 +35,11 @@
 
 	const buttonAndIconContainerCss = css`
 		&:hover .fa-solid {
-			color: ${stylingConstants.colors.hoverColor};
+			color: ${darkenColor(buttonColor, 0.2)};
 		}
 
 		&:hover button {
-			background-color: ${stylingConstants.colors.hoverColor};
+			background-color: ${darkenColor(buttonColor, 0.2)};
 		}
 	`;
 
@@ -81,7 +82,12 @@
 			>
 				<i class="fa-solid {faIcon} {iconCss}" />
 			</div>
-			<Button {buttonText} onClickFunction={buttonFunction} overrideBackgroundColor={buttonColor} />
+			<JDGButton
+				onClickFunction={buttonFunction}
+				label={buttonText}
+				backgroundColor={buttonColor}
+				faIcon={null}
+			/>
 		</div>
 	{/if}
 	<slot />
