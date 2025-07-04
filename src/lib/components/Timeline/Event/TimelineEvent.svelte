@@ -46,12 +46,6 @@
 		timelineEditEvent.set(timelineEvent);
 	};
 
-	// this is what happens when the link is clicked
-	// to an eventReference personId
-	const makeEventReferencePersonActive = () => {
-		setActivePerson(getPersonById(eventReference.personId));
-	};
-
 	const eventRowCss = css`
 		gap: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
@@ -200,7 +194,9 @@
 					<div class="timeline-event-reference-info">
 						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
 						<JDGButton
-							onClickFunction={makeEventReferencePersonActive}
+							onClickFunction={() => {
+								setActivePerson(getPersonById(eventReference.personId));
+							}}
 							faIcon={'fa-circle-arrow-right'}
 							backgroundColor={stylingConstants.colors.activePersonNodeColor}
 							paddingLeftRight="8px"
@@ -212,6 +208,28 @@
 						/>
 					</div>
 				</div>
+			{/if}
+			<!-- if this event has associated people, show the first -->
+			{#if timelineEvent?.eventContent?.associatedPeopleIds?.length > 0 && !eventReference.personId}
+				<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; With &nbsp; </i>
+				<JDGButton
+					onClickFunction={() => {
+						setActivePerson(getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0]));
+					}}
+					faIcon={'fa-person'}
+					backgroundColor={stylingConstants.colors.activePersonNodeColor}
+					paddingLeftRight="8px"
+					paddingTopBottom="2px"
+					fontSize="12px"
+					gap="6px"
+					label={getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0])?.name}
+					tooltip={'Go to ' +
+						getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0])?.name}
+				/>
+				<!-- if more than one, show a label -->
+				{#if timelineEvent?.eventContent?.associatedPeopleIds?.length > 1}
+					&nbsp;and others
+				{/if}
 			{/if}
 		</div>
 		<div class="timeline-event-content {eventContentCss}">
