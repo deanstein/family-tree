@@ -26,6 +26,15 @@
 	import TimelineSpine from '$lib/components/Timeline/TimelineSpine.svelte';
 	import { generateGradient } from '../graphics-factory';
 
+	// all events to show
+	export let timelineEvents;
+	export let timelineEventReferences;
+	export let contextEvents;
+	// the event used to determine age
+	export let inceptionEvent = undefined;
+	// if not provided, use today's date
+	export let cessationEvent = undefined;
+
 	let scrollingCanvasDivRef;
 
 	// if true, the timeline is spaced out
@@ -46,23 +55,12 @@
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
 
-	// set up the birth event with its static fields
-	// note that other fields are updated dynamically in a reactive block below
-	const birthEvent = instantiateObject(timelineEvent);
-	birthEvent.eventId = uuidv4();
-	birthEvent.eventType = timelineEventTypes.birth.type;
-	birthEvent.eventVersion = schemaVersion;
-	// set up the death event with its static fields - if not deceased, this is today
-	// note that other fields are updated dynamically in a reactive block below
-	const deathEvent = instantiateObject(timelineEvent);
-	deathEvent.eventId = uuidv4();
-	deathEvent.eventVersion = schemaVersion;
-
 	const onClickAddEventButton = () => {
-		// birth date must be set first
-		// before any normal timeline event is added
-		if (!get(activePerson).birth.date) {
-			timelineEditEvent.set(birthEvent);
+		// if the inception event is provided, but with no date
+		// then clicking add event will set it
+		// @ts-expect-error
+		if (inceptionEvent && inceptionEvent?.eventDate === '') {
+			timelineEditEvent.set(inceptionEvent);
 			showTimelineEventDetailsModal.set(true);
 			isTimelineEventInEditMode.set(true);
 		}
@@ -113,22 +111,17 @@
 	$: {
 		// convert events to timeline row items
 		// and ensure no shared rows in the grid
-		timelineRowItems = updateTimelineRowItems(generateTimelineRowItems($activePerson));
+		timelineRowItems = updateTimelineRowItems(
+			generateTimelineRowItems(
+				timelineEvents,
+				timelineEventReferences,
+				contextEvents,
+				inceptionEvent
+			)
+		);
 	}
 
-	// ensure birth and death dates are updated
 	$: {
-		birthEvent.eventDate = $activePerson.birth.date;
-		birthEvent.eventContent.description = 'Born';
-		// ensure death event is kept updated
-		deathEvent.eventType = $activePerson.death.date
-			? timelineEventTypes.death.type
-			: timelineEventTypes.today.type;
-		deathEvent.eventDate = $activePerson.death.date
-			? $activePerson.death.date
-			: new Date().toLocaleDateString();
-		deathEvent.eventContent.description = $activePerson.death.date !== '' ? 'Deceased' : 'Today';
-
 		// generate a gradient of colors across all timeline events
 		timelineEventColors = generateGradient(
 			$activePerson?.timelineEvents?.length + 2 /* account for birth and death */,
@@ -167,13 +160,14 @@
 		<div class="timeline-scrolling-canvas" bind:this={scrollingCanvasDivRef}>
 			<!-- the grid containing all timeline events -->
 			<div class="timeline-event-grid {timelineEventGridCss}">
-				<!-- always present and always at the top: birth -->
-				<TimelineEvent
-					timelineEvent={birthEvent}
-					rowIndex={0}
-					backgroundColor={timelineEventColors[0]}
-				/>
-
+				<!-- show the inception event if provided -->
+				{#if inceptionEvent}
+					<TimelineEvent
+						timelineEvent={inceptionEvent}
+						rowIndex={0}
+						backgroundColor={timelineEventColors[0]}
+					/>
+				{/if}
 				<!-- all other timeline events saved to the person -->
 				{#each timelineRowItems as timelineRowItem, i}
 					{#key timelineRowItem.event.eventId}
@@ -185,13 +179,14 @@
 						/>
 					{/key}
 				{/each}
-
-				<!-- always present: current date or date of death -->
-				<TimelineEvent
-					timelineEvent={deathEvent}
-					rowIndex={stylingConstants.quantities.initialTimelineRowCount}
-					backgroundColor={timelineEventColors[timelineEventColors.length - 1]}
-				/>
+				<!-- show the cessation event if provided -->
+				{#if cessationEvent}
+					<TimelineEvent
+						timelineEvent={cessationEvent}
+						rowIndex={stylingConstants.quantities.initialTimelineRowCount}
+						backgroundColor={timelineEventColors[timelineEventColors.length - 1]}
+					/>
+				{/if}
 			</div>
 		</div>
 	</div>

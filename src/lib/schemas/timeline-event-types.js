@@ -1,5 +1,6 @@
 // the various types of timeline events and the content they can display
-// this is used for upgrading timeline events to ensure no errors when new data is supported
+// this is used for upgrading timeline events
+// to ensure no errors when new data is supported
 const timelineEventTypes = {
 	birth: {
 		type: 'birth',
@@ -73,11 +74,27 @@ const timelineEventTypes = {
 		icon: 'fa-heart',
 		content: {}
 	},
-	child: {
-		type: 'child',
-		label: 'Childbirth',
-		icon: 'fa-child',
-		content: {}
+	/*** contextual types, don't show in UI ***/
+	childBirth: {
+		type: 'childBirth',
+		label: 'Child Born',
+		icon: 'fa-child-reaching',
+		content: {},
+		isContextual: true
+	},
+	parentDeath: {
+		type: 'parentDeath',
+		label: 'Parent Death',
+		icon: 'fa-feather',
+		content: {},
+		isContextual: true
+	},
+	world: {
+		type: 'world',
+		label: 'World Event',
+		icon: 'fa-globe',
+		content: {},
+		isContextual: true
 	}
 };
 

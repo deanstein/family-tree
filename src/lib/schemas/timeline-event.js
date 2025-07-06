@@ -1,5 +1,6 @@
 import { schemaVersion } from '$lib/versions';
 import timelineEventContent from './timeline-event-content';
+import timelineEventOriginTypes from './timeline-event-origin-types';
 
 const timelineEvent = {
 	eventId: '',
@@ -13,6 +14,8 @@ const timelineEvent = {
 		});
 		return eventContent;
 	})(),
+	originType: timelineEventOriginTypes.self,
+	originMeta: undefined,
 	eventVersion: schemaVersion
 };
 

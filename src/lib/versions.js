@@ -169,8 +169,16 @@ export const appChangelog = {
 	}
 };
 
-export const schemaVersion = '0.12.0';
+export const schemaVersion = '0.13.0';
 export const schemaChangelog = {
+	'v0.13.x': {
+		Overview: 'v0.13.x adds support for originType and originMeta in timeline events.',
+		Changes: [
+			'Added originType to timeline event schame',
+			'Added originMeta to event schema',
+			'Added timelineEventOriginTypes schema'
+		]
+	},
 	'v0.12.x': {
 		Overview:
 			'v0.12.x adds support for eventReferences in people schema and updates support for associated people in event schema.',
