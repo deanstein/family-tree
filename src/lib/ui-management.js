@@ -232,8 +232,7 @@ export const generateTimelineRowItems = (
 			timelineEventReferenceRowItems.push(thisRowItem);
 		}
 	}
-
-	console.log(timelineEventRowItems, timelineEventReferenceRowItems);
+	
 	return [...timelineEventRowItems, ...timelineEventReferenceRowItems];
 };
 
