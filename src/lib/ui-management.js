@@ -1,17 +1,15 @@
 import { get } from 'svelte/store';
 
 import { relationship } from './schemas/relationship';
-import timelineEvent from './schemas/timeline-event';
 import timelineEventTypes from './schemas/timeline-event-types';
-import timelineEventReference from './schemas/timeline-event-reference';
+import timelineEventOriginTypes from './schemas/timeline-event-origin-types';
 import timelineRowItem from './schemas/timeline-row-item';
 
 import { activePerson, persistenceStatus } from './states/family-tree-state';
 import { personNodePositions, timelineCanvasScrollState } from './states/ui-state';
 
-import { getPersonById } from './tree-management';
 import { getGroupIdFromRelationshipId, getTimelineEventById } from '$lib/person-management';
-import { instantiateObject, largest } from './utils';
+import { getEarliestTimelineEvent, instantiateObject, largest } from './utils';
 
 import { persistenceStrings, timelineEventStrings } from '$lib/components/strings';
 import stylingConstants from '$lib/components/styling-constants';
@@ -128,15 +126,19 @@ export const setTimelineCanvasScrollState = (scrollingCanvasRef) => {
 	timelineCanvasScrollState.set(updatedTimelineCanvasScroll);
 };
 
-export const getTimelineProportionByDate = (person, eventDate) => {
+export const getTimelineProportionByDate = (
+	inceptionDate,
+	eventDate,
+	cessationDate = undefined
+) => {
 	// this covers the case where the birthday is unknown, so force the div to the top (0 proportion)
 	if (eventDate === '') {
 		return 0;
 	}
 
-	const startDate = new Date(person.birth.date);
+	const startDate = new Date(inceptionDate);
 	// end date is the death date if deceased or today
-	const endDate = person.death.date ? new Date(person.death.date) : new Date();
+	const endDate = cessationDate ? new Date(cessationDate) : new Date();
 
 	// lifespan and event duration in milliseconds
 	const lifespanMs = Math.abs(endDate.getTime() - startDate.getTime()) - 1;
@@ -148,110 +150,86 @@ export const getTimelineProportionByDate = (person, eventDate) => {
 	return proportion;
 };
 
-export const getClosestTimelineRowByDate = (person, eventDate, totalRows) => {
-	const closestRow = Math.ceil(getTimelineProportionByDate(person, eventDate) * totalRows);
+export const getClosestTimelineRowByDate = (inceptionDate, eventDate, totalRows) => {
+	const closestRow = Math.ceil(getTimelineProportionByDate(inceptionDate, eventDate) * totalRows);
 	return closestRow;
 };
 
 // converts raw timeline events from a person to timeline row items for UI
 // row items include an index to properly sort based on chronology
-export const generateTimelineRowItems = (person) => {
+export const generateTimelineRowItems = (
+	timelineEvents,
+	timelineEventReferences,
+	contextualEvents,
+	inceptionEvent = undefined
+) => {
 	let timelineEventRowItems = [];
 	let timelineEventReferenceRowItems = [];
 	let numberOfRows = largest(
-		person.timelineEvents.length + person.timelineEventReferences.length,
+		timelineEvents.length + timelineEventReferences.length,
 		stylingConstants.quantities.initialTimelineRowCount
 	);
+
+	// if no inception event is provided, use the earliest event
+	if (!inceptionEvent) {
+		inceptionEvent = getEarliestTimelineEvent(timelineEvents);
+	}
+
 	// generate the regular events
-	for (let i = 0; i < person.timelineEvents.length; i++) {
+	for (let i = 0; i < timelineEvents.length; i++) {
 		// create a new timeline row item
 		let thisRowItem = instantiateObject(timelineRowItem);
 		// get the index this item belongs to
 		const rowIndex = getClosestTimelineRowByDate(
-			person,
-			person.timelineEvents[i].eventDate,
+			inceptionEvent.eventDate,
+			timelineEvents[i].eventDate,
 			numberOfRows
 		);
 		thisRowItem.index = rowIndex;
-		thisRowItem.event = person.timelineEvents[i];
+		thisRowItem.event = timelineEvents[i];
 		if (!isNaN(rowIndex)) {
 			timelineEventRowItems.push(thisRowItem);
 		}
 	}
 	// generate the event references
-	for (let i = 0; i < person.timelineEventReferences.length; i++) {
+	for (let i = 0; i < timelineEventReferences.length; i++) {
 		// create a new timeline row item
 		let thisRowItem = instantiateObject(timelineRowItem);
-		// get the index this item belongs to
-		const eventFromReference = getTimelineEventById(
-			person.timelineEventReferences[i].personId,
-			person.timelineEventReferences[i].eventId
+		// get the event from the reference
+		// use instantiateObject to ensure it's a copy
+		const eventFromReference = instantiateObject(
+			getTimelineEventById(timelineEventReferences[i].personId, timelineEventReferences[i].eventId)
 		);
+		// mark the event as a reference origin type
+		eventFromReference.originType = timelineEventOriginTypes.reference;
+		// get the index this item belongs to
 		const rowIndex = getClosestTimelineRowByDate(
-			person,
+			inceptionEvent.eventDate,
 			eventFromReference.eventDate,
 			numberOfRows
 		);
 		thisRowItem.index = rowIndex;
 		thisRowItem.event = eventFromReference;
-		thisRowItem.eventReference = person.timelineEventReferences[i];
+		thisRowItem.eventReference = timelineEventReferences[i];
 		if (!isNaN(rowIndex)) {
 			timelineEventReferenceRowItems.push(thisRowItem);
 		}
 	}
-	// also generate special reference events:
-	// births of kids
-	const childrenRelationships = person.relationships.children;
-	for (let i = 0; i < childrenRelationships.length; i++) {
-		// get the child
-		const childPerson = getPersonById(childrenRelationships[i].id);
-		const childBirthdate = childPerson?.birth?.date;
-		// this person's birthdate and the child's birthdate must be known
-		if (person.birth.date && childBirthdate) {
-			// create the birth event
-			let birthEvent = instantiateObject(timelineEvent);
-			birthEvent.eventType = timelineEventTypes.child.type;
-			birthEvent.eventDate = childBirthdate;
-			birthEvent.eventContent.description = childPerson.name + ' born';
-			// create the event reference
-			let eventReference = instantiateObject(timelineEventReference);
-			eventReference.personId = childrenRelationships[i].id;
-			// create the row item
-			let thisRowItem = instantiateObject(timelineRowItem);
-			const rowIndex = getClosestTimelineRowByDate(person, childBirthdate, numberOfRows);
-			thisRowItem.index = rowIndex;
-			thisRowItem.event = birthEvent;
-			thisRowItem.eventReference = eventReference;
-			if (!isNaN(rowIndex)) {
-				timelineEventReferenceRowItems.push(thisRowItem);
-			}
-		}
-	}
-	// deaths of parents
-	const parentRelationships = person.relationships.parents;
-	for (let i = 0; i < parentRelationships.length; i++) {
-		// get the parent
-		const parentPerson = getPersonById(parentRelationships[i].id);
-		const parentDeathDate = parentPerson?.death?.date;
-		// this person's birthdate and the child's birthdate must be known
-		if (person.birth.date && parentDeathDate) {
-			// create the birth event
-			let deathEvent = instantiateObject(timelineEvent);
-			deathEvent.eventType = timelineEventTypes.death.type;
-			deathEvent.eventDate = parentDeathDate;
-			deathEvent.eventContent.description = parentPerson.name + ' died';
-			// create the event reference
-			let eventReference = instantiateObject(timelineEventReference);
-			eventReference.personId = parentRelationships[i].id;
-			// create the row item
-			let thisRowItem = instantiateObject(timelineRowItem);
-			const rowIndex = getClosestTimelineRowByDate(person, parentDeathDate, numberOfRows);
-			thisRowItem.index = rowIndex;
-			thisRowItem.event = deathEvent;
-			thisRowItem.eventReference = eventReference;
-			if (!isNaN(rowIndex)) {
-				timelineEventReferenceRowItems.push(thisRowItem);
-			}
+	// generate the contextual events
+	for (let i = 0; i < contextualEvents.length; i++) {
+		// create a new timeline row item
+		let thisRowItem = instantiateObject(timelineRowItem);
+		// get the index this item belongs to
+		const rowIndex = getClosestTimelineRowByDate(
+			inceptionEvent.eventDate,
+			contextualEvents[i].eventDate,
+			numberOfRows
+		);
+		thisRowItem.index = rowIndex;
+		thisRowItem.event = contextualEvents[i];
+		thisRowItem.eventReference = timelineEventReferences[i];
+		if (!isNaN(rowIndex)) {
+			timelineEventReferenceRowItems.push(thisRowItem);
 		}
 	}
 

@@ -3,6 +3,7 @@
 	import { css } from '@emotion/css';
 
 	import timelineEventTypes from '$lib/schemas/timeline-event-types';
+	import timelineEventOriginTypes from '$lib/schemas/timeline-event-origin-types';
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	import { timelineEditEvent } from '$lib/states/temp-state';
@@ -33,17 +34,22 @@
 	export let backgroundColor = stylingConstants.colors.activeColorSubtle;
 	export let rowIndex;
 
+	let upgradedEvent;
 	let eventDateCorrected;
 	let eventAge;
 	let eventRowDivRef;
 
 	const onClickTimelineEvent = () => {
 		// do nothing if this is the "today" event (no death date)
-		if (timelineEvent.eventType === timelineEventTypes.today.type) {
+		// or if the event is not a self event
+		if (
+			upgradedEvent.originType !== timelineEventOriginTypes.self ||
+			upgradedEvent.eventType === timelineEventTypes.today.type
+		) {
 			return;
 		}
 		showTimelineEventDetailsModal.set(true);
-		timelineEditEvent.set(timelineEvent);
+		timelineEditEvent.set(upgradedEvent);
 	};
 
 	const eventRowCss = css`
@@ -99,7 +105,7 @@
 
 	onMount(() => {
 		// upgrade the timeline event so it has the right fields for downstream operations
-		const upgradedEvent = upgradeTimelineEvent(timelineEvent);
+		upgradedEvent = upgradeTimelineEvent(timelineEvent);
 
 		// birth and death events report their row height for the spine to align to
 		if (upgradedEvent.eventType === timelineEventTypes.birth.type && eventRowDivRef) {
@@ -113,12 +119,12 @@
 
 		// if onClick isn't provided, use this function
 		onClickFunction =
-			(onClickFunction ?? eventReference.personId) ? () => {} : onClickTimelineEvent;
+			(onClickFunction ?? eventReference?.personId) ? () => {} : onClickTimelineEvent;
 	});
 
 	$: {
-		if (timelineEvent) {
-			eventDateCorrected = new Date(timelineEvent.eventDate);
+		if (upgradedEvent) {
+			eventDateCorrected = new Date(upgradedEvent.eventDate);
 
 			eventAge = getNumberOfYearsBetweenEvents($activePerson.birth.date, eventDateCorrected);
 		}
@@ -127,27 +133,33 @@
 	// dynamic CSS
 	let eventRowContainerCss = css``;
 	$: {
-		eventRowContainerCss = css`
-			cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
-				? 'default'
-				: 'pointer'};
-		`;
+		if (upgradedEvent) {
+			eventRowContainerCss = css`
+				cursor: ${upgradedEvent.originType !== timelineEventOriginTypes.self ||
+				upgradedEvent.eventType === timelineEventTypes.today.type
+					? 'default'
+					: 'pointer'};
+			`;
+		}
 	}
 
 	let eventRowDynamicCss = css``;
 	$: {
-		eventRowDynamicCss = css`
-			grid-row: ${rowIndex};
-			cursor: ${eventReference.personId || timelineEvent.eventType === timelineEventTypes.today.type
-				? 'default'
-				: 'pointer'};
-			&:hover {
-				background-color: ${eventReference.personId ||
-				timelineEvent.eventType === timelineEventTypes.today.type
-					? ''
-					: stylingConstants.colors.timelineEventBackgroundHoverColor};
-			}
-		`;
+		if (upgradedEvent) {
+			eventRowDynamicCss = css`
+				grid-row: ${rowIndex};
+				cursor: ${upgradedEvent.originType !== timelineEventOriginTypes.self ||
+				upgradedEvent.eventType === timelineEventTypes.today.type
+					? 'default'
+					: 'pointer'};
+				&:hover {
+					background-color: ${upgradedEvent.originType !== timelineEventOriginTypes.self ||
+					upgradedEvent.eventType === timelineEventTypes.today.type
+						? ''
+						: stylingConstants.colors.timelineEventBackgroundHoverColor};
+				}
+			`;
+		}
 	}
 </script>
 
@@ -162,16 +174,16 @@
 	<div class="timeline-event-date-year-container {eventDateYearCss}">
 		<div class="timeline-event-date {eventDateCss}">
 			<!-- show month name with three letters like AUG -->
-			{eventDateCorrected.toString() !== 'Invalid Date'
-				? monthNames[eventDateCorrected.getUTCMonth()] + ' ' + eventDateCorrected.getUTCDate()
+			{eventDateCorrected?.toString() !== 'Invalid Date'
+				? monthNames[eventDateCorrected?.getUTCMonth()] + ' ' + eventDateCorrected?.getUTCDate()
 				: 'Date?'}
 		</div>
 		<div class="timeline-event-year {eventYearCss}">
-			{eventDateCorrected.toString() !== 'Invalid Date'
-				? eventDateCorrected.getUTCFullYear()
+			{eventDateCorrected?.toString() !== 'Invalid Date'
+				? eventDateCorrected?.getUTCFullYear()
 				: 'Year?'}
 		</div>
-		{#if timelineEvent?.isApprxDate}
+		{#if upgradedEvent?.isApprxDate}
 			<div class="timeline-event-date-apprx">(apprx.)</div>
 		{/if}
 	</div>
@@ -180,16 +192,16 @@
 	<div class="timeline-event-content-outer-container {eventRowContainerCss}">
 		<div class="timeline-event-title-bar {eventTitleBarCss}">
 			<!-- event icon -->
-			<i class="fa-solid {timelineEventTypes[timelineEvent?.eventType]?.icon} {eventFaIconCss}" />
+			<i class="fa-solid {timelineEventTypes[upgradedEvent?.eventType]?.icon} {eventFaIconCss}" />
 			<!-- hide age if this is the birth event -->
-			{#if timelineEvent.eventType !== timelineEventTypes.birth.type}
+			{#if upgradedEvent?.eventType !== timelineEventTypes.birth.type}
 				<div class="timeline-event-age {eventAgeCss}">
-					{eventAge.toString() !== 'NaN' ? 'Age: ' : ''}
-					{eventAge.toString() !== 'NaN' ? eventAge : ''}
+					{eventAge?.toString() !== 'NaN' ? 'Age: ' : ''}
+					{eventAge?.toString() !== 'NaN' ? eventAge : ''}
 				</div>
 			{/if}
-			<!-- if this is a shared event, show who it's shared from -->
-			{#if eventReference.personId}
+			<!-- if this is a reference event, show who it's shared from -->
+			{#if timelineEvent.originType === timelineEventOriginTypes.reference}
 				<div>
 					<div class="timeline-event-reference-info">
 						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
@@ -210,39 +222,76 @@
 				</div>
 			{/if}
 			<!-- if this event has associated people, show the first -->
-			{#if timelineEvent?.eventContent?.associatedPeopleIds?.length > 0 && !eventReference.personId}
-				<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; With &nbsp; </i>
+			{#if upgradedEvent?.eventContent?.associatedPeopleIds?.length > 0 && upgradedEvent?.originType !== timelineEventOriginTypes.reference}
+				<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event with &nbsp; </i>
 				<JDGButton
 					onClickFunction={() => {
-						setActivePerson(getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0]));
+						setActivePerson(getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0]));
 					}}
-					faIcon={'fa-person'}
+					faIcon={'fa-circle-arrow-right'}
 					backgroundColor={stylingConstants.colors.activePersonNodeColor}
 					paddingLeftRight="8px"
 					paddingTopBottom="2px"
 					fontSize="12px"
 					gap="6px"
-					label={getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0])?.name}
+					label={getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
 					tooltip={'Go to ' +
-						getPersonById(timelineEvent?.eventContent?.associatedPeopleIds[0])?.name}
+						getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
 				/>
 				<!-- if more than one, show a label -->
-				{#if timelineEvent?.eventContent?.associatedPeopleIds?.length > 1}
+				{#if upgradedEvent?.eventContent?.associatedPeopleIds?.length > 1}
 					&nbsp;and others
+				{/if}
+			{/if}
+			<!-- if this is a contextual event, treat it specifically -->
+			{#if upgradedEvent?.originType === timelineEventOriginTypes.contextual}
+				<!-- child birth -->
+				{#if upgradedEvent?.eventType === timelineEventTypes.childBirth.type}
+					<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
+					<JDGButton
+						onClickFunction={() => {
+							setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
+						}}
+						faIcon={timelineEventTypes.childBirth.icon}
+						backgroundColor={stylingConstants.colors.activePersonNodeColor}
+						paddingLeftRight="8px"
+						paddingTopBottom="2px"
+						fontSize="12px"
+						gap="6px"
+						label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+						tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+					/>
+				{/if}
+				<!-- parent death -->
+				{#if upgradedEvent?.eventType === timelineEventTypes.parentDeath.type}
+					<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
+					<JDGButton
+						onClickFunction={() => {
+							setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
+						}}
+						faIcon={timelineEventTypes.parentDeath.icon}
+						backgroundColor={stylingConstants.colors.activePersonNodeColor}
+						paddingLeftRight="8px"
+						paddingTopBottom="2px"
+						fontSize="12px"
+						gap="6px"
+						label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+						tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+					/>
 				{/if}
 			{/if}
 		</div>
 		<div class="timeline-event-content {eventContentCss}">
 			<div class="timeline-event-description">
-				{timelineEvent?.eventContent?.description
-					? timelineEvent?.eventContent?.description
+				{upgradedEvent?.eventContent?.description
+					? upgradedEvent?.eventContent?.description
 					: 'Event description'}
 			</div>
-			{#if timelineEvent?.eventContent?.images?.length > 0}
+			{#if upgradedEvent?.eventContent?.images?.length > 0}
 				<div class="timeline-event-image-preview">
 					<!-- show a few of the timeline event images, if there are any -->
 					<ImageThumbnailGroup
-						imageArray={timelineEvent?.eventContent?.images}
+						imageArray={upgradedEvent?.eventContent?.images}
 						showGroupTitle={false}
 						showAddButton={false}
 					/>

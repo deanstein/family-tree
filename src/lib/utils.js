@@ -222,6 +222,25 @@ export const convertDateToUTC = (date) => {
 	);
 };
 
+// gets the earliest timeline event from an array of events
+export const getEarliestTimelineEvent = (timelineEvents) => {
+	if (!Array.isArray(timelineEvents) || timelineEvents.length === 0) return null;
+
+	// Filter out invalid or empty dates
+	const validEvents = timelineEvents.filter(
+		(event) => event.eventDate && !isNaN(Date.parse(event.eventDate))
+	);
+
+	if (validEvents.length === 0) return null;
+
+	// Find the event with the earliest date
+	return validEvents.reduce((earliest, current) => {
+		const earliestDate = new Date(earliest.eventDate);
+		const currentDate = new Date(current.eventDate);
+		return currentDate < earliestDate ? current : earliest;
+	});
+};
+
 export const getNumberOfYearsBetweenEvents = (startDate, endDate) => {
 	const correctedStartDate = new Date(startDate);
 	const correctedEndDate = new Date(endDate);

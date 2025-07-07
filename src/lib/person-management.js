@@ -5,6 +5,7 @@ import { person } from '$lib/schemas/person';
 import relationshipMap from '$lib/schemas/relationship-map';
 import timelineEventImage from '$lib/schemas/timeline-event-image';
 import timelineEventTypes from '$lib/schemas/timeline-event-types';
+import timelineEventOriginTypes from './schemas/timeline-event-origin-types';
 import timelineEvent from '$lib/schemas/timeline-event';
 import { schemaVersion } from '$lib/versions';
 
@@ -87,39 +88,44 @@ export const upgradePersonById = (personId) => {
 
 // ensures a timeline event has the necessary fields
 export const upgradeTimelineEvent = (eventToUpgrade) => {
-	const originalVersion = eventToUpgrade.eventVersion;
+	// first, deepmatch the object
+	let deepMatchedEvent = deepMatchObjects(timelineEvent, eventToUpgrade, true);
+
+	const originalVersion = deepMatchedEvent.eventVersion;
 	let originalContentString; // handle legacy timeline events
 	let upgraded = false;
 
-	// legacy timeline events may not have a type defined
-	// if so, set these to generic
-	if (eventToUpgrade.eventType === '' || eventToUpgrade.eventType === undefined) {
-		eventToUpgrade.eventType = timelineEventTypes.generic.type;
+	// if legacy timeline has no origin type defined
+	// set to self by default
+	if (deepMatchedEvent.originType === '' || !deepMatchedEvent.originType) {
+		deepMatchedEvent.originType = timelineEventOriginTypes.self;
+		upgraded = true;
 	}
 
 	// legacy timeline event content may be a single string,
 	// so capture that before upgrading so it can be used later as the description
-	if (typeof eventToUpgrade.eventContent === 'string') {
-		originalContentString = eventToUpgrade.eventContent;
+	if (typeof deepMatchedEvent.eventContent === 'string') {
+		originalContentString = deepMatchedEvent.eventContent;
+		upgraded = true;
 	}
 
 	// only upgrade if the schema version doesn't match
-	if (!eventToUpgrade?.eventVersion || eventToUpgrade?.eventVersion !== schemaVersion) {
-		eventToUpgrade.eventVersion = schemaVersion;
+	if (!deepMatchedEvent?.eventVersion || deepMatchedEvent?.eventVersion !== schemaVersion) {
+		deepMatchedEvent.eventVersion = schemaVersion;
 
-		switch (eventToUpgrade.eventType) {
+		switch (deepMatchedEvent.eventType) {
 			case 'birth':
-				deepMatchObjects(timelineEventTypes.birth.content, eventToUpgrade.eventContent, true);
-				return eventToUpgrade;
+				deepMatchObjects(timelineEventTypes.birth.content, deepMatchedEvent.eventContent, true);
+				return deepMatchedEvent;
 			case 'death':
-				deepMatchObjects(timelineEventTypes.death.content, eventToUpgrade.eventContent, true);
-				return eventToUpgrade;
+				deepMatchObjects(timelineEventTypes.death.content, deepMatchedEvent.eventContent, true);
+				return deepMatchedEvent;
 			default:
-				deepMatchObjects(timelineEvent, eventToUpgrade, true);
+				deepMatchObjects(timelineEvent, deepMatchedEvent, true);
 				// content used to only be a string,
 				// so set that as the description now
 				if (originalContentString) {
-					eventToUpgrade.eventContent.description = originalContentString;
+					deepMatchedEvent.eventContent.description = originalContentString;
 				}
 		}
 
@@ -132,21 +138,29 @@ export const upgradeTimelineEvent = (eventToUpgrade) => {
 			}
 		}
 		// rename any existing arrays of associatedPeople to associatedPeopleIds
-		if (eventToUpgrade?.eventContent?.associatedPeople) {
+		if (deepMatchedEvent?.eventContent?.associatedPeople) {
 			// delete the old property (this was never populated)
-			delete eventToUpgrade.eventContent.associatedPeople;
+			delete deepMatchedEvent.eventContent.associatedPeople;
 			// add new IDs prop
-			eventToUpgrade.eventContent.associatedPeopleIds = [];
+			deepMatchedEvent.eventContent.associatedPeopleIds = [];
 		}
 
 		upgraded = true;
 	}
 
 	if (upgraded) {
-		console.log('Timeline event upgraded (' + originalVersion + ') -> (' + schemaVersion + ').');
+		console.log(
+			'Timeline event upgraded: ' +
+				deepMatchedEvent.eventId +
+				' (' +
+				originalVersion +
+				') -> (' +
+				schemaVersion +
+				').'
+		);
 	}
 
-	return eventToUpgrade;
+	return deepMatchedEvent;
 };
 
 // gets IDs of all related people to this person

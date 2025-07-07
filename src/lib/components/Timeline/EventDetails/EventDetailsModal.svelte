@@ -242,9 +242,11 @@
 		isValidDate = getIsDateValid(eventDateInputValue);
 	};
 
+	const filteredEventTypes = Object.values(timelineEventTypes).filter((type) => !type.isContextual);
+
 	const timelineEventOptions = {
 		label: 'Event types:',
-		timelineEventTypes
+		filteredEventTypes
 	};
 
 	$: {

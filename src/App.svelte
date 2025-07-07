@@ -30,7 +30,8 @@
 		showTimelineEventImageDetailModal,
 		showDevTools,
 		showAdminLoginModal,
-		showDeleteModal
+		showDeleteModal,
+		showPersonDetailViewModal
 	} from '$lib/states/ui-state';
 
 	import {
@@ -178,7 +179,9 @@
 				{#if $showNodeActionsModal}
 					<NodeActionsModal personId={$nodeEditId} relationshipId={$nodeEditRelationshipId} />
 				{/if}
-				<PersonDetailModal />
+				{#if $showPersonDetailViewModal}
+					<PersonDetailModal />
+				{/if}
 				{#if $showEditAlternateNameModal}
 					<EditAlternateNameModal />
 				{/if}

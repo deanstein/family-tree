@@ -1,12 +1,73 @@
 <script>
 	import { css } from '@emotion/css';
+	import { v4 as uuidv4 } from 'uuid';
 
+	import { activePerson } from '$lib/states/family-tree-state';
 	import { showPersonDetailViewModal } from '$lib/states/ui-state';
+
+	import { getPersonById } from '$lib/tree-management';
+
+	import timelineEvent from '$lib/schemas/timeline-event';
+	import timelineEventTypes from '$lib/schemas/timeline-event-types';
+	import timelineEventOriginTypes from '$lib/schemas/timeline-event-origin-types';
+
+	import { schemaVersion } from '$lib/versions';
+	import { instantiateObject } from '$lib/utils';
 
 	import Bio from '$lib/components/Bio/Bio.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import Timeline from '$lib/components/Timeline/Timeline.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+
+	// set up the birth event with its static fields
+	const birthEvent = instantiateObject(timelineEvent);
+	birthEvent.eventId = uuidv4();
+	birthEvent.eventType = timelineEventTypes.birth.type;
+	birthEvent.eventVersion = schemaVersion;
+	birthEvent.eventContent.description = 'Born';
+	// set up the death event with its static fields - if not deceased, this is today
+	const deathEvent = instantiateObject(timelineEvent);
+	deathEvent.eventId = uuidv4();
+	deathEvent.eventVersion = schemaVersion;
+
+	// get the events and references from the active person
+	$: timelineEvents = $activePerson?.timelineEvents;
+	$: timelineEventReferences = $activePerson?.timelineEventReferences;
+	$: contextEvents = (() => {
+		let events = [];
+		// add child birth event(s)
+		const children = $activePerson.relationships?.children ?? [];
+		for (const rel of children) {
+			const child = getPersonById(rel.id);
+			const childBirth = child?.birth?.date;
+			if ($activePerson.birth?.date && childBirth) {
+				const event = instantiateObject(timelineEvent);
+				event.eventType = timelineEventTypes.childBirth.type;
+				event.eventDate = childBirth;
+				event.eventContent.description = `${child.name} was born`;
+				event.originType = timelineEventOriginTypes.contextual;
+				event.originMeta = { personId: rel.id };
+				events.push(event);
+			}
+		}
+
+		// add parent death event(s)
+		const parents = $activePerson.relationships?.parents ?? [];
+		for (const rel of parents) {
+			const parent = getPersonById(rel.id);
+			const parentDeath = parent?.death?.date;
+			if ($activePerson.birth?.date && parentDeath) {
+				const event = instantiateObject(timelineEvent);
+				event.eventType = timelineEventTypes.parentDeath.type;
+				event.eventDate = parentDeath;
+				event.originType = timelineEventOriginTypes.contextual;
+				event.eventContent.description = `${parent.name} died`;
+				event.originMeta = { personId: rel.id };
+				events.push(event);
+			}
+		}
+		return events;
+	})();
 
 	const onClickCloseButton = () => {
 		showPersonDetailViewModal.set(false);
@@ -35,6 +96,20 @@
 			flex-direction: row;
 		}
 	`;
+
+	// generate timeline events for the timeline from the active person
+	$: {
+		// ensure birth event is kept updated
+		birthEvent.eventDate = $activePerson.birth.date;
+		// ensure death event is kept updated
+		deathEvent.eventType = $activePerson.death.date
+			? timelineEventTypes.death.type
+			: timelineEventTypes.today.type;
+		deathEvent.eventDate = $activePerson.death.date
+			? $activePerson.death.date
+			: new Date().toLocaleDateString();
+		deathEvent.eventContent.description = $activePerson.death.date !== '' ? 'Deceased' : 'Today';
+	}
 </script>
 
 <Modal
@@ -53,7 +128,13 @@
 		</div>
 		<div class="person-detail-timeline-container">
 			<div class="person-detail-timeline-content-container">
-				<Timeline />
+				<Timeline
+					{timelineEvents}
+					{timelineEventReferences}
+					{contextEvents}
+					inceptionEvent={birthEvent}
+					cessationEvent={deathEvent}
+				/>
 			</div>
 		</div>
 	</div>
