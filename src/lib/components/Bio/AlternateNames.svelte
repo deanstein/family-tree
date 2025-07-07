@@ -5,6 +5,7 @@
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import { bioEditAltName, bioEditAltNames } from '$lib/states/temp-state';
+	import { showEditAlternateNameModal } from '$lib/states/ui-state';
 
 	import AlternateName from '$lib/components/Bio/AlternateName.svelte';
 	import ButtonCircular from '$lib/components/ButtonCircular.svelte';
@@ -19,6 +20,7 @@
 		const newAlternateName = instantiateObject(alternateName);
 		// mark the object as the active editing name from the uiState
 		bioEditAltName.set(newAlternateName);
+		showEditAlternateNameModal.set(true);
 	};
 
 	let altNamesContainerCss = css`

@@ -131,7 +131,7 @@
 			{#if isEnabled}
 				<Button
 					buttonText="Done"
-					isEnabled={nameInputValue.length > 0}
+					isEnabled={nameInputValue?.length > 0}
 					onClickFunction={onDoneButtonAction}
 				/>
 			{/if}
