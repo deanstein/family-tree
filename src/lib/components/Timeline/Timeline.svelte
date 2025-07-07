@@ -170,8 +170,8 @@
 				{/if}
 				<!-- all other timeline events saved to the person -->
 				{#each timelineRowItems as timelineRowItem, i}
-					<!-- event must update when active person and event updates -->
-					{#key `${$activePerson.id}-${timelineRowItem.event.eventId}`}
+					<!-- ensure the UI reacts when these values change -->
+					{#key `${$activePerson.id}-${timelineRowItem.event.eventId}-${$timelineEditEvent}`}
 						<TimelineEvent
 							timelineEvent={timelineRowItem.event}
 							rowIndex={timelineRowItem.index}
