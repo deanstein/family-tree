@@ -119,7 +119,7 @@
 
 		// if onClick isn't provided, use this function
 		onClickFunction =
-			(onClickFunction ?? eventReference.personId) ? () => {} : onClickTimelineEvent;
+			(onClickFunction ?? eventReference?.personId) ? () => {} : onClickTimelineEvent;
 	});
 
 	$: {
