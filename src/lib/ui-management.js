@@ -232,7 +232,7 @@ export const generateTimelineRowItems = (
 			timelineEventReferenceRowItems.push(thisRowItem);
 		}
 	}
-	
+
 	return [...timelineEventRowItems, ...timelineEventReferenceRowItems];
 };
 
