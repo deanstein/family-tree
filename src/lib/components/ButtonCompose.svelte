@@ -5,7 +5,7 @@
 
 	export let onClickFunction;
 	export let tooltip = undefined;
-	export let buttonType = composeButtonTypes.compose.type;
+	export let buttonType = composeButtonTypes.edit.type;
 </script>
 
 <div class="circular-action-button">

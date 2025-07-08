@@ -36,7 +36,7 @@
 		<ButtonCompose
 			onClickFunction={onBioEditButtonClick}
 			tooltip={"Edit this person's bio"}
-			buttonType={composeButtonTypes.compose.type}
+			buttonType={composeButtonTypes.edit.type}
 		/>
 	{:else}
 		<ButtonCompose
