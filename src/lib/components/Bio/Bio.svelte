@@ -20,7 +20,7 @@
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
-	import EditBioButton from '$lib/components/Bio/EditBioButton.svelte';
+	import EditBioToolbar from '$lib/components/Bio/EditBioToolbar.svelte';
 	import InputContainer from '$lib/components/InputContainer.svelte';
 	import NameAge from '$lib/components/Bio/NameAge.svelte';
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
@@ -149,7 +149,7 @@
 {#key $activePerson}
 	<div class="bio-content-container {bioContentContainerCss}">
 		<div class="bio-edit-toolbar">
-			<EditBioButton
+			<EditBioToolbar
 				{isBioEditActive}
 				onBioEditButtonClick={onClickBioEditButton}
 				onDoneButtonClick={onClickDoneButton}

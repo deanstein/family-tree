@@ -1,9 +1,11 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import stylingConstants from '$lib/components/styling-constants';
+	import composeButtonTypes from '$lib/schemas/compose-button-types';
 
-	import Button from '$lib/components/Button.svelte';
+	import { JDGButton } from 'jdg-ui-svelte';
+	import ButtonCompose from '../ButtonCompose.svelte';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	export let isBioEditActive;
 	export let onBioEditButtonClick;
@@ -31,23 +33,27 @@
 
 <div class="edit-bio-button-container">
 	{#if !isBioEditActive}
-		<Button buttonText={'Edit Bio'} onClickFunction={onBioEditButtonClick} />
-	{:else}
-		<Button
-			buttonText={'Cancel'}
-			onClickFunction={onCancelButtonClick}
-			overrideBackgroundColor={stylingConstants.colors.buttonColorSecondary}
+		<ButtonCompose
+			onClickFunction={onBioEditButtonClick}
+			tooltip={"Edit this person's bio"}
+			buttonType={composeButtonTypes.compose.type}
 		/>
-		<Button
-			buttonText={'Done'}
+	{:else}
+		<ButtonCompose
+			onClickFunction={onCancelButtonClick}
+			buttonType={composeButtonTypes.cancel.type}
+		/>
+		<ButtonCompose
 			onClickFunction={onDoneButtonClick}
-			overrideBackgroundColor={stylingConstants.colors.buttonColorDone}
+			buttonType={composeButtonTypes.confirm.type}
 		/>
 	{/if}
 </div>
 
 <style>
 	.edit-bio-button-container {
+		display: flex;
+		gap: 10px;
 		width: 100%;
 		float: right;
 	}
