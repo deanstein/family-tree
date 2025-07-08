@@ -2,6 +2,7 @@
 	import composeButtonTypes from '$lib/schemas/compose-button-types';
 
 	import { JDGButton } from 'jdg-ui-svelte';
+	import stylingConstants from './styling-constants';
 
 	export let onClickFunction;
 	export let tooltip = undefined;
@@ -15,6 +16,10 @@
 		faIcon={composeButtonTypes[buttonType].faIcon}
 		textColor={composeButtonTypes[buttonType].color}
 		backgroundColor={composeButtonTypes[buttonType].backgroundColor}
+		backgroundColorHover={buttonType === composeButtonTypes.add.type ||
+		buttonType === composeButtonTypes.edit.type
+			? stylingConstants.colors.activePersonNodeColor
+			: undefined}
 		doForceSquareRatio
 		tooltip={tooltip ?? composeButtonTypes[buttonType].tooltip}
 		fontSize="1.5rem"

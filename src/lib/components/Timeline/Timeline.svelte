@@ -25,6 +25,8 @@
 	import TimelineEvent from '$lib/components/Timeline/Event/TimelineEvent.svelte';
 	import TimelineSpine from '$lib/components/Timeline/TimelineSpine.svelte';
 	import { generateGradient } from '../graphics-factory';
+	import ButtonCompose from '../ButtonCompose.svelte';
+	import composeButtonTypes from '$lib/schemas/compose-button-types';
 
 	// all events to show
 	export let timelineEvents;
@@ -153,7 +155,11 @@
 			onCheckAction={onCheckRelativeSpacing}
 			onUncheckAction={onUncheckRelativeSpacing}
 		/>
-		<Button buttonText="Add Event" onClickFunction={onClickAddEventButton} />
+		<ButtonCompose
+			onClickFunction={onClickAddEventButton}
+			buttonType={composeButtonTypes.add.type}
+			tooltip={'Add a new event'}
+		/>
 	</div>
 	<div class="timeline-content-container">
 		<TimelineSpine />

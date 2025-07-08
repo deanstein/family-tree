@@ -1,9 +1,9 @@
 import stylingConstants from '$lib/components/styling-constants';
 
 const composeButtonTypes = {
-    add: {
+	add: {
 		type: 'add',
-		faIcon: 'fa-pencil fa-plus',
+		faIcon: 'fa-plus fa-fw',
 		tooltip: 'Add',
 		color: stylingConstants.colors.activeColor,
 		backgroundColor: '#ffffff'
