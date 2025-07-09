@@ -524,6 +524,7 @@
 	.app-container {
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
 	}
 
 	.tree-content {
