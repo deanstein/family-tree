@@ -46,45 +46,19 @@ const colors = {
 const sizes = {
 	nHeaderHeight: 5,
 	get headerHeight() {
-		return this.nHeaderHeight.toString() + 'vh';
+		return this.nHeaderHeight.toString() + 'svh';
 	},
+
+	modalFormHeight: "80svh",
+	modalFormWidth: '25vw',
+
 	nPadding: 0.75,
 	get padding() {
-		return this.nPadding.toString() + 'vh';
+		return this.nPadding.toString() + 'svh';
 	},
 	nPaddingNarrow: 0.5,
 	get paddingNarrow() {
-		return this.nPaddingNarrow.toString() + 'vh';
-	},
-
-	nNotificationFontSize: 1.5,
-	get notificationFontSize() {
-		return this.nNotificationFontSize.toString() + 'vh';
-	},
-
-	nModalTitleFontSize: 2,
-	get modalTitleFontSize() {
-		return this.nModalTitleFontSize.toString() + 'vh';
-	},
-	nModalSubtitleFontSize: 1.5,
-	get modalSubtitleFontSize() {
-		return this.nModalSubtitleFontSize.toString() + 'vh';
-	},
-	nModalFormWidth: 25,
-	get modalFormWidth() {
-		return this.nModalFormWidth.toString() + 'vw';
-	},
-	nModalFormHeight: 80,
-	get modalFormHeight() {
-		return this.nModalFormHeight.toString() + 'vh';
-	},
-	nModalFullScreenWidth: 95,
-	get modalFullScreenWidth() {
-		return this.nModalFullScreenWidth.toString() + 'vw';
-	},
-	nModalFullScreenHeight: 95,
-	get modalFullScreenHeight() {
-		return this.nModalFullScreenHeight.toString() + 'vh';
+		return this.nPaddingNarrow.toString() + 'svh';
 	},
 
 	nShowGenerationsUp: 2,
@@ -96,29 +70,29 @@ const sizes = {
 		);
 	},
 	get generationRowHeight() {
-		return this.nGenerationRowHeight.toString() + 'vh';
+		return this.nGenerationRowHeight.toString() + 'svh';
 	},
 
 	nGenerationRowGap: 2,
 	get generationRowGap() {
-		return this.nGenerationRowGap + 'vh';
+		return this.nGenerationRowGap + 'svh';
 	},
 
 	get nPersonNodeGroupHeight() {
 		return this.nGenerationRowHeight - 2 * this.nPadding;
 	},
 	get personNodeGroupHeight() {
-		return this.nPersonNodeGroupHeight + 'vh';
+		return this.nPersonNodeGroupHeight + 'svh';
 	},
 	get nPersonNodeGroupTitleHeight() {
 		return this.nPersonNodeGroupFontSize + 2 * this.nPaddingNarrow;
 	},
 	get personNodeGroupTitleHeight() {
-		return this.nPersonNodeGroupTitleHeight.toString() + 'vh';
+		return this.nPersonNodeGroupTitleHeight.toString() + 'svh';
 	},
 	nPersonNodeGroupFontSize: 1.25,
 	get personNodeGroupFontSize() {
-		return this.nPersonNodeGroupFontSize + 'vh';
+		return this.nPersonNodeGroupFontSize + 'svh';
 	},
 
 	get nPersonNodeSize() {
@@ -130,38 +104,20 @@ const sizes = {
 		);
 	},
 	get personNodeSize() {
-		return this.nPersonNodeSize.toString() + 'vh';
+		return this.nPersonNodeSize.toString() + 'svh';
 	},
 	nPersonNodeFontSize: 1.1,
 	get personNodeFontSize() {
-		return this.nPersonNodeFontSize + 'vh';
+		return this.nPersonNodeFontSize + 'svh';
 	},
 
 	get nPersonNodeActiveSize() {
 		return this.nPersonNodeGroupHeight - this.nPadding; /*account for gap*/
 	},
 	get personNodeActiveSize() {
-		return this.nPersonNodeActiveSize + 'vh';
+		return this.nPersonNodeActiveSize + 'svh';
 	},
 
-	get nPersonNodeAddButtonSize() {
-		return this.nPersonNodeSize / 4;
-	},
-	get personNodeAddButtonSize() {
-		return this.nPersonNodeAddButtonSize.toString() + 'vh';
-	},
-	nBioFieldHeight: 1.25,
-	get bioFieldHeight() {
-		return this.nBioFieldFontSize + 'vh';
-	},
-	nBioFieldFontSize: 1.5,
-	get bioFieldFontSize() {
-		return this.nBioFieldFontSize + 'vh';
-	},
-	nBioFieldBorderRadius: 8,
-	get bioFieldBorderRadius() {
-		return this.nBioFieldBorderRadius + 'px';
-	},
 	nTimelineEventEmptyRowHeight: 1,
 	get timelineEventEmptyRowHeight() {
 		return this.nTimelineEventEmptyRowHeight + 'px';
@@ -170,13 +126,13 @@ const sizes = {
 	get timelineEventFilledRowheight() {
 		return this.nTimelineEventFilledRowHeight + 'px';
 	},
-	nTimelineDateFontSize: 1.5,
+	nTimelineDateFontSize: 0.9,
 	get timelineDateFontSize() {
-		return this.nTimelineDateFontSize + 'vh';
+		return this.nTimelineDateFontSize + 'rem';
 	},
-	nTimelineYearFontSize: 2.5,
+	nTimelineYearFontSize: 1.5,
 	get timelineYearFontSize() {
-		return this.nTimelineYearFontSize + 'vh';
+		return this.nTimelineYearFontSize + 'rem';
 	},
 	nTimelineSpineLineThickness: 0.45,
 	get timelineSpineThickness() {

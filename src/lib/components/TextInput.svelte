@@ -15,7 +15,7 @@
 	export let onKeyUpFunction = (event) => {};
 
 	const textInputCss = css`
-		min-height: ${stylingConstants.sizes.bioFieldHeight};
+		min-height: 1rem;
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
 		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};

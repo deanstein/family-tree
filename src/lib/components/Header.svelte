@@ -39,7 +39,7 @@
 		<div class="header-left-flank {headerLeftFlankCss}" />
 		<div class="header-center">
 			<ButtonIconographic
-				height={stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'vh'}
+				height={stylingConstants.sizes.nHeaderHeight - 2 * stylingConstants.sizes.nPadding + 'svh'}
 				onClickFunction={onClickIcon}
 				altText="Choose a Family Tree"
 			/>
