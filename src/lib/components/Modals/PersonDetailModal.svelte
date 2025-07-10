@@ -155,7 +155,6 @@
 		display: flex;
 		flex-direction: column;
 		flex-basis: 33.333%;
-		border-radius: 10px;
 	}
 
 	.person-detail-timeline-container {

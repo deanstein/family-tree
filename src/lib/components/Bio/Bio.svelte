@@ -231,6 +231,7 @@
 		align-items: center;
 		background-color: gainsboro;
 		padding: 0 1vh 1vh 1vh;
+		border-radius: 10px;
 	}
 
 	.bio-edit-toolbar {
