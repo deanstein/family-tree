@@ -49,6 +49,7 @@
 		display: flex;
 		align-items: center;
 		cursor: pointer;
+		white-space: nowrap;
 	}
 
 	.alternate-name {

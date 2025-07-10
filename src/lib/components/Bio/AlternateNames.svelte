@@ -68,7 +68,7 @@
 		height: 100%;
 		flex-grow: 1;
 		overflow-y: auto;
-		gap: 0.5vw;
+		gap: 0.5rem;
 	}
 
 	.add-button-container {
