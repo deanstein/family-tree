@@ -2,6 +2,8 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
+	import { isMobileBreakpoint } from 'jdg-ui-svelte/states/ui-state.js';
+
 	import { adjustRgbaColorTransparency } from '$lib/ui-management';
 
 	import { drawCrossfade } from '$lib/components/graphics-factory';
@@ -28,8 +30,8 @@
 	`;
 
 	const modalContentContainerCss = css`
-		width: ${width};
-		height: ${height};
+		width: ${isMobileBreakpoint ? '95vw' : width};
+		height: ${isMobileBreakpoint ? '95vh' : height};
 		overflow: ${overflow};
 		z-index: ${zIndex ?? ''};
 		background-color: ${transparency
