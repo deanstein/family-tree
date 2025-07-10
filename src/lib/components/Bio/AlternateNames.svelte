@@ -59,7 +59,6 @@
 		display: flex;
 		justify-content: right;
 		align-items: center;
-		height: 2vw;
 		background-color: white;
 	}
 
