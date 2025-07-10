@@ -3,7 +3,6 @@
 
 	import composeButtonTypes from '$lib/schemas/compose-button-types';
 
-	import { JDGButton } from 'jdg-ui-svelte';
 	import ButtonCompose from '../ButtonCompose.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
 
