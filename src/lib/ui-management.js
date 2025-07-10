@@ -328,11 +328,13 @@ export const resetCanvasSize = (canvasRef) => {
 
 // adjust the 2D context of a canvas to take into consideration the device pixel ratio
 export const set2DContextScale = (canvasRef) => {
-	const context2d = canvasRef.getContext('2d');
-	const pixelRatio = window.devicePixelRatio || 1;
-	canvasRef.width = window.innerWidth * pixelRatio;
-	canvasRef.height = window.innerHeight * pixelRatio;
-	context2d.scale(pixelRatio, pixelRatio);
+	if (canvasRef instanceof HTMLCanvasElement) {
+		const context2d = canvasRef.getContext('2d');
+		const pixelRatio = window.devicePixelRatio || 1;
+		canvasRef.width = window.innerWidth * pixelRatio;
+		canvasRef.height = window.innerHeight * pixelRatio;
+		context2d.scale(pixelRatio, pixelRatio);
+	}
 };
 
 export const getDivCentroid = (element) => {
