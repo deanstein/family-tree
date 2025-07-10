@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
+	import { windowWidth } from 'jdg-ui-svelte/states/ui-state.js';
+
 	import contexts from '$lib/schemas/contexts';
 	import relationshipMap, {
 		grandparentsCompatibleGroups,
@@ -106,7 +108,7 @@
 	`;
 
 	const treeContentCss = css`
-		height: ${100 - stylingConstants.sizes.nHeaderHeight + 'vh'};
+		height: calc(100svh - ${stylingConstants.sizes.headerHeight});
 		gap: ${stylingConstants.sizes.generationRowGap};
 	`;
 
@@ -135,6 +137,8 @@
 	// used for drawing lines between every person node and the center of the screen
 	// this is in a reactive block since it's wrapped by JDGAppContainer
 	$: {
+		// update if window width changes
+		$windowWidth;
 		if (lineCanvasRef && lineCanvasRefHover) {
 			personNodeConnectionLineCanvasRef.set(lineCanvasRef);
 			set2DContextScale(lineCanvasRef);

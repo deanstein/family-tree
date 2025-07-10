@@ -32,8 +32,8 @@
 	let modalContentContainerCss = css``;
 	$: {
 		modalContentContainerCss = css`
-			width: ${$isMobileBreakpoint ? '95vw' : width};
-			height: ${$isMobileBreakpoint ? '95vh' : height};
+			width: ${$isMobileBreakpoint ? '90vw' : width};
+			height: ${$isMobileBreakpoint ? '90svh' : height};
 			overflow: ${overflow};
 			z-index: ${zIndex ?? ''};
 			background-color: ${transparency
