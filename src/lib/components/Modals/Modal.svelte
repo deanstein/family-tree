@@ -29,15 +29,18 @@
 		z-index: ${zIndex ?? ''};
 	`;
 
-	const modalContentContainerCss = css`
-		width: ${isMobileBreakpoint ? '95vw' : width};
-		height: ${isMobileBreakpoint ? '95vh' : height};
-		overflow: ${overflow};
-		z-index: ${zIndex ?? ''};
-		background-color: ${transparency
-			? adjustRgbaColorTransparency(stylingConstants.colors.modalContentBackground, transparency)
-			: stylingConstants.colors.modalContentBackground};
-	`;
+	let modalContentContainerCss = css``;
+	$: {
+		modalContentContainerCss = css`
+			width: ${$isMobileBreakpoint ? '95vw' : width};
+			height: ${$isMobileBreakpoint ? '95vh' : height};
+			overflow: ${overflow};
+			z-index: ${zIndex ?? ''};
+			background-color: ${transparency
+				? adjustRgbaColorTransparency(stylingConstants.colors.modalContentBackground, transparency)
+				: stylingConstants.colors.modalContentBackground};
+		`;
+	}
 
 	const modalContentSlotCss = css`
 		padding: ${padding};
@@ -108,7 +111,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 100vh;
+		height: 100svh;
 		width: 100%;
 		/* backdrop-filter: blur(5px); */
 	}
