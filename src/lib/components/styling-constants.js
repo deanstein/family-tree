@@ -49,7 +49,7 @@ const sizes = {
 		return this.nHeaderHeight.toString() + 'svh';
 	},
 
-	modalFormHeight: "80svh",
+	modalFormHeight: '80svh',
 	modalFormWidth: '25vw',
 
 	nPadding: 0.75,
