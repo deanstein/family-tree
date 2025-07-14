@@ -91,8 +91,8 @@
 		justify-content: right;
 		width: 100%;
 		gap: 1rem;
-		padding-top: 0.5rem;
-		margin-bottom: 0.5rem;
+		padding-top: 1rem;
+		margin-bottom: 1rem;
 		z-index: 1000;
 	}
 </style>
