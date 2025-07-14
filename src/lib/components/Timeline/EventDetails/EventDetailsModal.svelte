@@ -28,7 +28,6 @@
 		deleteTimelineEvent,
 		getTimelineEventById
 	} from '$lib/person-management';
-	import { getModalTitleByEventType } from '$lib/ui-management';
 	import {
 		getObjectByKeyValueInArray,
 		instantiateObject,
@@ -240,6 +239,21 @@
 	const getIsDateInputValid = (event) => {
 		eventDateInputValue = event.target.value;
 		isValidDate = getIsDateValid(eventDateInputValue);
+	};
+
+	const getModalTitleByEventType = (eventType) => {
+		switch (eventType) {
+			case timelineEventTypes.birth.type:
+				return isNewEvent
+					? 'New ' + timelineEventStrings.birthEventModalTitle
+					: timelineEventStrings.birthEventModalTitle;
+			case timelineEventTypes.death.type:
+				return timelineEventStrings.deathEventModalTitle;
+			default:
+				return isNewEvent
+					? 'New ' + timelineEventStrings.textEventModalTitle
+					: timelineEventStrings.textEventModalTitle;
+		}
 	};
 
 	const filteredEventTypes = Object.values(timelineEventTypes).filter((type) => !type.isContextual);
