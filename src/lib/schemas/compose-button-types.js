@@ -8,6 +8,13 @@ const composeButtonTypes = {
 		color: stylingConstants.colors.activeColor,
 		backgroundColor: '#ffffff'
 	},
+	delete: {
+		type: 'delete',
+		faIcon: 'fa-trash fa-fw',
+		tooltip: 'Delete',
+		color: '#ffffff',
+		backgroundColor: stylingConstants.colors.buttonColorDelete
+	},
 	edit: {
 		type: 'edit',
 		faIcon: 'fa-pencil fa-fw',

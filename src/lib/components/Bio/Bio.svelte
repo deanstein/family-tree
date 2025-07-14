@@ -19,8 +19,8 @@
 	import AlternateNames from '$lib/components/Bio/AlternateNames.svelte';
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import ComposeToolbar from '$lib/components/ComposeToolbar.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
-	import EditBioToolbar from '$lib/components/Bio/EditBioToolbar.svelte';
 	import InputContainer from '$lib/components/InputContainer.svelte';
 	import NameAge from '$lib/components/Bio/NameAge.svelte';
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
@@ -148,14 +148,12 @@
 {/if}
 {#key $activePerson}
 	<div class="bio-content-container {bioContentContainerCss}">
-		<div class="bio-edit-toolbar">
-			<EditBioToolbar
-				{isBioEditActive}
-				onBioEditButtonClick={onClickBioEditButton}
-				onDoneButtonClick={onClickDoneButton}
-				onCancelButtonClick={onClickCancelButton}
-			/>
-		</div>
+		<ComposeToolbar
+			isEditActive={isBioEditActive}
+			onComposeButtonClick={onClickBioEditButton}
+			onDoneButtonClick={onClickDoneButton}
+			onCancelButtonClick={onClickCancelButton}
+		/>
 		<div class="bio-avatar-container">
 			<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />
 		</div>
@@ -232,17 +230,6 @@
 		background-color: gainsboro;
 		padding: 0 1vh 1vh 1vh;
 		border-radius: 10px;
-	}
-
-	.bio-edit-toolbar {
-		position: sticky;
-		display: grid;
-		justify-content: right;
-		top: 0;
-		width: 100%;
-		gap: 1vw;
-		padding-top: 1vh;
-		margin-bottom: 2vh;
 	}
 
 	.bio-avatar-container {
