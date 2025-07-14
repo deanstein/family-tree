@@ -17,7 +17,7 @@
 	const textInputCss = css`
 		min-height: 1rem;
 		color: ${fontColorOverride ? fontColorOverride : stylingConstants.colors.textColor};
-		font-size: ${fontSizeOverride ? fontSizeOverride : stylingConstants.sizes.bioFieldFontSize};
+		font-size: ${fontSizeOverride ? fontSizeOverride : '1rem'};
 		text-align: ${textAlignOverride ? textAlignOverride : 'left'};
 		border: 2px solid ${stylingConstants.colors.activeColor};
 		:hover {

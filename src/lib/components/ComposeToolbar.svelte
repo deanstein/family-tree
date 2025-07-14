@@ -1,11 +1,13 @@
 <script>
-	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
 	import composeButtonTypes from '$lib/schemas/compose-button-types';
 
 	import ComposeButton from './ComposeButton.svelte';
+	import stylingConstants from './styling-constants';
+	import { getPxFromSvh } from '$lib/utils';
 
+	export let heightFromTopPx = getPxFromSvh(stylingConstants.sizes.nModalFormHeight);
 	export let isEditActive = false; // when active, show done/cancel
 	export let onComposeButtonClick; // edit, add, etc
 	export let composeButtonTooltip = 'Compose';
@@ -22,19 +24,12 @@
 	let composeContainerRef;
 	let composeButtonHeight;
 	let composeToolbarWrapperRef;
-	let composeWrapperHeight;
-
-	onMount(() => {
-		// capture the height so it doesn't change when editing is enabled
-		composeButtonHeight = composeContainerRef.clientHeight;
-		composeWrapperHeight = composeToolbarWrapperRef.offsetHeight;
-	});
 
 	let composeContainerCss = css``;
 	$: {
 		composeContainerCss = css`
 			height: ${composeButtonHeight}px;
-			background-color: ${isEditActive ? 'rgba(255, 255, 255, 0.75)' : ''};
+			top: ${isEditActive ? 0 : heightFromTopPx * 0.7}px;
 		`;
 	}
 </script>
@@ -79,9 +74,9 @@
 	.toolbar-wrapper {
 		position: absolute;
 		top: 0;
+		right: 0.5rem;
 		width: 100%;
 		height: 100%;
-		right: 10px;
 		pointer-events: none;
 	}
 
@@ -90,12 +85,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: right;
-		top: 250px;
 		width: 100%;
 		gap: 1rem;
 		padding-top: 0.5rem;
 		margin-bottom: 0.5rem;
 		z-index: 1000;
-		pointer-events: all;
 	}
 </style>

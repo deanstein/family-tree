@@ -6,7 +6,6 @@
 	export let label = 'Fact Label';
 
 	let fieldLabelCss = css`
-		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		color: ${stylingConstants.colors.textColor};
 	`;
 </script>

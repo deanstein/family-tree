@@ -228,7 +228,7 @@
 		flex-grow: 1;
 		align-items: center;
 		background-color: gainsboro;
-		padding: 0 1vh 1vh 1vh;
+		padding: 1rem;
 		border-radius: 10px;
 	}
 

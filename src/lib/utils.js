@@ -330,3 +330,9 @@ export const getMIMEType = (binaryData) => {
 
 	return 'data:image/png'; // Unknown format
 };
+
+// returns px given a value in svh
+export const getPxFromSvh = (svhValue) => {
+	const svhInPx = window.visualViewport.height / 100;
+	return svhInPx * svhValue;
+};
