@@ -9,15 +9,16 @@
 
 	export let heightFromTopPx = getPxFromSvh(stylingConstants.sizes.nModalFormHeight);
 	export let isEditActive = false; // when active, show done/cancel
-	export let onComposeButtonClick; // edit, add, etc
+	export let onClickCompose; // edit, add, etc
+	export let composeButtonFaIcon = 'fa-pencil';
 	export let composeButtonTooltip = 'Compose';
-	export let onDoneButtonClick;
+	export let onClickDone = undefined; // if provided, show done
 	export let doneButtonLabel = 'Done';
 	export let doneButtonTooltip = 'Done';
-	export let onCancelButtonClick;
+	export let onClickCancel = undefined; // if provided, show cancel
 	export let cancelButtonLabel = 'Cancel';
 	export let cancelButtonTooltip = 'Cancel';
-	export let onDeleteButtonClick = undefined; // if provided, show delete
+	export let onClickDelete = undefined; // if provided, show delete
 	export let deleteButtonTooltip = 'Delete';
 	export let deleteButtonLabel = 'Delete';
 
@@ -29,7 +30,7 @@
 	$: {
 		composeContainerCss = css`
 			height: ${composeButtonHeight}px;
-			top: ${isEditActive ? 0 : heightFromTopPx * 0.7}px;
+			top: ${isEditActive ? 0 : heightFromTopPx}px;
 		`;
 	}
 </script>
@@ -39,33 +40,36 @@
 		<!-- show compose button if not in edit mode -->
 		{#if !isEditActive}
 			<ComposeButton
-				onClickFunction={onComposeButtonClick}
+				onClickFunction={onClickCompose}
+				faIcon={composeButtonFaIcon}
 				tooltip={composeButtonTooltip}
 				buttonType={composeButtonTypes.edit.type}
 			/>
 		{:else if isEditActive}
 			<!-- show delete if function is provided -->
-			{#if onDeleteButtonClick}
+			{#if onClickDelete}
 				<ComposeButton
-					onClickFunction={onDeleteButtonClick}
+					onClickFunction={onClickDelete}
 					buttonType={composeButtonTypes.delete.type}
 					label={deleteButtonLabel}
 					tooltip={deleteButtonTooltip}
 				/>
 			{/if}
-			<!-- show done/cancel buttons if in edit mode -->
-			<ComposeButton
-				onClickFunction={onCancelButtonClick}
-				buttonType={composeButtonTypes.cancel.type}
-				label={cancelButtonLabel}
-				tooltip={cancelButtonTooltip}
-			/>
-			<ComposeButton
-				onClickFunction={onDoneButtonClick}
-				buttonType={composeButtonTypes.confirm.type}
-				label={doneButtonLabel}
-				tooltip={doneButtonTooltip}
-			/>
+			{#if onClickCancel && onClickDone}
+				<!-- show done/cancel buttons if in edit mode -->
+				<ComposeButton
+					onClickFunction={onClickCancel}
+					buttonType={composeButtonTypes.cancel.type}
+					label={cancelButtonLabel}
+					tooltip={cancelButtonTooltip}
+				/>
+				<ComposeButton
+					onClickFunction={onClickDone}
+					buttonType={composeButtonTypes.confirm.type}
+					label={doneButtonLabel}
+					tooltip={doneButtonTooltip}
+				/>
+			{/if}
 		{/if}
 	</div>
 </div>

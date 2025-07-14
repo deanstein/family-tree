@@ -6,6 +6,7 @@
 	import stylingConstants from './styling-constants';
 
 	export let onClickFunction;
+	export let faIcon = undefined;
 	export let label = null;
 	export let tooltip = undefined;
 	export let buttonType = composeButtonTypes.edit.type;
@@ -26,7 +27,7 @@
 		label={buttonType === composeButtonTypes.add.type || buttonType === composeButtonTypes.edit.type
 			? null
 			: label}
-		faIcon={composeButtonTypes[buttonType].faIcon}
+		faIcon={faIcon ?? composeButtonTypes[buttonType].faIcon}
 		textColor={composeButtonTypes[buttonType].color}
 		backgroundColor={composeButtonTypes[buttonType].backgroundColor}
 		backgroundColorHover={buttonType === composeButtonTypes.add.type ||

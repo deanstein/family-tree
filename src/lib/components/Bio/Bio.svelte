@@ -12,7 +12,7 @@
 		writeTempAlternateNamesToFamilyTree,
 		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
-	import { areObjectsEqual, getNumberOfYearsBetweenEvents } from '$lib/utils';
+	import { areObjectsEqual, getNumberOfYearsBetweenEvents, getPxFromSvh } from '$lib/utils';
 
 	import { personDetailStrings, timelineEventStrings } from '$lib/components/strings';
 
@@ -149,10 +149,12 @@
 {#key $activePerson}
 	<div class="bio-content-container {bioContentContainerCss}">
 		<ComposeToolbar
+			heightFromTopPx={getPxFromSvh(stylingConstants.sizes.nModalFormHeight) *
+				stylingConstants.sizes.nComposeHeightFactor}
 			isEditActive={isBioEditActive}
-			onComposeButtonClick={onClickBioEditButton}
-			onDoneButtonClick={onClickDoneButton}
-			onCancelButtonClick={onClickCancelButton}
+			onClickCompose={onClickBioEditButton}
+			onClickDone={onClickDoneButton}
+			onClickCancel={onClickCancelButton}
 		/>
 		<div class="bio-avatar-container">
 			<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />

@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
@@ -16,17 +15,15 @@
 
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
-	import { instantiateObject } from '$lib/utils';
+	import { getPxFromSvh, instantiateObject } from '$lib/utils';
 
-	import stylingConstants from '$lib/components/styling-constants';
+	import { generateGradient } from '../graphics-factory';
 
-	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import ComposeToolbar from '../ComposeToolbar.svelte';
 	import TimelineEvent from '$lib/components/Timeline/Event/TimelineEvent.svelte';
 	import TimelineSpine from '$lib/components/Timeline/TimelineSpine.svelte';
-	import { generateGradient } from '../graphics-factory';
-	import ButtonCompose from '../ButtonCompose.svelte';
-	import composeButtonTypes from '$lib/schemas/compose-button-types';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	// all events to show
 	export let timelineEvents;
@@ -142,6 +139,14 @@
 </script>
 
 <div class="timeline-container">
+	<ComposeToolbar
+		heightFromTopPx={getPxFromSvh(stylingConstants.sizes.nModalFormHeight) *
+			stylingConstants.sizes.nComposeHeightFactor}
+		composeButtonFaIcon={'fa-plus fa-fw'}
+		composeButtonTooltip={'Add a new event'}
+		isEditActive={$isTimelineEventInEditMode}
+		onClickCompose={onClickAddEventButton}
+	/>
 	<div class="timeline-actions-bar">
 		<div class="timeline-event-count {timelineEventCountCss}">
 			<!-- birth and death/today are always shown, so add 2 to the count -->
@@ -154,11 +159,6 @@
 			isChecked={forceRelativeSpacing}
 			onCheckAction={onCheckRelativeSpacing}
 			onUncheckAction={onUncheckRelativeSpacing}
-		/>
-		<ButtonCompose
-			onClickFunction={onClickAddEventButton}
-			buttonType={composeButtonTypes.add.type}
-			tooltip={'Add a new event'}
 		/>
 	</div>
 	<div class="timeline-content-container">
@@ -201,6 +201,7 @@
 
 <style>
 	.timeline-container {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
