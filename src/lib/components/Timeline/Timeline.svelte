@@ -34,6 +34,7 @@
 	// if not provided, use today's date
 	export let cessationEvent = undefined;
 
+	let timelineContainerRef;
 	let scrollingCanvasDivRef;
 
 	// if true, the timeline is spaced out
@@ -138,10 +139,9 @@
 	}
 </script>
 
-<div class="timeline-container">
+<div bind:this={timelineContainerRef} class="timeline-container">
 	<ComposeToolbar
-		heightFromTopPx={getPxFromSvh(stylingConstants.sizes.nModalFormHeight) *
-			stylingConstants.sizes.nComposeHeightFactor}
+		parentRef={timelineContainerRef}
 		composeButtonFaIcon={'fa-plus fa-fw'}
 		composeButtonTooltip={'Add a new event'}
 		isEditActive={$isTimelineEventInEditMode}

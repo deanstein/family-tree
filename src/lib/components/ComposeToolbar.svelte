@@ -2,12 +2,12 @@
 	import { css } from '@emotion/css';
 
 	import composeButtonTypes from '$lib/schemas/compose-button-types';
+	import { getNearestScrollingElement } from '$lib/utils';
 
 	import ComposeButton from './ComposeButton.svelte';
 	import stylingConstants from './styling-constants';
-	import { getPxFromSvh } from '$lib/utils';
 
-	export let heightFromTopPx = getPxFromSvh(stylingConstants.sizes.nModalFormHeight);
+	export let parentRef; // required to determine where to show the compose button
 	export let isEditActive = false; // when active, show done/cancel
 	export let onClickCompose; // edit, add, etc
 	export let composeButtonFaIcon = 'fa-pencil';
@@ -22,9 +22,19 @@
 	export let deleteButtonTooltip = 'Delete';
 	export let deleteButtonLabel = 'Delete';
 
+	let parentHeight;
+	let heightFromTopPx;
 	let composeContainerRef;
 	let composeButtonHeight;
 	let composeToolbarWrapperRef;
+
+	$: {
+		if (parentRef) {
+			const scrollingContainer = getNearestScrollingElement(parentRef);
+			parentHeight = scrollingContainer.getBoundingClientRect().height;
+			heightFromTopPx = parentHeight * stylingConstants.sizes.nComposeHeightFactor;
+		}
+	}
 
 	let composeContainerCss = css``;
 	$: {

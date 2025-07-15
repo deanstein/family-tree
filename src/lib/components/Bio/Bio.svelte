@@ -33,6 +33,8 @@
 	let isBioEditActive = false;
 	let age = 0;
 
+	let contentContainerRef;
+
 	// used for comparison to set unsaved changes flag if changes were made
 	let cachedPerson;
 
@@ -147,10 +149,9 @@
 	<Overlay />
 {/if}
 {#key $activePerson}
-	<div class="bio-content-container {bioContentContainerCss}">
+	<div bind:this={contentContainerRef} class="bio-content-container {bioContentContainerCss}">
 		<ComposeToolbar
-			heightFromTopPx={getPxFromSvh(stylingConstants.sizes.nModalFormHeight) *
-				stylingConstants.sizes.nComposeHeightFactor}
+			parentRef={contentContainerRef}
 			isEditActive={isBioEditActive}
 			onClickCompose={onClickBioEditButton}
 			onClickDone={onClickDoneButton}

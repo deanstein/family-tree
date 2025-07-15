@@ -336,3 +336,23 @@ export const getPxFromSvh = (svhValue) => {
 	const svhInPx = window.visualViewport.height / 100;
 	return svhInPx * svhValue;
 };
+
+// traverses the DOM upwards to find a scrolling div
+// if it doesn't find one, return the original element
+export const getNearestScrollingElement = (element) => {
+	let current = element.parentElement;
+	while (current) {
+		const style = getComputedStyle(current);
+		const overflowY = style.overflowY;
+		const hasScroll = current.scrollHeight > current.clientHeight;
+
+		if ((overflowY === 'auto' || overflowY === 'scroll') && hasScroll) {
+			return current;
+		}
+
+		current = current.parentElement;
+	}
+
+	// return the initial element if no scrolling container found
+	return element;
+}
