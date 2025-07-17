@@ -22,11 +22,13 @@
 	export let deleteButtonLabel = 'Delete';
 	export let zIndex = 1000; // override depending on the context
 
+	// distance from top or right edge the compose button should appear
+	const distanceFromEdgesPx = 50;
+
 	let parentHeight;
 	let parentWidth;
-	let buttonWidth;
+	let buttonWidthHeight;
 	let distanceFromTopPx;
-	let distanceFromRightPx;
 	let composeContainerRef;
 	let composeToolbarWrapperRef;
 
@@ -34,15 +36,22 @@
 	$: {
 		if (composeToolbarWrapperRef) {
 			// compose button is assumed circular, so width is same as height
-			buttonWidth = composeContainerRef.getBoundingClientRect().height;
+			buttonWidthHeight = composeContainerRef.getBoundingClientRect().height;
 		}
 
 		if (parentRef) {
 			const scrollingContainer = getNearestScrollingElement(parentRef);
 			parentHeight = scrollingContainer.getBoundingClientRect().height;
 			parentWidth = scrollingContainer.getBoundingClientRect().width;
-			distanceFromTopPx = parentHeight - buttonWidth - 50;
+			distanceFromTopPx = parentHeight - buttonWidthHeight - distanceFromEdgesPx;
 		}
+	}
+
+	let composeButtonWrapperCss = css``;
+	$: {
+		composeButtonWrapperCss = css`
+			padding-right: ${distanceFromEdgesPx}px;
+		`;
 	}
 
 	let composeContainerCss = css``;
@@ -52,10 +61,6 @@
 			z-index: ${zIndex};
 		`;
 	}
-
-	let composeButtonWrapperCss = css`
-		margin-right: 50px;
-	`;
 </script>
 
 <div bind:this={composeToolbarWrapperRef} class="compose-button-absolute-wrapper">
@@ -71,31 +76,32 @@
 				/>
 			</div>
 		{:else if isEditActive}
-			<div class="compose-button-wrapper {composeButtonWrapperCss}"></div>
-			<!-- show delete if function is provided -->
-			{#if onClickDelete}
-				<ComposeButton
-					onClickFunction={onClickDelete}
-					buttonType={composeButtonTypes.delete.type}
-					label={deleteButtonLabel}
-					tooltip={deleteButtonTooltip}
-				/>
-			{/if}
-			{#if onClickCancel && onClickDone}
-				<!-- show done/cancel buttons if in edit mode -->
-				<ComposeButton
-					onClickFunction={onClickCancel}
-					buttonType={composeButtonTypes.cancel.type}
-					label={cancelButtonLabel}
-					tooltip={cancelButtonTooltip}
-				/>
-				<ComposeButton
-					onClickFunction={onClickDone}
-					buttonType={composeButtonTypes.confirm.type}
-					label={doneButtonLabel}
-					tooltip={doneButtonTooltip}
-				/>
-			{/if}
+			<div class="compose-button-toolbar-wrapper">
+				<!-- show delete if function is provided -->
+				{#if onClickDelete}
+					<ComposeButton
+						onClickFunction={onClickDelete}
+						buttonType={composeButtonTypes.delete.type}
+						label={deleteButtonLabel}
+						tooltip={deleteButtonTooltip}
+					/>
+				{/if}
+				{#if onClickCancel && onClickDone}
+					<!-- show done/cancel buttons if in edit mode -->
+					<ComposeButton
+						onClickFunction={onClickCancel}
+						buttonType={composeButtonTypes.cancel.type}
+						label={cancelButtonLabel}
+						tooltip={cancelButtonTooltip}
+					/>
+					<ComposeButton
+						onClickFunction={onClickDone}
+						buttonType={composeButtonTypes.confirm.type}
+						label={doneButtonLabel}
+						tooltip={doneButtonTooltip}
+					/>
+				{/if}
+			</div>
 		{/if}
 	</div>
 </div>
@@ -116,7 +122,16 @@
 		justify-content: flex-end;
 		width: 100%;
 		gap: 1rem;
-		padding-top: 1rem;
-		margin-bottom: 1rem;
+	}
+
+	.compose-button-toolbar-wrapper {
+		display: flex;
+		position: absolute;
+		top: 0;
+		justify-content: flex-end;
+		width: 100%;
+		padding: 1rem;
+		gap: 1rem;
+		background-color: rgba(255, 254, 248, 0.9);
 	}
 </style>
