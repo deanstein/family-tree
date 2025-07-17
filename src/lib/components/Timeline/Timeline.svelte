@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 	import { v4 as uuidv4 } from 'uuid';
 	import { css } from '@emotion/css';
 
@@ -16,17 +15,15 @@
 
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
-	import { instantiateObject } from '$lib/utils';
+	import { getPxFromSvh, instantiateObject } from '$lib/utils';
 
-	import stylingConstants from '$lib/components/styling-constants';
+	import { generateGradient } from '../graphics-factory';
 
-	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import ComposeToolbar from '../ComposeToolbar.svelte';
 	import TimelineEvent from '$lib/components/Timeline/Event/TimelineEvent.svelte';
 	import TimelineSpine from '$lib/components/Timeline/TimelineSpine.svelte';
-	import { generateGradient } from '../graphics-factory';
-	import ButtonCompose from '../ButtonCompose.svelte';
-	import composeButtonTypes from '$lib/schemas/compose-button-types';
+	import stylingConstants from '$lib/components/styling-constants';
 
 	// all events to show
 	export let timelineEvents;
@@ -37,6 +34,8 @@
 	// if not provided, use today's date
 	export let cessationEvent = undefined;
 
+	let timelineWrapperRef;
+	let timelineContainerRef;
 	let scrollingCanvasDivRef;
 
 	// if true, the timeline is spaced out
@@ -141,70 +140,86 @@
 	}
 </script>
 
-<div class="timeline-container">
-	<div class="timeline-actions-bar">
-		<div class="timeline-event-count {timelineEventCountCss}">
-			<!-- birth and death/today are always shown, so add 2 to the count -->
-			Showing {timelineRowItems.length + 2} timeline events
+<div bind:this={timelineWrapperRef} class="timeline-wrapper">
+	<div bind:this={timelineContainerRef} class="timeline-container">
+		<ComposeToolbar
+			parentRef={timelineWrapperRef}
+			composeButtonFaIcon={'fa-plus fa-fw'}
+			composeButtonTooltip={'Add a new event'}
+			isEditActive={$isTimelineEventInEditMode}
+			onClickCompose={onClickAddEventButton}
+			zIndex={1}
+		/>
+		<div class="timeline-actions-bar">
+			<div class="timeline-event-count {timelineEventCountCss}">
+				<!-- birth and death/today are always shown, so add 2 to the count -->
+				Showing {timelineRowItems.length + 2} timeline events
+			</div>
+			<Checkbox
+				isEnabled={true}
+				showLabel={true}
+				label="Relative Spacing"
+				isChecked={forceRelativeSpacing}
+				onCheckAction={onCheckRelativeSpacing}
+				onUncheckAction={onUncheckRelativeSpacing}
+			/>
 		</div>
-		<Checkbox
-			isEnabled={true}
-			showLabel={true}
-			label="Relative Spacing"
-			isChecked={forceRelativeSpacing}
-			onCheckAction={onCheckRelativeSpacing}
-			onUncheckAction={onUncheckRelativeSpacing}
-		/>
-		<ButtonCompose
-			onClickFunction={onClickAddEventButton}
-			buttonType={composeButtonTypes.add.type}
-			tooltip={'Add a new event'}
-		/>
-	</div>
-	<div class="timeline-content-container">
-		<TimelineSpine />
-		<div class="timeline-scrolling-canvas" bind:this={scrollingCanvasDivRef}>
-			<!-- the grid containing all timeline events -->
-			<div class="timeline-event-grid {timelineEventGridCss}">
-				<!-- show the inception event if provided -->
-				{#if inceptionEvent}
-					<TimelineEvent
-						timelineEvent={inceptionEvent}
-						rowIndex={0}
-						backgroundColor={timelineEventColors[0]}
-					/>
-				{/if}
-				<!-- all other timeline events saved to the person -->
-				{#each timelineRowItems as timelineRowItem, i}
-					<!-- ensure the UI reacts when these values change -->
-					{#key `${$activePerson.id}-${timelineRowItem.event.eventId}-${$timelineEditEvent}`}
+		<div class="timeline-content-container">
+			<TimelineSpine />
+			<div class="timeline-scrolling-canvas" bind:this={scrollingCanvasDivRef}>
+				<!-- the grid containing all timeline events -->
+				<div class="timeline-event-grid {timelineEventGridCss}">
+					<!-- show the inception event if provided -->
+					{#if inceptionEvent}
 						<TimelineEvent
-							timelineEvent={timelineRowItem.event}
-							rowIndex={timelineRowItem.index}
-							backgroundColor={timelineEventColors[i + 1]}
-							eventReference={timelineRowItem.eventReference}
+							timelineEvent={inceptionEvent}
+							rowIndex={0}
+							backgroundColor={timelineEventColors[0]}
 						/>
-					{/key}
-				{/each}
-				<!-- show the cessation event if provided -->
-				{#if cessationEvent}
-					<TimelineEvent
-						timelineEvent={cessationEvent}
-						rowIndex={stylingConstants.quantities.initialTimelineRowCount}
-						backgroundColor={timelineEventColors[timelineEventColors.length - 1]}
-					/>
-				{/if}
+					{/if}
+					<!-- all other timeline events saved to the person -->
+					{#each timelineRowItems as timelineRowItem, i}
+						<!-- ensure the UI reacts when these values change -->
+						{#key `${$activePerson.id}-${timelineRowItem.event.eventId}-${$timelineEditEvent}`}
+							<TimelineEvent
+								timelineEvent={timelineRowItem.event}
+								rowIndex={timelineRowItem.index}
+								backgroundColor={timelineEventColors[i + 1]}
+								eventReference={timelineRowItem.eventReference}
+							/>
+						{/key}
+					{/each}
+					<!-- show the cessation event if provided -->
+					{#if cessationEvent}
+						<TimelineEvent
+							timelineEvent={cessationEvent}
+							rowIndex={stylingConstants.quantities.initialTimelineRowCount}
+							backgroundColor={timelineEventColors[timelineEventColors.length - 1]}
+						/>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <style>
+	.timeline-wrapper {
+		display: flex;
+		flex-grow: 1;
+		height: -webkit-fill-available;
+		width: -moz-available;
+		background-color: gainsboro;
+		padding: 1rem;
+		border-radius: 10px;
+	}
+
 	.timeline-container {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		gap: 1vh;
+		gap: 1rem;
 	}
 
 	.timeline-actions-bar {

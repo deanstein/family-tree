@@ -255,17 +255,6 @@ export const updateTimelineRowItems = (rowItems) => {
 	return sortedRowItems;
 };
 
-export const getModalTitleByEventType = (eventType) => {
-	switch (eventType) {
-		case timelineEventTypes.birth.type:
-			return timelineEventStrings.birthEventModalTitle;
-		case timelineEventTypes.death.type:
-			return timelineEventStrings.deathEventModalTitle;
-		default:
-			return timelineEventStrings.textEventModalTitle;
-	}
-};
-
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
 	if (personId && nodePosition) {
 		personNodePositions.update((currentValue) => [

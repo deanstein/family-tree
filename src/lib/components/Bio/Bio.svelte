@@ -12,15 +12,15 @@
 		writeTempAlternateNamesToFamilyTree,
 		setTempStateAltNamesFromUIState
 	} from '$lib/temp-management';
-	import { areObjectsEqual, getNumberOfYearsBetweenEvents } from '$lib/utils';
+	import { areObjectsEqual, getNumberOfYearsBetweenEvents, getPxFromSvh } from '$lib/utils';
 
 	import { personDetailStrings, timelineEventStrings } from '$lib/components/strings';
 
 	import AlternateNames from '$lib/components/Bio/AlternateNames.svelte';
 	import BioPhoto from '$lib/components/BioPhoto.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+	import ComposeToolbar from '$lib/components/ComposeToolbar.svelte';
 	import DatePicker from '$lib/components/DatePicker.svelte';
-	import EditBioToolbar from '$lib/components/Bio/EditBioToolbar.svelte';
 	import InputContainer from '$lib/components/InputContainer.svelte';
 	import NameAge from '$lib/components/Bio/NameAge.svelte';
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
@@ -32,6 +32,8 @@
 	let personId = get(activePerson).id;
 	let isBioEditActive = false;
 	let age = 0;
+
+	let contentContainerRef;
 
 	// used for comparison to set unsaved changes flag if changes were made
 	let cachedPerson;
@@ -147,15 +149,15 @@
 	<Overlay />
 {/if}
 {#key $activePerson}
-	<div class="bio-content-container {bioContentContainerCss}">
-		<div class="bio-edit-toolbar">
-			<EditBioToolbar
-				{isBioEditActive}
-				onBioEditButtonClick={onClickBioEditButton}
-				onDoneButtonClick={onClickDoneButton}
-				onCancelButtonClick={onClickCancelButton}
-			/>
-		</div>
+	<div bind:this={contentContainerRef} class="bio-content-container {bioContentContainerCss}">
+		<ComposeToolbar
+			parentRef={contentContainerRef}
+			isEditActive={isBioEditActive}
+			onClickCompose={onClickBioEditButton}
+			onClickDone={onClickDoneButton}
+			onClickCancel={onClickCancelButton}
+			zIndex={stylingConstants.zIndices.personDetailViewZIndex}
+		/>
 		<div class="bio-avatar-container">
 			<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />
 		</div>
@@ -230,19 +232,8 @@
 		flex-grow: 1;
 		align-items: center;
 		background-color: gainsboro;
-		padding: 0 1vh 1vh 1vh;
+		padding: 1rem;
 		border-radius: 10px;
-	}
-
-	.bio-edit-toolbar {
-		position: sticky;
-		display: grid;
-		justify-content: right;
-		top: 0;
-		width: 100%;
-		gap: 1vw;
-		padding-top: 1vh;
-		margin-bottom: 2vh;
 	}
 
 	.bio-avatar-container {

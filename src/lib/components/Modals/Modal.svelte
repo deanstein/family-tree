@@ -18,6 +18,7 @@
 	export let subtitle = 'This is a modal subtitle';
 	export let width = 'auto';
 	export let height = 'auto';
+	export let maximizeOnMobile = true; // maximize size on mobile
 	export let padding = '10px';
 	export let overflow = ''; // default is not set but can be set per instance
 	export let transparency = undefined; // default is in default bg color
@@ -32,8 +33,8 @@
 	let modalContentContainerCss = css``;
 	$: {
 		modalContentContainerCss = css`
-			width: ${$isMobileBreakpoint ? '90vw' : width};
-			height: ${$isMobileBreakpoint ? '90svh' : height};
+			width: ${$isMobileBreakpoint && maximizeOnMobile ? '90vw' : width};
+			height: ${$isMobileBreakpoint && maximizeOnMobile ? '90svh' : height};
 			overflow: ${overflow};
 			z-index: ${zIndex ?? ''};
 			background-color: ${transparency
@@ -78,6 +79,8 @@
 							{#if onClickCloseButton}
 								<ButtonCircular
 									faIcon={'fa-xmark'}
+									iconColor={stylingConstants.colors.activeColor}
+									backgroundColor={'transparent'}
 									onClickFunction={onClickCloseButton ?? (() => {})}
 								/>
 							{/if}

@@ -127,15 +127,13 @@
 			<Bio />
 		</div>
 		<div class="person-detail-timeline-container">
-			<div class="person-detail-timeline-content-container">
-				<Timeline
-					{timelineEvents}
-					{timelineEventReferences}
-					{contextEvents}
-					inceptionEvent={birthEvent}
-					cessationEvent={deathEvent}
-				/>
-			</div>
+			<Timeline
+				{timelineEvents}
+				{timelineEventReferences}
+				{contextEvents}
+				inceptionEvent={birthEvent}
+				cessationEvent={deathEvent}
+			/>
 		</div>
 	</div>
 </Modal>
@@ -161,15 +159,5 @@
 		display: flex;
 		flex-direction: column;
 		flex-basis: 67.667%;
-	}
-
-	.person-detail-timeline-content-container {
-		display: flex;
-		flex-grow: 1;
-		height: -webkit-fill-available;
-		width: -moz-available;
-		background-color: gainsboro;
-		padding: 1vh;
-		border-radius: 10px;
 	}
 </style>

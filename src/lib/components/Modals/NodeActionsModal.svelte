@@ -97,6 +97,7 @@
 	subtitle={'to ' + $activePerson.name}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
 	zIndex={stylingConstants.zIndices.personNodeSettingsFlyoutZIndex}
+	maximizeOnMobile={false}
 >
 	<div class="node-actions-modal-content" slot="modal-content-slot">
 		<div class="node-actions-node-view">
