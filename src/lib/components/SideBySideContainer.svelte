@@ -9,6 +9,6 @@
 	.side-by-side-container {
 		display: flex;
 		width: 100%;
-		gap: 1vh;
+		gap: 1rem;
 	}
 </style>

@@ -19,6 +19,6 @@
 <style>
 	.bio-fact-label-container {
 		display: flex;
-		margin-bottom: 0.5vh;
+		margin-bottom: 0.5svh;
 	}
 </style>

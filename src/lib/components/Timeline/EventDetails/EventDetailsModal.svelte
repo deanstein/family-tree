@@ -458,7 +458,7 @@
 		flex-grow: 1;
 		height: 100%;
 		width: 100%;
-		gap: 1vh;
+		gap: 1svh;
 	}
 
 	.media-content-container {

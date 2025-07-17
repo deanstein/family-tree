@@ -45,7 +45,7 @@
 	.storeview-output {
 		display: flex;
 		flex-direction: column;
-		gap: 1vh;
+		gap: 1rem;
 
 		-webkit-touch-callout: text;
 		-webkit-user-select: text;

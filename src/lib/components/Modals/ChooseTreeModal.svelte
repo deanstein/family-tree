@@ -114,7 +114,7 @@
 	title={'Welcome!'}
 	subtitle={'Choose a family tree:'}
 	width={'50vw'}
-	height={'55vh'}
+	height={'55svh'}
 	overflow={'auto'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
@@ -169,7 +169,7 @@
 	.choose-tree-dev-message {
 		display: flex;
 		padding: 10px 10px 0px 10px;
-		font-size: 1.5vh;
+		font-size: 1.5svh;
 		font-style: italic;
 		justify-content: center;
 		text-align: center;

@@ -86,6 +86,6 @@
 	.associated-node-group-inner-container {
 		display: flex;
 		flex-direction: row;
-		gap: 1vh;
+		gap: 1svh;
 	}
 </style>

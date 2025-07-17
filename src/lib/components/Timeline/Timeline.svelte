@@ -225,7 +225,7 @@
 	.timeline-actions-bar {
 		display: flex;
 		justify-content: right;
-		column-gap: 1vh;
+		column-gap: 1svh;
 	}
 
 	.timeline-event-count {

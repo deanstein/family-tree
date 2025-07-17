@@ -63,8 +63,8 @@
 			<Button
 				buttonText={'Save'}
 				onClickFunction={onSaveButtonClick}
-				overrideFontSize={'1.35vh'}
-				overridePadding={'0.5vh'}
+				overrideFontSize={'1.35svh'}
+				overridePadding={'0.5svh'}
 			/>
 		{/if}
 	</NotificationBanner>

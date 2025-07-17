@@ -118,7 +118,7 @@
 	.person-node-group-inner-container {
 		display: flex;
 		flex-direction: row;
-		gap: 1vh;
+		gap: 1svh;
 	}
 
 	.person-node-group-title {

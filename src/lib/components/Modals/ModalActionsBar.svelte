@@ -11,7 +11,7 @@
 		width: -webkit-fill-available;
 		width: -moz-available;
 		gap: 0.5vw;
-		margin-top: 1.5vh;
+		margin-top: 1.5svh;
 		justify-content: right;
 		padding: 0 10px 10px 10px;
 	}

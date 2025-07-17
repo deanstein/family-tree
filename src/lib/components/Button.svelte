@@ -17,8 +17,8 @@
 
 	$: {
 		buttonCss = css`
-			font-size: ${overrideFontSize ? overrideFontSize : '1.5vh'};
-			padding: ${overridePadding ? overridePadding : '1vh'};
+			font-size: ${overrideFontSize ? overrideFontSize : '1.5svh'};
+			padding: ${overridePadding ? overridePadding : '1svh'};
 			color: ${overrideColor ? overrideColor : 'white'};
 			background-color: ${overrideBackgroundColor ?? stylingConstants.colors.buttonColorPrimary};
 			:hover {
