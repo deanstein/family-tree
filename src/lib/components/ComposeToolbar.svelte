@@ -119,7 +119,4 @@
 		padding-top: 1rem;
 		margin-bottom: 1rem;
 	}
-
-	.compose-button-wrapper {
-	}
 </style>

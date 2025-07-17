@@ -34,6 +34,7 @@
 	// if not provided, use today's date
 	export let cessationEvent = undefined;
 
+	let timelineWrapperRef;
 	let timelineContainerRef;
 	let scrollingCanvasDivRef;
 
@@ -139,10 +140,10 @@
 	}
 </script>
 
-<div class="timeline-wrapper">
+<div bind:this={timelineWrapperRef} class="timeline-wrapper">
 	<div bind:this={timelineContainerRef} class="timeline-container">
 		<ComposeToolbar
-			parentRef={timelineContainerRef}
+			parentRef={timelineWrapperRef}
 			composeButtonFaIcon={'fa-plus fa-fw'}
 			composeButtonTooltip={'Add a new event'}
 			isEditActive={$isTimelineEventInEditMode}
