@@ -187,6 +187,11 @@
 		}
 		isTimelineEventInEditMode.set(false);
 		isNodeEditActive.set(false);
+
+		// close modal if this action was creating a new event
+		if (isNewEvent) {
+			showTimelineEventDetailsModal.set(false);
+		}
 	};
 
 	const onClickDeleteButton = () => {
