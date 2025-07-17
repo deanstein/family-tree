@@ -154,7 +154,7 @@
 			parentRef={contentContainerRef}
 			isEditActive={isBioEditActive}
 			onClickCompose={onClickBioEditButton}
-			composeButtonTooltip={"Edit"}
+			composeButtonTooltip={'Edit'}
 			onClickDone={onClickDoneButton}
 			onClickCancel={onClickCancelButton}
 			zIndex={stylingConstants.zIndices.personDetailViewZIndex}
