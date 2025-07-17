@@ -54,17 +54,19 @@
 		`;
 	}
 
-	let composeContainerCss = css``;
+	let composeStickyContainerCss = css``;
 	$: {
-		composeContainerCss = css`
+		composeStickyContainerCss = css`
 			top: ${isEditActive ? 0 : distanceFromTopPx}px;
+			margin-top: ${distanceFromEdgesPx}px;
+			margin-bottom: ${distanceFromEdgesPx}px;
 			z-index: ${zIndex};
 		`;
 	}
 </script>
 
 <div bind:this={composeToolbarWrapperRef} class="compose-button-absolute-wrapper">
-	<div bind:this={composeContainerRef} class="compose-button-sticky-wrapper {composeContainerCss}">
+	<div bind:this={composeContainerRef} class="compose-button-sticky-wrapper {composeStickyContainerCss}">
 		<!-- show compose button if not in edit mode -->
 		{#if !isEditActive}
 			<div class="compose-button-wrapper {composeButtonWrapperCss}">
