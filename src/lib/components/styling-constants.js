@@ -121,6 +121,11 @@ const sizes = {
 		return this.nPersonNodeActiveSize + 'svh';
 	},
 
+	nBioFieldBorderRadius: 8,
+	get bioFieldBorderRadius() {
+		return this.nBioFieldBorderRadius + 'px';
+	},
+
 	nTimelineEventEmptyRowHeight: 1,
 	get timelineEventEmptyRowHeight() {
 		return this.nTimelineEventEmptyRowHeight + 'px';
