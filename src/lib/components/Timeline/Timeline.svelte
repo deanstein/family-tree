@@ -141,14 +141,14 @@
 </script>
 
 <div bind:this={timelineWrapperRef} class="timeline-wrapper">
-	<div bind:this={timelineContainerRef} class="timeline-container">
-		<ComposeToolbar
+			<ComposeToolbar
 			parentRef={timelineWrapperRef}
 			composeButtonFaIcon={'fa-plus fa-fw'}
 			composeButtonTooltip={'Add a new event'}
 			onClickCompose={onClickAddEventButton}
 			zIndex={1}
 		/>
+	<div bind:this={timelineContainerRef} class="timeline-container">
 		<div class="timeline-actions-bar">
 			<div class="timeline-event-count {timelineEventCountCss}">
 				<!-- birth and death/today are always shown, so add 2 to the count -->
@@ -204,6 +204,7 @@
 
 <style>
 	.timeline-wrapper {
+		position: relative;
 		display: flex;
 		flex-grow: 1;
 		height: -webkit-fill-available;
