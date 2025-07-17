@@ -146,7 +146,6 @@
 			parentRef={timelineWrapperRef}
 			composeButtonFaIcon={'fa-plus fa-fw'}
 			composeButtonTooltip={'Add a new event'}
-			isEditActive={$isTimelineEventInEditMode}
 			onClickCompose={onClickAddEventButton}
 			zIndex={1}
 		/>
