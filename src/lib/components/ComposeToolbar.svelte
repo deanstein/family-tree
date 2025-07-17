@@ -66,7 +66,10 @@
 </script>
 
 <div bind:this={composeToolbarWrapperRef} class="compose-button-absolute-wrapper">
-	<div bind:this={composeContainerRef} class="compose-button-sticky-wrapper {composeStickyContainerCss}">
+	<div
+		bind:this={composeContainerRef}
+		class="compose-button-sticky-wrapper {composeStickyContainerCss}"
+	>
 		<!-- show compose button if not in edit mode -->
 		{#if !isEditActive}
 			<div class="compose-button-wrapper {composeButtonWrapperCss}">
