@@ -156,6 +156,7 @@
 			onClickCompose={onClickBioEditButton}
 			onClickDone={onClickDoneButton}
 			onClickCancel={onClickCancelButton}
+			zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 		/>
 		<div class="bio-avatar-container">
 			<BioPhoto personId={$activePerson.id} allowEdit={isBioEditActive} />

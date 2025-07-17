@@ -355,4 +355,4 @@ export const getNearestScrollingElement = (element) => {
 
 	// return the initial element if no scrolling container found
 	return element;
-}
+};

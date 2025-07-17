@@ -44,8 +44,6 @@ const colors = {
 };
 
 const sizes = {
-	nComposeHeightFactor: 0.75,
-
 	nHeaderHeight: 5,
 	get headerHeight() {
 		return this.nHeaderHeight.toString() + 'svh';
