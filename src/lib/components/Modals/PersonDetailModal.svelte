@@ -118,7 +118,7 @@
 	title={'Person Details'}
 	subtitle={null}
 	width={'80vw'}
-	height={'80vh'}
+	height={'80svh'}
 	padding={'15px'}
 	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 >
