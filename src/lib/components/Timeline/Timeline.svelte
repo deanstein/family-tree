@@ -15,7 +15,7 @@
 
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';
-	import { getPxFromSvh, instantiateObject } from '$lib/utils';
+	import { instantiateObject } from '$lib/utils';
 
 	import { generateGradient } from '../graphics-factory';
 
