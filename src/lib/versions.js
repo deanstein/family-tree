@@ -174,7 +174,7 @@ export const schemaChangelog = {
 	'v0.13.x': {
 		Overview: 'v0.13.x adds support for originType and originMeta in timeline events.',
 		Changes: [
-			'Added originType to timeline event schame',
+			'Added originType to timeline event schema',
 			'Added originMeta to event schema',
 			'Added timelineEventOriginTypes schema'
 		]
