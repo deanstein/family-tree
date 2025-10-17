@@ -74,7 +74,7 @@ const timelineEventTypes = {
 		icon: 'fa-heart',
 		content: {}
 	},
-	/*** contextual types, don't show in UI ***/
+	/*** contextual types, don't show in dropdown selector ***/
 	childBirth: {
 		type: 'childBirth',
 		label: 'Child Born',
