@@ -15,8 +15,8 @@
 <Modal
 	showModal={$showMediaGalleryModal}
 	{onClickCloseButton}
-	width={stylingConstants.sizes.modalFullScreenWidth}
-	height={stylingConstants.sizes.modalFullScreenHeight}
+	width={'90vw'}
+	height={'90svh'}
 	title={'Gallery'}
 	subtitle={null}
 	zIndex={stylingConstants.zIndices.mediaGalleryZIndex}
