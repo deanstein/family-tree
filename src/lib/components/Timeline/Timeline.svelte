@@ -141,13 +141,13 @@
 </script>
 
 <div bind:this={timelineWrapperRef} class="timeline-wrapper">
-			<ComposeToolbar
-			parentRef={timelineWrapperRef}
-			composeButtonFaIcon={'fa-plus fa-fw'}
-			composeButtonTooltip={'Add a new event'}
-			onClickCompose={onClickAddEventButton}
-			zIndex={1}
-		/>
+	<ComposeToolbar
+		parentRef={timelineWrapperRef}
+		composeButtonFaIcon={'fa-plus fa-fw'}
+		composeButtonTooltip={'Add a new event'}
+		onClickCompose={onClickAddEventButton}
+		zIndex={1}
+	/>
 	<div bind:this={timelineContainerRef} class="timeline-container">
 		<div class="timeline-actions-bar">
 			<div class="timeline-event-count {timelineEventCountCss}">
