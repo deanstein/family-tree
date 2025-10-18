@@ -53,7 +53,9 @@
 	};
 
 	const eventRowCss = css`
-		gap: ${stylingConstants.sizes.timelineEventGapSize};
+		> :nth-child(1) {
+			margin-right: ${stylingConstants.sizes.timelineEventGapSize};
+		}
 	`;
 
 	const eventDateYearCss = css`
@@ -76,11 +78,11 @@
 
 	const eventNodeCss = css`
 		height: ${stylingConstants.sizes.timelineEventNodeSize};
-		background-color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.textColorLight};
 	`;
 
 	const eventDetailLineCss = css`
-		background-color: ${stylingConstants.colors.textColor};
+		background-color: ${stylingConstants.colors.textColorLight};
 	`;
 
 	const eventTitleBarCss = css`
@@ -348,7 +350,7 @@
 	.timeline-event-line {
 		display: flex;
 		flex-shrink: 0;
-		height: 0.5svh;
+		height: 0.2rem;
 		width: 2vw;
 	}
 

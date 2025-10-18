@@ -25,7 +25,7 @@
 		stylingConstants.sizes.nTimelineEventGapSize * 2 +
 		stylingConstants.sizes.nTimelineEventYearWidth -
 		stylingConstants.sizes.nTimelineSpineLineThickness / 2 +
-		'vw'};
+		'rem'};
 	`;
 
 	$: {

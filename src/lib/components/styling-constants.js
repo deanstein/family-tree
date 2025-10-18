@@ -142,21 +142,21 @@ const sizes = {
 	get timelineYearFontSize() {
 		return this.nTimelineYearFontSize + 'rem';
 	},
-	nTimelineSpineLineThickness: 0.45,
+	nTimelineSpineLineThickness: 0.4,
 	get timelineSpineThickness() {
-		return this.nTimelineSpineLineThickness + 'vw';
+		return this.nTimelineSpineLineThickness + 'rem';
 	},
 	nTimelineEventGapSize: 1,
 	get timelineEventGapSize() {
-		return this.nTimelineEventGapSize + 'vw';
+		return this.nTimelineEventGapSize + 'rem';
 	},
-	nTimelineEventNodeSize: 0.9,
+	nTimelineEventNodeSize: 0.8,
 	get timelineEventNodeSize() {
-		return this.nTimelineEventNodeSize + 'vw';
+		return this.nTimelineEventNodeSize + 'rem';
 	},
-	nTimelineEventYearWidth: 4,
+	nTimelineEventYearWidth: 5,
 	get timelineEventYearWidth() {
-		return this.nTimelineEventYearWidth + 'vw';
+		return this.nTimelineEventYearWidth + 'rem';
 	},
 	nPersonNodeConnectionLineThickness: 5,
 	nPersonNodeConnectionLineThicknessHover: 8
