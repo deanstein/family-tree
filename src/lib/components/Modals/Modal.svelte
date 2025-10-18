@@ -9,8 +9,8 @@
 	import { drawCrossfade } from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 
-	import ButtonCircular from '../ButtonCircular.svelte';
 	import Overlay from '$lib/components/Modals/Overlay.svelte';
+	import { JDGButton } from 'jdg-ui-svelte';
 
 	export let showModal = true;
 	export let onClickCloseButton = undefined;
@@ -77,11 +77,15 @@
 						</div>
 						<div class="modal-title-bar-actions-container">
 							{#if onClickCloseButton}
-								<ButtonCircular
-									faIcon={'fa-xmark'}
-									iconColor={stylingConstants.colors.activeColor}
-									backgroundColor={'transparent'}
+								<JDGButton
 									onClickFunction={onClickCloseButton ?? (() => {})}
+									faIcon={'fa-fw fa-xmark'}
+									textColor={'rgba(255, 255, 255, 1)'}
+									backgroundColor={stylingConstants.colors.activeColor}
+									paddingLeftRight="3px"
+									paddingTopBottom="3px"
+									label={null}
+									doForceSquareRatio
 								/>
 							{/if}
 						</div>
