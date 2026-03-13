@@ -7,7 +7,7 @@ const colors = {
 	textColor: '#595959',
 	textColorLight: '#737373',
 	buttonColorPrimary: '#0092e4',
-	buttonColorSecondary: 'darkGray',
+	buttonColorSecondary: '#a9a9a9',
 	buttonColorDisabled: '#B5B5B5',
 	buttonColorDone: '#4dc44d',
 	buttonColorDelete: '#FF5757',
