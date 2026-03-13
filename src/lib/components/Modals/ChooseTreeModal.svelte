@@ -13,7 +13,8 @@
 
 	import {
 		fetchExampleFamilyTreeAndSetActive,
-		fetchPrivateFamilyTreeAndSetActive
+		fetchPrivateFamilyTreeAndSetActive,
+		setLastTreeChoice
 	} from '$lib/persistence-management';
 	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
@@ -46,6 +47,7 @@
 	const onClickNewTreeButton = () => {
 		// instantiate a new family tree
 		instantiateNewFamilyTreeAndSetActive();
+		setLastTreeChoice({ type: 'new' });
 		// new family tree is already loaded, so just dismiss the choose tree modal
 		showChooseTreeModal.set(false);
 		// clear any error messaging if there is any
@@ -64,6 +66,7 @@
 		// load the example family tree and set it active
 		const exampleFamilyTreeData = await fetchExampleFamilyTreeAndSetActive();
 		if (exampleFamilyTreeData) {
+			setLastTreeChoice({ type: 'example' });
 			// set edit mode to off
 			isTreeEditActive.set(false);
 		} else {
@@ -90,6 +93,12 @@
 		hasUnsavedChanges.set(false);
 
 		if (privateFamilyTreeData) {
+			setLastTreeChoice({
+				type: 'private',
+				firstName: get(authFormFirstName),
+				lastName: get(authFormLastName),
+				birthdate: get(authFormBirthdate)
+			});
 			// hide the modal
 			showChooseTreeModal.set(false);
 			// set edit mode to off

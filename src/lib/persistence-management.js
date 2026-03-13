@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import { isAdminMode } from './states/temp-state';
+import { persistAdminSession } from './states/temp-state';
 import {
 	activeFamilyTreeData,
 	activeFamilyTreeName,
@@ -41,6 +41,35 @@ const pathPrefixTimelineEventId = 'event';
 const pathPrefixTimelineEventImageId = 'event-image';
 // start the example family tree with this person as the activePerson
 const exampleFamilyTreeAuthMemberId = '2'; // Kendall Roy
+
+/*** LAST TREE CHOICE (for restore on refresh) ***/
+const LAST_TREE_STORAGE_KEY = 'family-tree-last-tree';
+
+export function getLastTreeChoice() {
+	try {
+		if (typeof localStorage === 'undefined') return null;
+		const raw = localStorage.getItem(LAST_TREE_STORAGE_KEY);
+		if (!raw) return null;
+		const parsed = JSON.parse(raw);
+		if (parsed?.type) return parsed;
+		return null;
+	} catch {
+		return null;
+	}
+}
+
+export function setLastTreeChoice(choice) {
+	try {
+		if (typeof localStorage === 'undefined') return;
+		localStorage.setItem(LAST_TREE_STORAGE_KEY, JSON.stringify(choice));
+	} catch (_) {}
+}
+
+export function clearLastTreeChoice() {
+	try {
+		if (typeof localStorage !== 'undefined') localStorage.removeItem(LAST_TREE_STORAGE_KEY);
+	} catch (_) {}
+}
 
 /*** GITHUB APP WORKER FUNCTIONS ***/
 export async function getGitHubToken() {
@@ -124,8 +153,8 @@ export async function fetchPrivateFamilyTreeAndSetActive(firstName, lastName, bi
 		activeFamilyTreeData.set(privateFamilyTreePayload.familyTreeData);
 		activePerson.set(getPersonById(privateFamilyTreePayload.personId));
 		persistenceStatus.set(persistenceStrings.loadSuccessful);
-		// admin mode is on by default after authenticating private family tree
-		isAdminMode.set(true);
+		// persist admin session after authenticating private family tree
+		persistAdminSession();
 		return privateFamilyTreePayload.familyTreeData;
 	}
 }

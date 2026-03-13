@@ -19,7 +19,11 @@
 
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
-	import { nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
+	import {
+		isTreeEditActive,
+		nodeEditId,
+		nodeEditRelationshipId
+	} from '$lib/states/temp-state';
 	import {
 		personNodeConnectionLineCanvasRef,
 		personNodeConnectionLineCanvasRefHover,
@@ -36,6 +40,11 @@
 		showPersonDetailViewModal
 	} from '$lib/states/ui-state';
 
+	import {
+		fetchExampleFamilyTreeAndSetActive,
+		fetchPrivateFamilyTreeAndSetActive,
+		getLastTreeChoice
+	} from '$lib/persistence-management';
 	import {
 		addOrUpdatePersonInPeopleArray,
 		instantiateNewFamilyTreeAndSetActive,
@@ -123,8 +132,38 @@
 		stylingConstants.colors.personNodeGradient3
 	);
 
-	onMount(() => {
-		// initially show the choose tree modal
+	onMount(async () => {
+		const last = getLastTreeChoice();
+		if (last?.type === 'example') {
+			const data = await fetchExampleFamilyTreeAndSetActive();
+			if (data) {
+				isTreeEditActive.set(false);
+				showChooseTreeModal.set(false);
+				return;
+			}
+		}
+		if (
+			last?.type === 'private' &&
+			last.firstName &&
+			last.lastName &&
+			last.birthdate
+		) {
+			const data = await fetchPrivateFamilyTreeAndSetActive(
+				last.firstName,
+				last.lastName,
+				last.birthdate
+			);
+			if (data) {
+				isTreeEditActive.set(false);
+				showChooseTreeModal.set(false);
+				return;
+			}
+		}
+		if (last?.type === 'new') {
+			showChooseTreeModal.set(false);
+			return;
+		}
+		// no stored tree or restore failed: show welcome modal
 		showChooseTreeModal.set(true);
 	});
 

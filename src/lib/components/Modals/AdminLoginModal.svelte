@@ -3,7 +3,7 @@
 
 	import { postAdminLoginFunction, showAdminLoginModal } from '$lib/states/ui-state';
 	import { fetchIsAdmin } from '$lib/persistence-management';
-	import { authFormFirstName, authFormLastName, isAdminMode } from '$lib/states/temp-state';
+	import { authFormFirstName, authFormLastName, persistAdminSession } from '$lib/states/temp-state';
 
 	import AuthenticateTreeForm from './AuthenticateTreeForm.svelte';
 	import Modal from './Modal.svelte';
@@ -22,9 +22,8 @@
 		const isAdminResponse = await fetchIsAdmin(get(authFormFirstName), get(authFormLastName));
 
 		if (isAdminResponse.success && isAdminResponse.isAdmin) {
-			// set admin mode to true
-			// so no further logins are required
-			isAdminMode.set(true);
+			// persist admin session so no further logins are required (stored locally)
+			persistAdminSession();
 			showAdminLoginModal.set(false);
 			showLoadingMessage = false;
 			// execute whatever action was invoked before this dialog was shown

@@ -1,7 +1,33 @@
 import { derived, writable } from 'svelte/store';
 
+const ADMIN_SESSION_STORAGE_KEY = 'family-tree-admin-session';
+
+function getStoredAdminSession() {
+	try {
+		return typeof localStorage !== 'undefined' && localStorage.getItem(ADMIN_SESSION_STORAGE_KEY) === '1';
+	} catch {
+		return false;
+	}
+}
+
 /*** ADMINISTRATION ***/
-export let isAdminMode = writable(false); // can upload photos
+export let isAdminMode = writable(getStoredAdminSession()); // can upload photos; restored from localStorage
+
+/** Persist admin session to localStorage so user stays signed in across reloads. */
+export function persistAdminSession() {
+	isAdminMode.set(true);
+	try {
+		if (typeof localStorage !== 'undefined') localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, '1');
+	} catch (_) {}
+}
+
+/** Clear stored admin session and require login again. */
+export function clearAdminSession() {
+	isAdminMode.set(false);
+	try {
+		if (typeof localStorage !== 'undefined') localStorage.removeItem(ADMIN_SESSION_STORAGE_KEY);
+	} catch (_) {}
+}
 
 /*** AUTH FORM ***/
 export let authFormFirstName = writable(undefined);

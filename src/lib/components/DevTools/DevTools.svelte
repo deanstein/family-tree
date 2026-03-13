@@ -1,14 +1,16 @@
 <script>
 	import { get } from 'svelte/store';
 
+	import { clearLastTreeChoice } from '$lib/persistence-management';
 	import { activePerson, persistenceStatus } from '$lib/states/family-tree-state';
-	import { bioEditId } from '$lib/states/temp-state';
+	import { clearAdminSession, bioEditId } from '$lib/states/temp-state';
 	import {
 		showAdminLoginModal,
 		showChooseTreeModal,
 		showDevTools,
 		showStoreView
 	} from '$lib/states/ui-state';
+	import { instantiateNewFamilyTreeAndSetActive } from '$lib/tree-management';
 
 	import { enableScrolling, disableScrolling, scrollToTopAndCenter } from '$lib/ui-management';
 
@@ -37,10 +39,25 @@
 	const setBioEditActive = () => {
 		bioEditId.set($activePerson.id);
 	};
+
+	const onClickSignOut = () => {
+		clearAdminSession();
+		clearLastTreeChoice();
+		instantiateNewFamilyTreeAndSetActive();
+		showChooseTreeModal.set(true);
+		scrollToTopAndCenter();
+		if (!get(showDevTools)) {
+			disableScrolling();
+		}
+	};
 </script>
 
 <div class="dev-tools-outer-container">
 	<div class="dev-tools-title">DEV TOOLS</div>
+	<DevToolsSubheader subheaderTitle="Admin Tools" />
+	<DevToolbar>
+		<button on:click={onClickSignOut}>Sign out (require login again)</button>
+	</DevToolbar>
 	<DevToolsSubheader subheaderTitle="Interface Tools" />
 	<DevToolbar>
 		<button on:click={toggleChooseTreeModal}>
