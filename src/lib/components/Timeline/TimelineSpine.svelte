@@ -31,7 +31,7 @@
 	$: {
 		lineCss = css`
 			${lineCss}
-			margin-top: ${$timelineCanvasScrollState.top ? $timelineFirstEventHeight / 2 + 'px' : 0};
+			margin-top: 0;
 			margin-bottom: ${$timelineCanvasScrollState.bottom ? $timelineLastEventHeight / 2 + 'px' : 0};
 		`;
 	}
@@ -52,5 +52,11 @@
 
 	.timeline-spine-line-column {
 		display: flex;
+		height: 100%;
+	}
+
+	.timeline-spine-line {
+		height: 100%;
+		min-height: 100%;
 	}
 </style>
