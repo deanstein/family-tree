@@ -81,7 +81,7 @@
 									onClickFunction={onClickCloseButton ?? (() => {})}
 									faIcon={'fa-fw fa-xmark'}
 									textColor={'rgba(255, 255, 255, 1)'}
-									backgroundColor={stylingConstants.colors.activeColor}
+									backgroundColor={stylingConstants.colors.buttonColorSecondary}
 									paddingLeftRight="3px"
 									paddingTopBottom="3px"
 									label={null}
