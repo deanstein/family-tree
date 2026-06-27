@@ -1,7 +1,7 @@
 <script>
 	import { css } from '@emotion/css';
 
-	import { darkenColor } from 'jdg-ui-svelte/jdg-utils.js';
+	import { darkenColor } from 'jdg-ui-svelte';
 
 	import { JDGButton } from 'jdg-ui-svelte';
 	import stylingConstants from '$lib/components/styling-constants';

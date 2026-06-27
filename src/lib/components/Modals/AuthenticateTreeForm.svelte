@@ -1,7 +1,6 @@
 <script>
 	import { css } from '@emotion/css';
-	//@ts-expect-error
-	import { lightenColor } from 'jdg-ui-svelte/jdg-utils.js';
+	import { lightenColor } from 'jdg-ui-svelte';
 
 	import { authFormBirthdate, authFormFirstName, authFormLastName } from '$lib/states/temp-state';
 

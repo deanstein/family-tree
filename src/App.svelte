@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { css } from '@emotion/css';
 
-	import { windowWidth } from 'jdg-ui-svelte/states/ui-state.js';
+	import { familyTreeRepoName, jdgSizes, windowWidth } from 'jdg-ui-svelte';
 
 	import contexts from '$lib/schemas/contexts';
 	import relationshipMap, {
@@ -19,11 +19,7 @@
 
 	import { activeFamilyTreeData } from '$lib/states/family-tree-state';
 	import { activePerson } from '$lib/states/family-tree-state';
-	import {
-		isTreeEditActive,
-		nodeEditId,
-		nodeEditRelationshipId
-	} from '$lib/states/temp-state';
+	import { isTreeEditActive, nodeEditId, nodeEditRelationshipId } from '$lib/states/temp-state';
 	import {
 		personNodeConnectionLineCanvasRef,
 		personNodeConnectionLineCanvasRefHover,
@@ -52,11 +48,6 @@
 	} from '$lib/tree-management';
 	import { clearCanvas, resetCanvasSize, set2DContextScale } from '$lib/ui-management';
 	import { appVersion, schemaVersion } from '$lib/versions';
-
-	// @ts-expect-error
-	import { familyTreeRepoName } from 'jdg-ui-svelte/jdg-persistence-management.js';
-	// @ts-expect-error
-	import { jdgSizes } from 'jdg-ui-svelte/jdg-shared-styles.js';
 
 	import { JDGAppContainer, JDGButton, JDGFooter } from 'jdg-ui-svelte';
 	import AdminLoginModal from '$lib/components/Modals/AdminLoginModal.svelte';
@@ -142,12 +133,7 @@
 				return;
 			}
 		}
-		if (
-			last?.type === 'private' &&
-			last.firstName &&
-			last.lastName &&
-			last.birthdate
-		) {
+		if (last?.type === 'private' && last.firstName && last.lastName && last.birthdate) {
 			const data = await fetchPrivateFamilyTreeAndSetActive(
 				last.firstName,
 				last.lastName,
