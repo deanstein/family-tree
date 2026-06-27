@@ -4,7 +4,9 @@ const ADMIN_SESSION_STORAGE_KEY = 'family-tree-admin-session';
 
 function getStoredAdminSession() {
 	try {
-		return typeof localStorage !== 'undefined' && localStorage.getItem(ADMIN_SESSION_STORAGE_KEY) === '1';
+		return (
+			typeof localStorage !== 'undefined' && localStorage.getItem(ADMIN_SESSION_STORAGE_KEY) === '1'
+		);
 	} catch {
 		return false;
 	}

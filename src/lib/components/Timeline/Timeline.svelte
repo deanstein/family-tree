@@ -10,8 +10,7 @@
 	import { isTimelineEventInEditMode, timelineEditEvent } from '$lib/states/temp-state';
 	import { showTimelineEventDetailsModal } from '$lib/states/ui-state';
 
-	// @ts-expect-error
-	import { getMaxElementHeightPx } from 'jdg-ui-svelte/jdg-utils.js';
+	import { getMaxElementHeightPx } from 'jdg-ui-svelte';
 
 	import { schemaVersion } from '$lib/versions';
 	import { generateTimelineRowItems, updateTimelineRowItems } from '$lib/ui-management';

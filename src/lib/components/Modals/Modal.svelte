@@ -2,7 +2,7 @@
 	import { css } from '@emotion/css';
 	import Portal from 'svelte-portal';
 
-	import { isMobileBreakpoint } from 'jdg-ui-svelte/states/ui-state.js';
+	import { isMobileBreakpoint } from 'jdg-ui-svelte';
 
 	import { adjustRgbaColorTransparency } from '$lib/ui-management';
 
