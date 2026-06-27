@@ -2,6 +2,8 @@
 	import { css } from '@emotion/css';
 	import { v4 as uuidv4 } from 'uuid';
 
+	import { JDG_NOTIFICATION_TYPES } from 'jdg-ui-svelte';
+
 	import { activePerson } from '$lib/states/family-tree-state';
 	import { showPersonDetailViewModal } from '$lib/states/ui-state';
 
@@ -14,10 +16,24 @@
 	import { schemaVersion } from '$lib/versions';
 	import { instantiateObject } from '$lib/utils';
 
+	import { JDGButton, JDGNotificationBanner, JDGTimeline } from 'jdg-ui-svelte';
 	import Bio from '$lib/components/Bio/Bio.svelte';
 	import Modal from '$lib/components/Modals/Modal.svelte';
 	import Timeline from '$lib/components/Timeline/Timeline.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
+
+	// TEMP: toggle between the legacy Family Tree timeline (v1)
+	// and the new JDGTimeline from jdg-ui-svelte (v2).
+	// Defaults to the legacy timeline until the data structure is migrated.
+	let timelineVersion = 'v1';
+	const toggleTimelineVersion = () => {
+		timelineVersion = timelineVersion === 'v1' ? 'v2' : 'v1';
+	};
+
+	// TEMP: the new JDGTimeline expects a `timelineHost` object.
+	// The Family Tree data hasn't been migrated to that shape yet,
+	// so pass null to render the new timeline's empty-state gracefully.
+	const v2TimelineHost = null;
 
 	// set up the birth event with its static fields
 	const birthEvent = instantiateObject(timelineEvent);
@@ -127,13 +143,32 @@
 			<Bio />
 		</div>
 		<div class="person-detail-timeline-container">
-			<Timeline
-				{timelineEvents}
-				{timelineEventReferences}
-				{contextEvents}
-				inceptionEvent={birthEvent}
-				cessationEvent={deathEvent}
-			/>
+			<JDGNotificationBanner
+				notificationType={JDG_NOTIFICATION_TYPES.information}
+				message={timelineVersion === 'v1'
+					? 'A new timeline is coming! This is the legacy one.'
+					: "This is the new timeline. It's a work in progress."}
+				showCloseButton={false}
+			>
+				<JDGButton
+					label={timelineVersion === 'v1' ? 'Switch to new' : 'Switch to legacy'}
+					faIcon={'fa-arrows-rotate'}
+					onClickFunction={toggleTimelineVersion}
+					paddingTopBottom={'3px'}
+					paddingLeftRight={'8px'}
+				/>
+			</JDGNotificationBanner>
+			{#if timelineVersion === 'v1'}
+				<Timeline
+					{timelineEvents}
+					{timelineEventReferences}
+					{contextEvents}
+					inceptionEvent={birthEvent}
+					cessationEvent={deathEvent}
+				/>
+			{:else}
+				<JDGTimeline timelineHost={v2TimelineHost} allowEditing={false} isInteractive={false} />
+			{/if}
 		</div>
 	</div>
 </Modal>
@@ -144,7 +179,7 @@
 		overflow-x: none;
 		overflow-y: auto;
 		flex-grow: 1;
-		height: 100%;
+		min-height: 0;
 		width: 100%;
 		gap: 1rem;
 	}
@@ -159,5 +194,14 @@
 		display: flex;
 		flex-direction: column;
 		flex-basis: 67.667%;
+		min-height: 0;
+		gap: 1vh;
+	}
+
+	/* the timeline (last child, after the banner) fills and shrinks
+	   within the column so its internal scroll stays contained */
+	.person-detail-timeline-container > :global(:last-child) {
+		flex: 1 1 0;
+		min-height: 0;
 	}
 </style>
