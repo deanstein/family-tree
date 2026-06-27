@@ -9,6 +9,13 @@ node_modules
 *.local
 .svelte-kit
 
+# Vite temporary config files
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Yarn install state cache
+.yarn/install-state.gz
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
