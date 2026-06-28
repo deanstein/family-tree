@@ -7,6 +7,7 @@
 
 	export let onClickFunction;
 	export let faIcon = undefined;
+	/** @type {string | null} */
 	export let label = null;
 	export let tooltip = undefined;
 	export let buttonType = composeButtonTypes.edit.type;

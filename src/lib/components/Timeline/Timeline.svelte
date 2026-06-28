@@ -145,6 +145,7 @@
 		composeButtonFaIcon={'fa-plus fa-fw'}
 		composeButtonTooltip={'Add a new event'}
 		onClickCompose={onClickAddEventButton}
+		anchorToBottom={true}
 		zIndex={1}
 	/>
 	<div bind:this={timelineContainerRef} class="timeline-container">

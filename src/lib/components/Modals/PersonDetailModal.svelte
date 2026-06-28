@@ -1,8 +1,5 @@
 <script>
-	import { css } from '@emotion/css';
 	import { v4 as uuidv4 } from 'uuid';
-
-	import { JDG_NOTIFICATION_TYPES } from 'jdg-ui-svelte';
 
 	import { activePerson } from '$lib/states/family-tree-state';
 	import { showPersonDetailViewModal } from '$lib/states/ui-state';
@@ -16,11 +13,15 @@
 	import { schemaVersion } from '$lib/versions';
 	import { instantiateObject } from '$lib/utils';
 
-	import { JDGButton, JDGNotificationBanner, JDGTimeline } from 'jdg-ui-svelte';
+	import {
+		JDGButton,
+		JDGModal,
+		JDGNotificationBanner,
+		JDGTimeline,
+		JDG_NOTIFICATION_TYPES
+	} from 'jdg-ui-svelte';
 	import Bio from '$lib/components/Bio/Bio.svelte';
-	import Modal from '$lib/components/Modals/Modal.svelte';
 	import Timeline from '$lib/components/Timeline/Timeline.svelte';
-	import stylingConstants from '$lib/components/styling-constants';
 
 	// TEMP: toggle between the legacy Family Tree timeline (v1)
 	// and the new JDGTimeline from jdg-ui-svelte (v2).
@@ -89,30 +90,6 @@
 		showPersonDetailViewModal.set(false);
 	};
 
-	const personDetailModalBioContainerCss = css`
-		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
-		}
-		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
-				.breakpoints.width[1]}) {
-		}
-		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
-			overflow-y: auto;
-		}
-	`;
-
-	const personDetailModalContentCss = css`
-		@media (max-width: ${stylingConstants.breakpoints.width[0]}) {
-			flex-direction: column;
-		}
-		@media (min-width: ${stylingConstants.breakpoints.width[0]}) and (max-height: ${stylingConstants
-				.breakpoints.width[1]}) {
-			flex-direction: column;
-		}
-		@media (min-width: ${stylingConstants.breakpoints.width[1]}) {
-			flex-direction: row;
-		}
-	`;
-
 	// generate timeline events for the timeline from the active person
 	$: {
 		// ensure birth event is kept updated
@@ -128,18 +105,16 @@
 	}
 </script>
 
-<Modal
-	showModal={$showPersonDetailViewModal}
+<JDGModal
 	{onClickCloseButton}
 	title={'Person Details'}
-	subtitle={null}
 	width={'80vw'}
-	height={'80svh'}
+	height={'80dvh'}
 	padding={'15px'}
-	zIndex={stylingConstants.zIndices.personDetailViewZIndex}
+	transparency={0.7}
 >
-	<div class="person-detail-modal-content {personDetailModalContentCss}" slot="modal-content-slot">
-		<div class="person-detail-bio-container {personDetailModalBioContainerCss}">
+	<div class="person-detail-modal-content" slot="modal-content-slot">
+		<div class="person-detail-bio-container">
 			<Bio />
 		</div>
 		<div class="person-detail-timeline-container">
@@ -171,15 +146,15 @@
 			{/if}
 		</div>
 	</div>
-</Modal>
+</JDGModal>
 
 <style>
+	/* default (mobile / tablet): stack vertically and let the modal's
+	   content slot scroll the whole thing so the timeline is reachable */
 	.person-detail-modal-content {
 		display: flex;
-		overflow-x: none;
-		overflow-y: auto;
+		flex-direction: column;
 		flex-grow: 1;
-		min-height: 0;
 		width: 100%;
 		gap: 1rem;
 	}
@@ -187,21 +162,42 @@
 	.person-detail-bio-container {
 		display: flex;
 		flex-direction: column;
-		flex-basis: 33.333%;
+		width: 100%;
 	}
 
 	.person-detail-timeline-container {
 		display: flex;
 		flex-direction: column;
-		flex-basis: 67.667%;
-		min-height: 0;
+		width: 100%;
 		gap: 1vh;
+		/* usable height when stacked so the timeline isn't collapsed */
+		min-height: 75svh;
 	}
 
-	/* the timeline (last child, after the banner) fills and shrinks
-	   within the column so its internal scroll stays contained */
+	/* the timeline (last child, after the banner) fills the column
+	   so its internal scroll stays contained */
 	.person-detail-timeline-container > :global(:last-child) {
 		flex: 1 1 0;
 		min-height: 0;
+	}
+
+	/* desktop: side-by-side with a fixed height; the timeline scrolls
+	   internally and there's no outer scrollbar */
+	@media (min-width: 1024px) {
+		.person-detail-modal-content {
+			flex-direction: row;
+			min-height: 0;
+			overflow: hidden;
+		}
+
+		.person-detail-bio-container {
+			flex-basis: 33.333%;
+			overflow-y: auto;
+		}
+
+		.person-detail-timeline-container {
+			flex-basis: 67.667%;
+			min-height: 0;
+		}
 	}
 </style>
