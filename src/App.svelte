@@ -84,6 +84,7 @@
 	let treeScrollContainerRef;
 	let activePersonContainerRef;
 	let lastCenteredPersonId;
+	let lastTreeEditActive = $isTreeEditActive;
 
 	let shutdown = false;
 
@@ -216,6 +217,14 @@
 	$: if ($activePerson?.id && treeScrollContainerRef && activePersonContainerRef) {
 		if ($activePerson.id !== lastCenteredPersonId) {
 			lastCenteredPersonId = $activePerson.id;
+			centerActivePersonInTree();
+		}
+	}
+
+	// re-center when entering or leaving edit mode (layout changes significantly)
+	$: if ($isTreeEditActive !== lastTreeEditActive) {
+		lastTreeEditActive = $isTreeEditActive;
+		if (treeScrollContainerRef && activePersonContainerRef) {
 			centerActivePersonInTree();
 		}
 	}
