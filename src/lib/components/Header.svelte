@@ -74,7 +74,7 @@
 	.header-left-flank {
 		display: flex;
 		gap: 0.5vw;
-		padding: 0 0.5vw 0 0.5vw;
+		padding: 0 0.5rem 0 0.5rem;
 	}
 
 	.header-center {
@@ -89,7 +89,7 @@
 		justify-content: right;
 		align-items: center;
 		gap: 0.5vw;
-		padding: 0 0.5vw 0 0.5vw;
+		padding: 0 0.5rem 0 0.5rem;
 	}
 
 	.edit-tree-button-container {
