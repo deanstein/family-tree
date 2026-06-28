@@ -14,6 +14,7 @@
 	import { instantiateObject } from '$lib/utils';
 
 	import {
+		isDesktopBreakpoint,
 		JDGButton,
 		JDGModal,
 		JDGNotificationBanner,
@@ -86,6 +87,9 @@
 		return events;
 	})();
 
+	// stacked layout (mobile + tablet): fixed timeline height; side-by-side (desktop): fill modal
+	$: timelineHeight = $isDesktopBreakpoint ? undefined : '90svh';
+
 	const onClickCloseButton = () => {
 		showPersonDetailViewModal.set(false);
 	};
@@ -112,6 +116,7 @@
 	height={'80dvh'}
 	padding={'15px'}
 	transparency={0.7}
+	overflow={$isDesktopBreakpoint ? 'hidden' : 'auto'}
 >
 	<div class="person-detail-modal-content" slot="modal-content-slot">
 		<div class="person-detail-bio-container">
@@ -140,21 +145,27 @@
 					{contextEvents}
 					inceptionEvent={birthEvent}
 					cessationEvent={deathEvent}
+					height={timelineHeight}
 				/>
 			{:else}
-				<JDGTimeline timelineHost={v2TimelineHost} allowEditing={false} isInteractive={false} />
+				<JDGTimeline
+					timelineHost={v2TimelineHost}
+					allowEditing={false}
+					isInteractive={false}
+					minHeight={timelineHeight ?? '100%'}
+					maxHeight={timelineHeight ?? '100%'}
+				/>
 			{/if}
 		</div>
 	</div>
 </JDGModal>
 
 <style>
-	/* default (mobile / tablet): stack vertically and let the modal's
-	   content slot scroll the whole thing so the timeline is reachable */
+	/* stacked (mobile / tablet): natural height so the modal content slot can scroll */
 	.person-detail-modal-content {
 		display: flex;
 		flex-direction: column;
-		flex-grow: 1;
+		flex-shrink: 0;
 		width: 100%;
 		gap: 1rem;
 	}
@@ -170,15 +181,11 @@
 		flex-direction: column;
 		width: 100%;
 		gap: 1vh;
-		/* usable height when stacked so the timeline isn't collapsed */
-		min-height: 75svh;
 	}
 
-	/* the timeline (last child, after the banner) fills the column
-	   so its internal scroll stays contained */
+	/* stacked (mobile / tablet): honor explicit timeline height — do not shrink */
 	.person-detail-timeline-container > :global(:last-child) {
-		flex: 1 1 0;
-		min-height: 0;
+		flex: none;
 	}
 
 	/* desktop: side-by-side with a fixed height; the timeline scrolls
@@ -186,18 +193,30 @@
 	@media (min-width: 1024px) {
 		.person-detail-modal-content {
 			flex-direction: row;
+			flex: 1 1 0;
+			flex-shrink: 1;
 			min-height: 0;
+			max-height: 100%;
+			height: 100%;
 			overflow: hidden;
 		}
 
 		.person-detail-bio-container {
-			flex-basis: 33.333%;
+			flex: 1 1 33.333%;
+			min-height: 0;
 			overflow-y: auto;
 		}
 
 		.person-detail-timeline-container {
-			flex-basis: 67.667%;
+			flex: 1 1 67.667%;
 			min-height: 0;
+			overflow: hidden;
+		}
+
+		.person-detail-timeline-container > :global(:last-child) {
+			flex: 1 1 0;
+			min-height: 0;
+			min-width: 0;
 		}
 	}
 </style>

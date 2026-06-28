@@ -32,6 +32,9 @@
 	export let inceptionEvent = undefined;
 	// if not provided, use today's date
 	export let cessationEvent = undefined;
+	// When set, fixes the timeline to this height (e.g. '90svh' on mobile).
+	// When unset, the timeline grows to fill its container.
+	export let height = undefined;
 
 	let timelineWrapperRef;
 	let timelineContainerRef;
@@ -50,6 +53,26 @@
 
 	// dynamic classes using Emotion CSS
 	let timelineEventGridCss;
+	let timelineWrapperCss;
+	$: timelineWrapperCss = css`
+		flex-direction: column;
+		min-height: 0;
+		width: 100%;
+		box-sizing: border-box;
+		${height
+			? `
+			height: ${height};
+			min-height: ${height};
+			flex-grow: 0;
+			flex-shrink: 0;
+		`
+			: `
+			height: 100%;
+			flex-grow: 1;
+			flex-shrink: 1;
+		`}
+	`;
+
 	const timelineEventCountCss = css`
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
@@ -139,7 +162,7 @@
 	}
 </script>
 
-<div bind:this={timelineWrapperRef} class="timeline-wrapper">
+<div bind:this={timelineWrapperRef} class="timeline-wrapper {timelineWrapperCss}">
 	<ComposeToolbar
 		parentRef={timelineWrapperRef}
 		composeButtonFaIcon={'fa-plus fa-fw'}
@@ -206,8 +229,6 @@
 	.timeline-wrapper {
 		position: relative;
 		display: flex;
-		flex-grow: 1;
-		height: -webkit-fill-available;
 		width: -moz-available;
 		background-color: gainsboro;
 		padding: 1rem;
@@ -219,6 +240,7 @@
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
+		min-height: 0;
 		gap: 1rem;
 	}
 
@@ -237,16 +259,16 @@
 	.timeline-content-container {
 		position: relative;
 		display: flex;
-		height: -webkit-fill-available;
-		flex-grow: 1;
+		flex: 1 1 0;
+		min-height: 0;
 		overflow: hidden;
 	}
 
 	.timeline-scrolling-canvas {
 		position: relative;
-		height: -webkit-fill-available;
-		width: -webkit-fill-available;
-		width: -moz-available;
+		flex: 1 1 0;
+		min-height: 0;
+		width: 100%;
 		display: flex;
 		overflow: auto;
 	}
