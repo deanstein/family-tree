@@ -77,6 +77,7 @@
 	`;
 
 	const timelineEventCountCss = css`
+		color: ${stylingConstants.colors.textColor};
 		font-size: ${stylingConstants.sizes.bioFieldFontSize};
 		margin-left: ${stylingConstants.sizes.timelineEventGapSize};
 	`;
