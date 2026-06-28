@@ -36,6 +36,8 @@
 		requireAdminMode
 	} from '$lib/utils';
 
+	import { getHighestZIndex, highestZIndex } from 'jdg-ui-svelte';
+
 	import { timelineEventStrings } from '$lib/components/strings';
 	import stylingConstants from '$lib/components/styling-constants';
 
@@ -51,6 +53,11 @@
 	import TextArea from '$lib/components/TextArea.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+
+	// PersonDetailModal uses JDGOverlay, which assigns a dynamic z-index that can exceed
+	// our static modal z-indices. Claim the next layer so this modal always stacks above it.
+	const modalZIndex = getHighestZIndex() + 1;
+	highestZIndex.set(modalZIndex);
 
 	// get the event data
 	let eventType = get(timelineEditEvent).eventType;
@@ -298,7 +305,7 @@
 	width={stylingConstants.sizes.modalFormWidth}
 	subtitle={null}
 	transparency={stylingConstants.colors.formBackgroundLegibleTransparency}
-	zIndex={stylingConstants.zIndices.addEditAltNameZIndex}
+	zIndex={modalZIndex}
 >
 	<div class="edit-timeline-event-modal-content" slot="modal-content-slot">
 		<!-- modal content will depend on the event type -->
