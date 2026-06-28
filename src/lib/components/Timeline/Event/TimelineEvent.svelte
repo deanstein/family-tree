@@ -93,6 +93,13 @@
 			${stylingConstants.sizes.bioFieldBorderRadius} 0px 0px;
 	`;
 
+	const timelineEventTitlePrimaryCss = css`
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-shrink: 0;
+	`;
+
 	const eventFaIconCss = css`
 		color: ${stylingConstants.colors.textColor};
 	`;
@@ -105,6 +112,11 @@
 		background-color: ${backgroundColor};
 		border-radius: 0px 0px ${stylingConstants.sizes.bioFieldBorderRadius}
 			${stylingConstants.sizes.bioFieldBorderRadius};
+	`;
+
+	const timelineEventSharedMetaCss = css`
+		display: flex;
+		align-items: center;
 	`;
 
 	onMount(() => {
@@ -195,93 +207,102 @@
 	<div class="timeline-event-line {eventDetailLineCss}" />
 	<div class="timeline-event-content-outer-container {eventRowContainerCss}">
 		<div class="timeline-event-title-bar {eventTitleBarCss}">
-			<!-- event icon -->
-			<i class="fa-solid {timelineEventTypes[upgradedEvent?.eventType]?.icon} {eventFaIconCss}" />
-			<!-- hide age if this is the birth event -->
-			{#if upgradedEvent?.eventType !== timelineEventTypes.birth.type}
-				<div class="timeline-event-age {eventAgeCss}">
-					{eventAge?.toString() !== 'NaN' ? 'Age: ' : ''}
-					{eventAge?.toString() !== 'NaN' ? eventAge : ''}
-				</div>
-			{/if}
+			<div class="timeline-event-title-primary {timelineEventTitlePrimaryCss}">
+				<!-- event icon -->
+				<i class="fa-solid {timelineEventTypes[upgradedEvent?.eventType]?.icon} {eventFaIconCss}" />
+				<!-- hide age if this is the birth event -->
+				{#if upgradedEvent?.eventType !== timelineEventTypes.birth.type}
+					<div class="timeline-event-age {eventAgeCss}">
+						{eventAge?.toString() !== 'NaN' ? 'Age: ' : ''}
+						{eventAge?.toString() !== 'NaN' ? eventAge : ''}
+					</div>
+				{/if}
+			</div>
 			<!-- if this is a reference event, show who it's shared from -->
 			{#if timelineEvent.originType === timelineEventOriginTypes.reference}
-				<div>
-					<div class="timeline-event-reference-info">
-						<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
-						<JDGButton
-							onClickFunction={() => {
-								setActivePerson(getPersonById(eventReference.personId));
-							}}
-							faIcon={'fa-circle-arrow-right'}
-							backgroundColor={stylingConstants.colors.activePersonNodeColor}
-							paddingLeftRight="8px"
-							paddingTopBottom="2px"
-							fontSize="12px"
-							gap="6px"
-							label={getPersonById(eventReference?.personId)?.name}
-							tooltip={'Go to ' + getPersonById(eventReference?.personId)?.name}
-						/>
-					</div>
+				<div class="timeline-event-shared-meta {timelineEventSharedMetaCss}">
+					<span class="timeline-event-meta-divider">|</span>
+					<span class="timeline-event-shared-label">Shared event from</span>
+					<JDGButton
+						onClickFunction={() => {
+							setActivePerson(getPersonById(eventReference.personId));
+						}}
+						faIcon={'fa-circle-arrow-right'}
+						backgroundColor={stylingConstants.colors.activePersonNodeColor}
+						paddingLeftRight="8px"
+						paddingTopBottom="2px"
+						fontSize="12px"
+						gap="6px"
+						label={getPersonById(eventReference?.personId)?.name}
+						tooltip={'Go to ' + getPersonById(eventReference?.personId)?.name}
+					/>
 				</div>
 			{/if}
 			<!-- if this event has associated people, show the first -->
 			{#if upgradedEvent?.eventContent?.associatedPeopleIds?.length > 0 && upgradedEvent?.originType !== timelineEventOriginTypes.reference}
-				<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event with &nbsp; </i>
-				<JDGButton
-					onClickFunction={() => {
-						setActivePerson(getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0]));
-					}}
-					faIcon={'fa-circle-arrow-right'}
-					backgroundColor={stylingConstants.colors.activePersonNodeColor}
-					paddingLeftRight="8px"
-					paddingTopBottom="2px"
-					fontSize="12px"
-					gap="6px"
-					label={getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
-					tooltip={'Go to ' +
-						getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
-				/>
-				<!-- if more than one, show a label -->
-				{#if upgradedEvent?.eventContent?.associatedPeopleIds?.length > 1}
-					&nbsp;and others
-				{/if}
+				<div class="timeline-event-shared-meta {timelineEventSharedMetaCss}">
+					<span class="timeline-event-meta-divider">|</span>
+					<span class="timeline-event-shared-label">Shared event with</span>
+					<JDGButton
+						onClickFunction={() => {
+							setActivePerson(getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0]));
+						}}
+						faIcon={'fa-circle-arrow-right'}
+						backgroundColor={stylingConstants.colors.activePersonNodeColor}
+						paddingLeftRight="8px"
+						paddingTopBottom="2px"
+						fontSize="12px"
+						gap="6px"
+						label={getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
+						tooltip={'Go to ' +
+							getPersonById(upgradedEvent?.eventContent?.associatedPeopleIds[0])?.name}
+					/>
+					{#if upgradedEvent?.eventContent?.associatedPeopleIds?.length > 1}
+						<span class="timeline-event-shared-label">and others</span>
+					{/if}
+				</div>
 			{/if}
 			<!-- if this is a contextual event, treat it specifically -->
 			{#if upgradedEvent?.originType === timelineEventOriginTypes.contextual}
 				<!-- child birth -->
 				{#if upgradedEvent?.eventType === timelineEventTypes.childBirth.type}
-					<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
-					<JDGButton
-						onClickFunction={() => {
-							setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
-						}}
-						faIcon={timelineEventTypes.childBirth.icon}
-						backgroundColor={stylingConstants.colors.activePersonNodeColor}
-						paddingLeftRight="8px"
-						paddingTopBottom="2px"
-						fontSize="12px"
-						gap="6px"
-						label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
-						tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
-					/>
+					<div class="timeline-event-shared-meta {timelineEventSharedMetaCss}">
+						<span class="timeline-event-meta-divider">|</span>
+						<span class="timeline-event-shared-label">Shared event from</span>
+						<JDGButton
+							onClickFunction={() => {
+								setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
+							}}
+							faIcon={timelineEventTypes.childBirth.icon}
+							backgroundColor={stylingConstants.colors.activePersonNodeColor}
+							paddingLeftRight="8px"
+							paddingTopBottom="2px"
+							fontSize="12px"
+							gap="6px"
+							label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+							tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+						/>
+					</div>
 				{/if}
 				<!-- parent death -->
 				{#if upgradedEvent?.eventType === timelineEventTypes.parentDeath.type}
-					<i> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Shared event from &nbsp; </i>
-					<JDGButton
-						onClickFunction={() => {
-							setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
-						}}
-						faIcon={timelineEventTypes.parentDeath.icon}
-						backgroundColor={stylingConstants.colors.activePersonNodeColor}
-						paddingLeftRight="8px"
-						paddingTopBottom="2px"
-						fontSize="12px"
-						gap="6px"
-						label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
-						tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
-					/>
+					<div class="timeline-event-shared-meta {timelineEventSharedMetaCss}">
+						<span class="timeline-event-meta-divider">|</span>
+						<span class="timeline-event-shared-label">Shared event from</span>
+						<JDGButton
+							onClickFunction={() => {
+								setActivePerson(getPersonById(upgradedEvent?.originMeta?.personId));
+							}}
+							faIcon={timelineEventTypes.parentDeath.icon}
+							backgroundColor={stylingConstants.colors.activePersonNodeColor}
+							paddingLeftRight="8px"
+							paddingTopBottom="2px"
+							fontSize="12px"
+							gap="6px"
+							label={getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+							tooltip={'Go to ' + getPersonById(upgradedEvent?.originMeta?.personId)?.name}
+						/>
+					</div>
 				{/if}
 			{/if}
 		</div>
@@ -372,8 +393,41 @@
 	}
 
 	.timeline-event-age {
-		padding-left: 10px;
 		font-style: italic;
+	}
+
+	.timeline-event-shared-label {
+		font-style: italic;
+		white-space: nowrap;
+	}
+
+	.timeline-event-meta-divider {
+		margin-left: 12px;
+		margin-right: 8px;
+	}
+
+	@media (min-width: 1024px) {
+		.timeline-event-shared-meta {
+			gap: 8px;
+		}
+	}
+
+	@media (max-width: 1023px) {
+		.timeline-event-title-bar {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 4px;
+		}
+
+		.timeline-event-meta-divider {
+			display: none;
+		}
+
+		.timeline-event-shared-meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 4px;
+		}
 	}
 
 	.timeline-event-content-outer-container {
@@ -394,9 +448,5 @@
 
 	.timeline-event-image-preview {
 		padding-bottom: 8px;
-	}
-
-	.timeline-event-reference-info {
-		display: flex;
 	}
 </style>
