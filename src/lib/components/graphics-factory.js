@@ -3,7 +3,8 @@ import { crossfade } from 'svelte/transition';
 
 import {
 	addOrUpdatePersonNodePosition,
-	getScreenCentroid,
+	getActivePersonConnectionOrigin,
+	getDivCentroid,
 	resetCanvasSize
 } from '$lib/ui-management';
 
@@ -41,37 +42,48 @@ export const generateGradient = (steps, colorString1, colorString2, colorString3
 	return colors;
 };
 
-export const drawNodeConnectionLine = (context2d, position, thickness, color) => {
-	if (!context2d || !position || !color) {
+export const drawNodeConnectionLine = (context2d, fromPosition, toPosition, thickness, color) => {
+	if (!context2d || !fromPosition || !toPosition || !color) {
 		return;
 	}
 
-	// Draw lines from each node to the center of the canvas
 	context2d.beginPath();
-	context2d.moveTo(getScreenCentroid().x, getScreenCentroid().y);
-	context2d.lineTo(position.x, position.y);
+	context2d.moveTo(fromPosition.x, fromPosition.y);
+	context2d.lineTo(toPosition.x, toPosition.y);
 	context2d.lineWidth = thickness;
 	context2d.strokeStyle = color; // color may include transparency (rgba)
 	context2d.stroke();
 };
 
-export const drawNodeConnectionLines = (canvasRef, nodePositions, thickness, color) => {
-	if (!canvasRef || !nodePositions) return; // Ensure canvasRef is available
+export const drawNodeConnectionLines = (
+	canvasRef,
+	nodePositions,
+	activePersonId,
+	thickness,
+	color
+) => {
+	if (!canvasRef || !nodePositions) return;
 
 	const ctx = canvasRef.getContext('2d');
+	const origin = getActivePersonConnectionOrigin(nodePositions, activePersonId);
 
-	// context needs to be adjusted for the device's pixel ratio
 	resetCanvasSize(canvasRef);
 
 	for (const position of nodePositions) {
-		drawNodeConnectionLine(ctx, position, thickness, color);
+		if (position.personId === activePersonId) {
+			continue;
+		}
+		drawNodeConnectionLine(ctx, origin, position, thickness, color);
 	}
 };
 
 // forces the store to update by updating a particular personId
 // this should be used only with the personId from uiState
 export const redrawNodeConnectionLines = (personId) => {
-	addOrUpdatePersonNodePosition(personId, getScreenCentroid());
+	const activePersonElement = document.querySelector(`[data-person-id="${personId}"]`);
+	if (activePersonElement) {
+		addOrUpdatePersonNodePosition(personId, getDivCentroid(activePersonElement));
+	}
 };
 
 export const drawCrossfade = (duration) => {

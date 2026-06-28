@@ -23,13 +23,17 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		max-width: 100vw;
+		width: max-content;
+		min-width: 100%;
 		box-sizing: border-box;
 		grid-gap: 1vw;
 		padding: 0 25px 0 25px;
 	}
 
 	.row-middle-section {
+		display: flex;
+		flex: 0 0 auto;
+		flex-shrink: 0;
 		justify-content: center;
 	}
 </style>

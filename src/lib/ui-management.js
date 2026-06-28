@@ -299,6 +299,37 @@ export const scrollHorizontal = (event) => {
 	event.preventDefault();
 };
 
+export const refreshPersonNodePositionsFromDom = () => {
+	document.querySelectorAll('[data-person-id]').forEach((element) => {
+		const personId = element.dataset.personId;
+		if (personId) {
+			addOrUpdatePersonNodePosition(personId, getDivCentroid(element));
+		}
+	});
+};
+
+export const getActivePersonConnectionOrigin = (nodePositions, activePersonId) => {
+	const activePosition = nodePositions.find((position) => position.personId === activePersonId);
+	return activePosition || getScreenCentroid();
+};
+
+export const scrollTreeToCenterActivePerson = (scrollContainer, activePersonElement) => {
+	if (!scrollContainer || !activePersonElement) {
+		return;
+	}
+
+	if (scrollContainer.scrollWidth <= scrollContainer.clientWidth) {
+		scrollContainer.scrollLeft = 0;
+		return;
+	}
+
+	const containerRect = scrollContainer.getBoundingClientRect();
+	const elementRect = activePersonElement.getBoundingClientRect();
+	const elementCenterX = elementRect.left + elementRect.width / 2;
+	const containerCenterX = containerRect.left + containerRect.width / 2;
+	scrollContainer.scrollLeft += elementCenterX - containerCenterX;
+};
+
 export const clearCanvas = (canvasRef) => {
 	if (!canvasRef) {
 		return;

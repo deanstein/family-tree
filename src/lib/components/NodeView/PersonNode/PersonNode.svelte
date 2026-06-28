@@ -7,6 +7,7 @@
 	import timelineEventReference from '$lib/schemas/timeline-event-reference';
 
 	import { activePerson, hasUnsavedChanges } from '$lib/states/family-tree-state';
+	import { personNodePositions } from '$lib/states/ui-state';
 	import {
 		isNodeEditActive,
 		isTreeEditActive,
@@ -35,6 +36,7 @@
 		addOrUpdatePersonInActivePersonGroup,
 		addOrUpdatePersonNodePosition,
 		clearCanvas,
+		getActivePersonConnectionOrigin,
 		getDivCentroid,
 		removePersonFromActivePersonGroup,
 		removePersonNodePosition
@@ -77,9 +79,10 @@
 	let centroid;
 
 	const onMouseEnter = () => {
-		// on hover, draw a thicker connection line
+		const origin = getActivePersonConnectionOrigin($personNodePositions, get(activePerson).id);
 		drawNodeConnectionLine(
 			$personNodeConnectionLineCanvasRefHover.getContext('2d'),
+			origin,
 			getDivCentroid(nodeDivRef),
 			stylingConstants.sizes.nPersonNodeConnectionLineThicknessHover,
 			stylingConstants.colors.hoverColorSubtleDark
@@ -216,9 +219,8 @@
 	});
 
 	afterUpdate(() => {
-		if (nodeDivRef && !isActivePerson) {
+		if (nodeDivRef) {
 			centroid = getDivCentroid(nodeDivRef);
-			// ensure this node's position is added or updated so we can draw a line from it
 			addOrUpdatePersonNodePosition(personId, centroid);
 		}
 	});
@@ -263,6 +265,7 @@
 {#key personId}
 	<div
 		class="person-node {personNodeCss}"
+		data-person-id={personId}
 		role="button"
 		tabindex="0"
 		on:mouseenter={onMouseEnter}
