@@ -53,6 +53,8 @@
 	};
 
 	const eventRowCss = css`
+		color: ${stylingConstants.colors.textColor};
+
 		> :nth-child(1) {
 			margin-right: ${stylingConstants.sizes.timelineEventGapSize};
 		}
