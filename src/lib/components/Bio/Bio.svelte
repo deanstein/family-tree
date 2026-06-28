@@ -29,6 +29,10 @@
 	import TextInput from '$lib/components/TextInput.svelte';
 	import stylingConstants from '$lib/components/styling-constants';
 
+	// When true, fill the parent column and pin the compose button to the bottom
+	// (matches Timeline side-by-side desktop layout).
+	export let anchorComposeToBottom = false;
+
 	let personId = get(activePerson).id;
 	let isBioEditActive = false;
 	let age = 0;
@@ -149,7 +153,11 @@
 	<Overlay />
 {/if}
 {#key $activePerson}
-	<div bind:this={contentContainerRef} class="bio-content-container {bioContentContainerCss}">
+	<div
+		bind:this={contentContainerRef}
+		class="bio-content-container {bioContentContainerCss}"
+		class:bio-content-container--fill={anchorComposeToBottom}
+	>
 		<ComposeToolbar
 			parentRef={contentContainerRef}
 			isEditActive={isBioEditActive}
@@ -157,6 +165,7 @@
 			composeButtonTooltip={'Edit'}
 			onClickDone={onClickDoneButton}
 			onClickCancel={onClickCancelButton}
+			anchorToBottom={anchorComposeToBottom}
 			zIndex={stylingConstants.zIndices.personDetailViewZIndex}
 		/>
 		<div class="bio-avatar-container">
@@ -235,6 +244,18 @@
 		background-color: gainsboro;
 		padding: 1rem;
 		border-radius: 10px;
+	}
+
+	.bio-content-container--fill {
+		height: 100%;
+		min-height: 0;
+		box-sizing: border-box;
+	}
+
+	.bio-content-container--fill .bio-facts {
+		flex: 1 1 0;
+		min-height: 0;
+		overflow-y: auto;
 	}
 
 	.bio-avatar-container {

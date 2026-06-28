@@ -35,6 +35,9 @@
 	// When set, fixes the timeline to this height (e.g. '90svh' on mobile).
 	// When unset, the timeline grows to fill its container.
 	export let height = undefined;
+	// When true, pin the compose button to the bottom of the timeline box (desktop).
+	// When false, float relative to scroll like Bio (mobile).
+	export let anchorComposeToBottom = false;
 
 	let timelineWrapperRef;
 	let timelineContainerRef;
@@ -168,7 +171,7 @@
 		composeButtonFaIcon={'fa-plus fa-fw'}
 		composeButtonTooltip={'Add a new event'}
 		onClickCompose={onClickAddEventButton}
-		anchorToBottom={true}
+		anchorToBottom={anchorComposeToBottom}
 		zIndex={1}
 	/>
 	<div bind:this={timelineContainerRef} class="timeline-container">

@@ -120,7 +120,7 @@
 >
 	<div class="person-detail-modal-content" slot="modal-content-slot">
 		<div class="person-detail-bio-container">
-			<Bio />
+			<Bio anchorComposeToBottom={$isDesktopBreakpoint} />
 		</div>
 		<div class="person-detail-timeline-container">
 			<JDGNotificationBanner
@@ -146,6 +146,7 @@
 					inceptionEvent={birthEvent}
 					cessationEvent={deathEvent}
 					height={timelineHeight}
+					anchorComposeToBottom={$isDesktopBreakpoint}
 				/>
 			{:else}
 				<JDGTimeline
@@ -204,7 +205,7 @@
 		.person-detail-bio-container {
 			flex: 1 1 33.333%;
 			min-height: 0;
-			overflow-y: auto;
+			overflow: hidden;
 		}
 
 		.person-detail-timeline-container {
