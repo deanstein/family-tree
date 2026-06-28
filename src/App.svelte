@@ -74,8 +74,7 @@
 
 	import {
 		drawNodeConnectionLines,
-		generateGradient,
-		redrawNodeConnectionLines
+		generateGradient
 	} from '$lib/components/graphics-factory';
 	import stylingConstants from '$lib/components/styling-constants';
 	import DeleteConfirmationModal from '$lib/components/Modals/DeleteConfirmationModal.svelte';
@@ -113,12 +112,11 @@
 	const centerActivePersonInTree = async () => {
 		await tick();
 		scrollTreeToCenterActivePerson(treeScrollContainerRef, activePersonContainerRef);
-		refreshPersonNodePositionsFromDom();
-		redrawNodeConnectionLines($activePerson.id);
+		refreshPersonNodePositionsFromDom(treeScrollContainerRef);
 	};
 
 	const onTreeScroll = () => {
-		refreshPersonNodePositionsFromDom();
+		refreshPersonNodePositionsFromDom(treeScrollContainerRef);
 	};
 
 	const onTreeWheel = (event) => {

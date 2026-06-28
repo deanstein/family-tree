@@ -255,11 +255,14 @@ export const updateTimelineRowItems = (rowItems) => {
 	return sortedRowItems;
 };
 
+const isValidNodePosition = (nodePosition) =>
+	nodePosition && Number.isFinite(nodePosition.x) && Number.isFinite(nodePosition.y);
+
 export const addOrUpdatePersonNodePosition = (personId, nodePosition) => {
-	if (personId && nodePosition) {
+	if (personId && isValidNodePosition(nodePosition)) {
 		personNodePositions.update((currentValue) => [
 			...currentValue.filter((pos) => pos.personId !== personId),
-			{ personId, ...nodePosition }
+			{ personId, x: nodePosition.x, y: nodePosition.y }
 		]);
 	}
 };
@@ -299,13 +302,20 @@ export const scrollHorizontal = (event) => {
 	event.preventDefault();
 };
 
-export const refreshPersonNodePositionsFromDom = () => {
-	document.querySelectorAll('[data-person-id]').forEach((element) => {
+export const refreshPersonNodePositionsFromDom = (treeRoot) => {
+	if (!treeRoot) {
+		return;
+	}
+
+	const positions = [];
+	treeRoot.querySelectorAll('[data-tree-node]').forEach((element) => {
 		const personId = element.dataset.personId;
-		if (personId) {
-			addOrUpdatePersonNodePosition(personId, getDivCentroid(element));
+		const centroid = getDivCentroid(element);
+		if (personId && isValidNodePosition(centroid)) {
+			positions.push({ personId, x: centroid.x, y: centroid.y });
 		}
 	});
+	personNodePositions.set(positions);
 };
 
 export const getActivePersonConnectionOrigin = (nodePositions, activePersonId) => {
@@ -362,12 +372,10 @@ export const getDivCentroid = (element) => {
 		return undefined;
 	}
 	const rect = element.getBoundingClientRect();
-	const position = {
-		x: rect.left + window.scrollX + rect.width / 2,
-		y: rect.top + window.scrollY + rect.height / 2
+	return {
+		x: rect.left + rect.width / 2,
+		y: rect.top + rect.height / 2
 	};
-
-	return position;
 };
 
 export const getScreenCentroid = () => {

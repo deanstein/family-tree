@@ -70,7 +70,11 @@ export const drawNodeConnectionLines = (
 	resetCanvasSize(canvasRef);
 
 	for (const position of nodePositions) {
-		if (position.personId === activePersonId) {
+		if (
+			position.personId === activePersonId ||
+			!Number.isFinite(position.x) ||
+			!Number.isFinite(position.y)
+		) {
 			continue;
 		}
 		drawNodeConnectionLine(ctx, origin, position, thickness, color);
@@ -79,8 +83,13 @@ export const drawNodeConnectionLines = (
 
 // forces the store to update by updating a particular personId
 // this should be used only with the personId from uiState
-export const redrawNodeConnectionLines = (personId) => {
-	const activePersonElement = document.querySelector(`[data-person-id="${personId}"]`);
+export const redrawNodeConnectionLines = (personId, treeRoot) => {
+	if (treeRoot) {
+		refreshPersonNodePositionsFromDom(treeRoot);
+		return;
+	}
+
+	const activePersonElement = document.querySelector(`[data-tree-node][data-person-id="${personId}"]`);
 	if (activePersonElement) {
 		addOrUpdatePersonNodePosition(personId, getDivCentroid(activePersonElement));
 	}

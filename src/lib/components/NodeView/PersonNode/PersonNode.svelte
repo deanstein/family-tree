@@ -219,15 +219,16 @@
 	});
 
 	afterUpdate(() => {
-		if (nodeDivRef) {
+		if (nodeDivRef && context === contexts.treeView) {
 			centroid = getDivCentroid(nodeDivRef);
 			addOrUpdatePersonNodePosition(personId, centroid);
 		}
 	});
 
 	onDestroy(() => {
-		// remove this node's position so no line is drawn to it
-		removePersonNodePosition(personId);
+		if (context === contexts.treeView) {
+			removePersonNodePosition(personId);
+		}
 	});
 
 	$: {
@@ -242,10 +243,6 @@
 		} else {
 			isActivePerson = false;
 		}
-	}
-
-	$: {
-		addOrUpdatePersonNodePosition(personId, centroid);
 	}
 
 	$: {
@@ -266,6 +263,7 @@
 	<div
 		class="person-node {personNodeCss}"
 		data-person-id={personId}
+		data-tree-node={context === contexts.treeView ? '' : undefined}
 		role="button"
 		tabindex="0"
 		on:mouseenter={onMouseEnter}
