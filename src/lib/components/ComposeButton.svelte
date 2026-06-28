@@ -35,7 +35,7 @@
 		buttonType === composeButtonTypes.edit.type
 			? stylingConstants.colors.activePersonNodeColor
 			: undefined}
-		doForceSquareRatio={isCircular}
+		doForceSquareAspect={isCircular}
 		tooltip={tooltip ?? composeButtonTypes[buttonType].tooltip}
 		fontSize={buttonType === composeButtonTypes.add.type ||
 		buttonType === composeButtonTypes.edit.type

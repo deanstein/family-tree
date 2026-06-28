@@ -85,7 +85,7 @@
 									paddingLeftRight="3px"
 									paddingTopBottom="3px"
 									label={null}
-									doForceSquareRatio
+									doForceSquareAspect
 								/>
 							{/if}
 						</div>

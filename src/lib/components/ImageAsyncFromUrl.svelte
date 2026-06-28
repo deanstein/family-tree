@@ -213,7 +213,7 @@
 				label={null}
 				tooltip="Choose another photo"
 				faIcon={imageEditFaIcon}
-				doForceSquareRatio
+				doForceSquareAspect
 			/>
 			<!-- only show the delete button if the recorded url is valid -->
 			{#if isUrlValid(imageUrl)}
@@ -222,7 +222,7 @@
 					label={null}
 					tooltip="Delete photo"
 					faIcon={imageDeleteFaIcon}
-					doForceSquareRatio
+					doForceSquareAspect
 				/>
 			{/if}
 		</div>

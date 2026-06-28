@@ -578,7 +578,7 @@
 						paddingLeftRight="10px"
 						faIcon={$showDevTools ? 'fa-eye-slash' : 'fa-wrench'}
 						fontSize={jdgSizes.fontSizeBodyXSm}
-						doForceSquareRatio
+						doForceSquareAspect
 					/>
 				</JDGFooter>
 				{#if $showDevTools}

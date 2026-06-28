@@ -55,7 +55,7 @@
 		faIcon="fa-plus fa-fw"
 		isEnabled={enabled}
 		label={null}
-		doForceSquareRatio
+		doForceSquareAspect
 		paddingLeftRight="4px"
 		paddingTopBottom="4px"
 		fontSize="1rem"
