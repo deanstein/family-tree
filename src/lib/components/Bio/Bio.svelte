@@ -256,6 +256,7 @@
 		flex: 1 1 0;
 		min-height: 0;
 		overflow-y: auto;
+		justify-content: flex-start;
 	}
 
 	.bio-avatar-container {
